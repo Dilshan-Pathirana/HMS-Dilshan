@@ -56,6 +56,8 @@ jobs:
           fi
           echo "Build output exists. Contents:"
           ls -la public/build/
+          ls -la public/build/assets/
+          cat public/build/manifest.json
 
       - name: Upload Frontend Build for Deployment
         uses: actions/upload-artifact@v4
@@ -85,9 +87,7 @@ jobs:
           chmod 700 ~/.ssh
           printf '%s\n' "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/deploy_key.pem
           chmod 400 ~/.ssh/deploy_key.pem
-          echo "Verifying SSH key format..."
-          head -1 ~/.ssh/deploy_key.pem
-          tail -1 ~/.ssh/deploy_key.pem
+          echo "SSH key saved"
 
       - name: Add SSH Config
         run: |
@@ -102,7 +102,6 @@ jobs:
             ServerAliveCountMax 10
           EOF
           chmod 600 ~/.ssh/config
-          cat ~/.ssh/config
 
       - name: Verify Downloaded Artifact
         run: |
@@ -113,7 +112,6 @@ jobs:
 
       - name: Test SSH Connection
         run: |
-          echo "Testing SSH connection to EC2..."
           ssh -v -o ConnectTimeout=10 ec2 'echo "SSH connection successful!"'
 
       - name: Deploy Backend & Frontend to EC2
@@ -122,6 +120,12 @@ jobs:
             set -e
 
             APP_DIR="/var/www/hms-app"
+
+            # Clone repo if not exists
+            if [ ! -d "$APP_DIR" ]; then
+              git clone git@github.com:Dilshan-Pathirana/HMS-Dilshan.git "$APP_DIR"
+            fi
+
             cd "$APP_DIR"
 
             echo "Fixing ownership and permissions before Git pull..."
@@ -160,16 +164,13 @@ jobs:
             php artisan view:cache || true
 
             echo "Deploying frontend assets..."
-            if [ -d "/tmp/frontend-dist-new" ]; then
-              rsync -avz --delete /tmp/frontend-dist-new/ /var/www/hms-app/public/build/
-              rm -rf /tmp/frontend-dist-new
-            else
-              echo "Warning: Frontend build not found, skipping frontend deployment"
-            fi
+            mkdir -p /tmp/frontend-dist-new
+            cp -r ~/frontend-dist/* /tmp/frontend-dist-new/
+            rsync -avz --delete /tmp/frontend-dist-new/ /var/www/hms-app/public/build/
+            rm -rf /tmp/frontend-dist-new
 
             echo "Fixing Laravel writable directories again..."
             sudo chown -R www-data:www-data storage bootstrap/cache public public/build
-            [ ! -d public/build ] && mkdir -p public/build
             sudo chmod -R 775 storage bootstrap/cache public/assets public/build
 
             echo "Restarting Nginx..."
