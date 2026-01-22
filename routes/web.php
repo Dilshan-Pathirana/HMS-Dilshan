@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Serve frontend SPA
+// Serve frontend SPA via Blade so asset tags are generated from the Vite manifest
 Route::get('/', function () {
-    return file_get_contents(public_path('index.html'));
+    return view('spa');
 });
 
 // Fallback for SPA client-side routes
@@ -15,5 +15,5 @@ Route::fallback(function (\Illuminate\Http\Request $request) {
         \Illuminate\Support\Facades\Log::error('API route hit web fallback: ' . $request->path());
         return response()->json(['error' => 'Route not found', 'path' => $request->path()], 404);
     }
-    return file_get_contents(public_path('index.html'));
+    return view('spa');
 });
