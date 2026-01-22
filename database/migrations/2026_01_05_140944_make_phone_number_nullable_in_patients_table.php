@@ -16,10 +16,12 @@ return new class extends Migration
     public function up(): void
     {
         // SQLite doesn't support ALTER COLUMN, so we need to recreate the table
-        DB::statement('PRAGMA foreign_keys = OFF');
+        // Disable foreign key constraints
+        Schema::disableForeignKeyConstraints();
 
         // Rename the old table
-        DB::statement('ALTER TABLE patients RENAME TO patients_old');
+        // Rename the old table
+        Schema::rename('patients', 'patients_old');
 
         // Create new table with the corrected nullability
         Schema::create('patients', function (Blueprint $table) {
@@ -63,9 +65,9 @@ return new class extends Migration
         DB::statement('INSERT INTO patients SELECT * FROM patients_old');
 
         // Drop old table
-        DB::statement('DROP TABLE patients_old');
+        Schema::drop('patients_old');
 
-        DB::statement('PRAGMA foreign_keys = ON');
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
