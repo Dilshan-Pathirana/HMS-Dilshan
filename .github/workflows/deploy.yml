@@ -83,10 +83,8 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
-          # Restore multi-line PEM from GitHub secret (using printf for better handling)
           printf '%s\n' "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/deploy_key.pem
           chmod 400 ~/.ssh/deploy_key.pem
-          # Verify key format
           echo "Verifying SSH key format..."
           head -1 ~/.ssh/deploy_key.pem
           tail -1 ~/.ssh/deploy_key.pem
@@ -104,7 +102,6 @@ jobs:
             ServerAliveCountMax 10
           EOF
           chmod 600 ~/.ssh/config
-          echo "SSH config created:"
           cat ~/.ssh/config
 
       - name: Verify Downloaded Artifact
@@ -113,29 +110,11 @@ jobs:
           ls -la ./frontend-dist/
           echo "Total files to transfer:"
           find ./frontend-dist -type f | wc -l
-          
+
       - name: Test SSH Connection
         run: |
           echo "Testing SSH connection to EC2..."
-          ssh -v -o ConnectTimeout=10 ec2 'echo "SSH connection successful!"' || {
-            echo "SSH connection failed. Debugging info:"
-            echo "Host: ${{ secrets.EC2_HOST }}"
-            echo "User: ${{ secrets.EC2_USER }}"
-            cat ~/.ssh/deploy_key.pem | head -1
-            exit 1
-          }
-          
-      - name: Prepare Remote Directory
-        run: |
-          echo "Creating remote directory for frontend files..."
-          ssh ec2 'mkdir -p /tmp/frontend-dist-new && echo "Directory created successfully"'
-          
-      - name: Transfer Frontend Build to EC2
-        run: |
-          echo "Transferring frontend build to EC2..."
-          scp -v -r ./frontend-dist/* ec2:/tmp/frontend-dist-new/
-          echo "Verifying files were transferred..."
-          ssh ec2 'ls -la /tmp/frontend-dist-new/'
+          ssh -v -o ConnectTimeout=10 ec2 'echo "SSH connection successful!"'
 
       - name: Deploy Backend & Frontend to EC2
         run: |
@@ -144,13 +123,13 @@ jobs:
 
             APP_DIR="/var/www/hms-app"
 
-            # Clone repo if not exists
-            if [ ! -d "$APP_DIR" ]; then
-              echo "Project directory not found at $APP_DIR. Cloning repo..."
-              git clone git@github.com:Dilshan-Pathirana/HMS-Dilshan.git "$APP_DIR"
-            fi
-
             cd "$APP_DIR"
+
+            echo "Fixing ownership and permissions before Git pull..."
+            sudo chown -R ubuntu:ubuntu .
+            sudo find . -type d -exec chmod 755 {} \;
+            sudo find . -type f -exec chmod 644 {} \;
+            sudo chmod -R 775 storage bootstrap/cache public/assets public/build
 
             echo "Resetting local changes and pulling latest code..."
             git reset --hard
@@ -160,13 +139,9 @@ jobs:
             composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
             echo "Configuring environment for MySQL..."
-            # Create .env if missing
             if [ ! -f .env ]; then
               cp .env.example .env
             fi
-
-            # Update .env with Production DB Credentials
-            # Note: We use sed to replace existing values or append if missing
             sed -i "s/^DB_CONNECTION=.*/DB_CONNECTION=mysql/" .env
             sed -i "s/^.*\bDB_HOST=.*/DB_HOST=${{ secrets.DB_HOST }}/" .env
             sed -i "s/^.*\bDB_PORT=.*/DB_PORT=3306/" .env
@@ -184,15 +159,15 @@ jobs:
 
             echo "Deploying frontend assets..."
             if [ -d "/tmp/frontend-dist-new" ]; then
-              rsync -avz --delete /tmp/frontend-dist-new/ /var/www/hms-app/public/
+              rsync -avz --delete /tmp/frontend-dist-new/ /var/www/hms-app/public/build/
               rm -rf /tmp/frontend-dist-new
             else
               echo "Warning: Frontend build not found, skipping frontend deployment"
             fi
 
-            echo "Setting permissions..."
-            sudo chown -R www-data:www-data storage bootstrap/cache public
-            sudo chmod -R 775 storage bootstrap/cache public
+            echo "Fixing Laravel writable directories again..."
+            sudo chown -R www-data:www-data storage bootstrap/cache public public/build
+            sudo chmod -R 775 storage bootstrap/cache public public/build
 
             echo "Restarting Nginx..."
             sudo systemctl restart nginx
@@ -200,8 +175,6 @@ jobs:
             echo "Restarting Laravel queue workers..."
             if systemctl is-active --quiet supervisor; then
                sudo supervisorctl restart hms-worker:*
-            else
-               echo "Supervisor not running, skipping worker restart."
             fi
 
             echo "Deployment finished successfully!"

@@ -30,9 +30,11 @@ export default defineConfig({
       input: path.resolve(__dirname, 'resources/frontend/index.html'),
     },
 
-    // Optional: inline CSS / assets hashing
+    // Place hashed assets in /assets
     assetsDir: 'assets',
-    sourcemap: false, // production: no sourcemap
+
+    // No sourcemap in production
+    sourcemap: false,
   },
 
   server: {
