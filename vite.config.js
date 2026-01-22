@@ -3,49 +3,19 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 
 export default defineConfig({
-  // Base URL for production deployment
-  // Laravel expects /build/ in public
-  base: '/build/',
-
+  base: '/build/',          // Laravel expects /build/ for assets
   plugins: [react()],
-
-  // Root folder for your frontend source code
-  root: path.resolve(__dirname, 'resources/frontend'),
-
-  // Where static public files live (copied to outDir)
-  publicDir: path.resolve(__dirname, 'resources/frontend/public'),
+  root: path.resolve(__dirname, 'resources/frontend'),   // your source folder
+  publicDir: path.resolve(__dirname, 'resources/frontend/public'), // static files like favicon.ico
 
   build: {
-    // Output folder for production build
-    outDir: path.resolve(__dirname, 'public/build'),
-
-    // Clear outDir before building
+    outDir: path.resolve(__dirname, 'public/build'),    // compiled assets go here
     emptyOutDir: true,
-
-    // Generate manifest.json for Laravel integration
-    manifest: true,
-
-    rollupOptions: {
-      // Entry HTML file
-      input: path.resolve(__dirname, 'resources/frontend/index.html'),
-    },
-
-    // Place hashed assets in /assets
-    assetsDir: 'assets',
-
-    // No sourcemap in production
+    manifest: true,                                     // MUST be true
+    assetsDir: 'assets',                                // assets folder
     sourcemap: false,
-  },
-
-  server: {
-    port: 3000,
-    strictPort: true,
-    proxy: {
-      '/api': {
-        target: 'http://127.0.0.1:8000',
-        changeOrigin: true,
-        secure: false,
-      },
+    rollupOptions: {
+      input: path.resolve(__dirname, 'resources/frontend/index.html'),
     },
   },
 
