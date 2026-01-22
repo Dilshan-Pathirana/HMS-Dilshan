@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreignId('related_pharmacy_id')->nullable()->constrained('pharmacies'); // for transfers
             $table->timestamps();
 
-            $table->index(['pharmacy_id', 'transaction_type', 'created_at']);
+            $table->index(['pharmacy_id', 'transaction_type', 'created_at'], 'pst_pharmacy_type_date_index');
             $table->index('reference_number');
         });
     }
