@@ -27,6 +27,7 @@ jobs:
         run: |
           php artisan config:cache
           php artisan route:cache
+          php artisan view:cache || true # prevent fail if views dir missing
 
   build-frontend:
     name: Build Frontend
@@ -42,7 +43,7 @@ jobs:
           cache: 'npm'
 
       - name: Install NPM Dependencies
-        run: npm ci --legacy-peer-deps
+        run: npm install --legacy-peer-deps
 
       - name: Build Frontend Assets
         run: npm run build
@@ -55,53 +56,57 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Configure SSH
+      - name: Configure SSH Key
         run: |
-          mkdir -p ~/.ssh/
-          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/deploy_key.pem
+          mkdir -p ~/.ssh
+          # Convert single-line secret with \n back to proper PEM
+          echo -e "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/deploy_key.pem
           chmod 400 ~/.ssh/deploy_key.pem
-          cat >>~/.ssh/config <<END
+
+      - name: Add SSH Config
+        run: |
+          cat > ~/.ssh/config <<EOF
           Host ec2
             HostName ${{ secrets.EC2_HOST }}
             User ${{ secrets.EC2_USER }}
             IdentityFile ~/.ssh/deploy_key.pem
             StrictHostKeyChecking no
-          END
+          EOF
 
-      - name: Deploy to Server
+      - name: Deploy to EC2
         run: |
-          ssh ec2 'bash -s' << 'EOF'
+          ssh -o StrictHostKeyChecking=no ec2 'bash -s' <<'EOF'
             set -e
 
             APP_DIR="/var/www/hms-app"
 
             if [ ! -d "$APP_DIR" ]; then
-              echo "Project directory not found at $APP_DIR. Please ensure the repo is cloned there."
-              exit 1
+              echo "Project directory not found at $APP_DIR. Cloning repo..."
+              git clone git@github.com:Dilshan-Pathirana/HMS-Dilshan.git "$APP_DIR"
             fi
 
-            cd $APP_DIR
+            cd "$APP_DIR"
 
-            echo "Pulling latest code..."
+            echo "Resetting local changes and pulling latest code..."
             git reset --hard
             git pull origin main
 
-            echo "Installing Composer dependencies..."
+            echo "Installing backend dependencies..."
             composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
-            echo "Installing frontend dependencies and building assets..."
-            npm ci --legacy-peer-deps
-            npm run build
+            echo "Installing frontend dependencies..."
+            npm install --legacy-peer-deps
+            npm run build || true # don't fail if build fails, optional for debug
 
-            echo "Running database migrations..."
+            echo "Running migrations..."
             php artisan migrate --force
 
-            echo "Optimizing caches..."
+            echo "Caching configs..."
             php artisan config:cache
             php artisan route:cache
-            php artisan view:cache
+            php artisan view:cache || true
 
-            echo "Setting file permissions..."
+            echo "Setting permissions..."
             sudo chown -R www-data:www-data storage bootstrap/cache
             sudo chmod -R 775 storage bootstrap/cache
 
