@@ -159,6 +159,21 @@ jobs:
             echo "Installing backend dependencies..."
             composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
+            echo "Configuring environment for MySQL..."
+            # Create .env if missing
+            if [ ! -f .env ]; then
+              cp .env.example .env
+            fi
+
+            # Update .env with Production DB Credentials
+            # Note: We use sed to replace existing values or append if missing
+            sed -i "s/^DB_CONNECTION=.*/DB_CONNECTION=mysql/" .env
+            sed -i "s/^.*\bDB_HOST=.*/DB_HOST=${{ secrets.DB_HOST }}/" .env
+            sed -i "s/^.*\bDB_PORT=.*/DB_PORT=3306/" .env
+            sed -i "s/^.*\bDB_DATABASE=.*/DB_DATABASE=${{ secrets.DB_DATABASE }}/" .env
+            sed -i "s/^.*\bDB_USERNAME=.*/DB_USERNAME=${{ secrets.DB_USERNAME }}/" .env
+            sed -i "s/^.*\bDB_PASSWORD=.*/DB_PASSWORD=${{ secrets.DB_PASSWORD }}/" .env
+
             echo "Running migrations..."
             php artisan migrate --force
 
