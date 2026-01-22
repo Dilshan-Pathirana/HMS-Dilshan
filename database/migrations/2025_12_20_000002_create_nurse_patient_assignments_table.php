@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('nurse_patient_assignments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('nurse_id');
+            $table->uuid('nurse_id');
             $table->unsignedBigInteger('patient_id');
             $table->unsignedBigInteger('branch_id');
             $table->string('ward')->nullable(); // Ward/Unit assignment
@@ -20,7 +20,7 @@ return new class extends Migration
             $table->boolean('is_primary')->default(false); // Primary nurse for this patient
             $table->boolean('is_active')->default(true);
             
-            $table->unsignedBigInteger('assigned_by')->nullable(); // Who made the assignment
+            $table->uuid('assigned_by')->nullable(); // Who made the assignment
             $table->text('notes')->nullable();
             
             $table->timestamps();

@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('nurse_shift_logs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('nurse_id');
+            $table->uuid('nurse_id');
             $table->unsignedBigInteger('branch_id');
             $table->string('ward')->nullable();
             

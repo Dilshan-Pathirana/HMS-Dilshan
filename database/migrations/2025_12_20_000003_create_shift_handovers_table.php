@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('shift_handovers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('from_nurse_id'); // Outgoing nurse
-            $table->unsignedBigInteger('to_nurse_id')->nullable(); // Incoming nurse (can be null initially)
+            $table->uuid('from_nurse_id'); // Outgoing nurse
+            $table->uuid('to_nurse_id')->nullable(); // Incoming nurse (can be null initially)
             $table->unsignedBigInteger('branch_id');
             $table->string('ward')->nullable();
             

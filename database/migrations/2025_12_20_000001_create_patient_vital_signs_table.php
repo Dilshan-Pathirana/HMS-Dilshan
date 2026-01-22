@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('patient_vital_signs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('patient_id');
-            $table->unsignedBigInteger('nurse_id'); // User who recorded
+            $table->uuid('nurse_id'); // User who recorded
             $table->unsignedBigInteger('branch_id');
             
             // Vital Signs
