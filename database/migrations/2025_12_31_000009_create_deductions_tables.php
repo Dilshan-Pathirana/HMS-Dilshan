@@ -66,7 +66,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('employee_deduction_id')->references('id')->on('employee_deductions')->onDelete('cascade');
-            $table->index(['employee_deduction_id', 'deduction_date']);
+            $table->index(['employee_deduction_id', 'deduction_date'], 'deduction_trans_emp_date_index');
         });
 
         // Seed default deduction types for Sri Lanka
