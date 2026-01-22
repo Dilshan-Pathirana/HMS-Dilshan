@@ -62,12 +62,12 @@ jobs:
           echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/deploy_key.pem
           chmod 400 ~/.ssh/deploy_key.pem
           cat >>~/.ssh/config <<END
-Host ec2
-  HostName ${{ secrets.EC2_HOST }}
-  User ${{ secrets.EC2_USER }}
-  IdentityFile ~/.ssh/deploy_key.pem
-  StrictHostKeyChecking no
-END
+          Host ec2
+            HostName ${{ secrets.EC2_HOST }}
+            User ${{ secrets.EC2_USER }}
+            IdentityFile ~/.ssh/deploy_key.pem
+            StrictHostKeyChecking no
+          END
 
       - name: Deploy to Server
         run: |
