@@ -1,0 +1,59 @@
+export interface IDoctorUserFormTypes {
+    first_name: string;
+    last_name: string;
+    email: string;
+    password: string;
+    date_of_birth: string;
+    gender: string;
+    nic_number: string;
+    contact_number_mobile: string;
+    contact_number_landline: string;
+    home_address: string;
+    emergency_contact_info: string;
+    medical_registration_number: string;
+    qualifications: string;
+    years_of_experience: number;
+    areas_of_specialization: string[];
+    previous_employment: string;
+    license_validity_date: string;
+    joining_date: string;
+    employee_id: string;
+    contract_type: string;
+    contract_duration: string;
+    probation_start_date: string;
+    probation_end_date: string;
+    compensation_package: string;
+    branch_ids: string[];
+}
+
+export interface IDoctorUserDetails {
+    id: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    role_as: string;
+    doctors_user_id: string;
+    doctors_date_of_birth: string;
+    doctors_gender: string;
+    doctors_nic_number: string;
+    doctors_contact_number_mobile: string;
+    doctors_contact_number_landline: string;
+    doctors_home_address: string;
+    doctors_emergency_contact_info: string;
+    doctors_photo: null;
+    doctors_nic_photo: null;
+    doctors_medical_registration_number: string;
+    doctors_qualifications: string;
+    doctors_years_of_experience: string;
+    doctors_areas_of_specialization: string;
+    doctors_previous_employment: string;
+    doctors_license_validity_date: string;
+    doctors_joining_date: string;
+    doctors_employee_id: string;
+    doctors_contract_type: string;
+    doctors_contract_duration: string;
+    doctors_probation_start_date: string;
+    doctors_probation_end_date: string;
+    doctors_compensation_package: string;
+    branch_ids: string[];
+}

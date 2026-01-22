@@ -1,0 +1,31 @@
+import { IPharmacistUserFormTypes } from "../../types/users/IPharmacistUserFormTypes";
+
+export const pharmacist_create_form_initial_state: IPharmacistUserFormTypes = {
+    first_name: "",
+    last_name: "",
+    branch_id: "",
+    date_of_birth: "",
+    gender: "",
+    nic_number: "",
+    contact_number_mobile: "",
+    contact_number_landline: "",
+    email: "",
+    home_address: "",
+    emergency_contact_info: "",
+    photo: null,
+    nic_photo: null,
+    pharmacist_registration_number: "",
+    qualifications: "",
+    work_experience: "",
+    years_of_experience: "",
+    previous_employment: "",
+    license_validity_date: "",
+    joining_date: "",
+    contract_type: "",
+    contract_duration: "",
+    probation_start_date: "",
+    probation_end_date: "",
+    compensation_package: "",
+    basic_salary: "",
+    password: ""
+};

@@ -1,0 +1,872 @@
+PROJECT REQUIREMENTS OVERVIEW 
+The “Cure” Hospital Management System (CHMS) is designed to support a comprehensive set of 
+functionalities across multiple modules to streamline the operations of medical centers. The system follows a 
+multi-tenant architecture with distinct roles for Super Admin, Tenant Admin, Center Admin, and various staff 
+members. Each module has been developed to handle specific tasks and ensure smooth and efficient 
+management of the healthcare facilities. Below is an overview of the project requirements based on the 
+detailed module breakdown: 
+Features of the project :  
+This “Cure” Hospital Management System (CHMS) is designed to streamline the entire workflow of a 
+medical center, from patient registration to reporting and inventory management. Patients can register 
+themselves online or be registered by a receptionist, and each patient will be assigned a unique identification 
+number containing details such as the appointment location and patient-specific information. Patients are able 
+to book, modify, and make payments for appointments either online or at the reception desk, with restrictions 
+preventing appointment changes within 36 hours of the scheduled time. After booking, patients receive 
+confirmation and reminder notifications via email or SMS, including alerts one day and one hour prior to their 
+appointment. 
+Upon arrival at the medical center, patients consult with the doctor, who records relevant medical history, 
+symptoms, and prescribed treatments directly into the system. The doctor may also prescribe medications or 
+request lab tests, all of which are automatically integrated into the patient’s medical records. After the 
+consultation, the doctor enters the consultation fee, which is processed by the cashier. Patients then proceed to 
+the cashier, where they present their ID, and the cashier retrieves the billing information and provides a printed 
+receipt. 
+Following payment, patients visit the pharmacy, where their prescription is verified, and the pharmacist 
+dispenses the medication. The system automatically deducts the issued medicines from the pharmacy inventory 
+in real time, ensuring accurate stock levels. The pharmacy management system maintains all stock and pricing 
+details, with built-in alerts to notify the admin of low stock. 
+Additionally, the HMS allows administrators to generate detailed end-of-day reports on various metrics, 
+including the number of patients seen, medications dispensed, stock levels, and tax payments. It also includes an 
+HR module for tracking staff attendance and managing payroll, with features to generate salary history and 
+attendance reports for all medical center employees. This integrated system ensures smooth operations across 
+departments and enhances overall efficiency within the healthcare facility. 
+User Management 
+The system shall support multiple user roles with distinct responsibilities: 
+• Super admin: only one super admin who can add or remove all below rolls.  
+Tenant Admin: Manages multiple medical centers under a single tenant, including center and staff 
+management. 
+Center Admin: Manages operations within a specific medical center. 
+Doctor: Manages session records, prescriptions, and updates availability schedules. 
+Receptionist: Manages patient registrations, appointments, and assists with patient 
+management. Pharmacist: Manages medication inventory and dispenses prescribed 
+medicines. 
+Cashier: Handles billing and payment processing. 
+Patient: Books appointments and check own medical records. 
+o IT Support: to provide it supports. 
+o Nurse: Update patients records.   
+o Lab technician : check doctor prescription and manage lab reports  
+o Medical Center Aide : cleaning and other works in the center.  
+The system shall provide secure login with multi-factor authentication and password reset options. 
+Passwords shall be encrypted, and the system shall implement lockout mechanisms after several 
+failed login attempts. 
+Role-based access control shall be used to ensure data privacy and security, limiting data and 
+functionalities available based on user roles. 
+Multi-Center Management & Staff Management 
+The system shall support multiple medical centers, each with a unique identifier. 
+Tenant Admins can create and manage multiple centers, each with a custom dashboard displaying 
+key metrics such as patient count, session information, and financial summaries. 
+Tenant Admins can assign staff roles (Doctor, Receptionist, Pharmacist, Cashier) to specific 
+centers. Center Admins manage daily operations and staff within their assigned center. 
+Patient Management 
+Patients can register themselves online or be registered by receptionists using custom fields like name, 
+district, age, WhatsApp number, ID, and occupation. 
+The system shall create and maintain detailed patient profiles, including personal information, 
+medical history, current medications, and allergies. 
+Each patient shall receive a unique identifier for tracking across different medical centers. 
+The system shall provide a robust search functionality to browse patient profiles based on identifiers and names. 
+Appointment Booking 
+Patients shall book appointments online based on the doctor's availability schedule. 
+The system shall charge a non-refundable booking fee for each appointment, which can be paid online 
+or at the reception. 
+The system shall prevent booking when the maximum number of daily sessions is reached. 
+Automated confirmations shall be sent via email, WhatsApp and SMS immediately after 
+booking. Appointment reminders shall be sent 24 hours before scheduled appointments 
+and 1hour prior. 
+• The appointment may book as issuing a number or issuing a time slot. That 
+can be assigned by the tenet admin/ super admin.   
+Session Management 
+Receptionists shall initiate a new session for a patient upon their arrival for a booked appointment. The 
+system will verify the booking and mark the appointment as "Checked-In," triggering the creation of a 
+session linked to the appointment. 
+Doctors shall start and manage sessions, adding diagnoses, observations, prescriptions, allergies, 
+photo/video uploads with descriptions, and treatment plans during consultations. 
+The system shall support customizable templates for vaccines, medicines, and ready-made questions to 
+ask during the session. Doctors can also add new questions dynamically. 
+Doctors can easily select symptoms and medicines from predefined lists, streamlining the process and 
+ensuring consistent medical records. 
+Before ending a session, doctors shall be able to enter their consultation charge, which will be 
+included in the session summary. 
+Pharmacy Management 
+The system shall maintain an up-to-date inventory for medications, tracking stock levels and informing 
+pharmacists of availability. 
+Pharmacists shall issue medicines based on the prescriptions provided during patient sessions. 
+Inventory levels shall be automatically adjusted whenever medications are dispensed, maintaining accurate 
+stock records. 
+Automated alerts shall notify pharmacists of reordering stock levels and approaching expiration dates. 
+Billing and Payment 
+The system shall generate detailed, customizable invoices for each session, including consultation charges 
+and issued medicines. 
+Payments can be processed at the cashier desk, with options to print the invoice for the patient. 
+Financial reports shall be generated daily, weekly, monthly, and annually for each medical center, 
+summarizing revenue, outstanding balances, and payment history. 
+Second-Layer Confirmation for Record Updates and Deletions 
+The system shall require a second-layer confirmation for every update and deletion of sensitive records, 
+including inventory, sessions, and payments. 
+When a user attempts to update or delete a record, they must provide a reason for the 
+change. The record change will then be placed in a pending state until a center admin 
+reviews the request. 
+The center admin will have the option to approve or reject the update or deletion based on the 
+provided reason. Only after center admin approval will the change be applied, ensuring data integrity 
+and accountability. 
+Notifications and Alerts 
+The system shall send timely notifications for various events, including: 
+Appointment reminders and confirmations. 
+New patient registration alerts. 
+Reorder 
+level 
+alerts 
+for 
+inventory 
+management. Expiry alerts for medications. 
+Notifications will be supported via both email and SMS to ensure users receive updates in their preferred format. 
+Payroll and Attendance Management 
+The system shall accurately calculate and generate monthly payroll records for all employees. 
+It shall maintain detailed attendance records with check-in and check-out buttons for each employee, 
+accessible from their dashboard. 
+Attendance data shall be sent to the admin dashboard for review and payroll processing. 
+Salary disbursements shall be recorded and tracked, ensuring compliance and financial transparency. 
+DETAILED MODULE BREAKDOWN 
+1. Multi-Center Management & Staff Management 
+1.1 Medical Center 
+Create Medical Center: 
+Role: Tenant Admin / Super admin 
+Fields: center_id, center_name, address, city, state, country, zip_code, phone_number, email, 
+tenant_admin_id, operating_hours. (These fields are subject to change and may be added to or 
+removed within the first three months of operation.) 
+Description: Tenant Admins can create new medical centers under their tenancy. Each center is 
+associated with a unique tenant identifier, allowing the tenant to manage multiple centers 
+independently. 
+Read Medical Center Details: 
+Role: Tenant Admin, Center Admin , Super admin 
+Fields: center_id, center_name, address, city, state, country, zip_code, phone_number, email, 
+tenant_admin_id, operating_hours. (These fields are subject to change and may be added to or 
+removed within the first three months of operation.) 
+Description: Tenant Admins can view details of all centers under their management. Center Admins can view 
+details of the specific center they are assigned to. 
+Update Medical Center: 
+Role: Tenant Admin 
+Fields: center_name, address, city, state, country, zip_code, phone_number, email, operating_hours. 
+Ownership rental agreement details, location photos, deed details,  
+Description: Tenant Admins can update the details of any center they manage. This allows for 
+adjustments in operational data as required. 
+Deactivate Medical Center: 
+Role: Tenant Admin, super admin 
+Fields: center_ID  
+Description: Tenant Admins can deactivate a medical center, preventing further operations while retaining 
+historical data for auditing purposes. 
+1.2 Staff (Doctor, Receptionist, Pharmacist, Cashier, Nurse, IT Suport, Medical Center Aide): 
+Create Staff: 
+Role: Tenant Admin, super admin 
+Fields: staff_id, first_name, last_name, email, password, phone_number, role, center_id. (These fields are subject 
+to change and may be added to or removed within the first three months of operation.) 
+Description: Tenant Admins can create new staff profiles, assigning them to a specific role (Doctor, 
+Receptionist, Pharmacist, Cashier, IT support, Nurse, or Center aids ) and medical center. 
+Read Staff Details: 
+Role: Tenant Admin, Center Admin, Super admin 
+Fields: staff_id, first_name, last_name, email, phone_number, role, center_id. (These fields are subject to change 
+and may be added to or removed within the first three months of operation.) 
+Description: Tenant Admins can view all staff under their management. Center Admins can view 
+details of staff assigned to their center. 
+Update Staff: 
+Role: Tenant Admin , Super admin 
+Fields: first_name, last_name, email, phone_number, center_id. , (These fields are subject to change and may be 
+added to or removed within the first three months of operation.) 
+Description: Tenant Admins can update staff details and reassign them to different centers as needed, 
+ensuring staff management flexibility across centers. 
+Deactivate Staff: 
+Role: Tenant Admin  
+Fields: staff_id. Reason for deactivation, authentication / 
+approval  
+Description: Tenant Admins can deactivate a staff profile, removing access to the system while 
+maintaining historical records for reference. 
+Assign Staff to Center: 
+Role: Tenant Admin, Super admin Fields: staff_id, center_id. (These fields are subject to change and may 
+be added to or removed within the first three months of operation.) 
+Description: Tenant Admins can assign or reassign staff members to specific medical centers, 
+ensuring proper allocation of resources based on center needs. 
+Center recourse  
+Details are added and removed by the Super admin / tenant admin/ center admins  only 
+Machinery and Equipment Purchased Details 
+• Equipment Name: Full description of the machine, model number, and serial number. 
+• Purchase Date: Date when the equipment was purchased. 
+• Supplier Information: Vendor details, including contact information and warranty details. 
+• Purchase Invoices: Scanned copies or digital records of the invoices and receipts. 
+• Cost Information: Purchase price, payment terms, and any associated costs (e.g., shipping, installation). 
+2. Calibration and Maintenance Records 
+• Calibration Schedule: Set dates for regular calibration and servicing of medical equipment (e.g., X-ray 
+machines, blood pressure monitors). 
+• Calibration Logs: Records of all calibration activities, including who performed the calibration, when, and 
+the outcome (pass/fail). 
+• Maintenance Schedule: Regular maintenance intervals with dates and descriptions. 
+• Maintenance Reports: Details of any repairs, servicing, or part replacements. 
+• Certificates of Calibration: For equipment that requires certified accuracy (e.g., laboratory machines), 
+include calibration certificates. 
+3. Operational and Usage Documentation 
+• User Manuals: Manuals or guides for operation, troubleshooting, and safety procedures. 
+• Training Records: Documentation of staff training on how to use specific machinery or devices, including 
+dates and trainer details. 
+• Usage Logs: Logs showing the usage frequency, hours of operation, and responsible personnel. 
+4. Asset Tracking and Inventory 
+• Inventory Number: A unique identification number for each piece of equipment. 
+• Location Information: Where the equipment is physically located in the medical center. 
+• Depreciation and Asset Value: Accounting details showing the current depreciated value of the asset. 
+• Disposal Records: Documentation for any decommissioned or disposed equipment. 
+5. Licenses and Compliance Documents 
+• Regulatory Certifications: Any mandatory certifications or licenses required for operation of specific 
+medical machinery. 
+• Inspection Reports: Results of any internal or external inspections, compliance checks, or audits. 
+6. Images and Visual Documentation 
+• Equipment Photos: Photos of the machinery for identification purposes (include different angles if 
+necessary). 
+• Installation Photos: Images of the setup or installation process, especially for large or complex machines. 
+7. Insurance Details 
+• Insurance Policy Information: Details of any insurance coverage for the equipment, including policy 
+number, provider, coverage, and expiration dates. 
+• Claims Records: Any insurance claims made regarding the equipment, including dates and resolutions. 
+8. Warranty and Service Contracts 
+• Warranty Information: Include the duration of the warranty, coverage, and the provider. 
+• Service Agreements: Contracts for ongoing maintenance or service, including contact details and terms. 
+9. Compliance with Safety Standards 
+• Safety Certifications: Records confirming that the machinery complies with safety standards (e.g., 
+electrical safety certifications). 
+• Risk Assessments: Documents outlining potential risks associated with the machinery and mitigation 
+measures. 
+10. Spare Parts and Accessories 
+• Spare Parts Inventory: List of spare parts available for each machine, including part numbers and 
+quantities. 
+• Accessories: Any add-ons or accessories used with the equipment, including their purchase and 
+maintenance details. 
+2. Patient Management 
+2.1 Patient Profile: 
+Create Patient Profile: 
+Role: Center Admin, Receptionist, Patient, super admin 
+Fields: patient_id, first_name, last_name, date_of_birth, gender, email, phone_number, address, city, state, zip_code, 
+emergency_contact, medical_history, current_medications, allergies, unique_registration_number, center_id. (These 
+fields are subject to change and may be added to or removed within the first three months of operation.) 
+Description: Patient them self, Center Admins, and Receptionists can create a new patient profile with all 
+personal, contact, and medical history information. The profile is linked to a unique registration number that 
+identifies the patient and the center they      are registered with.  
+Read Patient Profile: 
+Role: Center Admin, Receptionist, Doctor, patient , super admin  
+Fields: patient_id, first_name, last_name, date_of_birth, gender, email, phone_number, address, city, state, zip_code, 
+emergency_contact, medical_history, current_medications, allergies, unique_registration_number, center_id. (These 
+fields are subject to change and may be added to or removed within the first three months of operation.) 
+Description: All roles can view patient profiles, but access is limited based on the user's center. Doctors 
+and Receptionists can view profiles only for patients associated with their center, while Tenant Admins 
+can access all profiles under their tenancy.  
+Patient can check their own medical report summery, check their condition and monitor progress, 
+have access to pass lab tests.  
+Update Patient Profile: 
+Role: Center Admin, Receptionist, Doctor, super admin  
+Fields: first_name, last_name, date_of_birth, gender, email, phone_number, address, city, state, zip_code, 
+emergency_contact, medical_history, current_medications, allergies. Work history, (These fields are 
+subject to change and may be added to or removed within the first three months of operation.) 
+Description: Authorized roles can update patient profiles to reflect changes in contact information, medical 
+history, or current medications. Doctors and Receptionists can update patient profiles only for those assigned 
+to their center. 
+Archive Patient Profile: 
+Role: Center Admin ,super admin  
+Fields: patient_id. 
+Description: Receptionist and Center Admins can archive a patient profile, removing access to the system 
+while retaining historical records for medical and audit purposes. This ensures compliance with data 
+retention policies. Only Center admin can delete a archived patient profile. 
+3. Appointment Booking 
+3.1. Appointment: 
+Create Appointment: 
+Role: Center Admin, Receptionist, Patient, Super admin  
+Fields: appointment_id, patient_id, doctor_id, center_id, appointment_date, appointment_time, status 
+(Booked, Checked- In, Canceled, Completed), booking_fee, payment_status (Pending, Paid), appointment_type 
+(In-Person, Online), notes. (These fields are subject to change and may be added to or removed within the 
+first three months of operation.) 
+Description: Patients can book appointments online or via reception. Receptionists, Center Admins can 
+book appointments on behalf of patients. The system checks the doctor's availability before confirming the 
+appointment. A non-refundable booking fee is required, which can be paid online or at the reception. 
+Read Appointment Details: 
+Role: Receptionist, Doctor, Patient 
+Fields: appointment_id, patient_id, doctor_id, center_id, appointment_date, appointment_time, status, booking_fee, 
+payment_status, appointment_type, notes. (These fields are subject to change and may be added to or 
+removed within the first three months of operation.) 
+Description: Patients are notified of their upcoming. Doctors, Receptionists, Center Admins can view 
+appointment details relevant to their role and center. This ensures transparency and readiness for the 
+appointment day. 
+Update Appointment: 
+Role: Center Admin, Receptionist, Doctor, Patient 
+Fields: appointment_date, appointment_time, status, notes. (These fields are subject to change and may be added 
+to or removed within the first three months of operation.) 
+Description: Receptionists, Center Admins can update appointment status (e.g., from Booked to Checked-In) 
+and modify appointment notes. 
+3.2. Payment for Appointment: 
+Create Payment Record: 
+Role: Center Admin, Receptionist, Patient 
+Fields: payment_id, appointment_id, patient_id, amount, payment_method (Visa, Hela Pay, Cash), payment_status, 
+transaction_date, receipt_number. (These fields are subject to change and may be added to or removed within 
+the first three months of operation.) 
+Description: Payments for booking fees can be recorded by Patients online or by Receptionists at the clinic. 
+The payment record is linked to the appointment and reflects the status of the booking fee. 
+Read Payment Details: 
+Role: Center Admin, Receptionist 
+Fields: 
+payment_id, appointment_id, patient_id, amount, payment_method, payment_status, 
+transaction_date, receipt_number. (These fields are subject to change and may be added to or removed 
+within the first three months of operation.) 
+Description: All roles can view payment details related to the appointment. This includes the amount paid, the 
+method used, and the status. 
+Update Payment Status: 
+Role: Center Admin, Receptionist 
+Fields: payment_status. 
+Description: Center Admin and Receptionists can update the payment status to reflect successful transactions, or 
+failed payments. 
+Archive 
+Payment 
+Record: Role: Center 
+Admin 
+Fields: 
+payment_id. 
+Description: Payment records can archived by Center Admin, or Receptionist. Only archived payments can be 
+deleted by Center Admins. 
+4. Session Management 
+4.1. Session: 
+Create Session: 
+Role: Doctor, Center Admin, Receptionist 
+Fields: session_id, appointment_id, patient_id, doctor_id, center_id, session_date, session_time, diagnosis, 
+observations, prescription, allergies, treatment_plan, session_status (Ongoing, Completed, Canceled), notes. (These 
+fields are subject to change and may be added to or removed within the first three months of operation.) 
+Description: Doctors, Center Admins, and Receptionists can initiate a new session when a patient arrives 
+for their appointment. The session is linked to the appointment and patient records. 
+Read Session Details: 
+Role: Doctor, Tenant Admin, Center Admin, Receptionist 
+Fields: session_id, appointment_id, patient_id, doctor_id, center_id, session_date, session_time, diagnosis, 
+observations, prescription, allergies, treatment_plan, session_status, notes. (These fields are subject to change 
+and may be added to or removed within the first three months of operation.) 
+Description: Doctors can view details of all their sessions. Tenant Admins and Center Admins can view 
+session details for the patients in their centers, while Receptionists can access session information to assist 
+in patient management and coordination. 
+Archive Session: 
+Role: Center Admin , super admin 
+Fields: session_id. 
+Description: Sessions cannot be fully deleted, but they can be marked as archived. This ensures that all 
+historical medical records are preserved while preventing further modifications. 
+Updating details :  
+• Role : Center admin , IT support, doctor, Super admin 
+• Description : details to each sessions can be manually enter by above rolls. Specially relevant 
+photos, videos, etc along with time and date stamp. With the help of mobile phone.  
+• Editing details can be done by the center admins, tenant admins, and super admins only.  
+•  
+4.2 Session Template: 
+Create Session Template: 
+Role: Doctor, IT support , super admin  
+Fields: 
+session_template_id, 
+doctor_id, 
+template_name, predefined_questions, common_diagnoses, 
+frequently_prescribed_medicines, recommended_treatments, session_type. 
+Description: Doctors can create templates for common types of sessions (e.g., diabetes check-up, 
+vaccination) to streamline the consultation process. Templates can include predefined questions, common 
+diagnoses, and standard prescriptions or treatments. 
+Read Session Template Details: 
+Role: Doctor, Center Admin 
+Fields: 
+session_template_id, 
+doctor_id, 
+template_name, predefined_questions, common_diagnoses, 
+frequently_prescribed_medicines, recommended_treatments, session_type. 
+Description: Doctors can view and select from their own created templates during sessions. Center Admins 
+can view templates to assist in standardizing treatment protocols across their center. 
+Update Session Template: 
+Role: Doctor 
+Fields: 
+template_name, 
+recommended_treatments. 
+predefined_questions, 
+Description: Doctors can update their templates. 
+Delete Session Template: 
+Role: Doctor 
+Fields: session_template_id. 
+common_diagnoses, frequently_prescribed_medicines, 
+Description: Doctors can delete outdated or unused templates, keeping their session tools organized and relevant. 
+4.3. Session Media: 
+Upload Session Media: 
+Role: Doctor, Center Admin,  IT support, Nurse, super admin  
+Fields: media_id, session_id, file_type (Photo, Video), file_url, description, uploaded_by, upload_date. (These fields 
+are subject to change and may be added to or removed within the first three months of operation.) 
+Description: Doctors and Center Admins can upload media files related to a session, such as images of skin 
+conditions, which are linked to the session record for future reference. 
+Read Session Media: 
+Role: Doctor, Tenant Admin, Center Admin, patients, Super admins  
+Fields: media_id, session_id, file_type, file_url, description, uploaded_by, upload_date. (These fields are subject to 
+change and may be added to or removed within the first three months of operation.) 
+Description: Authorized roles can view session media to review treatment history and document patient 
+conditions accurately. 
+Delete Session Media: 
+Role: Center Admin, super admin  Fields: media_id.    (These fields are subject to change and may be added to or removed 
+within the first three months of operation.) 
+Description: Center Admins can deactivate media records, making them inaccessible but not 
+deleting them permanently, preserving the audit trail and medical history. 
+*Special note :  It is best if we can make a blog post type summery including patient condition, before and after 
+photos, excluding patient personal details. For social medias such as Facebook, Instagram, etc. and own blog post 
+, as case studies.  
+Following site may give some idea :  
+https://raviclinic.com/case-study-detail/?case_id=2  
+User Journeys 
+Receptionist: 
+1. Login: Logs in to access the reception dashboard and view the day’s appointments. 
+2. Initiate Sessions: Starts a session when a patient checks in, linking the appointment with the session record. 
+3. Assist Doctor: Provides administrative support during sessions, such as updating patient information or session 
+notes as directed. 
+4. Manage Session Status: Updates the session status to reflect the patient’s arrival, session completion, or 
+cancellation. 
+5. View Session Schedule: Monitors upcoming sessions to assist with patient flow management and minimize wait 
+times. 
+Patient: 
+1. Check-In for Appointment: Patient arrives at the clinic for their scheduled appointment. 
+2. Session Initiation: The Doctor or Receptionist initiates the session, linking it to the patient’s appointment record. 
+3. Session Engagement: The patient undergoes consultation, where the Doctor discusses symptoms, 
+diagnoses conditions, and provides treatment plans. 
+4. Receive Prescriptions: Receives prescribed medicines and instructions based on the session outcomes. 
+5. Session Completion: The session is marked as completed. 
+Doctor: 
+1. Login: Doctor logs in and views the list of upcoming sessions and patient details. 
+2. Start Session: Initiates a session for a patient, using templates if applicable to streamline the consultation process. 
+3. Document Session: Records diagnoses, observations, prescriptions, and treatment plans. If necessary, 
+uploads session media such as photos or videos. 
+4. Use Templates: Applies a session template for common conditions, customizing as needed based on the 
+patient’s specific case. 
+5. End Session: Marks the session as completed and enter the consultation fee. 
+5. Pharmacy Management 
+5.1. Medication Inventory: 
+Create Medication: 
+Role: Center Admin, Pharmacist, super admin, IT support  
+Fields: medication_id, medication_name, generic_name, brand_name, dosage_form (Tablet, Syrup, Injection, etc.), 
+quantity_in_stock, reorder_level, expiration_date, price_per_unit, discount, selling_price, center_id.  (These fields are 
+subject to change and may be added to or removed within the first three months of operation.)  
+Description: Pharmacists and Admins can add new medications to the inventory, specifying details like 
+dosage form, quantity, and price. This ensures that all medications available at the center are tracked. 
+Read Medication Details: 
+Role: Center Admin, Pharmacist, Doctor , super admin  
+Fields: medication_id, medication_name, generic_name, brand_name, dosage_form, quantity_in_stock, reorder_level, 
+expiration_date, price_per_unit, discount, selling_price. (These fields are subject to change and may be added 
+to or removed within the first three months of operation.) 
+Description: Pharmacists, Doctors, and Admins can view the details of medications available in the inventory, 
+including stock levels and expiration dates. This helps in checking availability before prescribing or issuing 
+medications. 
+Update Medication: 
+Role: Center Admin, Pharmacist 
+Fields: medication_name, generic_name, brand_name, dosage_form, strength, quantity_in_stock, 
+reorder_level, expiration_date, price_per_unit, discount, price_per_unit, discount, selling_price. (These fields 
+are subject to change and may be added to or removed within the first three months of operation.) 
+Description: Pharmacists and Admins can update medication details such as stock levels, price, or expiration 
+dates to keep the inventory accurate and up-to-date. 
+Archive Medication: 
+Role: Tenant Admin, Center Admin 
+Fields: medication_id. 
+Description: Medications can be archived from the inventory to prevent dispensing but cannot be deleted 
+entirely to maintain historical records and compliance with regulations. 
+5.2 Prescription Management: 
+Create Prescription: 
+Role: Doctor 
+Fields: prescription_id, session_id, patient_id, doctor_id, medication_id, dosage, frequency, duration, notes, 
+center_id. (These fields are subject to change and may be added to or removed within the first three months of 
+operation.) 
+Description: Doctors can create a prescription during a session, selecting medications from the available inventory. 
+The prescription is linked to the session and patient records, ensuring traceability and integration with the 
+pharmacy. 
+Read Prescription Details: 
+Role: Doctor, Pharmacist, Center Admin 
+Fields: prescription_id, session_id, patient_id, doctor_id, medication_id, dosage, frequency, duration, notes, 
+center_id. Description: Doctors, Pharmacists, and Admins can view prescription details for dispensing and 
+record-keeping purposes. 
+Archive Prescription: 
+Role: Doctor, IT support, Super admin  
+Fields: prescription_id. 
+Description: Prescriptions can be marked as archived, only Center Admin can delete archived records. 
+5.3. Medication Dispensing: 
+Dispense Medication: 
+Role: Pharmacist 
+Fields: dispense_id, prescription_id, patient_id, medication_id, quantity_dispensed, dispense_date, dispensed_by, 
+notes. Description: Pharmacists can dispense medications based on prescriptions, reducing the available stock 
+in the inventory and creating a record of the transaction for future reference. 
+Read Dispensing Record: 
+Role: Pharmacist, Center Admin, Tenant Admin, Doctor 
+Fields: dispense_id, prescription_id, patient_id, medication_id, quantity_dispensed, dispense_date, 
+dispensed_by, notes. Description: This allows authorized roles to view records of all medications dispensed, 
+aiding in tracking usage patterns and ensuring that prescriptions are followed correctly. 
+Update Dispensing Record: 
+Role: Pharmacist 
+Fields: quantity_dispensed, notes. 
+Description: Pharmacists can update the dispensing record if corrections are needed, such as adjusting the 
+quantity dispensed. This ensures accurate record-keeping and inventory management. 
+Archive Dispensing Record: 
+Role: Center Admin , Super 
+admins 
+Fields: dispense_id. 
+Description: Dispensing records can be archived, only Center Admin can delete archived records. 
+User Journeys 
+Pharmacist: 
+1. Login: Logs in to access the pharmacy dashboard with inventory and prescription records. 
+2. Manage Inventory: Updates medication stock levels, adds new medications, and sets reorder levels. 
+3. Dispense Medications: Fulfills prescriptions provided by doctors, updates the inventory, and records the 
+transaction. 
+4. Track Expiry and Reorders: Monitors expiration dates and stock levels, generating reorder requests as needed. 
+5. View Reports: Generates reports on dispensing activities, stock levels, and medication sales to 
+ensure optimal pharmacy operations. 
+Doctor: 
+1. Create Prescription: Prescribes medications based on the session outcome, selecting from the available inventory. 
+Patient: 
+1. Receive Prescription: Receives a prescription from the doctor during a session. 
+2. Visit Pharmacy: Goes to the pharmacy to collect the medications. 
+3. Collect Medications: Pharmacist dispenses the prescribed medications, provides instructions, and updates 
+the patient’s record. 
+Tenant Admin: 
+1. Login: Logs in to the tenant admin dashboard. 
+2. Monitor Inventory Across Centers: Views a consolidated report on medication stock levels, reorders, and 
+expirations across all centers. 
+3. Approve Reorder Requests: Approves or rejects reorder requests submitted by Center Admins or Pharmacists 
+based on the current inventory and budget. 
+Center Admin: 
+1. Login: Logs in to the center-specific dashboard. 
+2. Manage Inventory: Oversees inventory levels and updates medication details as necessary. 
+6. Billing and Payment 
+6.1. Invoice Management: 
+Create Invoice: 
+Role: Center Admin, Cashier 
+Fields: invoice_id, session_id, patient_id, center_id, invoice_date, total_amount, payment_status (Pending, Paid, 
+Partially Paid, Canceled), payment_method (Cash, Visa, Hela Pay), items (list of services/medications with 
+quantity and price), discount, tax_amount, net_amount, notes. 
+Description: Invoices are generated at the end of a session or after dispensing medications. The invoice 
+includes all charges such as consultation fees, medications, and any additional services. The payment 
+status is updated based on the patient’s payment. 
+Read Invoice Details: 
+Role: Center Admin, Cashier, Patient 
+Fields: invoice_id, session_id, patient_id, center_id, invoice_date, total_amount, payment_status, 
+payment_method, items, discount, tax_amount, net_amount, notes. 
+Description: Center admins and cashiers can access all invoices related to their center or tenant to 
+manage billing and financial tracking. Invoices can be sent to patients via a downloadable link. 
+Archive Invoice: 
+Role: 
+Admin 
+Center 
+Fields: 
+invoice_id. 
+Description: Invoices can be archived by Center Admin. Only Center Admin can delete archived records. 
+6.2. Payment Processing: 
+Create Payment: 
+Role: Center Admin, Cashier, Patient 
+Fields: payment_id, invoice_id, session_id, patient_id, center_id, amount, payment_method, transaction_id, 
+payment_date, receipt_number, notes. 
+Description: Payments can be made by patients online or at the reception. Payment records are linked to 
+invoices to ensure that all financial transactions are traceable. 
+Read Payment Details: 
+Role: Center Admin, Cashier, Patient 
+Fields: payment_id, invoice_id, session_id, patient_id, center_id, amount, payment_method, transaction_id, 
+payment_date, receipt_number, notes. 
+Description: Authorized roles can view payment records to verify transactions, track payments, and manage 
+financials. Patients can view their own payment history for transparency. 
+Archive Payment: 
+Role: 
+Admin 
+Center 
+Fields: 
+payment_id. 
+Description: Payments can be archived by Center Admin. Only Center Admin can delete archived records. 
+7. Second-Layer Confirmation for Record Updates and Deletions 
+7.1. Review Process: 
+Create Review Record: 
+Role: Center Admin 
+Fields: review_id, record_type, record_id, reviewed_by, review_date, review_comments, action_taken 
+(Approved, Rejected), reason_for_action. 
+Description: When an update or deletion request is reviewed, a review record is created to document the 
+decision, including any comments or reasoning behind the action taken. 
+Read Review Record: 
+Role: Center Admin 
+Fields: review_id, record_type, record_id, reviewed_by, review_date, review_comments, action_taken, 
+reason_for_action. Description: All review records are accessible to Center Admins, ensuring transparency in 
+the review process. This allows Center Admins to understand the rationale behind approvals or rejections for 
+requests in their center. 
+Update Review Record: 
+Role: Center Admin 
+Fields: review_comments, reason_for_action. 
+Description: Review records status can be updated with additional comments to proceed or reject the action. 
+8. Notifications and Alerts 
+8.1. Notification Management: 
+Generate Notification: 
+Role: All 
+Fields: notification_id, notification_type (Appointment Reminder, Payment Due, Reorder Alert, Expiry Alert, New 
+Patient Registration, General Update), message_title, message_body, time, status (Read, Pending, Resolved), use 
+role, user_id. Description: Notifications are automatically generated for different events such as appointment 
+reminders, payment due alerts, stock reorder alerts, and general updates. 
+Read Notification Details: 
+Role: All 
+Fields: notification_id, notification_type, recipient_role, message_title, message_body, send_date, send_time, 
+status. Description: Recipients can view notifications relevant to them, while Admins can view all notifications 
+created for their center or tenancy. 
+9. Payroll and Attendance Management 
+9.1 Payroll Management: 
+Create Payroll Record: 
+Role: Tenant Admin 
+Fields: payroll_id, employee_id, center_id, salary_period (e.g., January 2024), base_salary, bonuses, 
+payment_status (Pending, Paid), payment_date. 
+Description: Payroll records are generated for each employee at the end of the salary period, detailing all 
+components of their pay including base salary, and bonuses. This allows for accurate calculation and tracking 
+of employee compensation. 
+Read Payroll Details: 
+Role: Tenant Admin, Employee 
+Fields: payroll_id, employee_id, center_id, salary_period (e.g., January 2024), base_salary, bonuses, 
+payment_status (Pending, Paid), payment_date. 
+Description: Employees can view their own payroll details, while Tenant Admins can view payroll records 
+for all employees within their tenancy. This provides transparency and helps with financial management 
+and planning. 
+Update Payroll Record: 
+Role: Tenant Admin 
+Fields: base_salary, bonuses, payment_status. 
+Description: Payroll records can be updated to reflect changes such as corrected overtime, additional 
+bonuses, or deductions. This ensures that final payments are accurate and fair. 
+Archive 
+Record: 
+Tenant 
+Payroll 
+Role: 
+Admin 
+Fields: payroll_id. 
+Description: Payroll records can be archived and deleted by Tenant Admin. 
+9.2 Salary Disbursement: 
+Create Payment Record: 
+Role: Tenant Admin 
+Fields: payment_id, payroll_id, employee_id, center_id, payment_date, amount_paid, payment_method (Bank 
+Transfer, Cash, Check), transaction_reference, status (Pending, Completed). 
+Description: Payment records are created once the payroll is processed, detailing the disbursement of 
+salaries to employees. This includes information on payment methods and transaction references for 
+tracking. 
+Read Payment Details: 
+Role: Tenant Admin, Employee 
+Fields: payment_id, payroll_id, employee_id, center_id, payment_date, amount_paid, payment_method, 
+transaction_reference, status. 
+Description: Employees can view their own payment details, while Tenant Admins can view all payment 
+records for their tenancy. This helps track the status of salary disbursements and resolve any issues. 
+Update Payment Record: 
+Role: Tenant Admin 
+Fields: amount_paid, payment_method, transaction_reference, status. 
+Description: Payment records can be updated if corrections are needed, such as changes in payment 
+method or updates to transaction references. This ensures accurate and up-to-date financial records. 
+Archive 
+Payment 
+Record: Role: Tenant 
+Admin 
+Fields: 
+payment_id. 
+Description: Payment records can be archived and deleted by Tenant Admin. 
+The lab module  
+The Lab Module of a Hospital Management System (HMS) is crucial for managing all aspects of diagnostic and 
+laboratory services within a medical center. It ensures efficient handling of lab tests, patient records, and results. 
+Below are the key components that should be included in the Lab Module: 
+1. Test Management 
+• Test Catalog: A comprehensive list of all available lab tests (e.g., blood tests, urine tests, imaging tests) 
+with descriptions, costs, and processing times. 
+• Test Codes and Categories: Unique codes for each test, grouped by category (e.g., hematology, 
+microbiology, pathology). 
+• Test Packages: Predefined test packages for specific conditions or health screenings (e.g., diabetes panel, 
+routine health check). 
+2. Patient Test Orders 
+• Test Request Generation: Doctors or authorized personnel can generate test orders based on the patient's 
+condition. This includes selecting the required tests and attaching any clinical notes or instructions. 
+• Order Tracking: Ability to track the status of each test order (e.g., pending, in progress, completed). 
+• Priority Levels: Option to mark test orders as urgent or routine to prioritize processing. 
+3. Sample Collection and Tracking 
+• Sample Collection Scheduling: Allows staff to schedule and manage sample collection (e.g., blood, tissue, 
+urine). 
+• Barcode Generation: For labeling samples with unique identifiers, ensuring accuracy in tracking and 
+reducing the risk of mix-ups. 
+• Sample Transportation: Integration with logistics for tracking sample transport to external or specialized 
+labs. 
+• Sample Status Tracking: Real-time updates on the status of collected samples, including when they are 
+received, processed, or rejected. 
+4. Test Processing and Reporting 
+• Test Results Entry: Lab technicians can enter test results directly into the system, either manually or via 
+integration with lab equipment. 
+• Automatic Result Upload: For equipment capable of interfacing with the system, results are automatically 
+uploaded. 
+• Result Approval Workflow: Test results must go through a workflow for approval by lab supervisors or 
+pathologists before being released to patients or doctors. 
+• Result Templates: Predefined templates for generating reports, ensuring uniform presentation of results. 
+5. Result Communication and Delivery 
+• Result Notification: Automatic notification to doctors and patients once the results are available, either 
+through email, SMS, or the patient portal. 
+• Result Access for Doctors: Doctors can view and interpret test results in the patient's medical record. The 
+system allows for comparisons with previous results to track trends. 
+• Patient Access to Results: Patients can view or download their test results through the patient portal or 
+receive them via email. 
+6. Billing and Payments 
+• Test Cost Management: Automatic calculation of the costs for individual tests or test packages, linked to 
+the billing module. 
+• Payment Tracking: Track whether the patient has made payments for the ordered tests. The lab module 
+should block test processing if payment is not received or pending. 
+• Insurance Integration: Ability to process insurance claims and handle payments for insured patients. 
+7. Inventory and Equipment Management 
+• Inventory for Lab Supplies: Manage stock levels of lab reagents, chemicals, consumables (e.g., syringes, 
+tubes), and ensure automated alerts when supplies are low. 
+• Equipment Integration: Integration with lab machines (e.g., analyzers, centrifuges) for automatic result 
+input and regular maintenance alerts. 
+• Calibration and Maintenance Logs: Track calibration schedules and maintenance logs for lab equipment 
+to ensure compliance and accuracy in results. 
+8. Quality Control and Compliance 
+• Quality Control Tests: Periodic quality control checks on samples to ensure lab accuracy. 
+• Accreditation and Compliance: Ensure compliance with medical standards, including generating reports 
+for audits by regulatory bodies (e.g., ISO certifications, local health department requirements). 
+• Error Reporting: Log any errors or discrepancies in lab processes and test results. 
+9. Lab Workflow Management 
+• Lab Staff Management: Assign lab technicians and pathologists to specific test orders, manage their work 
+schedules, and track performance metrics. 
+• Test Turnaround Time Tracking: Measure and monitor the time taken for each test from sample collection 
+to result generation. 
+• Pending Tests Dashboard: A centralized dashboard that displays pending, delayed, or urgent test orders. 
+10. Lab Reports and Analytics 
+• Test Volume Reports: Generate reports on the number of tests performed over a specific period, broken 
+down by test type or department. 
+• Financial Reports: Detailed financial analysis showing revenue from lab services, including test costs and 
+insurance payments. 
+• Patient Trends: Analyze trends in common tests ordered and conditions diagnosed to aid in health 
+monitoring and planning. 
+• Error Analysis Reports: Reports detailing any errors in test results or processing, helping improve lab 
+accuracy and efficiency. 
+11. Integration with Other Modules 
+• Electronic Health Records (EHR) Integration: Seamless integration with patient medical records to ensure 
+test results are automatically attached to the patient's history. 
+• Pharmacy Module Integration: For labs testing related to prescriptions, the system should integrate with 
+the pharmacy to ensure alignment between test results and medication issued. 
+• Appointment Module: Sync lab test schedules with the patient’s overall appointment schedule, minimizing 
+wait times and improving workflow. 
+12. Compliance and Legal Documentation 
+• Consent Forms: For certain sensitive tests (e.g., genetic testing), the system should include a feature to 
+store patient consent forms. 
+• Legal Reporting: Ability to generate legally required reports for government agencies or insurance 
+providers, ensuring full compliance with healthcare regulations. 
+The PBX facility  
+When integrating a PBX (Private Branch Exchange) system with a hospital management system (HMS) for call 
+management, the goal is to efficiently handle patient-related communications using collected patient data. Below 
+are the key features and elements that should be considered: 
+1. Caller Identification and Patient Data Integration 
+• Automatic Caller ID: The PBX system should identify incoming callers based on their registered phone 
+numbers and immediately pull up relevant patient data from the HMS. 
+• Screen Pop-Ups: When a call is received, the receptionist or relevant staff should see a pop-up window with 
+patient information, including name, appointment details, medical history, and billing status. 
+• Call Routing Based on Patient Information: Calls can be automatically routed to the appropriate 
+department (e.g., doctor, billing, lab) based on the patient’s reason for calling, as identified by patient data 
+(e.g., lab results pending, upcoming appointments). 
+2. Appointment Management Integration 
+• Appointment Scheduling via Call: Allow receptionists or automated systems to check and modify patient 
+appointments directly through the PBX system, based on real-time HMS data. 
+• Reminder and Confirmation Calls: Automated outbound calls to remind patients of upcoming 
+appointments, based on appointment schedules in the HMS, with options for patients to confirm, 
+reschedule, or cancel via phone. 
+• Voice Prompts for Appointment Information: Patients calling in can hear appointment details (e.g., date, 
+time, doctor) through automated voice prompts. 
+3. Call Logging and Recording 
+• Call Logging: Record detailed logs of all incoming and outgoing calls, including time, duration, patient 
+information, and the staff member who handled the call. 
+• Call Recording: Enable call recording for quality control, training, and legal purposes, with recordings linked 
+to patient records in the HMS for future reference. 
+• Missed Call Alerts: Notifications for missed calls, ensuring that staff can follow up with patients in a timely 
+manner. 
+4. Automated Call Handling 
+• Interactive Voice Response (IVR) System: A multi-level IVR system that can guide patients through various 
+options (e.g., book appointments, check lab results, speak with a doctor) by accessing patient information 
+in real-time. 
+• Self-Service Options: Patients can use the IVR to access their information, such as checking the status of an 
+appointment, hearing lab results, or paying bills, without speaking to staff. 
+• Personalized IVR: The IVR system can greet patients by name and offer personalized options based on their 
+upcoming appointments or recent interactions with the medical center. 
+5. Outbound Calls for Patient Follow-Up 
+• Automated Follow-Up Calls: The system can make outbound calls to follow up on patients after 
+consultations, reminding them of medication adherence, test results, or follow-up appointments. 
+• Custom Call Scripts: Predefined scripts can be used for follow-up calls or reminders based on patient data, 
+ensuring consistent communication across the medical center. 
+6. Emergency Call Handling 
+• Priority Routing for Emergencies: If a patient indicates they are facing a medical emergency during a call, 
+the PBX system can route the call directly to the appropriate medical personnel or an emergency response 
+team. 
+• Emergency Notifications: In case of urgent patient conditions, the PBX system can generate automated 
+calls or alerts to doctors, nurses, or emergency personnel based on patient medical data. 
+7. Patient Communication History 
+• Call History Linked to Patient Records: Every call, including the reason for the call and actions taken, should 
+be logged in the patient’s HMS record. This provides a comprehensive history of communications and 
+interactions with the medical center. 
+• Call Notes: Staff can add notes during or after calls, which are stored in the patient's record, ensuring that 
+all communication is well-documented. 
+8. Billing and Payment Integration 
+• Payment via Phone: Patients can make payments over the phone for services rendered, using integrated 
+payment gateways. The PBX system should verify patient billing data from the HMS and allow for secure 
+processing. 
+• Outstanding Balance Alerts: During calls, the system can notify staff or patients of any outstanding 
+payments or billing issues and offer payment options. 
+9. Multi-Department and Multi-Location Support 
+• Call Routing by Department: Based on patient data (e.g., lab test requests, pharmacy orders), calls can be 
+routed to the appropriate department (e.g., pharmacy, lab, doctor’s office). 
+• Multi-Location Call Handling: If the medical center has multiple locations, the PBX system should be able 
+to route calls to the correct facility or department, based on the patient’s location or appointment details. 
+10. Language and Accessibility Support 
+• Language Preferences: The PBX system should handle patient language preferences, offering automated 
+responses and routing to staff who speak the preferred language, based on patient profile data. 
+• Accessibility Features: Ensure the system is accessible to all patients, including those with hearing or speech 
+impairments (e.g., text-to-speech options, integration with TTY/TDD devices). 
+11. Reporting and Analytics 
+• Call Analytics: Generate reports on call volumes, average call handling time, missed calls, and overall 
+efficiency, with detailed breakdowns by department and patient categories. 
+• Patient Satisfaction Surveys: Automated post-call surveys can be sent to patients to gather feedback on 
+their experience, which can be used to improve service quality. 
+By integrating the PBX system with the HMS and utilizing patient data effectively, the medical center can enhance 
+communication efficiency, improve patient satisfaction, and ensure seamless coordination across departments. 
+PROJECT REQUIREMENTS - WEB DEVELOPMENT 
+HTTPS Encryption: The entire website and all communication between the client and server are encrypted 
+using HTTPS, ensuring that all data transmitted over the network is secure and protected from 
+eavesdropping and man-in-the-middle attacks. 
+Secure File Storage: All files, including sensitive documents like PDFs and medical records, are stored 
+securely with advanced encryption techniques. This ensures that even if unauthorized access to the 
+storage is gained, the data remains unreadable and protected. 
+Data Encryption at Rest: All data stored in the database, including sensitive patient information, is 
+encrypted at rest to prevent unauthorized access. 
+Regular Security Audits: The system undergoes regular security audits to identify and mitigate potential 
+vulnerabilities. 
+Multi-Factor Authentication (MFA): MFA is implemented for all user accounts, adding an extra layer of 
+security beyond just a password. 
+Role-Based Access Control (RBAC): Access to different parts of the system is restricted based on user 
+roles, ensuring that only authorized personnel can view or modify sensitive information. 
+Intrusion Detection and Prevention Systems (IDPS): The system is equipped with IDPS to monitor and 
+block suspicious activities and potential threats. (Optional) 
+Automatic Session Timeout: User sessions automatically timeout after a period of inactivity, reducing the 
+risk of unauthorized access if a user leaves their session unattended. 
+Regular Software Updates: All software components are regularly updated to the latest versions to 
+patch known vulnerabilities and improve security. 
+Secure API Endpoints: All API endpoints are secured with token-based authentication and strict validation 
+to prevent unauthorized access and data breaches. 
+Data Backup and Recovery: Regular data backups are conducted, and a robust disaster recovery plan is 
+in place to ensure data integrity and availability in case of any unexpected incidents. 
+DESIGN AND TECHNOLOGY – can be select as feasible  
+Next.js: This helps us build a website that loads quickly and looks great on all devices, which is especially 
+important for an enjoyable shopping experience. 
+Image Hosting: By hosting our images on Amazon S3, we ensure that all product images load quickly and reliably. 
+This enhances the visual experience for our customers, regardless of their location, and contributes to a smooth 
+and enjoyable browsing experience. 
+Vercel: By hosting our site with Vercel, we ensure that it's always available to our customers, no matter where they 
+are in the world, without any delays or problems. 
+Cloudflare: This service helps protect our site from unwanted interruptions and makes it faster, which means a 
+safer and quicker experience for everyone. 
+Laraval , rect  
+.Front end  GUI development  :  Figma   
+Cost 
+Duration 
+Stage  System requirements  
+01 
+1. Multi-Center Management & 
+Staff Management 
+2. Patient Management 
+3. Appointment Booking 
+4. Session Management 
+5. Pharmacy Management 
+6. Billing and Payment 
+02 
+1. Payroll and Attendance 
+Management 
+03 
+1. The lab module 
+2. Machinery and Equipment 
+Purchased Details 
+04 
+1. The PBX facility   

@@ -1,0 +1,17 @@
+export const patientAppointmentFieldAttributes = {
+    NIC: "",
+    address: "",
+    areas_of_specialization: "",
+    date: "",
+    doctor_first_name: "",
+    doctor_id: "",
+    doctor_last_name: "",
+    email: "",
+    id: "",
+    slot: 0,
+    user_id: "",
+    patient_first_name: "",
+    patient_last_name: "",
+    phone: "",
+    branch_id: "",
+};

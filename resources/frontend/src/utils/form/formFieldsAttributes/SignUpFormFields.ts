@@ -1,0 +1,15 @@
+export const SignUpFormFieldsAttributes = {
+    first_name: "",
+    last_name: "",
+    phone: "",
+    NIC: "",
+    email: "",
+    address: "",
+    city: "",
+    date_of_birth: "",
+    gender: "",
+    blood_type: "",
+    emergency_contact_name: "",
+    emergency_contact_phone: "",
+    branch_id: "",
+};

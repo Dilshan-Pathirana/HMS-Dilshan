@@ -1,0 +1,44 @@
+# Composer dependencies
+/vendor/
+
+# Node.js dependencies
+/node_modules/
+
+# Environment files
+.env
+.env.backup
+
+# IDE directories
+.idea/
+.vscode/
+
+# Log files
+*.log
+/storage/logs/*.log
+
+# Compiled assets
+/public/build/
+/public/hot
+
+# Storage files
+/storage/app/public
+/storage/framework/cache/data/
+/storage/framework/sessions/
+/storage/framework/views/
+
+# Temporary files
+.DS_Store
+# Test files
+.phpunit.result.cache
+/tests/
+test_*.php
+check_*.php
+debug_*.php
+create_test_notification.php
+
+# Documentation
+*.md
+*.pdf
+
+# Dev helper scripts
+*.ps1

@@ -1,0 +1,17 @@
+export const pharmacy_product_create_form_initial_state = {
+    item_code: "",
+    item_name: "",
+    generic_name: "",
+    brand_name: "",
+    category: "",
+    subcategory: "",
+    description: "",
+    dosage_form: "",
+    strength: "",
+    current_stock: 0,
+    unit_price: 0,
+    bulk_price: 0,
+    manufacture_date: "",
+    expiry_date: "",
+    product_image: undefined,
+};

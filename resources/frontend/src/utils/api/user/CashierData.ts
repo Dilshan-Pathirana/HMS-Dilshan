@@ -1,0 +1,23 @@
+export const cashier_create_form_initial_state = {
+    first_name: "",
+    last_name: "",
+    branch_id: "",
+    gender: "",
+    nic_number: "",
+    date_of_birth: "",
+    contact_number_mobile: "",
+    contact_number_landline: "",
+    email: "",
+    home_address: "",
+    emergency_contact_info: "",
+    photo: null,
+    nic_photo: null,
+    qualifications: "",
+    years_of_experience: "",
+    joining_date: "",
+    contract_type: "",
+    contract_duration: "",
+    compensation_package: "",
+    basic_salary: "",
+    password: ""
+};

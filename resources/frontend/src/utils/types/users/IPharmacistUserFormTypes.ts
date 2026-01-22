@@ -1,0 +1,61 @@
+export interface IPharmacistUserFormTypes {
+    first_name: string;
+    last_name: string;
+    branch_id: string;
+    date_of_birth: string;
+    gender: string;
+    nic_number: string;
+    contact_number_mobile: string;
+    contact_number_landline: string;
+    email: string;
+    home_address: string;
+    emergency_contact_info: string;
+    photo: File | null;
+    nic_photo: File | null;
+    pharmacist_registration_number: string;
+    qualifications: string;
+    work_experience: string;
+    years_of_experience: string;
+    previous_employment: string;
+    license_validity_date: string;
+    joining_date: string;
+    contract_type: string;
+    contract_duration: string;
+    probation_start_date: string;
+    probation_end_date: string;
+    compensation_package: string;
+    basic_salary: string;
+    password: string;
+}
+
+export interface IPharmacistUserDetails {
+    id: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    role_as: number;
+    pharmacists_user_id: string;
+    pharmacists_branch_id: string;
+    pharmacists_date_of_birth: string;
+    pharmacists_gender: string;
+    pharmacists_nic_number: string;
+    pharmacists_contact_number_mobile: string;
+    pharmacists_contact_number_landline: string;
+    pharmacists_email: string;
+    pharmacists_home_address: string;
+    pharmacists_emergency_contact_info: string;
+    pharmacists_photo: string;
+    pharmacists_nic_photo: string;
+    pharmacists_pharmacist_registration_number: string | null;
+    pharmacists_qualifications: string;
+    pharmacists_years_of_experience: number;
+    pharmacists_joining_date: string;
+    pharmacists_employee_id: string;
+    pharmacists_contract_type: string;
+    pharmacists_contract_duration: string;
+    pharmacists_compensation_package: string;
+    pharmacists_probation_start_date: string;
+    pharmacists_probation_end_date: string;
+    pharmacists_license_validity_date: string;
+    pharmacists_previous_employment: string;
+}

@@ -1,0 +1,40 @@
+name: Run Tests
+
+on: [push]
+
+jobs:
+  tests:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code
+      - uses: actions/checkout@v3
+
+      # Step 2: Setup PHP with necessary extensions
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
+          coverage: none
+
+      # Step 3: Install PHP dependencies using Composer
+      - name: Run Composer Install
+        run: composer install
+
+      # Step 4: Prepare Laravel Application with conditional .env check
+      - name: Prepare Laravel Application
+        run: |
+          if [ -f .env.ci ]; then
+            cp .env.ci .env;
+          else
+            cp .env.example .env;
+          fi
+          php artisan key:generate
+          php artisan config:cache
+          php artisan migrate --force
+
+      # Step 5: Run Tests
+      - name: Run Tests
+        run: php artisan test --testsuite=Feature

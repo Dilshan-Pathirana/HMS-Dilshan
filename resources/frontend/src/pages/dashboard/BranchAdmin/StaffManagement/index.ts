@@ -1,0 +1,13 @@
+export { StaffManagementDashboard } from './StaffManagementDashboard';
+export { StaffProfiles } from './StaffProfiles';
+export { AddStaff } from './AddStaff';
+export { StaffScheduling } from './StaffScheduling';
+export { LeaveManagement } from './LeaveManagement';
+export { AttendanceMonitoring } from './AttendanceMonitoring';
+export { TrainingDevelopment } from './TrainingDevelopment';
+export { PayrollManagement } from './PayrollManagement';
+export { ComplianceLegal } from './ComplianceLegal';
+export { StaffCommunication } from './StaffCommunication';
+export { EmployeeRecords } from './EmployeeRecords';
+export { StaffFeedback } from './StaffFeedback';
+export { StaffReports } from './StaffReports';

@@ -1,0 +1,100 @@
+import { IBranchFormDataProps } from "../../types/Branch/IBranchData.ts";
+
+export const centerTypes: string[] = [
+    "Cardiology Clinic",
+    "Dermatology Clinic",
+    "Orthopedic Clinic",
+    "Pediatrics Clinic",
+    "Gynecology and Obstetrics Clinic",
+    "Neurology Clinic",
+    "Endocrinology Clinic",
+    "Oncology Clinic",
+    "Ophthalmology Clinic",
+    "Gastroenterology Clinic",
+    "Pulmonology Clinic",
+    "Urology Clinic",
+    "Nephrology Clinic",
+    "Rheumatology Clinic",
+    "Infectious Diseases Clinic",
+    "ENT (Ear, Nose, Throat) Clinic",
+    "Allergy and Immunology Clinic",
+    "Psychiatry and Mental Health Clinic",
+    "Pain Management Clinic",
+    "Reproductive Health and Fertility Clinic",
+];
+
+export const ownerTypes: string[] = ["Public", "Private", "Corporate-owned"];
+
+export const branchFormInitialState = {
+    center_name: "",
+    register_number: "",
+    register_document: null,
+    center_type: "",
+    owner_type: "",
+    owner_full_name: "",
+    owner_id_number: "",
+    owner_contact_number: "",
+    division: "",
+    division_number: "",
+};
+
+export const branch_list_data: IBranchFormDataProps[] = [
+    {
+        center_name: "Alpha Center",
+        register_number: "12345",
+        center_type: "Private",
+        owner_type: "Individual",
+        owner_full_name: "John Doe",
+        owner_id_number: "ID001",
+        owner_contact_number: "555-1234",
+        division: "Kurunegala",
+    },
+    {
+        center_name: "Beta Center",
+        register_number: "23456",
+        center_type: "Public",
+        owner_type: "Corporate",
+        owner_full_name: "Jane Smith",
+        owner_id_number: "ID002",
+        owner_contact_number: "555-2345",
+        division: "Kurunegala",
+    },
+    {
+        center_name: "Gamma Center",
+        register_number: "34567",
+        center_type: "Private",
+        owner_type: "Individual",
+        owner_full_name: "James Bond",
+        owner_id_number: "ID003",
+        owner_contact_number: "555-3456",
+        division: "Kurunegala",
+    },
+    {
+        center_name: "Delta Center",
+        register_number: "45678",
+        center_type: "Public",
+        owner_type: "Government",
+        owner_full_name: "Tony Stark",
+        owner_id_number: "ID004",
+        owner_contact_number: "555-4567",
+        division: "Kurunegala",
+    },
+    {
+        center_name: "Epsilon Center",
+        register_number: "56789",
+        center_type: "Private",
+        owner_type: "Individual",
+        owner_full_name: "Bruce Wayne",
+        owner_id_number: "ID005",
+        owner_contact_number: "555-5678",
+        division: "Kurunegala",
+    },
+];
+
+export const branchTableColumns = [
+    { header: "Center Name", accessor: "center_name" },
+    { header: "Reg No", accessor: "register_number" },
+    { header: "Type", accessor: "center_type" },
+    { header: "Owner Name", accessor: "owner_full_name" },
+    { header: "Contact No", accessor: "owner_contact_number" },
+];
