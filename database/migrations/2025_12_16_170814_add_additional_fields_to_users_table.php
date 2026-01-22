@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('nic')->nullable()->unique()->after('phone');
             $table->date('date_of_birth')->nullable()->after('nic');
             $table->string('gender')->nullable()->after('date_of_birth');
-            $table->foreignId('branch_id')->nullable()->constrained('branches')->onDelete('set null')->after('gender');
+            $table->foreignUuid('branch_id')->nullable()->constrained('branches')->onDelete('set null')->after('gender');
             $table->text('address')->nullable()->after('branch_id');
             $table->string('user_type')->nullable()->after('address');
             $table->string('photo')->nullable()->after('user_type');

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('pharmacies', function (Blueprint $table) {
             $table->dropForeign(['branch_id']);
-            $table->foreignId('branch_id')->nullable()->change()->constrained('branches')->onDelete('set null');
+            $table->foreignUuid('branch_id')->nullable()->change()->constrained('branches')->onDelete('set null');
         });
     }
 
@@ -24,7 +24,7 @@ return new class extends Migration
     {
         Schema::table('pharmacies', function (Blueprint $table) {
             $table->dropForeign(['branch_id']);
-            $table->foreignId('branch_id')->nullable(false)->change()->constrained('branches')->onDelete('cascade');
+            $table->foreignUuid('branch_id')->nullable(false)->change()->constrained('branches')->onDelete('cascade');
         });
     }
 };

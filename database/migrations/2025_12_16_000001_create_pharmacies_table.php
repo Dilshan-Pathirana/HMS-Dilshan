@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('pharmacies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('branch_id')->constrained('branches')->onDelete('cascade');
+            $table->foreignUuid('branch_id')->constrained('branches')->onDelete('cascade');
             $table->string('pharmacy_name', 100);
             $table->string('pharmacy_code', 20)->unique();
             $table->string('license_number', 50)->unique();
