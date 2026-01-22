@@ -50,18 +50,18 @@ jobs:
 
       - name: Verify Build Output
         run: |
-          if [ ! -d "resources/frontend/dist" ]; then
+          if [ ! -d "public/build" ]; then
             echo "Error: Build output directory not found!"
             exit 1
           fi
           echo "Build output exists. Contents:"
-          ls -la resources/frontend/dist/
+          ls -la public/build/
 
       - name: Upload Frontend Build for Deployment
         uses: actions/upload-artifact@v4
         with:
           name: frontend-dist
-          path: resources/frontend/dist/
+          path: public/build/
           if-no-files-found: error
           retention-days: 1
 
