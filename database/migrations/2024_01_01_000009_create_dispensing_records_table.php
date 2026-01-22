@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('dispensing_records', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('prescription_id');
-            $table->unsignedBigInteger('patient_id');
+            $table->uuid('patient_id');
             $table->unsignedBigInteger('medication_id');
             $table->integer('quantity_dispensed');
             $table->uuid('dispensed_by'); // pharmacist user_id
