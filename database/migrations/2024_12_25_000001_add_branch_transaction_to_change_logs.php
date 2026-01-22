@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::table('change_logs', function (Blueprint $table) {
             // Add branch_id for branch-specific audit tracking
-            $table->unsignedBigInteger('branch_id')->nullable()->after('user_id');
+            $table->uuid('branch_id')->nullable()->after('user_id');
             
             // Add transaction_id for linking to billing transactions
-            $table->unsignedBigInteger('transaction_id')->nullable()->after('entity_id');
+            $table->uuid('transaction_id')->nullable()->after('entity_id');
             
             // Add module field for categorizing actions
             $table->string('module', 50)->nullable()->after('action');
