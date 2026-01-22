@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('doctor_schedules', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('doctor_id');
+            $table->uuid('doctor_id');
             $table->unsignedBigInteger('center_id');
             $table->date('date');
             $table->time('start_time');
