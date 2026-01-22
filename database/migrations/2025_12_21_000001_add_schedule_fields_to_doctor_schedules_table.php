@@ -16,7 +16,7 @@ return new class extends Migration
                 $table->time('end_time')->nullable()->after('start_time');
             }
             if (!Schema::hasColumn('doctor_schedules', 'time_per_patient')) {
-                $table->integer('time_per_patient')->default(15)->after('max_patients');
+                $table->integer('time_per_patient')->default(15)->after('max_sessions');
             }
             if (!Schema::hasColumn('doctor_schedules', 'status')) {
                 $table->string('status')->default('active')->after('time_per_patient');
