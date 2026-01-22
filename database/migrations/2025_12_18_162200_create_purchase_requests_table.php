@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('pr_number')->unique(); // PR-YYMMDD-0001
             $table->uuid('branch_id');
-            $table->uuid('pharmacy_id')->nullable();
+            $table->unsignedBigInteger('pharmacy_id')->nullable();
             $table->uuid('created_by'); // pharmacist user id
             $table->enum('priority', ['Normal', 'Urgent', 'Emergency'])->default('Normal');
             $table->enum('status', ['Draft', 'Pending', 'Approved', 'Rejected', 'Converted'])->default('Draft');

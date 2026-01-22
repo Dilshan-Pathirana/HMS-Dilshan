@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('grn_number')->unique(); // GRN-YYMMDD-0001
             $table->uuid('purchase_order_id');
             $table->uuid('branch_id');
-            $table->uuid('pharmacy_id')->nullable();
+            $table->unsignedBigInteger('pharmacy_id')->nullable();
             $table->uuid('received_by'); // pharmacist user id
             $table->date('received_date');
             $table->string('supplier_invoice_number')->nullable();

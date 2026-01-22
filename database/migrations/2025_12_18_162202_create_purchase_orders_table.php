@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('po_number')->unique(); // PO-YYMMDD-0001
             $table->uuid('purchase_request_id')->nullable();
             $table->uuid('branch_id');
-            $table->uuid('pharmacy_id')->nullable();
+            $table->unsignedBigInteger('pharmacy_id')->nullable();
             $table->uuid('supplier_id');
             $table->uuid('created_by');
             $table->enum('status', ['Draft', 'Sent', 'Confirmed', 'Partially_Delivered', 'Fully_Delivered', 'Closed', 'Cancelled'])->default('Draft');
