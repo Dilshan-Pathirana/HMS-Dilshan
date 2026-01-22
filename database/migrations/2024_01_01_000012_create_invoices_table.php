@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('session_id')->nullable();
-            $table->unsignedBigInteger('patient_id');
+            $table->uuid('patient_id');
             $table->unsignedBigInteger('center_id');
             $table->date('invoice_date');
             $table->decimal('subtotal', 10, 2);

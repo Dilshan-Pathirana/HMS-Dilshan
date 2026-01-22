@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('invoice_id');
             $table->unsignedBigInteger('session_id')->nullable();
-            $table->unsignedBigInteger('patient_id');
+            $table->uuid('patient_id');
             $table->unsignedBigInteger('center_id');
             $table->decimal('amount', 10, 2);
             $table->enum('payment_method', [

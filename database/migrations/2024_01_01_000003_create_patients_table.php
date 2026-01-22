@@ -9,19 +9,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('patients', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('first_name', 50);
             $table->string('last_name', 50);
             $table->string('email', 100)->nullable();
-            $table->string('phone_number', 20);
-            $table->date('date_of_birth');
-            $table->enum('gender', ['male', 'female', 'other']);
-            $table->text('address');
-            $table->string('city', 50);
+            $table->string('phone_number', 20)->nullable();
+            $table->date('date_of_birth')->nullable();
+            $table->enum('gender', ['male', 'female', 'other'])->nullable();
+            $table->text('address')->nullable();
+            $table->string('city', 50)->nullable();
             $table->string('state', 50)->nullable();
             $table->string('zip_code', 10)->nullable();
-            $table->string('unique_registration_number', 50)->unique();
-            $table->unsignedBigInteger('center_id');
+            $table->string('unique_registration_number', 50)->unique()->nullable();
+            $table->unsignedBigInteger('center_id')->nullable();
             $table->string('emergency_contact_name', 100)->nullable();
             $table->string('emergency_contact_phone', 20)->nullable();
             $table->string('emergency_contact_relation', 50)->nullable();
