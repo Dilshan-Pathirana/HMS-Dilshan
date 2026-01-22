@@ -1,0 +1,135 @@
+name: Deploy to AWS EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-backend:
+    name: Build Backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
+          coverage: none
+
+      - name: Install Composer Dependencies
+        run: composer install --no-dev --optimize-autoloader --prefer-dist --no-progress
+
+      - name: Cache Configuration
+        run: |
+          cp .env.example .env
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
+
+  build-frontend:
+    name: Build Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install NPM Dependencies
+        run: npm ci
+
+      - name: Build Frontend Assets
+        run: npm run build
+
+  deploy:
+    name: Deploy to EC2
+    needs: [build-backend, build-frontend]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/deploy_key.pem
+          chmod 400 ~/.ssh/deploy_key.pem
+          cat >>~/.ssh/config <<END
+          Host ec2
+            HostName ${{ secrets.EC2_HOST }}
+            User ${{ secrets.EC2_USER }}
+            IdentityFile ~/.ssh/deploy_key.pem
+            StrictHostKeyChecking no
+          END
+
+      - name: Deploy to Server
+        run: |
+          ssh ec2 'bash -s' << 'EOF'
+            set -e
+
+            # Navigate to project directory (Assuming standard location, verify if different)
+            # You might need to change this path if your app is elsewhere
+            APP_DIR="/var/www/html" 
+            
+            # If the directory doesn't exist, we might want to clone it first or assume it's there. 
+            # For this pipeline, assuming we are updating an existing deployment.
+            if [ ! -d "$APP_DIR" ]; then
+              echo "Project directory not found at $APP_DIR. Please ensure the repo is cloned there."
+              exit 1
+            fi
+
+            cd $APP_DIR
+
+            # Pull latest changes
+            echo "Pulling latest code..."
+            git pull origin main
+
+            # Install Backend Dependencies
+            echo "Installing composer dependencies..."
+            composer install --no-dev --optimize-autoloader
+
+            # Install Frontend Dependencies and Build
+            echo "Building frontend..."
+            npm install
+            npm run build
+
+            # Run Migrations
+            echo "Running migrations..."
+            # Ensure DB_PASSWORD is set if pulling from repo env or passed as secret
+            # If relying on .env file on server, this is fine.
+            php artisan migrate --force
+
+            # Optimize Cache
+            echo "Optimizing cache..."
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+
+            # Set Permissions
+            echo "Setting permissions..."
+            sudo chown -R www-data:www-data storage bootstrap/cache
+            sudo chmod -R 775 storage bootstrap/cache
+
+            # Restart Services
+            echo "Restarting Nginx..."
+            sudo systemctl restart nginx
+
+            # Restart Supervisor Workers (Optional but recommended)
+            echo "Restarting queue workers..."
+            # Check if supervisor is running first to avoid errors if not configured
+            if systemctl is-active --quiet supervisor; then
+               sudo supervisorctl restart all
+            else
+               echo "Supervisor not running, skipping worker restart."
+            fi
+
+            echo "Deployment finished successfully!"
+          EOF

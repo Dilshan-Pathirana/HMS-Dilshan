@@ -42,3 +42,5 @@ create_test_notification.php
 
 # Dev helper scripts
 *.ps1
+hms-ec2-keypair-IMPORTANT.pem
+req.txt
