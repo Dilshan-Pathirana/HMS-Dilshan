@@ -110,12 +110,12 @@ const UserTable = () => {
         if (selectedRole.length > 0 && selectedRole[0]) {
             filteringUser = filteringUser.filter((user: IUserData) => {
                 const selectedValue = selectedRole[0].value;
-                
+
                 // Check if filtering by role_as (numeric values 1-8)
                 if (['1', '2', '3', '4', '5', '6', '7', '8'].includes(selectedValue)) {
                     return user.role_as?.toString() === selectedValue;
                 }
-                
+
                 // Otherwise filter by user_type (string values like "IT Assistant", "Branch Admin", etc.)
                 return user.user_type === selectedValue;
             });
@@ -128,10 +128,8 @@ const UserTable = () => {
         try {
             setIsLoading(true);
             const response = await getAllUsers();
-            console.log("API Response:", response);
-            console.log("Response Data:", response.data);
+
             const { users } = response.data;
-            console.log("Users from API:", users);
             if (users) {
                 setUsers(users);
             } else {
@@ -164,9 +162,18 @@ const UserTable = () => {
     };
 
     const fetchAllBranches = async () => {
-        const response = await getAllBranches();
-
-        setBranches(response.data.branches);
+        try {
+            const response = await getAllBranches();
+            if (response && response.data && Array.isArray(response.data.branches)) {
+                setBranches(response.data.branches);
+            } else {
+                setBranches([]);
+                console.warn("Invalid branches response format", response);
+            }
+        } catch (error) {
+            console.error("Error fetching branches:", error);
+            setBranches([]);
+        }
     };
 
     const handlePageChange = (newPage: number) => {
@@ -174,6 +181,11 @@ const UserTable = () => {
     };
 
     const branchCreateForSelector = (): void => {
+        if (!branches || !Array.isArray(branches)) {
+            setBranchDropDownOptions([]);
+            return;
+        }
+
         const branchOptions = branches.map((branch) => ({
             label: `${branch.center_name}`,
             value: branch.id,

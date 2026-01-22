@@ -40,7 +40,7 @@ const UserTableFilterSection: React.FC<UserTableFilterSectionProps> = ({
                 </label>
                 <div className="relative">
                     <MultiSelect
-                        options={branchDropDownOptions}
+                        options={branchDropDownOptions || []}
                         value={selectedBranch}
                         onChange={(selected: MultiSelectOption[]) => {
                             setSelectedBranch(selected.slice(-1));
@@ -65,7 +65,7 @@ const UserTableFilterSection: React.FC<UserTableFilterSectionProps> = ({
                 </label>
                 <div className="relative">
                     <MultiSelect
-                        options={roleDropDownOptions}
+                        options={roleDropDownOptions || []}
                         value={selectedRole}
                         onChange={(selected: MultiSelectOption[]) => {
                             setSelectedRole(selected.slice(-1));

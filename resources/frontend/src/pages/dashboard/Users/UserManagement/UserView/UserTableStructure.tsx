@@ -116,14 +116,14 @@ const UserTableStructure: React.FC<UserTableStructureProps> = ({
                 <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
                     <thead className="bg-gray-50">
                         <tr>
-                            {UserTableHeader.map((header) => (
+                            {UserTableHeader && Array.isArray(UserTableHeader) ? UserTableHeader.map((header) => (
                                 <th
                                     key={header}
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                 >
                                     {header}
                                 </th>
-                            ))}
+                            )) : null}
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Action
                             </th>
@@ -196,9 +196,9 @@ const UserTableStructure: React.FC<UserTableStructureProps> = ({
             )}
             {openDeleteModal && (
                 <UserDeleteViewModal onClose={DeleteCloseModal}
-                                     userId={selectedUser.id}
-                                     roleAs={selectedUser.roleAs}
-                                     onSuccess={handleDeleteSuccess}
+                    userId={selectedUser.id}
+                    roleAs={selectedUser.roleAs}
+                    onSuccess={handleDeleteSuccess}
                 />
             )}
             {openResignationModal && (

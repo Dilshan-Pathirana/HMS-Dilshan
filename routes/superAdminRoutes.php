@@ -178,12 +178,25 @@ Route::delete('/delete-patient-user/{user_id}', function ($user_id) use ($valida
     return app(PatientController::class)->deletepatient($user_id, app(\App\Action\Users\PatientUser\DeleteExistingpatientUser::class));
 });
 
+// All User routes with manual token validation
+Route::get('/get-all-users', function () use ($validateSuperAdminToken) {
+    $result = $validateSuperAdminToken();
+    if (isset($result['error'])) return $result['error'];
+    return app(AllUserController::class)->getAllUsers(app(\App\Action\User\AllUser\GetAllUsers::class));
+});
+
+Route::get('/get-doctors', function () use ($validateSuperAdminToken) {
+    $result = $validateSuperAdminToken();
+    if (isset($result['error'])) return $result['error'];
+    return app(DoctorController::class)->getDoctorsDetails();
+});
+
 Route::middleware(['auth:sanctum', SuperAdminCheckMiddleware::class])->group(function () {
     Route::post('sign-out-admin', [UsersController::class, 'userSignOut']);
 
     // Doctor
     Route::post('/create-doctor', [DoctorController::class, 'createDoctor']);
-    Route::get('/get-doctors', [DoctorController::class, 'getDoctorsDetails']);
+    // Route::get('/get-doctors', [DoctorController::class, 'getDoctorsDetails']); // Moved to manual validation
     Route::put('/update-doctor-user/{user_id}', [DoctorController::class, 'updateDoctor']);
     // delete route moved outside middleware group with manual token validation
 
@@ -239,7 +252,7 @@ Route::middleware(['auth:sanctum', SuperAdminCheckMiddleware::class])->group(fun
     // delete route moved outside middleware group with manual token validation
 
     //AllUser
-    Route::get('/get-all-users', [AllUserController::class, 'getAllUsers']);
+    // Route::get('/get-all-users', [AllUserController::class, 'getAllUsers']); // DATE: 2026-01-22 - Moved to manual validation
     Route::get('/get-all-users-with-salary', [AllUserController::class, 'getAllUsersWithSalary']);
     Route::get('/get-users-details-for-update/{userId}', [AllUserController::class, 'getUserDetailsForUpdate']);
 
