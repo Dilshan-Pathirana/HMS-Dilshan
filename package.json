@@ -35,6 +35,7 @@
         "react-multi-select-component": "^4.3.4",
         "react-select": "^5.10.2",
         "react-slick": "^0.31.0",
+        "react-spinners": "^0.17.0",
         "recharts": "^3.6.0",
         "slick-carousel": "^1.8.1",
         "sweetalert2": "^11.26.17",
