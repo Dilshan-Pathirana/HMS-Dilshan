@@ -27,7 +27,7 @@ jobs:
         run: |
           php artisan config:cache
           php artisan route:cache
-          php artisan view:cache || true # prevent fail if views dir missing
+          php artisan view:cache || true
 
   build-frontend:
     name: Build Frontend
@@ -48,6 +48,12 @@ jobs:
       - name: Build Frontend Assets
         run: npm run build
 
+      - name: Upload Frontend Build for Deployment
+        uses: actions/upload-artifact@v3
+        with:
+          name: frontend-dist
+          path: resources/frontend/dist/
+
   deploy:
     name: Deploy to EC2
     needs: [build-backend, build-frontend]
@@ -56,10 +62,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Download Frontend Build
+        uses: actions/download-artifact@v3
+        with:
+          name: frontend-dist
+          path: ./frontend-dist
+
       - name: Configure SSH Key
         run: |
           mkdir -p ~/.ssh
-          # Convert single-line secret with \n back to proper PEM
+          # Restore multi-line PEM from GitHub secret
           echo -e "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/deploy_key.pem
           chmod 400 ~/.ssh/deploy_key.pem
 
@@ -73,13 +85,14 @@ jobs:
             StrictHostKeyChecking no
           EOF
 
-      - name: Deploy to EC2
+      - name: Deploy Backend & Frontend to EC2
         run: |
           ssh -o StrictHostKeyChecking=no ec2 'bash -s' <<'EOF'
             set -e
 
             APP_DIR="/var/www/hms-app"
 
+            # Clone repo if not exists
             if [ ! -d "$APP_DIR" ]; then
               echo "Project directory not found at $APP_DIR. Cloning repo..."
               git clone git@github.com:Dilshan-Pathirana/HMS-Dilshan.git "$APP_DIR"
@@ -94,10 +107,6 @@ jobs:
             echo "Installing backend dependencies..."
             composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
-            echo "Installing frontend dependencies..."
-            npm install --legacy-peer-deps
-            npm run build || true # don't fail if build fails, optional for debug
-
             echo "Running migrations..."
             php artisan migrate --force
 
@@ -106,9 +115,12 @@ jobs:
             php artisan route:cache
             php artisan view:cache || true
 
+            echo "Deploying frontend assets..."
+            rsync -avz --delete ./frontend-dist/ /var/www/hms-app/public/
+
             echo "Setting permissions..."
-            sudo chown -R www-data:www-data storage bootstrap/cache
-            sudo chmod -R 775 storage bootstrap/cache
+            sudo chown -R www-data:www-data storage bootstrap/cache public
+            sudo chmod -R 775 storage bootstrap/cache public
 
             echo "Restarting Nginx..."
             sudo systemctl restart nginx
