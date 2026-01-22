@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('deletion_logs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->uuid('user_id');
             $table->string('entity_type', 50);
             $table->unsignedBigInteger('entity_id');
             $table->text('deleted_data'); // JSON - preserve all data

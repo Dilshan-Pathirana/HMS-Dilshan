@@ -11,11 +11,11 @@ return new class extends Migration
         Schema::create('salary_disbursements', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('payroll_id');
-            $table->unsignedBigInteger('employee_id');
+            $table->uuid('employee_id');
             $table->decimal('amount', 10, 2);
             $table->enum('payment_method', ['cash', 'bank_transfer', 'check', 'online']);
             $table->string('transaction_id', 100)->nullable();
-            $table->unsignedBigInteger('disbursed_by');
+            $table->uuid('disbursed_by');
             $table->timestamp('disbursement_date');
             $table->enum('status', ['pending', 'completed', 'failed'])->default('completed');
             $table->text('notes')->nullable();

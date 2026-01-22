@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('mfa_tokens', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->uuid('user_id');
             $table->string('token', 100); // Unique token identifier
             $table->string('code', 10); // OTP code
             $table->timestamp('expires_at');

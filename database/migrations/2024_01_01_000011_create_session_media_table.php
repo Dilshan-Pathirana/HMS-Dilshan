@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('file_name', 100)->nullable();
             $table->integer('file_size')->nullable(); // in KB
             $table->text('description')->nullable();
-            $table->unsignedBigInteger('uploaded_by');
+            $table->uuid('uploaded_by');
             $table->timestamp('upload_date');
             $table->timestamps();
 

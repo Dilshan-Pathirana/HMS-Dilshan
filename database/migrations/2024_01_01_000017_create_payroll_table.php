@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('payroll', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('employee_id');
+            $table->uuid('employee_id');
             $table->unsignedBigInteger('center_id');
             $table->string('period', 7); // YYYY-MM format
             $table->decimal('base_salary', 10, 2);

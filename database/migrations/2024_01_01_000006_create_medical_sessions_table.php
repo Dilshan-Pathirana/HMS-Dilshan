@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('appointment_id');
             $table->unsignedBigInteger('patient_id');
-            $table->unsignedBigInteger('doctor_id');
+            $table->uuid('doctor_id');
             $table->unsignedBigInteger('center_id');
             $table->date('session_date');
             $table->time('session_time');

@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('change_logs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->uuid('user_id');
             $table->string('entity_type', 50); // patients, medications, appointments, etc.
             $table->unsignedBigInteger('entity_id');
             $table->string('action', 50); // create, update, delete

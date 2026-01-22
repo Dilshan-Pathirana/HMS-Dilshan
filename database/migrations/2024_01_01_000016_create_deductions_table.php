@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('deductions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('employee_id');
+            $table->uuid('employee_id');
             $table->decimal('amount', 10, 2);
             $table->string('deduction_type', 50); // tax, insurance, loan, advance
             $table->text('reason')->nullable();

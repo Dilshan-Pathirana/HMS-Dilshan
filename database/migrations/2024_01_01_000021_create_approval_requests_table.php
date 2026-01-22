@@ -10,13 +10,13 @@ return new class extends Migration
     {
         Schema::create('approval_requests', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('requested_by');
+            $table->uuid('requested_by');
             $table->string('action', 50); // delete_patient, update_medication_price, etc.
             $table->string('entity_type', 50);
             $table->text('request_data'); // JSON
             $table->text('reason');
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
-            $table->unsignedBigInteger('approved_by')->nullable();
+            $table->uuid('approved_by')->nullable();
             $table->text('approval_notes')->nullable();
             $table->timestamp('requested_at');
             $table->timestamp('approved_at')->nullable();

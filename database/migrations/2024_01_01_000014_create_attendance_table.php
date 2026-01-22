@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('attendance', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('employee_id');
+            $table->uuid('employee_id');
             $table->date('attendance_date');
             $table->time('check_in_time')->nullable();
             $table->time('check_out_time')->nullable();

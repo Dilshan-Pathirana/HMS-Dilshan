@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('session_id');
             $table->unsignedBigInteger('patient_id');
-            $table->unsignedBigInteger('doctor_id');
+            $table->uuid('doctor_id');
             $table->unsignedBigInteger('medication_id');
             $table->string('dosage', 100); // e.g., "1 tablet"
             $table->string('frequency', 100); // e.g., "3 times daily"

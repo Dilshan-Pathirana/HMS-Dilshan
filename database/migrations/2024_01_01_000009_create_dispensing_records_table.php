@@ -14,7 +14,7 @@ return new class extends Migration
             $table->unsignedBigInteger('patient_id');
             $table->unsignedBigInteger('medication_id');
             $table->integer('quantity_dispensed');
-            $table->unsignedBigInteger('dispensed_by'); // pharmacist user_id
+            $table->uuid('dispensed_by'); // pharmacist user_id
             $table->timestamp('dispense_date');
             $table->text('notes')->nullable();
             $table->timestamps();
