@@ -16,11 +16,12 @@ return new class extends Migration
             $table->string('phone', 20)->nullable()->after('email');
             $table->string('name', 255)->nullable()->after('last_name');
             $table->string('nic', 20)->nullable()->after('phone');
-            $table->string('blood_type', 5)->nullable()->after('blood_group');
+            if (!Schema::hasColumn('patients', 'blood_type')) {
+                $table->string('blood_type', 5)->nullable()->after('blood_group');
+            }
             $table->string('emergency_contact', 20)->nullable()->after('emergency_contact_phone');
             $table->unsignedBigInteger('registered_by')->nullable()->after('is_active');
             $table->integer('age')->nullable()->after('date_of_birth');
-            
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });
     }

@@ -13,14 +13,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create Super Admin User
-        $superAdmin = User::create([
-            'first_name' => 'Super',
-            'last_name' => 'Admin',
-            'email' => 'admin@hospital.com',
-            'password' => Hash::make('password'),
-            'role_as' => 1, // Super Admin role
-        ]);
+        // Create or update Super Admin User
+        $superAdmin = User::updateOrCreate(
+            ['email' => 'admin@hospital.com'],
+            [
+                'first_name' => 'Super',
+                'last_name' => 'Admin',
+                'password' => Hash::make('password'),
+                'role_as' => 1, // Super Admin role
+            ]
+        );
 
         echo "✅ Super Admin created:\n";
         echo "   Email: admin@hospital.com\n";

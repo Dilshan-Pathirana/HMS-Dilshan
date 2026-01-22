@@ -9,7 +9,7 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     * 
+     *
      * This fixes the id and user_id columns in patients table to accept UUID strings
      * since both Patient and User models use HasUuids trait.
      */
@@ -17,10 +17,10 @@ return new class extends Migration
     {
         // SQLite doesn't support ALTER COLUMN, so we need to recreate the table
         DB::statement('PRAGMA foreign_keys = OFF');
-        
+
         // Rename the old table
         DB::statement('ALTER TABLE patients RENAME TO patients_old');
-        
+
         // Create new table with correct column types (UUID compatible)
         // Columns must be in exact order to match the original for data copy
         Schema::create('patients', function (Blueprint $table) {
@@ -52,18 +52,20 @@ return new class extends Migration
             $table->string('phone', 20)->nullable();
             $table->string('name', 255)->nullable();
             $table->string('nic', 20)->nullable();
-            $table->string('blood_type', 5)->nullable();
+            if (!Schema::hasColumn('patients', 'blood_type')) {
+                $table->string('blood_type', 5)->nullable();
+            }
             $table->string('emergency_contact', 20)->nullable();
             $table->integer('registered_by')->nullable();
             $table->integer('age')->nullable();
         });
-        
+
         // Copy all data from old table to new (columns must be in same order)
         DB::statement('INSERT INTO patients SELECT * FROM patients_old');
-        
+
         // Drop old table
         DB::statement('DROP TABLE patients_old');
-        
+
         DB::statement('PRAGMA foreign_keys = ON');
     }
 
