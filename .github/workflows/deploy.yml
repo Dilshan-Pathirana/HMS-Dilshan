@@ -82,9 +82,14 @@ jobs:
       - name: Configure SSH Key
         run: |
           mkdir -p ~/.ssh
-          # Restore multi-line PEM from GitHub secret
-          echo -e "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/deploy_key.pem
+          chmod 700 ~/.ssh
+          # Restore multi-line PEM from GitHub secret (using printf for better handling)
+          printf '%s\n' "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/deploy_key.pem
           chmod 400 ~/.ssh/deploy_key.pem
+          # Verify key format
+          echo "Verifying SSH key format..."
+          head -1 ~/.ssh/deploy_key.pem
+          tail -1 ~/.ssh/deploy_key.pem
 
       - name: Add SSH Config
         run: |
@@ -94,16 +99,43 @@ jobs:
             User ${{ secrets.EC2_USER }}
             IdentityFile ~/.ssh/deploy_key.pem
             StrictHostKeyChecking no
+            UserKnownHostsFile=/dev/null
+            ServerAliveInterval 60
+            ServerAliveCountMax 10
           EOF
+          chmod 600 ~/.ssh/config
+          echo "SSH config created:"
+          cat ~/.ssh/config
 
       - name: Verify Downloaded Artifact
         run: |
           echo "Checking downloaded frontend artifacts:"
           ls -la ./frontend-dist/
+          echo "Total files to transfer:"
+          find ./frontend-dist -type f | wc -l
+          
+      - name: Test SSH Connection
+        run: |
+          echo "Testing SSH connection to EC2..."
+          ssh -v -o ConnectTimeout=10 ec2 'echo "SSH connection successful!"' || {
+            echo "SSH connection failed. Debugging info:"
+            echo "Host: ${{ secrets.EC2_HOST }}"
+            echo "User: ${{ secrets.EC2_USER }}"
+            cat ~/.ssh/deploy_key.pem | head -1
+            exit 1
+          }
+          
+      - name: Prepare Remote Directory
+        run: |
+          echo "Creating remote directory for frontend files..."
+          ssh ec2 'mkdir -p /tmp/frontend-dist-new && echo "Directory created successfully"'
           
       - name: Transfer Frontend Build to EC2
         run: |
-          scp -r ./frontend-dist/* ec2:/tmp/frontend-dist-new/
+          echo "Transferring frontend build to EC2..."
+          scp -v -r ./frontend-dist/* ec2:/tmp/frontend-dist-new/
+          echo "Verifying files were transferred..."
+          ssh ec2 'ls -la /tmp/frontend-dist-new/'
 
       - name: Deploy Backend & Frontend to EC2
         run: |
