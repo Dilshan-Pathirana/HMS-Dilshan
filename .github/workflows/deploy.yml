@@ -48,11 +48,22 @@ jobs:
       - name: Build Frontend Assets
         run: npm run build
 
+      - name: Verify Build Output
+        run: |
+          if [ ! -d "resources/frontend/dist" ]; then
+            echo "Error: Build output directory not found!"
+            exit 1
+          fi
+          echo "Build output exists. Contents:"
+          ls -la resources/frontend/dist/
+
       - name: Upload Frontend Build for Deployment
         uses: actions/upload-artifact@v4
         with:
           name: frontend-dist
           path: resources/frontend/dist/
+          if-no-files-found: error
+          retention-days: 1
 
   deploy:
     name: Deploy to EC2
@@ -85,6 +96,15 @@ jobs:
             StrictHostKeyChecking no
           EOF
 
+      - name: Verify Downloaded Artifact
+        run: |
+          echo "Checking downloaded frontend artifacts:"
+          ls -la ./frontend-dist/
+          
+      - name: Transfer Frontend Build to EC2
+        run: |
+          scp -r ./frontend-dist/* ec2:/tmp/frontend-dist-new/
+
       - name: Deploy Backend & Frontend to EC2
         run: |
           ssh -o StrictHostKeyChecking=no ec2 'bash -s' <<'EOF'
@@ -116,7 +136,12 @@ jobs:
             php artisan view:cache || true
 
             echo "Deploying frontend assets..."
-            rsync -avz --delete ./frontend-dist/ /var/www/hms-app/public/
+            if [ -d "/tmp/frontend-dist-new" ]; then
+              rsync -avz --delete /tmp/frontend-dist-new/ /var/www/hms-app/public/
+              rm -rf /tmp/frontend-dist-new
+            else
+              echo "Warning: Frontend build not found, skipping frontend deployment"
+            fi
 
             echo "Setting permissions..."
             sudo chown -R www-data:www-data storage bootstrap/cache public
