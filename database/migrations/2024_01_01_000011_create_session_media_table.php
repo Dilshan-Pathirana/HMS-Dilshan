@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamp('upload_date');
             $table->timestamps();
 
-            $table->foreign('session_id')->references('id')->on('sessions')->onDelete('cascade');
+            $table->foreign('session_id')->references('id')->on('medical_sessions')->onDelete('cascade');
             $table->foreign('uploaded_by')->references('id')->on('users')->onDelete('restrict');
             
             $table->index('session_id');

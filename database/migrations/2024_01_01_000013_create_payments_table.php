@@ -31,7 +31,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
-            $table->foreign('session_id')->references('id')->on('sessions')->onDelete('set null');
+            $table->foreign('session_id')->references('id')->on('medical_sessions')->onDelete('set null');
             $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
             $table->foreign('center_id')->references('id')->on('medical_centers')->onDelete('cascade');
             

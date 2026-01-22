@@ -21,7 +21,7 @@ return new class extends Migration
             $table->boolean('is_dispensed')->default(false);
             $table->timestamps();
 
-            $table->foreign('session_id')->references('id')->on('sessions')->onDelete('cascade');
+            $table->foreign('session_id')->references('id')->on('medical_sessions')->onDelete('cascade');
             $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
             $table->foreign('doctor_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('medication_id')->references('id')->on('medications')->onDelete('restrict');
