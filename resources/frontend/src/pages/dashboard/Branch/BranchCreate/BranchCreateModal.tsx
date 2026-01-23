@@ -74,7 +74,7 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
 
         try {
             const response = await axios.post(
-                "api/create-branch",
+                "/api/create-branch",
                 formDataToSend,
                 {
                     headers: {
