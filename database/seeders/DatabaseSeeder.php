@@ -49,6 +49,8 @@ class DatabaseSeeder extends Seeder
                 NotificationManagementSeeder::class,
                 ConsultationQuestionBankSeeder::class,
                 DiagnosisMasterSeeder::class,
+                // test credentials seeder
+                TestCredentialsSeeder::class,
             ]);
         } catch (\Exception $e) {
             echo "⚠️  Legacy seeders skipped (some may not exist)\n";
