@@ -152,6 +152,13 @@ jobs:
             sed -i "s/^.*\bDB_DATABASE=.*/DB_DATABASE=${{ secrets.DB_DATABASE }}/" .env
             sed -i "s/^.*\bDB_USERNAME=.*/DB_USERNAME=${{ secrets.DB_USERNAME }}/" .env
             sed -i "s/^.*\bDB_PASSWORD=.*/DB_PASSWORD=${{ secrets.DB_PASSWORD }}/" .env
+            
+            echo "Configuring Vite API URL..."
+            if grep -q "^VITE_API_BASE_URL=" .env; then
+              sed -i "s|^VITE_API_BASE_URL=.*|VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}|" .env
+            else
+              echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> .env
+            fi
 
             echo "Running migrations..."
             php artisan migrate --force
