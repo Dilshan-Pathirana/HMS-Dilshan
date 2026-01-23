@@ -47,6 +47,8 @@ jobs:
 
       - name: Build Frontend Assets
         run: npm run build
+        env:
+          NODE_OPTIONS: "--max-old-space-size=4096"
 
       - name: Verify Build Output
         run: |
