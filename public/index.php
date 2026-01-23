@@ -16,7 +16,7 @@ require __DIR__.'/../vendor/autoload.php';
 $requestUri = $_SERVER['REQUEST_URI'] ?? '/';
 if ($requestUri === '/' || $requestUri === '') {
     http_response_code(200);
-    echo file_get_contents(__DIR__.'/index.html');
+    echo file_get_contents(__DIR__.'/build/index.html');
     exit;
 }
 
