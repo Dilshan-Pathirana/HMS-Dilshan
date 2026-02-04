@@ -1,0 +1,202 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import DoctorFilter from "./DoctorFilter";
+import {
+    Filters,
+    DoctorSchedule,
+} from "../../../utils/types/Appointment/IAppointment.ts";
+import api from "../../../utils/api/axios";
+import Spinner from "../../../assets/Common/Spinner.tsx";
+import { FaStethoscope, FaUserMd } from "react-icons/fa";
+import {
+    groupDoctorSchedulesByTimeSlots,
+    splitAndLimitItems,
+    formatTimeTo12Hour,
+} from "../../../utils/helpers/doctorUtils";
+import ShowMoreTooltip from "../../../utils/components/ShowMoreTooltip";
+import ShowMoreInline from "../../../utils/components/ShowMoreInline";
+
+const DoctorAppointmentManagement: React.FC = () => {
+    const [doctorSchedules, setDoctorSchedules] = useState<DoctorSchedule[]>(
+        [],
+    );
+    const [isLoading, setIsLoading] = useState(false);
+
+    const navigate = useNavigate();
+
+    const handleApplyFilter = async (filters: Filters) => {
+        setIsLoading(true);
+        try {
+            const response = await api.get(
+                "/get-filter-doctor-schedules",
+                {
+                    params: filters,
+                },
+            );
+            if (response.status === 200) {
+                setDoctorSchedules(response.data.doctorSchedules);
+            } else {
+                console.warn(
+                    "Failed to fetch schedules:",
+                    response.data.message,
+                );
+                setDoctorSchedules([]);
+            }
+        } catch (error) {
+            console.error("Error fetching schedules:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleResetFilter = () => {
+        setDoctorSchedules([]);
+    };
+
+    const handleChannelClick = (schedule: DoctorSchedule) => {
+        navigate(`/dashboard/doctor/doctor-schedule-details`, {
+            state: { schedule },
+        });
+    };
+
+    return (
+        <div className="p-4">
+            <h1 className="text-2xl font-bold mb-4">
+                Doctor Appointment Management
+            </h1>
+            {isLoading && (
+                <div className="flex justify-center mt-6">
+                    <Spinner isLoading={isLoading} />
+                </div>
+            )}
+            {!isLoading && (
+                <>
+                    <DoctorFilter
+                        onApplyFilter={handleApplyFilter}
+                        onResetFilter={handleResetFilter}
+                    />
+
+                    <div className="mt-8">
+                        {doctorSchedules.length === 0 ? (
+                            <div className="text-center text-gray-500 mt-10">
+                                No doctor schedules found. Please try adjusting
+                                your search criteria.
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
+                                {groupDoctorSchedulesByTimeSlots(
+                                    doctorSchedules,
+                                ).map((schedule) => (
+                                    <div
+                                        key={`${schedule.user_first_name}-${schedule.user_last_name}-${schedule.branch_center_name}-${schedule.schedule_day}-${schedule.start_time}`}
+                                        className="group flex items-center bg-gradient-to-br from-white via-white to-gray-50 border border-gray-100 hover:border-blue-200 shadow-lg hover:shadow-xl p-6 mt-7 rounded-2xl transition-all duration-300 backdrop-blur-sm"
+                                    >
+                                        <div className="flex items-center space-x-5 flex-grow">
+                                            <div className="relative">
+                                                <div className="w-16 h-16 bg-gradient-to-br from-blue-100 via-blue-50 to-white rounded-2xl flex items-center justify-center flex-shrink-0 shadow-md group-hover:shadow-lg transition-all duration-300 border border-blue-100">
+                                                    <FaUserMd className="text-blue-600 w-9 h-9 group-hover:scale-110 transition-transform duration-300" />
+                                                </div>
+                                                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-white shadow-sm"></div>
+                                            </div>
+
+                                            <div className="text-left flex-grow">
+                                                <h3 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-blue-700 transition-colors duration-300">
+                                                    Dr.{" "}
+                                                    {schedule.user_first_name}{" "}
+                                                    {schedule.user_last_name}
+                                                </h3>
+                                                {schedule.areas_of_specialization && (
+                                                    <div className="flex mb-2 overflow-hidden">
+                                                        {(() => {
+                                                            const {
+                                                                visible,
+                                                                hiddenItems,
+                                                                hiddenCount,
+                                                            } =
+                                                                splitAndLimitItems(
+                                                                    schedule.areas_of_specialization ||
+                                                                        "",
+                                                                    2,
+                                                                );
+                                                            return (
+                                                                <ShowMoreTooltip
+                                                                    visibleText={
+                                                                        visible
+                                                                    }
+                                                                    hiddenItems={
+                                                                        hiddenItems
+                                                                    }
+                                                                    hiddenCount={
+                                                                        hiddenCount
+                                                                    }
+                                                                    uniqueKey={`spec-${schedule.user_first_name}-${schedule.user_last_name}`}
+                                                                />
+                                                            );
+                                                        })()}
+                                                    </div>
+                                                )}
+                                                <p className="text-sm text-gray-600 font-medium mb-1 flex items-center">
+                                                    <span className="w-2 h-2 bg-blue-400 rounded-full mr-2 flex-shrink-0"></span>
+                                                    {(() => {
+                                                        const {
+                                                            visible,
+                                                            hiddenItems,
+                                                            hiddenCount,
+                                                        } = splitAndLimitItems(
+                                                            schedule.branch_center_name ||
+                                                                "",
+                                                            1,
+                                                        );
+                                                        return (
+                                                            <ShowMoreInline
+                                                                visibleText={
+                                                                    visible
+                                                                }
+                                                                hiddenItems={
+                                                                    hiddenItems
+                                                                }
+                                                                hiddenCount={
+                                                                    hiddenCount
+                                                                }
+                                                                uniqueKey={`branch-${schedule.user_first_name}-${schedule.user_last_name}`}
+                                                            />
+                                                        );
+                                                    })()}
+                                                </p>
+                                                <p className="text-sm text-gray-500 flex items-center">
+                                                    <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
+                                                    {schedule.schedule_day} at{" "}
+                                                    {formatTimeTo12Hour(
+                                                        schedule.start_time,
+                                                    )}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div className="ml-auto">
+                                            <button
+                                                className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 hover:from-blue-700 hover:via-blue-800 hover:to-blue-900 text-white text-sm font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2 group/btn border border-blue-500 hover:border-blue-400"
+                                                onClick={() =>
+                                                    handleChannelClick(schedule)
+                                                }
+                                            >
+                                                <div className="absolute inset-0 bg-white opacity-0 group-hover/btn:opacity-10 transition-opacity duration-300"></div>
+                                                <FaStethoscope className="h-4 w-4 relative z-10 group-hover/btn:rotate-12 transition-transform duration-300" />
+                                                <span className="relative z-10">
+                                                    Channel
+                                                </span>
+                                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover/btn:opacity-20 transform -skew-x-12 group-hover/btn:animate-pulse"></div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </>
+            )}
+        </div>
+    );
+};
+
+export default DoctorAppointmentManagement;

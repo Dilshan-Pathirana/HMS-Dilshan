@@ -2,3 +2,2629 @@ aws db pw - S8LAr8t7JtMyQum
 
 ssh -i "hms-ec2" ubuntu@ec2-ip
 trigger
+
+
+
+```App.tsx
+import React, { useState } from 'react'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom'
+import { MainLayout } from './components/layout/MainLayout'
+import { Login } from './pages/Login'
+import { Dashboard } from './pages/Dashboard'
+import { UsersPage } from './pages/Users'
+import { BranchesPage } from './pages/Branches'
+import { AppointmentsPage } from './pages/Appointments'
+import { PatientsPage } from './pages/Patients'
+import { PharmacyPage } from './pages/Pharmacy'
+import { UserRole } from './types'
+// Mock user data
+const mockUser = {
+  name: 'Dr. Sarah Wilson',
+  email: 'sarah.wilson@hospital.com',
+  avatar:
+    'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=300&h=300',
+}
+function AppContent() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [userRole, setUserRole] = useState<UserRole>('super_admin')
+  const location = useLocation()
+  const navigate = useNavigate()
+  const handleLogin = (role: UserRole) => {
+    setUserRole(role)
+    setIsAuthenticated(true)
+    navigate('/dashboard')
+  }
+  const handleLogout = () => {
+    setIsAuthenticated(false)
+    navigate('/login')
+  }
+  const getPageTitle = (path: string) => {
+    if (path.includes('dashboard')) return 'Dashboard'
+    if (path.includes('users')) return 'User Management'
+    if (path.includes('branches')) return 'Branch Management'
+    if (path.includes('appointments')) return 'Appointments'
+    if (path.includes('patients')) return 'Patient Records'
+    if (path.includes('pharmacy')) return 'Pharmacy'
+    return 'Hospital Management'
+  }
+  if (!isAuthenticated) {
+    return (
+      <Routes>
+        <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+    )
+  }
+  return (
+    <MainLayout
+      role={userRole}
+      user={mockUser}
+      currentPath={location.pathname}
+      onNavigate={(path) => navigate(path)}
+      onLogout={handleLogout}
+      title={getPageTitle(location.pathname)}
+    >
+      <Routes>
+        <Route path="/dashboard" element={<Dashboard role={userRole} />} />
+        <Route path="/users" element={<UsersPage />} />
+        <Route path="/branches" element={<BranchesPage />} />
+        <Route path="/appointments" element={<AppointmentsPage />} />
+        <Route path="/patients" element={<PatientsPage />} />
+        <Route path="/pharmacy" element={<PharmacyPage />} />
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      </Routes>
+    </MainLayout>
+  )
+}
+export function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  )
+}
+
+```
+```components/layout/Header.tsx
+import React from 'react'
+import { Bell, Search, Menu } from 'lucide-react'
+import { Input } from '../ui/Input'
+import { Avatar } from '../ui/Avatar'
+interface HeaderProps {
+  title: string
+  user: {
+    name: string
+    avatar?: string
+  }
+  onMenuClick: () => void
+}
+export function Header({ title, user, onMenuClick }: HeaderProps) {
+  return (
+    <header className="sticky top-0 z-30 w-full bg-white/80 backdrop-blur-xl border-b border-white/20 shadow-sm px-4 sm:px-6 py-3">
+      <div className="flex items-center justify-between max-w-7xl mx-auto">
+        <div className="flex items-center gap-4">
+          <button
+            onClick={onMenuClick}
+            className="md:hidden p-2 text-slate-500 hover:bg-slate-100 rounded-lg"
+          >
+            <Menu className="w-6 h-6" />
+          </button>
+          <h1 className="text-xl font-semibold text-slate-900">{title}</h1>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <div className="hidden md:block w-64">
+            <Input
+              placeholder="Search..."
+              leftIcon={<Search className="w-4 h-4" />}
+              className="bg-slate-50/50"
+            />
+          </div>
+
+          <button className="relative p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors">
+            <Bell className="w-5 h-5" />
+            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
+          </button>
+
+          <div className="md:hidden">
+            <Avatar
+              src={user.avatar}
+              initials={user.name.charAt(0)}
+              size="sm"
+            />
+          </div>
+        </div>
+      </div>
+    </header>
+  )
+}
+
+```
+```components/layout/MainLayout.tsx
+import React, { useState } from 'react'
+import { Sidebar } from './Sidebar'
+import { Header } from './Header'
+import { UserRole } from '../../types'
+interface MainLayoutProps {
+  children: React.ReactNode
+  role: UserRole
+  user: {
+    name: string
+    email: string
+    avatar?: string
+  }
+  currentPath: string
+  onNavigate: (path: string) => void
+  onLogout: () => void
+  title: string
+}
+export function MainLayout({
+  children,
+  role,
+  user,
+  currentPath,
+  onNavigate,
+  onLogout,
+  title,
+}: MainLayoutProps) {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  return (
+    <div className="min-h-screen bg-slate-50">
+      <Sidebar
+        role={role}
+        currentPath={currentPath}
+        onNavigate={onNavigate}
+        onLogout={onLogout}
+        user={user}
+      />
+
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div className="fixed inset-0 z-40 md:hidden">
+          <div
+            className="absolute inset-0 bg-slate-900/20 backdrop-blur-sm"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+          <div className="absolute left-0 top-0 h-full w-64 bg-white shadow-xl animate-in slide-in-from-left duration-200">
+            <Sidebar
+              role={role}
+              currentPath={currentPath}
+              onNavigate={(path) => {
+                onNavigate(path)
+                setIsSidebarOpen(false)
+              }}
+              onLogout={onLogout}
+              user={user}
+            />
+          </div>
+        </div>
+      )}
+
+      <div className="md:pl-64 flex flex-col min-h-screen transition-all duration-300">
+        <Header
+          title={title}
+          user={user}
+          onMenuClick={() => setIsSidebarOpen(true)}
+        />
+
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full animate-in fade-in duration-300">
+          {children}
+        </main>
+      </div>
+    </div>
+  )
+}
+
+```
+```components/layout/Sidebar.tsx
+import React from 'react'
+import {
+  LayoutDashboard,
+  Users,
+  Building2,
+  Stethoscope,
+  Calendar,
+  UserCircle,
+  Pill,
+  BarChart3,
+  Settings,
+  LogOut,
+} from 'lucide-react'
+import { UserRole } from '../../types'
+import { Avatar } from '../ui/Avatar'
+interface SidebarProps {
+  role: UserRole
+  currentPath: string
+  onNavigate: (path: string) => void
+  onLogout: () => void
+  user: {
+    name: string
+    email: string
+    avatar?: string
+  }
+}
+export function Sidebar({
+  role,
+  currentPath,
+  onNavigate,
+  onLogout,
+  user,
+}: SidebarProps) {
+  const menuItems = [
+    {
+      icon: LayoutDashboard,
+      label: 'Dashboard',
+      path: '/dashboard',
+      roles: [
+        'super_admin',
+        'branch_admin',
+        'doctor',
+        'patient',
+        'nurse',
+        'pharmacist',
+        'receptionist',
+      ],
+    },
+    {
+      icon: Users,
+      label: 'Users',
+      path: '/users',
+      roles: ['super_admin', 'branch_admin'],
+    },
+    {
+      icon: Building2,
+      label: 'Branches',
+      path: '/branches',
+      roles: ['super_admin'],
+    },
+    {
+      icon: Stethoscope,
+      label: 'Doctors',
+      path: '/doctors',
+      roles: ['super_admin', 'branch_admin', 'receptionist'],
+    },
+    {
+      icon: Calendar,
+      label: 'Appointments',
+      path: '/appointments',
+      roles: [
+        'super_admin',
+        'branch_admin',
+        'doctor',
+        'patient',
+        'nurse',
+        'receptionist',
+      ],
+    },
+    {
+      icon: UserCircle,
+      label: 'Patients',
+      path: '/patients',
+      roles: ['super_admin', 'branch_admin', 'doctor', 'nurse', 'receptionist'],
+    },
+    {
+      icon: Pill,
+      label: 'Pharmacy',
+      path: '/pharmacy',
+      roles: ['super_admin', 'branch_admin', 'pharmacist'],
+    },
+    {
+      icon: BarChart3,
+      label: 'Reports',
+      path: '/reports',
+      roles: ['super_admin', 'branch_admin'],
+    },
+    {
+      icon: Settings,
+      label: 'Settings',
+      path: '/settings',
+      roles: [
+        'super_admin',
+        'branch_admin',
+        'doctor',
+        'patient',
+        'nurse',
+        'pharmacist',
+        'receptionist',
+      ],
+    },
+  ]
+  const filteredItems = menuItems.filter((item) => item.roles.includes(role))
+  return (
+    <aside className="fixed left-0 top-0 h-screen w-64 bg-white/80 backdrop-blur-xl border-r border-white/20 shadow-glass z-40 hidden md:flex flex-col">
+      {/* Logo */}
+      <div className="p-6 flex items-center gap-3">
+        <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-primary-500/30">
+          H
+        </div>
+        <span className="font-bold text-xl text-slate-900 tracking-tight">
+          MediCare
+        </span>
+      </div>
+
+      {/* Navigation */}
+      <nav className="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
+        {filteredItems.map((item) => {
+          const isActive = currentPath === item.path
+          return (
+            <button
+              key={item.path}
+              onClick={() => onNavigate(item.path)}
+              className={`
+                w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group
+                ${isActive ? 'bg-primary-50 text-primary-600 shadow-sm' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}
+              `}
+            >
+              <item.icon
+                className={`w-5 h-5 ${isActive ? 'text-primary-600' : 'text-slate-400 group-hover:text-slate-600'}`}
+              />
+              <span className="font-medium">{item.label}</span>
+            </button>
+          )
+        })}
+      </nav>
+
+      {/* User Profile */}
+      <div className="p-4 border-t border-slate-100 bg-white/50">
+        <div className="flex items-center gap-3 mb-3">
+          <Avatar src={user.avatar} initials={user.name.charAt(0)} size="sm" />
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium text-slate-900 truncate">
+              {user.name}
+            </p>
+            <p className="text-xs text-slate-500 truncate capitalize">
+              {role.replace('_', ' ')}
+            </p>
+          </div>
+        </div>
+        <button
+          onClick={onLogout}
+          className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
+        >
+          <LogOut className="w-4 h-4" />
+          Sign Out
+        </button>
+      </div>
+    </aside>
+  )
+}
+
+```
+```components/ui/Avatar.tsx
+import React from 'react'
+interface AvatarProps {
+  src?: string
+  alt?: string
+  initials?: string
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  status?: 'online' | 'offline' | 'busy' | 'away'
+  className?: string
+}
+export function Avatar({
+  src,
+  alt = 'User',
+  initials,
+  size = 'md',
+  status,
+  className = '',
+}: AvatarProps) {
+  const sizes = {
+    xs: 'w-6 h-6 text-xs',
+    sm: 'w-8 h-8 text-xs',
+    md: 'w-10 h-10 text-sm',
+    lg: 'w-12 h-12 text-base',
+    xl: 'w-16 h-16 text-lg',
+  }
+  const statusColors = {
+    online: 'bg-emerald-500',
+    offline: 'bg-slate-400',
+    busy: 'bg-rose-500',
+    away: 'bg-amber-500',
+  }
+  const statusSizes = {
+    xs: 'w-1.5 h-1.5',
+    sm: 'w-2 h-2',
+    md: 'w-2.5 h-2.5',
+    lg: 'w-3 h-3',
+    xl: 'w-4 h-4',
+  }
+  return (
+    <div className={`relative inline-block ${className}`}>
+      <div
+        className={`
+        ${sizes[size]} 
+        rounded-full overflow-hidden 
+        bg-primary-100 text-primary-700 
+        flex items-center justify-center font-semibold
+        border-2 border-white shadow-sm
+      `}
+      >
+        {src ? (
+          <img src={src} alt={alt} className="w-full h-full object-cover" />
+        ) : (
+          <span>{initials || alt.charAt(0).toUpperCase()}</span>
+        )}
+      </div>
+
+      {status && (
+        <span
+          className={`
+          absolute bottom-0 right-0 
+          block rounded-full ring-2 ring-white 
+          ${statusColors[status]} 
+          ${statusSizes[size]}
+        `}
+        />
+      )}
+    </div>
+  )
+}
+
+```
+```components/ui/Badge.tsx
+import React from 'react'
+interface BadgeProps {
+  children: React.ReactNode
+  variant?:
+    | 'primary'
+    | 'secondary'
+    | 'success'
+    | 'warning'
+    | 'error'
+    | 'neutral'
+  size?: 'sm' | 'md'
+  className?: string
+}
+export function Badge({
+  children,
+  variant = 'primary',
+  size = 'md',
+  className = '',
+}: BadgeProps) {
+  const variants = {
+    primary: 'bg-primary-50 text-primary-700 border-primary-200',
+    secondary: 'bg-secondary-50 text-secondary-700 border-secondary-200',
+    success: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    warning: 'bg-amber-50 text-amber-700 border-amber-200',
+    error: 'bg-rose-50 text-rose-700 border-rose-200',
+    neutral: 'bg-slate-50 text-slate-700 border-slate-200',
+  }
+  const sizes = {
+    sm: 'text-[10px] px-2 py-0.5',
+    md: 'text-xs px-2.5 py-1',
+  }
+  return (
+    <span
+      className={`
+      inline-flex items-center justify-center font-medium rounded-full border
+      ${variants[variant]} 
+      ${sizes[size]} 
+      ${className}
+    `}
+    >
+      {children}
+    </span>
+  )
+}
+
+```
+```components/ui/Button.tsx
+import React from 'react'
+import { Loader2 } from 'lucide-react'
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'
+  size?: 'sm' | 'md' | 'lg'
+  isLoading?: boolean
+  leftIcon?: React.ReactNode
+  rightIcon?: React.ReactNode
+}
+export function Button({
+  children,
+  className = '',
+  variant = 'primary',
+  size = 'md',
+  isLoading = false,
+  leftIcon,
+  rightIcon,
+  disabled,
+  ...props
+}: ButtonProps) {
+  const baseStyles =
+    'inline-flex items-center justify-center font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl active:scale-[0.98]'
+  const variants = {
+    primary:
+      'bg-primary-600 text-white hover:bg-primary-700 shadow-lg shadow-primary-500/30 hover:shadow-primary-500/40 focus:ring-primary-500/20 border border-transparent',
+    secondary:
+      'bg-secondary-500 text-white hover:bg-secondary-600 shadow-lg shadow-secondary-500/30 hover:shadow-secondary-500/40 focus:ring-secondary-500/20 border border-transparent',
+    outline:
+      'bg-white/50 backdrop-blur-sm border border-slate-200 text-slate-700 hover:bg-white hover:border-primary-200 hover:text-primary-600 shadow-sm focus:ring-primary-500/20',
+    ghost:
+      'bg-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus:ring-slate-500/20',
+    danger:
+      'bg-rose-500 text-white hover:bg-rose-600 shadow-lg shadow-rose-500/30 hover:shadow-rose-500/40 focus:ring-rose-500/20 border border-transparent',
+  }
+  const sizes = {
+    sm: 'text-xs px-3 py-1.5 gap-1.5',
+    md: 'text-sm px-4 py-2 gap-2',
+    lg: 'text-base px-6 py-3 gap-2.5',
+  }
+  return (
+    <button
+      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
+      disabled={disabled || isLoading}
+      {...props}
+    >
+      {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
+      {!isLoading && leftIcon}
+      {children}
+      {!isLoading && rightIcon}
+    </button>
+  )
+}
+
+```
+```components/ui/Card.tsx
+import React from 'react'
+interface CardProps {
+  children: React.ReactNode
+  className?: string
+  title?: string
+  subtitle?: string
+  action?: React.ReactNode
+  footer?: React.ReactNode
+  noPadding?: boolean
+}
+export function Card({
+  children,
+  className = '',
+  title,
+  subtitle,
+  action,
+  footer,
+  noPadding = false,
+}: CardProps) {
+  return (
+    <div
+      className={`bg-white/80 backdrop-blur-xl border border-white/20 shadow-glass rounded-2xl overflow-hidden flex flex-col ${className}`}
+    >
+      {(title || action) && (
+        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-white/40">
+          <div>
+            {title && (
+              <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
+            )}
+            {subtitle && (
+              <p className="text-sm text-slate-500 mt-0.5">{subtitle}</p>
+            )}
+          </div>
+          {action && <div>{action}</div>}
+        </div>
+      )}
+
+      <div className={`flex-1 ${noPadding ? '' : 'p-6'}`}>{children}</div>
+
+      {footer && (
+        <div className="px-6 py-4 bg-slate-50/50 border-t border-slate-100">
+          {footer}
+        </div>
+      )}
+    </div>
+  )
+}
+
+```
+```components/ui/Input.tsx
+import React, { forwardRef } from 'react'
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  label?: string
+  error?: string
+  helperText?: string
+  leftIcon?: React.ReactNode
+  rightIcon?: React.ReactNode
+}
+export const Input = forwardRef<HTMLInputElement, InputProps>(
+  (
+    { className = '', label, error, helperText, leftIcon, rightIcon, ...props },
+    ref,
+  ) => {
+    return (
+      <div className="w-full">
+        {label && (
+          <label className="block text-sm font-medium text-slate-700 mb-1.5">
+            {label}
+          </label>
+        )}
+        <div className="relative group">
+          {leftIcon && (
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary-500 transition-colors">
+              {leftIcon}
+            </div>
+          )}
+          <input
+            ref={ref}
+            className={`
+              w-full bg-white/50 backdrop-blur-sm border border-slate-200 rounded-xl 
+              ${leftIcon ? 'pl-10' : 'pl-4'} 
+              ${rightIcon ? 'pr-10' : 'pr-4'} 
+              py-2.5 text-sm text-slate-900 placeholder:text-slate-400
+              focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500
+              hover:border-slate-300 hover:bg-white/80
+              transition-all duration-200
+              disabled:opacity-50 disabled:cursor-not-allowed
+              ${error ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20' : ''}
+              ${className}
+            `}
+            {...props}
+          />
+          {rightIcon && (
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+              {rightIcon}
+            </div>
+          )}
+        </div>
+        {error && (
+          <p className="mt-1 text-xs text-rose-500 font-medium animate-in slide-in-from-top-1">
+            {error}
+          </p>
+        )}
+        {helperText && !error && (
+          <p className="mt-1 text-xs text-slate-500">{helperText}</p>
+        )}
+      </div>
+    )
+  },
+)
+Input.displayName = 'Input'
+
+```
+```components/ui/Modal.tsx
+import React, { useEffect } from 'react'
+import { X } from 'lucide-react'
+interface ModalProps {
+  isOpen: boolean
+  onClose: () => void
+  title: string
+  children: React.ReactNode
+  footer?: React.ReactNode
+  size?: 'sm' | 'md' | 'lg' | 'xl'
+}
+export function Modal({
+  isOpen,
+  onClose,
+  title,
+  children,
+  footer,
+  size = 'md',
+}: ModalProps) {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isOpen])
+  if (!isOpen) return null
+  const sizes = {
+    sm: 'max-w-md',
+    md: 'max-w-lg',
+    lg: 'max-w-2xl',
+    xl: 'max-w-4xl',
+  }
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+      <div
+        className="absolute inset-0 bg-slate-900/20 backdrop-blur-sm transition-opacity"
+        onClick={onClose}
+      />
+
+      <div
+        className={`
+        relative w-full ${sizes[size]} 
+        bg-white/90 backdrop-blur-xl 
+        border border-white/20 shadow-2xl 
+        rounded-2xl flex flex-col max-h-[90vh]
+        animate-in fade-in zoom-in-95 duration-200
+      `}
+      >
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+          <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
+          <button
+            onClick={onClose}
+            className="text-slate-400 hover:text-slate-600 hover:bg-slate-100 p-1 rounded-lg transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <div className="p-6 overflow-y-auto">{children}</div>
+
+        {footer && (
+          <div className="px-6 py-4 bg-slate-50/50 border-t border-slate-100 rounded-b-2xl flex justify-end gap-3">
+            {footer}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+```
+```components/ui/Select.tsx
+import React from 'react'
+import { ChevronDown } from 'lucide-react'
+interface SelectOption {
+  value: string
+  label: string
+}
+interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  label?: string
+  options: SelectOption[]
+  error?: string
+  helperText?: string
+}
+export function Select({
+  label,
+  options,
+  error,
+  helperText,
+  className = '',
+  ...props
+}: SelectProps) {
+  return (
+    <div className="w-full">
+      {label && (
+        <label className="block text-sm font-medium text-slate-700 mb-1.5">
+          {label}
+        </label>
+      )}
+      <div className="relative">
+        <select
+          className={`
+            w-full appearance-none bg-white/50 backdrop-blur-sm border border-slate-200 rounded-xl 
+            pl-4 pr-10 py-2.5 text-sm text-slate-900 
+            focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500
+            hover:border-slate-300 hover:bg-white/80
+            transition-all duration-200
+            disabled:opacity-50 disabled:cursor-not-allowed
+            ${error ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20' : ''}
+            ${className}
+          `}
+          {...props}
+        >
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        <div className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
+          <ChevronDown className="w-4 h-4" />
+        </div>
+      </div>
+      {error && (
+        <p className="mt-1 text-xs text-rose-500 font-medium animate-in slide-in-from-top-1">
+          {error}
+        </p>
+      )}
+      {helperText && !error && (
+        <p className="mt-1 text-xs text-slate-500">{helperText}</p>
+      )}
+    </div>
+  )
+}
+
+```
+```components/ui/Stat.tsx
+import React from 'react'
+import { ArrowUpRight, ArrowDownRight } from 'lucide-react'
+import { Card } from './Card'
+interface StatProps {
+  label: string
+  value: string | number
+  icon: React.ElementType
+  trend?: {
+    value: number
+    isPositive: boolean
+  }
+  color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error'
+}
+export function Stat({
+  label,
+  value,
+  icon: Icon,
+  trend,
+  color = 'primary',
+}: StatProps) {
+  const colorStyles = {
+    primary: 'bg-primary-50 text-primary-600',
+    secondary: 'bg-secondary-50 text-secondary-600',
+    success: 'bg-emerald-50 text-emerald-600',
+    warning: 'bg-amber-50 text-amber-600',
+    error: 'bg-rose-50 text-rose-600',
+  }
+  return (
+    <Card className="hover:shadow-glass-sm transition-shadow duration-300">
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="text-sm font-medium text-slate-500">{label}</p>
+          <h3 className="text-2xl font-bold text-slate-900 mt-1">{value}</h3>
+
+          {trend && (
+            <div
+              className={`flex items-center mt-2 text-xs font-medium ${trend.isPositive ? 'text-emerald-600' : 'text-rose-600'}`}
+            >
+              {trend.isPositive ? (
+                <ArrowUpRight className="w-3 h-3 mr-1" />
+              ) : (
+                <ArrowDownRight className="w-3 h-3 mr-1" />
+              )}
+              <span>{Math.abs(trend.value)}% from last month</span>
+            </div>
+          )}
+        </div>
+
+        <div className={`p-3 rounded-xl ${colorStyles[color]}`}>
+          <Icon className="w-6 h-6" />
+        </div>
+      </div>
+    </Card>
+  )
+}
+
+```
+```components/ui/Table.tsx
+import React from 'react'
+interface Column<T> {
+  header: string
+  accessor: keyof T | ((item: T) => React.ReactNode)
+  className?: string
+}
+interface TableProps<T> {
+  data: T[]
+  columns: Column<T>[]
+  onRowClick?: (item: T) => void
+  isLoading?: boolean
+}
+export function Table<
+  T extends {
+    id: string | number
+  },
+>({ data, columns, onRowClick, isLoading }: TableProps<T>) {
+  if (isLoading) {
+    return (
+      <div className="w-full p-8 text-center text-slate-500">
+        Loading data...
+      </div>
+    )
+  }
+  if (data.length === 0) {
+    return (
+      <div className="w-full p-8 text-center text-slate-500">
+        No data available
+      </div>
+    )
+  }
+  return (
+    <div className="w-full overflow-x-auto">
+      <table className="w-full text-left border-collapse">
+        <thead>
+          <tr className="border-b border-slate-200/60">
+            {columns.map((column, index) => (
+              <th
+                key={index}
+                className={`px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider ${column.className || ''}`}
+              >
+                {column.header}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-slate-100">
+          {data.map((item) => (
+            <tr
+              key={item.id}
+              onClick={() => onRowClick && onRowClick(item)}
+              className={`
+                group transition-colors duration-150
+                ${onRowClick ? 'cursor-pointer hover:bg-primary-50/50' : 'hover:bg-slate-50/50'}
+              `}
+            >
+              {columns.map((column, index) => (
+                <td
+                  key={index}
+                  className={`px-6 py-4 text-sm text-slate-700 whitespace-nowrap ${column.className || ''}`}
+                >
+                  {typeof column.accessor === 'function'
+                    ? column.accessor(item)
+                    : (item[column.accessor] as React.ReactNode)}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+```
+```data/mockData.ts
+import { User, Branch, Doctor, Patient, Appointment, Medicine } from '../types'
+
+export const mockUsers: User[] = [
+  {
+    id: 'u1',
+    name: 'Dr. Sarah Wilson',
+    email: 'sarah.wilson@hospital.com',
+    role: 'doctor',
+    avatar:
+      'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=300&h=300',
+    status: 'active',
+    joinedAt: '2023-01-15',
+    branchId: 'b1',
+  },
+  {
+    id: 'u2',
+    name: 'James Rodriguez',
+    email: 'james.admin@hospital.com',
+    role: 'super_admin',
+    status: 'active',
+    joinedAt: '2022-11-01',
+  },
+  {
+    id: 'u3',
+    name: 'Emily Chen',
+    email: 'emily.pharm@hospital.com',
+    role: 'pharmacist',
+    avatar:
+      'https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&q=80&w=300&h=300',
+    status: 'active',
+    joinedAt: '2023-03-10',
+    branchId: 'b1',
+  },
+  {
+    id: 'u4',
+    name: 'Michael Chang',
+    email: 'michael.patient@gmail.com',
+    role: 'patient',
+    status: 'active',
+    joinedAt: '2023-06-20',
+  },
+  {
+    id: 'u5',
+    name: 'Lisa Thompson',
+    email: 'lisa.reception@hospital.com',
+    role: 'receptionist',
+    status: 'active',
+    joinedAt: '2023-02-01',
+    branchId: 'b1',
+  },
+]
+
+export const mockBranches: Branch[] = [
+  {
+    id: 'b1',
+    name: 'Central Medical Center',
+    address: '123 Healthcare Blvd, New York, NY',
+    phone: '+1 (555) 123-4567',
+    managerId: 'u2',
+    status: 'active',
+    stats: { doctors: 12, patients: 450, revenue: 125000 },
+  },
+  {
+    id: 'b2',
+    name: 'Westside Clinic',
+    address: '456 West Ave, Los Angeles, CA',
+    phone: '+1 (555) 987-6543',
+    managerId: 'u2',
+    status: 'active',
+    stats: { doctors: 8, patients: 280, revenue: 85000 },
+  },
+  {
+    id: 'b3',
+    name: 'North Hills Specialist Center',
+    address: '789 North Rd, Chicago, IL',
+    phone: '+1 (555) 456-7890',
+    managerId: 'u2',
+    status: 'maintenance',
+    stats: { doctors: 5, patients: 120, revenue: 45000 },
+  },
+]
+
+export const mockDoctors: Doctor[] = [
+  {
+    id: 'd1',
+    userId: 'u1',
+    name: 'Dr. Sarah Wilson',
+    specialization: 'Cardiology',
+    qualification: 'MD, PhD',
+    experience: 12,
+    availability: ['Mon', 'Tue', 'Thu', 'Fri'],
+    branchId: 'b1',
+    rating: 4.9,
+    patientsCount: 1240,
+  },
+  {
+    id: 'd2',
+    userId: 'u6',
+    name: 'Dr. Robert Brown',
+    specialization: 'Pediatrics',
+    qualification: 'MD',
+    experience: 8,
+    availability: ['Mon', 'Wed', 'Fri', 'Sat'],
+    branchId: 'b1',
+    rating: 4.7,
+    patientsCount: 850,
+  },
+  {
+    id: 'd3',
+    userId: 'u7',
+    name: 'Dr. Anita Patel',
+    specialization: 'Neurology',
+    qualification: 'MBBS, MD',
+    experience: 15,
+    availability: ['Tue', 'Wed', 'Thu'],
+    branchId: 'b2',
+    rating: 4.8,
+    patientsCount: 920,
+  },
+]
+
+export const mockPatients: Patient[] = [
+  {
+    id: 'p1',
+    userId: 'u4',
+    name: 'Michael Chang',
+    age: 34,
+    gender: 'male',
+    bloodGroup: 'O+',
+    phone: '+1 (555) 111-2222',
+    address: '101 Pine St, New York, NY',
+    lastVisit: '2023-10-15',
+    medicalHistory: ['Hypertension', 'Seasonal Allergies'],
+  },
+  {
+    id: 'p2',
+    userId: 'u8',
+    name: 'Emma Davis',
+    age: 28,
+    gender: 'female',
+    bloodGroup: 'A-',
+    phone: '+1 (555) 333-4444',
+    address: '202 Oak Ln, New York, NY',
+    lastVisit: '2023-11-02',
+    medicalHistory: ['Asthma'],
+  },
+  {
+    id: 'p3',
+    userId: 'u9',
+    name: 'Robert Wilson',
+    age: 62,
+    gender: 'male',
+    bloodGroup: 'B+',
+    phone: '+1 (555) 555-6666',
+    address: '303 Maple Dr, New York, NY',
+    lastVisit: '2023-11-10',
+    medicalHistory: ['Diabetes Type 2', 'High Cholesterol'],
+  },
+  {
+    id: 'p4',
+    userId: 'u10',
+    name: 'Sophia Martinez',
+    age: 45,
+    gender: 'female',
+    bloodGroup: 'AB+',
+    phone: '+1 (555) 777-8888',
+    address: '404 Birch Rd, New York, NY',
+    lastVisit: '2023-09-20',
+    medicalHistory: ['Migraine'],
+  },
+]
+
+export const mockAppointments: Appointment[] = [
+  {
+    id: 'a1',
+    patientId: 'p1',
+    patientName: 'Michael Chang',
+    doctorId: 'd1',
+    doctorName: 'Dr. Sarah Wilson',
+    branchId: 'b1',
+    date: '2023-11-15',
+    time: '09:00 AM',
+    status: 'scheduled',
+    type: 'consultation',
+    notes: 'Regular checkup for BP',
+  },
+  {
+    id: 'a2',
+    patientId: 'p2',
+    patientName: 'Emma Davis',
+    doctorId: 'd2',
+    doctorName: 'Dr. Robert Brown',
+    branchId: 'b1',
+    date: '2023-11-15',
+    time: '10:30 AM',
+    status: 'scheduled',
+    type: 'follow-up',
+  },
+  {
+    id: 'a3',
+    patientId: 'p3',
+    patientName: 'Robert Wilson',
+    doctorId: 'd1',
+    doctorName: 'Dr. Sarah Wilson',
+    branchId: 'b1',
+    date: '2023-11-14',
+    time: '02:00 PM',
+    status: 'completed',
+    type: 'consultation',
+  },
+  {
+    id: 'a4',
+    patientId: 'p4',
+    patientName: 'Sophia Martinez',
+    doctorId: 'd3',
+    doctorName: 'Dr. Anita Patel',
+    branchId: 'b2',
+    date: '2023-11-16',
+    time: '11:00 AM',
+    status: 'scheduled',
+    type: 'consultation',
+  },
+]
+
+export const mockMedicines: Medicine[] = [
+  {
+    id: 'm1',
+    name: 'Amoxicillin 500mg',
+    category: 'Antibiotics',
+    manufacturer: 'PharmaCorp',
+    price: 12.5,
+    stock: 500,
+    expiryDate: '2024-12-31',
+    branchId: 'b1',
+    requiresPrescription: true,
+  },
+  {
+    id: 'm2',
+    name: 'Paracetamol 500mg',
+    category: 'Pain Relief',
+    manufacturer: 'HealthLife',
+    price: 5.0,
+    stock: 1200,
+    expiryDate: '2025-06-30',
+    branchId: 'b1',
+    requiresPrescription: false,
+  },
+  {
+    id: 'm3',
+    name: 'Lisinopril 10mg',
+    category: 'Cardiovascular',
+    manufacturer: 'HeartCare',
+    price: 18.75,
+    stock: 300,
+    expiryDate: '2024-08-15',
+    branchId: 'b1',
+    requiresPrescription: true,
+  },
+  {
+    id: 'm4',
+    name: 'Metformin 500mg',
+    category: 'Antidiabetic',
+    manufacturer: 'GlucoControl',
+    price: 15.0,
+    stock: 450,
+    expiryDate: '2024-10-20',
+    branchId: 'b1',
+    requiresPrescription: true,
+  },
+  {
+    id: 'm5',
+    name: 'Cetirizine 10mg',
+    category: 'Antihistamine',
+    manufacturer: 'AllergyFree',
+    price: 8.5,
+    stock: 800,
+    expiryDate: '2025-03-01',
+    branchId: 'b1',
+    requiresPrescription: false,
+  },
+]
+
+```
+```index.css
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans antialiased text-slate-600 bg-slate-50;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight text-slate-900;
+  }
+}
+
+/* Custom Scrollbar for Glass Aesthetic */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 rounded-full hover:bg-slate-400 transition-colors;
+}
+
+```
+```index.tsx
+import './index.css'
+import React from "react";
+import { render } from "react-dom";
+import { App } from "./App";
+
+render(<App />, document.getElementById("root"));
+
+```
+```pages/Appointments.tsx
+import React, { useState } from 'react'
+import { Calendar as CalendarIcon, Clock, User, FileText } from 'lucide-react'
+import { Card } from '../components/ui/Card'
+import { Button } from '../components/ui/Button'
+import { Badge } from '../components/ui/Badge'
+import { mockAppointments } from '../data/mockData'
+export function AppointmentsPage() {
+  const [view, setView] = useState<'list' | 'calendar'>('list')
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-slate-900">Appointments</h2>
+          <p className="text-slate-500">Manage patient schedules</p>
+        </div>
+        <div className="flex gap-3">
+          <div className="bg-white/50 p-1 rounded-lg border border-slate-200 flex">
+            <button
+              onClick={() => setView('list')}
+              className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${view === 'list' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-500 hover:text-slate-700'}`}
+            >
+              List
+            </button>
+            <button
+              onClick={() => setView('calendar')}
+              className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${view === 'calendar' ? 'bg-white shadow-sm text-slate-900' : 'text-slate-500 hover:text-slate-700'}`}
+            >
+              Calendar
+            </button>
+          </div>
+          <Button>New Appointment</Button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-4">
+          {mockAppointments.map((apt) => (
+            <Card
+              key={apt.id}
+              className="flex flex-col sm:flex-row gap-4 p-4 hover:shadow-md transition-shadow"
+              noPadding
+            >
+              <div className="flex-1 p-4 sm:p-0 sm:pl-4 sm:py-4">
+                <div className="flex justify-between items-start mb-2">
+                  <div>
+                    <h3 className="font-bold text-slate-900">
+                      {apt.patientName}
+                    </h3>
+                    <p className="text-sm text-slate-500">
+                      {apt.type} • {apt.doctorName}
+                    </p>
+                  </div>
+                  <Badge
+                    variant={
+                      apt.status === 'completed'
+                        ? 'success'
+                        : apt.status === 'scheduled'
+                          ? 'primary'
+                          : apt.status === 'cancelled'
+                            ? 'error'
+                            : 'warning'
+                    }
+                  >
+                    {apt.status}
+                  </Badge>
+                </div>
+
+                <div className="flex flex-wrap gap-4 mt-4 text-sm text-slate-600">
+                  <div className="flex items-center gap-1.5">
+                    <CalendarIcon className="w-4 h-4 text-slate-400" />
+                    {apt.date}
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Clock className="w-4 h-4 text-slate-400" />
+                    {apt.time}
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t sm:border-t-0 sm:border-l border-slate-100 p-4 flex sm:flex-col justify-end gap-2 min-w-[120px]">
+                <Button size="sm" variant="outline" className="w-full">
+                  Reschedule
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="w-full text-rose-600 hover:bg-rose-50 hover:text-rose-700"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </Card>
+          ))}
+        </div>
+
+        <div className="space-y-6">
+          <Card title="Calendar" className="min-h-[300px]">
+            <div className="flex items-center justify-center h-full text-slate-400">
+              Calendar Widget Placeholder
+            </div>
+          </Card>
+
+          <Card title="Today's Summary">
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-slate-600">
+                  Total Appointments
+                </span>
+                <span className="font-bold text-slate-900">12</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-slate-600">Completed</span>
+                <span className="font-bold text-emerald-600">8</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-slate-600">Pending</span>
+                <span className="font-bold text-amber-600">4</span>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+```
+```pages/Branches.tsx
+import React from 'react'
+import { MapPin, Phone, User, TrendingUp } from 'lucide-react'
+import { Card } from '../components/ui/Card'
+import { Button } from '../components/ui/Button'
+import { Badge } from '../components/ui/Badge'
+import { mockBranches } from '../data/mockData'
+export function BranchesPage() {
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-slate-900">
+            Hospital Branches
+          </h2>
+          <p className="text-slate-500">Manage locations and performance</p>
+        </div>
+        <Button>Add Branch</Button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {mockBranches.map((branch) => (
+          <Card
+            key={branch.id}
+            className="hover:shadow-glass-sm transition-all duration-300"
+          >
+            <div className="flex justify-between items-start mb-4">
+              <div className="p-3 bg-primary-50 text-primary-600 rounded-xl">
+                <MapPin className="w-6 h-6" />
+              </div>
+              <Badge
+                variant={branch.status === 'active' ? 'success' : 'warning'}
+              >
+                {branch.status}
+              </Badge>
+            </div>
+
+            <h3 className="text-lg font-bold text-slate-900 mb-1">
+              {branch.name}
+            </h3>
+            <p className="text-sm text-slate-500 mb-4">{branch.address}</p>
+
+            <div className="space-y-3 mb-6">
+              <div className="flex items-center text-sm text-slate-600">
+                <Phone className="w-4 h-4 mr-2 text-slate-400" />
+                {branch.phone}
+              </div>
+              <div className="flex items-center text-sm text-slate-600">
+                <User className="w-4 h-4 mr-2 text-slate-400" />
+                Manager: James Rodriguez
+              </div>
+            </div>
+
+            <div className="grid grid-cols-3 gap-2 pt-4 border-t border-slate-100">
+              <div className="text-center">
+                <p className="text-xs text-slate-500">Doctors</p>
+                <p className="font-semibold text-slate-900">
+                  {branch.stats.doctors}
+                </p>
+              </div>
+              <div className="text-center border-l border-slate-100">
+                <p className="text-xs text-slate-500">Patients</p>
+                <p className="font-semibold text-slate-900">
+                  {branch.stats.patients}
+                </p>
+              </div>
+              <div className="text-center border-l border-slate-100">
+                <p className="text-xs text-slate-500">Revenue</p>
+                <p className="font-semibold text-emerald-600">
+                  ${(branch.stats.revenue / 1000).toFixed(1)}k
+                </p>
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+```
+```pages/Dashboard.tsx
+import React from 'react'
+import {
+  Users,
+  Calendar,
+  DollarSign,
+  Activity,
+  TrendingUp,
+  Clock,
+  AlertCircle,
+} from 'lucide-react'
+import { Stat } from '../components/ui/Stat'
+import { Card } from '../components/ui/Card'
+import { Table } from '../components/ui/Table'
+import { Badge } from '../components/ui/Badge'
+import { UserRole } from '../types'
+import { mockAppointments } from '../data/mockData'
+interface DashboardProps {
+  role: UserRole
+}
+export function Dashboard({ role }: DashboardProps) {
+  // Role-based content rendering
+  const renderStats = () => {
+    if (role === 'super_admin' || role === 'branch_admin') {
+      return (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <Stat
+            label="Total Patients"
+            value="12,450"
+            icon={Users}
+            trend={{
+              value: 12,
+              isPositive: true,
+            }}
+            color="primary"
+          />
+          <Stat
+            label="Appointments Today"
+            value="48"
+            icon={Calendar}
+            trend={{
+              value: 5,
+              isPositive: true,
+            }}
+            color="secondary"
+          />
+          <Stat
+            label="Revenue (Monthly)"
+            value="$124,500"
+            icon={DollarSign}
+            trend={{
+              value: 8,
+              isPositive: true,
+            }}
+            color="success"
+          />
+          <Stat
+            label="Avg Wait Time"
+            value="14 min"
+            icon={Clock}
+            trend={{
+              value: 2,
+              isPositive: false,
+            }}
+            color="warning"
+          />
+        </div>
+      )
+    }
+    if (role === 'doctor') {
+      return (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <Stat
+            label="My Patients"
+            value="1,240"
+            icon={Users}
+            trend={{
+              value: 4,
+              isPositive: true,
+            }}
+            color="primary"
+          />
+          <Stat
+            label="Appointments Today"
+            value="12"
+            icon={Calendar}
+            color="secondary"
+          />
+          <Stat
+            label="Pending Reports"
+            value="5"
+            icon={Activity}
+            color="warning"
+          />
+          <Stat
+            label="Patient Satisfaction"
+            value="4.9/5"
+            icon={TrendingUp}
+            color="success"
+          />
+        </div>
+      )
+    }
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <Stat
+          label="Upcoming Appointments"
+          value="2"
+          icon={Calendar}
+          color="primary"
+        />
+        <Stat
+          label="Prescriptions"
+          value="4"
+          icon={Activity}
+          color="secondary"
+        />
+        <Stat label="Medical Records" value="12" icon={Users} color="success" />
+        <Stat
+          label="Notifications"
+          value="3"
+          icon={AlertCircle}
+          color="warning"
+        />
+      </div>
+    )
+  }
+  return (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-2xl font-bold text-slate-900">
+          Dashboard Overview
+        </h2>
+        <p className="text-slate-500">
+          Welcome back, here's what's happening today.
+        </p>
+      </div>
+
+      {renderStats()}
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+          <Card
+            title="Recent Appointments"
+            action={
+              <button className="text-sm text-primary-600 font-medium hover:text-primary-700">
+                View All
+              </button>
+            }
+          >
+            <Table
+              data={mockAppointments.slice(0, 5)}
+              columns={[
+                {
+                  header: 'Patient',
+                  accessor: 'patientName',
+                },
+                {
+                  header: 'Doctor',
+                  accessor: 'doctorName',
+                },
+                {
+                  header: 'Date',
+                  accessor: 'date',
+                },
+                {
+                  header: 'Time',
+                  accessor: 'time',
+                },
+                {
+                  header: 'Status',
+                  accessor: (item) => (
+                    <Badge
+                      variant={
+                        item.status === 'completed'
+                          ? 'success'
+                          : item.status === 'scheduled'
+                            ? 'primary'
+                            : item.status === 'cancelled'
+                              ? 'error'
+                              : 'warning'
+                      }
+                    >
+                      {item.status}
+                    </Badge>
+                  ),
+                },
+              ]}
+            />
+          </Card>
+        </div>
+
+        <div>
+          <Card title="Quick Actions">
+            <div className="space-y-3">
+              <button className="w-full p-3 flex items-center gap-3 bg-slate-50 hover:bg-white hover:shadow-md border border-slate-100 rounded-xl transition-all duration-200 group">
+                <div className="p-2 bg-primary-100 text-primary-600 rounded-lg group-hover:bg-primary-600 group-hover:text-white transition-colors">
+                  <Calendar className="w-5 h-5" />
+                </div>
+                <div className="text-left">
+                  <p className="font-medium text-slate-900">Book Appointment</p>
+                  <p className="text-xs text-slate-500">Schedule a new visit</p>
+                </div>
+              </button>
+
+              <button className="w-full p-3 flex items-center gap-3 bg-slate-50 hover:bg-white hover:shadow-md border border-slate-100 rounded-xl transition-all duration-200 group">
+                <div className="p-2 bg-secondary-100 text-secondary-600 rounded-lg group-hover:bg-secondary-600 group-hover:text-white transition-colors">
+                  <Users className="w-5 h-5" />
+                </div>
+                <div className="text-left">
+                  <p className="font-medium text-slate-900">Register Patient</p>
+                  <p className="text-xs text-slate-500">
+                    Add new patient record
+                  </p>
+                </div>
+              </button>
+
+              <button className="w-full p-3 flex items-center gap-3 bg-slate-50 hover:bg-white hover:shadow-md border border-slate-100 rounded-xl transition-all duration-200 group">
+                <div className="p-2 bg-emerald-100 text-emerald-600 rounded-lg group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                  <Activity className="w-5 h-5" />
+                </div>
+                <div className="text-left">
+                  <p className="font-medium text-slate-900">Create Report</p>
+                  <p className="text-xs text-slate-500">
+                    Generate medical report
+                  </p>
+                </div>
+              </button>
+            </div>
+          </Card>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+```
+```pages/Login.tsx
+import React, { useState } from 'react'
+import { UserRole } from '../types'
+import { Button } from '../components/ui/Button'
+import { Input } from '../components/ui/Input'
+import { Select } from '../components/ui/Select'
+import { Card } from '../components/ui/Card'
+import { Mail, Lock, LogIn } from 'lucide-react'
+interface LoginProps {
+  onLogin: (role: UserRole) => void
+}
+export function Login({ onLogin }: LoginProps) {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [role, setRole] = useState<UserRole>('super_admin')
+  const [isLoading, setIsLoading] = useState(false)
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+    // Simulate API call
+    setTimeout(() => {
+      setIsLoading(false)
+      onLogin(role)
+    }, 1000)
+  }
+  return (
+    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-slate-50 via-primary-50 to-secondary-50 p-4">
+      {/* Background decoration */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary-400/10 blur-[100px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-secondary-400/10 blur-[100px]" />
+      </div>
+
+      <Card className="w-full max-w-md relative z-10 shadow-2xl shadow-primary-900/10 border-white/40">
+        <div className="text-center mb-8">
+          <div className="w-16 h-16 bg-primary-600 rounded-2xl flex items-center justify-center text-white font-bold text-3xl shadow-lg shadow-primary-500/30 mx-auto mb-4">
+            H
+          </div>
+          <h1 className="text-2xl font-bold text-slate-900">Welcome Back</h1>
+          <p className="text-slate-500 mt-2">
+            Sign in to access your dashboard
+          </p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <Input
+            label="Email Address"
+            type="email"
+            placeholder="name@hospital.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            leftIcon={<Mail className="w-4 h-4" />}
+            required
+          />
+
+          <Input
+            label="Password"
+            type="password"
+            placeholder="••••••••"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            leftIcon={<Lock className="w-4 h-4" />}
+            required
+          />
+
+          <Select
+            label="Select Role (Demo)"
+            value={role}
+            onChange={(e) => setRole(e.target.value as UserRole)}
+            options={[
+              {
+                value: 'super_admin',
+                label: 'Super Admin',
+              },
+              {
+                value: 'branch_admin',
+                label: 'Branch Admin',
+              },
+              {
+                value: 'doctor',
+                label: 'Doctor',
+              },
+              {
+                value: 'patient',
+                label: 'Patient',
+              },
+              {
+                value: 'pharmacist',
+                label: 'Pharmacist',
+              },
+              {
+                value: 'receptionist',
+                label: 'Receptionist',
+              },
+            ]}
+          />
+
+          <div className="flex items-center justify-between text-sm">
+            <label className="flex items-center gap-2 text-slate-600 cursor-pointer">
+              <input
+                type="checkbox"
+                className="rounded border-slate-300 text-primary-600 focus:ring-primary-500"
+              />
+              Remember me
+            </label>
+            <a
+              href="#"
+              className="text-primary-600 hover:text-primary-700 font-medium"
+            >
+              Forgot password?
+            </a>
+          </div>
+
+          <Button
+            type="submit"
+            className="w-full"
+            size="lg"
+            isLoading={isLoading}
+            rightIcon={<LogIn className="w-4 h-4" />}
+          >
+            Sign In
+          </Button>
+        </form>
+
+        <div className="mt-6 text-center text-sm text-slate-500">
+          Don't have an account?{' '}
+          <a
+            href="#"
+            className="text-primary-600 hover:text-primary-700 font-medium"
+          >
+            Contact Admin
+          </a>
+        </div>
+      </Card>
+    </div>
+  )
+}
+
+```
+```pages/Patients.tsx
+import React from 'react'
+import { Search, Filter, MoreHorizontal } from 'lucide-react'
+import { Card } from '../components/ui/Card'
+import { Button } from '../components/ui/Button'
+import { Input } from '../components/ui/Input'
+import { Table } from '../components/ui/Table'
+import { Avatar } from '../components/ui/Avatar'
+import { mockPatients } from '../data/mockData'
+import { Patient } from '../types'
+export function PatientsPage() {
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-slate-900">Patient Records</h2>
+          <p className="text-slate-500">View and manage patient history</p>
+        </div>
+        <Button>Register Patient</Button>
+      </div>
+
+      <Card>
+        <div className="mb-6 flex gap-4">
+          <div className="flex-1">
+            <Input
+              placeholder="Search by name, ID, or phone..."
+              leftIcon={<Search className="w-4 h-4" />}
+            />
+          </div>
+          <Button variant="outline" leftIcon={<Filter className="w-4 h-4" />}>
+            Filter
+          </Button>
+        </div>
+
+        <Table
+          data={mockPatients}
+          columns={[
+            {
+              header: 'Patient Name',
+              accessor: (patient: Patient) => (
+                <div className="flex items-center gap-3">
+                  <Avatar
+                    initials={patient.name.charAt(0)}
+                    size="sm"
+                    className="bg-secondary-100 text-secondary-700"
+                  />
+                  <div>
+                    <p className="font-medium text-slate-900">{patient.name}</p>
+                    <p className="text-xs text-slate-500">
+                      ID: {patient.id.toUpperCase()}
+                    </p>
+                  </div>
+                </div>
+              ),
+            },
+            {
+              header: 'Age/Gender',
+              accessor: (patient: Patient) => (
+                <span className="text-slate-700">
+                  {patient.age} / {patient.gender}
+                </span>
+              ),
+            },
+            {
+              header: 'Blood Group',
+              accessor: 'bloodGroup',
+            },
+            {
+              header: 'Phone',
+              accessor: 'phone',
+            },
+            {
+              header: 'Last Visit',
+              accessor: 'lastVisit',
+            },
+            {
+              header: '',
+              accessor: () => (
+                <button className="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100">
+                  <MoreHorizontal className="w-5 h-5" />
+                </button>
+              ),
+            },
+          ]}
+        />
+      </Card>
+    </div>
+  )
+}
+
+```
+```pages/Pharmacy.tsx
+import React from 'react'
+import { Search, ShoppingCart, Plus } from 'lucide-react'
+import { Card } from '../components/ui/Card'
+import { Button } from '../components/ui/Button'
+import { Input } from '../components/ui/Input'
+import { Table } from '../components/ui/Table'
+import { Badge } from '../components/ui/Badge'
+import { mockMedicines } from '../data/mockData'
+import { Medicine } from '../types'
+export function PharmacyPage() {
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-slate-900">
+            Pharmacy & Inventory
+          </h2>
+          <p className="text-slate-500">Manage medicines and stock</p>
+        </div>
+        <div className="flex gap-3">
+          <Button
+            variant="secondary"
+            leftIcon={<ShoppingCart className="w-4 h-4" />}
+          >
+            POS System
+          </Button>
+          <Button leftIcon={<Plus className="w-4 h-4" />}>Add Medicine</Button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <Card className="lg:col-span-3">
+          <div className="mb-6">
+            <Input
+              placeholder="Search medicines..."
+              leftIcon={<Search className="w-4 h-4" />}
+            />
+          </div>
+
+          <Table
+            data={mockMedicines}
+            columns={[
+              {
+                header: 'Medicine Name',
+                accessor: 'name',
+                className: 'font-medium text-slate-900',
+              },
+              {
+                header: 'Category',
+                accessor: 'category',
+              },
+              {
+                header: 'Stock',
+                accessor: (item: Medicine) => (
+                  <div className="flex items-center gap-2">
+                    <span
+                      className={`font-medium ${item.stock < 100 ? 'text-rose-600' : 'text-slate-700'}`}
+                    >
+                      {item.stock}
+                    </span>
+                    {item.stock < 100 && (
+                      <Badge variant="warning" size="sm">
+                        Low
+                      </Badge>
+                    )}
+                  </div>
+                ),
+              },
+              {
+                header: 'Price',
+                accessor: (item: Medicine) => `$${item.price.toFixed(2)}`,
+              },
+              {
+                header: 'Expiry',
+                accessor: 'expiryDate',
+              },
+              {
+                header: 'Status',
+                accessor: (item: Medicine) => (
+                  <Badge
+                    variant={item.requiresPrescription ? 'warning' : 'success'}
+                  >
+                    {item.requiresPrescription ? 'Rx Required' : 'OTC'}
+                  </Badge>
+                ),
+              },
+            ]}
+          />
+        </Card>
+
+        <div className="space-y-6">
+          <Card title="Low Stock Alert">
+            <div className="space-y-4">
+              {mockMedicines.slice(0, 3).map((med) => (
+                <div
+                  key={med.id}
+                  className="flex justify-between items-center p-2 bg-rose-50 rounded-lg border border-rose-100"
+                >
+                  <div>
+                    <p className="text-sm font-medium text-rose-900">
+                      {med.name}
+                    </p>
+                    <p className="text-xs text-rose-600">
+                      {med.stock} units left
+                    </p>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="h-8 text-xs border-rose-200 text-rose-700 hover:bg-rose-100"
+                  >
+                    Restock
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          <Card title="Quick Stats">
+            <div className="space-y-4">
+              <div className="flex justify-between">
+                <span className="text-slate-600">Total Medicines</span>
+                <span className="font-bold">1,240</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-600">Categories</span>
+                <span className="font-bold">18</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-600">Expiring Soon</span>
+                <span className="font-bold text-amber-600">12</span>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+```
+```pages/Users.tsx
+import React, { useState } from 'react'
+import { Plus, Search, Filter } from 'lucide-react'
+import { Card } from '../components/ui/Card'
+import { Button } from '../components/ui/Button'
+import { Input } from '../components/ui/Input'
+import { Table } from '../components/ui/Table'
+import { Badge } from '../components/ui/Badge'
+import { Avatar } from '../components/ui/Avatar'
+import { Modal } from '../components/ui/Modal'
+import { mockUsers } from '../data/mockData'
+import { User } from '../types'
+export function UsersPage() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
+  const filteredUsers = mockUsers.filter(
+    (user) =>
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase()),
+  )
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-2xl font-bold text-slate-900">User Management</h2>
+          <p className="text-slate-500">Manage system access and roles</p>
+        </div>
+        <Button
+          onClick={() => setIsModalOpen(true)}
+          leftIcon={<Plus className="w-4 h-4" />}
+        >
+          Add New User
+        </Button>
+      </div>
+
+      <Card>
+        <div className="mb-6 flex flex-col sm:flex-row gap-4">
+          <div className="flex-1">
+            <Input
+              placeholder="Search users..."
+              leftIcon={<Search className="w-4 h-4" />}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <Button variant="outline" leftIcon={<Filter className="w-4 h-4" />}>
+            Filter
+          </Button>
+        </div>
+
+        <Table
+          data={filteredUsers}
+          columns={[
+            {
+              header: 'User',
+              accessor: (user: User) => (
+                <div className="flex items-center gap-3">
+                  <Avatar
+                    src={user.avatar}
+                    initials={user.name.charAt(0)}
+                    size="sm"
+                  />
+                  <div>
+                    <p className="font-medium text-slate-900">{user.name}</p>
+                    <p className="text-xs text-slate-500">{user.email}</p>
+                  </div>
+                </div>
+              ),
+            },
+            {
+              header: 'Role',
+              accessor: (user: User) => (
+                <span className="capitalize text-slate-700">
+                  {user.role.replace('_', ' ')}
+                </span>
+              ),
+            },
+            {
+              header: 'Status',
+              accessor: (user: User) => (
+                <Badge
+                  variant={user.status === 'active' ? 'success' : 'neutral'}
+                >
+                  {user.status}
+                </Badge>
+              ),
+            },
+            {
+              header: 'Joined',
+              accessor: 'joinedAt',
+            },
+            {
+              header: 'Actions',
+              accessor: () => (
+                <div className="flex gap-2">
+                  <button className="text-primary-600 hover:text-primary-700 font-medium text-xs">
+                    Edit
+                  </button>
+                  <button className="text-rose-600 hover:text-rose-700 font-medium text-xs">
+                    Delete
+                  </button>
+                </div>
+              ),
+            },
+          ]}
+        />
+      </Card>
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Add New User"
+        footer={
+          <>
+            <Button variant="ghost" onClick={() => setIsModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={() => setIsModalOpen(false)}>Create User</Button>
+          </>
+        }
+      >
+        <div className="space-y-4">
+          <Input label="Full Name" placeholder="John Doe" />
+          <Input
+            label="Email Address"
+            type="email"
+            placeholder="john@example.com"
+          />
+          <div className="grid grid-cols-2 gap-4">
+            <Input label="Role" placeholder="Select Role" />
+            <Input label="Branch" placeholder="Select Branch" />
+          </div>
+        </div>
+      </Modal>
+    </div>
+  )
+}
+
+```
+```tailwind.config.js
+
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./**/*.{js,ts,jsx,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          50: '#eff6ff',
+          100: '#dbeafe',
+          200: '#bfdbfe',
+          300: '#93c5fd',
+          400: '#60a5fa',
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8',
+          800: '#1e40af',
+          900: '#1e3a8a',
+        },
+        secondary: {
+          50: '#f0fdfa',
+          100: '#ccfbf1',
+          200: '#99f6e4',
+          300: '#5eead4',
+          400: '#2dd4bf',
+          500: '#14b8a6',
+          600: '#0d9488',
+          700: '#0f766e',
+          800: '#115e59',
+          900: '#134e4a',
+        },
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+      },
+      boxShadow: {
+        'glass': '0 8px 32px rgba(0, 0, 0, 0.08)',
+        'glass-sm': '0 4px 16px rgba(0, 0, 0, 0.06)',
+        'primary': '0 8px 32px rgba(37, 99, 235, 0.15)',
+        'secondary': '0 8px 32px rgba(20, 184, 166, 0.15)',
+      },
+    },
+  },
+  plugins: [],
+}
+
+```
+```types/index.ts
+export type UserRole =
+  | 'super_admin'
+  | 'branch_admin'
+  | 'doctor'
+  | 'patient'
+  | 'nurse'
+  | 'pharmacist'
+  | 'receptionist'
+
+export interface User {
+  id: string
+  name: string
+  email: string
+  role: UserRole
+  avatar?: string
+  branchId?: string
+  status: 'active' | 'inactive'
+  joinedAt: string
+}
+
+export interface Branch {
+  id: string
+  name: string
+  address: string
+  phone: string
+  managerId: string
+  status: 'active' | 'maintenance'
+  stats: {
+    doctors: number
+    patients: number
+    revenue: number
+  }
+}
+
+export interface Doctor {
+  id: string
+  userId: string
+  name: string
+  specialization: string
+  qualification: string
+  experience: number // years
+  availability: string[] // e.g., ["Mon", "Wed", "Fri"]
+  branchId: string
+  rating: number
+  patientsCount: number
+}
+
+export interface Patient {
+  id: string
+  userId: string
+  name: string
+  age: number
+  gender: 'male' | 'female' | 'other'
+  bloodGroup: string
+  phone: string
+  address: string
+  lastVisit: string
+  medicalHistory: string[]
+}
+
+export interface Appointment {
+  id: string
+  patientId: string
+  patientName: string
+  doctorId: string
+  doctorName: string
+  branchId: string
+  date: string
+  time: string
+  status: 'scheduled' | 'completed' | 'cancelled' | 'no-show'
+  type: 'consultation' | 'follow-up' | 'emergency'
+  notes?: string
+}
+
+export interface Medicine {
+  id: string
+  name: string
+  category: string
+  manufacturer: string
+  price: number
+  stock: number
+  expiryDate: string
+  branchId: string
+  requiresPrescription: boolean
+}
+
+export interface StatCardData {
+  label: string
+  value: string | number
+  trend?: {
+    value: number
+    isPositive: boolean
+  }
+  icon: React.ElementType
+  color: 'primary' | 'secondary' | 'success' | 'warning' | 'error'
+}
+
+```
+
+
+
+You are a senior principal software engineer and solution architect with experience delivering enterprise-grade, production systems.
+
+You are accountable for:
+
+correctness
+
+maintainability
+
+security
+
+performance
+
+scalability
+
+long-term evolution
+
+You must not guess, not invent APIs, and not assume undocumented behavior.
+
+CORE OPERATING RULES (NON-NEGOTIABLE)
+
+NO HALLUCINATIONS
+
+If information is missing, explicitly state:
+
+“Insufficient information — clarification required.”
+
+Never invent:
+
+APIs
+
+libraries
+
+environment variables
+
+configurations
+
+database schemas
+
+CLEAN CODE ENFORCEMENT
+Every output must comply with:
+
+SOLID principles
+
+DRY (Do Not Repeat Yourself)
+
+KISS (Keep It Simple, Stupid)
+
+Separation of Concerns
+
+Explicit naming (no vague names like data, temp, handleStuff)
+
+INDUSTRIAL STRUCTURE
+
+Use layered architecture:
+
+Presentation → Application → Domain → Infrastructure
+
+
+No business logic in UI
+
+No database logic in controllers
+
+No framework leakage into domain logic
+
+FAIL-SAFE DESIGN
+
+Validate inputs explicitly
+
+Handle all error paths
+
+Never ignore edge cases
+
+Always provide meaningful error messages
+
+TECHNOLOGY DISCIPLINE
+
+Before writing any code:
+
+Confirm:
+
+framework versions
+
+runtime environment
+
+deployment target
+
+database type
+
+If not provided → ask once, clearly, then stop.
+
+CODING STANDARDS
+Frontend
+
+Functional components only
+
+No inline business logic
+
+Strict typing (TypeScript preferred)
+
+Predictable state management
+
+Accessibility (WCAG basics)
+
+Defensive rendering (null-safe)
+
+Backend
+
+Stateless services
+
+Explicit DTOs
+
+Input validation at boundaries
+
+Centralized error handling
+
+No silent failures
+
+Logging (structured, not console spam)
+
+Database
+
+Normalized schema
+
+Explicit constraints
+
+Index rationale documented
+
+Migrations over ad-hoc changes
+
+SECURITY REQUIREMENTS (MANDATORY)
+
+Always consider:
+
+Authentication & authorization
+
+Input sanitization
+
+Injection attacks
+
+Secrets management
+
+Least privilege access
+
+Secure defaults
+
+If security is out of scope, state explicitly:
+
+“Security intentionally omitted for this example.”
+
+PERFORMANCE & SCALABILITY
+
+Avoid premature optimization
+
+Explain performance trade-offs
+
+Identify bottlenecks
+
+Ensure horizontal scalability compatibility
+
+No blocking operations in request paths
+
+TESTING REQUIREMENTS
+
+Every feature must include:
+
+Unit test strategy
+
+Edge cases
+
+Failure scenarios
+
+Mock boundaries clearly defined
+
+If tests are not written, explain why.
+
+DOCUMENTATION RULES
+
+Every output must include:
+
+What this does
+
+Why this approach
+
+Key assumptions
+
+Limitations
+
+How to extend safely
+
+RESPONSE FORMAT (STRICT)
+
+For each response, follow this structure:
+
+Understanding & Assumptions
+
+Architecture Overview
+
+Key Design Decisions
+
+Implementation
+
+Code (clean, formatted)
+
+No pseudo-code unless requested
+
+Edge Cases & Failure Modes
+
+Security Considerations
+
+Testing Strategy
+
+Next Safe Iterations
+
+PROHIBITED BEHAVIORS
+
+❌ Over-verbosity without substance
+❌ Generic tutorials
+❌ “Just works” explanations
+❌ Mixing concerns
+❌ Ignoring constraints
+❌ Overengineering without justification
+
+QUALITY BAR
+
+Before producing output, internally verify:
+
+Would this pass a senior engineer code review?
+
+Would this survive production traffic?
+
+Would another developer understand it in 6 months?
+
+If not → revise before responding.
+
+FINAL INSTRUCTION
+
+If any part of the task conflicts with clean architecture, security, or correctness, pause and explain the conflict instead of proceeding.

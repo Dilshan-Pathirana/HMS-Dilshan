@@ -4,8 +4,26 @@
 # Node.js dependencies
 /node_modules/
 
+# Frontend build artifacts
+/frontend/node_modules/
+/frontend/dist/
+/frontend/build/
+/frontend/.vite/
+/frontend/.cache/
+/frontend/.eslintcache
+/frontend/coverage/
+/frontend/.turbo/
+/frontend/.next/
+/frontend/.parcel-cache/
+/frontend/.storybook-static/
+/frontend/.svelte-kit/
+/frontend/.nuxt/
+/frontend/.output/
+
 # Environment files
 .env
+.env.*
+!.env.example
 .env.backup
 
 # IDE directories
@@ -15,6 +33,7 @@
 # Log files
 *.log
 /storage/logs/*.log
+logs/
 
 # Compiled assets
 /public/build/
@@ -28,6 +47,56 @@
 
 # Temporary files
 .DS_Store
+Thumbs.db
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak
+*~
+
+# Python cache/venv
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.coverage
+coverage/
+.venv/
+venv/
+ENV/
+env/
+*.egg-info/
+pip-wheel-metadata/
+
+# Composer
+/vendor/
+composer.phar
+
+# Laravel / PHP
+/storage/*.key
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/public/hot
+/public/storage
+/.phpunit.result.cache
+/.phpunit.cache
+/.phpunit.cache/*
+
+# Build outputs
+/dist/
+/build/
+/.turbo/
+/.next/
+/.vite/
+/.parcel-cache/
+/.cache/
+*.tsbuildinfo
 # Test files
 .phpunit.result.cache
 /tests/
@@ -44,3 +113,38 @@ create_test_notification.php
 *.ps1
 hms-ec2-keypair-IMPORTANT.pem
 req.txt
+
+# Secrets and sensitive artifacts
+*.pem
+*.key
+*.pfx
+*.p12
+*.crt
+*.cer
+*.der
+*.jks
+*.keystore
+*.kdb
+*.ppk
+*.asc
+*.gpg
+*.age
+*.sops
+*.vault
+*.secret
+*.secrets
+*.har
+**/.aws/
+**/credentials
+**/id_rsa
+**/id_rsa.pub
+**/id_dsa
+**/id_ecdsa
+**/id_ed25519
+**/firebase-adminsdk*.json
+**/serviceAccount*.json
+**/*service-account*.json
+**/azure-credentials*.json
+**/gcp-credentials*.json
+single-line-key.txt
+localhost.har

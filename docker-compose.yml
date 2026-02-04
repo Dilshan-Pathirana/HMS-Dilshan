@@ -1,0 +1,68 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: hms-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://hms:secret@db/hms_db
+      - SECRET_KEY=changethis_secret_key_in_production
+      - ALGORITHM=HS256
+      - ACCESS_TOKEN_EXPIRE_MINUTES=30
+    depends_on:
+      - db
+    networks:
+      - hms-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  frontend:
+    image: node:20-alpine
+    container_name: hms-frontend
+    working_dir: /app
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: sh -c "npm install && npm run dev -- --host"
+    networks:
+      - hms-network
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    container_name: hms-db-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: hms
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: hms_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hms -d hms_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - hms-network
+
+networks:
+  hms-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

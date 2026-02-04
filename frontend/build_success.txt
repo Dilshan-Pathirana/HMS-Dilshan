@@ -1,0 +1,37 @@
+﻿
+> frontend@0.0.0 build
+> tsc -b && vite build
+
+[36mvite v5.4.19 [32mbuilding for production...[36m[39m
+transforming...
+node.exe : Browserslist: browsers data (caniuse-lite) is 9 months old. Please run:
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Users\Dilshan\AppData\Roamin ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Browserslist: b...ld. Please run::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+[32mΓ£ô[39m 4783 modules transformed.
+rendering chunks...
+computing gzip size...
+[2mdist/[22m[32mindex.html                          [39m[1m[2m    0.72 kB[22m[1m[22m[2m Γöé gzip:     0.39 kB[22m
+[2mdist/[22m[32massets/slick-BlzDm7g2.svg           [39m[1m[2m    2.15 kB[22m[1m[22m[2m Γöé gzip:     0.91 kB[22m
+[2mdist/[22m[32massets/ajax-loader-BcnMEykj.gif     [39m[1m[2m    4.18 kB[22m[1m[22m
+[2mdist/[22m[32massets/cure-logo-MXuV97Oj.png       [39m[1m[2m  123.96 kB[22m[1m[22m
+[2mdist/[22m[32massets/heroImage-B6Ed-urG.png       [39m[1m[2m  293.38 kB[22m[1m[22m
+[2mdist/[22m[32massets/image1-BCJWPDBR.svg          [39m[1m[2m  507.95 kB[22m[1m[22m[2m Γöé gzip:   381.85 kB[22m
+[2mdist/[22m[32massets/image2-Dabkg4kV.svg          [39m[1m[2m6,159.32 kB[22m[1m[22m[2m Γöé gzip: 4,635.94 kB[22m
+[2mdist/[22m[35massets/index-CPBLNmiX.css           [39m[1m[2m  195.07 kB[22m[1m[22m[2m Γöé gzip:    29.16 kB[22m
+[2mdist/[22m[36massets/purify.es-C_uT9hQ1.js        [39m[1m[2m   21.98 kB[22m[1m[22m[2m Γöé gzip:     8.74 kB[22m
+[2mdist/[22m[36massets/index.es-CR-MAKw7.js         [39m[1m[2m  149.43 kB[22m[1m[22m[2m Γöé gzip:    51.05 kB[22m
+[2mdist/[22m[36massets/html2canvas.esm-CBrSDip1.js  [39m[1m[2m  201.42 kB[22m[1m[22m[2m Γöé gzip:    48.03 kB[22m
+[2mdist/[22m[36massets/index-DFtPBFlv.js            [39m[1m[33m7,329.53 kB[39m[22m[2m Γöé gzip: 1,787.64 kB[22m
+[33m
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: 
+https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+[32mΓ£ô built in 51.00s[39m

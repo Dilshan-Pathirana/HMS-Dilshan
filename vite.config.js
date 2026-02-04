@@ -3,16 +3,25 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 
 export default defineConfig({
-  base: '/build/',          // Laravel expects /build/ for assets
+  base: '/',          // Standalone SPA
   plugins: [react()],
-  root: path.resolve(__dirname, 'resources/frontend'),   // your source folder
-  publicDir: path.resolve(__dirname, 'resources/frontend/public'), // static files like favicon.ico
+  root: path.resolve(__dirname, 'resources/frontend'),
+  publicDir: path.resolve(__dirname, 'resources/frontend/public'),
+
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
+    }
+  },
 
   build: {
-    outDir: path.resolve(__dirname, 'public/build'),    // compiled assets go here
+    outDir: path.resolve(__dirname, 'public/build'),
     emptyOutDir: true,
-    manifest: true,                                     // MUST be true
-    assetsDir: 'assets',                                // assets folder
+    manifest: true,
+    assetsDir: 'assets',
     sourcemap: false,
     rollupOptions: {
       input: path.resolve(__dirname, 'resources/frontend/index.html'),
