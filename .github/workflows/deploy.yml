@@ -48,8 +48,12 @@ jobs:
               exit 1
             fi
 
-            echo "Updating repository..."
+            echo "Fixing file permissions before git operations..."
             cd "$APP_DIR"
+            sudo chown -R ubuntu:ubuntu . 2>/dev/null || true
+            sudo chmod -R u+rwX . 2>/dev/null || true
+
+            echo "Updating repository..."
             git fetch --all
             git reset --hard origin/main
             git clean -fd
