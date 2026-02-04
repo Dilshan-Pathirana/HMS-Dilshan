@@ -1,86 +1,16 @@
-name: Deploy to AWS EC2
+name: Deploy to AWS EC2 (Docker)
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
-  build-backend:
-    name: Build Backend
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Setup PHP 8.4
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.4'
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
-          coverage: none
-
-      - name: Install Composer Dependencies
-        run: composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
-
-      - name: Optimize Laravel Caches
-        run: |
-          php artisan config:cache
-          php artisan route:cache
-          php artisan view:cache || true
-
-  build-frontend:
-    name: Build Frontend
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js 20
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install NPM Dependencies
-        run: npm install --legacy-peer-deps
-
-      - name: Build Frontend Assets
-        run: npm run build
-        env:
-          NODE_OPTIONS: "--max-old-space-size=4096"
-
-      - name: Verify Build Output
-        run: |
-          if [ ! -d "public/build" ]; then
-            echo "Error: Build output directory not found!"
-            exit 1
-          fi
-          echo "Build output exists. Contents:"
-          ls -la public/build/
-
-      - name: Upload Frontend Build for Deployment
-        uses: actions/upload-artifact@v4
-        with:
-          name: frontend-dist
-          path: public/build/
-          if-no-files-found: error
-          retention-days: 1
-
   deploy:
-    name: Deploy to EC2
-    needs: [build-backend, build-frontend]
+    name: Deploy with Docker Compose
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Download Frontend Build
-        uses: actions/download-artifact@v4
-        with:
-          name: frontend-dist
-          path: ./frontend-dist
-
       - name: Configure SSH Key
         run: |
           mkdir -p ~/.ssh
@@ -102,89 +32,42 @@ jobs:
           EOF
           chmod 600 ~/.ssh/config
 
-      - name: Verify Downloaded Artifact
-        run: |
-          echo "Checking downloaded frontend artifacts:"
-          ls -la ./frontend-dist/
-          echo "Total files to transfer:"
-          find ./frontend-dist -type f | wc -l
-
       - name: Test SSH Connection
         run: |
           echo "Testing SSH connection to EC2..."
-          ssh -v -o ConnectTimeout=10 ec2 'echo "SSH connection successful!"'
+          ssh -o ConnectTimeout=10 ec2 'echo "SSH connection successful!"'
 
-      - name: Upload Frontend Build to EC2
-        run: |
-          # Ensure remote temp folder exists
-          ssh ec2 'mkdir -p /tmp/frontend-dist-new'
-          # Transfer files
-          scp -r ./frontend-dist/* ec2:/tmp/frontend-dist-new/
-
-      - name: Deploy Backend & Frontend to EC2
+      - name: Deploy via Docker Compose
         run: |
           ssh -o StrictHostKeyChecking=no ec2 'bash -s' <<'EOF'
             set -e
             APP_DIR="/var/www/hms-app"
+
+            if [ ! -d "$APP_DIR/.git" ]; then
+              echo "Error: Repo not found at $APP_DIR"
+              exit 1
+            fi
+
+            echo "Updating repository..."
             cd "$APP_DIR"
+            git fetch --all
+            git reset --hard origin/main
+            git clean -fd
 
-            echo "Fixing ownership and permissions before Git pull..."
-            sudo chown -R ubuntu:ubuntu .
-            sudo find . -type d -exec chmod 755 {} \;
-            sudo find . -type f -exec chmod 644 {} \;
-
-            # Ensure frontend build folder exists
-            [ ! -d public/build ] && mkdir -p public/build
-            sudo chmod -R 775 storage bootstrap/cache public/assets public/build
-
-            echo "Resetting local changes and pulling latest code..."
-            git reset --hard
-            git pull origin main
-
-            echo "Installing backend dependencies..."
-            composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
-
-            echo "Configuring environment for MySQL..."
-            if [ ! -f .env ]; then
-              cp .env.example .env
-            fi
-            sed -i "s/^DB_CONNECTION=.*/DB_CONNECTION=mysql/" .env
-            sed -i "s/^.*\bDB_HOST=.*/DB_HOST=${{ secrets.DB_HOST }}/" .env
-            sed -i "s/^.*\bDB_PORT=.*/DB_PORT=3306/" .env
-            sed -i "s/^.*\bDB_DATABASE=.*/DB_DATABASE=${{ secrets.DB_DATABASE }}/" .env
-            sed -i "s/^.*\bDB_USERNAME=.*/DB_USERNAME=${{ secrets.DB_USERNAME }}/" .env
-            sed -i "s/^.*\bDB_PASSWORD=.*/DB_PASSWORD=${{ secrets.DB_PASSWORD }}/" .env
-            
-            echo "Configuring Vite API URL..."
-            if grep -q "^VITE_API_BASE_URL=" .env; then
-              sed -i "s|^VITE_API_BASE_URL=.*|VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}|" .env
-            else
-              echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> .env
+            echo "Ensuring Docker and Compose are installed..."
+            if ! command -v docker >/dev/null 2>&1; then
+              sudo apt-get update
+              sudo apt-get install -y docker.io
+              sudo systemctl enable --now docker
             fi
 
-            echo "Running migrations..."
-            php artisan migrate --force
-
-            echo "Caching configs..."
-            php artisan config:cache
-            php artisan route:cache
-            php artisan view:cache || true
-
-            echo "Deploying frontend assets from /tmp/frontend-dist-new..."
-            rsync -avz --delete /tmp/frontend-dist-new/ /var/www/hms-app/public/build/
-            rm -rf /tmp/frontend-dist-new
-
-            echo "Fixing Laravel writable directories again..."
-            sudo chown -R www-data:www-data storage bootstrap/cache public public/build
-            sudo chmod -R 775 storage bootstrap/cache public/assets public/build
-
-            echo "Restarting Nginx..."
-            sudo systemctl restart nginx
-
-            echo "Restarting Laravel queue workers..."
-            if systemctl is-active --quiet supervisor; then
-               sudo supervisorctl restart hms-worker:*
+            if ! docker compose version >/dev/null 2>&1; then
+              sudo apt-get update
+              sudo apt-get install -y docker-compose-plugin
             fi
+
+            echo "Deploying containers with docker-compose.prod.yml..."
+            docker compose -f docker-compose.prod.yml up -d --build --remove-orphans
 
             echo "Deployment finished successfully!"
           EOF
