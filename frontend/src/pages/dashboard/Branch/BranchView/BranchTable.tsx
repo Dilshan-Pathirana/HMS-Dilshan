@@ -40,14 +40,13 @@ const BranchTable = ({
             try {
                 setIsLoading(true);
                 const response = await getAllBranches();
-                // Check if response is an array (the list of branches) or has branches property
-                let fetchedBranches = [];
-                if (Array.isArray(response)) {
-                    fetchedBranches = response;
-                } else if (response && response.branches) {
-                    fetchedBranches = response.branches;
-                } else if (response && response.data) {
-                    fetchedBranches = response.data;
+                // Check if response data is an array (the list of branches) or has branches property
+                const responseData = response?.data;
+                let fetchedBranches: IBranchData[] = [];
+                if (Array.isArray(responseData)) {
+                    fetchedBranches = responseData;
+                } else if (responseData && responseData.branches) {
+                    fetchedBranches = responseData.branches;
                 }
 
                 setBranches(fetchedBranches);
