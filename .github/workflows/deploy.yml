@@ -46,7 +46,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "deploy/*"
+          source: "deploy/."
           target: "/tmp/hms-deploy"
 
       # Deploy via SSH
