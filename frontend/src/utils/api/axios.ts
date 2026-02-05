@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Use nullish coalescing to allow empty string as valid baseURL
 // Empty string means no prefix (nginx handles /api/v1 routing)
-const baseURL = import.meta.env.VITE_API_BASE_URL ?? '/api/v1';
+const baseURL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
 
 const api = axios.create({
     baseURL,
