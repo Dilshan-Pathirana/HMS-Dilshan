@@ -14,6 +14,7 @@ export default defineConfig({
         include: [
             'react',
             'react-dom',
+            'react/jsx-runtime',
             'react-router-dom',
             '@reduxjs/toolkit',
             'react-redux',
@@ -26,6 +27,9 @@ export default defineConfig({
             'sweetalert2',
             'date-fns',
             'recharts',
+            '@headlessui/react',
+            'react-select',
+            'react-datepicker',
         ],
         force: false, // Only force when needed
     },
@@ -54,7 +58,7 @@ export default defineConfig({
 
     // Build optimizations
     build: {
-        target: 'es2015',
+        target: 'esnext',
         outDir: 'dist',
         sourcemap: false, // Disable sourcemaps in production for smaller bundle
         chunkSizeWarningLimit: 1000,
@@ -64,6 +68,21 @@ export default defineConfig({
                 chunkFileNames: 'assets/[name]-[hash].js',
                 entryFileNames: 'assets/[name]-[hash].js',
                 assetFileNames: 'assets/[name]-[hash].[ext]',
+                // Manual chunks to prevent React duplication and ensure proper loading order
+                manualChunks: {
+                    // React core - must load first
+                    'react-vendor': ['react', 'react-dom', 'react/jsx-runtime'],
+                    // Redux & state management
+                    'redux-vendor': ['@reduxjs/toolkit', 'react-redux', 'redux-persist'],
+                    // Router
+                    'router-vendor': ['react-router-dom'],
+                    // UI libraries
+                    'ui-vendor': ['framer-motion', 'lucide-react', 'react-icons', '@headlessui/react'],
+                    // Charts
+                    'chart-vendor': ['recharts'],
+                    // Forms & inputs
+                    'form-vendor': ['react-select', 'react-datepicker', 'react-multi-select-component'],
+                },
             },
         },
         // Minification settings
