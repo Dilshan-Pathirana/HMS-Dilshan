@@ -26,9 +26,13 @@ jobs:
 
       - name: Build frontend
         working-directory: frontend
+        env:
+          NODE_OPTIONS: --max-old-space-size=2048
+          NPM_CONFIG_AUDIT: "false"
+          NPM_CONFIG_FUND: "false"
         run: |
-          npm ci
-          NODE_OPTIONS="--max-old-space-size=1024" npm run build
+          npm ci --prefer-offline
+          npm run build
 
       # Package files to send to EC2
       - name: Prepare files for deploy
