@@ -128,9 +128,23 @@ jobs:
             # Update current symlink
             ln -sfn $RELEASE_DIR $APP_DIR/current
 
-            # Restart backend via PM2
+            # Create logs directory if it doesn't exist
+            mkdir -p $APP_DIR/logs
+
+            # Create .env file for backend with proper environment variables
+            cat > $APP_DIR/current/backend/.env <<EOF
+DATABASE_URL=$DATABASE_URL
+SECRET_KEY=$SECRET_KEY
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+EOF
+
+            # Restart backend via PM2 with ecosystem config
+            cd $APP_DIR/current/backend
+            export DATABASE_URL="$DATABASE_URL"
+            export SECRET_KEY="$SECRET_KEY"
             pm2 delete hms-backend || true
-            pm2 start "$APP_DIR/current/backend/.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000" --name hms-backend --update-env
+            pm2 start ecosystem.config.js --update-env
             pm2 save
 
             # Reload nginx

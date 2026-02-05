@@ -25,6 +25,8 @@ origins = [
     "http://localhost:5173",  # React Dev Server
     "http://localhost:3000",
     "http://localhost",
+    "http://13.233.254.140",  # AWS EC2 Production
+    "http://13.233.254.140:80",
 ]
 
 app.add_middleware(
@@ -98,5 +100,23 @@ def read_root():
     return {"message": "Welcome to HMS API (FastAPI + MySQL)"}
 
 @app.get("/health")
-def health_check():
-    return {"status": "ok"}
+async def health_check():
+    """Enhanced health check with database connectivity test"""
+    from sqlalchemy import text
+    from app.core.database import async_engine
+
+    health_status = {
+        "status": "ok",
+        "api": "healthy"
+    }
+
+    try:
+        # Test database connectivity
+        async with async_engine.connect() as conn:
+            await conn.execute(text("SELECT 1"))
+        health_status["database"] = "connected"
+    except Exception as e:
+        health_status["status"] = "degraded"
+        health_status["database"] = f"error: {str(e)}"
+
+    return health_status
