@@ -40,6 +40,15 @@ jobs:
           mkdir -p deploy
           rsync -a --exclude '.git' --exclude 'node_modules' ./frontend ./backend ./package.json ./package-lock.json deploy/
 
+      - name: Upload deploy package to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "deploy/*"
+          target: "/tmp/hms-deploy"
+
       # Deploy via SSH
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.0.3
@@ -54,7 +63,7 @@ jobs:
             mkdir -p $RELEASE_DIR
 
             # Copy code from runner to EC2 release dir
-            rsync -a --delete ~/deploy/ $RELEASE_DIR/
+            rsync -a --delete /tmp/hms-deploy/ $RELEASE_DIR/
 
             # Backend setup
             cd $RELEASE_DIR/backend
