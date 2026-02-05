@@ -80,7 +80,7 @@ jobs:
               sudo apt-get update
               sudo apt-get install -y python3.12 python3.12-venv python3.12-distutils
             fi
-            
+
             # Ensure pip for Python 3.12
             if ! python3.12 -m pip --version &> /dev/null; then
               curl -sSL https://bootstrap.pypa.io/get-pip.py | sudo python3.12 -
@@ -93,7 +93,7 @@ jobs:
 
             # Use Python 3.12 for this project
             poetry env use /usr/bin/python3.12
-            
+
             poetry install --no-interaction --no-ansi
 
             # Run migrations
