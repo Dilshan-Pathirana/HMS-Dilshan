@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import api from "../../../../utils/api/axios";
 import alert from "../../../../utils/alert";
 import { IBranchFormDataProps } from "../../../../utils/types/Branch/IBranchData.ts";
@@ -88,7 +88,7 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
 
         try {
             const response = await api.post(
-                "/api/v1/branches",
+                "/branches",
                 formDataToSend,
                 {
                     headers: {

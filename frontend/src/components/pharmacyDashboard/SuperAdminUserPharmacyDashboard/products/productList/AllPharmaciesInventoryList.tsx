@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import api from "../../../../../utils/api/axios";
 import { Search, Filter, Package, AlertTriangle, Calendar, Building2, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -62,7 +62,7 @@ const AllPharmaciesInventoryList: React.FC = () => {
     const fetchPharmacies = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await api.get('http://127.0.0.1:8000/api/v1/pharmacies', {
+            const response = await api.get('/pharmacies', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             
@@ -78,7 +78,7 @@ const AllPharmaciesInventoryList: React.FC = () => {
         try {
             setLoading(true);
             const token = localStorage.getItem('token');
-            let url = 'http://127.0.0.1:8000/api/v1/pharmacy-inventory';
+            let url = '/pharmacy-inventory';
             const params = new URLSearchParams();
 
             params.append('page', page.toString());

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { 
     User, Mail, Phone, MapPin, Lock, Camera, Save, Eye, EyeOff, 
     CheckCircle, AlertCircle, Shield, Key, Settings, Bell, 
@@ -69,7 +69,7 @@ const POSProfile: React.FC = () => {
             // Try to fetch from cashier profile API
             try {
                 const response = await api.get(
-                    `http://127.0.0.1:8000/api/cashier-profile`,
+                    `/api/cashier-profile`,
                     getAuthHeaders()
                 );
                 console.log('API response:', response.data);
@@ -134,7 +134,7 @@ const POSProfile: React.FC = () => {
         setSaving(true);
         try {
             const response = await api.put(
-                `http://127.0.0.1:8000/api/cashier-profile`,
+                `/api/cashier-profile`,
                 editData,
                 getAuthHeaders()
             );
@@ -171,7 +171,7 @@ const POSProfile: React.FC = () => {
         setSaving(true);
         try {
             const response = await api.put(
-                `http://127.0.0.1:8000/api/cashier-profile/password`,
+                `/api/cashier-profile/password`,
                 {
                     current_password: passwordData.current_password,
                     password: passwordData.new_password,
@@ -202,7 +202,7 @@ const POSProfile: React.FC = () => {
         try {
             const token = localStorage.getItem('authToken');
             const response = await api.post(
-                `http://127.0.0.1:8000/api/cashier-profile/picture`,
+                `/api/cashier-profile/picture`,
                 formData,
                 {
                     headers: { 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import api from "../../utils/api/axios";
 import {
     MessageSquare, Plus, Send, CheckCircle, AlertCircle, Clock,
@@ -49,7 +49,7 @@ const CashierFeedback: React.FC = () => {
         try {
             setLoading(true);
             const response = await api.get(
-                'http://127.0.0.1:8000/api/cashier-my-feedbacks',
+                '/api/cashier-my-feedbacks',
                 getAuthHeaders()
             );
 
@@ -72,7 +72,7 @@ const CashierFeedback: React.FC = () => {
 
         try {
             const response = await api.post(
-                'http://127.0.0.1:8000/api/submit-feedback',
+                '/api/submit-feedback',
                 {
                     type: newFeedback.type,
                     category: newFeedback.category,

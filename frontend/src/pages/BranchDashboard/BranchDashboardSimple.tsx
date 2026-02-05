@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from "../../utils/api/axios";
 import { Building2, ArrowLeft } from 'lucide-react';
@@ -30,7 +30,7 @@ const BranchDashboardSimple: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await api.get(`http://127.0.0.1:8000/api/v1/branches/${id}`);
+      const response = await api.get(`/branches/${id}`);
       
       // Handle the response structure - the API returns { success: true, data: { branch: {...}, statistics: {...} } }
       const branchData = response.data.data?.branch || response.data.data;

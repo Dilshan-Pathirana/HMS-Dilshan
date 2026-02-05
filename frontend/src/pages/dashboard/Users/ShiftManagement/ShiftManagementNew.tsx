@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import api from "../../../../utils/api/axios";
 import { Plus, Trash2, Calendar, Clock, User, X, Search, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -116,7 +116,7 @@ const ShiftManagement: React.FC = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await api.get("/api/v1/users");
+            const response = await api.get("/users");
             setUsers(response.data.users || []);
         } catch (error: any) {
             console.error("Error fetching users:", error);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import api from "../../../utils/api/axios";
 import { ArrowLeft, Plus, Package, Search, Edit, Trash2, X, Check, ChevronRight, ChevronLeft } from 'lucide-react';
 import SupplierCreateFormForAdmin from './products/productCreate/SupplierCreateFormForAdmin';
@@ -216,7 +216,7 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
         try {
             setLoading(true);
             const token = localStorage.getItem('token');
-            let url = `http://127.0.0.1:8000/api/v1/pharmacy-inventory?pharmacy_id=${pharmacyId}`;
+            let url = `/pharmacy-inventory?pharmacy_id=${pharmacyId}`;
 
             if (filter === 'low_stock') {
                 url += '&low_stock=true';
@@ -392,11 +392,11 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
 
             let response;
             if (showEditModal && selectedItem) {
-                response = await api.put(`http://127.0.0.1:8000/api/v1/pharmacy-inventory/${selectedItem.id}`, payload, {
+                response = await api.put(`/pharmacy-inventory/${selectedItem.id}`, payload, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
             } else {
-                response = await api.post('http://127.0.0.1:8000/api/v1/pharmacy-inventory', payload, {
+                response = await api.post('/pharmacy-inventory', payload, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
             }
@@ -426,7 +426,7 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
 
         try {
             const token = localStorage.getItem('token');
-            await api.delete(`http://127.0.0.1:8000/api/v1/pharmacy-inventory/${id}`, {
+            await api.delete(`/pharmacy-inventory/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setSuccess('Product deleted successfully!');

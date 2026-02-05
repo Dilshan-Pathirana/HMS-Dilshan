@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import api from "../../../../utils/api/axios";
 import {
     TrendingUp, AlertCircle, DollarSign, ShoppingCart,
@@ -66,7 +66,7 @@ const SuperAdminPOSAnalytics = () => {
         try {
             setIsLoading(true);
             const token = localStorage.getItem("authToken");
-            let url = `http://127.0.0.1:8000/api/super-admin/pos/analytics?range=${dateRange}`;
+            let url = `/api/super-admin/pos/analytics?range=${dateRange}`;
             if (selectedBranchId) {
                 url += `&branch_id=${selectedBranchId}`;
             }

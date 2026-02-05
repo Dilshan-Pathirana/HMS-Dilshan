@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import api from "../../../../utils/api/axios";
 import {
     DollarSign, ShoppingCart, TrendingUp, AlertCircle,
@@ -58,8 +58,8 @@ const SuperAdminPOSDashboardEnhanced = () => {
             setIsLoading(true);
             const token = localStorage.getItem("authToken");
             const url = selectedBranchId 
-                ? `http://127.0.0.1:8000/api/super-admin/pos/dashboard-stats?branch_id=${selectedBranchId}`
-                : "http://127.0.0.1:8000/api/super-admin/pos/dashboard-stats";
+                ? `/api/super-admin/pos/dashboard-stats?branch_id=${selectedBranchId}`
+                : "/api/super-admin/pos/dashboard-stats";
             
             const response = await api.get(url, {
                 headers: { Authorization: `Bearer ${token}` },

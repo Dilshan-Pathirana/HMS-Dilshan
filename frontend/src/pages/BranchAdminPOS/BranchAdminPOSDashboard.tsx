@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../utils/api/axios";
 import {
@@ -56,7 +56,7 @@ const BranchAdminPOSDashboard = () => {
             setIsLoading(true);
             const token = localStorage.getItem("authToken");
             const response = await api.get(
-                "http://127.0.0.1:8000/api/branch-admin/pos/dashboard-stats",
+                "/api/branch-admin/pos/dashboard-stats",
                 {
                     headers: { Authorization: `Bearer ${token}` },
                 }

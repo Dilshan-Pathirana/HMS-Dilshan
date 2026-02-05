@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import api from "../../../utils/api/axios";
 import { Store, Eye, Edit, Trash2, MapPin, Phone, Mail, User, Plus } from 'lucide-react';
 
@@ -156,7 +156,7 @@ const PharmacyEditModal: React.FC<PharmacyEditModalProps> = ({ pharmacy, onClose
     try {
       const token = localStorage.getItem('token');
       await api.put(
-        `http://127.0.0.1:8000/api/v1/pharmacies/${pharmacy.id}`,
+        `/pharmacies/${pharmacy.id}`,
         formData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -325,7 +325,7 @@ const PharmacyCreateModal: React.FC<PharmacyCreateModalProps> = ({ onClose, onUp
     try {
       const token = localStorage.getItem('token');
       await api.post(
-        'http://127.0.0.1:8000/api/v1/pharmacies',
+        '/pharmacies',
         formData,
         { 
           headers: { 
@@ -541,7 +541,7 @@ const PharmacyManagement: React.FC = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
-      const response = await api.get('http://127.0.0.1:8000/api/v1/pharmacies', {
+      const response = await api.get('/pharmacies', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setPharmacies(response.data.data?.pharmacies || response.data.data || []);
@@ -556,7 +556,7 @@ const PharmacyManagement: React.FC = () => {
   const fetchBranches = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await api.get('http://127.0.0.1:8000/api/v1/branches', {
+      const response = await api.get('/branches', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setBranches(response.data.data?.branches || response.data.data || []);
@@ -570,7 +570,7 @@ const PharmacyManagement: React.FC = () => {
 
     try {
       const token = localStorage.getItem('token');
-      await api.delete(`http://127.0.0.1:8000/api/v1/pharmacies/${pharmacyId}`, {
+      await api.delete(`/pharmacies/${pharmacyId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchPharmacies();

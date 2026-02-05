@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { DashboardLayout } from '../../../../components/common/Layout/DashboardLayout';
 import {
     Users, Calendar, Clock, Plus, Trash2, ChevronLeft, ChevronRight,
@@ -633,7 +633,7 @@ export const StaffScheduling: React.FC = () => {
 
             // Create overtime assignment via API
             const response = await api.post(
-                'http://127.0.0.1:8000/api/assign-overtime',
+                '/api/assign-overtime',
                 {
                     user_id: overtimeAssignment.userId,
                     branch_id: userBranchId,
@@ -756,7 +756,7 @@ export const StaffScheduling: React.FC = () => {
             const selectedUser = users.find(u => u.id === overtimeAssignment.userId);
 
             const response = await api.put(
-                `http://127.0.0.1:8000/api/update-overtime/${editingOvertimeId}`,
+                `/api/update-overtime/${editingOvertimeId}`,
                 {
                     user_id: overtimeAssignment.userId,
                     branch_id: userBranchId,
@@ -822,7 +822,7 @@ export const StaffScheduling: React.FC = () => {
             const token = localStorage.getItem('token');
 
             await api.delete(
-                `http://127.0.0.1:8000/api/delete-overtime/${id}`,
+                `/api/delete-overtime/${id}`,
                 {
                     headers: {
                         'Authorization': `Bearer ${token}`

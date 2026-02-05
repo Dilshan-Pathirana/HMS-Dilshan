@@ -1,4 +1,4 @@
-import api from "../axios";
+﻿import api from "../axios";
 import { userDetailsTypes } from "../../types/Appointment/IDoctorSchedule.ts";
 
 export interface AppointmentData {
@@ -54,7 +54,7 @@ export const createAppointmentForPayment = async (
             slot: appointmentData?.slot
         };
 
-        // const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+        // const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || '';
 
         const { data: result } = await api.post(`api/create-patient-appointment`, payload, {
             headers: {

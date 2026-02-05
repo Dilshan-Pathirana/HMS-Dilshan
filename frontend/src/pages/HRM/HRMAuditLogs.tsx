@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from "../../utils/api/axios";
 import { 
@@ -74,7 +74,7 @@ interface PaginationMeta {
     total: number;
 }
 
-const API_BASE = 'http://127.0.0.1:8000/api/hrm/super-admin';
+const API_BASE = '/api/hrm/super-admin';
 
 const HRMAuditLogs: React.FC = () => {
     const navigate = useNavigate();

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from "../../utils/api/axios";
 import { Plus, Trash2, ArrowLeft, Users, Search } from 'lucide-react';
@@ -52,7 +52,7 @@ const BranchStaff: React.FC = () => {
   const fetchBranchDetails = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await api.get(`http://127.0.0.1:8000/api/v1/branches/${id}`, {
+      const response = await api.get(`/branches/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       console.log('Branch response:', response.data);
@@ -69,7 +69,7 @@ const BranchStaff: React.FC = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
-      const response = await api.get(`http://127.0.0.1:8000/api/v1/branch-staff?branch_id=${id}`, {
+      const response = await api.get(`/branch-staff?branch_id=${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setStaffAssignments(response.data.data?.staff || response.data.data || []);
@@ -144,7 +144,7 @@ const BranchStaff: React.FC = () => {
         is_active: formData.is_active
       };
 
-      await api.post('http://127.0.0.1:8000/api/v1/branch-staff', payload, {
+      await api.post('/branch-staff', payload, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -172,7 +172,7 @@ const BranchStaff: React.FC = () => {
 
     try {
       const token = localStorage.getItem('token');
-      await api.delete(`http://127.0.0.1:8000/api/v1/branch-staff/${assignmentId}`, {
+      await api.delete(`/branch-staff/${assignmentId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchStaffAssignments();
@@ -185,7 +185,7 @@ const BranchStaff: React.FC = () => {
     try {
       const token = localStorage.getItem('token');
       await api.put(
-        `http://127.0.0.1:8000/api/v1/branch-staff/${assignment.id}`,
+        `/branch-staff/${assignment.id}`,
         { is_active: !assignment.is_active },
         { headers: { Authorization: `Bearer ${token}` } }
       );

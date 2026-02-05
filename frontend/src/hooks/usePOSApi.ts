@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Hook for POS API endpoints
  * 
  * Provides the correct API base path based on user role:
@@ -38,7 +38,7 @@ export const usePOSApi = (): POSApiEndpoints => {
     const userRole = useUserRole();
 
     return useMemo(() => {
-        const API_BASE = 'http://127.0.0.1:8000/api';
+        const API_BASE = '/api';
 
         if (userRole === SUPER_ADMIN) {
             return {
@@ -98,7 +98,7 @@ export const usePOSApi = (): POSApiEndpoints => {
  * Uses localStorage to get user role
  */
 export const getPOSApiEndpoints = (): POSApiEndpoints => {
-    const API_BASE = 'http://127.0.0.1:8000/api';
+    const API_BASE = '/api';
     
     // Try to get user info from localStorage
     let userRole = 0;

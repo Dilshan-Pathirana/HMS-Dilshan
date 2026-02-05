@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import api from "../../../../utils/api/axios";
 import { Search, Filter, Users, Building2, MapPin, Globe, Package, ChevronLeft, ChevronRight, Eye, Edit, Trash2, UserPlus, Copy, X } from 'lucide-react';
 import SupplierDetailsModal from './SupplierDetailsModal';
@@ -89,7 +89,7 @@ const AllPharmaciesSupplierList: React.FC = () => {
     const fetchPharmacies = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await api.get('http://127.0.0.1:8000/api/v1/pharmacies', {
+            const response = await api.get('/pharmacies', {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
@@ -105,7 +105,7 @@ const AllPharmaciesSupplierList: React.FC = () => {
         try {
             setLoading(true);
             const token = localStorage.getItem('token');
-            let url = 'http://127.0.0.1:8000/api/get-suppliers';
+            let url = '/api/get-suppliers';
             const params = new URLSearchParams();
 
             params.append('page', page.toString());
@@ -192,7 +192,7 @@ const AllPharmaciesSupplierList: React.FC = () => {
             try {
                 const token = localStorage.getItem('token');
                 const response = await api.delete(
-                    `http://127.0.0.1:8000/api/delete-supplier/${id}`,
+                    `/api/delete-supplier/${id}`,
                     { headers: { Authorization: `Bearer ${token}` } }
                 );
 
@@ -210,7 +210,7 @@ const AllPharmaciesSupplierList: React.FC = () => {
         try {
             const token = localStorage.getItem('token');
             const response = await api.put(
-                `http://127.0.0.1:8000/api/update-supplier/${updatedSupplier.id}`,
+                `/api/update-supplier/${updatedSupplier.id}`,
                 updatedSupplier,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -242,7 +242,7 @@ const AllPharmaciesSupplierList: React.FC = () => {
             try {
                 const token = localStorage.getItem('token');
                 const response = await api.post(
-                    `http://127.0.0.1:8000/api/create-supplier-account/${id}`,
+                    `/api/create-supplier-account/${id}`,
                     {},
                     { headers: { Authorization: `Bearer ${token}` } }
                 );

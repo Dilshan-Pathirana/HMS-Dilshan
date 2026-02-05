@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../utils/api/axios";
 import { 
@@ -72,7 +72,7 @@ const BranchAdminEODManagement = () => {
         try {
             const token = localStorage.getItem("token") || localStorage.getItem("authToken");
             const response = await api.get(
-                `http://127.0.0.1:8000/api/branch-admin/pos/eod-requests?date=${selectedDate}`,
+                `/api/branch-admin/pos/eod-requests?date=${selectedDate}`,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
 
@@ -99,7 +99,7 @@ const BranchAdminEODManagement = () => {
         try {
             const token = localStorage.getItem("token") || localStorage.getItem("authToken");
             const response = await api.post(
-                `http://127.0.0.1:8000/api/branch-admin/pos/eod-requests/${eodId}/approve`,
+                `/api/branch-admin/pos/eod-requests/${eodId}/approve`,
                 {},
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -126,7 +126,7 @@ const BranchAdminEODManagement = () => {
         try {
             const token = localStorage.getItem("token") || localStorage.getItem("authToken");
             const response = await api.post(
-                `http://127.0.0.1:8000/api/branch-admin/pos/eod-requests/${selectedEOD.id}/reject`,
+                `/api/branch-admin/pos/eod-requests/${selectedEOD.id}/reject`,
                 { rejection_reason: rejectionReason },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

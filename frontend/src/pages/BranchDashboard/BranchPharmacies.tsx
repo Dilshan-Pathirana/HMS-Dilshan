@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from "../../utils/api/axios";
 import { Plus, Edit, Trash2, ArrowLeft, Package, AlertCircle } from 'lucide-react';
@@ -60,7 +60,7 @@ const BranchPharmacies: React.FC = () => {
   const fetchBranchInfo = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await api.get(`http://127.0.0.1:8000/api/v1/branches/${id}`, {
+      const response = await api.get(`/branches/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const branchData = response.data.data?.branch || response.data.data;
@@ -76,7 +76,7 @@ const BranchPharmacies: React.FC = () => {
         setLoading(true);
       }
       const token = localStorage.getItem('token');
-      const response = await api.get(`http://127.0.0.1:8000/api/v1/pharmacies?branch_id=${id}`, {
+      const response = await api.get(`/pharmacies?branch_id=${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const fetchedPharmacies = response.data.data?.pharmacies || response.data.data || [];
@@ -97,7 +97,7 @@ const BranchPharmacies: React.FC = () => {
   const fetchAvailablePharmacies = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await api.get('http://127.0.0.1:8000/api/v1/pharmacies', {
+      const response = await api.get('/pharmacies', {
         headers: { Authorization: `Bearer ${token}` }
       });
       const allPharmacies = response.data.data?.pharmacies || response.data.data || [];
@@ -125,7 +125,7 @@ const BranchPharmacies: React.FC = () => {
       };
 
       if (editingPharmacy) {
-        await api.put(`http://127.0.0.1:8000/api/v1/pharmacies/${editingPharmacy.id}`, payload, {
+        await api.put(`/pharmacies/${editingPharmacy.id}`, payload, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setShowModal(false);
@@ -134,7 +134,7 @@ const BranchPharmacies: React.FC = () => {
       } else {
         // Check for conflicts before creating
         const checkResponse = await api.post(
-          'http://127.0.0.1:8000/api/v1/pharmacies/check-conflict',
+          '/pharmacies/check-conflict',
           payload,
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -144,7 +144,7 @@ const BranchPharmacies: React.FC = () => {
           setShowConflictDialog(true);
         } else {
           // No conflict, proceed with creation
-          await api.post('http://127.0.0.1:8000/api/v1/pharmacies', payload, {
+          await api.post('/pharmacies', payload, {
             headers: { Authorization: `Bearer ${token}` }
           });
           setShowModal(false);
@@ -179,13 +179,13 @@ const BranchPharmacies: React.FC = () => {
       if (conflictData?.pharmacy_id) {
         // Update existing pharmacy to new branch
         await api.put(
-          `http://127.0.0.1:8000/api/v1/pharmacies/${conflictData.pharmacy_id}`,
+          `/pharmacies/${conflictData.pharmacy_id}`,
           payload,
           { headers: { Authorization: `Bearer ${token}` } }
         );
       } else {
         // Create with force flag
-        await api.post('http://127.0.0.1:8000/api/v1/pharmacies', payload, {
+        await api.post('/pharmacies', payload, {
           headers: { Authorization: `Bearer ${token}` }
         });
       }
@@ -221,7 +221,7 @@ const BranchPharmacies: React.FC = () => {
       };
 
       const updateResponse = await api.put(
-        `http://127.0.0.1:8000/api/v1/pharmacies/${pharmacy.id}`,
+        `/pharmacies/${pharmacy.id}`,
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -260,7 +260,7 @@ const BranchPharmacies: React.FC = () => {
       const token = localStorage.getItem('token');
       // Unassign pharmacy from branch by setting branch_id to null
       await api.put(
-        `http://127.0.0.1:8000/api/v1/pharmacies/${pharmacyId}`,
+        `/pharmacies/${pharmacyId}`,
         { branch_id: null },
         { headers: { Authorization: `Bearer ${token}` } }
       );

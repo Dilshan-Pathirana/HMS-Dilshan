@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import api from "../../utils/api/axios";
 import {
     TrendingUp, AlertCircle, DollarSign, ShoppingCart,
@@ -56,7 +56,7 @@ const BranchAdminPOSAnalytics = () => {
             setIsLoading(true);
             const token = localStorage.getItem("authToken");
             const response = await api.get(
-                `http://127.0.0.1:8000/api/branch-admin/pos/analytics?range=${dateRange}`,
+                `/api/branch-admin/pos/analytics?range=${dateRange}`,
                 {
                     headers: { Authorization: `Bearer ${token}` },
                 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import api from "../../../utils/api/axios";
 import { Store, Building2, Package, AlertTriangle, ChevronRight } from 'lucide-react';
 
@@ -44,8 +44,8 @@ const PharmacySelector: React.FC<PharmacySelectorProps> = ({ onSelectPharmacy, s
             const headers = { Authorization: `Bearer ${token}` };
 
             const [pharmaciesRes, branchesRes] = await Promise.all([
-                api.get('http://127.0.0.1:8000/api/v1/pharmacies', { headers }),
-                api.get('http://127.0.0.1:8000/api/get-branches', { headers }),
+                api.get('/pharmacies', { headers }),
+                api.get('/api/get-branches', { headers }),
             ]);
 
             if (pharmaciesRes.data.success) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import api from "../../utils/api/axios";
 import { Package, ShoppingCart, TrendingUp, User } from 'lucide-react';
 
@@ -37,7 +37,7 @@ const SupplierDashboard: React.FC = () => {
     const fetchDashboardData = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await api.get('http://127.0.0.1:8000/api/supplier/dashboard', {
+            const response = await api.get('/api/supplier/dashboard', {
                 headers: { Authorization: `Bearer ${token}` }
             });
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from "../../utils/api/axios";
 import { ArrowLeft, TrendingUp, TrendingDown, Package, Calendar, Filter } from 'lucide-react';
@@ -48,7 +48,7 @@ const BranchTransactions: React.FC = () => {
       if (dateFilter.to) params.append('to', dateFilter.to);
 
       const response = await api.get(
-        `http://127.0.0.1:8000/api/v1/pharmacy-inventory/transactions?${params.toString()}`,
+        `/pharmacy-inventory/transactions?${params.toString()}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       

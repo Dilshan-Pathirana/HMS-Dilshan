@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../utils/api/axios";
 import { 
@@ -49,7 +49,7 @@ const CashierBillingDashboard = () => {
             setIsLoading(true);
             const token = localStorage.getItem("authToken");
             const response = await api.get(
-                "http://127.0.0.1:8000/api/cashier-billing/dashboard-stats",
+                "/api/cashier-billing/dashboard-stats",
                 {
                     headers: { Authorization: `Bearer ${token}` },
                 }

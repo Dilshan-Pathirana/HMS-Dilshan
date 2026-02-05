@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from "../../utils/api/axios";
 import { Plus, Edit, Trash2, ArrowLeft, Package, AlertTriangle, TrendingDown } from 'lucide-react';
@@ -60,7 +60,7 @@ const BranchInventory: React.FC = () => {
   const fetchPharmacies = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await api.get(`http://127.0.0.1:8000/api/v1/pharmacies?branch_id=${id}`, {
+      const response = await api.get(`/pharmacies?branch_id=${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setPharmacies(response.data.data?.pharmacies || response.data.data || []);
@@ -73,12 +73,12 @@ const BranchInventory: React.FC = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
-      let url = `http://127.0.0.1:8000/api/v1/pharmacy-inventory?branch_id=${id}`;
+      let url = `/pharmacy-inventory?branch_id=${id}`;
       
       if (selectedFilter === 'low-stock') {
-        url = `http://127.0.0.1:8000/api/v1/pharmacies/${pharmacies[0]?.id}/low-stock`;
+        url = `/pharmacies/${pharmacies[0]?.id}/low-stock`;
       } else if (selectedFilter === 'expiring') {
-        url = `http://127.0.0.1:8000/api/v1/pharmacies/${pharmacies[0]?.id}/expiring`;
+        url = `/pharmacies/${pharmacies[0]?.id}/expiring`;
       }
 
       const response = await api.get(url, {
@@ -100,11 +100,11 @@ const BranchInventory: React.FC = () => {
       const token = localStorage.getItem('token');
 
       if (editingItem) {
-        await api.put(`http://127.0.0.1:8000/api/v1/pharmacy-inventory/${editingItem.id}`, formData, {
+        await api.put(`/pharmacy-inventory/${editingItem.id}`, formData, {
           headers: { Authorization: `Bearer ${token}` }
         });
       } else {
-        await api.post('http://127.0.0.1:8000/api/v1/pharmacy-inventory', formData, {
+        await api.post('/pharmacy-inventory', formData, {
           headers: { Authorization: `Bearer ${token}` }
         });
       }
@@ -124,7 +124,7 @@ const BranchInventory: React.FC = () => {
     try {
       const token = localStorage.getItem('token');
       await api.post(
-        `http://127.0.0.1:8000/api/v1/pharmacy-inventory/${editingItem.id}/adjust-stock`,
+        `/pharmacy-inventory/${editingItem.id}/adjust-stock`,
         adjustData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -143,7 +143,7 @@ const BranchInventory: React.FC = () => {
 
     try {
       const token = localStorage.getItem('token');
-      await api.delete(`http://127.0.0.1:8000/api/v1/pharmacy-inventory/${itemId}`, {
+      await api.delete(`/pharmacy-inventory/${itemId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchInventory();

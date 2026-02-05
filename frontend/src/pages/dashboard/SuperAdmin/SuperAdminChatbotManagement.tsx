@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { DashboardLayout } from '../../../components/common/Layout/DashboardLayout';
 import { SidebarMenu, SuperAdminMenuItems } from '../../../components/common/Layout/SidebarMenu';
 import {
@@ -73,7 +73,7 @@ const CATEGORIES = [
     { value: 'doctor_capability', label: 'Doctor Capability' },
 ];
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 
 const SuperAdminChatbotManagement: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'faqs' | 'mappings' | 'logs' | 'analytics'>('faqs');
