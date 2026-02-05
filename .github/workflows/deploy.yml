@@ -132,12 +132,10 @@ jobs:
             mkdir -p $APP_DIR/logs
 
             # Create .env file for backend with proper environment variables
-            cat > $APP_DIR/current/backend/.env <<EOF
-DATABASE_URL=$DATABASE_URL
-SECRET_KEY=$SECRET_KEY
-ALGORITHM=HS256
-ACCESS_TOKEN_EXPIRE_MINUTES=30
-EOF
+            echo "DATABASE_URL=$DATABASE_URL" > $APP_DIR/current/backend/.env
+            echo "SECRET_KEY=$SECRET_KEY" >> $APP_DIR/current/backend/.env
+            echo "ALGORITHM=HS256" >> $APP_DIR/current/backend/.env
+            echo "ACCESS_TOKEN_EXPIRE_MINUTES=30" >> $APP_DIR/current/backend/.env
 
             # Restart backend via PM2 with ecosystem config
             cd $APP_DIR/current/backend
