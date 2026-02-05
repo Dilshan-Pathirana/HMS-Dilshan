@@ -57,15 +57,19 @@ jobs:
             APP_DIR=${APP_DIR:-/var/www/hms}
             mkdir -p $APP_DIR
 
+            echo "==== Docker Environment Check ===="
             # Ensure Docker is installed
             if ! command -v docker >/dev/null 2>&1; then
+              echo "Installing Docker..."
               sudo apt-get update
               sudo apt-get install -y docker.io
               sudo systemctl enable --now docker
             fi
+            docker --version
 
             # Ensure Docker Compose plugin is installed
             if ! docker compose version >/dev/null 2>&1; then
+              echo "Installing Docker Compose plugin..."
               if ! apt-cache show docker-compose-plugin >/dev/null 2>&1; then
                 sudo apt-get update
                 sudo apt-get install -y ca-certificates curl gnupg lsb-release
@@ -76,20 +80,91 @@ jobs:
               sudo apt-get update
               sudo apt-get install -y docker-compose-plugin
             fi
+            docker compose version
 
+            echo "==== Loading Docker Images ===="
             # Load images built on the runner
             docker load -i /tmp/hms-images.tar.gz
+            
+            # Verify images loaded
+            echo "Verifying images..."
+            docker images | grep hms-backend
+            docker images | grep hms-frontend
 
+            echo "==== Preparing Configuration ===="
             # Prepare compose and env file
-            mv /tmp/docker-compose.ec2.yml $APP_DIR/docker-compose.ec2.yml
+            mv -f /tmp/docker-compose.ec2.yml $APP_DIR/docker-compose.ec2.yml
             echo "DATABASE_URL=mysql+asyncmy://$DB_USERNAME:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_DATABASE" > $APP_DIR/.env
             echo "SECRET_KEY=$SECRET_KEY" >> $APP_DIR/.env
 
-            # Run migrations
-            docker compose -f $APP_DIR/docker-compose.ec2.yml --env-file $APP_DIR/.env run --rm backend alembic upgrade head
+            echo "==== Running Database Migrations ===="
+            # Run migrations with timeout
+            timeout 300 docker compose -f $APP_DIR/docker-compose.ec2.yml --env-file $APP_DIR/.env run --rm backend alembic upgrade head || {
+              echo "Migration failed or timed out"
+              exit 1
+            }
 
+            echo "==== Starting Services ===="
             # Start services
             docker compose -f $APP_DIR/docker-compose.ec2.yml --env-file $APP_DIR/.env up -d --remove-orphans
 
-            # Cleanup old images
+            echo "==== Waiting for Services to Start ===="
+            # Wait for backend to be healthy (up to 60 seconds)
+            for i in {1..30}; do
+              if docker compose -f $APP_DIR/docker-compose.ec2.yml ps | grep -q "hms-backend.*healthy"; then
+                echo "Backend is healthy!"
+                break
+              fi
+              echo "Waiting for backend... ($i/30)"
+              sleep 2
+            done
+
+            # Check if frontend is running
+            sleep 5
+            if docker compose -f $APP_DIR/docker-compose.ec2.yml ps | grep -q "hms-frontend.*Up"; then
+              echo "Frontend is running!"
+            else
+              echo "Warning: Frontend may not be running properly"
+            fi
+
+            echo "==== Container Status ===="
+            docker compose -f $APP_DIR/docker-compose.ec2.yml ps
+
+            # Show recent logs for debugging
+            echo "==== Recent Backend Logs (last 20 lines) ===="
+            docker compose -f $APP_DIR/docker-compose.ec2.yml logs --tail=20 backend || echo "Could not fetch backend logs"
+            
+            echo "==== Recent Frontend Logs (last 10 lines) ===="
+            docker compose -f $APP_DIR/docker-compose.ec2.yml logs --tail=10 frontend || echo "Could not fetch frontend logs"
+
+            echo "==== Cleanup ===="
+            # Cleanup old images and tar file
             docker image prune -f
+            rm -f /tmp/hms-images.tar.gz
+            
+            echo "==== Deployment Complete ===="
+            
+            echo "==== Verifying Services ===="
+            # Test backend health endpoint
+            sleep 3
+            if curl -f http://localhost:8000/health 2>/dev/null || curl -f http://localhost:8000/ 2>/dev/null; then
+              echo "✓ Backend is responding"
+            else
+              echo "⚠ Backend health check failed (may need more time to start)"
+            fi
+            
+            # Test frontend
+            if curl -f http://localhost:80 2>/dev/null | grep -q "<!doctype html" || curl -f http://localhost 2>/dev/null | head -n 1 | grep -q "<"; then
+              echo "✓ Frontend is serving content"
+            else
+              echo "⚠ Frontend health check failed"
+            fi
+            
+            echo ""
+            echo "============================================"
+            echo "🚀 Deployment Summary"
+            echo "============================================"
+            echo "App Directory: $APP_DIR"
+            echo "Backend URL: http://$(curl -s ifconfig.me):8000"
+            echo "Frontend URL: http://$(curl -s ifconfig.me)"
+            echo "============================================"
