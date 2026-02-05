@@ -63,25 +63,32 @@ jobs:
             set -e
             APP_DIR=${APP_DIR:-/var/www/hms}
             cd $APP_DIR
-            
+
             # Pull latest code
             git fetch --all
             git reset --hard origin/main
-            
-            # Backend: Install dependencies
+
+            # Backend: Install/update poetry and dependencies
             cd backend
+            export PATH="$HOME/.local/bin:$PATH"
+
+            # Install poetry if not present
+            if ! command -v poetry &> /dev/null; then
+              curl -sSL https://install.python-poetry.org | python3 -
+            fi
+
             poetry install --no-interaction --no-ansi
-            
+
             # Run migrations
             poetry run alembic upgrade head
-            
+
             # Frontend: Install and build
             cd ../frontend
             npm ci
             npm run build
-            
+
             # Restart backend service (adjust service name if different)
             sudo systemctl restart hms-backend || echo "Backend service restart skipped"
-            
+
             # Reload nginx
             sudo systemctl reload nginx || echo "Nginx reload skipped"
