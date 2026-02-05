@@ -1,94 +1,60 @@
-name: Build and Deploy to AWS
+name: Build & Deploy HMS
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
 
-env:
-  APP_DIR: /var/www/hms
-  RELEASE_DIR: /var/www/hms/releases
-
 jobs:
-
-# =========================
-# BUILD FRONTEND
-# =========================
   build-frontend:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: frontend
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: frontend/package-lock.json
+          cache-dependency-path: package-lock.json
 
-      - run: npm ci
-      - run: npm run build
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Archive frontend build
-        run: tar -czf frontend.tar.gz dist
+      - name: Build frontend
+        run: npm run build
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: frontend-build
-          path: frontend/frontend.tar.gz
-
-
-# =========================
-# BUILD BACKEND
-# =========================
   build-backend:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: backend
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-          cache: "pip"
+          python-version: 3.12
 
-      - run: pip install poetry
-      - run: poetry install --no-interaction --no-ansi
+      - name: Install Poetry & dependencies
+        run: |
+          python -m pip install --upgrade pip
+          curl -sSL https://install.python-poetry.org | python3 -
+          export PATH="$HOME/.local/bin:$PATH"
+          poetry install --no-interaction --no-ansi
 
-      - name: Export requirements (for faster server install)
-        run: poetry export -f requirements.txt --output requirements.txt
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: backend-build
-          path: |
-            backend/
-            backend/requirements.txt
-
-
-# =========================
-# DEPLOY
-# =========================
   deploy:
     runs-on: ubuntu-latest
     needs: [build-frontend, build-backend]
-
     steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: frontend-build
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: backend-build
-
-      - name: Deploy via SSH
+      - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -97,41 +63,49 @@ jobs:
           script: |
             set -e
 
-            TIMESTAMP=$(date +%s)
-            RELEASE_PATH=${RELEASE_DIR}/$TIMESTAMP
+            APP_DIR=${APP_DIR:-/var/www/hms}
+            RELEASE_DIR="$APP_DIR/releases/$(date +%s)"
+            mkdir -p $RELEASE_DIR
 
-            mkdir -p $RELEASE_PATH
-            cd $RELEASE_PATH
+            # Pull latest code into release directory
+            git clone --branch main https://github.com/${GITHUB_REPOSITORY}.git $RELEASE_DIR
 
-            echo "== Pull repo =="
-            git clone https://github.com/${{ github.repository }} .
+            # Backend setup
+            cd $RELEASE_DIR/backend
+            python3.12 -m venv .venv
+            source .venv/bin/activate
 
-            echo "== Backend setup =="
+            # Install Poetry and dependencies
+            curl -sSL https://install.python-poetry.org | python3 -
+            export PATH="$HOME/.local/bin:$PATH"
+            poetry install --no-interaction --no-ansi
 
-            if ! command -v python3.12 &> /dev/null; then
-              sudo apt-get update
-              sudo apt-get install -y python3.12 python3.12-venv
+            # Run DB migrations
+            poetry run alembic upgrade head
+
+            deactivate
+
+            # Frontend build
+            cd $RELEASE_DIR/frontend
+            if ! command -v node &> /dev/null; then
+              curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+              sudo apt-get install -y nodejs
             fi
+            export NODE_OPTIONS="--max-old-space-size=1024"
+            npm ci
+            npm run build
 
-            python3.12 -m venv venv
-            source venv/bin/activate
+            # Update current symlink atomically
+            ln -sfn $RELEASE_DIR $APP_DIR/current
 
-            pip install -r backend/requirements.txt
+            # Restart backend via PM2
+            pm2 delete hms-backend || true
+            pm2 start "$APP_DIR/current/backend/.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000" --name hms-backend
+            pm2 save
 
-            echo "== Migrations =="
-            cd backend
-            ../venv/bin/alembic upgrade head
-            cd ..
+            # Reload nginx
+            sudo systemctl reload nginx || echo "Nginx reload skipped"
 
-            echo "== Frontend deploy =="
-            tar -xzf frontend.tar.gz
-            mv dist frontend_dist
-
-            echo "== Switch symlink (atomic deploy) =="
-            ln -sfn $RELEASE_PATH $APP_DIR/current
-
-            echo "== Restart services =="
-            sudo systemctl restart hms-backend
-            sudo systemctl reload nginx
-
-            echo "Deploy complete"
+            # Cleanup old releases (keep last 5)
+            cd $APP_DIR/releases
+            ls -1tr | head -n -5 | xargs -d '\n' rm -rf --
