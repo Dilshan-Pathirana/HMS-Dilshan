@@ -4,6 +4,8 @@ module.exports = {
     script: '.venv/bin/uvicorn',
     args: 'app.main:app --host 0.0.0.0 --port 8000',
     cwd: '/var/www/hms/current/backend',
+    interpreter: 'none',
+    exec_mode: 'fork',
     instances: 1,
     autorestart: true,
     watch: false,

@@ -140,6 +140,13 @@ jobs:
             pm2 start ecosystem.config.cjs --update-env
             pm2 save
 
+            # Update nginx config if present in repo
+            if [ -f "$APP_DIR/current/nginx.conf.production" ]; then
+              sudo cp "$APP_DIR/current/nginx.conf.production" /etc/nginx/sites-available/hms
+              sudo ln -sfn /etc/nginx/sites-available/hms /etc/nginx/sites-enabled/hms
+              sudo nginx -t
+            fi
+
             # Reload nginx
             sudo systemctl reload nginx || echo "Nginx reload skipped"
 
