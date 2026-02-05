@@ -30,6 +30,7 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=2048
           NPM_CONFIG_AUDIT: "false"
           NPM_CONFIG_FUND: "false"
+          VITE_API_BASE_URL: ""
         run: |
           npm ci --prefer-offline
           npm run build
