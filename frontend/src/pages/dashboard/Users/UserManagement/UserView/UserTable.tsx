@@ -170,15 +170,8 @@ const UserTable = () => {
     const fetchAllBranches = async () => {
         try {
             const response = await getAllBranches();
-            const branchesData = (response as any).branches || response; // Handle unwrapped
-            if (branchesData && Array.isArray(branchesData)) {
-                setBranches(branchesData);
-            } else if (response && (response as any).data && Array.isArray((response as any).data.branches)) {
-                // Fallback if interceptor didn't work as expected or format changed
-                setBranches((response as any).data.branches);
-            } else {
-                setBranches([]);
-            }
+            // Response is already IBranchData[] from axios interceptor
+            setBranches(response || []);
         } catch (error) {
             console.error("Error fetching branches:", error);
             setBranches([]);

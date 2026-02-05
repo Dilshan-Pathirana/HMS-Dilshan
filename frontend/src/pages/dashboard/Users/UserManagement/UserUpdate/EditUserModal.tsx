@@ -69,16 +69,14 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
     const fetchBranchList = async () => {
         try {
             const response = await getAllBranches();
-
-            if (response.data.status === 200) {
-                const options = response.data.branches.map(
-                    (branch: IBranchData) => ({
-                        value: branch.id,
-                        label: branch.center_name,
-                    }),
-                );
-                setBranchOptions(options);
-            }
+            // Response is already IBranchData[] from axios interceptor
+            const options = response.map(
+                (branch: IBranchData) => ({
+                    value: branch.id,
+                    label: branch.center_name,
+                }),
+            );
+            setBranchOptions(options);
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 alert.warn("Failed to fetch branch list: " + error.message);

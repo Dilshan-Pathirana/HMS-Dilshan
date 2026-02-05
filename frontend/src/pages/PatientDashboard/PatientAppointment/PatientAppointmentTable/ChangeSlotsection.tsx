@@ -83,7 +83,14 @@ export const ChangeSlotsection: React.FC<ChangeSlotsectionProps> = ({
             });
 
             const branchesRes = await getAllBranches();
-            const allBranches: Branch[] = branchesRes.data.branches;
+            // Response is already IBranchData[] from axios interceptor
+            // Map to Branch type used in this component
+            const allBranches: Branch[] = (branchesRes || []).map((b) => ({
+                branch_id: b.id,
+                branch_center_name: b.center_name,
+                id: b.id,
+                center_name: b.center_name,
+            } as Branch));
 
             const schedulesWithBranches: MoreBranchesProps[] =
                 scheduleRes.data.doctorSchedule.map((schedule: any) => {

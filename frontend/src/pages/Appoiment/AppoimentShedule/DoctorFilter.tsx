@@ -45,15 +45,14 @@ const DoctorFilter: React.FC<FilterProps> = ({ onApplyFilter }) => {
         const fetchBranches = async () => {
             try {
                 const response = await getAllBranches();
-                if (response.status === 200) {
-                    const branchOptions = response.data.branches.map(
-                        (branch: Branch) => ({
-                            label: branch.center_name,
-                            value: branch.id,
-                        }),
-                    );
-                    setBranchOptions(branchOptions);
-                }
+                // Response is already IBranchData[] from axios interceptor
+                const branchOptions = response.map(
+                    (branch: Branch) => ({
+                        label: branch.center_name,
+                        value: branch.id,
+                    }),
+                );
+                setBranchOptions(branchOptions);
             } catch (error) {
                 console.error("Failed to fetch branches:", error);
             }

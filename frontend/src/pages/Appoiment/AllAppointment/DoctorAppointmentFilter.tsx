@@ -60,16 +60,15 @@ const DoctorAppointmentFilter: React.FC<DoctorAppointmentFilterProps> = ({
         const fetchBranches = async () => {
             try {
                 const response = await getAllBranches();
-                if (response.status === 200) {
-                    setBranches(
-                        response.data.branches.map(
-                            (branch: { center_name: string; id: string }) => ({
-                                label: branch.center_name,
-                                value: branch.id,
-                            }),
-                        ),
-                    );
-                }
+                // Response is already IBranchData[] from axios interceptor
+                setBranches(
+                    response.map(
+                        (branch: { center_name: string; id: string }) => ({
+                            label: branch.center_name,
+                            value: branch.id,
+                        }),
+                    ),
+                );
             } catch (error) {
                 console.error("Failed to fetch branches:", error);
             }

@@ -54,18 +54,14 @@ const DoctorFilterWeb = () => {
         const fetchBranches = async () => {
             try {
                 const response = await getAllBranches();
-                if (response.status === 200) {
-                    // Check if response.data is an array (new API) or object with branches key (legacy)
-                    const branchesData = Array.isArray(response.data) ? response.data : response.data.branches;
-
-                    const branchOptions = (branchesData || []).map(
-                        (branch: Branch) => ({
-                            label: branch.center_name,
-                            value: branch.id,
-                        }),
-                    );
-                    setBranchOptions(branchOptions);
-                }
+                // Response is already IBranchData[] from axios interceptor
+                const branchOptions = (response || []).map(
+                    (branch: Branch) => ({
+                        label: branch.center_name,
+                        value: branch.id,
+                    }),
+                );
+                setBranchOptions(branchOptions);
             } catch (error) {
                 console.error("Failed to fetch branches:", error);
             }

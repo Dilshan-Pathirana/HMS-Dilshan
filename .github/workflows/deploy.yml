@@ -85,7 +85,7 @@ jobs:
             echo "==== Loading Docker Images ===="
             # Load images built on the runner
             docker load -i /tmp/hms-images.tar.gz
-            
+
             # Verify images loaded
             echo "Verifying images..."
             docker images | grep hms-backend
@@ -133,7 +133,7 @@ jobs:
             # Show recent logs for debugging
             echo "==== Recent Backend Logs (last 20 lines) ===="
             docker compose -f $APP_DIR/docker-compose.ec2.yml logs --tail=20 backend || echo "Could not fetch backend logs"
-            
+
             echo "==== Recent Frontend Logs (last 10 lines) ===="
             docker compose -f $APP_DIR/docker-compose.ec2.yml logs --tail=10 frontend || echo "Could not fetch frontend logs"
 
@@ -141,9 +141,9 @@ jobs:
             # Cleanup old images and tar file
             docker image prune -f
             rm -f /tmp/hms-images.tar.gz
-            
+
             echo "==== Deployment Complete ===="
-            
+
             echo "==== Verifying Services ===="
             # Test backend health endpoint
             sleep 3
@@ -152,14 +152,14 @@ jobs:
             else
               echo "⚠ Backend health check failed (may need more time to start)"
             fi
-            
+
             # Test frontend
             if curl -f http://localhost:80 2>/dev/null | grep -q "<!doctype html" || curl -f http://localhost 2>/dev/null | head -n 1 | grep -q "<"; then
               echo "✓ Frontend is serving content"
             else
               echo "⚠ Frontend health check failed"
             fi
-            
+
             echo ""
             echo "============================================"
             echo "🚀 Deployment Summary"

@@ -74,15 +74,14 @@ const SignupForm: React.FC<ISignupFormProps> = ({
     const fetchBranches = async () => {
         try {
             const response = await getAllBranches();
-            if (response.status === 200) {
-                const options = response.data.branches.map(
-                    (branch: { id: string; center_name: string }) => ({
-                        label: branch.center_name,
-                        value: branch.id,
-                    }),
-                );
-                setBranchOptions(options);
-            }
+            // Response is already IBranchData[] from axios interceptor
+            const options = response.map(
+                (branch: { id: string; center_name: string }) => ({
+                    label: branch.center_name,
+                    value: branch.id,
+                }),
+            );
+            setBranchOptions(options);
         } catch (error) {
             console.error("Failed to fetch branches:", error);
         }

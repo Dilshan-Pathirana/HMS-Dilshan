@@ -38,15 +38,14 @@ const DoctorSessionCreate = () => {
             setIsLoading(true);
             try {
                 const branchResponse = await getAllBranches();
-                if (branchResponse.data.status === 200) {
-                    const branchOpts = branchResponse.data.branches.map(
-                        (branch: IBranchData) => ({
-                            value: branch.id,
-                            label: branch.center_name,
-                        }),
-                    );
-                    setBranchOptions(branchOpts);
-                }
+                // Response is already IBranchData[] from axios interceptor
+                const branchOpts = branchResponse.map(
+                    (branch: IBranchData) => ({
+                        value: branch.id,
+                        label: branch.center_name,
+                    }),
+                );
+                setBranchOptions(branchOpts);
 
                 const doctorResponse = await api.get("api/get-doctors");
                 if (doctorResponse.data.status === 200) {

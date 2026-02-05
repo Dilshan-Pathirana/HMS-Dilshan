@@ -40,16 +40,8 @@ const BranchTable = ({
             try {
                 setIsLoading(true);
                 const response = await getAllBranches();
-                // Check if response data is an array (the list of branches) or has branches property
-                const responseData = response?.data;
-                let fetchedBranches: IBranchData[] = [];
-                if (Array.isArray(responseData)) {
-                    fetchedBranches = responseData;
-                } else if (responseData && responseData.branches) {
-                    fetchedBranches = responseData.branches;
-                }
-
-                setBranches(fetchedBranches);
+                // Response is already IBranchData[] from axios interceptor
+                setBranches(response || []);
             } catch (error: any) {
                 console.error("Fetch branches error:", error);
                 // Only show error if it's not a 404 or show appropriate message
