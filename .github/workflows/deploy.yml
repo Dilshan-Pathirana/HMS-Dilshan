@@ -137,7 +137,7 @@ jobs:
             export DATABASE_URL="$DATABASE_URL"
             export SECRET_KEY="$SECRET_KEY"
             pm2 delete hms-backend || true
-            pm2 start ecosystem.config.js --update-env
+            pm2 start ecosystem.config.cjs --update-env
             pm2 save
 
             # Reload nginx
