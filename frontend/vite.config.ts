@@ -5,6 +5,10 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
     plugins: [react()],
 
+    resolve: {
+        dedupe: ["react", "react-dom", "react-redux"],
+    },
+
     // Dependency pre-bundling for faster dev server startup
     optimizeDeps: {
         include: [
@@ -56,38 +60,6 @@ export default defineConfig({
         chunkSizeWarningLimit: 1000,
         rollupOptions: {
             output: {
-                // Manual chunk splitting for better caching and parallel loading
-                manualChunks: (id) => {
-                    // Vendor chunks
-                    if (id.includes('node_modules')) {
-                        // React ecosystem
-                        if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
-                            return 'vendor-react';
-                        }
-                        // Redux ecosystem
-                        if (id.includes('redux') || id.includes('@reduxjs')) {
-                            return 'vendor-redux';
-                        }
-                        // UI libraries
-                        if (id.includes('framer-motion') || id.includes('lucide-react') || id.includes('react-icons')) {
-                            return 'vendor-ui';
-                        }
-                        // Charts and data viz
-                        if (id.includes('recharts') || id.includes('d3')) {
-                            return 'vendor-charts';
-                        }
-                        // Forms and validation
-                        if (id.includes('react-select') || id.includes('react-datepicker')) {
-                            return 'vendor-forms';
-                        }
-                        // PDF libraries
-                        if (id.includes('jspdf') || id.includes('@react-pdf')) {
-                            return 'vendor-pdf';
-                        }
-                        // Everything else
-                        return 'vendor-misc';
-                    }
-                },
                 // Use content-based hashing for better caching
                 chunkFileNames: 'assets/[name]-[hash].js',
                 entryFileNames: 'assets/[name]-[hash].js',
