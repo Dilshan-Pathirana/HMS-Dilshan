@@ -52,10 +52,18 @@ jobs:
       # Deploy via SSH
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.0.3
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
+          envs: DB_HOST,DB_PORT,DB_DATABASE,DB_USERNAME,DB_PASSWORD,SECRET_KEY
           script: |
             set -e
             APP_DIR=${APP_DIR:-/var/www/hms}
@@ -77,6 +85,10 @@ jobs:
               set +a
             fi
 
+            # Use GitHub Secrets for DB + auth (overrides .env)
+            export DATABASE_URL="mysql+asyncmy://$DB_USERNAME:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_DATABASE"
+            export SECRET_KEY="$SECRET_KEY"
+
             # Install dependencies via Poetry
             export PATH="$HOME/.local/bin:$PATH"
             curl -sSL https://install.python-poetry.org | python3 -
@@ -84,6 +96,23 @@ jobs:
 
             # Run migrations
             poetry run alembic upgrade head
+
+            # Verify DB connectivity (quick query)
+            python - <<'PY'
+            import asyncio
+            import os
+            from sqlalchemy import text
+            from sqlalchemy.ext.asyncio import create_async_engine
+
+            async def main() -> None:
+              database_url = os.environ["DATABASE_URL"]
+              engine = create_async_engine(database_url)
+              async with engine.connect() as conn:
+                await conn.execute(text("SELECT 1"))
+              await engine.dispose()
+
+            asyncio.run(main())
+            PY
 
             deactivate
 
@@ -100,6 +129,9 @@ jobs:
 
             # Reload nginx
             sudo systemctl reload nginx || echo "Nginx reload skipped"
+
+            # Nginx health check
+            curl -fsS http://localhost/health
 
             # Cleanup old releases (keep last 5)
             cd $APP_DIR/releases

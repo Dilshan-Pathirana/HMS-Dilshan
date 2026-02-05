@@ -1,4 +1,4 @@
-aws db pw - S8LAr8t7JtMyQum
+aws db pw - REDACTED
 
 ssh -i "hms-ec2" ubuntu@ec2-ip
 trigger

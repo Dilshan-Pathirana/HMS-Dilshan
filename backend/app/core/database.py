@@ -5,7 +5,12 @@ from sqlalchemy.ext.asyncio import create_async_engine
 from app.core.config import settings
 
 # Async Engine (for FastAPI)
-async_engine = create_async_engine(settings.DATABASE_URL, echo=True, future=True)
+async_engine = create_async_engine(
+    settings.DATABASE_URL,
+    echo=True,
+    future=True,
+    pool_pre_ping=True,
+)
 
 async def get_session() -> AsyncSession:
     async_session = sessionmaker(

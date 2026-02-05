@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title="HMS API",
-    description="Hospital Management System API with FastAPI and PostgreSQL",
+    description="Hospital Management System API with FastAPI and MySQL",
     version="1.0.0"
 )
 
@@ -95,7 +95,7 @@ async def super_admin_pos_branches():
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to HMS API (FastAPI + PostgreSQL)"}
+    return {"message": "Welcome to HMS API (FastAPI + MySQL)"}
 
 @app.get("/health")
 def health_check():
