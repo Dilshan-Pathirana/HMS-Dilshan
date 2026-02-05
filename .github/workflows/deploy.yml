@@ -38,7 +38,7 @@ jobs:
       - name: Prepare files for deploy
         run: |
           mkdir -p deploy
-          rsync -a --exclude '.git' --exclude 'node_modules' ./frontend ./backend ./package.json ./package-lock.json ./pyproject.toml ./poetry.lock deploy/
+          rsync -a --exclude '.git' --exclude 'node_modules' ./frontend ./backend ./package.json ./package-lock.json deploy/
 
       # Deploy via SSH
       - name: Deploy to EC2
