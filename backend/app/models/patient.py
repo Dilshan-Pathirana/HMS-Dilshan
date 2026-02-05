@@ -1,6 +1,6 @@
 from typing import Optional
 from sqlmodel import SQLModel, Field, Relationship
-from uuid import UUID, uuid4
+from uuid import uuid4
 from datetime import date
 from .user import User, UserRead
 
@@ -13,14 +13,14 @@ class PatientBase(SQLModel):
     emergency_contact: Optional[str] = None
 
 class Patient(PatientBase, table=True):
-    id: UUID = Field(default_factory=uuid4, primary_key=True)
-    user_id: UUID = Field(foreign_key="user.id", unique=True)
-    
+    id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True, max_length=36)
+    user_id: str = Field(foreign_key="user.id", unique=True, max_length=36)
+
     user: Optional[User] = Relationship()
 
 class PatientCreate(PatientBase):
-    user_id: UUID
+    user_id: str
 
 class PatientRead(PatientBase):
-    id: UUID
+    id: str
     user: Optional["UserRead"] = None

@@ -1,5 +1,4 @@
 from typing import List
-from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlmodel import select
@@ -48,7 +47,7 @@ async def read_doctors(
 
 @router.get("/{doctor_id}", response_model=DoctorRead)
 async def read_doctor(
-    doctor_id: UUID,
+    doctor_id: str,
     session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_active_superuser)
 ):

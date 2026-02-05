@@ -1,5 +1,4 @@
 from typing import List
-from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlmodel import select
@@ -76,7 +75,7 @@ async def read_branches(
 
 @router.get("/{branch_id}", response_model=Branch)
 async def read_branch(
-    branch_id: UUID,
+    branch_id: str,
     session: AsyncSession = Depends(get_session)
 ):
     branch = await session.get(Branch, branch_id)
@@ -86,7 +85,7 @@ async def read_branch(
 
 @router.delete("/{branch_id}")
 async def delete_branch(
-    branch_id: UUID,
+    branch_id: str,
     session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_active_superuser)
 ):
@@ -100,7 +99,7 @@ async def delete_branch(
 
 @router.put("/{branch_id}", response_model=Branch)
 async def update_branch(
-    branch_id: UUID,
+    branch_id: str,
     center_name: str = Form(None),
     register_number: str = Form(None),
     center_type: str = Form(None),
@@ -137,7 +136,7 @@ async def update_branch(
         branch.owner_id_number = owner_id_number
     if owner_contact_number is not None:
         branch.owner_contact_number = owner_contact_number
-    
+
     if register_document:
         # In a real app, save the file. For now, store filename.
         branch.register_document = register_document.filename
@@ -150,5 +149,5 @@ async def update_branch(
         await session.rollback()
         # Handle unique constraint violation likelihood
         raise HTTPException(status_code=400, detail="Update failed. potentially duplicate unique fields.")
-        
+
     return branch

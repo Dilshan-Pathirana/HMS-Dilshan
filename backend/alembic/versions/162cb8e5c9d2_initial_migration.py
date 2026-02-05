@@ -9,7 +9,6 @@ from typing import Sequence, Union
 
 from alembic import op
 import sqlalchemy as sa
-from sqlalchemy.dialects import postgresql
 import sqlmodel
 
 
@@ -33,7 +32,7 @@ def upgrade() -> None:
     sa.Column('owner_id_number', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('owner_contact_number', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('register_document', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
-    sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
+    sa.Column('id', sa.String(length=36), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('register_number')
     )
@@ -43,7 +42,7 @@ def upgrade() -> None:
     sa.Column('username', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.Column('role_as', sa.Integer(), nullable=False),
     sa.Column('is_active', sa.Boolean(), nullable=False),
-    sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
+    sa.Column('id', sa.String(length=36), nullable=False),
     sa.Column('hashed_password', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )

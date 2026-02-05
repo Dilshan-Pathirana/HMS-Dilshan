@@ -1,6 +1,6 @@
 from typing import Optional
 from sqlmodel import SQLModel, Field
-from uuid import UUID, uuid4
+from uuid import uuid4
 
 class UserBase(SQLModel):
     email: str = Field(index=True, unique=True, max_length=255)
@@ -9,14 +9,14 @@ class UserBase(SQLModel):
     is_active: bool = True
 
 class User(UserBase, table=True):
-    id: UUID = Field(default_factory=uuid4, primary_key=True)
+    id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True, max_length=36)
     hashed_password: str
 
 class UserCreate(UserBase):
     password: str
 
 class UserRead(UserBase):
-    id: UUID
+    id: str
 
 class UserUpdate(SQLModel):
     email: Optional[str] = None

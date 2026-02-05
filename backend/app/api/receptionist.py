@@ -1,6 +1,5 @@
 from typing import List, Optional
 from datetime import date, datetime
-from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlmodel import select, func, or_
 from sqlmodel.ext.asyncio.session import AsyncSession
@@ -20,11 +19,11 @@ async def get_dashboard_stats(
     session: AsyncSession = Depends(get_session),
 ):
     today = date.today()
-    
+
     # Simple count queries
     total_appointments = await session.exec(select(func.count(Appointment.id)).where(Appointment.appointment_date == today))
     pending_appointments = await session.exec(select(func.count(Appointment.id)).where(Appointment.status == "pending"))
-    
+
     return {
         "todayAppointments": total_appointments.one() or 0,
         "pendingAppointments": pending_appointments.one() or 0,
@@ -60,7 +59,7 @@ async def read_appointments(
         query = query.where(Appointment.appointment_date == date)
     if status:
         query = query.where(Appointment.status == status)
-    
+
     query = query.offset(skip).limit(limit)
     result = await session.exec(query)
     appointments = result.all()
@@ -68,7 +67,7 @@ async def read_appointments(
 
 @router.get("/appointments/{appointment_id}", response_model=AppointmentRead)
 async def read_appointment(
-    appointment_id: UUID,  # Changed to UUID
+    appointment_id: str,
     session: AsyncSession = Depends(get_session)
 ):
     appointment = await session.get(Appointment, appointment_id)
@@ -78,19 +77,19 @@ async def read_appointment(
 
 @router.put("/appointments/{appointment_id}", response_model=AppointmentRead)
 async def update_appointment(
-    appointment_id: UUID, # Changed to UUID
-    appointment_in: AppointmentCreate, 
+    appointment_id: str,
+    appointment_in: AppointmentCreate,
     session: AsyncSession = Depends(get_session)
 ):
     appointment = await session.get(Appointment, appointment_id)
     if not appointment:
         raise HTTPException(status_code=404, detail="Appointment not found")
-    
-    # For partial updates in REST we usually use PATCH and optional fields. 
+
+    # For partial updates in REST we usually use PATCH and optional fields.
     # Here we assume PUT replaces or updates available fields.
     appointment_data = appointment_in.model_dump(exclude_unset=True)
     appointment.sqlmodel_update(appointment_data)
-    
+
     session.add(appointment)
     await session.commit()
     await session.refresh(appointment)
@@ -103,8 +102,8 @@ async def create_visit(
     session: AsyncSession = Depends(get_session)
 ):
     visit = Visit.model_validate(visit_in)
-    visit.visit_number = f"VISIT-{datetime.now().strftime('%Y%m%d%H%M%S')}" 
-    
+    visit.visit_number = f"VISIT-{datetime.now().strftime('%Y%m%d%H%M%S')}"
+
     session.add(visit)
     await session.commit()
     await session.refresh(visit)

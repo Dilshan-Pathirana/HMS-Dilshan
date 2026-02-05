@@ -1,5 +1,4 @@
 from typing import List
-from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlmodel import select
@@ -30,11 +29,11 @@ async def create_user(
     result = await session.exec(query)
     if result.first():
         raise HTTPException(status_code=400, detail="The user with this email already exists")
-    
+
     # Create user dict excluding strict password field if it exists in dict vs model mismatch
     user_data = user_in.model_dump(exclude={"password"})
     user = User(**user_data, hashed_password=get_password_hash(user_in.password))
-    
+
     session.add(user)
     await session.commit()
     await session.refresh(user)
@@ -53,7 +52,7 @@ async def read_users(
 
 @router.get("/{user_id}", response_model=UserRead)
 async def read_user(
-    user_id: UUID,
+    user_id: str,
     session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_active_superuser)
 ):
@@ -64,7 +63,7 @@ async def read_user(
 
 @router.put("/{user_id}", response_model=UserRead)
 async def update_user(
-    user_id: UUID,
+    user_id: str,
     user_in: UserUpdate,
     session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_active_superuser)
@@ -95,14 +94,14 @@ async def update_user(
 
 @router.delete("/{user_id}")
 async def delete_user(
-    user_id: UUID,
+    user_id: str,
     session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_active_superuser)
 ):
     user = await session.get(User, user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    
+
     await session.delete(user)
     await session.commit()
     return {"message": "User deleted successfully"}

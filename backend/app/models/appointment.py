@@ -1,15 +1,15 @@
 from typing import Optional
 from datetime import date, time, datetime
-from uuid import UUID, uuid4
+from uuid import uuid4
 from sqlmodel import Field, Relationship, SQLModel
 from app.models.patient import Patient
 from app.models.doctor import Doctor
 from app.models.branch import Branch
 
 class AppointmentBase(SQLModel):
-    patient_id: UUID = Field(foreign_key="patient.id")
-    doctor_id: UUID = Field(foreign_key="doctor.id")
-    branch_id: UUID = Field(foreign_key="branch.id")
+    patient_id: str = Field(foreign_key="patient.id", max_length=36)
+    doctor_id: str = Field(foreign_key="doctor.id", max_length=36)
+    branch_id: str = Field(foreign_key="branch.id", max_length=36)
     appointment_date: date
     appointment_time: time
     appointment_number: Optional[str] = None
@@ -19,7 +19,7 @@ class AppointmentBase(SQLModel):
     status: str = Field(default="pending") # pending, confirmed, in_progress, completed, cancelled, no_show
 
 class Appointment(AppointmentBase, table=True):
-    id: UUID = Field(default_factory=uuid4, primary_key=True)
+    id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True, max_length=36)
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
 
@@ -32,8 +32,8 @@ class AppointmentCreate(AppointmentBase):
     pass
 
 class AppointmentRead(AppointmentBase):
-    id: UUID
+    id: str
     created_at: datetime
     updated_at: Optional[datetime] = None
-    patient_name: Optional[str] = None 
-    doctor_name: Optional[str] = None 
+    patient_name: Optional[str] = None
+    doctor_name: Optional[str] = None

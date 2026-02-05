@@ -1,5 +1,4 @@
 from typing import List
-from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlmodel import select
@@ -21,7 +20,7 @@ async def create_patient(
     user = await session.get(User, patient_in.user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-        
+
     query = select(Patient).where(Patient.user_id == patient_in.user_id)
     result = await session.exec(query)
     if result.first():
@@ -47,7 +46,7 @@ async def read_patients(
 
 @router.get("/{patient_id}", response_model=PatientRead)
 async def read_patient(
-    patient_id: UUID,
+    patient_id: str,
     session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_active_superuser)
 ):

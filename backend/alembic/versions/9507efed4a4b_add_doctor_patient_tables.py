@@ -9,7 +9,6 @@ from typing import Sequence, Union
 
 from alembic import op
 import sqlalchemy as sa
-from sqlalchemy.dialects import postgresql
 import sqlmodel
 
 
@@ -27,9 +26,9 @@ def upgrade() -> None:
     sa.Column('qualification', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.Column('contact_number', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.Column('experience_years', sa.Integer(), nullable=False),
-    sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
-    sa.Column('user_id', postgresql.UUID(as_uuid=True), nullable=False),
-    sa.Column('branch_id', postgresql.UUID(as_uuid=True), nullable=True),
+    sa.Column('id', sa.String(length=36), nullable=False),
+    sa.Column('user_id', sa.String(length=36), nullable=False),
+    sa.Column('branch_id', sa.String(length=36), nullable=True),
     sa.ForeignKeyConstraint(['branch_id'], ['branch.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id'),
@@ -42,8 +41,8 @@ def upgrade() -> None:
     sa.Column('address', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
     sa.Column('contact_number', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
     sa.Column('emergency_contact', sqlmodel.sql.sqltypes.AutoString(), nullable=True),
-    sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
-    sa.Column('user_id', postgresql.UUID(as_uuid=True), nullable=False),
+    sa.Column('id', sa.String(length=36), nullable=False),
+    sa.Column('user_id', sa.String(length=36), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('user_id')
