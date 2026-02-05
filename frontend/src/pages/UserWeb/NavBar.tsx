@@ -47,7 +47,7 @@ const NavBar = () => {
 
     const handleLogout = async () => {
         try {
-            await api.post('/api/v1/logout');
+            await api.post('/logout');
         } catch (error) {
             console.error('Logout error:', error);
         } finally {
@@ -64,235 +64,234 @@ const NavBar = () => {
             <div className="h-[82px]"></div>
 
             <nav className="flex justify-between items-center px-6 py-4 bg-white border-b-2 fixed top-0 left-0 w-full z-50">
-            <Link to="/" className="flex items-center space-x-4 hover:opacity-80 transition-opacity">
-                <img
-                    src={CureLogo}
-                    className="h-[50px] w-[50px] ml-2 md:ml-10"
-                    alt="Cure Logo"
-                />
-                <h1 className="text-lg font-semibold text-blue-600">
-                    CURE-<span className="text-green-800">HEALTH CARE</span>
-                </h1>
-            </Link>
+                <Link to="/" className="flex items-center space-x-4 hover:opacity-80 transition-opacity">
+                    <img
+                        src={CureLogo}
+                        className="h-[50px] w-[50px] ml-2 md:ml-10"
+                        alt="Cure Logo"
+                    />
+                    <h1 className="text-lg font-semibold text-blue-600">
+                        CURE-<span className="text-green-800">HEALTH CARE</span>
+                    </h1>
+                </Link>
 
-            <button
-                className="text-gray-700 focus:outline-none md:hidden"
-                onClick={() => setMenuOpen(!menuOpen)}
-            >
-                {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-            </button>
+                <button
+                    className="text-gray-700 focus:outline-none md:hidden"
+                    onClick={() => setMenuOpen(!menuOpen)}
+                >
+                    {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+                </button>
 
-            {/* Mobile Menu Overlay */}
-            {menuOpen && (
+                {/* Mobile Menu Overlay */}
+                {menuOpen && (
+                    <div
+                        className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+                        onClick={() => setMenuOpen(false)}
+                    />
+                )}
+
+                {/* Mobile Slide-out Menu */}
                 <div
-                    className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
-                    onClick={() => setMenuOpen(false)}
-                />
-            )}
-
-            {/* Mobile Slide-out Menu */}
-            <div
-                className={`fixed top-0 left-0 h-screen w-72 bg-white shadow-2xl transform ${
-                    menuOpen ? "translate-x-0" : "-translate-x-full"
-                } transition-transform duration-300 ease-in-out z-50 md:static md:h-auto md:w-auto md:flex md:space-x-6 md:shadow-none md:transform-none md:bg-transparent`}
-            >
-                {/* Mobile Menu Header */}
-                <div className="md:hidden flex items-center justify-between p-4 border-b border-gray-200 bg-gradient-to-r from-blue-600 to-emerald-500">
-                    <div className="flex items-center space-x-3">
-                        <img src={CureLogo} className="h-10 w-10" alt="Cure Logo" />
-                        <span className="text-white font-bold text-lg">CURE</span>
+                    className={`fixed top-0 left-0 h-screen w-72 bg-white shadow-2xl transform ${menuOpen ? "translate-x-0" : "-translate-x-full"
+                        } transition-transform duration-300 ease-in-out z-50 md:static md:h-auto md:w-auto md:flex md:space-x-6 md:shadow-none md:transform-none md:bg-transparent`}
+                >
+                    {/* Mobile Menu Header */}
+                    <div className="md:hidden flex items-center justify-between p-4 border-b border-gray-200 bg-gradient-to-r from-blue-600 to-emerald-500">
+                        <div className="flex items-center space-x-3">
+                            <img src={CureLogo} className="h-10 w-10" alt="Cure Logo" />
+                            <span className="text-white font-bold text-lg">CURE</span>
+                        </div>
+                        <button
+                            className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+                            onClick={() => setMenuOpen(false)}
+                        >
+                            <FaTimes size={20} className="text-white" />
+                        </button>
                     </div>
-                    <button
-                        className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
-                        onClick={() => setMenuOpen(false)}
-                    >
-                        <FaTimes size={20} className="text-white" />
-                    </button>
-                </div>
 
-                {/* Mobile Menu Items */}
-                <div className="md:hidden flex flex-col p-4 space-y-2">
-                    <Link
-                        to="/"
-                        onClick={() => setMenuOpen(false)}
-                        className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg font-medium transition-all duration-200 border-l-4 border-transparent hover:border-blue-500"
-                    >
-                        <span className="mr-3">🏠</span>
-                        Home
-                    </Link>
-                    <Link
-                        to="/about-us"
-                        onClick={() => setMenuOpen(false)}
-                        className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg font-medium transition-all duration-200 border-l-4 border-transparent hover:border-blue-500"
-                    >
-                        <span className="mr-3">ℹ️</span>
-                        About Us
-                    </Link>
-                    <Link
-                        to="/medical-insights"
-                        onClick={() => setMenuOpen(false)}
-                        className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg font-medium transition-all duration-200 border-l-4 border-transparent hover:border-blue-500"
-                    >
-                        <span className="mr-3">📰</span>
-                        Medical Insights
-                    </Link>
+                    {/* Mobile Menu Items */}
+                    <div className="md:hidden flex flex-col p-4 space-y-2">
+                        <Link
+                            to="/"
+                            onClick={() => setMenuOpen(false)}
+                            className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg font-medium transition-all duration-200 border-l-4 border-transparent hover:border-blue-500"
+                        >
+                            <span className="mr-3">🏠</span>
+                            Home
+                        </Link>
+                        <Link
+                            to="/about-us"
+                            onClick={() => setMenuOpen(false)}
+                            className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg font-medium transition-all duration-200 border-l-4 border-transparent hover:border-blue-500"
+                        >
+                            <span className="mr-3">ℹ️</span>
+                            About Us
+                        </Link>
+                        <Link
+                            to="/medical-insights"
+                            onClick={() => setMenuOpen(false)}
+                            className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg font-medium transition-all duration-200 border-l-4 border-transparent hover:border-blue-500"
+                        >
+                            <span className="mr-3">📰</span>
+                            Medical Insights
+                        </Link>
 
-                    {/* Divider */}
-                    <div className="border-t border-gray-200 my-2"></div>
+                        {/* Divider */}
+                        <div className="border-t border-gray-200 my-2"></div>
 
-                    {/* Mobile Auth Buttons */}
-                    {isAuthenticated ? (
-                        <>
-                            {/* Book Appointment - only for patients */}
-                            {userRole === 5 && (
+                        {/* Mobile Auth Buttons */}
+                        {isAuthenticated ? (
+                            <>
+                                {/* Book Appointment - only for patients */}
+                                {userRole === 5 && (
+                                    <Link
+                                        to="/patient-dashboard/appointments/book"
+                                        onClick={() => setMenuOpen(false)}
+                                        className="flex items-center px-4 py-3 text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-lg font-medium transition-all duration-200"
+                                    >
+                                        <span className="mr-3">📅</span>
+                                        Book Appointment
+                                    </Link>
+                                )}
                                 <Link
-                                    to="/patient-dashboard/appointments/book"
+                                    to={dashboardPath}
                                     onClick={() => setMenuOpen(false)}
                                     className="flex items-center px-4 py-3 text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-lg font-medium transition-all duration-200"
                                 >
-                                    <span className="mr-3">📅</span>
-                                    Book Appointment
+                                    <span className="mr-3">📊</span>
+                                    Dashboard
                                 </Link>
-                            )}
-                            <Link
-                                to={dashboardPath}
-                                onClick={() => setMenuOpen(false)}
-                                className="flex items-center px-4 py-3 text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-lg font-medium transition-all duration-200"
-                            >
-                                <span className="mr-3">📊</span>
-                                Dashboard
-                            </Link>
 
-                            {/* Divider */}
-                            <div className="border-t border-gray-200 my-2"></div>
+                                {/* Divider */}
+                                <div className="border-t border-gray-200 my-2"></div>
 
-                            {/* User info and Logout */}
-                            {firstName && (
-                                <div className="px-4 py-2 text-sm text-gray-500">
-                                    Logged in as <span className="font-semibold text-gray-700">{firstName}</span>
-                                </div>
-                            )}
-                            <button
-                                onClick={handleLogout}
-                                className="flex items-center px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg font-medium transition-all duration-200 w-full"
-                            >
-                                <span className="mr-3">🚪</span>
-                                Logout
-                            </button>
-                        </>
-                    ) : (
-                        <div className="flex flex-col space-y-3 mt-4 px-2">
+                                {/* User info and Logout */}
+                                {firstName && (
+                                    <div className="px-4 py-2 text-sm text-gray-500">
+                                        Logged in as <span className="font-semibold text-gray-700">{firstName}</span>
+                                    </div>
+                                )}
+                                <button
+                                    onClick={handleLogout}
+                                    className="flex items-center px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg font-medium transition-all duration-200 w-full"
+                                >
+                                    <span className="mr-3">🚪</span>
+                                    Logout
+                                </button>
+                            </>
+                        ) : (
+                            <div className="flex flex-col space-y-3 mt-4 px-2">
+                                <Link
+                                    to="/login"
+                                    onClick={() => setMenuOpen(false)}
+                                    className="w-full py-3 text-center text-emerald-600 font-semibold border-2 border-emerald-600 rounded-lg hover:bg-emerald-50 transition-all duration-200"
+                                >
+                                    Log in
+                                </Link>
+                                <Link
+                                    to="/signup"
+                                    onClick={() => setMenuOpen(false)}
+                                    className="w-full py-3 text-center text-white font-semibold bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg hover:from-emerald-600 hover:to-teal-700 transition-all duration-200 shadow-lg"
+                                >
+                                    Sign up
+                                </Link>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Desktop Menu Items (unchanged) */}
+                    {!isAuthenticated && (
+                        <div className="hidden md:flex md:space-x-6">
                             <Link
-                                to="/login"
-                                onClick={() => setMenuOpen(false)}
-                                className="w-full py-3 text-center text-emerald-600 font-semibold border-2 border-emerald-600 rounded-lg hover:bg-emerald-50 transition-all duration-200"
+                                to="/"
+                                className="text-gray-700 hover:text-blue-500 font-medium"
                             >
-                                Log in
+                                Home
                             </Link>
                             <Link
-                                to="/signup"
-                                onClick={() => setMenuOpen(false)}
-                                className="w-full py-3 text-center text-white font-semibold bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg hover:from-emerald-600 hover:to-teal-700 transition-all duration-200 shadow-lg"
+                                to="/about-us"
+                                className="text-gray-700 hover:text-blue-500 font-medium"
                             >
-                                Sign up
+                                About Us
+                            </Link>
+                            <Link
+                                to="/medical-insights"
+                                className="text-gray-700 hover:text-blue-500 font-medium"
+                            >
+                                Medical Insights
                             </Link>
                         </div>
                     )}
                 </div>
 
-                {/* Desktop Menu Items (unchanged) */}
-                {!isAuthenticated && (
-                    <div className="hidden md:flex md:space-x-6">
-                        <Link
-                            to="/"
-                            className="text-gray-700 hover:text-blue-500 font-medium"
-                        >
-                            Home
-                        </Link>
-                        <Link
-                            to="/about-us"
-                            className="text-gray-700 hover:text-blue-500 font-medium"
-                        >
-                            About Us
-                        </Link>
-                        <Link
-                            to="/medical-insights"
-                            className="text-gray-700 hover:text-blue-500 font-medium"
-                        >
-                            Medical Insights
-                        </Link>
-                    </div>
-                )}
-            </div>
-
-            <div className="hidden md:flex space-x-4 items-center">
-                {isAuthenticated ? (
-                    <div className="flex items-center gap-3">
-                        {/* Cart Icon */}
-                        <Link
-                            to="/shop/cart"
-                            className="relative p-2 text-gray-600 hover:text-emerald-600 transition-colors"
-                            title="Shopping Cart"
-                        >
-                            <FaShoppingCart size={22} />
-                            {/* Cart badge - for future use */}
-                            <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
-                                0
-                            </span>
-                        </Link>
-                        {/* Book Appointment - only for patients */}
-                        {userRole === 5 && (
-                            <Link to="/patient-dashboard/appointments/book" className="navbar-button">
-                                Book Appointment
+                <div className="hidden md:flex space-x-4 items-center">
+                    {isAuthenticated ? (
+                        <div className="flex items-center gap-3">
+                            {/* Cart Icon */}
+                            <Link
+                                to="/shop/cart"
+                                className="relative p-2 text-gray-600 hover:text-emerald-600 transition-colors"
+                                title="Shopping Cart"
+                            >
+                                <FaShoppingCart size={22} />
+                                {/* Cart badge - for future use */}
+                                <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
+                                    0
+                                </span>
                             </Link>
-                        )}
-                        <Link to={dashboardPath} className="navbar-button">
-                            Dashboard
-                        </Link>
-                        {/* User greeting */}
-                        {firstName && (
-                            <span className="text-gray-600 text-sm hidden lg:inline">
-                                Hi, <span className="font-semibold">{firstName}</span>
-                            </span>
-                        )}
-                        {/* Logout Button */}
-                        <button
-                            onClick={handleLogout}
-                            className="flex items-center gap-2 px-4 py-2 text-red-600 font-semibold border-2 border-red-500 rounded-lg hover:bg-red-50 transition-all duration-200"
-                            title="Logout"
-                        >
-                            <FaSignOutAlt size={16} />
-                            <span className="hidden lg:inline">Logout</span>
-                        </button>
-                    </div>
-                ) : (
-                    <div className="flex items-center gap-3">
-                        {/* Cart Icon */}
-                        <Link
-                            to="/shop/cart"
-                            className="relative p-2 text-gray-600 hover:text-emerald-600 transition-colors"
-                            title="Shopping Cart"
-                        >
-                            <FaShoppingCart size={22} />
-                            {/* Cart badge - for future use */}
-                            <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
-                                0
-                            </span>
-                        </Link>
-                        <Link to="/login">
-                            <button className="px-5 py-2.5 text-emerald-600 font-semibold border-2 border-emerald-600 rounded-lg hover:bg-emerald-50 transition-all duration-200 shadow-sm">
-                                Log in
+                            {/* Book Appointment - only for patients */}
+                            {userRole === 5 && (
+                                <Link to="/patient-dashboard/appointments/book" className="navbar-button">
+                                    Book Appointment
+                                </Link>
+                            )}
+                            <Link to={dashboardPath} className="navbar-button">
+                                Dashboard
+                            </Link>
+                            {/* User greeting */}
+                            {firstName && (
+                                <span className="text-gray-600 text-sm hidden lg:inline">
+                                    Hi, <span className="font-semibold">{firstName}</span>
+                                </span>
+                            )}
+                            {/* Logout Button */}
+                            <button
+                                onClick={handleLogout}
+                                className="flex items-center gap-2 px-4 py-2 text-red-600 font-semibold border-2 border-red-500 rounded-lg hover:bg-red-50 transition-all duration-200"
+                                title="Logout"
+                            >
+                                <FaSignOutAlt size={16} />
+                                <span className="hidden lg:inline">Logout</span>
                             </button>
-                        </Link>
-                        <Link to="/signup">
-                            <button className="px-5 py-2.5 text-white font-semibold bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg hover:from-emerald-600 hover:to-teal-700 transition-all duration-200 shadow-lg shadow-emerald-200 hover:shadow-xl hover:shadow-emerald-300">
-                                Sign up
-                            </button>
-                        </Link>
-                    </div>
-                )}
-            </div>
-        </nav>
+                        </div>
+                    ) : (
+                        <div className="flex items-center gap-3">
+                            {/* Cart Icon */}
+                            <Link
+                                to="/shop/cart"
+                                className="relative p-2 text-gray-600 hover:text-emerald-600 transition-colors"
+                                title="Shopping Cart"
+                            >
+                                <FaShoppingCart size={22} />
+                                {/* Cart badge - for future use */}
+                                <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
+                                    0
+                                </span>
+                            </Link>
+                            <Link to="/login">
+                                <button className="px-5 py-2.5 text-emerald-600 font-semibold border-2 border-emerald-600 rounded-lg hover:bg-emerald-50 transition-all duration-200 shadow-sm">
+                                    Log in
+                                </button>
+                            </Link>
+                            <Link to="/signup">
+                                <button className="px-5 py-2.5 text-white font-semibold bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg hover:from-emerald-600 hover:to-teal-700 transition-all duration-200 shadow-lg shadow-emerald-200 hover:shadow-xl hover:shadow-emerald-300">
+                                    Sign up
+                                </button>
+                            </Link>
+                        </div>
+                    )}
+                </div>
+            </nav>
         </>
     );
 };

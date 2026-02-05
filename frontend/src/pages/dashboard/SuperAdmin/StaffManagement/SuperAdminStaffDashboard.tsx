@@ -217,7 +217,7 @@ export const SuperAdminStaffDashboard: React.FC = () => {
     const fetchStaffStats = async () => {
         try {
             // Fetch staff statistics based on selected branch
-            const response = await api.get('/api/v1/users');
+            const response = await api.get('/users');
             const users = response.data.users || [];
 
             let filteredUsers = users;

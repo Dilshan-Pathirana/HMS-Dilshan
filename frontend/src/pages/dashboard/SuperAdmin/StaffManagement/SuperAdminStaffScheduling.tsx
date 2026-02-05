@@ -189,7 +189,7 @@ export const SuperAdminStaffScheduling: React.FC = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await api.get("/api/v1/users");
+            const response = await api.get("/users");
             const allUsers = response.data.users || [];
             // Filter users by selected branch and deduplicate by id
             const branchUsers = allUsers
@@ -766,9 +766,8 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                                         return (
                                             <th
                                                 key={idx}
-                                                className={`px-2 py-3 text-center text-sm font-medium min-w-[120px] ${
-                                                    isToday ? 'bg-emerald-50' : ''
-                                                } ${holidayInfo.isHoliday ? 'bg-red-50' : ''}`}
+                                                className={`px-2 py-3 text-center text-sm font-medium min-w-[120px] ${isToday ? 'bg-emerald-50' : ''
+                                                    } ${holidayInfo.isHoliday ? 'bg-red-50' : ''}`}
                                             >
                                                 <div className={`${isToday ? 'text-emerald-600' : 'text-gray-700'}`}>
                                                     {day.toLocaleDateString('en-US', { weekday: 'short' })}
@@ -1381,11 +1380,10 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                         <button
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id as any)}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all whitespace-nowrap ${
-                                activeTab === tab.id
+                            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all whitespace-nowrap ${activeTab === tab.id
                                     ? 'bg-emerald-600 text-white shadow-md'
                                     : 'text-gray-600 hover:bg-gray-100'
-                            }`}
+                                }`}
                         >
                             {tab.icon}
                             {tab.label}

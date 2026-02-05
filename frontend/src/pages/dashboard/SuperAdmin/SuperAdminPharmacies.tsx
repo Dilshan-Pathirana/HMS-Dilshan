@@ -202,29 +202,29 @@ interface SupplierFormData {
 const SuperAdminPharmacies: React.FC = () => {
     // Main tab state
     const [activeMainTab, setActiveMainTab] = useState<MainTab>('pharmacies');
-    
+
     // State
     const [pharmacies, setPharmacies] = useState<Pharmacy[]>([]);
     const [branches, setBranches] = useState<Branch[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
-    
+
     // Search and filter
     const [searchTerm, setSearchTerm] = useState('');
     const [filterBranch, setFilterBranch] = useState('');
     const [filterStatus, setFilterStatus] = useState<'' | 'active' | 'inactive'>('');
-    
+
     // Modal states
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showAllocateModal, setShowAllocateModal] = useState(false);
     const [showManageModal, setShowManageModal] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-    
+
     // Selected pharmacy for operations
     const [selectedPharmacy, setSelectedPharmacy] = useState<Pharmacy | null>(null);
-    
+
     // Form data
     const [formData, setFormData] = useState<PharmacyFormData>({
         pharmacy_name: '',
@@ -237,10 +237,10 @@ const SuperAdminPharmacies: React.FC = () => {
         is_active: true,
         branch_id: ''
     });
-    
+
     // Allocation form
     const [allocateBranchId, setAllocateBranchId] = useState('');
-    
+
     // Inventory state for manage view
     const [inventory, setInventory] = useState<InventoryItem[]>([]);
     const [inventoryLoading, setInventoryLoading] = useState(false);
@@ -345,7 +345,7 @@ const SuperAdminPharmacies: React.FC = () => {
     const loadPharmacies = async () => {
         try {
             setLoading(true);
-            const response = await api.get('/api/v1/pharmacies');
+            const response = await api.get('/pharmacies');
             if (response.data.success) {
                 setPharmacies(response.data.data.pharmacies || []);
             }
@@ -358,11 +358,11 @@ const SuperAdminPharmacies: React.FC = () => {
 
     const loadBranches = async () => {
         try {
-            const response = await api.get('/api/v1/branches');
+            const response = await api.get('/branches');
             if (response.data.success) {
                 // API returns data directly as array, not as data.branches
-                const branchData = Array.isArray(response.data.data) 
-                    ? response.data.data 
+                const branchData = Array.isArray(response.data.data)
+                    ? response.data.data
                     : (response.data.data.branches || []);
                 setBranches(branchData);
             }
@@ -390,7 +390,7 @@ const SuperAdminPharmacies: React.FC = () => {
     const loadProducts = async (branchId?: string) => {
         try {
             setProductsLoading(true);
-            const url = branchId 
+            const url = branchId
                 ? `/pharmacy/products-branch?branch_id=${branchId}`
                 : '/pharmacy/products';
             const response = await api.get(url);
@@ -497,14 +497,14 @@ const SuperAdminPharmacies: React.FC = () => {
 
     // Filter products
     const filteredProducts = products.filter(product => {
-        const matchesSearch = 
+        const matchesSearch =
             product.item_name?.toLowerCase().includes(productSearchTerm.toLowerCase()) ||
             product.item_code?.toLowerCase().includes(productSearchTerm.toLowerCase()) ||
             product.generic_name?.toLowerCase().includes(productSearchTerm.toLowerCase()) ||
             product.brand_name?.toLowerCase().includes(productSearchTerm.toLowerCase());
-        
+
         const matchesCategory = !productFilterCategory || product.category === productFilterCategory;
-        
+
         return matchesSearch && matchesCategory;
     });
 
@@ -620,7 +620,7 @@ const SuperAdminPharmacies: React.FC = () => {
     };
 
     // ========== SUPPLIER MANAGEMENT FUNCTIONS ==========
-    
+
     // Load suppliers when tab is active
     useEffect(() => {
         if (activeMainTab === 'suppliers') {
@@ -646,14 +646,14 @@ const SuperAdminPharmacies: React.FC = () => {
 
     // Filter suppliers
     const filteredSuppliers = suppliers.filter(supplier => {
-        const matchesSearch = 
+        const matchesSearch =
             supplier.supplier_name?.toLowerCase().includes(supplierSearchTerm.toLowerCase()) ||
             supplier.contact_person?.toLowerCase().includes(supplierSearchTerm.toLowerCase()) ||
             supplier.supplier_city?.toLowerCase().includes(supplierSearchTerm.toLowerCase()) ||
             supplier.contact_email?.toLowerCase().includes(supplierSearchTerm.toLowerCase());
-        
+
         const matchesType = !supplierFilterType || supplier.supplier_type === supplierFilterType;
-        
+
         return matchesSearch && matchesType;
     });
 
@@ -791,14 +791,14 @@ const SuperAdminPharmacies: React.FC = () => {
 
     // Filter pharmacies
     const filteredPharmacies = pharmacies.filter(pharmacy => {
-        const matchesSearch = 
+        const matchesSearch =
             pharmacy.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             pharmacy.pharmacy_code.toLowerCase().includes(searchTerm.toLowerCase()) ||
             (pharmacy.branch?.center_name || '').toLowerCase().includes(searchTerm.toLowerCase());
-        
+
         const matchesBranch = !filterBranch || pharmacy.branch_id === filterBranch;
         const matchesStatus = !filterStatus || pharmacy.status === filterStatus;
-        
+
         return matchesSearch && matchesBranch && matchesStatus;
     });
 
@@ -839,7 +839,7 @@ const SuperAdminPharmacies: React.FC = () => {
                 delete payload.branch_id;
             }
 
-            const response = await api.post('/api/v1/pharmacies', payload);
+            const response = await api.post('/pharmacies', payload);
             if (response.data.success) {
                 setSuccessMessage('Pharmacy created successfully');
                 setShowCreateModal(false);
@@ -847,9 +847,9 @@ const SuperAdminPharmacies: React.FC = () => {
                 loadPharmacies();
             }
         } catch (err: any) {
-            setError(err.response?.data?.errors?.pharmacy_code?.[0] || 
-                     err.response?.data?.message || 
-                     'Failed to create pharmacy');
+            setError(err.response?.data?.errors?.pharmacy_code?.[0] ||
+                err.response?.data?.message ||
+                'Failed to create pharmacy');
         } finally {
             setLoading(false);
         }
@@ -1008,33 +1008,30 @@ const SuperAdminPharmacies: React.FC = () => {
                 <nav className="-mb-px flex space-x-8">
                     <button
                         onClick={() => setActiveMainTab('pharmacies')}
-                        className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${
-                            activeMainTab === 'pharmacies'
+                        className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${activeMainTab === 'pharmacies'
                                 ? 'border-emerald-500 text-emerald-600'
                                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                        }`}
+                            }`}
                     >
                         <Building2 className="w-5 h-5" />
                         Pharmacies
                     </button>
                     <button
                         onClick={() => setActiveMainTab('inventory')}
-                        className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${
-                            activeMainTab === 'inventory'
+                        className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${activeMainTab === 'inventory'
                                 ? 'border-emerald-500 text-emerald-600'
                                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                        }`}
+                            }`}
                     >
                         <Box className="w-5 h-5" />
                         Inventory Items
                     </button>
                     <button
                         onClick={() => setActiveMainTab('suppliers')}
-                        className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${
-                            activeMainTab === 'suppliers'
+                        className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${activeMainTab === 'suppliers'
                                 ? 'border-emerald-500 text-emerald-600'
                                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                        }`}
+                            }`}
                     >
                         <Truck className="w-5 h-5" />
                         Suppliers
@@ -1076,265 +1073,264 @@ const SuperAdminPharmacies: React.FC = () => {
                         </button>
                     </div>
 
-            {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-                <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-                    <div className="flex items-center gap-3">
-                        <div className="p-2 bg-blue-100 rounded-lg">
-                            <Building2 className="w-5 h-5 text-blue-600" />
+                    {/* Stats Cards */}
+                    <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                        <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 bg-blue-100 rounded-lg">
+                                    <Building2 className="w-5 h-5 text-blue-600" />
+                                </div>
+                                <div>
+                                    <p className="text-sm text-gray-500">Total Pharmacies</p>
+                                    <p className="text-xl font-bold text-gray-900">{stats.total}</p>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <p className="text-sm text-gray-500">Total Pharmacies</p>
-                            <p className="text-xl font-bold text-gray-900">{stats.total}</p>
+                        <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 bg-emerald-100 rounded-lg">
+                                    <Check className="w-5 h-5 text-emerald-600" />
+                                </div>
+                                <div>
+                                    <p className="text-sm text-gray-500">Active</p>
+                                    <p className="text-xl font-bold text-emerald-600">{stats.active}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 bg-gray-100 rounded-lg">
+                                    <X className="w-5 h-5 text-gray-600" />
+                                </div>
+                                <div>
+                                    <p className="text-sm text-gray-500">Inactive</p>
+                                    <p className="text-xl font-bold text-gray-600">{stats.inactive}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 bg-amber-100 rounded-lg">
+                                    <MapPin className="w-5 h-5 text-amber-600" />
+                                </div>
+                                <div>
+                                    <p className="text-sm text-gray-500">Unassigned</p>
+                                    <p className="text-xl font-bold text-amber-600">{stats.unassigned}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 bg-red-100 rounded-lg">
+                                    <TrendingDown className="w-5 h-5 text-red-600" />
+                                </div>
+                                <div>
+                                    <p className="text-sm text-gray-500">Low Stock Items</p>
+                                    <p className="text-xl font-bold text-red-600">{stats.lowStock}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-                    <div className="flex items-center gap-3">
-                        <div className="p-2 bg-emerald-100 rounded-lg">
-                            <Check className="w-5 h-5 text-emerald-600" />
-                        </div>
-                        <div>
-                            <p className="text-sm text-gray-500">Active</p>
-                            <p className="text-xl font-bold text-emerald-600">{stats.active}</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-                    <div className="flex items-center gap-3">
-                        <div className="p-2 bg-gray-100 rounded-lg">
-                            <X className="w-5 h-5 text-gray-600" />
-                        </div>
-                        <div>
-                            <p className="text-sm text-gray-500">Inactive</p>
-                            <p className="text-xl font-bold text-gray-600">{stats.inactive}</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-                    <div className="flex items-center gap-3">
-                        <div className="p-2 bg-amber-100 rounded-lg">
-                            <MapPin className="w-5 h-5 text-amber-600" />
-                        </div>
-                        <div>
-                            <p className="text-sm text-gray-500">Unassigned</p>
-                            <p className="text-xl font-bold text-amber-600">{stats.unassigned}</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-                    <div className="flex items-center gap-3">
-                        <div className="p-2 bg-red-100 rounded-lg">
-                            <TrendingDown className="w-5 h-5 text-red-600" />
-                        </div>
-                        <div>
-                            <p className="text-sm text-gray-500">Low Stock Items</p>
-                            <p className="text-xl font-bold text-red-600">{stats.lowStock}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            {/* Filters */}
-            <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-                <div className="flex flex-wrap gap-4">
-                    <div className="flex-1 min-w-[200px]">
-                        <div className="relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                            <input
-                                type="text"
-                                placeholder="Search pharmacies..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                            />
-                        </div>
-                    </div>
-                    <select
-                        value={filterBranch}
-                        onChange={(e) => setFilterBranch(e.target.value)}
-                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
-                    >
-                        <option value="">All Branches</option>
-                        <option value="unassigned">Unassigned</option>
-                        {branches.map(branch => (
-                            <option key={branch.id} value={branch.id}>{branch.center_name}</option>
-                        ))}
-                    </select>
-                    <select
-                        value={filterStatus}
-                        onChange={(e) => setFilterStatus(e.target.value as '' | 'active' | 'inactive')}
-                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
-                    >
-                        <option value="">All Status</option>
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
-                    </select>
-                    <button
-                        onClick={loadPharmacies}
-                        className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
-                    >
-                        <RefreshCw className="w-4 h-4" />
-                        Refresh
-                    </button>
-                </div>
-            </div>
-
-            {/* Pharmacies Table */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                {loading ? (
-                    <div className="flex items-center justify-center py-12">
-                        <RefreshCw className="w-8 h-8 text-emerald-500 animate-spin" />
-                    </div>
-                ) : filteredPharmacies.length === 0 ? (
-                    <div className="text-center py-12">
-                        <Building2 className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                        <p className="text-gray-500">No pharmacies found</p>
-                        <button
-                            onClick={() => setShowCreateModal(true)}
-                            className="mt-4 text-emerald-600 hover:text-emerald-700 font-medium"
-                        >
-                            Create your first pharmacy
-                        </button>
-                    </div>
-                ) : (
-                    <div className="overflow-x-auto">
-                        <table className="w-full">
-                            <thead className="bg-gray-50 border-b border-gray-200">
-                                <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        Pharmacy
-                                    </th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        Branch
-                                    </th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        Status
-                                    </th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        Inventory
-                                    </th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        Contact
-                                    </th>
-                                    <th className="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        Actions
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-200">
-                                {filteredPharmacies.map((pharmacy) => (
-                                    <tr key={pharmacy.id} className="hover:bg-gray-50 transition-colors">
-                                        <td className="px-6 py-4">
-                                            <div>
-                                                <p className="font-medium text-gray-900">{pharmacy.name}</p>
-                                                <p className="text-sm text-gray-500">{pharmacy.pharmacy_code}</p>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            {pharmacy.branch ? (
-                                                <div className="flex items-center gap-2">
-                                                    <MapPin className="w-4 h-4 text-gray-400" />
-                                                    <span className="text-gray-700">{pharmacy.branch.center_name}</span>
-                                                </div>
-                                            ) : (
-                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700">
-                                                    Unassigned
-                                                </span>
-                                            )}
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <button
-                                                onClick={() => handleToggleStatus(pharmacy)}
-                                                className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                                                    pharmacy.status === 'active'
-                                                        ? 'bg-emerald-100 text-emerald-700'
-                                                        : 'bg-gray-100 text-gray-600'
-                                                }`}
-                                            >
-                                                {pharmacy.status === 'active' ? (
-                                                    <Check className="w-3 h-3 mr-1" />
-                                                ) : (
-                                                    <X className="w-3 h-3 mr-1" />
-                                                )}
-                                                {pharmacy.status}
-                                            </button>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-4">
-                                                <div className="flex items-center gap-1">
-                                                    <Package className="w-4 h-4 text-gray-400" />
-                                                    <span className="text-sm text-gray-700">{pharmacy.inventory_count || 0} items</span>
-                                                </div>
-                                                {(pharmacy.low_stock_count || 0) > 0 && (
-                                                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">
-                                                        <AlertTriangle className="w-3 h-3 mr-1" />
-                                                        {pharmacy.low_stock_count} low
-                                                    </span>
-                                                )}
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div className="text-sm">
-                                                {pharmacy.phone && (
-                                                    <div className="flex items-center gap-1 text-gray-600">
-                                                        <Phone className="w-3 h-3" />
-                                                        {pharmacy.phone}
-                                                    </div>
-                                                )}
-                                                {pharmacy.email && (
-                                                    <div className="flex items-center gap-1 text-gray-600">
-                                                        <Mail className="w-3 h-3" />
-                                                        {pharmacy.email}
-                                                    </div>
-                                                )}
-                                                {!pharmacy.phone && !pharmacy.email && (
-                                                    <span className="text-gray-400">—</span>
-                                                )}
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center justify-end gap-2">
-                                                <button
-                                                    onClick={() => openManageModal(pharmacy)}
-                                                    className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                                                    title="Manage Pharmacy"
-                                                >
-                                                    <Settings className="w-4 h-4" />
-                                                </button>
-                                                <button
-                                                    onClick={() => openEditModal(pharmacy)}
-                                                    className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
-                                                    title="Edit"
-                                                >
-                                                    <Edit2 className="w-4 h-4" />
-                                                </button>
-                                                <button
-                                                    onClick={() => openAllocateModal(pharmacy)}
-                                                    className="p-2 text-amber-600 hover:bg-amber-50 rounded-lg transition-colors"
-                                                    title="Allocate to Branch"
-                                                >
-                                                    <MapPin className="w-4 h-4" />
-                                                </button>
-                                                <button
-                                                    onClick={() => {
-                                                        setSelectedPharmacy(pharmacy);
-                                                        setShowDeleteConfirm(true);
-                                                    }}
-                                                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                                    title="Delete"
-                                                >
-                                                    <Trash2 className="w-4 h-4" />
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                    {/* Filters */}
+                    <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                        <div className="flex flex-wrap gap-4">
+                            <div className="flex-1 min-w-[200px]">
+                                <div className="relative">
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                    <input
+                                        type="text"
+                                        placeholder="Search pharmacies..."
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                    />
+                                </div>
+                            </div>
+                            <select
+                                value={filterBranch}
+                                onChange={(e) => setFilterBranch(e.target.value)}
+                                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                            >
+                                <option value="">All Branches</option>
+                                <option value="unassigned">Unassigned</option>
+                                {branches.map(branch => (
+                                    <option key={branch.id} value={branch.id}>{branch.center_name}</option>
                                 ))}
-                            </tbody>
-                        </table>
+                            </select>
+                            <select
+                                value={filterStatus}
+                                onChange={(e) => setFilterStatus(e.target.value as '' | 'active' | 'inactive')}
+                                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                            >
+                                <option value="">All Status</option>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                            <button
+                                onClick={loadPharmacies}
+                                className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                            >
+                                <RefreshCw className="w-4 h-4" />
+                                Refresh
+                            </button>
+                        </div>
                     </div>
-                )}
-            </div>
+
+                    {/* Pharmacies Table */}
+                    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                        {loading ? (
+                            <div className="flex items-center justify-center py-12">
+                                <RefreshCw className="w-8 h-8 text-emerald-500 animate-spin" />
+                            </div>
+                        ) : filteredPharmacies.length === 0 ? (
+                            <div className="text-center py-12">
+                                <Building2 className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+                                <p className="text-gray-500">No pharmacies found</p>
+                                <button
+                                    onClick={() => setShowCreateModal(true)}
+                                    className="mt-4 text-emerald-600 hover:text-emerald-700 font-medium"
+                                >
+                                    Create your first pharmacy
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="overflow-x-auto">
+                                <table className="w-full">
+                                    <thead className="bg-gray-50 border-b border-gray-200">
+                                        <tr>
+                                            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                Pharmacy
+                                            </th>
+                                            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                Branch
+                                            </th>
+                                            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                Status
+                                            </th>
+                                            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                Inventory
+                                            </th>
+                                            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                Contact
+                                            </th>
+                                            <th className="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                Actions
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-200">
+                                        {filteredPharmacies.map((pharmacy) => (
+                                            <tr key={pharmacy.id} className="hover:bg-gray-50 transition-colors">
+                                                <td className="px-6 py-4">
+                                                    <div>
+                                                        <p className="font-medium text-gray-900">{pharmacy.name}</p>
+                                                        <p className="text-sm text-gray-500">{pharmacy.pharmacy_code}</p>
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    {pharmacy.branch ? (
+                                                        <div className="flex items-center gap-2">
+                                                            <MapPin className="w-4 h-4 text-gray-400" />
+                                                            <span className="text-gray-700">{pharmacy.branch.center_name}</span>
+                                                        </div>
+                                                    ) : (
+                                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700">
+                                                            Unassigned
+                                                        </span>
+                                                    )}
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <button
+                                                        onClick={() => handleToggleStatus(pharmacy)}
+                                                        className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${pharmacy.status === 'active'
+                                                                ? 'bg-emerald-100 text-emerald-700'
+                                                                : 'bg-gray-100 text-gray-600'
+                                                            }`}
+                                                    >
+                                                        {pharmacy.status === 'active' ? (
+                                                            <Check className="w-3 h-3 mr-1" />
+                                                        ) : (
+                                                            <X className="w-3 h-3 mr-1" />
+                                                        )}
+                                                        {pharmacy.status}
+                                                    </button>
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <div className="flex items-center gap-4">
+                                                        <div className="flex items-center gap-1">
+                                                            <Package className="w-4 h-4 text-gray-400" />
+                                                            <span className="text-sm text-gray-700">{pharmacy.inventory_count || 0} items</span>
+                                                        </div>
+                                                        {(pharmacy.low_stock_count || 0) > 0 && (
+                                                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">
+                                                                <AlertTriangle className="w-3 h-3 mr-1" />
+                                                                {pharmacy.low_stock_count} low
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <div className="text-sm">
+                                                        {pharmacy.phone && (
+                                                            <div className="flex items-center gap-1 text-gray-600">
+                                                                <Phone className="w-3 h-3" />
+                                                                {pharmacy.phone}
+                                                            </div>
+                                                        )}
+                                                        {pharmacy.email && (
+                                                            <div className="flex items-center gap-1 text-gray-600">
+                                                                <Mail className="w-3 h-3" />
+                                                                {pharmacy.email}
+                                                            </div>
+                                                        )}
+                                                        {!pharmacy.phone && !pharmacy.email && (
+                                                            <span className="text-gray-400">—</span>
+                                                        )}
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <div className="flex items-center justify-end gap-2">
+                                                        <button
+                                                            onClick={() => openManageModal(pharmacy)}
+                                                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                                            title="Manage Pharmacy"
+                                                        >
+                                                            <Settings className="w-4 h-4" />
+                                                        </button>
+                                                        <button
+                                                            onClick={() => openEditModal(pharmacy)}
+                                                            className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                                            title="Edit"
+                                                        >
+                                                            <Edit2 className="w-4 h-4" />
+                                                        </button>
+                                                        <button
+                                                            onClick={() => openAllocateModal(pharmacy)}
+                                                            className="p-2 text-amber-600 hover:bg-amber-50 rounded-lg transition-colors"
+                                                            title="Allocate to Branch"
+                                                        >
+                                                            <MapPin className="w-4 h-4" />
+                                                        </button>
+                                                        <button
+                                                            onClick={() => {
+                                                                setSelectedPharmacy(pharmacy);
+                                                                setShowDeleteConfirm(true);
+                                                            }}
+                                                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                            title="Delete"
+                                                        >
+                                                            <Trash2 className="w-4 h-4" />
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                    </div>
                 </>
             )}
 
@@ -1521,11 +1517,10 @@ const SuperAdminPharmacies: React.FC = () => {
                                                     {product.supplier_name || '—'}
                                                 </td>
                                                 <td className="px-4 py-3 text-right">
-                                                    <span className={`font-medium ${
-                                                        (product.current_stock || 0) === 0 ? 'text-red-600' :
-                                                        (product.current_stock || 0) <= (product.min_stock || 0) ? 'text-amber-600' :
-                                                        'text-gray-900'
-                                                    }`}>
+                                                    <span className={`font-medium ${(product.current_stock || 0) === 0 ? 'text-red-600' :
+                                                            (product.current_stock || 0) <= (product.min_stock || 0) ? 'text-amber-600' :
+                                                                'text-gray-900'
+                                                        }`}>
                                                         {product.current_stock || 0} {product.unit}
                                                     </span>
                                                 </td>
@@ -1983,7 +1978,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </button>
                             </div>
                         </div>
-                        
+
                         <div className="p-6">
                             {branchStockLoading ? (
                                 <div className="flex items-center justify-center py-12">
@@ -2107,17 +2102,16 @@ const SuperAdminPharmacies: React.FC = () => {
                                     <div className="text-sm text-gray-500 mb-4">
                                         Click on a branch to set specific stock levels and pricing for that location.
                                     </div>
-                                    
+
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         {branchStockList.map((branchStock) => (
                                             <div
                                                 key={branchStock.branch_id}
                                                 onClick={() => openBranchStockEdit(branchStock)}
-                                                className={`p-4 rounded-xl border-2 cursor-pointer transition-all hover:shadow-md ${
-                                                    branchStock.has_stock 
-                                                        ? 'border-emerald-200 bg-emerald-50/50 hover:border-emerald-400' 
+                                                className={`p-4 rounded-xl border-2 cursor-pointer transition-all hover:shadow-md ${branchStock.has_stock
+                                                        ? 'border-emerald-200 bg-emerald-50/50 hover:border-emerald-400'
                                                         : 'border-gray-200 bg-gray-50/50 hover:border-gray-400'
-                                                }`}
+                                                    }`}
                                             >
                                                 <div className="flex items-center justify-between mb-2">
                                                     <div className="flex items-center gap-2">
@@ -2131,16 +2125,15 @@ const SuperAdminPharmacies: React.FC = () => {
                                                     )}
                                                 </div>
                                                 <div className="text-sm text-gray-500 mb-3">{branchStock.city || 'No location'}</div>
-                                                
+
                                                 {branchStock.has_stock ? (
                                                     <div className="grid grid-cols-3 gap-2 text-sm">
                                                         <div>
                                                             <p className="text-gray-500">Stock</p>
-                                                            <p className={`font-semibold ${
-                                                                branchStock.current_stock === 0 ? 'text-red-600' :
-                                                                branchStock.current_stock <= branchStock.min_stock ? 'text-amber-600' :
-                                                                'text-gray-900'
-                                                            }`}>
+                                                            <p className={`font-semibold ${branchStock.current_stock === 0 ? 'text-red-600' :
+                                                                    branchStock.current_stock <= branchStock.min_stock ? 'text-amber-600' :
+                                                                        'text-gray-900'
+                                                                }`}>
                                                                 {branchStock.current_stock} {branchStock.unit}
                                                             </p>
                                                         </div>
@@ -2358,11 +2351,10 @@ const SuperAdminPharmacies: React.FC = () => {
                                                     </div>
                                                 </td>
                                                 <td className="px-4 py-3">
-                                                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                                                        supplier.supplier_type === 'pharmaceutical' ? 'bg-purple-100 text-purple-700' :
-                                                        supplier.supplier_type === 'medical' ? 'bg-emerald-100 text-emerald-700' :
-                                                        'bg-gray-100 text-gray-700'
-                                                    }`}>
+                                                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${supplier.supplier_type === 'pharmaceutical' ? 'bg-purple-100 text-purple-700' :
+                                                            supplier.supplier_type === 'medical' ? 'bg-emerald-100 text-emerald-700' :
+                                                                'bg-gray-100 text-gray-700'
+                                                        }`}>
                                                         {supplier.supplier_type || 'General'}
                                                     </span>
                                                 </td>
@@ -2507,7 +2499,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                         />
                                     </div>
                                 </div>
-                                
+
                                 {/* Column 2 - Business Terms */}
                                 <div className="space-y-4">
                                     <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wide border-b pb-2">Business Terms</h3>
@@ -2715,7 +2707,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                         />
                                     </div>
                                 </div>
-                                
+
                                 {/* Column 2 - Business Terms */}
                                 <div className="space-y-4">
                                     <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wide border-b pb-2">Business Terms</h3>
@@ -2829,7 +2821,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </div>
                             </div>
                             <p className="text-gray-600 mb-6">
-                                Are you sure you want to delete <strong>{selectedSupplier.supplier_name}</strong>? 
+                                Are you sure you want to delete <strong>{selectedSupplier.supplier_name}</strong>?
                                 This will remove all associated data.
                             </p>
                             <div className="flex justify-end gap-3">
@@ -3051,7 +3043,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg">
                                     <p className="text-sm text-amber-700">
                                         <AlertTriangle className="w-4 h-4 inline mr-1" />
-                                        This pharmacy is currently assigned to <strong>{selectedPharmacy.branch?.center_name}</strong>. 
+                                        This pharmacy is currently assigned to <strong>{selectedPharmacy.branch?.center_name}</strong>.
                                         Selecting a new branch will reassign it.
                                     </p>
                                 </div>
@@ -3100,7 +3092,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
-                        
+
                         <div className="p-6 overflow-y-auto max-h-[calc(90vh-150px)]">
                             {/* Quick Stats */}
                             <div className="grid grid-cols-4 gap-4 mb-6">
@@ -3185,11 +3177,10 @@ const SuperAdminPharmacies: React.FC = () => {
                                                             {item.expiration_date ? new Date(item.expiration_date).toLocaleDateString() : '-'}
                                                         </td>
                                                         <td className="px-4 py-3 text-right">
-                                                            <span className={`font-medium ${
-                                                                item.quantity_in_stock === 0 ? 'text-red-600' :
-                                                                item.quantity_in_stock <= item.reorder_level ? 'text-amber-600' :
-                                                                'text-gray-900'
-                                                            }`}>
+                                                            <span className={`font-medium ${item.quantity_in_stock === 0 ? 'text-red-600' :
+                                                                    item.quantity_in_stock <= item.reorder_level ? 'text-amber-600' :
+                                                                        'text-gray-900'
+                                                                }`}>
                                                                 {item.quantity_in_stock}
                                                             </span>
                                                         </td>
@@ -3243,7 +3234,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
                                     <p className="text-sm text-amber-700">
                                         <AlertTriangle className="w-4 h-4 inline mr-1" />
-                                        This pharmacy has {selectedPharmacy.inventory_count} inventory items. 
+                                        This pharmacy has {selectedPharmacy.inventory_count} inventory items.
                                         You must remove or transfer all inventory before deleting.
                                     </p>
                                 </div>

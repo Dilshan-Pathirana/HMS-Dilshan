@@ -3,7 +3,8 @@ import { DashboardLayout } from '../../../../components/common/Layout/DashboardL
 import {
     Users, Calendar, Clock, Plus, Trash2, ChevronLeft, ChevronRight,
     AlertCircle, Check, X, Phone, RefreshCw, Filter, GripVertical, Edit2,
-    MessageSquare, XCircle, Bell, User} from 'lucide-react';
+    MessageSquare, XCircle, Bell, User
+} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from "../../../../utils/api/axios";
@@ -336,8 +337,8 @@ export const StaffScheduling: React.FC = () => {
                 const errorMessage = error.code === 'ECONNABORTED'
                     ? 'Connection timeout. Using local holiday data.'
                     : error.message?.includes('Network Error') || error.message?.includes('ERR_FAILED')
-                    ? 'Cannot connect to holiday service. Using local data for Sri Lankan holidays.'
-                    : 'Holiday service unavailable. Using local data.';
+                        ? 'Cannot connect to holiday service. Using local data for Sri Lankan holidays.'
+                        : 'Holiday service unavailable. Using local data.';
 
                 toast.warning(errorMessage + ` (${fallbackHolidays.length} holidays loaded)`);
             } else {
@@ -414,7 +415,7 @@ export const StaffScheduling: React.FC = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await api.get("/api/v1/users");
+            const response = await api.get("/users");
             const allUsers = response.data.users || [];
             // Deduplicate users by id to prevent React key warnings
             const uniqueUsers = allUsers.filter((user: IUser, index: number, self: IUser[]) =>
@@ -581,9 +582,9 @@ export const StaffScheduling: React.FC = () => {
                 .filter(role => {
                     const lowerRole = role.toLowerCase();
                     return !lowerRole.includes('admin') &&
-                           !lowerRole.includes('super') &&
-                           !lowerRole.includes('supplier') &&
-                           role !== 'Patient';
+                        !lowerRole.includes('super') &&
+                        !lowerRole.includes('supplier') &&
+                        role !== 'Patient';
                 })
         )
     ).sort();
@@ -1065,11 +1066,10 @@ export const StaffScheduling: React.FC = () => {
                     <li key={index}>
                         <button
                             onClick={() => navigate(item.path)}
-                            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                                item.path === '/branch-admin/hrm' || item.path === '/branch-admin/hrm/scheduling'
+                            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${item.path === '/branch-admin/hrm' || item.path === '/branch-admin/hrm/scheduling'
                                     ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-md'
                                     : 'text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
-                            }`}
+                                }`}
                         >
                             <span className="flex-shrink-0">{item.icon}</span>
                             <span className="flex-1 font-medium text-left">{item.label}</span>
@@ -1134,11 +1134,10 @@ export const StaffScheduling: React.FC = () => {
                                 <button
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id as any)}
-                                    className={`flex items-center gap-2 px-6 py-4 font-medium text-sm whitespace-nowrap border-b-2 transition-colors ${
-                                        activeTab === tab.id
+                                    className={`flex items-center gap-2 px-6 py-4 font-medium text-sm whitespace-nowrap border-b-2 transition-colors ${activeTab === tab.id
                                             ? 'border-emerald-500 text-emerald-600'
                                             : 'border-transparent text-gray-500 hover:text-gray-700'
-                                    }`}
+                                        }`}
                                 >
                                     {tab.icon}
                                     {tab.label}
@@ -1640,9 +1639,8 @@ export const StaffScheduling: React.FC = () => {
                                                         </button>
                                                     </div>
                                                 ) : (
-                                                    <span className={`px-3 py-1 rounded-full text-sm ${
-                                                        request.status === 'approved' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                                                    }`}>
+                                                    <span className={`px-3 py-1 rounded-full text-sm ${request.status === 'approved' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                                                        }`}>
                                                         {request.status.charAt(0).toUpperCase() + request.status.slice(1)}
                                                     </span>
                                                 )}
@@ -1694,9 +1692,8 @@ export const StaffScheduling: React.FC = () => {
                                                         </button>
                                                     </>
                                                 ) : (
-                                                    <span className={`px-3 py-1 rounded-full text-sm ${
-                                                        request.status === 'approved' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                                                    }`}>
+                                                    <span className={`px-3 py-1 rounded-full text-sm ${request.status === 'approved' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                                                        }`}>
                                                         {request.status.charAt(0).toUpperCase() + request.status.slice(1)}
                                                     </span>
                                                 )}
@@ -1845,14 +1842,14 @@ export const StaffScheduling: React.FC = () => {
                                                         const staffName = `${shift.user_first_name || ''} ${shift.user_last_name || ''}`.trim() || 'Unknown';
                                                         const roleAs = shift.user_role_as;
                                                         const roleName = roleAs === 2 ? 'Doctor' :
-                                                                        roleAs === 3 ? 'Nurse' :
-                                                                        roleAs === 4 ? 'Pharmacist' :
-                                                                        roleAs === 5 ? 'Cashier' :
+                                                            roleAs === 3 ? 'Nurse' :
+                                                                roleAs === 4 ? 'Pharmacist' :
+                                                                    roleAs === 5 ? 'Cashier' :
                                                                         roleAs === 6 ? 'Receptionist' :
-                                                                        roleAs === 7 ? 'IT Support' :
-                                                                        roleAs === 8 ? 'Center Aid' :
-                                                                        roleAs === 9 ? 'Auditor' :
-                                                                        roleAs === 10 ? 'Branch Admin' : 'Staff';
+                                                                            roleAs === 7 ? 'IT Support' :
+                                                                                roleAs === 8 ? 'Center Aid' :
+                                                                                    roleAs === 9 ? 'Auditor' :
+                                                                                        roleAs === 10 ? 'Branch Admin' : 'Staff';
 
                                                         const formatTime = (time: string) => {
                                                             if (!time) return '-';
@@ -1889,13 +1886,12 @@ export const StaffScheduling: React.FC = () => {
                                                                     </div>
                                                                 </td>
                                                                 <td className="px-4 py-3">
-                                                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                                                        roleAs === 2 ? 'bg-blue-100 text-blue-700' :
-                                                                        roleAs === 3 ? 'bg-pink-100 text-pink-700' :
-                                                                        roleAs === 4 ? 'bg-purple-100 text-purple-700' :
-                                                                        roleAs === 10 ? 'bg-orange-100 text-orange-700' :
-                                                                        'bg-gray-100 text-gray-700'
-                                                                    }`}>
+                                                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${roleAs === 2 ? 'bg-blue-100 text-blue-700' :
+                                                                            roleAs === 3 ? 'bg-pink-100 text-pink-700' :
+                                                                                roleAs === 4 ? 'bg-purple-100 text-purple-700' :
+                                                                                    roleAs === 10 ? 'bg-orange-100 text-orange-700' :
+                                                                                        'bg-gray-100 text-gray-700'
+                                                                        }`}>
                                                                         {roleName}
                                                                     </span>
                                                                 </td>
@@ -1976,14 +1972,14 @@ export const StaffScheduling: React.FC = () => {
                                                 const staffName = `${shift.user_first_name || ''} ${shift.user_last_name || ''}`.trim() || 'Unknown';
                                                 const roleAs = shift.user_role_as;
                                                 const roleName = roleAs === 2 ? 'Doctor' :
-                                                                roleAs === 3 ? 'Nurse' :
-                                                                roleAs === 4 ? 'Pharmacist' :
-                                                                roleAs === 5 ? 'Cashier' :
+                                                    roleAs === 3 ? 'Nurse' :
+                                                        roleAs === 4 ? 'Pharmacist' :
+                                                            roleAs === 5 ? 'Cashier' :
                                                                 roleAs === 6 ? 'Receptionist' :
-                                                                roleAs === 7 ? 'IT Support' :
-                                                                roleAs === 8 ? 'Center Aid' :
-                                                                roleAs === 9 ? 'Auditor' :
-                                                                roleAs === 10 ? 'Branch Admin' : 'Staff';
+                                                                    roleAs === 7 ? 'IT Support' :
+                                                                        roleAs === 8 ? 'Center Aid' :
+                                                                            roleAs === 9 ? 'Auditor' :
+                                                                                roleAs === 10 ? 'Branch Admin' : 'Staff';
                                                 const phone = shift.user_phone || 'N/A';
 
                                                 return (
@@ -2087,7 +2083,7 @@ export const StaffScheduling: React.FC = () => {
                                                         const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
                                                         const dayMap: { [key: string]: number } = { "1": 0, "2": 1, "3": 2, "4": 3, "5": 4, "6": 5, "7": 6 };
                                                         daysStr = days.map((d: string) => dayNames[dayMap[d] || 0]).join(', ');
-                                                    } catch {}
+                                                    } catch { }
 
                                                     return (
                                                         <tr key={shift.id || index} className="hover:bg-gray-50">

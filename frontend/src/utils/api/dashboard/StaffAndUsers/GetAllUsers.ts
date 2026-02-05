@@ -1,9 +1,9 @@
 import api from "../../axios";
 
 export const getAllUsers = () => {
-    return api.get('/api/v1/users')
+    return api.get('/users')
 }
 
 export const getDoctorUsers = () => {
-    return api.get('/api/v1/doctors')
+    return api.get('/doctors')
 }

@@ -114,7 +114,7 @@ export const BranchAdminAppointments: React.FC = () => {
 
     const fetchDoctors = async () => {
         try {
-            const response = await api.get('/api/v1/users');
+            const response = await api.get('/users');
             if (response.data.status === 200) {
                 const doctorUsers = response.data.users.filter((user: any) => user.role_id === 2);
                 setDoctors(doctorUsers);
@@ -126,7 +126,7 @@ export const BranchAdminAppointments: React.FC = () => {
 
     const fetchPatients = async () => {
         try {
-            const response = await api.get('/api/v1/users');
+            const response = await api.get('/users');
             if (response.data.status === 200) {
                 const patientUsers = response.data.users.filter((user: any) => user.role_id === 3);
                 setPatients(patientUsers);
@@ -474,7 +474,7 @@ export const BranchAdminAppointments: React.FC = () => {
                                 <label className="block text-sm font-medium text-gray-700 mb-2">Patient</label>
                                 <select
                                     value={newAppointment.patient_id}
-                                    onChange={(e) => setNewAppointment({...newAppointment, patient_id: e.target.value})}
+                                    onChange={(e) => setNewAppointment({ ...newAppointment, patient_id: e.target.value })}
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                 >
                                     <option value="">Select Patient</option>
@@ -491,7 +491,7 @@ export const BranchAdminAppointments: React.FC = () => {
                                 <select
                                     value={newAppointment.doctor_id}
                                     onChange={(e) => {
-                                        setNewAppointment({...newAppointment, doctor_id: e.target.value});
+                                        setNewAppointment({ ...newAppointment, doctor_id: e.target.value });
                                         if (e.target.value && newAppointment.appointment_date) {
                                             fetchDoctorSchedules(e.target.value, newAppointment.appointment_date);
                                         }
@@ -513,7 +513,7 @@ export const BranchAdminAppointments: React.FC = () => {
                                     type="date"
                                     value={newAppointment.appointment_date}
                                     onChange={(e) => {
-                                        setNewAppointment({...newAppointment, appointment_date: e.target.value});
+                                        setNewAppointment({ ...newAppointment, appointment_date: e.target.value });
                                         if (newAppointment.doctor_id && e.target.value) {
                                             fetchDoctorSchedules(newAppointment.doctor_id, e.target.value);
                                         }
@@ -552,7 +552,7 @@ export const BranchAdminAppointments: React.FC = () => {
                                 <label className="block text-sm font-medium text-gray-700 mb-2">Notes (Optional)</label>
                                 <textarea
                                     value={newAppointment.notes}
-                                    onChange={(e) => setNewAppointment({...newAppointment, notes: e.target.value})}
+                                    onChange={(e) => setNewAppointment({ ...newAppointment, notes: e.target.value })}
                                     rows={4}
                                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                     placeholder="Additional notes or special requirements..."

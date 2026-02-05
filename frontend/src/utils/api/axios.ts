@@ -1,7 +1,8 @@
 import axios from "axios";
 
-// Base URL is relative because of Vite proxy
-const baseURL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+// Use nullish coalescing to allow empty string as valid baseURL
+// Empty string means no prefix (nginx handles /api/v1 routing)
+const baseURL = import.meta.env.VITE_API_BASE_URL ?? '/api/v1';
 
 const api = axios.create({
     baseURL,
