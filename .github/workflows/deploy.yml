@@ -70,6 +70,13 @@ jobs:
             python3.12 -m venv .venv
             source .venv/bin/activate
 
+            # Load environment variables for backend (if present)
+            if [ -f "$APP_DIR/.env" ]; then
+              set -a
+              source "$APP_DIR/.env"
+              set +a
+            fi
+
             # Install dependencies via Poetry
             export PATH="$HOME/.local/bin:$PATH"
             curl -sSL https://install.python-poetry.org | python3 -
@@ -88,7 +95,7 @@ jobs:
 
             # Restart backend via PM2
             pm2 delete hms-backend || true
-            pm2 start "$APP_DIR/current/backend/.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000" --name hms-backend
+            pm2 start "$APP_DIR/current/backend/.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000" --name hms-backend --update-env
             pm2 save
 
             # Reload nginx
