@@ -16,7 +16,7 @@ export const updateUser = async ({
 }: UpdateUserParams) => {
     try {
         // Unified endpoint for all user updates
-        const endpoint = `/api/v1/users/${userId}`;
+        const endpoint = `/users/${userId}`;
 
         const { user_id, ...restUserData } = userData;
         let mappedData;

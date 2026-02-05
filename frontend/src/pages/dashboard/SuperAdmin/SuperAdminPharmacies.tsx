@@ -374,7 +374,7 @@ const SuperAdminPharmacies: React.FC = () => {
     const loadPharmacyInventory = async (pharmacyId: number) => {
         try {
             setInventoryLoading(true);
-            const response = await api.get(`/api/v1/pharmacies/${pharmacyId}/inventory`);
+            const response = await api.get(`/pharmacies/${pharmacyId}/inventory`);
             if (response.data.success) {
                 setInventory(response.data.data || []);
             }
@@ -869,7 +869,7 @@ const SuperAdminPharmacies: React.FC = () => {
                 status: formData.is_active ? 'active' : 'inactive'
             };
 
-            const response = await api.put(`/api/v1/pharmacies/${selectedPharmacy.id}`, payload);
+            const response = await api.put(`/pharmacies/${selectedPharmacy.id}`, payload);
             if (response.data.success) {
                 setSuccessMessage('Pharmacy updated successfully');
                 setShowEditModal(false);
@@ -893,7 +893,7 @@ const SuperAdminPharmacies: React.FC = () => {
 
         try {
             setLoading(true);
-            const response = await api.put(`/api/v1/pharmacies/${selectedPharmacy.id}`, {
+            const response = await api.put(`/pharmacies/${selectedPharmacy.id}`, {
                 branch_id: allocateBranchId
             });
             if (response.data.success) {
@@ -914,7 +914,7 @@ const SuperAdminPharmacies: React.FC = () => {
     const handleToggleStatus = async (pharmacy: Pharmacy) => {
         try {
             const newStatus = pharmacy.status === 'active' ? 'inactive' : 'active';
-            const response = await api.put(`/api/v1/pharmacies/${pharmacy.id}`, {
+            const response = await api.put(`/pharmacies/${pharmacy.id}`, {
                 is_active: newStatus === 'active'
             });
             if (response.data.success) {
@@ -939,7 +939,7 @@ const SuperAdminPharmacies: React.FC = () => {
 
         try {
             setLoading(true);
-            const response = await api.delete(`/api/v1/pharmacies/${selectedPharmacy.id}`);
+            const response = await api.delete(`/pharmacies/${selectedPharmacy.id}`);
             if (response.data.success) {
                 setSuccessMessage('Pharmacy deleted successfully');
                 setShowDeleteConfirm(false);

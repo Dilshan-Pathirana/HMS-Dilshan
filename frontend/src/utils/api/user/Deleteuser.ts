@@ -9,7 +9,7 @@ const NURSE_ROLE = 7;
 export const deleteUser = async (userId: string, roleAs: number) => {
     try {
         // Unified endpoint for all user deletions
-        const endpoint = `/api/v1/users/${userId}`;
+        const endpoint = `/users/${userId}`;
 
         const response = await api.delete(endpoint);
         return response.data;

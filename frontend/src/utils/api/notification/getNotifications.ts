@@ -16,29 +16,29 @@ export const getNotificationsByRole = async (
 
     switch (userRole) {
         case 1: // Super Admin
-            endpoint = `/api/v1/notifications/admin/${userId}`;
+            endpoint = `/notifications/admin/${userId}`;
             break;
         case 2: // Branch Admin
-            endpoint = `/api/v1/notifications/branch-admin/${userId}`;
+            endpoint = `/notifications/branch-admin/${userId}`;
             break;
         case 3: // Doctor
-            endpoint = `/api/v1/notifications/doctor/${userId}`;
+            endpoint = `/notifications/doctor/${userId}`;
             break;
         case 4: // Nurse
-            endpoint = `/api/v1/notifications/nurse/${userId}`;
+            endpoint = `/notifications/nurse/${userId}`;
             break;
         case 5: // Patient
-            endpoint = `/api/v1/notifications/patient/${userId}`;
+            endpoint = `/notifications/patient/${userId}`;
             break;
         case 6: // Cashier
-            endpoint = `/api/v1/notifications/cashier/${userId}`;
+            endpoint = `/notifications/cashier/${userId}`;
             break;
         case 7: // Pharmacist
-            endpoint = `/api/v1/notifications/pharmacist/${userId}`;
+            endpoint = `/notifications/pharmacist/${userId}`;
             break;
         default:
             // Fallback for unhandled roles - use generic endpoint
-            endpoint = `/api/v1/notifications/${userId}`;
+            endpoint = `/notifications/${userId}`;
     }
 
     return await api.get(endpoint).then((response) => response.data);
@@ -59,16 +59,16 @@ export const getUnreadNotificationCount = async (
 
     switch (userRole) {
         case 2: // Branch Admin
-            endpoint = `/api/v1/notifications/branch-admin/unread-count`;
+            endpoint = `/notifications/branch-admin/unread-count`;
             break;
         case 3: // Doctor
-            endpoint = `/api/v1/notifications/doctor/unread-count/${userId}`;
+            endpoint = `/notifications/doctor/unread-count/${userId}`;
             break;
         case 6: // Receptionist
-            endpoint = `/api/v1/notifications/receptionist/unread-count/${userId}`;
+            endpoint = `/notifications/receptionist/unread-count/${userId}`;
             break;
         case 7: // Patient
-            endpoint = `/api/v1/notifications/patient/unread-count/${userId}`;
+            endpoint = `/notifications/patient/unread-count/${userId}`;
             break;
         default:
             return 0;
@@ -93,25 +93,25 @@ export const markNotificationAsRead = async (
 
     switch (userRole) {
         case 1: // Super Admin
-            endpoint = `/api/v1/notifications/admin/mark-read`;
+            endpoint = `/notifications/admin/mark-read`;
             break;
         case 2: // Branch Admin
-            endpoint = `/api/v1/notifications/branch-admin/mark-read`;
+            endpoint = `/notifications/branch-admin/mark-read`;
             break;
         case 3: // Doctor
-            endpoint = `/api/v1/notifications/doctor/mark-read`;
+            endpoint = `/notifications/doctor/mark-read`;
             break;
         case 4: // Nurse
-            endpoint = `/api/v1/notifications/nurse/mark-read`;
+            endpoint = `/notifications/nurse/mark-read`;
             break;
         case 5: // Patient
-            endpoint = `/api/v1/notifications/patient/mark-read`;
+            endpoint = `/notifications/patient/mark-read`;
             break;
         case 6: // Cashier
-            endpoint = `/api/v1/notifications/cashier/mark-read`;
+            endpoint = `/notifications/cashier/mark-read`;
             break;
         case 7: // Pharmacist
-            endpoint = `/api/v1/notifications/pharmacist/mark-read`;
+            endpoint = `/notifications/pharmacist/mark-read`;
             break;
         default:
             return false;

@@ -50,9 +50,14 @@ const BranchTable = ({
                 }
 
                 setBranches(fetchedBranches);
-            } catch (error) {
+            } catch (error: any) {
                 console.error("Fetch branches error:", error);
-                alert.error("An error occurred while fetching branches.");
+                // Only show error if it's not a 404 or show appropriate message
+                if (error?.response?.status === 404 || error?.response?.data?.detail?.includes('not found')) {
+                    alert.warning("No branches found. Create your first branch to get started.");
+                } else {
+                    alert.error("An error occurred while fetching branches.");
+                }
                 setBranches([]);
             } finally {
                 setIsLoading(false);
@@ -94,7 +99,7 @@ const BranchTable = ({
         if (isConfirm) {
             try {
                 const response = await api.delete(
-                    `/api/v1/branches/${branchId}`,
+                    `/branches/${branchId}`,
                 ) as any;
 
                 if (response) {
