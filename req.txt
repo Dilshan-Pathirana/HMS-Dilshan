@@ -439,9 +439,9 @@ export function Avatar({
     <div className={`relative inline-block ${className}`}>
       <div
         className={`
-        ${sizes[size]} 
-        rounded-full overflow-hidden 
-        bg-primary-100 text-primary-700 
+        ${sizes[size]}
+        rounded-full overflow-hidden
+        bg-primary-100 text-primary-700
         flex items-center justify-center font-semibold
         border-2 border-white shadow-sm
       `}
@@ -456,9 +456,9 @@ export function Avatar({
       {status && (
         <span
           className={`
-          absolute bottom-0 right-0 
-          block rounded-full ring-2 ring-white 
-          ${statusColors[status]} 
+          absolute bottom-0 right-0
+          block rounded-full ring-2 ring-white
+          ${statusColors[status]}
           ${statusSizes[size]}
         `}
         />
@@ -504,8 +504,8 @@ export function Badge({
     <span
       className={`
       inline-flex items-center justify-center font-medium rounded-full border
-      ${variants[variant]} 
-      ${sizes[size]} 
+      ${variants[variant]}
+      ${sizes[size]}
       ${className}
     `}
     >
@@ -650,9 +650,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <input
             ref={ref}
             className={`
-              w-full bg-white/50 backdrop-blur-sm border border-slate-200 rounded-xl 
-              ${leftIcon ? 'pl-10' : 'pl-4'} 
-              ${rightIcon ? 'pr-10' : 'pr-4'} 
+              w-full bg-white/50 backdrop-blur-sm border border-slate-200 rounded-xl
+              ${leftIcon ? 'pl-10' : 'pl-4'}
+              ${rightIcon ? 'pr-10' : 'pr-4'}
               py-2.5 text-sm text-slate-900 placeholder:text-slate-400
               focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500
               hover:border-slate-300 hover:bg-white/80
@@ -729,9 +729,9 @@ export function Modal({
 
       <div
         className={`
-        relative w-full ${sizes[size]} 
-        bg-white/90 backdrop-blur-xl 
-        border border-white/20 shadow-2xl 
+        relative w-full ${sizes[size]}
+        bg-white/90 backdrop-blur-xl
+        border border-white/20 shadow-2xl
         rounded-2xl flex flex-col max-h-[90vh]
         animate-in fade-in zoom-in-95 duration-200
       `}
@@ -790,8 +790,8 @@ export function Select({
       <div className="relative">
         <select
           className={`
-            w-full appearance-none bg-white/50 backdrop-blur-sm border border-slate-200 rounded-xl 
-            pl-4 pr-10 py-2.5 text-sm text-slate-900 
+            w-full appearance-none bg-white/50 backdrop-blur-sm border border-slate-200 rounded-xl
+            pl-4 pr-10 py-2.5 text-sm text-slate-900
             focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500
             hover:border-slate-300 hover:bg-white/80
             transition-all duration-200
@@ -1254,7 +1254,7 @@ export const mockMedicines: Medicine[] = [
   body {
     @apply font-sans antialiased text-slate-600 bg-slate-50;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-semibold tracking-tight text-slate-900;
   }
@@ -2628,3 +2628,11 @@ If not → revise before responding.
 FINAL INSTRUCTION
 
 If any part of the task conflicts with clean architecture, security, or correctness, pause and explain the conflict instead of proceeding.
+
+
+
+
+erify DB connectivity with a quick query,
+run a health check through Nginx,
+Create a workflow file to do the deployment to the EC2
+commit and push the migration fixes to the repo.
