@@ -16,15 +16,16 @@ services:
       - db
 
   db:
-    image: postgres:16-alpine
+    image: mysql:8.0
     environment:
-      POSTGRES_USER: hms
-      POSTGRES_PASSWORD: secret
-      POSTGRES_DB: hms_db
+      MYSQL_DATABASE: hms_db
+      MYSQL_USER: hms
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: rootsecret
     ports:
-      - "5433:5432"
+      - "3307:3306"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mysql_data:/var/lib/mysql
 
 volumes:
-  postgres_data:
+  mysql_data:

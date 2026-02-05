@@ -16,43 +16,25 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # Build frontend on the runner (avoids using EC2 RAM)
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-          cache-dependency-path: frontend/package-lock.json
-
-      - name: Clean build artifacts
-        working-directory: frontend
+      - name: Build backend image
         run: |
-          rm -rf dist .vite node_modules/.vite
+          docker build -t hms-backend:latest -f backend/Dockerfile backend
 
-      - name: Build frontend
-        working-directory: frontend
-        env:
-          NODE_OPTIONS: --max-old-space-size=2048
-          NPM_CONFIG_AUDIT: "false"
-          NPM_CONFIG_FUND: "false"
-          VITE_API_BASE_URL: ""
+      - name: Build frontend image
         run: |
-          npm ci --prefer-offline
-          npm run build
+          docker build -t hms-frontend:latest -f frontend/Dockerfile --build-arg VITE_API_BASE_URL="" frontend
 
-      # Package files to send to EC2
-      - name: Prepare files for deploy
+      - name: Save docker images
         run: |
-          mkdir -p deploy
-          rsync -a --exclude '.git' --exclude 'node_modules' ./frontend ./backend ./package.json ./package-lock.json deploy/
+          docker save hms-backend:latest hms-frontend:latest | gzip > hms-images.tar.gz
 
-      - name: Upload deploy package to EC2
+      - name: Upload docker images and compose file to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "deploy/."
+          source: "hms-images.tar.gz,docker-compose.ec2.yml"
           target: "/tmp"
 
       # Deploy via SSH
@@ -73,86 +55,34 @@ jobs:
           script: |
             set -e
             APP_DIR=${APP_DIR:-/var/www/hms}
-            RELEASE_DIR="$APP_DIR/releases/$(date +%s)"
-            mkdir -p $RELEASE_DIR
+            mkdir -p $APP_DIR
 
-            # Copy code from runner to EC2 release dir
-            rsync -a --delete /tmp/deploy/ $RELEASE_DIR/
-
-            # Backend setup
-            cd $RELEASE_DIR/backend
-            python3.12 -m venv .venv
-            source .venv/bin/activate
-
-            # Set environment variables BEFORE any Python operations
-            export DATABASE_URL="mysql+asyncmy://$DB_USERNAME:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_DATABASE"
-            export SECRET_KEY="$SECRET_KEY"
-            export ALGORITHM="HS256"
-            export ACCESS_TOKEN_EXPIRE_MINUTES="30"
-
-            # Install dependencies via Poetry
-            export PATH="$HOME/.local/bin:$PATH"
-            curl -sSL https://install.python-poetry.org | python3 -
-            poetry install --no-interaction --no-ansi
-
-            # Run migrations (env vars are already exported)
-            poetry run alembic upgrade head
-
-            # Verify DB connectivity (quick query)
-            python - <<'PY'
-            import asyncio
-            import os
-            from sqlalchemy import text
-            from sqlalchemy.ext.asyncio import create_async_engine
-
-            async def main() -> None:
-              database_url = os.environ["DATABASE_URL"]
-              engine = create_async_engine(database_url)
-              async with engine.connect() as conn:
-                await conn.execute(text("SELECT 1"))
-              await engine.dispose()
-
-            asyncio.run(main())
-            PY
-
-            deactivate
-
-            # Frontend is already built in runner
-            cd $RELEASE_DIR/frontend
-
-            # Update current symlink
-            ln -sfn $RELEASE_DIR $APP_DIR/current
-
-            # Create logs directory if it doesn't exist
-            mkdir -p $APP_DIR/logs
-
-            # Create .env file for backend with proper environment variables
-            echo "DATABASE_URL=$DATABASE_URL" > $APP_DIR/current/backend/.env
-            echo "SECRET_KEY=$SECRET_KEY" >> $APP_DIR/current/backend/.env
-            echo "ALGORITHM=HS256" >> $APP_DIR/current/backend/.env
-            echo "ACCESS_TOKEN_EXPIRE_MINUTES=30" >> $APP_DIR/current/backend/.env
-
-            # Restart backend via PM2 with ecosystem config
-            cd $APP_DIR/current/backend
-            export DATABASE_URL="$DATABASE_URL"
-            export SECRET_KEY="$SECRET_KEY"
-            pm2 delete hms-backend || true
-            pm2 start ecosystem.config.cjs --update-env
-            pm2 save
-
-            # Update nginx config if present in repo
-            if [ -f "$APP_DIR/current/nginx.conf.production" ]; then
-              sudo cp "$APP_DIR/current/nginx.conf.production" /etc/nginx/sites-available/hms
-              sudo ln -sfn /etc/nginx/sites-available/hms /etc/nginx/sites-enabled/hms
-              sudo nginx -t
+            # Ensure Docker is installed
+            if ! command -v docker >/dev/null 2>&1; then
+              sudo apt-get update
+              sudo apt-get install -y docker.io
+              sudo systemctl enable --now docker
             fi
 
-            # Reload nginx
-            sudo systemctl reload nginx || echo "Nginx reload skipped"
+            # Ensure Docker Compose plugin is installed
+            if ! docker compose version >/dev/null 2>&1; then
+              sudo apt-get update
+              sudo apt-get install -y docker-compose-plugin
+            fi
 
-            # Nginx health check
-            curl -fsS http://localhost/health
+            # Load images built on the runner
+            docker load -i /tmp/hms-images.tar.gz
 
-            # Cleanup old releases (keep last 5)
-            cd $APP_DIR/releases
-            ls -1tr | head -n -5 | xargs -d '\n' rm -rf --
+            # Prepare compose and env file
+            mv /tmp/docker-compose.ec2.yml $APP_DIR/docker-compose.ec2.yml
+            echo "DATABASE_URL=mysql+asyncmy://$DB_USERNAME:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_DATABASE" > $APP_DIR/.env
+            echo "SECRET_KEY=$SECRET_KEY" >> $APP_DIR/.env
+
+            # Run migrations
+            docker compose -f $APP_DIR/docker-compose.ec2.yml --env-file $APP_DIR/.env run --rm backend alembic upgrade head
+
+            # Start services
+            docker compose -f $APP_DIR/docker-compose.ec2.yml --env-file $APP_DIR/.env up -d --remove-orphans
+
+            # Cleanup old images
+            docker image prune -f

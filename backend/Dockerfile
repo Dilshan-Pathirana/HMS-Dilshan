@@ -5,9 +5,6 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     curl \
-    build-essential \
-    libpq-dev \
-    postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Poetry
@@ -37,4 +34,4 @@ RUN chmod +x /wait-for-db.sh
 
 # Command to run the app, waiting for DB
 ENTRYPOINT ["/wait-for-db.sh"]
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
