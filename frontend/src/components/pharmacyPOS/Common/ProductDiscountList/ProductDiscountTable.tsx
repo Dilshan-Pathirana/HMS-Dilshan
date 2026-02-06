@@ -66,19 +66,19 @@ const ProductDiscountTable: React.FC<IProductDiscountTableProps> = ({
             </div>
             <div className="flex items-center space-x-2 mb-4">
                 <div className="relative w-1/2">
-                    <Search className="absolute w-5 h-5 text-gray-500 left-3 top-1/2 transform -translate-y-1/2" />
+                    <Search className="absolute w-5 h-5 text-neutral-500 left-3 top-1/2 transform -translate-y-1/2" />
                     <input
                         type="text"
                         placeholder="Search by SKU / Name / Barcode"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="border border-gray-300 rounded pl-10 pr-4 py-2 w-full"
+                        className="border border-neutral-300 rounded pl-10 pr-4 py-2 w-full"
                     />
                 </div>
             </div>
 
-            <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
-                <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-gray-200 border border-neutral-200">
+                <thead className="bg-neutral-50">
                     <tr>
                         {[
                             "SKU",
@@ -90,7 +90,7 @@ const ProductDiscountTable: React.FC<IProductDiscountTableProps> = ({
                         ].map((header) => (
                             <th
                                 key={header}
-                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider"
                             >
                                 {header}
                             </th>
@@ -102,7 +102,7 @@ const ProductDiscountTable: React.FC<IProductDiscountTableProps> = ({
                     {paginatedProducts.map((product) => (
                         <tr
                             key={product.id}
-                            className="hover:bg-gray-50 cursor-pointer"
+                            className="hover:bg-neutral-50 cursor-pointer"
                         >
                             {[
                                 product.item_code,
@@ -115,14 +115,14 @@ const ProductDiscountTable: React.FC<IProductDiscountTableProps> = ({
                             ].map((value, index) => (
                                 <td
                                     key={index}
-                                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                                    className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900"
                                 >
                                     {" "}
                                     {value}{" "}
                                 </td>
                             ))}
 
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                 <button
                                     type="button"
                                     disabled={userRole === 6 || userRole === 7}

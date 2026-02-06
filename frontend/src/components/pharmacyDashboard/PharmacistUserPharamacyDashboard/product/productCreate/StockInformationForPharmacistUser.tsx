@@ -103,12 +103,12 @@ const StockInformationForPharmacistUser: React.FC<StockInformationProps> = ({
                                 placeholder={`Enter ${label.toLowerCase()}`}
                                 className={`border p-2 w-full ${
                                     errors[name]
-                                        ? "border-red-500"
-                                        : "border-gray-300"
+                                        ? "border-error-500"
+                                        : "border-neutral-300"
                                 }`}
                             />
                             {errors[name] && (
-                                <p className="text-red-500 text-sm">
+                                <p className="text-error-500 text-sm">
                                     {errors[name]}
                                 </p>
                             )}
@@ -128,12 +128,12 @@ const StockInformationForPharmacistUser: React.FC<StockInformationProps> = ({
                         placeholder="Enter details and quantity of damaged items"
                         className={`border p-2 w-full ${
                             errors.damagedStock
-                                ? "border-red-500"
-                                : "border-gray-300"
+                                ? "border-error-500"
+                                : "border-neutral-300"
                         }`}
                     />
                     {errors.damagedStock && (
-                        <p className="text-red-500 text-sm">
+                        <p className="text-error-500 text-sm">
                             {errors.damagedStock}
                         </p>
                     )}
@@ -151,12 +151,12 @@ const StockInformationForPharmacistUser: React.FC<StockInformationProps> = ({
                         placeholder="Enter stock location"
                         className={`border p-2 w-full ${
                             errors.product_store_location
-                                ? "border-red-500"
-                                : "border-gray-300"
+                                ? "border-error-500"
+                                : "border-neutral-300"
                         }`}
                     />
                     {errors.product_store_location && (
-                        <p className="text-red-500 text-sm">
+                        <p className="text-error-500 text-sm">
                             {errors.product_store_location}
                         </p>
                     )}
@@ -173,7 +173,7 @@ const StockInformationForPharmacistUser: React.FC<StockInformationProps> = ({
                 <button
                     type="submit"
                     disabled={isLoading}
-                    className="border px-4 py-2 bg-blue-500 text-white flex items-center justify-center"
+                    className="border px-4 py-2 bg-primary-500 text-white flex items-center justify-center"
                 >
                     {isLoading ? (
                         <>

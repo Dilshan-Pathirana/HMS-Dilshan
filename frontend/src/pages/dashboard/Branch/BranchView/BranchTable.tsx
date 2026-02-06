@@ -120,12 +120,12 @@ const BranchTable = ({
                                 placeholder="Search by Center or Owner Name..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="border border-gray-300 rounded pl-3 pr-4 py-2 w-full"
+                                className="border border-neutral-300 rounded pl-3 pr-4 py-2 w-full"
                             />
                         </div>
                     </div>
-                    <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
-                        <thead className="bg-gray-50">
+                    <table className="min-w-full divide-y divide-gray-200 border border-neutral-200">
+                        <thead className="bg-neutral-50">
                             <tr>
                                 {[
                                     "Center Name",
@@ -137,7 +137,7 @@ const BranchTable = ({
                                 ].map((header) => (
                                     <th
                                         key={header}
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider"
                                     >
                                         {header}
                                     </th>
@@ -148,24 +148,24 @@ const BranchTable = ({
                             {paginatedBranches.map((branch) => (
                                 <tr
                                     key={branch.id}
-                                    className="hover:bg-gray-50 cursor-pointer"
+                                    className="hover:bg-neutral-50 cursor-pointer"
                                 >
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         {branch.center_name}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         {branch.register_number}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         {branch.center_type}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         {branch.owner_full_name}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         {branch.owner_contact_number}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         <div className="flex items-center space-x-2">
                                             <div title="Manage Branch">
                                                 <Settings
@@ -176,7 +176,7 @@ const BranchTable = ({
                                                 />
                                             </div>
                                             <FiEye
-                                                className="text-blue-500 cursor-pointer hover:text-blue-700"
+                                                className="text-primary-500 cursor-pointer hover:text-blue-700"
                                                 onClick={() =>
                                                     openViewModal(branch)
                                                 }
@@ -190,7 +190,7 @@ const BranchTable = ({
                                                 title="Edit Branch"
                                             />
                                             <FiTrash
-                                                className="text-red-500 cursor-pointer hover:text-red-700"
+                                                className="text-error-500 cursor-pointer hover:text-red-700"
                                                 onClick={() =>
                                                     handleDelete(branch.id)
                                                 }

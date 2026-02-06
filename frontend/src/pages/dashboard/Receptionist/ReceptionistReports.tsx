@@ -136,21 +136,21 @@ const ReceptionistReports: React.FC = () => {
     return (
         <div className="space-y-6">
             {/* Header */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="p-3 rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-600">
                             <ClipboardList className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                            <h1 className="text-xl font-bold text-gray-800">Reports</h1>
-                            <p className="text-sm text-gray-500">View daily statistics and reports</p>
+                            <h1 className="text-xl font-bold text-neutral-800">Reports</h1>
+                            <p className="text-sm text-neutral-500">View daily statistics and reports</p>
                         </div>
                     </div>
                     <button
                         onClick={exportToCsv}
                         disabled={!reportData || loading}
-                        className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all font-medium disabled:opacity-50"
+                        className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all font-medium disabled:opacity-50"
                     >
                         <Download className="w-4 h-4 inline mr-2" />
                         Export CSV
@@ -159,7 +159,7 @@ const ReceptionistReports: React.FC = () => {
             </div>
 
             {/* Report Tabs */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-2">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-2">
                 <div className="flex flex-wrap gap-2">
                     {reportTabs.map((tab) => (
                         <button
@@ -168,7 +168,7 @@ const ReceptionistReports: React.FC = () => {
                             className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
                                 reportType === tab.id
                                     ? 'bg-indigo-500 text-white'
-                                    : 'text-gray-600 hover:bg-gray-100'
+                                    : 'text-neutral-600 hover:bg-neutral-100'
                             }`}
                         >
                             {tab.icon}
@@ -179,25 +179,25 @@ const ReceptionistReports: React.FC = () => {
             </div>
 
             {/* Date Selection */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                 {reportType === 'no-shows' ? (
                     <div className="flex items-center gap-4 flex-wrap">
                         <div className="flex items-center gap-2">
-                            <span className="text-sm text-gray-600">From:</span>
+                            <span className="text-sm text-neutral-600">From:</span>
                             <input
                                 type="date"
                                 value={startDate}
                                 onChange={(e) => setStartDate(e.target.value)}
-                                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
                             />
                         </div>
                         <div className="flex items-center gap-2">
-                            <span className="text-sm text-gray-600">To:</span>
+                            <span className="text-sm text-neutral-600">To:</span>
                             <input
                                 type="date"
                                 value={endDate}
                                 onChange={(e) => setEndDate(e.target.value)}
-                                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                                className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
                             />
                         </div>
                         <button
@@ -212,7 +212,7 @@ const ReceptionistReports: React.FC = () => {
                     <div className="flex items-center gap-2">
                         <button
                             onClick={() => changeDate(-1)}
-                            className="p-2 hover:bg-gray-100 rounded-lg"
+                            className="p-2 hover:bg-neutral-100 rounded-lg"
                         >
                             <ChevronLeft className="w-5 h-5" />
                         </button>
@@ -220,11 +220,11 @@ const ReceptionistReports: React.FC = () => {
                             type="date"
                             value={selectedDate}
                             onChange={(e) => setSelectedDate(e.target.value)}
-                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                            className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
                         />
                         <button
                             onClick={() => changeDate(1)}
-                            className="p-2 hover:bg-gray-100 rounded-lg"
+                            className="p-2 hover:bg-neutral-100 rounded-lg"
                         >
                             <ChevronRight className="w-5 h-5" />
                         </button>
@@ -239,13 +239,13 @@ const ReceptionistReports: React.FC = () => {
             </div>
 
             {/* Report Content */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200">
                 {loading ? (
                     <div className="flex items-center justify-center h-64">
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500"></div>
                     </div>
                 ) : !reportData ? (
-                    <div className="text-center py-12 text-gray-500">
+                    <div className="text-center py-12 text-neutral-500">
                         <ClipboardList className="w-12 h-12 mx-auto mb-4 opacity-50" />
                         <p>No data available</p>
                     </div>
@@ -254,31 +254,31 @@ const ReceptionistReports: React.FC = () => {
                         {/* Stats Summary */}
                         {reportType === 'appointments' && reportData.stats && (
                             <div className="p-6 border-b">
-                                <h3 className="text-lg font-semibold text-gray-800 mb-4">Summary</h3>
+                                <h3 className="text-lg font-semibold text-neutral-800 mb-4">Summary</h3>
                                 <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
-                                    <div className="text-center p-3 bg-gray-50 rounded-lg">
-                                        <p className="text-2xl font-bold text-gray-800">{reportData.stats.total}</p>
-                                        <p className="text-xs text-gray-500">Total</p>
+                                    <div className="text-center p-3 bg-neutral-50 rounded-lg">
+                                        <p className="text-2xl font-bold text-neutral-800">{reportData.stats.total}</p>
+                                        <p className="text-xs text-neutral-500">Total</p>
                                     </div>
                                     <div className="text-center p-3 bg-yellow-50 rounded-lg">
                                         <p className="text-2xl font-bold text-yellow-600">{reportData.stats.pending}</p>
-                                        <p className="text-xs text-gray-500">Pending</p>
+                                        <p className="text-xs text-neutral-500">Pending</p>
                                     </div>
                                     <div className="text-center p-3 bg-blue-50 rounded-lg">
-                                        <p className="text-2xl font-bold text-blue-600">{reportData.stats.confirmed}</p>
-                                        <p className="text-xs text-gray-500">Confirmed</p>
+                                        <p className="text-2xl font-bold text-primary-500">{reportData.stats.confirmed}</p>
+                                        <p className="text-xs text-neutral-500">Confirmed</p>
                                     </div>
                                     <div className="text-center p-3 bg-green-50 rounded-lg">
                                         <p className="text-2xl font-bold text-green-600">{reportData.stats.completed}</p>
-                                        <p className="text-xs text-gray-500">Completed</p>
+                                        <p className="text-xs text-neutral-500">Completed</p>
                                     </div>
-                                    <div className="text-center p-3 bg-red-50 rounded-lg">
-                                        <p className="text-2xl font-bold text-red-600">{reportData.stats.cancelled}</p>
-                                        <p className="text-xs text-gray-500">Cancelled</p>
+                                    <div className="text-center p-3 bg-error-50 rounded-lg">
+                                        <p className="text-2xl font-bold text-error-600">{reportData.stats.cancelled}</p>
+                                        <p className="text-xs text-neutral-500">Cancelled</p>
                                     </div>
-                                    <div className="text-center p-3 bg-gray-100 rounded-lg">
-                                        <p className="text-2xl font-bold text-gray-600">{reportData.stats.no_show}</p>
-                                        <p className="text-xs text-gray-500">No Show</p>
+                                    <div className="text-center p-3 bg-neutral-100 rounded-lg">
+                                        <p className="text-2xl font-bold text-neutral-600">{reportData.stats.no_show}</p>
+                                        <p className="text-xs text-neutral-500">No Show</p>
                                     </div>
                                 </div>
                             </div>
@@ -289,11 +289,11 @@ const ReceptionistReports: React.FC = () => {
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="text-center p-4 bg-yellow-50 rounded-lg">
                                         <p className="text-3xl font-bold text-yellow-600">{reportData.walk_ins_count || 0}</p>
-                                        <p className="text-sm text-gray-600">Walk-ins</p>
+                                        <p className="text-sm text-neutral-600">Walk-ins</p>
                                     </div>
                                     <div className="text-center p-4 bg-blue-50 rounded-lg">
-                                        <p className="text-3xl font-bold text-blue-600">{reportData.appointments_count || 0}</p>
-                                        <p className="text-sm text-gray-600">Scheduled Appointments</p>
+                                        <p className="text-3xl font-bold text-primary-500">{reportData.appointments_count || 0}</p>
+                                        <p className="text-sm text-neutral-600">Scheduled Appointments</p>
                                     </div>
                                 </div>
                             </div>
@@ -304,36 +304,36 @@ const ReceptionistReports: React.FC = () => {
                             {reportType === 'registrations' && (
                                 <>
                                     <div className="p-4 border-b flex items-center justify-between">
-                                        <h3 className="font-semibold text-gray-800">Patients Registered</h3>
-                                        <span className="text-sm text-gray-500">Total: {reportData.total || (reportData.registrations || []).length}</span>
+                                        <h3 className="font-semibold text-neutral-800">Patients Registered</h3>
+                                        <span className="text-sm text-neutral-500">Total: {reportData.total || (reportData.registrations || []).length}</span>
                                     </div>
                                     <table className="w-full">
-                                        <thead className="bg-gray-50">
+                                        <thead className="bg-neutral-50">
                                             <tr>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Patient ID</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phone</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Gender</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Age</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Time</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Patient ID</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Name</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Phone</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Gender</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Age</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Time</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y">
                                             {(reportData.registrations || []).map((r: any, idx: number) => (
-                                                <tr key={idx} className="hover:bg-gray-50">
+                                                <tr key={idx} className="hover:bg-neutral-50">
                                                     <td className="px-6 py-4 text-sm font-medium text-indigo-600">{r.patient_id}</td>
-                                                    <td className="px-6 py-4 text-sm text-gray-800">{r.name}</td>
-                                                    <td className="px-6 py-4 text-sm text-gray-600">{r.phone}</td>
-                                                    <td className="px-6 py-4 text-sm text-gray-600 capitalize">{r.gender}</td>
-                                                    <td className="px-6 py-4 text-sm text-gray-600">{r.age || '-'}</td>
-                                                    <td className="px-6 py-4 text-sm text-gray-500">
+                                                    <td className="px-6 py-4 text-sm text-neutral-800">{r.name}</td>
+                                                    <td className="px-6 py-4 text-sm text-neutral-600">{r.phone}</td>
+                                                    <td className="px-6 py-4 text-sm text-neutral-600 capitalize">{r.gender}</td>
+                                                    <td className="px-6 py-4 text-sm text-neutral-600">{r.age || '-'}</td>
+                                                    <td className="px-6 py-4 text-sm text-neutral-500">
                                                         {new Date(r.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                     </td>
                                                 </tr>
                                             ))}
                                             {(reportData.registrations || []).length === 0 && (
                                                 <tr>
-                                                    <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
+                                                    <td colSpan={6} className="px-6 py-8 text-center text-neutral-500">
                                                         No registrations for this date
                                                     </td>
                                                 </tr>
@@ -346,27 +346,27 @@ const ReceptionistReports: React.FC = () => {
                             {reportType === 'appointments' && (
                                 <>
                                     <div className="p-4 border-b">
-                                        <h3 className="font-semibold text-gray-800">Appointments List</h3>
+                                        <h3 className="font-semibold text-neutral-800">Appointments List</h3>
                                     </div>
                                     <table className="w-full">
-                                        <thead className="bg-gray-50">
+                                        <thead className="bg-neutral-50">
                                             <tr>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Time</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Patient</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Doctor</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Time</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Patient</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Doctor</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Status</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y">
                                             {(reportData.appointments || []).map((a: any, idx: number) => (
-                                                <tr key={idx} className="hover:bg-gray-50">
-                                                    <td className="px-6 py-4 text-sm font-medium text-gray-800">{a.appointment_time}</td>
-                                                    <td className="px-6 py-4 text-sm text-gray-800">{a.patient_name}</td>
-                                                    <td className="px-6 py-4 text-sm text-gray-600">Dr. {a.doctor_name}</td>
+                                                <tr key={idx} className="hover:bg-neutral-50">
+                                                    <td className="px-6 py-4 text-sm font-medium text-neutral-800">{a.appointment_time}</td>
+                                                    <td className="px-6 py-4 text-sm text-neutral-800">{a.patient_name}</td>
+                                                    <td className="px-6 py-4 text-sm text-neutral-600">Dr. {a.doctor_name}</td>
                                                     <td className="px-6 py-4">
                                                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                                                             a.status === 'completed' ? 'bg-green-100 text-green-700' :
-                                                            a.status === 'cancelled' ? 'bg-red-100 text-red-700' :
+                                                            a.status === 'cancelled' ? 'bg-error-100 text-red-700' :
                                                             a.status === 'confirmed' ? 'bg-blue-100 text-blue-700' :
                                                             'bg-yellow-100 text-yellow-700'
                                                         }`}>
@@ -377,7 +377,7 @@ const ReceptionistReports: React.FC = () => {
                                             ))}
                                             {(reportData.appointments || []).length === 0 && (
                                                 <tr>
-                                                    <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
+                                                    <td colSpan={4} className="px-6 py-8 text-center text-neutral-500">
                                                         No appointments for this date
                                                     </td>
                                                 </tr>
@@ -390,32 +390,32 @@ const ReceptionistReports: React.FC = () => {
                             {reportType === 'no-shows' && (
                                 <>
                                     <div className="p-4 border-b flex items-center justify-between">
-                                        <h3 className="font-semibold text-gray-800">No-Show Patients</h3>
-                                        <span className="text-sm text-gray-500">Total: {reportData.total || (reportData.no_shows || []).length}</span>
+                                        <h3 className="font-semibold text-neutral-800">No-Show Patients</h3>
+                                        <span className="text-sm text-neutral-500">Total: {reportData.total || (reportData.no_shows || []).length}</span>
                                     </div>
                                     <table className="w-full">
-                                        <thead className="bg-gray-50">
+                                        <thead className="bg-neutral-50">
                                             <tr>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Patient</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phone</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Doctor</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Time</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Date</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Patient</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Phone</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Doctor</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Time</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y">
                                             {(reportData.no_shows || []).map((n: any, idx: number) => (
-                                                <tr key={idx} className="hover:bg-gray-50">
-                                                    <td className="px-6 py-4 text-sm text-gray-800">{n.appointment_date}</td>
-                                                    <td className="px-6 py-4 text-sm text-gray-800">{n.patient_name}</td>
-                                                    <td className="px-6 py-4 text-sm text-gray-600">{n.patient_phone}</td>
-                                                    <td className="px-6 py-4 text-sm text-gray-600">Dr. {n.doctor_name}</td>
-                                                    <td className="px-6 py-4 text-sm text-gray-600">{n.appointment_time}</td>
+                                                <tr key={idx} className="hover:bg-neutral-50">
+                                                    <td className="px-6 py-4 text-sm text-neutral-800">{n.appointment_date}</td>
+                                                    <td className="px-6 py-4 text-sm text-neutral-800">{n.patient_name}</td>
+                                                    <td className="px-6 py-4 text-sm text-neutral-600">{n.patient_phone}</td>
+                                                    <td className="px-6 py-4 text-sm text-neutral-600">Dr. {n.doctor_name}</td>
+                                                    <td className="px-6 py-4 text-sm text-neutral-600">{n.appointment_time}</td>
                                                 </tr>
                                             ))}
                                             {(reportData.no_shows || []).length === 0 && (
                                                 <tr>
-                                                    <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
+                                                    <td colSpan={5} className="px-6 py-8 text-center text-neutral-500">
                                                         No no-shows in this period
                                                     </td>
                                                 </tr>
@@ -428,25 +428,25 @@ const ReceptionistReports: React.FC = () => {
                             {reportType === 'walk-ins' && (
                                 <>
                                     <div className="p-4 border-b">
-                                        <h3 className="font-semibold text-gray-800">Walk-in Visits</h3>
+                                        <h3 className="font-semibold text-neutral-800">Walk-in Visits</h3>
                                     </div>
                                     <table className="w-full">
-                                        <thead className="bg-gray-50">
+                                        <thead className="bg-neutral-50">
                                             <tr>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Visit #</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Patient</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Doctor</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Time</th>
-                                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Visit #</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Patient</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Doctor</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Time</th>
+                                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Status</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y">
                                             {(reportData.walk_ins || []).map((w: any, idx: number) => (
-                                                <tr key={idx} className="hover:bg-gray-50">
+                                                <tr key={idx} className="hover:bg-neutral-50">
                                                     <td className="px-6 py-4 text-sm font-medium text-indigo-600">{w.visit_number}</td>
-                                                    <td className="px-6 py-4 text-sm text-gray-800">{w.patient_name}</td>
-                                                    <td className="px-6 py-4 text-sm text-gray-600">{w.doctor_name ? `Dr. ${w.doctor_name}` : '-'}</td>
-                                                    <td className="px-6 py-4 text-sm text-gray-600">
+                                                    <td className="px-6 py-4 text-sm text-neutral-800">{w.patient_name}</td>
+                                                    <td className="px-6 py-4 text-sm text-neutral-600">{w.doctor_name ? `Dr. ${w.doctor_name}` : '-'}</td>
+                                                    <td className="px-6 py-4 text-sm text-neutral-600">
                                                         {new Date(w.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                     </td>
                                                     <td className="px-6 py-4">
@@ -461,7 +461,7 @@ const ReceptionistReports: React.FC = () => {
                                             ))}
                                             {(reportData.walk_ins || []).length === 0 && (
                                                 <tr>
-                                                    <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
+                                                    <td colSpan={5} className="px-6 py-8 text-center text-neutral-500">
                                                         No walk-ins for this date
                                                     </td>
                                                 </tr>

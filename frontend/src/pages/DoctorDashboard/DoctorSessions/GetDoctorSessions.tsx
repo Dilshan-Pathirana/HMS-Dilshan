@@ -177,7 +177,7 @@ const GetDoctorSessions: React.FC<IGetDoctorSessionsProps> = ({
         return (
             <div className="p-4 mt-20 ml-[20rem] mr-[30px]">
                 <div className="bg-white shadow rounded-lg p-4">
-                    <div className="text-center py-8 text-red-500">
+                    <div className="text-center py-8 text-error-500">
                         Please log in to view your sessions.
                     </div>
                 </div>
@@ -188,7 +188,7 @@ const GetDoctorSessions: React.FC<IGetDoctorSessionsProps> = ({
     return (
         <div className="p-4">
             <div className="mb-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                <h2 className="text-2xl font-bold text-neutral-900 mb-4">
                     Doctor Sessions
                 </h2>
                 <div className="mb-4">
@@ -198,7 +198,7 @@ const GetDoctorSessions: React.FC<IGetDoctorSessionsProps> = ({
                             placeholder="Search by Patient Name or Branch..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="border border-gray-300 rounded-lg pl-4 pr-4 py-3 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="border border-neutral-300 rounded-lg pl-4 pr-4 py-3 w-full focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         />
                     </div>
                 </div>
@@ -225,11 +225,11 @@ const GetDoctorSessions: React.FC<IGetDoctorSessionsProps> = ({
                         </>
                     ) : (
                         <div className="bg-white shadow rounded-lg p-12">
-                            <div className="text-center text-gray-500">
+                            <div className="text-center text-neutral-500">
                                 <div className="mb-4">
                                     <FiUser className="mx-auto h-12 w-12 text-gray-300" />
                                 </div>
-                                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                                <h3 className="text-lg font-medium text-neutral-900 mb-2">
                                     No Sessions Found
                                 </h3>
                                 <p>

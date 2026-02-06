@@ -8,7 +8,7 @@ const FormFieldErrorDisplay: React.FC<FormFieldErrorDisplayProps> = ({
 }) => {
     return (
         formFieldError ? (
-            <p className="text-red-500 text-sm mb-2">{formFieldError}</p>
+            <p className="text-error-500 text-sm mb-2">{formFieldError}</p>
         ) : ''
     );
 };

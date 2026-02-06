@@ -303,26 +303,26 @@ export const SuperAdminReports: React.FC = () => {
                             <FileText className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">Reports & Analytics Management</h1>
+                            <h1 className="text-2xl font-bold text-neutral-800">Reports & Analytics Management</h1>
                             <p className="text-sm text-teal-600 font-medium">Super Admin - Multi-Branch Access</p>
                         </div>
                     </div>
-                    <p className="text-gray-600 mt-1">Generate and manage comprehensive reports across all hospital branches</p>
+                    <p className="text-neutral-600 mt-1">Generate and manage comprehensive reports across all hospital branches</p>
                 </div>
 
                 {/* Branch Selector & Filters */}
                 <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                     <div className="flex items-center gap-3 mb-4">
                         <Globe className="w-5 h-5 text-teal-600" />
-                        <h3 className="text-lg font-semibold text-gray-800">Branch Selection & Filters</h3>
+                        <h3 className="text-lg font-semibold text-neutral-800">Branch Selection & Filters</h3>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                         <div className="relative">
-                            <Layers className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                            <Layers className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
                             <select
                                 value={selectedBranch}
                                 onChange={(e) => setSelectedBranch(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2 border-2 border-teal-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent bg-teal-50 font-medium text-gray-700"
+                                className="w-full pl-10 pr-4 py-2 border-2 border-teal-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent bg-teal-50 font-medium text-neutral-700"
                             >
                                 <option value="all">🌐 All Branches</option>
                                 {branches.map(branch => (
@@ -333,19 +333,19 @@ export const SuperAdminReports: React.FC = () => {
                             </select>
                         </div>
                         <div className="relative">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
                             <input
                                 type="text"
                                 placeholder="Search reports..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                                className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                             />
                         </div>
                         <select
                             value={selectedCategory}
                             onChange={(e) => setSelectedCategory(e.target.value)}
-                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                            className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                         >
                             <option value="all">All Categories</option>
                             {reportCategories.map(cat => (
@@ -356,14 +356,14 @@ export const SuperAdminReports: React.FC = () => {
                             type="date"
                             value={dateRange.start}
                             onChange={(e) => setDateRange({...dateRange, start: e.target.value})}
-                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                            className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                             placeholder="Start Date"
                         />
                         <input
                             type="date"
                             value={dateRange.end}
                             onChange={(e) => setDateRange({...dateRange, end: e.target.value})}
-                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                            className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                             placeholder="End Date"
                         />
                     </div>
@@ -371,7 +371,7 @@ export const SuperAdminReports: React.FC = () => {
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
                                 <Building2 className="w-5 h-5 text-teal-600" />
-                                <span className="text-sm font-medium text-gray-700">Currently Viewing:</span>
+                                <span className="text-sm font-medium text-neutral-700">Currently Viewing:</span>
                             </div>
                             <span className="px-3 py-1 bg-teal-600 text-white text-sm font-bold rounded-full">
                                 {getSelectedBranchName()}
@@ -385,8 +385,8 @@ export const SuperAdminReports: React.FC = () => {
                     <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-gray-500 text-sm">Total Categories</p>
-                                <p className="text-2xl font-bold text-gray-800">{reportCategories.length}</p>
+                                <p className="text-neutral-500 text-sm">Total Categories</p>
+                                <p className="text-2xl font-bold text-neutral-800">{reportCategories.length}</p>
                             </div>
                             <div className="p-3 bg-teal-100 rounded-lg">
                                 <FileText className="w-6 h-6 text-teal-600" />
@@ -396,8 +396,8 @@ export const SuperAdminReports: React.FC = () => {
                     <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-gray-500 text-sm">Available Reports</p>
-                                <p className="text-2xl font-bold text-gray-800">
+                                <p className="text-neutral-500 text-sm">Available Reports</p>
+                                <p className="text-2xl font-bold text-neutral-800">
                                     {reportCategories.reduce((sum, cat) => sum + cat.reports.length, 0)}
                                 </p>
                             </div>
@@ -409,19 +409,19 @@ export const SuperAdminReports: React.FC = () => {
                     <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-gray-500 text-sm">Active Branches</p>
-                                <p className="text-2xl font-bold text-gray-800">{branches.length}</p>
+                                <p className="text-neutral-500 text-sm">Active Branches</p>
+                                <p className="text-2xl font-bold text-neutral-800">{branches.length}</p>
                             </div>
                             <div className="p-3 bg-blue-100 rounded-lg">
-                                <Building2 className="w-6 h-6 text-blue-600" />
+                                <Building2 className="w-6 h-6 text-primary-500" />
                             </div>
                         </div>
                     </div>
                     <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-gray-500 text-sm">Generated Today</p>
-                                <p className="text-2xl font-bold text-gray-800">47</p>
+                                <p className="text-neutral-500 text-sm">Generated Today</p>
+                                <p className="text-2xl font-bold text-neutral-800">47</p>
                             </div>
                             <div className="p-3 bg-purple-100 rounded-lg">
                                 <Download className="w-6 h-6 text-purple-600" />
@@ -444,8 +444,8 @@ export const SuperAdminReports: React.FC = () => {
                                         {category.icon}
                                     </div>
                                     <div className="text-left">
-                                        <h3 className="text-lg font-bold text-gray-800">{category.title}</h3>
-                                        <p className="text-sm text-gray-500">{category.description}</p>
+                                        <h3 className="text-lg font-bold text-neutral-800">{category.title}</h3>
+                                        <p className="text-sm text-neutral-500">{category.description}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-3">
@@ -453,9 +453,9 @@ export const SuperAdminReports: React.FC = () => {
                                         {category.reports.length} reports
                                     </span>
                                     {expandedCategories.includes(category.id) ? (
-                                        <ChevronDown className="w-5 h-5 text-gray-400" />
+                                        <ChevronDown className="w-5 h-5 text-neutral-400" />
                                     ) : (
-                                        <ChevronRight className="w-5 h-5 text-gray-400" />
+                                        <ChevronRight className="w-5 h-5 text-neutral-400" />
                                     )}
                                 </div>
                             </button>
@@ -466,11 +466,11 @@ export const SuperAdminReports: React.FC = () => {
                                     <div className="p-6 bg-gradient-to-r from-teal-50 to-cyan-50">
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             {category.reports.map((report) => (
-                                                <div key={report.id} className="bg-white rounded-lg p-4 border border-gray-200 hover:border-teal-300 hover:shadow-md transition-all">
+                                                <div key={report.id} className="bg-white rounded-lg p-4 border border-neutral-200 hover:border-teal-300 hover:shadow-md transition-all">
                                                     <div className="flex items-start justify-between mb-3">
                                                         <div className="flex-1">
-                                                            <h4 className="font-semibold text-gray-800 mb-1">{report.name}</h4>
-                                                            <p className="text-sm text-gray-500">{report.description}</p>
+                                                            <h4 className="font-semibold text-neutral-800 mb-1">{report.name}</h4>
+                                                            <p className="text-sm text-neutral-500">{report.description}</p>
                                                         </div>
                                                         <span className={`px-2 py-1 text-xs rounded-full ${
                                                             report.type === 'table' ? 'bg-blue-100 text-blue-700' :
@@ -488,14 +488,14 @@ export const SuperAdminReports: React.FC = () => {
                                                             <Eye className="w-4 h-4" />
                                                             Generate
                                                         </button>
-                                                        <button className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-                                                            <Download className="w-4 h-4 text-gray-600" />
+                                                        <button className="p-2 border border-neutral-300 rounded-lg hover:bg-neutral-50 transition-colors">
+                                                            <Download className="w-4 h-4 text-neutral-600" />
                                                         </button>
-                                                        <button className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-                                                            <Printer className="w-4 h-4 text-gray-600" />
+                                                        <button className="p-2 border border-neutral-300 rounded-lg hover:bg-neutral-50 transition-colors">
+                                                            <Printer className="w-4 h-4 text-neutral-600" />
                                                         </button>
-                                                        <button className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-                                                            <FileSpreadsheet className="w-4 h-4 text-gray-600" />
+                                                        <button className="p-2 border border-neutral-300 rounded-lg hover:bg-neutral-50 transition-colors">
+                                                            <FileSpreadsheet className="w-4 h-4 text-neutral-600" />
                                                         </button>
                                                     </div>
                                                 </div>
@@ -512,8 +512,8 @@ export const SuperAdminReports: React.FC = () => {
                 {filteredCategories.length === 0 && (
                     <div className="bg-white rounded-xl p-12 text-center shadow-sm border border-gray-100">
                         <FileWarning className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                        <h3 className="text-lg font-semibold text-gray-700 mb-2">No reports found</h3>
-                        <p className="text-gray-500">Try adjusting your search or filter criteria</p>
+                        <h3 className="text-lg font-semibold text-neutral-700 mb-2">No reports found</h3>
+                        <p className="text-neutral-500">Try adjusting your search or filter criteria</p>
                     </div>
                 )}
             </div>

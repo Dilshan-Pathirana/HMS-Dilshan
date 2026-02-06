@@ -53,20 +53,20 @@ export default function SuperAdminInventoryPage() {
     };
 
     return (
-        <div className="flex flex-col min-h-screen bg-gray-100">
+        <div className="flex flex-col min-h-screen bg-neutral-100">
             <header className="flex items-center justify-between px-6 py-4 bg-white border-b m-5">
                 <div className="flex items-center">
                     <ArrowLeft
-                        className="h-6 w-6 text-gray-500 cursor-pointer"
+                        className="h-6 w-6 text-neutral-500 cursor-pointer"
                         onClick={() => navigate(-1)}
                     />
-                    <h1 className="text-2xl font-semibold text-gray-800 ml-4">
+                    <h1 className="text-2xl font-semibold text-neutral-800 ml-4">
                         Inventory Management
                     </h1>
                 </div>
             </header>
 
-            <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+            <main className="flex-1 overflow-x-hidden overflow-y-auto bg-neutral-100 p-6">
                 <Spinner isLoading={isLoading} />
                 {!isLoading && (
                     <InventoryTable

@@ -48,45 +48,45 @@ const StaffSalaryViewModal: React.FC<StaffSalaryViewModalProps> = ({
                         Bank Details
                     </h3>
                     <div className="overflow-x-auto">
-                        <table className="table-auto w-full border-collapse border border-gray-300">
+                        <table className="table-auto w-full border-collapse border border-neutral-300">
                             <tbody>
                                 <tr>
-                                    <td className="border border-gray-300 px-4 py-2">
+                                    <td className="border border-neutral-300 px-4 py-2">
                                         Bank Name
                                     </td>
-                                    <td className="border border-gray-300 px-4 py-2">
+                                    <td className="border border-neutral-300 px-4 py-2">
                                         {salary.bank_name || "N/A"}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td className="border border-gray-300 px-4 py-2">
+                                    <td className="border border-neutral-300 px-4 py-2">
                                         Branch Name
                                     </td>
-                                    <td className="border border-gray-300 px-4 py-2">
+                                    <td className="border border-neutral-300 px-4 py-2">
                                         {salary.branch_name || "N/A"}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td className="border border-gray-300 px-4 py-2">
+                                    <td className="border border-neutral-300 px-4 py-2">
                                         Branch Code
                                     </td>
-                                    <td className="border border-gray-300 px-4 py-2">
+                                    <td className="border border-neutral-300 px-4 py-2">
                                         {salary.branch_code || "N/A"}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td className="border border-gray-300 px-4 py-2">
+                                    <td className="border border-neutral-300 px-4 py-2">
                                         Account Number
                                     </td>
-                                    <td className="border border-gray-300 px-4 py-2">
+                                    <td className="border border-neutral-300 px-4 py-2">
                                         {salary.account_number || "N/A"}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td className="border border-gray-300 px-4 py-2">
+                                    <td className="border border-neutral-300 px-4 py-2">
                                         Account Name
                                     </td>
-                                    <td className="border border-gray-300 px-4 py-2">
+                                    <td className="border border-neutral-300 px-4 py-2">
                                         {salary.account_owner_name || "N/A"}
                                     </td>
                                 </tr>
@@ -97,7 +97,7 @@ const StaffSalaryViewModal: React.FC<StaffSalaryViewModalProps> = ({
 
                 <button
                     onClick={onClose}
-                    className="mt-4 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                    className="mt-4 px-4 py-2 bg-neutral-300 text-neutral-700 rounded-md hover:bg-gray-400"
                 >
                     Close
                 </button>

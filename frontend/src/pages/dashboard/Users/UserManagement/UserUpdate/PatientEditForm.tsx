@@ -16,7 +16,7 @@ export const PatientEditForm: React.FC<PatientEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="first_name"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         First Name
                     </label>
@@ -26,13 +26,13 @@ export const PatientEditForm: React.FC<PatientEditFormProps> = ({
                         name="first_name"
                         value={userDetails?.first_name || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
                 <div>
                     <label
                         htmlFor="last_name"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Last Name
                     </label>
@@ -42,7 +42,7 @@ export const PatientEditForm: React.FC<PatientEditFormProps> = ({
                         name="last_name"
                         value={userDetails?.last_name || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
             </div>
@@ -58,7 +58,7 @@ export const PatientEditForm: React.FC<PatientEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="patient_id"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Patient ID
                     </label>
@@ -68,7 +68,7 @@ export const PatientEditForm: React.FC<PatientEditFormProps> = ({
                         name="patient_id"
                         value={userDetails?.patient_id || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                         readOnly
                     />
                 </div>

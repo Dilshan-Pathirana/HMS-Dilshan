@@ -276,7 +276,7 @@ export const BranchAdminSettings: React.FC = () => {
                         type="text"
                         value={setting.value}
                         onChange={() => setHasUnsavedChanges(true)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                     />
                 );
             case 'number':
@@ -285,7 +285,7 @@ export const BranchAdminSettings: React.FC = () => {
                         type="number"
                         value={setting.value}
                         onChange={() => setHasUnsavedChanges(true)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                     />
                 );
             case 'select':
@@ -293,7 +293,7 @@ export const BranchAdminSettings: React.FC = () => {
                     <select
                         value={setting.value}
                         onChange={() => setHasUnsavedChanges(true)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                     >
                         {setting.options?.map(option => (
                             <option key={option} value={option}>{option}</option>
@@ -309,7 +309,7 @@ export const BranchAdminSettings: React.FC = () => {
                             onChange={() => setHasUnsavedChanges(true)}
                             className="sr-only peer"
                         />
-                        <div className="w-14 h-7 bg-gray-300 peer-focus:ring-4 peer-focus:ring-emerald-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-emerald-500"></div>
+                        <div className="w-14 h-7 bg-neutral-300 peer-focus:ring-4 peer-focus:ring-emerald-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-emerald-500"></div>
                     </label>
                 );
             case 'textarea':
@@ -318,7 +318,7 @@ export const BranchAdminSettings: React.FC = () => {
                         value={setting.value}
                         onChange={() => setHasUnsavedChanges(true)}
                         rows={3}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                     />
                 );
             default:
@@ -361,13 +361,13 @@ export const BranchAdminSettings: React.FC = () => {
                 {/* Search Bar */}
                 <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                     <div className="relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
                         <input
                             type="text"
                             placeholder="Search settings..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                            className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                         />
                     </div>
                 </div>
@@ -394,8 +394,8 @@ export const BranchAdminSettings: React.FC = () => {
                                         {category.icon}
                                     </div>
                                     <div className="text-left">
-                                        <h3 className="text-lg font-bold text-gray-800">{category.title}</h3>
-                                        <p className="text-sm text-gray-500">{category.description}</p>
+                                        <h3 className="text-lg font-bold text-neutral-800">{category.title}</h3>
+                                        <p className="text-sm text-neutral-500">{category.description}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-3">
@@ -403,9 +403,9 @@ export const BranchAdminSettings: React.FC = () => {
                                         {category.settings.length} settings
                                     </span>
                                     {expandedCategories.includes(category.id) ? (
-                                        <ChevronDown className="w-5 h-5 text-gray-400" />
+                                        <ChevronDown className="w-5 h-5 text-neutral-400" />
                                     ) : (
-                                        <ChevronRight className="w-5 h-5 text-gray-400" />
+                                        <ChevronRight className="w-5 h-5 text-neutral-400" />
                                     )}
                                 </div>
                             </button>
@@ -416,18 +416,18 @@ export const BranchAdminSettings: React.FC = () => {
                                     <div className="p-6 bg-gradient-to-r from-green-50 to-cyan-50">
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             {category.settings.map((setting) => (
-                                                <div key={setting.id} className="bg-white rounded-lg p-4 border border-gray-200">
+                                                <div key={setting.id} className="bg-white rounded-lg p-4 border border-neutral-200">
                                                     <div className="flex items-start justify-between mb-3">
                                                         <div className="flex-1">
-                                                            <label className="block text-sm font-semibold text-gray-700 mb-1">
+                                                            <label className="block text-sm font-semibold text-neutral-700 mb-1">
                                                                 {setting.label}
                                                             </label>
                                                             {setting.description && (
-                                                                <p className="text-xs text-gray-500 mb-2">{setting.description}</p>
+                                                                <p className="text-xs text-neutral-500 mb-2">{setting.description}</p>
                                                             )}
                                                         </div>
                                                         {setting.type !== 'toggle' && setting.type !== 'textarea' && (
-                                                            <Info className="w-4 h-4 text-gray-400 ml-2" />
+                                                            <Info className="w-4 h-4 text-neutral-400 ml-2" />
                                                         )}
                                                     </div>
                                                     {renderSettingInput(setting)}
@@ -445,21 +445,21 @@ export const BranchAdminSettings: React.FC = () => {
                 {filteredCategories.length === 0 && (
                     <div className="bg-white rounded-xl p-12 text-center shadow-sm border border-gray-100">
                         <AlertCircle className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                        <h3 className="text-lg font-semibold text-gray-700 mb-2">No settings found</h3>
-                        <p className="text-gray-500">Try adjusting your search criteria</p>
+                        <h3 className="text-lg font-semibold text-neutral-700 mb-2">No settings found</h3>
+                        <p className="text-neutral-500">Try adjusting your search criteria</p>
                     </div>
                 )}
 
                 {/* Action Buttons */}
-                <div className="sticky bottom-6 bg-white rounded-xl p-4 shadow-lg border border-gray-200 flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                <div className="sticky bottom-6 bg-white rounded-xl p-4 shadow-lg border border-neutral-200 flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-sm text-neutral-600">
                         <Lock className="w-4 h-4" />
                         <span>Settings are role-controlled, versioned, and auditable</span>
                     </div>
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => setHasUnsavedChanges(false)}
-                            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2"
+                            className="px-6 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors flex items-center gap-2"
                         >
                             <X className="w-5 h-5" />
                             Cancel

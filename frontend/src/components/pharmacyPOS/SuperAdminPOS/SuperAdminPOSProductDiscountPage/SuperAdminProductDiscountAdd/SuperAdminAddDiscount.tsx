@@ -135,9 +135,9 @@ export default function SuperAdminAddDiscount() {
     };
 
     return (
-        <div className="flex flex-col min-h-screen bg-gray-100">
+        <div className="flex flex-col min-h-screen bg-neutral-100">
             <div className="p-6 bg-white rounded-lg m-6 shadow">
-                <h2 className="text-xl font-semibold text-gray-700 mb-4">
+                <h2 className="text-xl font-semibold text-neutral-700 mb-4">
                     Add Product Discount
                 </h2>
 
@@ -146,7 +146,7 @@ export default function SuperAdminAddDiscount() {
                 <div className="mb-4">
                     <label
                         htmlFor="product"
-                        className="block text-sm font-medium text-gray-700 mb-1"
+                        className="block text-sm font-medium text-neutral-700 mb-1"
                     >
                         Select Product
                     </label>
@@ -163,13 +163,13 @@ export default function SuperAdminAddDiscount() {
                 <div className="mb-4">
                     <label
                         htmlFor="discountType"
-                        className="block text-sm font-medium text-gray-700 mb-1"
+                        className="block text-sm font-medium text-neutral-700 mb-1"
                     >
                         Discount Type
                     </label>
                     <select
                         id="discountType"
-                        className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300"
+                        className="w-full border border-neutral-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300"
                         value={discountType}
                         onChange={handleDiscountTypeChange}
                         disabled={isLoading}
@@ -183,7 +183,7 @@ export default function SuperAdminAddDiscount() {
                     <div className="mb-4">
                         <label
                             htmlFor="discountAmount"
-                            className="block text-sm font-medium text-gray-700 mb-1"
+                            className="block text-sm font-medium text-neutral-700 mb-1"
                         >
                             Discount Amount
                         </label>
@@ -191,7 +191,7 @@ export default function SuperAdminAddDiscount() {
                             <input
                                 type="number"
                                 id="discountAmount"
-                                className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300"
+                                className="w-full border border-neutral-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300"
                                 value={discountAmount}
                                 onChange={handleDiscountAmountChange}
                                 min="0"
@@ -205,7 +205,7 @@ export default function SuperAdminAddDiscount() {
                     <div className="mb-4">
                         <label
                             htmlFor="discountPercentage"
-                            className="block text-sm font-medium text-gray-700 mb-1"
+                            className="block text-sm font-medium text-neutral-700 mb-1"
                         >
                             Discount Percentage
                         </label>
@@ -213,7 +213,7 @@ export default function SuperAdminAddDiscount() {
                             <input
                                 type="number"
                                 id="discountPercentage"
-                                className="w-full border border-gray-300 rounded-md p-2 pr-10 focus:outline-none focus:ring focus:ring-blue-300"
+                                className="w-full border border-neutral-300 rounded-md p-2 pr-10 focus:outline-none focus:ring focus:ring-blue-300"
                                 value={discountPercentage}
                                 onChange={handleDiscountPercentageChange}
                                 min="0"
@@ -222,7 +222,7 @@ export default function SuperAdminAddDiscount() {
                                 placeholder="Enter discount percentage"
                                 disabled={isLoading}
                             />
-                            <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+                            <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-neutral-500">
                                 %
                             </span>
                         </div>
@@ -232,7 +232,7 @@ export default function SuperAdminAddDiscount() {
                 <button
                     onClick={handleAddDiscount}
                     disabled={isLoading}
-                    className={`w-full bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-700 transition ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                    className={`w-full bg-primary-500 text-white py-2 rounded-md font-semibold hover:bg-primary-600 transition ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                 >
                     {isLoading ? "Processing..." : "Add Discount"}
                 </button>

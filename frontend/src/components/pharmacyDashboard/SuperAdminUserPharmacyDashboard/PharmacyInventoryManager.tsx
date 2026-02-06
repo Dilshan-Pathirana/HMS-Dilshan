@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from "../../../utils/api/axios";
 import { ArrowLeft, Plus, Package, Search, Edit, Trash2, X, Check, ChevronRight, ChevronLeft } from 'lucide-react';
 import SupplierCreateFormForAdmin from './products/productCreate/SupplierCreateFormForAdmin';
@@ -505,16 +505,16 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
                 <React.Fragment key={step}>
                     <div
                         className={`flex items-center justify-center w-10 h-10 rounded-full font-semibold text-sm transition-all ${currentStep === step
-                                ? 'bg-blue-600 text-white'
+                                ? 'bg-primary-500 text-white'
                                 : currentStep > step
                                     ? 'bg-green-500 text-white'
-                                    : 'bg-gray-200 text-gray-600'
+                                    : 'bg-neutral-200 text-neutral-600'
                             }`}
                     >
                         {currentStep > step ? <Check className="w-5 h-5" /> : step}
                     </div>
                     {step < 4 && (
-                        <div className={`w-16 h-1 mx-1 ${currentStep > step ? 'bg-green-500' : 'bg-gray-200'}`} />
+                        <div className={`w-16 h-1 mx-1 ${currentStep > step ? 'bg-green-500' : 'bg-neutral-200'}`} />
                     )}
                 </React.Fragment>
             ))}
@@ -524,87 +524,87 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
     // Step 1: Product Information
     const renderStep1 = () => (
         <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Product Information</h3>
+            <h3 className="text-lg font-semibold text-neutral-800 mb-4">Product Information</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Item Code / SKU *</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Item Code / SKU *</label>
                     <input
                         type="text"
                         value={productInfo.sku}
                         onChange={(e) => setProductInfo({ ...productInfo, sku: e.target.value })}
                         placeholder="Enter unique SKU"
-                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${formErrors.sku ? 'border-red-500' : 'border-gray-300'}`}
+                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 ${formErrors.sku ? 'border-error-500' : 'border-neutral-300'}`}
                     />
-                    {formErrors.sku && <p className="text-red-500 text-sm mt-1">{formErrors.sku}</p>}
+                    {formErrors.sku && <p className="text-error-500 text-sm mt-1">{formErrors.sku}</p>}
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Item Name *</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Item Name *</label>
                     <input
                         type="text"
                         value={productInfo.item_name}
                         onChange={(e) => setProductInfo({ ...productInfo, item_name: e.target.value })}
                         placeholder="Enter product name"
-                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${formErrors.item_name ? 'border-red-500' : 'border-gray-300'}`}
+                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 ${formErrors.item_name ? 'border-error-500' : 'border-neutral-300'}`}
                     />
-                    {formErrors.item_name && <p className="text-red-500 text-sm mt-1">{formErrors.item_name}</p>}
+                    {formErrors.item_name && <p className="text-error-500 text-sm mt-1">{formErrors.item_name}</p>}
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Item Barcode</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Item Barcode</label>
                     <input
                         type="text"
                         value={productInfo.barcode}
                         onChange={(e) => setProductInfo({ ...productInfo, barcode: e.target.value })}
                         placeholder="Enter item barcode"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Generic Name</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Generic Name</label>
                     <input
                         type="text"
                         value={productInfo.generic_name}
                         onChange={(e) => setProductInfo({ ...productInfo, generic_name: e.target.value })}
                         placeholder="Enter generic name"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Brand Name</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Brand Name</label>
                     <input
                         type="text"
                         value={productInfo.brand_name}
                         onChange={(e) => setProductInfo({ ...productInfo, brand_name: e.target.value })}
                         placeholder="Enter brand name"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Category *</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Category *</label>
                     <select
                         value={productInfo.category}
                         onChange={(e) => setProductInfo({ ...productInfo, category: e.target.value })}
-                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 bg-white ${formErrors.category ? 'border-red-500' : 'border-gray-300'}`}
+                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 bg-white ${formErrors.category ? 'border-error-500' : 'border-neutral-300'}`}
                     >
                         <option value="">Select Category</option>
                         {categories.map((cat) => (
                             <option key={cat.value} value={cat.value}>{cat.label}</option>
                         ))}
                     </select>
-                    {formErrors.category && <p className="text-red-500 text-sm mt-1">{formErrors.category}</p>}
+                    {formErrors.category && <p className="text-error-500 text-sm mt-1">{formErrors.category}</p>}
                 </div>
                 <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Units *</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Units *</label>
                     <select
                         value={productInfo.unit}
                         onChange={(e) => setProductInfo({ ...productInfo, unit: e.target.value })}
-                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 bg-white ${formErrors.unit ? 'border-red-500' : 'border-gray-300'}`}
+                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 bg-white ${formErrors.unit ? 'border-error-500' : 'border-neutral-300'}`}
                     >
                         <option value="">Select Unit</option>
                         {units.map((unit) => (
                             <option key={unit.value} value={unit.value}>{unit.label}</option>
                         ))}
                     </select>
-                    {formErrors.unit && <p className="text-red-500 text-sm mt-1">{formErrors.unit}</p>}
+                    {formErrors.unit && <p className="text-error-500 text-sm mt-1">{formErrors.unit}</p>}
                 </div>
             </div>
         </div>
@@ -613,18 +613,18 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
     // Step 2: Supplier Selection
     const renderStep2 = () => (
         <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Supplier Information</h3>
+            <h3 className="text-lg font-semibold text-neutral-800 mb-4">Supplier Information</h3>
 
             {/* Supplier Create Form Popup */}
             {isAddingSupplier && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
                         <div className="flex items-center justify-between p-4 border-b">
-                            <h3 className="text-lg font-semibold text-gray-800">Add New Supplier</h3>
+                            <h3 className="text-lg font-semibold text-neutral-800">Add New Supplier</h3>
                             <button
                                 type="button"
                                 onClick={() => setIsAddingSupplier(false)}
-                                className="text-gray-500 hover:text-gray-700"
+                                className="text-neutral-500 hover:text-neutral-700"
                             >
                                 <X className="w-5 h-5" />
                             </button>
@@ -640,11 +640,11 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
             )}
 
             <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Select Supplier *</label>
+                <label className="block text-sm font-medium text-neutral-700 mb-1">Select Supplier *</label>
                 <select
                     value={supplierData.supplier_id}
                     onChange={(e) => handleSupplierSelect(e.target.value)}
-                    className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 bg-white ${formErrors.supplier_id ? 'border-red-500' : 'border-gray-300'}`}
+                    className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 bg-white ${formErrors.supplier_id ? 'border-error-500' : 'border-neutral-300'}`}
                 >
                     <option value="">Select a Supplier</option>
                     {suppliers.map((supplier) => (
@@ -653,7 +653,7 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
                         </option>
                     ))}
                 </select>
-                {formErrors.supplier_id && <p className="text-red-500 text-sm mt-1">{formErrors.supplier_id}</p>}
+                {formErrors.supplier_id && <p className="text-error-500 text-sm mt-1">{formErrors.supplier_id}</p>}
             </div>
 
             {supplierData.supplier_id && (
@@ -665,11 +665,11 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
             )}
 
             <div className="border-t pt-4 mt-6">
-                <p className="text-sm text-gray-600 mb-3">Can't find the supplier you're looking for?</p>
+                <p className="text-sm text-neutral-600 mb-3">Can't find the supplier you're looking for?</p>
                 <button
                     type="button"
                     onClick={goToAddSupplier}
-                    className="flex items-center gap-2 px-4 py-2 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 text-primary-500 border border-primary-500 rounded-lg hover:bg-blue-50 transition-colors"
                 >
                     <Plus className="w-4 h-4" />
                     Add New Supplier
@@ -682,27 +682,27 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
     const renderStep3 = () => (
         <div className="space-y-4">
             <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-800">Warranty Information</h3>
-                <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">Optional</span>
+                <h3 className="text-lg font-semibold text-neutral-800">Warranty Information</h3>
+                <span className="text-sm text-neutral-500 bg-neutral-100 px-2 py-1 rounded">Optional</span>
             </div>
-            <p className="text-sm text-gray-600 mb-4">All fields in this section are optional. Skip if not applicable.</p>
+            <p className="text-sm text-neutral-600 mb-4">All fields in this section are optional. Skip if not applicable.</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Warranty Serial/Code</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Warranty Serial/Code</label>
                     <input
                         type="text"
                         value={warrantyData.warranty_serial}
                         onChange={(e) => setWarrantyData({ ...warrantyData, warranty_serial: e.target.value })}
                         placeholder="Enter warranty serial/code"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Warranty Duration</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Warranty Duration</label>
                     <select
                         value={warrantyData.warranty_duration}
                         onChange={(e) => setWarrantyData({ ...warrantyData, warranty_duration: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
+                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white"
                     >
                         <option value="">Select warranty duration</option>
                         {warrantyDurations.map((wd) => (
@@ -711,29 +711,29 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
                     </select>
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Warranty Start Date</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Warranty Start Date</label>
                     <input
                         type="date"
                         value={warrantyData.warranty_start_date}
                         onChange={(e) => setWarrantyData({ ...warrantyData, warranty_start_date: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Warranty Expiration Date</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Warranty Expiration Date</label>
                     <input
                         type="date"
                         value={warrantyData.warranty_expiration_date}
                         onChange={(e) => setWarrantyData({ ...warrantyData, warranty_expiration_date: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                 </div>
                 <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Warranty Type</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Warranty Type</label>
                     <select
                         value={warrantyData.warranty_type}
                         onChange={(e) => setWarrantyData({ ...warrantyData, warranty_type: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
+                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white"
                     >
                         <option value="">Select warranty type</option>
                         {warrantyTypes.map((wt) => (
@@ -748,67 +748,67 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
     // Step 4: Stock Information
     const renderStep4 = () => (
         <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Stock Information</h3>
+            <h3 className="text-lg font-semibold text-neutral-800 mb-4">Stock Information</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Batch Number *</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Batch Number *</label>
                     <input
                         type="text"
                         value={stockData.batch_number}
                         onChange={(e) => setStockData({ ...stockData, batch_number: e.target.value })}
                         placeholder="Enter batch number"
-                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${formErrors.batch_number ? 'border-red-500' : 'border-gray-300'}`}
+                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 ${formErrors.batch_number ? 'border-error-500' : 'border-neutral-300'}`}
                     />
-                    {formErrors.batch_number && <p className="text-red-500 text-sm mt-1">{formErrors.batch_number}</p>}
+                    {formErrors.batch_number && <p className="text-error-500 text-sm mt-1">{formErrors.batch_number}</p>}
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Quantity in Stock *</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Quantity in Stock *</label>
                     <input
                         type="number"
                         min="0"
                         value={stockData.quantity_in_stock}
                         onChange={(e) => setStockData({ ...stockData, quantity_in_stock: e.target.value })}
                         placeholder="Enter quantity in stock"
-                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${formErrors.quantity_in_stock ? 'border-red-500' : 'border-gray-300'}`}
+                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 ${formErrors.quantity_in_stock ? 'border-error-500' : 'border-neutral-300'}`}
                     />
-                    {formErrors.quantity_in_stock && <p className="text-red-500 text-sm mt-1">{formErrors.quantity_in_stock}</p>}
+                    {formErrors.quantity_in_stock && <p className="text-error-500 text-sm mt-1">{formErrors.quantity_in_stock}</p>}
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Minimum Stock Level</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Minimum Stock Level</label>
                     <input
                         type="number"
                         min="0"
                         value={stockData.minimum_stock_level}
                         onChange={(e) => setStockData({ ...stockData, minimum_stock_level: e.target.value })}
                         placeholder="Enter minimum stock level"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Reorder Level *</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Reorder Level *</label>
                     <input
                         type="number"
                         min="0"
                         value={stockData.reorder_level}
                         onChange={(e) => setStockData({ ...stockData, reorder_level: e.target.value })}
                         placeholder="Enter reorder level"
-                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${formErrors.reorder_level ? 'border-red-500' : 'border-gray-300'}`}
+                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 ${formErrors.reorder_level ? 'border-error-500' : 'border-neutral-300'}`}
                     />
-                    {formErrors.reorder_level && <p className="text-red-500 text-sm mt-1">{formErrors.reorder_level}</p>}
+                    {formErrors.reorder_level && <p className="text-error-500 text-sm mt-1">{formErrors.reorder_level}</p>}
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Reorder Quantity</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Reorder Quantity</label>
                     <input
                         type="number"
                         min="0"
                         value={stockData.reorder_quantity}
                         onChange={(e) => setStockData({ ...stockData, reorder_quantity: e.target.value })}
                         placeholder="Enter reorder quantity"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Unit Cost (Rs.) *</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Unit Cost (Rs.) *</label>
                     <input
                         type="number"
                         min="0"
@@ -816,12 +816,12 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
                         value={stockData.unit_cost}
                         onChange={(e) => setStockData({ ...stockData, unit_cost: e.target.value })}
                         placeholder="Enter unit cost"
-                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${formErrors.unit_cost ? 'border-red-500' : 'border-gray-300'}`}
+                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 ${formErrors.unit_cost ? 'border-error-500' : 'border-neutral-300'}`}
                     />
-                    {formErrors.unit_cost && <p className="text-red-500 text-sm mt-1">{formErrors.unit_cost}</p>}
+                    {formErrors.unit_cost && <p className="text-error-500 text-sm mt-1">{formErrors.unit_cost}</p>}
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Selling Price (Rs.) *</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Selling Price (Rs.) *</label>
                     <input
                         type="number"
                         min="0"
@@ -829,35 +829,35 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
                         value={stockData.selling_price}
                         onChange={(e) => setStockData({ ...stockData, selling_price: e.target.value })}
                         placeholder="Enter selling price"
-                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${formErrors.selling_price ? 'border-red-500' : 'border-gray-300'}`}
+                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 ${formErrors.selling_price ? 'border-error-500' : 'border-neutral-300'}`}
                     />
-                    {formErrors.selling_price && <p className="text-red-500 text-sm mt-1">{formErrors.selling_price}</p>}
+                    {formErrors.selling_price && <p className="text-error-500 text-sm mt-1">{formErrors.selling_price}</p>}
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Expiry Date *</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Expiry Date *</label>
                     <input
                         type="date"
                         value={stockData.expiry_date}
                         onChange={(e) => setStockData({ ...stockData, expiry_date: e.target.value })}
-                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${formErrors.expiry_date ? 'border-red-500' : 'border-gray-300'}`}
+                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 ${formErrors.expiry_date ? 'border-error-500' : 'border-neutral-300'}`}
                     />
-                    {formErrors.expiry_date && <p className="text-red-500 text-sm mt-1">{formErrors.expiry_date}</p>}
+                    {formErrors.expiry_date && <p className="text-error-500 text-sm mt-1">{formErrors.expiry_date}</p>}
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Date of Entry</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Date of Entry</label>
                     <input
                         type="date"
                         value={stockData.date_of_entry}
                         onChange={(e) => setStockData({ ...stockData, date_of_entry: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Stock Status</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Stock Status</label>
                     <select
                         value={stockData.stock_status}
                         onChange={(e) => setStockData({ ...stockData, stock_status: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
+                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white"
                     >
                         <option value="In Stock">In Stock</option>
                         <option value="Low Stock">Low Stock</option>
@@ -866,32 +866,32 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
                     </select>
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Stock Update Date</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Stock Update Date</label>
                     <input
                         type="date"
                         value={stockData.stock_update_date}
                         onChange={(e) => setStockData({ ...stockData, stock_update_date: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Stock Location</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Stock Location</label>
                     <input
                         type="text"
                         value={stockData.stock_location}
                         onChange={(e) => setStockData({ ...stockData, stock_location: e.target.value })}
                         placeholder="Enter stock location"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                 </div>
                 <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Damaged/Defective Stock</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Damaged/Defective Stock</label>
                     <textarea
                         rows={2}
                         value={stockData.damaged_stock}
                         onChange={(e) => setStockData({ ...stockData, damaged_stock: e.target.value })}
                         placeholder="Enter details and quantity of damaged items"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                 </div>
             </div>
@@ -917,20 +917,20 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
                         <div className="flex items-center gap-4">
                             <button
                                 onClick={onBack}
-                                className="p-3 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors"
+                                className="p-3 bg-neutral-100 hover:bg-neutral-200 rounded-full transition-colors"
                             >
-                                <ArrowLeft className="w-5 h-5 text-gray-600" />
+                                <ArrowLeft className="w-5 h-5 text-neutral-600" />
                             </button>
                             <div>
-                                <p className="text-sm font-medium text-blue-600 uppercase tracking-wide">Pharmacy Inventory</p>
-                                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                                <p className="text-sm font-medium text-primary-500 uppercase tracking-wide">Pharmacy Inventory</p>
+                                <h1 className="text-3xl font-bold bg-gradient-to-r from-primary-500 to-indigo-600 bg-clip-text text-transparent">
                                     {pharmacyName}
                                 </h1>
                             </div>
                         </div>
                         <button
                             onClick={() => { resetForm(); setShowAddModal(true); }}
-                            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg font-medium"
+                            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg font-medium"
                         >
                             <Plus className="w-5 h-5" />
                             Add Product
@@ -945,7 +945,7 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
                     </div>
                 )}
                 {error && (
-                    <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                    <div className="mb-4 p-4 bg-error-100 border border-red-400 text-red-700 rounded-lg">
                         {error}
                     </div>
                 )}
@@ -954,33 +954,33 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
                 <div className="bg-white rounded-xl shadow p-4 mb-6">
                     <div className="flex flex-wrap items-center gap-4">
                         <div className="relative flex-1 min-w-[200px]">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400" />
                             <input
                                 type="text"
                                 placeholder="Search by name, batch, or supplier..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                             />
                         </div>
                         <div className="flex gap-2">
                             <button
                                 onClick={() => setFilter('all')}
-                                className={`px-4 py-2 rounded-lg font-medium transition-colors ${filter === 'all' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                className={`px-4 py-2 rounded-lg font-medium transition-colors ${filter === 'all' ? 'bg-primary-500 text-white' : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
                                     }`}
                             >
                                 All Products
                             </button>
                             <button
                                 onClick={() => setFilter('low_stock')}
-                                className={`px-4 py-2 rounded-lg font-medium transition-colors ${filter === 'low_stock' ? 'bg-orange-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                className={`px-4 py-2 rounded-lg font-medium transition-colors ${filter === 'low_stock' ? 'bg-orange-500 text-white' : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
                                     }`}
                             >
                                 Low Stock
                             </button>
                             <button
                                 onClick={() => setFilter('expiring')}
-                                className={`px-4 py-2 rounded-lg font-medium transition-colors ${filter === 'expiring' ? 'bg-red-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                className={`px-4 py-2 rounded-lg font-medium transition-colors ${filter === 'expiring' ? 'bg-error-500 text-white' : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
                                     }`}
                             >
                                 Expiring Soon
@@ -993,58 +993,58 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
                 <div className="bg-white rounded-xl shadow overflow-hidden">
                     {loading ? (
                         <div className="p-12 flex justify-center">
-                            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
+                            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary-500"></div>
                         </div>
                     ) : filteredInventory.length === 0 ? (
                         <div className="p-12 text-center">
-                            <Package className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-                            <h3 className="text-lg font-medium text-gray-900 mb-2">No Products Found</h3>
-                            <p className="text-gray-500">Add products to this pharmacy's inventory.</p>
+                            <Package className="w-16 h-16 mx-auto text-neutral-400 mb-4" />
+                            <h3 className="text-lg font-medium text-neutral-900 mb-2">No Products Found</h3>
+                            <p className="text-neutral-500">Add products to this pharmacy's inventory.</p>
                         </div>
                     ) : (
                         <table className="w-full">
-                            <thead className="bg-gray-50 border-b border-gray-200">
+                            <thead className="bg-neutral-50 border-b border-neutral-200">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Product Name</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Batch</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Quantity</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Unit Price</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Expiry Date</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Supplier</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Product Name</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Batch</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Quantity</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Unit Price</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Expiry Date</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Supplier</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Status</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
                                 {filteredInventory.map((item) => (
-                                    <tr key={item.id} className="hover:bg-gray-50">
+                                    <tr key={item.id} className="hover:bg-neutral-50">
                                         <td className="px-6 py-4">
-                                            <div className="font-medium text-gray-900">{item.medicine_name}</div>
+                                            <div className="font-medium text-neutral-900">{item.medicine_name}</div>
                                             {item.generic_name && (
-                                                <div className="text-sm text-gray-500">{item.generic_name}</div>
+                                                <div className="text-sm text-neutral-500">{item.generic_name}</div>
                                             )}
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-700">{item.batch_number}</td>
+                                        <td className="px-6 py-4 text-sm text-neutral-700">{item.batch_number}</td>
                                         <td className="px-6 py-4">
-                                            <span className={`font-medium ${isLowStock(item) ? 'text-orange-600' : 'text-gray-900'}`}>
+                                            <span className={`font-medium ${isLowStock(item) ? 'text-orange-600' : 'text-neutral-900'}`}>
                                                 {item.quantity}
                                             </span>
-                                            <span className="text-sm text-gray-500 ml-1">{item.unit}</span>
+                                            <span className="text-sm text-neutral-500 ml-1">{item.unit}</span>
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-700">LKR {parseFloat(String(item.unit_price || 0)).toFixed(2)}</td>
+                                        <td className="px-6 py-4 text-sm text-neutral-700">LKR {parseFloat(String(item.unit_price || 0)).toFixed(2)}</td>
                                         <td className="px-6 py-4">
-                                            <span className={`text-sm ${isExpiring(item) ? 'text-red-600 font-medium' : 'text-gray-700'}`}>
+                                            <span className={`text-sm ${isExpiring(item) ? 'text-error-600 font-medium' : 'text-neutral-700'}`}>
                                                 {item.expiry_date ? new Date(item.expiry_date).toLocaleDateString() : 'N/A'}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-700">{item.supplier || 'N/A'}</td>
+                                        <td className="px-6 py-4 text-sm text-neutral-700">{item.supplier || 'N/A'}</td>
                                         <td className="px-6 py-4">
                                             <div className="flex gap-1">
                                                 {isLowStock(item) && (
                                                     <span className="px-2 py-1 text-xs bg-orange-100 text-orange-800 rounded-full">Low Stock</span>
                                                 )}
                                                 {isExpiring(item) && (
-                                                    <span className="px-2 py-1 text-xs bg-red-100 text-red-800 rounded-full">Expiring</span>
+                                                    <span className="px-2 py-1 text-xs bg-error-100 text-red-800 rounded-full">Expiring</span>
                                                 )}
                                                 {!isLowStock(item) && !isExpiring(item) && (
                                                     <span className="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">OK</span>
@@ -1055,14 +1055,14 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
                                             <div className="flex items-center gap-2">
                                                 <button
                                                     onClick={() => handleEdit(item)}
-                                                    className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                                    className="p-2 text-primary-500 hover:bg-blue-50 rounded-lg transition-colors"
                                                     title="Edit"
                                                 >
                                                     <Edit className="w-4 h-4" />
                                                 </button>
                                                 <button
                                                     onClick={() => handleDelete(item.id)}
-                                                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                    className="p-2 text-error-600 hover:bg-error-50 rounded-lg transition-colors"
                                                     title="Delete"
                                                 >
                                                     <Trash2 className="w-4 h-4" />
@@ -1082,14 +1082,14 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
                         <div className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
                             <div className="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center z-10">
                                 <div>
-                                    <h2 className="text-xl font-bold text-gray-900">
+                                    <h2 className="text-xl font-bold text-neutral-900">
                                         {showEditModal ? 'Edit Product' : 'Add New Product'}
                                     </h2>
-                                    <p className="text-sm text-gray-500">Step {currentStep} of 4</p>
+                                    <p className="text-sm text-neutral-500">Step {currentStep} of 4</p>
                                 </div>
                                 <button
                                     onClick={() => { setShowAddModal(false); setShowEditModal(false); resetForm(); }}
-                                    className="p-2 hover:bg-gray-100 rounded-lg"
+                                    className="p-2 hover:bg-neutral-100 rounded-lg"
                                 >
                                     <X className="w-5 h-5" />
                                 </button>
@@ -1107,7 +1107,7 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
                                     </div>
                                 )}
                                 {error && (
-                                    <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                                    <div className="mb-4 p-4 bg-error-100 border border-red-400 text-red-700 rounded-lg">
                                         {error}
                                     </div>
                                 )}
@@ -1120,7 +1120,7 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
                                     <button
                                         type="button"
                                         onClick={currentStep === 1 ? () => { setShowAddModal(false); setShowEditModal(false); resetForm(); } : handlePrevStep}
-                                        className="flex items-center gap-2 px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200"
+                                        className="flex items-center gap-2 px-4 py-2 text-neutral-700 bg-neutral-100 rounded-lg hover:bg-neutral-200"
                                     >
                                         <ChevronLeft className="w-4 h-4" />
                                         {currentStep === 1 ? 'Cancel' : 'Back'}
@@ -1130,7 +1130,7 @@ const PharmacyInventoryManager: React.FC<PharmacyInventoryManagerProps> = ({ pha
                                         <button
                                             type="button"
                                             onClick={handleNextStep}
-                                            className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                                            className="flex items-center gap-2 px-6 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                                         >
                                             Next
                                             <ChevronRight className="w-4 h-4" />

@@ -105,37 +105,37 @@ export const StaffFeedback: React.FC = () => {
     const getTypeStyle = (type: string) => {
         switch (type) {
             case 'suggestion': return 'bg-blue-100 text-blue-700';
-            case 'complaint': return 'bg-red-100 text-red-700';
+            case 'complaint': return 'bg-error-100 text-red-700';
             case 'praise': return 'bg-green-100 text-green-700';
             case 'question': return 'bg-purple-100 text-purple-700';
-            default: return 'bg-gray-100 text-gray-700';
+            default: return 'bg-neutral-100 text-neutral-700';
         }
     };
 
     const getStatusStyle = (status: string) => {
         switch (status) {
             case 'active': return 'bg-green-100 text-green-700';
-            case 'completed': return 'bg-gray-100 text-gray-700';
+            case 'completed': return 'bg-neutral-100 text-neutral-700';
             case 'draft': return 'bg-yellow-100 text-yellow-700';
             case 'new': return 'bg-blue-100 text-blue-700';
             case 'reviewed': return 'bg-orange-100 text-orange-700';
             case 'resolved': return 'bg-green-100 text-green-700';
-            default: return 'bg-gray-100 text-gray-700';
+            default: return 'bg-neutral-100 text-neutral-700';
         }
     };
 
     const getTypeIcon = (type: string) => {
         switch (type) {
             case 'praise': return <ThumbsUp className="w-5 h-5 text-green-600" />;
-            case 'complaint': return <ThumbsDown className="w-5 h-5 text-red-600" />;
-            default: return <MessageCircle className="w-5 h-5 text-blue-600" />;
+            case 'complaint': return <ThumbsDown className="w-5 h-5 text-error-600" />;
+            default: return <MessageCircle className="w-5 h-5 text-primary-500" />;
         }
     };
 
     const SidebarMenu = () => (
         <nav className="py-4">
             <div className="px-4 mb-4">
-                <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Navigation</h2>
+                <h2 className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Navigation</h2>
             </div>
             <ul className="space-y-1 px-2">
                 {BranchAdminMenuItems.map((item, index) => (
@@ -144,8 +144,8 @@ export const StaffFeedback: React.FC = () => {
                             onClick={() => navigate(item.path)}
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                                 item.path === '/branch-admin/hrm'
-                                    ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-md'
-                                    : 'text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
+                                    ? 'bg-gradient-to-r from-emerald-500 to-primary-500 text-white shadow-md'
+                                    : 'text-neutral-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
                             }`}
                         >
                             <span className="flex-shrink-0">{item.icon}</span>
@@ -179,18 +179,18 @@ export const StaffFeedback: React.FC = () => {
                     <div className="flex items-center gap-4">
                         <button 
                             onClick={() => navigate('/branch-admin/hrm')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ChevronLeft className="w-5 h-5 text-gray-600" />
+                            <ChevronLeft className="w-5 h-5 text-neutral-600" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">Staff Feedback & Surveys</h1>
-                            <p className="text-gray-500">Collect and analyze staff feedback</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">Staff Feedback & Surveys</h1>
+                            <p className="text-neutral-500">Collect and analyze staff feedback</p>
                         </div>
                     </div>
                     <button 
                         onClick={() => setShowCreateModal(true)}
-                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:opacity-90"
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:opacity-90"
                     >
                         <Plus className="w-4 h-4" />
                         Create Survey
@@ -199,10 +199,10 @@ export const StaffFeedback: React.FC = () => {
 
                 {/* Quick Stats */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Active Surveys</p>
+                                <p className="text-sm text-neutral-500">Active Surveys</p>
                                 <p className="text-2xl font-bold text-emerald-600">{surveys.filter(s => s.status === 'active').length}</p>
                             </div>
                             <div className="p-3 bg-emerald-100 rounded-lg">
@@ -210,21 +210,21 @@ export const StaffFeedback: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Total Responses</p>
-                                <p className="text-2xl font-bold text-blue-600">{surveys.reduce((sum, s) => sum + s.responses, 0)}</p>
+                                <p className="text-sm text-neutral-500">Total Responses</p>
+                                <p className="text-2xl font-bold text-primary-500">{surveys.reduce((sum, s) => sum + s.responses, 0)}</p>
                             </div>
                             <div className="p-3 bg-blue-100 rounded-lg">
-                                <MessageCircle className="w-6 h-6 text-blue-600" />
+                                <MessageCircle className="w-6 h-6 text-primary-500" />
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">New Feedback</p>
+                                <p className="text-sm text-neutral-500">New Feedback</p>
                                 <p className="text-2xl font-bold text-orange-600">{newFeedbackCount}</p>
                             </div>
                             <div className="p-3 bg-orange-100 rounded-lg">
@@ -232,10 +232,10 @@ export const StaffFeedback: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Avg Satisfaction</p>
+                                <p className="text-sm text-neutral-500">Avg Satisfaction</p>
                                 <p className="text-2xl font-bold text-purple-600">4.2/5</p>
                             </div>
                             <div className="p-3 bg-purple-100 rounded-lg">
@@ -246,8 +246,8 @@ export const StaffFeedback: React.FC = () => {
                 </div>
 
                 {/* Tabs */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-                    <div className="border-b border-gray-200">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200">
+                    <div className="border-b border-neutral-200">
                         <div className="flex overflow-x-auto">
                             {tabs.map(tab => (
                                 <button
@@ -256,13 +256,13 @@ export const StaffFeedback: React.FC = () => {
                                     className={`flex items-center gap-2 px-6 py-4 font-medium text-sm whitespace-nowrap border-b-2 transition-colors ${
                                         activeTab === tab.id
                                             ? 'border-emerald-500 text-emerald-600'
-                                            : 'border-transparent text-gray-500 hover:text-gray-700'
+                                            : 'border-transparent text-neutral-500 hover:text-neutral-700'
                                     }`}
                                 >
                                     {tab.icon}
                                     {tab.label}
                                     {tab.count !== undefined && tab.count > 0 && (
-                                        <span className="ml-1 px-2 py-0.5 bg-red-500 text-white text-xs rounded-full">{tab.count}</span>
+                                        <span className="ml-1 px-2 py-0.5 bg-error-500 text-white text-xs rounded-full">{tab.count}</span>
                                     )}
                                 </button>
                             ))}
@@ -274,32 +274,32 @@ export const StaffFeedback: React.FC = () => {
                         {activeTab === 'surveys' && (
                             <div className="space-y-4">
                                 {surveys.map(survey => (
-                                    <div key={survey.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                                    <div key={survey.id} className="border border-neutral-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                                         <div className="flex items-start justify-between">
                                             <div>
                                                 <div className="flex items-center gap-2 mb-1">
-                                                    <h4 className="font-semibold text-gray-800">{survey.title}</h4>
+                                                    <h4 className="font-semibold text-neutral-800">{survey.title}</h4>
                                                     <span className={`px-2 py-0.5 rounded text-xs ${getStatusStyle(survey.status)}`}>
                                                         {survey.status.charAt(0).toUpperCase() + survey.status.slice(1)}
                                                     </span>
                                                 </div>
-                                                <p className="text-sm text-gray-600">{survey.description}</p>
-                                                <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                                                <p className="text-sm text-neutral-600">{survey.description}</p>
+                                                <div className="flex items-center gap-4 mt-2 text-xs text-neutral-500">
                                                     <span>Target: {survey.targetAudience}</span>
                                                     <span>{survey.startDate} - {survey.endDate}</span>
                                                 </div>
                                             </div>
                                             <div className="text-right">
-                                                <p className="text-2xl font-bold text-gray-800">{survey.responses}/{survey.totalTargeted}</p>
-                                                <p className="text-sm text-gray-500">responses</p>
+                                                <p className="text-2xl font-bold text-neutral-800">{survey.responses}/{survey.totalTargeted}</p>
+                                                <p className="text-sm text-neutral-500">responses</p>
                                             </div>
                                         </div>
                                         <div className="mt-4">
                                             <div className="flex items-center justify-between mb-1">
-                                                <span className="text-sm text-gray-500">Response Rate</span>
+                                                <span className="text-sm text-neutral-500">Response Rate</span>
                                                 <span className="text-sm font-medium">{Math.round((survey.responses / survey.totalTargeted) * 100)}%</span>
                                             </div>
-                                            <div className="w-full h-2 bg-gray-200 rounded-full">
+                                            <div className="w-full h-2 bg-neutral-200 rounded-full">
                                                 <div 
                                                     className="h-full bg-emerald-500 rounded-full" 
                                                     style={{ width: `${(survey.responses / survey.totalTargeted) * 100}%` }}
@@ -318,7 +318,7 @@ export const StaffFeedback: React.FC = () => {
                                             {survey.status !== 'draft' && (
                                                 <button 
                                                     onClick={() => { setSelectedSurvey(survey); setActiveTab('analysis'); }}
-                                                    className="flex items-center gap-1 px-3 py-1.5 border border-gray-300 rounded text-sm hover:bg-gray-50"
+                                                    className="flex items-center gap-1 px-3 py-1.5 border border-neutral-300 rounded text-sm hover:bg-neutral-50"
                                                 >
                                                     <Eye className="w-4 h-4" /> View Results
                                                 </button>
@@ -336,7 +336,7 @@ export const StaffFeedback: React.FC = () => {
                                     <select
                                         value={filterType}
                                         onChange={(e) => setFilterType(e.target.value)}
-                                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="all">All Types</option>
                                         <option value="suggestion">Suggestions</option>
@@ -347,7 +347,7 @@ export const StaffFeedback: React.FC = () => {
                                     <select
                                         value={filterStatus}
                                         onChange={(e) => setFilterStatus(e.target.value)}
-                                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="all">All Status</option>
                                         <option value="new">New</option>
@@ -358,9 +358,9 @@ export const StaffFeedback: React.FC = () => {
 
                                 <div className="space-y-3">
                                     {filteredFeedback.map(item => (
-                                        <div key={item.id} className={`border rounded-lg p-4 ${item.status === 'new' ? 'border-blue-300 bg-blue-50' : 'border-gray-200'}`}>
+                                        <div key={item.id} className={`border rounded-lg p-4 ${item.status === 'new' ? 'border-blue-300 bg-blue-50' : 'border-neutral-200'}`}>
                                             <div className="flex items-start gap-4">
-                                                <div className="p-2 bg-gray-100 rounded-lg">
+                                                <div className="p-2 bg-neutral-100 rounded-lg">
                                                     {getTypeIcon(item.type)}
                                                 </div>
                                                 <div className="flex-1">
@@ -372,9 +372,9 @@ export const StaffFeedback: React.FC = () => {
                                                             {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
                                                         </span>
                                                     </div>
-                                                    <h4 className="font-semibold text-gray-800">{item.subject}</h4>
-                                                    <p className="text-sm text-gray-600 mt-1">{item.message}</p>
-                                                    <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                                                    <h4 className="font-semibold text-neutral-800">{item.subject}</h4>
+                                                    <p className="text-sm text-neutral-600 mt-1">{item.message}</p>
+                                                    <div className="flex items-center gap-4 mt-2 text-xs text-neutral-500">
                                                         <span>{item.isAnonymous ? 'Anonymous' : item.submittedBy}</span>
                                                         <span>{item.department}</span>
                                                         <span>{item.submittedAt}</span>
@@ -385,7 +385,7 @@ export const StaffFeedback: React.FC = () => {
                                                         {item.status === 'new' && (
                                                             <button 
                                                                 onClick={() => handleUpdateFeedbackStatus(item.id, 'reviewed')}
-                                                                className="px-3 py-1.5 border border-gray-300 rounded text-sm hover:bg-gray-50"
+                                                                className="px-3 py-1.5 border border-neutral-300 rounded text-sm hover:bg-neutral-50"
                                                             >
                                                                 Mark Reviewed
                                                             </button>
@@ -409,32 +409,32 @@ export const StaffFeedback: React.FC = () => {
                         {activeTab === 'analysis' && (
                             <div className="space-y-6">
                                 <div className="text-center mb-6">
-                                    <h4 className="font-semibold text-gray-800">
+                                    <h4 className="font-semibold text-neutral-800">
                                         {selectedSurvey ? selectedSurvey.title : 'Employee Satisfaction Survey 2025'} - Results
                                     </h4>
-                                    <p className="text-sm text-gray-500">Based on 48 responses</p>
+                                    <p className="text-sm text-neutral-500">Based on 48 responses</p>
                                 </div>
 
                                 {mockSurveyResults.map((result, index) => (
-                                    <div key={index} className="border border-gray-200 rounded-lg p-4">
-                                        <h5 className="font-medium text-gray-800 mb-4">{result.question}</h5>
+                                    <div key={index} className="border border-neutral-200 rounded-lg p-4">
+                                        <h5 className="font-medium text-neutral-800 mb-4">{result.question}</h5>
                                         <div className="space-y-3">
                                             {result.responses.map((response, idx) => (
                                                 <div key={idx} className="flex items-center gap-4">
-                                                    <span className="w-24 text-sm text-gray-600">{response.option}</span>
-                                                    <div className="flex-1 h-6 bg-gray-200 rounded-full overflow-hidden">
+                                                    <span className="w-24 text-sm text-neutral-600">{response.option}</span>
+                                                    <div className="flex-1 h-6 bg-neutral-200 rounded-full overflow-hidden">
                                                         <div 
                                                             className={`h-full rounded-full ${
                                                                 idx === 0 ? 'bg-green-500' :
-                                                                idx === 1 ? 'bg-blue-500' :
+                                                                idx === 1 ? 'bg-primary-500' :
                                                                 idx === 2 ? 'bg-yellow-500' :
-                                                                'bg-red-500'
+                                                                'bg-error-500'
                                                             }`}
                                                             style={{ width: `${response.percentage}%` }}
                                                         ></div>
                                                     </div>
                                                     <span className="w-16 text-sm font-medium text-right">{response.percentage}%</span>
-                                                    <span className="w-12 text-xs text-gray-400 text-right">({response.count})</span>
+                                                    <span className="w-12 text-xs text-neutral-400 text-right">({response.count})</span>
                                                 </div>
                                             ))}
                                         </div>
@@ -442,7 +442,7 @@ export const StaffFeedback: React.FC = () => {
                                 ))}
 
                                 <div className="flex justify-end">
-                                    <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                                    <button className="flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50">
                                         <Download className="w-4 h-4" />
                                         Export Full Report
                                     </button>
@@ -457,23 +457,23 @@ export const StaffFeedback: React.FC = () => {
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                         <div className="bg-white rounded-xl shadow-xl max-w-lg w-full mx-4 p-6">
                             <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-xl font-bold text-gray-800">Create Survey</h3>
-                                <button onClick={() => setShowCreateModal(false)} className="p-2 hover:bg-gray-100 rounded-lg">
+                                <h3 className="text-xl font-bold text-neutral-800">Create Survey</h3>
+                                <button onClick={() => setShowCreateModal(false)} className="p-2 hover:bg-neutral-100 rounded-lg">
                                     <X className="w-5 h-5" />
                                 </button>
                             </div>
                             <form className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Survey Title</label>
-                                    <input type="text" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Survey Title</label>
+                                    <input type="text" className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                                    <textarea className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" rows={3}></textarea>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Description</label>
+                                    <textarea className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500" rows={3}></textarea>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Target Audience</label>
-                                    <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Target Audience</label>
+                                    <select className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                                         <option value="all">All Staff</option>
                                         <option value="doctors">Doctors</option>
                                         <option value="nurses">Nurses</option>
@@ -483,19 +483,19 @@ export const StaffFeedback: React.FC = () => {
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
-                                        <input type="date" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Start Date</label>
+                                        <input type="date" className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">End Date</label>
-                                        <input type="date" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">End Date</label>
+                                        <input type="date" className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
                                     </div>
                                 </div>
                                 <div className="flex justify-end gap-3 pt-4">
-                                    <button type="button" onClick={() => setShowCreateModal(false)} className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                                    <button type="button" onClick={() => setShowCreateModal(false)} className="px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50">
                                         Cancel
                                     </button>
-                                    <button type="submit" className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:opacity-90">
+                                    <button type="submit" className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:opacity-90">
                                         Create Survey
                                     </button>
                                 </div>

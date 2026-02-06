@@ -42,7 +42,7 @@ const ThumbDownIcon = () => (
 );
 
 const BotAvatar = () => (
-    <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+    <div className="w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center flex-shrink-0">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
         </svg>
@@ -69,7 +69,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, onFeedback, onSu
     if (message.type === 'user') {
         return (
             <div className="flex justify-end mb-3">
-                <div className="bg-blue-600 text-white px-4 py-2 rounded-2xl rounded-tr-md max-w-[80%] shadow-sm">
+                <div className="bg-primary-500 text-white px-4 py-2 rounded-2xl rounded-tr-md max-w-[80%] shadow-sm">
                     <p className="text-sm">{message.content}</p>
                 </div>
             </div>
@@ -80,18 +80,18 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, onFeedback, onSu
         <div className="flex gap-2 mb-3">
             <BotAvatar />
             <div className="flex flex-col max-w-[80%]">
-                <div className="bg-gray-100 px-4 py-2 rounded-2xl rounded-tl-md shadow-sm">
-                    <p className="text-sm text-gray-800 whitespace-pre-line">{message.content}</p>
+                <div className="bg-neutral-100 px-4 py-2 rounded-2xl rounded-tl-md shadow-sm">
+                    <p className="text-sm text-neutral-800 whitespace-pre-line">{message.content}</p>
                     
                     {/* Display doctor cards if available */}
                     {message.data?.doctors && message.data.doctors.length > 0 && (
                         <div className="mt-3 space-y-2">
                             {message.data.doctors.map((doctor, idx) => (
-                                <div key={idx} className="bg-white p-2 rounded-lg border border-gray-200 text-xs">
+                                <div key={idx} className="bg-white p-2 rounded-lg border border-neutral-200 text-xs">
                                     <p className="font-semibold text-blue-700">{doctor.name}</p>
-                                    <p className="text-gray-600">{doctor.specialization}</p>
+                                    <p className="text-neutral-600">{doctor.specialization}</p>
                                     {doctor.branches.length > 0 && (
-                                        <p className="text-gray-500">📍 {doctor.branches.join(', ')}</p>
+                                        <p className="text-neutral-500">📍 {doctor.branches.join(', ')}</p>
                                     )}
                                 </div>
                             ))}
@@ -102,9 +102,9 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, onFeedback, onSu
                     {message.data?.branches && message.data.branches.length > 0 && (
                         <div className="mt-3 space-y-2">
                             {message.data.branches.map((branch, idx) => (
-                                <div key={idx} className="bg-white p-2 rounded-lg border border-gray-200 text-xs">
+                                <div key={idx} className="bg-white p-2 rounded-lg border border-neutral-200 text-xs">
                                     <p className="font-semibold text-blue-700">{branch.name}</p>
-                                    <p className="text-gray-600">📍 {branch.location}</p>
+                                    <p className="text-neutral-600">📍 {branch.location}</p>
                                 </div>
                             ))}
                         </div>
@@ -114,10 +114,10 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, onFeedback, onSu
                     {message.data?.schedules && message.data.schedules.length > 0 && (
                         <div className="mt-3 space-y-2">
                             {message.data.schedules.slice(0, 5).map((schedule, idx) => (
-                                <div key={idx} className="bg-white p-2 rounded-lg border border-gray-200 text-xs">
+                                <div key={idx} className="bg-white p-2 rounded-lg border border-neutral-200 text-xs">
                                     <p className="font-semibold text-blue-700">{schedule.doctor_name}</p>
-                                    <p className="text-gray-600">📅 {schedule.date} at {schedule.time}</p>
-                                    <p className="text-gray-500">📍 {schedule.branch_name}</p>
+                                    <p className="text-neutral-600">📅 {schedule.date} at {schedule.time}</p>
+                                    <p className="text-neutral-500">📍 {schedule.branch_name}</p>
                                     <p className="text-green-600">{schedule.available_slots} slots available</p>
                                 </div>
                             ))}
@@ -151,7 +151,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, onFeedback, onSu
 
                 {/* Feedback buttons */}
                 <div className="flex items-center gap-2 mt-1 px-1">
-                    <span className="text-xs text-gray-400">Was this helpful?</span>
+                    <span className="text-xs text-neutral-400">Was this helpful?</span>
                     <button
                         onClick={() => handleFeedback(true)}
                         disabled={feedbackGiven !== null}
@@ -159,7 +159,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, onFeedback, onSu
                             feedbackGiven === true 
                                 ? 'text-green-600' 
                                 : feedbackGiven === null 
-                                    ? 'text-gray-400 hover:text-green-600' 
+                                    ? 'text-neutral-400 hover:text-green-600' 
                                     : 'text-gray-300 cursor-not-allowed'
                         }`}
                         title="Yes, helpful"
@@ -171,9 +171,9 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, onFeedback, onSu
                         disabled={feedbackGiven !== null}
                         className={`p-1 rounded transition-colors ${
                             feedbackGiven === false 
-                                ? 'text-red-600' 
+                                ? 'text-error-600' 
                                 : feedbackGiven === null 
-                                    ? 'text-gray-400 hover:text-red-600' 
+                                    ? 'text-neutral-400 hover:text-error-600' 
                                     : 'text-gray-300 cursor-not-allowed'
                         }`}
                         title="No, not helpful"
@@ -189,7 +189,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, onFeedback, onSu
 const TypingIndicator = () => (
     <div className="flex gap-2 mb-3">
         <BotAvatar />
-        <div className="bg-gray-100 px-4 py-3 rounded-2xl rounded-tl-md">
+        <div className="bg-neutral-100 px-4 py-3 rounded-2xl rounded-tl-md">
             <div className="flex gap-1">
                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
@@ -358,7 +358,7 @@ const ChatWidget: React.FC = () => {
                 className={`fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 z-50 ${
                     isOpen 
                         ? 'bg-gray-600 hover:bg-gray-700' 
-                        : 'bg-blue-600 hover:bg-blue-700 animate-pulse hover:animate-none'
+                        : 'bg-primary-500 hover:bg-primary-600 animate-pulse hover:animate-none'
                 }`}
                 title={isOpen ? 'Close chat' : 'Chat with us'}
             >
@@ -371,7 +371,7 @@ const ChatWidget: React.FC = () => {
             {isOpen && (
                 <div className="fixed bottom-24 right-6 w-96 h-[32rem] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden z-50 animate-slideUp">
                     {/* Header */}
-                    <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-3 flex items-center justify-between">
+                    <div className="bg-gradient-to-r from-primary-500 to-blue-700 text-white px-4 py-3 flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <BotAvatar />
                             <div>
@@ -382,7 +382,7 @@ const ChatWidget: React.FC = () => {
                             </div>
                         </div>
                         {/* Language Toggle */}
-                        <div className="flex items-center bg-blue-500/30 rounded-full p-0.5">
+                        <div className="flex items-center bg-primary-500/30 rounded-full p-0.5">
                             <button
                                 onClick={() => handleLanguageChange('en')}
                                 className={`px-2 py-1 text-xs rounded-full transition-all ${
@@ -407,7 +407,7 @@ const ChatWidget: React.FC = () => {
                     </div>
 
                     {/* Messages */}
-                    <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
+                    <div className="flex-1 overflow-y-auto p-4 bg-neutral-50">
                         {messages.map((message) => (
                             <MessageBubble
                                 key={message.id}
@@ -422,7 +422,7 @@ const ChatWidget: React.FC = () => {
                         {/* Quick Suggestions */}
                         {showInitialSuggestions && suggestions && messages.length === 1 && (
                             <div className="mt-4">
-                                <p className="text-xs text-gray-500 mb-2">Quick questions:</p>
+                                <p className="text-xs text-neutral-500 mb-2">Quick questions:</p>
                                 <div className="flex flex-wrap gap-2">
                                     {suggestions.suggestions.slice(0, 4).map((suggestion, idx) => (
                                         <button
@@ -451,17 +451,17 @@ const ChatWidget: React.FC = () => {
                                 onKeyPress={handleKeyPress}
                                 placeholder={language === 'si' ? 'ඔබේ ප්‍රශ්නය ටයිප් කරන්න...' : 'Type your question...'}
                                 disabled={isLoading}
-                                className="flex-1 px-4 py-2 border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
+                                className="flex-1 px-4 py-2 border border-neutral-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent disabled:bg-neutral-100"
                             />
                             <button
                                 onClick={() => handleSendMessage(inputValue)}
                                 disabled={!inputValue.trim() || isLoading}
-                                className="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+                                className="w-10 h-10 bg-primary-500 text-white rounded-full flex items-center justify-center hover:bg-primary-600 transition-colors disabled:bg-neutral-300 disabled:cursor-not-allowed"
                             >
                                 <SendIcon />
                             </button>
                         </div>
-                        <p className="text-xs text-gray-400 text-center mt-2">
+                        <p className="text-xs text-neutral-400 text-center mt-2">
                             {language === 'si' 
                                 ? 'හදිසි අවස්ථා සඳහා, කරුණාකර අපගේ හොට්ලයින් ඍජුව අමතන්න' 
                                 : 'For emergencies, please call our hotline directly'}

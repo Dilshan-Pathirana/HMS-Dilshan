@@ -116,7 +116,7 @@ export default function PharmacistUserAddDamageStock() {
 
     return (
         <div className="p-6 bg-white rounded-lg shadow-md max-w-lg ml-48 mt-16 mb-5">
-            <h2 className="text-xl font-semibold text-gray-700 mb-4">
+            <h2 className="text-xl font-semibold text-neutral-700 mb-4">
                 Damage Product Stock
             </h2>
             <Spinner isLoading={isLoading} />

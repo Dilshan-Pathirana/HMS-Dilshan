@@ -13,7 +13,7 @@ export const CommonFormFields: React.FC<CommonFormFieldsProps> = ({
                 <div>
                     <label
                         htmlFor="email"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Email
                     </label>
@@ -23,13 +23,13 @@ export const CommonFormFields: React.FC<CommonFormFieldsProps> = ({
                         name="email"
                         value={userDetails?.email || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
                 <div>
                     <label
                         htmlFor="contact_number_mobile"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Mobile Number
                     </label>
@@ -43,7 +43,7 @@ export const CommonFormFields: React.FC<CommonFormFieldsProps> = ({
                             ""
                         }
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
             </div>
@@ -52,7 +52,7 @@ export const CommonFormFields: React.FC<CommonFormFieldsProps> = ({
                 <div>
                     <label
                         htmlFor="home_address"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Home Address
                     </label>
@@ -66,13 +66,13 @@ export const CommonFormFields: React.FC<CommonFormFieldsProps> = ({
                             ""
                         }
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
                 <div>
                     <label
                         htmlFor="nic_number"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         NIC Number
                     </label>
@@ -84,13 +84,13 @@ export const CommonFormFields: React.FC<CommonFormFieldsProps> = ({
                             userDetails?.nic_number || userDetails?.NIC || ""
                         }
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
             </div>
 
             <div className="col-span-1 mb-4">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Branch
                 </label>
                 <Select

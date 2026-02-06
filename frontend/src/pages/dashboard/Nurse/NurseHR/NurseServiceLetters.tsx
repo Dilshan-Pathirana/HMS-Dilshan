@@ -124,7 +124,7 @@ const NurseServiceLetters: React.FC = () => {
             pending: { bg: 'bg-amber-100', text: 'text-amber-800', icon: <Clock className="w-3 h-3" /> },
             processing: { bg: 'bg-blue-100', text: 'text-blue-800', icon: <Loader2 className="w-3 h-3 animate-spin" /> },
             ready: { bg: 'bg-green-100', text: 'text-green-800', icon: <CheckCircle className="w-3 h-3" /> },
-            rejected: { bg: 'bg-red-100', text: 'text-red-800', icon: <AlertCircle className="w-3 h-3" /> }
+            rejected: { bg: 'bg-error-100', text: 'text-red-800', icon: <AlertCircle className="w-3 h-3" /> }
         };
         const badge = badges[status] || badges.pending;
         return (
@@ -142,10 +142,10 @@ const NurseServiceLetters: React.FC = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center sm:ml-64 pt-20">
+            <div className="min-h-screen bg-neutral-50 flex items-center justify-center sm:ml-64 pt-20">
                 <div className="text-center">
                     <Loader2 className="w-12 h-12 animate-spin text-teal-500 mx-auto mb-4" />
-                    <p className="text-gray-600">Loading service letters...</p>
+                    <p className="text-neutral-600">Loading service letters...</p>
                 </div>
             </div>
         );
@@ -154,22 +154,22 @@ const NurseServiceLetters: React.FC = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-teal-50/30 p-6 sm:ml-64 pt-20">
             {/* Header */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 mb-6">
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => navigate('/nurse-dashboard/hr')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ArrowLeft className="w-5 h-5 text-gray-600" />
+                            <ArrowLeft className="w-5 h-5 text-neutral-600" />
                         </button>
                         <div className="flex items-center gap-3">
                             <div className="p-2 bg-teal-100 rounded-lg">
                                 <FileText className="w-6 h-6 text-teal-600" />
                             </div>
                             <div>
-                                <h1 className="text-2xl font-bold text-gray-800">Service Letters</h1>
-                                <p className="text-gray-600 text-sm mt-1">Request official letters and certificates</p>
+                                <h1 className="text-2xl font-bold text-neutral-800">Service Letters</h1>
+                                <p className="text-neutral-600 text-sm mt-1">Request official letters and certificates</p>
                             </div>
                         </div>
                     </div>
@@ -184,9 +184,9 @@ const NurseServiceLetters: React.FC = () => {
 
                 {/* Quick Stats */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                        <p className="text-gray-600 text-sm">Total Requests</p>
-                        <p className="text-2xl font-bold text-gray-800">{letters.length}</p>
+                    <div className="bg-neutral-50 rounded-lg p-4 border border-neutral-200">
+                        <p className="text-neutral-600 text-sm">Total Requests</p>
+                        <p className="text-2xl font-bold text-neutral-800">{letters.length}</p>
                     </div>
                     <div className="bg-amber-50 rounded-lg p-4 border border-amber-200">
                         <p className="text-amber-700 text-sm">Pending</p>
@@ -210,13 +210,13 @@ const NurseServiceLetters: React.FC = () => {
             </div>
 
             {/* Letters List */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-                <div className="p-6 border-b border-gray-200">
-                    <h2 className="text-lg font-semibold text-gray-800">My Letter Requests</h2>
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200">
+                <div className="p-6 border-b border-neutral-200">
+                    <h2 className="text-lg font-semibold text-neutral-800">My Letter Requests</h2>
                 </div>
                 <div className="p-6">
                     {letters.length === 0 ? (
-                        <div className="text-center py-12 text-gray-500">
+                        <div className="text-center py-12 text-neutral-500">
                             <FileText className="w-12 h-12 mx-auto mb-3 text-gray-300" />
                             <p>No letter requests yet</p>
                             <button
@@ -229,26 +229,26 @@ const NurseServiceLetters: React.FC = () => {
                     ) : (
                         <div className="space-y-4">
                             {letters.map((letter) => (
-                                <div key={letter.id} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50">
+                                <div key={letter.id} className="border border-neutral-200 rounded-lg p-4 hover:bg-neutral-50">
                                     <div className="flex items-start justify-between">
                                         <div className="flex items-start gap-4">
                                             <div className="p-2 bg-teal-100 rounded-lg">
                                                 <FileText className="w-5 h-5 text-teal-600" />
                                             </div>
                                             <div>
-                                                <h3 className="font-semibold text-gray-800">
+                                                <h3 className="font-semibold text-neutral-800">
                                                     {getLetterTypeName(letter.type)}
                                                 </h3>
-                                                <p className="text-sm text-gray-500 mt-1">
+                                                <p className="text-sm text-neutral-500 mt-1">
                                                     Requested on {formatDate(letter.requestDate)}
                                                 </p>
                                                 {letter.reason && (
-                                                    <p className="text-sm text-gray-600 mt-2">
+                                                    <p className="text-sm text-neutral-600 mt-2">
                                                         <span className="font-medium">Reason:</span> {letter.reason}
                                                     </p>
                                                 )}
                                                 {letter.rejectionReason && (
-                                                    <p className="text-sm text-red-600 mt-2">
+                                                    <p className="text-sm text-error-600 mt-2">
                                                         <span className="font-medium">Rejection reason:</span> {letter.rejectionReason}
                                                     </p>
                                                 )}
@@ -270,7 +270,7 @@ const NurseServiceLetters: React.FC = () => {
                                     </div>
                                     {letter.processedDate && (
                                         <div className="mt-3 pt-3 border-t border-gray-100">
-                                            <p className="text-xs text-gray-500">
+                                            <p className="text-xs text-neutral-500">
                                                 Processed on {formatDate(letter.processedDate)}
                                             </p>
                                         </div>
@@ -286,15 +286,15 @@ const NurseServiceLetters: React.FC = () => {
             {showRequestModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
-                        <div className="p-6 border-b border-gray-200">
-                            <h2 className="text-xl font-bold text-gray-800">Request Service Letter</h2>
-                            <p className="text-sm text-gray-600 mt-1">
+                        <div className="p-6 border-b border-neutral-200">
+                            <h2 className="text-xl font-bold text-neutral-800">Request Service Letter</h2>
+                            <p className="text-sm text-neutral-600 mt-1">
                                 Select the type of letter you need
                             </p>
                         </div>
                         <div className="p-6">
                             <div className="mb-6">
-                                <label className="block text-sm font-medium text-gray-700 mb-3">Letter Type</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-3">Letter Type</label>
                                 <div className="space-y-3">
                                     {letterTypes.map((type) => (
                                         <label
@@ -302,7 +302,7 @@ const NurseServiceLetters: React.FC = () => {
                                             className={`flex items-start gap-3 p-4 border rounded-lg cursor-pointer transition-colors ${
                                                 selectedType === type.value
                                                     ? 'border-teal-500 bg-teal-50'
-                                                    : 'border-gray-200 hover:border-gray-300'
+                                                    : 'border-neutral-200 hover:border-neutral-300'
                                             }`}
                                         >
                                             <input
@@ -314,8 +314,8 @@ const NurseServiceLetters: React.FC = () => {
                                                 className="mt-1 text-teal-500 focus:ring-teal-500"
                                             />
                                             <div>
-                                                <p className="font-medium text-gray-800">{type.label}</p>
-                                                <p className="text-sm text-gray-500">{type.description}</p>
+                                                <p className="font-medium text-neutral-800">{type.label}</p>
+                                                <p className="text-sm text-neutral-500">{type.description}</p>
                                             </div>
                                         </label>
                                     ))}
@@ -323,14 +323,14 @@ const NurseServiceLetters: React.FC = () => {
                             </div>
 
                             <div className="mb-6">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Purpose / Reason (Optional)
                                 </label>
                                 <textarea
                                     value={reason}
                                     onChange={(e) => setReason(e.target.value)}
                                     rows={3}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                                     placeholder="e.g., Required for visa application, bank loan..."
                                 />
                             </div>
@@ -338,7 +338,7 @@ const NurseServiceLetters: React.FC = () => {
                             <div className="flex items-center gap-3">
                                 <button
                                     onClick={() => setShowRequestModal(false)}
-                                    className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                                    className="flex-1 px-4 py-3 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50"
                                 >
                                     Cancel
                                 </button>

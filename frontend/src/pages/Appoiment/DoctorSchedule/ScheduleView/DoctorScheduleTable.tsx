@@ -115,7 +115,7 @@ const DoctorScheduleTable = ({
                                 placeholder="Search by doctor name..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="border border-gray-300 rounded pl-3 pr-4 py-2 w-full text-sm md:text-base"
+                                className="border border-neutral-300 rounded pl-3 pr-4 py-2 w-full text-sm md:text-base"
                             />
                         </div>
                     </div>
@@ -126,14 +126,14 @@ const DoctorScheduleTable = ({
                                 {paginatedSchedules.map((schedule) => (
                                     <div
                                         key={schedule.id}
-                                        className="bg-gray-50 border border-gray-200 rounded-lg p-4 space-y-2 mb-4"
+                                        className="bg-neutral-50 border border-neutral-200 rounded-lg p-4 space-y-2 mb-4"
                                     >
                                         <div className="flex flex-col xs:flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
                                             <div className="flex-1">
-                                                <p className="text-xs text-gray-500 uppercase font-semibold">
+                                                <p className="text-xs text-neutral-500 uppercase font-semibold">
                                                     Doctor
                                                 </p>
-                                                <p className="text-sm md:text-base font-semibold text-gray-900">
+                                                <p className="text-sm md:text-base font-semibold text-neutral-900">
                                                     {schedule.user_first_name}{" "}
                                                     {schedule.user_last_name}
                                                 </p>
@@ -154,44 +154,44 @@ const DoctorScheduleTable = ({
                                                             schedule.id || ""
                                                         )
                                                     }
-                                                    className="flex items-center justify-center gap-2 px-4 py-2.5 bg-red-50 text-red-600 rounded hover:bg-red-100 active:bg-red-200 text-xs md:text-sm font-medium transition-colors min-h-[44px] flex-1 sm:flex-none"
+                                                    className="flex items-center justify-center gap-2 px-4 py-2.5 bg-error-50 text-error-600 rounded hover:bg-error-100 active:bg-red-200 text-xs md:text-sm font-medium transition-colors min-h-[44px] flex-1 sm:flex-none"
                                                 >
                                                     <FiTrash size={18} />
                                                     <span>Delete</span>
                                                 </button>
                                             </div>
                                         </div>
-                                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 pt-2 border-t border-gray-200">
+                                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 pt-2 border-t border-neutral-200">
                                             <div>
-                                                <p className="text-xs text-gray-500 uppercase font-semibold">
+                                                <p className="text-xs text-neutral-500 uppercase font-semibold">
                                                     Branch
                                                 </p>
-                                                <p className="text-sm text-gray-900">
+                                                <p className="text-sm text-neutral-900">
                                                     {schedule.branch_center_name ||
                                                         "-"}
                                                 </p>
                                             </div>
                                             <div>
-                                                <p className="text-xs text-gray-500 uppercase font-semibold">
+                                                <p className="text-xs text-neutral-500 uppercase font-semibold">
                                                     Day
                                                 </p>
-                                                <p className="text-sm text-gray-900">
+                                                <p className="text-sm text-neutral-900">
                                                     {schedule.schedule_day}
                                                 </p>
                                             </div>
                                             <div>
-                                                <p className="text-xs text-gray-500 uppercase font-semibold">
+                                                <p className="text-xs text-neutral-500 uppercase font-semibold">
                                                     Time
                                                 </p>
-                                                <p className="text-sm text-gray-900">
+                                                <p className="text-sm text-neutral-900">
                                                     {schedule.start_time}
                                                 </p>
                                             </div>
                                             <div className="col-span-2 md:col-span-1">
-                                                <p className="text-xs text-gray-500 uppercase font-semibold">
+                                                <p className="text-xs text-neutral-500 uppercase font-semibold">
                                                     Max Patients
                                                 </p>
-                                                <p className="text-sm text-gray-900">
+                                                <p className="text-sm text-neutral-900">
                                                     {schedule.max_patients}
                                                 </p>
                                             </div>
@@ -202,8 +202,8 @@ const DoctorScheduleTable = ({
 
                             {/* Desktop Table View */}
                             <div className="hidden lg:block overflow-x-auto">
-                                <table className="w-full divide-y divide-gray-200 border border-gray-200">
-                                    <thead className="bg-gray-50 sticky top-0">
+                                <table className="w-full divide-y divide-gray-200 border border-neutral-200">
+                                    <thead className="bg-neutral-50 sticky top-0">
                                         <tr>
                                             {[
                                                 "First Name",
@@ -216,7 +216,7 @@ const DoctorScheduleTable = ({
                                             ].map((header) => (
                                                 <th
                                                     key={header}
-                                                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                                                    className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider whitespace-nowrap"
                                                 >
                                                     {header}
                                                 </th>
@@ -227,30 +227,30 @@ const DoctorScheduleTable = ({
                                         {paginatedSchedules.map((schedule) => (
                                             <tr
                                                 key={schedule.id}
-                                                className="hover:bg-gray-50 active:bg-gray-100 transition-colors"
+                                                className="hover:bg-neutral-50 active:bg-neutral-100 transition-colors"
                                             >
-                                                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                                <td className="px-4 py-3 whitespace-nowrap text-sm text-neutral-900">
                                                     {schedule.user_first_name ||
                                                         "-"}
                                                 </td>
-                                                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                                <td className="px-4 py-3 whitespace-nowrap text-sm text-neutral-900">
                                                     {schedule.user_last_name ||
                                                         "-"}
                                                 </td>
-                                                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                                <td className="px-4 py-3 whitespace-nowrap text-sm text-neutral-900">
                                                     {schedule.branch_center_name ||
                                                         "-"}
                                                 </td>
-                                                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                                <td className="px-4 py-3 whitespace-nowrap text-sm text-neutral-900">
                                                     {schedule.schedule_day}
                                                 </td>
-                                                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                                <td className="px-4 py-3 whitespace-nowrap text-sm text-neutral-900">
                                                     {schedule.start_time}
                                                 </td>
-                                                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                                <td className="px-4 py-3 whitespace-nowrap text-sm text-neutral-900">
                                                     {schedule.max_patients}
                                                 </td>
-                                                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                                <td className="px-4 py-3 whitespace-nowrap text-sm text-neutral-900">
                                                     <div className="flex items-center gap-4 justify-center">
                                                         <button
                                                             onClick={() =>
@@ -270,7 +270,7 @@ const DoctorScheduleTable = ({
                                                                         ""
                                                                 )
                                                             }
-                                                            className="text-red-500 hover:text-red-700 active:text-red-800 transition-colors p-1"
+                                                            className="text-error-500 hover:text-red-700 active:text-red-800 transition-colors p-1"
                                                             title="Delete"
                                                         >
                                                             <FiTrash size={20} />
@@ -284,7 +284,7 @@ const DoctorScheduleTable = ({
                             </div>
                         </>
                     ) : (
-                        <div className="text-center py-8 text-gray-600 text-sm md:text-base">
+                        <div className="text-center py-8 text-neutral-600 text-sm md:text-base">
                             No doctor schedules found.
                         </div>
                     )}

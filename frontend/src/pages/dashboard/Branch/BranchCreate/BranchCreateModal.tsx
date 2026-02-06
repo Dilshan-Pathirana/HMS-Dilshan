@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import api from "../../../../utils/api/axios";
 import alert from "../../../../utils/alert";
 import { IBranchFormDataProps } from "../../../../utils/types/Branch/IBranchData.ts";
@@ -139,9 +139,9 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
                     <h2 className="text-xl font-bold">Create Branch</h2>
                     <button
                         onClick={handleCloseModal}
-                        className="text-gray-500 hover:text-gray-700"
+                        className="text-neutral-500 hover:text-neutral-700"
                     >
-                        ✕
+                        ?
                     </button>
                 </div>
                 <form onSubmit={handleSubmit}>
@@ -149,7 +149,7 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
                         <div>
                             <label
                                 htmlFor="center_name"
-                                className="block text-gray-700 font-bold mb-2"
+                                className="block text-neutral-700 font-bold mb-2"
                             >
                                 Center Name
                             </label>
@@ -159,7 +159,7 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
                                 name="center_name"
                                 value={formData.center_name}
                                 onChange={handleChange}
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className="w-full p-2 border border-neutral-300 rounded"
                                 required
                             />
                             {errors.center_name && (
@@ -171,7 +171,7 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
                         <div>
                             <label
                                 htmlFor="register_number"
-                                className="block text-gray-700 font-bold mb-2"
+                                className="block text-neutral-700 font-bold mb-2"
                             >
                                 Register Number
                             </label>
@@ -181,7 +181,7 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
                                 name="register_number"
                                 value={formData.register_number}
                                 onChange={handleChange}
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className="w-full p-2 border border-neutral-300 rounded"
                                 required
                             />
                             {errors.register_number && (
@@ -193,7 +193,7 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
                         <div>
                             <label
                                 htmlFor="register_document"
-                                className="block text-gray-700 font-bold mb-2"
+                                className="block text-neutral-700 font-bold mb-2"
                             >
                                 Register Document
                             </label>
@@ -203,10 +203,10 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
                                 name="register_document"
                                 accept=".pdf"
                                 onChange={handleFileChange}
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className="w-full p-2 border border-neutral-300 rounded"
                             />
                             {formData.register_document && (
-                                <div className="mt-2 flex items-center p-2 border border-gray-300 rounded bg-gray-50">
+                                <div className="mt-2 flex items-center p-2 border border-neutral-300 rounded bg-neutral-50">
                                     <div className="flex-shrink-0 bg-pink-500 rounded-full p-2">
                                         <IoDocument
                                             className={"text-white"}
@@ -214,14 +214,14 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
                                         />
                                     </div>
                                     <div className="ml-3">
-                                        <p className="text-gray-700">
+                                        <p className="text-neutral-700">
                                             {
                                                 (
                                                     formData.register_document as File
                                                 ).name
                                             }
                                         </p>
-                                        <p className="text-gray-500 text-sm">
+                                        <p className="text-neutral-500 text-sm">
                                             Document
                                         </p>
                                     </div>
@@ -231,7 +231,7 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
                         <div>
                             <label
                                 htmlFor="center_type"
-                                className="block text-gray-700 font-bold mb-2"
+                                className="block text-neutral-700 font-bold mb-2"
                             >
                                 Type of Center
                             </label>
@@ -240,7 +240,7 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
                                 name="center_type"
                                 value={formData.center_type}
                                 onChange={handleChange}
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className="w-full p-2 border border-neutral-300 rounded"
                             >
                                 <option value="">Select type</option>
                                 {centerTypes.map((type, value) => (
@@ -253,7 +253,7 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
                         <div>
                             <label
                                 htmlFor="owner_type"
-                                className="block text-gray-700 font-bold mb-2"
+                                className="block text-neutral-700 font-bold mb-2"
                             >
                                 Owner Type
                             </label>
@@ -262,7 +262,7 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
                                 name="owner_type"
                                 value={formData.owner_type}
                                 onChange={handleChange}
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className="w-full p-2 border border-neutral-300 rounded"
                             >
                                 <option value="">Select owner type</option>
                                 {ownerTypes.map((type, value) => (
@@ -275,7 +275,7 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
                         <div>
                             <label
                                 htmlFor="owner_full_name"
-                                className="block text-gray-700 font-bold mb-2"
+                                className="block text-neutral-700 font-bold mb-2"
                             >
                                 Owner Full Name
                             </label>
@@ -285,13 +285,13 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
                                 name="owner_full_name"
                                 value={formData.owner_full_name}
                                 onChange={handleChange}
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className="w-full p-2 border border-neutral-300 rounded"
                             />
                         </div>
                         <div>
                             <label
                                 htmlFor="owner_id_number"
-                                className="block text-gray-700 font-bold mb-2"
+                                className="block text-neutral-700 font-bold mb-2"
                             >
                                 Owner ID
                             </label>
@@ -301,13 +301,13 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
                                 name="owner_id_number"
                                 value={formData.owner_id_number}
                                 onChange={handleChange}
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className="w-full p-2 border border-neutral-300 rounded"
                             />
                         </div>
                         <div>
                             <label
                                 htmlFor="owner_contact_number"
-                                className="block text-gray-700 font-bold mb-2"
+                                className="block text-neutral-700 font-bold mb-2"
                             >
                                 Contact Number
                             </label>
@@ -317,13 +317,13 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
                                 name="owner_contact_number"
                                 value={formData.owner_contact_number}
                                 onChange={handleChange}
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className="w-full p-2 border border-neutral-300 rounded"
                             />
                         </div>
                         <div>
                             <label
                                 htmlFor="division"
-                                className="block text-gray-700 font-bold mb-2"
+                                className="block text-neutral-700 font-bold mb-2"
                             >
                                 Division
                             </label>
@@ -333,13 +333,13 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
                                 name="division"
                                 value={formData.division}
                                 onChange={handleChange}
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className="w-full p-2 border border-neutral-300 rounded"
                             />
                         </div>
                         <div>
                             <label
                                 htmlFor="division_number"
-                                className="block text-gray-700 font-bold mb-2"
+                                className="block text-neutral-700 font-bold mb-2"
                             >
                                 Division Number
                             </label>
@@ -349,7 +349,7 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
                                 name="division_number"
                                 value={formData.division_number}
                                 onChange={handleChange}
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className="w-full p-2 border border-neutral-300 rounded"
                             />
                         </div>
                     </div>
@@ -357,13 +357,13 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
                         <button
                             type="button"
                             onClick={handleCloseModal}
-                            className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 mr-2"
+                            className="px-4 py-2 bg-neutral-300 text-neutral-700 rounded hover:bg-gray-400 mr-2"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                            className="px-4 py-2 bg-primary-500 text-white rounded hover:bg-primary-600"
                         >
                             Create Branch
                         </button>

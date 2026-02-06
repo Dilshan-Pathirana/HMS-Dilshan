@@ -2,14 +2,14 @@ import {Link} from "react-router-dom";
 
 const Tamil = () => {
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-neutral-50">
             <div className="max-w-6xl mx-auto px-4 py-12">
                 <section className="mb-16">
-                    <h2 className="text-3xl font-semibold text-gray-800 mb-6">
+                    <h2 className="text-3xl font-semibold text-neutral-800 mb-6">
                         எங்களை பற்றி – Cure Health Care International (Pvt) Ltd
                         (CHC)
                     </h2>
-                    <p className="text-gray-600 mb-6">
+                    <p className="text-neutral-600 mb-6">
                         Cure Health Care International (Pvt) Ltd, பொதுவாக CHC என
                         அழைக்கப்படுகிறது, இலங்கையின் மருத்துவத் துறையில் புதிய
                         கண்டுபிடிப்புகள், ஆராய்ச்சி மற்றும் மேம்பாட்டை கொண்டு
@@ -22,7 +22,7 @@ const Tamil = () => {
                         <p className="text-lg font-semibold mb-2">
                             📍 தலைமையகம்
                         </p>
-                        <p className="text-gray-600">
+                        <p className="text-neutral-600">
                             "தம்சித்", ஹீலோகம, நிக்கவெரட்டியா, இலங்கை
                         </p>
                     </div>
@@ -33,7 +33,7 @@ const Tamil = () => {
                         <h3 className="text-2xl font-semibold mb-4">
                             எங்கள் பார்வை
                         </h3>
-                        <p className="text-gray-600">
+                        <p className="text-neutral-600">
                             இலங்கையில் முன்னோடியான மருத்துவ நிறுவனமாக வளர்ந்து,
                             மக்களுக்கு தரமான, இயற்கை சார்ந்த, பயனுள்ள மற்றும்
                             மலிவான சுகாதார சேவைகளை வழங்குதல்.
@@ -44,7 +44,7 @@ const Tamil = () => {
                         <h3 className="text-2xl font-semibold mb-4">
                             எங்கள் நோக்கம்
                         </h3>
-                        <ul className="text-gray-600 list-disc list-inside space-y-2">
+                        <ul className="text-neutral-600 list-disc list-inside space-y-2">
                             <li>
                                 இலங்கையில் ஹோமியோபதி மருத்துவத்தை மேம்படுத்தி,
                                 அதன் பயன்பாட்டை அதிகரித்தல்.
@@ -72,7 +72,7 @@ const Tamil = () => {
                 </section>
 
                 <section className="mb-16">
-                    <h2 className="text-3xl font-semibold text-gray-800 mb-8">
+                    <h2 className="text-3xl font-semibold text-neutral-800 mb-8">
                         முக்கியமான திட்டங்கள்
                     </h2>
 
@@ -81,7 +81,7 @@ const Tamil = () => {
                             www.cure.lk – இலங்கையின் முதல் ஹோமியோபதி மருத்துவர்
                             மற்றும் நோயாளிகள் இணையதளம்
                         </h3>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-neutral-600 mb-6">
                             www.cure.lk இலங்கையில் உள்ள மென்பொருள்
                             பொறியாளர்களால் உருவாக்கப்பட்ட முதல் ஹோமியோபதி
                             மருத்துவ இணையதளம் ஆகும்.
@@ -90,7 +90,7 @@ const Tamil = () => {
                             <h4 className="font-semibold mb-2">
                                 www.cure.lk இன் முக்கிய அம்சங்கள்
                             </h4>
-                            <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                            <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                                 <li>
                                     ✅ மருத்துவர் சந்திப்பு முன்பதிவு –
                                     நோயாளிகள் தகுதியான ஹோமியோபதி மருத்துவரை
@@ -115,7 +115,7 @@ const Tamil = () => {
                     </div>
                 </section>
 
-                <section className="bg-gray-800 text-white p-8 rounded-lg mb-16">
+                <section className="bg-neutral-800 text-white p-8 rounded-lg mb-16">
                     <h2 className="text-2xl font-semibold mb-4">
                         ஏன் CHC தேர்ந்தெடுக்க வேண்டும்?
                     </h2>
@@ -138,7 +138,7 @@ const Tamil = () => {
                     </p>
                 </section>
 
-                <section className="bg-blue-600 text-white p-8 rounded-lg">
+                <section className="bg-primary-500 text-white p-8 rounded-lg">
                     <h2 className="text-2xl font-semibold mb-6">
                         எங்களை தொடர்பு கொள்ளுங்கள்!
                     </h2>
@@ -155,7 +155,7 @@ const Tamil = () => {
                             <p className="mb-4">🌐 இணையதளம்:</p>
                             <a
                                 href="https://www.cure.lk"
-                                className="bg-white text-blue-600 px-6 py-2 rounded-lg font-semibold inline-block"
+                                className="bg-white text-primary-500 px-6 py-2 rounded-lg font-semibold inline-block"
                             >
                                 www.cure.lk
                             </a>

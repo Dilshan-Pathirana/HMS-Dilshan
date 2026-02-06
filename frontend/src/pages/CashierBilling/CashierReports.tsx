@@ -161,8 +161,8 @@ const CashierReports = () => {
         switch (status) {
             case 'APPROVED': return <CheckCircle className="w-4 h-4 text-green-600" />;
             case 'SUBMITTED': return <Clock className="w-4 h-4 text-yellow-600" />;
-            case 'REJECTED': return <XCircle className="w-4 h-4 text-red-600" />;
-            default: return <AlertCircle className="w-4 h-4 text-gray-400" />;
+            case 'REJECTED': return <XCircle className="w-4 h-4 text-error-600" />;
+            default: return <AlertCircle className="w-4 h-4 text-neutral-400" />;
         }
     };
 
@@ -170,8 +170,8 @@ const CashierReports = () => {
         switch (status) {
             case 'APPROVED': return 'bg-green-100 text-green-700';
             case 'SUBMITTED': return 'bg-yellow-100 text-yellow-700';
-            case 'REJECTED': return 'bg-red-100 text-red-700';
-            default: return 'bg-gray-100 text-gray-700';
+            case 'REJECTED': return 'bg-error-100 text-red-700';
+            default: return 'bg-neutral-100 text-neutral-700';
         }
     };
 
@@ -185,14 +185,14 @@ const CashierReports = () => {
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center min-h-screen bg-gray-50">
+            <div className="flex items-center justify-center min-h-screen bg-neutral-50">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
             </div>
         );
     }
 
     return (
-        <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
+        <div className="p-6 space-y-6 bg-neutral-50 min-h-screen">
             {/* Header */}
             <div className="bg-gradient-to-r from-emerald-500 to-blue-600 rounded-xl shadow-lg p-6 text-white">
                 <div className="flex items-center justify-between flex-wrap gap-4">
@@ -233,27 +233,27 @@ const CashierReports = () => {
             </div>
 
             {/* Filters & Tabs */}
-            <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
                 <div className="flex flex-wrap items-center justify-between gap-4">
                     <div className="flex items-center gap-4 flex-wrap">
                         <div className="flex items-center gap-2">
-                            <Filter className="h-5 w-5 text-gray-400" />
-                            <span className="text-sm font-medium text-gray-700">Date Range:</span>
+                            <Filter className="h-5 w-5 text-neutral-400" />
+                            <span className="text-sm font-medium text-neutral-700">Date Range:</span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <Calendar className="h-4 w-4 text-gray-400" />
+                            <Calendar className="h-4 w-4 text-neutral-400" />
                             <input
                                 type="date"
                                 value={dateFrom}
                                 onChange={(e) => setDateFrom(e.target.value)}
-                                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
+                                className="px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
                             />
-                            <span className="text-gray-500">to</span>
+                            <span className="text-neutral-500">to</span>
                             <input
                                 type="date"
                                 value={dateTo}
                                 onChange={(e) => setDateTo(e.target.value)}
-                                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
+                                className="px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
                             />
                         </div>
                         <button
@@ -276,7 +276,7 @@ const CashierReports = () => {
                                 className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition ${
                                     activeTab === tab.id
                                         ? "bg-emerald-600 text-white"
-                                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                                        : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
                                 }`}
                             >
                                 {tab.icon}
@@ -291,56 +291,56 @@ const CashierReports = () => {
                 <>
                     {/* Summary Stats */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+                        <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
                             <div className="flex items-center gap-4">
                                 <div className="p-3 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg">
                                     <DollarSign className="h-6 w-6 text-white" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-600">Total Sales</p>
-                                    <p className="text-2xl font-bold text-gray-800">
+                                    <p className="text-sm text-neutral-600">Total Sales</p>
+                                    <p className="text-2xl font-bold text-neutral-800">
                                         Rs. {reportData.summary.total_sales.toLocaleString()}
                                     </p>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+                        <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
                             <div className="flex items-center gap-4">
                                 <div className="p-3 bg-gradient-to-br from-emerald-500 to-green-600 rounded-lg">
                                     <FileText className="h-6 w-6 text-white" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-600">Total Transactions</p>
-                                    <p className="text-2xl font-bold text-gray-800">
+                                    <p className="text-sm text-neutral-600">Total Transactions</p>
+                                    <p className="text-2xl font-bold text-neutral-800">
                                         {reportData.summary.total_transactions}
                                     </p>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+                        <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
                             <div className="flex items-center gap-4">
                                 <div className="p-3 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg">
                                     <TrendingUp className="h-6 w-6 text-white" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-600">Avg Daily Sales</p>
-                                    <p className="text-2xl font-bold text-gray-800">
+                                    <p className="text-sm text-neutral-600">Avg Daily Sales</p>
+                                    <p className="text-2xl font-bold text-neutral-800">
                                         Rs. {reportData.summary.average_daily_sales.toLocaleString()}
                                     </p>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+                        <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
                             <div className="flex items-center gap-4">
                                 <div className="p-3 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg">
                                     <Clock className="h-6 w-6 text-white" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-600">Report Period</p>
-                                    <p className="text-lg font-bold text-gray-800">
+                                    <p className="text-sm text-neutral-600">Report Period</p>
+                                    <p className="text-lg font-bold text-neutral-800">
                                         {reportData.period.days} Days
                                     </p>
                                 </div>
@@ -352,8 +352,8 @@ const CashierReports = () => {
                     {activeTab === "overview" && (
                         <div className="space-y-6">
                             {/* Sales Trend Line Chart */}
-                            <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-                                <h2 className="text-lg font-semibold text-gray-800 mb-4">Sales Trend</h2>
+                            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+                                <h2 className="text-lg font-semibold text-neutral-800 mb-4">Sales Trend</h2>
                                 <div className="h-80">
                                     <SafeResponsiveContainer width="100%" height="100%">
                                         <SafeAreaChart data={reportData.daily_data}>
@@ -398,8 +398,8 @@ const CashierReports = () => {
                             {/* Payment Breakdown */}
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                 {/* Pie Chart */}
-                                <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-                                    <h2 className="text-lg font-semibold text-gray-800 mb-4">Payment Methods</h2>
+                                <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+                                    <h2 className="text-lg font-semibold text-neutral-800 mb-4">Payment Methods</h2>
                                     <div className="h-64">
                                         <SafeResponsiveContainer width="100%" height="100%">
                                             <SafePieChart>
@@ -426,15 +426,15 @@ const CashierReports = () => {
                                 </div>
 
                                 {/* Payment Method Cards */}
-                                <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-                                    <h2 className="text-lg font-semibold text-gray-800 mb-4">Payment Breakdown</h2>
+                                <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+                                    <h2 className="text-lg font-semibold text-neutral-800 mb-4">Payment Breakdown</h2>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200">
                                             <div className="flex items-center gap-3 mb-2">
                                                 <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg">
                                                     <Banknote className="h-5 w-5 text-white" />
                                                 </div>
-                                                <span className="font-medium text-gray-700">Cash</span>
+                                                <span className="font-medium text-neutral-700">Cash</span>
                                             </div>
                                             <p className="text-xl font-bold text-green-700">
                                                 Rs. {reportData.payment_totals.cash.toLocaleString()}
@@ -446,7 +446,7 @@ const CashierReports = () => {
                                                 <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg">
                                                     <CreditCard className="h-5 w-5 text-white" />
                                                 </div>
-                                                <span className="font-medium text-gray-700">Card</span>
+                                                <span className="font-medium text-neutral-700">Card</span>
                                             </div>
                                             <p className="text-xl font-bold text-blue-700">
                                                 Rs. {reportData.payment_totals.card.toLocaleString()}
@@ -458,7 +458,7 @@ const CashierReports = () => {
                                                 <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg">
                                                     <Smartphone className="h-5 w-5 text-white" />
                                                 </div>
-                                                <span className="font-medium text-gray-700">Online</span>
+                                                <span className="font-medium text-neutral-700">Online</span>
                                             </div>
                                             <p className="text-xl font-bold text-purple-700">
                                                 Rs. {reportData.payment_totals.online.toLocaleString()}
@@ -470,7 +470,7 @@ const CashierReports = () => {
                                                 <div className="p-2 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg">
                                                     <QrCode className="h-5 w-5 text-white" />
                                                 </div>
-                                                <span className="font-medium text-gray-700">QR Code</span>
+                                                <span className="font-medium text-neutral-700">QR Code</span>
                                             </div>
                                             <p className="text-xl font-bold text-orange-700">
                                                 Rs. {reportData.payment_totals.qr.toLocaleString()}
@@ -481,8 +481,8 @@ const CashierReports = () => {
                             </div>
 
                             {/* Transactions per Day Bar Chart */}
-                            <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-                                <h2 className="text-lg font-semibold text-gray-800 mb-4">Daily Transactions</h2>
+                            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+                                <h2 className="text-lg font-semibold text-neutral-800 mb-4">Daily Transactions</h2>
                                 <div className="h-64">
                                     <SafeResponsiveContainer width="100%" height="100%">
                                         <SafeBarChart data={reportData.daily_data}>
@@ -513,8 +513,8 @@ const CashierReports = () => {
                     {activeTab === "daily" && (
                         <div className="space-y-6">
                             {/* Payment Methods Stacked Chart */}
-                            <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-                                <h2 className="text-lg font-semibold text-gray-800 mb-4">Daily Sales by Payment Method</h2>
+                            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+                                <h2 className="text-lg font-semibold text-neutral-800 mb-4">Daily Sales by Payment Method</h2>
                                 <div className="h-80">
                                     <SafeResponsiveContainer width="100%" height="100%">
                                         <SafeAreaChart data={reportData.daily_data}>
@@ -546,9 +546,9 @@ const CashierReports = () => {
                             </div>
 
                             {/* Daily Data Table */}
-                            <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
-                                <div className="p-6 border-b border-gray-200">
-                                    <h2 className="text-lg font-semibold text-gray-800">Daily Breakdown</h2>
+                            <div className="bg-white rounded-xl shadow-md border border-neutral-200 overflow-hidden">
+                                <div className="p-6 border-b border-neutral-200">
+                                    <h2 className="text-lg font-semibold text-neutral-800">Daily Breakdown</h2>
                                 </div>
                                 <div className="overflow-x-auto">
                                     <table className="w-full">
@@ -565,54 +565,54 @@ const CashierReports = () => {
                                         </thead>
                                         <tbody className="divide-y divide-gray-200">
                                             {reportData.daily_data.slice().reverse().map((day) => (
-                                                <tr key={day.date} className="hover:bg-gray-50">
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                                <tr key={day.date} className="hover:bg-neutral-50">
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-neutral-900">
                                                         {new Date(day.date).toLocaleDateString('en-US', { 
                                                             weekday: 'short',
                                                             month: 'short', 
                                                             day: 'numeric' 
                                                         })}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-center">
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-600 text-center">
                                                         {day.transactions}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-right">
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-600 text-right">
                                                         Rs. {day.cash.toLocaleString()}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-right">
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-600 text-right">
                                                         Rs. {day.card.toLocaleString()}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-right">
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-600 text-right">
                                                         Rs. {day.online.toLocaleString()}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-right">
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-600 text-right">
                                                         Rs. {day.qr.toLocaleString()}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 text-right">
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-neutral-900 text-right">
                                                         Rs. {day.total_sales.toLocaleString()}
                                                     </td>
                                                 </tr>
                                             ))}
                                         </tbody>
                                         <tfoot>
-                                            <tr className="bg-gray-50 font-semibold">
-                                                <td className="px-6 py-4 text-sm text-gray-900">Total</td>
-                                                <td className="px-6 py-4 text-sm text-gray-900 text-center">
+                                            <tr className="bg-neutral-50 font-semibold">
+                                                <td className="px-6 py-4 text-sm text-neutral-900">Total</td>
+                                                <td className="px-6 py-4 text-sm text-neutral-900 text-center">
                                                     {reportData.summary.total_transactions}
                                                 </td>
-                                                <td className="px-6 py-4 text-sm text-gray-900 text-right">
+                                                <td className="px-6 py-4 text-sm text-neutral-900 text-right">
                                                     Rs. {reportData.payment_totals.cash.toLocaleString()}
                                                 </td>
-                                                <td className="px-6 py-4 text-sm text-gray-900 text-right">
+                                                <td className="px-6 py-4 text-sm text-neutral-900 text-right">
                                                     Rs. {reportData.payment_totals.card.toLocaleString()}
                                                 </td>
-                                                <td className="px-6 py-4 text-sm text-gray-900 text-right">
+                                                <td className="px-6 py-4 text-sm text-neutral-900 text-right">
                                                     Rs. {reportData.payment_totals.online.toLocaleString()}
                                                 </td>
-                                                <td className="px-6 py-4 text-sm text-gray-900 text-right">
+                                                <td className="px-6 py-4 text-sm text-neutral-900 text-right">
                                                     Rs. {reportData.payment_totals.qr.toLocaleString()}
                                                 </td>
-                                                <td className="px-6 py-4 text-sm text-gray-900 text-right">
+                                                <td className="px-6 py-4 text-sm text-neutral-900 text-right">
                                                     Rs. {reportData.summary.total_sales.toLocaleString()}
                                                 </td>
                                             </tr>
@@ -627,8 +627,8 @@ const CashierReports = () => {
                     {activeTab === "eod" && (
                         <div className="space-y-6">
                             {/* EOD Summary Chart */}
-                            <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-                                <h2 className="text-lg font-semibold text-gray-800 mb-4">EOD Sales History</h2>
+                            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+                                <h2 className="text-lg font-semibold text-neutral-800 mb-4">EOD Sales History</h2>
                                 <div className="h-80">
                                     <SafeResponsiveContainer width="100%" height="100%">
                                         <SafeLineChart data={reportData.eod_history.slice().reverse()}>
@@ -660,8 +660,8 @@ const CashierReports = () => {
 
                             {/* Variance Chart */}
                             {reportData.eod_history.length > 0 && (
-                                <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-                                    <h2 className="text-lg font-semibold text-gray-800 mb-4">Cash Variance History</h2>
+                                <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+                                    <h2 className="text-lg font-semibold text-neutral-800 mb-4">Cash Variance History</h2>
                                     <div className="h-64">
                                         <SafeResponsiveContainer width="100%" height="100%">
                                             <SafeBarChart data={reportData.eod_history.slice().reverse()}>
@@ -694,9 +694,9 @@ const CashierReports = () => {
                             )}
 
                             {/* EOD History Table */}
-                            <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
-                                <div className="p-6 border-b border-gray-200">
-                                    <h2 className="text-lg font-semibold text-gray-800">EOD History Details</h2>
+                            <div className="bg-white rounded-xl shadow-md border border-neutral-200 overflow-hidden">
+                                <div className="p-6 border-b border-neutral-200">
+                                    <h2 className="text-lg font-semibold text-neutral-800">EOD History Details</h2>
                                 </div>
                                 <div className="overflow-x-auto">
                                     <table className="w-full">
@@ -715,7 +715,7 @@ const CashierReports = () => {
                                         <tbody className="divide-y divide-gray-200">
                                             {reportData.eod_history.length === 0 ? (
                                                 <tr>
-                                                    <td colSpan={8} className="px-6 py-12 text-center text-gray-500">
+                                                    <td colSpan={8} className="px-6 py-12 text-center text-neutral-500">
                                                         <History className="w-12 h-12 mx-auto mb-4 text-gray-300" />
                                                         <p className="text-lg font-medium">No EOD history found</p>
                                                         <p className="text-sm">EOD records will appear here after submission</p>
@@ -723,8 +723,8 @@ const CashierReports = () => {
                                                 </tr>
                                             ) : (
                                                 reportData.eod_history.map((eod) => (
-                                                    <tr key={eod.id} className="hover:bg-gray-50">
-                                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                                    <tr key={eod.id} className="hover:bg-neutral-50">
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-neutral-900">
                                                             {eod.display_date}
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-center">
@@ -733,26 +733,26 @@ const CashierReports = () => {
                                                                 {eod.status}
                                                             </span>
                                                         </td>
-                                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 text-right">
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-neutral-900 text-right">
                                                             Rs. {eod.total_sales.toLocaleString()}
                                                         </td>
-                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-center">
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-600 text-center">
                                                             {eod.total_transactions}
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-right">
                                                             <span className="text-green-600">+{eod.cash_in_total.toLocaleString()}</span>
-                                                            <span className="text-gray-400 mx-1">/</span>
-                                                            <span className="text-red-600">-{eod.cash_out_total.toLocaleString()}</span>
+                                                            <span className="text-neutral-400 mx-1">/</span>
+                                                            <span className="text-error-600">-{eod.cash_out_total.toLocaleString()}</span>
                                                         </td>
-                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-right">
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-600 text-right">
                                                             Rs. {eod.expected_balance.toLocaleString()}
                                                         </td>
-                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-right">
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-600 text-right">
                                                             Rs. {eod.actual_balance.toLocaleString()}
                                                         </td>
                                                         <td className={`px-6 py-4 whitespace-nowrap text-sm font-medium text-right ${
                                                             eod.variance === 0 ? 'text-green-600' :
-                                                            Math.abs(eod.variance) < 100 ? 'text-yellow-600' : 'text-red-600'
+                                                            Math.abs(eod.variance) < 100 ? 'text-yellow-600' : 'text-error-600'
                                                         }`}>
                                                             Rs. {eod.variance.toLocaleString()}
                                                         </td>

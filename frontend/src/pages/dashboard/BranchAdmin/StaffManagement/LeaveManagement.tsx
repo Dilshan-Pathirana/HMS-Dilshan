@@ -42,12 +42,12 @@ interface UnapprovedAbsence {
 }
 
 const leaveTypes = [
-    { value: 'sick', label: 'Sick Leave', color: 'bg-red-100 text-red-700' },
+    { value: 'sick', label: 'Sick Leave', color: 'bg-error-100 text-red-700' },
     { value: 'vacation', label: 'Vacation', color: 'bg-blue-100 text-blue-700' },
     { value: 'personal', label: 'Personal Leave', color: 'bg-purple-100 text-purple-700' },
     { value: 'maternity', label: 'Maternity Leave', color: 'bg-pink-100 text-pink-700' },
     { value: 'paternity', label: 'Paternity Leave', color: 'bg-cyan-100 text-cyan-700' },
-    { value: 'unpaid', label: 'Unpaid Leave', color: 'bg-gray-100 text-gray-700' },
+    { value: 'unpaid', label: 'Unpaid Leave', color: 'bg-neutral-100 text-neutral-700' },
 ];
 
 const mockLeaveRequests: LeaveRequest[] = [
@@ -119,7 +119,7 @@ export const LeaveManagement: React.FC = () => {
     const SidebarMenu = () => (
         <nav className="py-4">
             <div className="px-4 mb-4">
-                <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Navigation</h2>
+                <h2 className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Navigation</h2>
             </div>
             <ul className="space-y-1 px-2">
                 {BranchAdminMenuItems.map((item, index) => (
@@ -128,8 +128,8 @@ export const LeaveManagement: React.FC = () => {
                             onClick={() => navigate(item.path)}
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                                 item.path === '/branch-admin/hrm'
-                                    ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-md'
-                                    : 'text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
+                                    ? 'bg-gradient-to-r from-emerald-500 to-primary-500 text-white shadow-md'
+                                    : 'text-neutral-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
                             }`}
                         >
                             <span className="flex-shrink-0">{item.icon}</span>
@@ -142,7 +142,7 @@ export const LeaveManagement: React.FC = () => {
     );
 
     const getLeaveTypeStyle = (type: string) => {
-        return leaveTypes.find(t => t.value === type)?.color || 'bg-gray-100 text-gray-700';
+        return leaveTypes.find(t => t.value === type)?.color || 'bg-neutral-100 text-neutral-700';
     };
 
     const tabs = [
@@ -168,16 +168,16 @@ export const LeaveManagement: React.FC = () => {
                     <div className="flex items-center gap-4">
                         <button 
                             onClick={() => navigate('/branch-admin/hrm')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ChevronLeft className="w-5 h-5 text-gray-600" />
+                            <ChevronLeft className="w-5 h-5 text-neutral-600" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">Leave Management</h1>
-                            <p className="text-gray-500">Manage leave requests, balances, and track absences</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">Leave Management</h1>
+                            <p className="text-neutral-500">Manage leave requests, balances, and track absences</p>
                         </div>
                     </div>
-                    <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                    <button className="flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50">
                         <Download className="w-4 h-4" />
                         Export Report
                     </button>
@@ -185,10 +185,10 @@ export const LeaveManagement: React.FC = () => {
 
                 {/* Quick Stats */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Pending Requests</p>
+                                <p className="text-sm text-neutral-500">Pending Requests</p>
                                 <p className="text-2xl font-bold text-orange-600">{pendingCount}</p>
                             </div>
                             <div className="p-3 bg-orange-100 rounded-lg">
@@ -196,10 +196,10 @@ export const LeaveManagement: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Approved This Month</p>
+                                <p className="text-sm text-neutral-500">Approved This Month</p>
                                 <p className="text-2xl font-bold text-green-600">12</p>
                             </div>
                             <div className="p-3 bg-green-100 rounded-lg">
@@ -207,33 +207,33 @@ export const LeaveManagement: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Currently On Leave</p>
-                                <p className="text-2xl font-bold text-blue-600">5</p>
+                                <p className="text-sm text-neutral-500">Currently On Leave</p>
+                                <p className="text-2xl font-bold text-primary-500">5</p>
                             </div>
                             <div className="p-3 bg-blue-100 rounded-lg">
-                                <CalendarDays className="w-6 h-6 text-blue-600" />
+                                <CalendarDays className="w-6 h-6 text-primary-500" />
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Flagged Absences</p>
-                                <p className="text-2xl font-bold text-red-600">{absences.filter(a => a.flagged).length}</p>
+                                <p className="text-sm text-neutral-500">Flagged Absences</p>
+                                <p className="text-2xl font-bold text-error-600">{absences.filter(a => a.flagged).length}</p>
                             </div>
-                            <div className="p-3 bg-red-100 rounded-lg">
-                                <AlertTriangle className="w-6 h-6 text-red-600" />
+                            <div className="p-3 bg-error-100 rounded-lg">
+                                <AlertTriangle className="w-6 h-6 text-error-600" />
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Tabs */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-                    <div className="border-b border-gray-200">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200">
+                    <div className="border-b border-neutral-200">
                         <div className="flex overflow-x-auto">
                             {tabs.map(tab => (
                                 <button
@@ -242,13 +242,13 @@ export const LeaveManagement: React.FC = () => {
                                     className={`flex items-center gap-2 px-6 py-4 font-medium text-sm whitespace-nowrap border-b-2 transition-colors ${
                                         activeTab === tab.id
                                             ? 'border-emerald-500 text-emerald-600'
-                                            : 'border-transparent text-gray-500 hover:text-gray-700'
+                                            : 'border-transparent text-neutral-500 hover:text-neutral-700'
                                     }`}
                                 >
                                     {tab.icon}
                                     {tab.label}
                                     {tab.count !== undefined && tab.count > 0 && (
-                                        <span className="ml-1 px-2 py-0.5 bg-red-500 text-white text-xs rounded-full">{tab.count}</span>
+                                        <span className="ml-1 px-2 py-0.5 bg-error-500 text-white text-xs rounded-full">{tab.count}</span>
                                     )}
                                 </button>
                             ))}
@@ -262,19 +262,19 @@ export const LeaveManagement: React.FC = () => {
                                 {/* Filters */}
                                 <div className="flex flex-col md:flex-row gap-4">
                                     <div className="flex-1 relative">
-                                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                                         <input
                                             type="text"
                                             placeholder="Search by staff name..."
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
-                                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                         />
                                     </div>
                                     <select
                                         value={filterStatus}
                                         onChange={(e) => setFilterStatus(e.target.value)}
-                                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="all">All Status</option>
                                         <option value="pending">Pending</option>
@@ -284,7 +284,7 @@ export const LeaveManagement: React.FC = () => {
                                     <select
                                         value={filterType}
                                         onChange={(e) => setFilterType(e.target.value)}
-                                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="all">All Types</option>
                                         {leaveTypes.map(type => (
@@ -296,27 +296,27 @@ export const LeaveManagement: React.FC = () => {
                                 {/* Requests List */}
                                 <div className="space-y-3">
                                     {filteredRequests.map(request => (
-                                        <div key={request.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                                        <div key={request.id} className="border border-neutral-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                                             <div className="flex items-start justify-between">
                                                 <div className="flex items-start gap-4">
                                                     <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-blue-100 rounded-full flex items-center justify-center">
                                                         <User className="w-6 h-6 text-emerald-600" />
                                                     </div>
                                                     <div>
-                                                        <h4 className="font-semibold text-gray-800">{request.staffName}</h4>
-                                                        <p className="text-sm text-gray-500">{request.staffRole} • {request.department}</p>
+                                                        <h4 className="font-semibold text-neutral-800">{request.staffName}</h4>
+                                                        <p className="text-sm text-neutral-500">{request.staffRole} • {request.department}</p>
                                                         <div className="flex items-center gap-3 mt-2">
                                                             <span className={`px-2 py-0.5 rounded text-xs ${getLeaveTypeStyle(request.leaveType)}`}>
                                                                 {leaveTypes.find(t => t.value === request.leaveType)?.label}
                                                             </span>
-                                                            <span className="text-sm text-gray-600">
+                                                            <span className="text-sm text-neutral-600">
                                                                 {request.startDate} to {request.endDate} ({request.days} days)
                                                             </span>
                                                         </div>
-                                                        <p className="text-sm text-gray-600 mt-2">
+                                                        <p className="text-sm text-neutral-600 mt-2">
                                                             <strong>Reason:</strong> {request.reason}
                                                         </p>
-                                                        <p className="text-xs text-gray-400 mt-1">Applied on {request.appliedOn}</p>
+                                                        <p className="text-xs text-neutral-400 mt-1">Applied on {request.appliedOn}</p>
                                                     </div>
                                                 </div>
                                                 <div className="flex flex-col items-end gap-2">
@@ -330,14 +330,14 @@ export const LeaveManagement: React.FC = () => {
                                                             </button>
                                                             <button 
                                                                 onClick={() => handleRejectLeave(request.id)}
-                                                                className="flex items-center gap-1 px-3 py-1.5 bg-red-500 text-white rounded-lg hover:bg-red-600 text-sm"
+                                                                className="flex items-center gap-1 px-3 py-1.5 bg-error-500 text-white rounded-lg hover:bg-red-600 text-sm"
                                                             >
                                                                 <X className="w-4 h-4" /> Reject
                                                             </button>
                                                         </div>
                                                     ) : (
                                                         <span className={`px-3 py-1 rounded-full text-sm ${
-                                                            request.status === 'approved' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                                                            request.status === 'approved' ? 'bg-green-100 text-green-700' : 'bg-error-100 text-red-700'
                                                         }`}>
                                                             {request.status.charAt(0).toUpperCase() + request.status.slice(1)}
                                                         </span>
@@ -347,7 +347,7 @@ export const LeaveManagement: React.FC = () => {
                                         </div>
                                     ))}
                                     {filteredRequests.length === 0 && (
-                                        <p className="text-center text-gray-500 py-8">No leave requests found</p>
+                                        <p className="text-center text-neutral-500 py-8">No leave requests found</p>
                                     )}
                                 </div>
                             </div>
@@ -358,26 +358,26 @@ export const LeaveManagement: React.FC = () => {
                             <div className="space-y-4">
                                 <div className="overflow-x-auto">
                                     <table className="w-full">
-                                        <thead className="bg-gray-50">
+                                        <thead className="bg-neutral-50">
                                             <tr>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Staff</th>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Department</th>
-                                                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Sick Leave</th>
-                                                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Vacation</th>
-                                                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Personal</th>
+                                                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Staff</th>
+                                                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Department</th>
+                                                <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Sick Leave</th>
+                                                <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Vacation</th>
+                                                <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Personal</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200">
                                             {leaveBalances.map(balance => (
-                                                <tr key={balance.staffId} className="hover:bg-gray-50">
-                                                    <td className="px-4 py-3 font-medium text-gray-800">{balance.staffName}</td>
-                                                    <td className="px-4 py-3 text-gray-600">{balance.department}</td>
+                                                <tr key={balance.staffId} className="hover:bg-neutral-50">
+                                                    <td className="px-4 py-3 font-medium text-neutral-800">{balance.staffName}</td>
+                                                    <td className="px-4 py-3 text-neutral-600">{balance.department}</td>
                                                     <td className="px-4 py-3">
                                                         <div className="flex flex-col items-center">
-                                                            <span className="font-semibold text-gray-800">{balance.sick.remaining}/{balance.sick.total}</span>
-                                                            <div className="w-20 h-2 bg-gray-200 rounded-full mt-1">
+                                                            <span className="font-semibold text-neutral-800">{balance.sick.remaining}/{balance.sick.total}</span>
+                                                            <div className="w-20 h-2 bg-neutral-200 rounded-full mt-1">
                                                                 <div 
-                                                                    className="h-full bg-red-500 rounded-full" 
+                                                                    className="h-full bg-error-500 rounded-full" 
                                                                     style={{ width: `${(balance.sick.remaining / balance.sick.total) * 100}%` }}
                                                                 ></div>
                                                             </div>
@@ -385,10 +385,10 @@ export const LeaveManagement: React.FC = () => {
                                                     </td>
                                                     <td className="px-4 py-3">
                                                         <div className="flex flex-col items-center">
-                                                            <span className="font-semibold text-gray-800">{balance.vacation.remaining}/{balance.vacation.total}</span>
-                                                            <div className="w-20 h-2 bg-gray-200 rounded-full mt-1">
+                                                            <span className="font-semibold text-neutral-800">{balance.vacation.remaining}/{balance.vacation.total}</span>
+                                                            <div className="w-20 h-2 bg-neutral-200 rounded-full mt-1">
                                                                 <div 
-                                                                    className="h-full bg-blue-500 rounded-full" 
+                                                                    className="h-full bg-primary-500 rounded-full" 
                                                                     style={{ width: `${(balance.vacation.remaining / balance.vacation.total) * 100}%` }}
                                                                 ></div>
                                                             </div>
@@ -396,8 +396,8 @@ export const LeaveManagement: React.FC = () => {
                                                     </td>
                                                     <td className="px-4 py-3">
                                                         <div className="flex flex-col items-center">
-                                                            <span className="font-semibold text-gray-800">{balance.personal.remaining}/{balance.personal.total}</span>
-                                                            <div className="w-20 h-2 bg-gray-200 rounded-full mt-1">
+                                                            <span className="font-semibold text-neutral-800">{balance.personal.remaining}/{balance.personal.total}</span>
+                                                            <div className="w-20 h-2 bg-neutral-200 rounded-full mt-1">
                                                                 <div 
                                                                     className="h-full bg-purple-500 rounded-full" 
                                                                     style={{ width: `${(balance.personal.remaining / balance.personal.total) * 100}%` }}
@@ -418,30 +418,30 @@ export const LeaveManagement: React.FC = () => {
                             <div className="space-y-4">
                                 <div className="space-y-3">
                                     {absences.map(absence => (
-                                        <div key={absence.id} className={`border rounded-lg p-4 ${absence.flagged ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}>
+                                        <div key={absence.id} className={`border rounded-lg p-4 ${absence.flagged ? 'border-red-300 bg-error-50' : 'border-neutral-200'}`}>
                                             <div className="flex items-center justify-between">
                                                 <div className="flex items-center gap-4">
-                                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${absence.flagged ? 'bg-red-100' : 'bg-orange-100'}`}>
-                                                        <AlertTriangle className={`w-5 h-5 ${absence.flagged ? 'text-red-600' : 'text-orange-600'}`} />
+                                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${absence.flagged ? 'bg-error-100' : 'bg-orange-100'}`}>
+                                                        <AlertTriangle className={`w-5 h-5 ${absence.flagged ? 'text-error-600' : 'text-orange-600'}`} />
                                                     </div>
                                                     <div>
-                                                        <h4 className="font-medium text-gray-800">{absence.staffName}</h4>
-                                                        <p className="text-sm text-gray-500">{absence.department}</p>
-                                                        <p className="text-sm text-gray-600 mt-1">
+                                                        <h4 className="font-medium text-neutral-800">{absence.staffName}</h4>
+                                                        <p className="text-sm text-neutral-500">{absence.department}</p>
+                                                        <p className="text-sm text-neutral-600 mt-1">
                                                             Missed {absence.shift} on {absence.date}
                                                         </p>
                                                     </div>
                                                 </div>
                                                 <div className="flex items-center gap-3">
                                                     {absence.flagged && (
-                                                        <span className="px-2 py-1 bg-red-100 text-red-700 rounded text-xs font-medium">Flagged</span>
+                                                        <span className="px-2 py-1 bg-error-100 text-red-700 rounded text-xs font-medium">Flagged</span>
                                                     )}
                                                     <button 
                                                         onClick={() => handleFlagAbsence(absence.id)}
                                                         className={`px-3 py-1.5 rounded-lg text-sm ${
                                                             absence.flagged 
-                                                                ? 'border border-gray-300 hover:bg-gray-50' 
-                                                                : 'bg-red-500 text-white hover:bg-red-600'
+                                                                ? 'border border-neutral-300 hover:bg-neutral-50' 
+                                                                : 'bg-error-500 text-white hover:bg-red-600'
                                                         }`}
                                                     >
                                                         {absence.flagged ? 'Unflag' : 'Flag for Follow-up'}
@@ -451,7 +451,7 @@ export const LeaveManagement: React.FC = () => {
                                         </div>
                                     ))}
                                     {absences.length === 0 && (
-                                        <p className="text-center text-gray-500 py-8">No unapproved absences</p>
+                                        <p className="text-center text-neutral-500 py-8">No unapproved absences</p>
                                     )}
                                 </div>
                             </div>
@@ -462,8 +462,8 @@ export const LeaveManagement: React.FC = () => {
                             <div className="space-y-4">
                                 <div className="text-center py-12">
                                     <CalendarDays className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                                    <h3 className="text-lg font-medium text-gray-600">Leave Calendar View</h3>
-                                    <p className="text-gray-500 mt-2">Interactive calendar showing all staff leaves - Coming soon</p>
+                                    <h3 className="text-lg font-medium text-neutral-600">Leave Calendar View</h3>
+                                    <p className="text-neutral-500 mt-2">Interactive calendar showing all staff leaves - Coming soon</p>
                                 </div>
                             </div>
                         )}

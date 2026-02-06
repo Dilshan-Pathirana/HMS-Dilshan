@@ -31,13 +31,14 @@ export function Select({
             <div className="relative">
                 <select
                     className={`
-            w-full appearance-none bg-white/50 backdrop-blur-sm border border-slate-200 rounded-xl 
-            pl-4 pr-10 py-2.5 text-sm text-slate-900 
-            focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500
-            hover:border-slate-300 hover:bg-white/80
-            transition-all duration-200
+            w-full appearance-none bg-neutral-50/50 backdrop-blur-sm border border-neutral-200 rounded-xl 
+            pl-4 pr-10 py-3.5 text-sm text-neutral-900 
+            focus:outline-none focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500
+            hover:border-primary-200 hover:bg-white
+            transition-all duration-300 ease-out
             disabled:opacity-50 disabled:cursor-not-allowed
-            ${error ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20' : ''}
+            shadow-sm
+            ${error ? 'border-error-500 focus:border-error-500 focus:ring-error-500/10' : ''}
             ${className}
           `}
                     {...props}
@@ -52,14 +53,18 @@ export function Select({
                     <ChevronDown className="w-4 h-4" />
                 </div>
             </div>
-            {error && (
-                <p className="mt-1 text-xs text-rose-500 font-medium animate-in slide-in-from-top">
-                    {error}
-                </p>
-            )}
-            {helperText && !error && (
-                <p className="mt-1 text-xs text-slate-500">{helperText}</p>
-            )}
-        </div>
+            {
+                error && (
+                    <p className="mt-1 text-xs text-rose-500 font-medium animate-in slide-in-from-top">
+                        {error}
+                    </p>
+                )
+            }
+            {
+                helperText && !error && (
+                    <p className="mt-1 text-xs text-slate-500">{helperText}</p>
+                )
+            }
+        </div >
     )
 }

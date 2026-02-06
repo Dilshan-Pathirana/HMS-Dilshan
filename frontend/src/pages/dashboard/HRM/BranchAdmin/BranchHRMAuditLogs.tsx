@@ -135,11 +135,11 @@ const BranchHRMAuditLogs: React.FC = () => {
     const getActionIcon = (action: string) => {
         switch (action?.toLowerCase()) {
             case 'create': return <Plus className="w-4 h-4 text-emerald-500" />;
-            case 'update': return <Edit className="w-4 h-4 text-blue-500" />;
-            case 'delete': return <Trash2 className="w-4 h-4 text-red-500" />;
+            case 'update': return <Edit className="w-4 h-4 text-primary-500" />;
+            case 'delete': return <Trash2 className="w-4 h-4 text-error-500" />;
             case 'approve': return <CheckCircle className="w-4 h-4 text-emerald-500" />;
-            case 'reject': return <XCircle className="w-4 h-4 text-red-500" />;
-            default: return <Activity className="w-4 h-4 text-gray-500" />;
+            case 'reject': return <XCircle className="w-4 h-4 text-error-500" />;
+            default: return <Activity className="w-4 h-4 text-neutral-500" />;
         }
     };
 
@@ -147,13 +147,13 @@ const BranchHRMAuditLogs: React.FC = () => {
         const badges: Record<string, string> = {
             'create': 'bg-emerald-100 text-emerald-700',
             'update': 'bg-blue-100 text-blue-700',
-            'delete': 'bg-red-100 text-red-700',
+            'delete': 'bg-error-100 text-red-700',
             'approve': 'bg-green-100 text-green-700',
             'reject': 'bg-orange-100 text-orange-700',
             'login': 'bg-purple-100 text-purple-700',
-            'logout': 'bg-gray-100 text-gray-700'
+            'logout': 'bg-neutral-100 text-neutral-700'
         };
-        return badges[action?.toLowerCase()] || 'bg-gray-100 text-gray-700';
+        return badges[action?.toLowerCase()] || 'bg-neutral-100 text-neutral-700';
     };
 
     const formatRole = (role: string) => {
@@ -162,20 +162,20 @@ const BranchHRMAuditLogs: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-neutral-50 p-6">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => navigate('/branch-admin/hrm')}
-                            className="p-2 hover:bg-gray-200 rounded-lg"
+                            className="p-2 hover:bg-neutral-200 rounded-lg"
                         >
                             <ArrowLeft className="w-5 h-5" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">HRM Audit Logs</h1>
-                            <p className="text-gray-500">{branchName} - Activity Trail</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">HRM Audit Logs</h1>
+                            <p className="text-neutral-500">{branchName} - Activity Trail</p>
                         </div>
                     </div>
                     <button 
@@ -188,23 +188,23 @@ const BranchHRMAuditLogs: React.FC = () => {
                 </div>
 
                 {/* Filters */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-6">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4 mb-6">
                     <div className="flex flex-wrap items-center gap-4">
                         <div className="flex-1 min-w-[250px]">
                             <div className="relative">
-                                <Search className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                                <Search className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
                                 <input
                                     type="text"
                                     placeholder="Search by user, description..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                     onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                 />
                             </div>
                         </div>
                         <select 
-                            className="px-4 py-2 border border-gray-300 rounded-lg"
+                            className="px-4 py-2 border border-neutral-300 rounded-lg"
                             value={actionFilter}
                             onChange={(e) => setActionFilter(e.target.value)}
                         >
@@ -214,7 +214,7 @@ const BranchHRMAuditLogs: React.FC = () => {
                             ))}
                         </select>
                         <select 
-                            className="px-4 py-2 border border-gray-300 rounded-lg"
+                            className="px-4 py-2 border border-neutral-300 rounded-lg"
                             value={entityFilter}
                             onChange={(e) => setEntityFilter(e.target.value)}
                         >
@@ -224,26 +224,26 @@ const BranchHRMAuditLogs: React.FC = () => {
                             ))}
                         </select>
                         <div className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4 text-gray-400" />
+                            <Calendar className="w-4 h-4 text-neutral-400" />
                             <input
                                 type="date"
                                 value={dateFrom}
                                 onChange={(e) => setDateFrom(e.target.value)}
-                                className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                                className="px-3 py-2 border border-neutral-300 rounded-lg text-sm"
                                 placeholder="From"
                             />
-                            <span className="text-gray-400">-</span>
+                            <span className="text-neutral-400">-</span>
                             <input
                                 type="date"
                                 value={dateTo}
                                 onChange={(e) => setDateTo(e.target.value)}
-                                className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                                className="px-3 py-2 border border-neutral-300 rounded-lg text-sm"
                                 placeholder="To"
                             />
                         </div>
                         <button
                             onClick={clearFilters}
-                            className="px-3 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                            className="px-3 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg"
                         >
                             Clear
                         </button>
@@ -252,51 +252,51 @@ const BranchHRMAuditLogs: React.FC = () => {
 
                 {/* Error State */}
                 {error && (
-                    <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-6 flex items-center gap-3">
-                        <AlertCircle className="w-5 h-5 text-red-500" />
+                    <div className="bg-error-50 border border-red-200 rounded-xl p-4 mb-6 flex items-center gap-3">
+                        <AlertCircle className="w-5 h-5 text-error-500" />
                         <span className="text-red-700">{error}</span>
                     </div>
                 )}
 
                 {/* Loading State */}
                 {isLoading ? (
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 flex items-center justify-center">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-12 flex items-center justify-center">
                         <Loader2 className="w-8 h-8 animate-spin text-emerald-500" />
-                        <span className="ml-3 text-gray-600">Loading audit logs...</span>
+                        <span className="ml-3 text-neutral-600">Loading audit logs...</span>
                     </div>
                 ) : (
                     <>
                         {/* Logs Table */}
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
                             <table className="w-full">
-                                <thead className="bg-gray-50 border-b border-gray-200">
+                                <thead className="bg-neutral-50 border-b border-neutral-200">
                                     <tr>
-                                        <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">Timestamp</th>
-                                        <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">User</th>
-                                        <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">Action</th>
-                                        <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">Entity</th>
-                                        <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">Description</th>
-                                        <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">Details</th>
+                                        <th className="text-left py-4 px-6 text-sm font-medium text-neutral-500">Timestamp</th>
+                                        <th className="text-left py-4 px-6 text-sm font-medium text-neutral-500">User</th>
+                                        <th className="text-left py-4 px-6 text-sm font-medium text-neutral-500">Action</th>
+                                        <th className="text-left py-4 px-6 text-sm font-medium text-neutral-500">Entity</th>
+                                        <th className="text-left py-4 px-6 text-sm font-medium text-neutral-500">Description</th>
+                                        <th className="text-left py-4 px-6 text-sm font-medium text-neutral-500">Details</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {logs.length > 0 ? (
                                         logs.map((log) => (
-                                            <tr key={log.id} className="border-b border-gray-100 hover:bg-gray-50">
+                                            <tr key={log.id} className="border-b border-gray-100 hover:bg-neutral-50">
                                                 <td className="py-4 px-6">
-                                                    <div className="flex items-center gap-2 text-gray-600">
+                                                    <div className="flex items-center gap-2 text-neutral-600">
                                                         <Clock className="w-4 h-4" />
                                                         <span className="text-sm">{formatDate(log.created_at)}</span>
                                                     </div>
                                                 </td>
                                                 <td className="py-4 px-6">
                                                     <div className="flex items-center gap-2">
-                                                        <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-blue-500 rounded-full flex items-center justify-center text-white text-xs font-medium">
+                                                        <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-primary-500 rounded-full flex items-center justify-center text-white text-xs font-medium">
                                                             {log.user_name?.split(' ').map(n => n[0]).join('').slice(0, 2) || 'NA'}
                                                         </div>
                                                         <div>
-                                                            <p className="text-sm font-medium text-gray-800">{log.user_name || 'Unknown'}</p>
-                                                            <p className="text-xs text-gray-500">{formatRole(log.user_role)}</p>
+                                                            <p className="text-sm font-medium text-neutral-800">{log.user_name || 'Unknown'}</p>
+                                                            <p className="text-xs text-neutral-500">{formatRole(log.user_role)}</p>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -309,13 +309,13 @@ const BranchHRMAuditLogs: React.FC = () => {
                                                     </div>
                                                 </td>
                                                 <td className="py-4 px-6">
-                                                    <span className="text-gray-600 capitalize">{log.entity_type || 'N/A'}</span>
+                                                    <span className="text-neutral-600 capitalize">{log.entity_type || 'N/A'}</span>
                                                     {log.entity_name && (
-                                                        <p className="text-xs text-gray-400">{log.entity_name}</p>
+                                                        <p className="text-xs text-neutral-400">{log.entity_name}</p>
                                                     )}
                                                 </td>
                                                 <td className="py-4 px-6">
-                                                    <p className="text-sm text-gray-600 truncate max-w-xs">{log.description || 'N/A'}</p>
+                                                    <p className="text-sm text-neutral-600 truncate max-w-xs">{log.description || 'N/A'}</p>
                                                 </td>
                                                 <td className="py-4 px-6">
                                                     <button 
@@ -323,7 +323,7 @@ const BranchHRMAuditLogs: React.FC = () => {
                                                             setSelectedLog(log);
                                                             setShowDetailModal(true);
                                                         }}
-                                                        className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg"
+                                                        className="p-2 text-neutral-500 hover:text-primary-500 hover:bg-blue-50 rounded-lg"
                                                     >
                                                         <Eye className="w-4 h-4" />
                                                     </button>
@@ -334,7 +334,7 @@ const BranchHRMAuditLogs: React.FC = () => {
                                         <tr>
                                             <td colSpan={6} className="py-12 text-center">
                                                 <FileText className="w-12 h-12 mx-auto text-gray-300 mb-3" />
-                                                <p className="text-gray-500">No audit logs found</p>
+                                                <p className="text-neutral-500">No audit logs found</p>
                                             </td>
                                         </tr>
                                     )}
@@ -345,14 +345,14 @@ const BranchHRMAuditLogs: React.FC = () => {
                         {/* Pagination */}
                         {pagination.last_page > 1 && (
                             <div className="flex items-center justify-between mt-4">
-                                <p className="text-sm text-gray-500">
+                                <p className="text-sm text-neutral-500">
                                     Showing {((pagination.current_page - 1) * pagination.per_page) + 1} to {Math.min(pagination.current_page * pagination.per_page, pagination.total)} of {pagination.total} logs
                                 </p>
                                 <div className="flex items-center gap-2">
                                     <button
                                         onClick={() => setPagination(prev => ({ ...prev, current_page: prev.current_page - 1 }))}
                                         disabled={pagination.current_page <= 1}
-                                        className="p-2 border border-gray-300 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="p-2 border border-neutral-300 rounded-lg hover:bg-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         <ChevronLeft className="w-4 h-4" />
                                     </button>
@@ -362,7 +362,7 @@ const BranchHRMAuditLogs: React.FC = () => {
                                     <button
                                         onClick={() => setPagination(prev => ({ ...prev, current_page: prev.current_page + 1 }))}
                                         disabled={pagination.current_page >= pagination.last_page}
-                                        className="p-2 border border-gray-300 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="p-2 border border-neutral-300 rounded-lg hover:bg-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         <ChevronRight className="w-4 h-4" />
                                     </button>
@@ -377,7 +377,7 @@ const BranchHRMAuditLogs: React.FC = () => {
             {showDetailModal && selectedLog && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-hidden">
-                        <div className="bg-gradient-to-r from-emerald-500 to-blue-500 p-6 text-white flex items-center justify-between">
+                        <div className="bg-gradient-to-r from-emerald-500 to-primary-500 p-6 text-white flex items-center justify-between">
                             <div>
                                 <h3 className="text-xl font-bold">Audit Log Details</h3>
                                 <p className="opacity-90">ID: {selectedLog.id}</p>
@@ -395,35 +395,35 @@ const BranchHRMAuditLogs: React.FC = () => {
                         <div className="p-6 overflow-y-auto max-h-[60vh] space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <p className="text-sm text-gray-500">Timestamp</p>
+                                    <p className="text-sm text-neutral-500">Timestamp</p>
                                     <p className="font-medium">{formatDate(selectedLog.created_at)}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">User</p>
+                                    <p className="text-sm text-neutral-500">User</p>
                                     <p className="font-medium">{selectedLog.user_name || 'Unknown'}</p>
-                                    <p className="text-xs text-gray-400">{formatRole(selectedLog.user_role)}</p>
+                                    <p className="text-xs text-neutral-400">{formatRole(selectedLog.user_role)}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Action</p>
+                                    <p className="text-sm text-neutral-500">Action</p>
                                     <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${getActionBadge(selectedLog.action)}`}>
                                         {getActionIcon(selectedLog.action)}
                                         {selectedLog.action?.toUpperCase()}
                                     </span>
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Entity</p>
+                                    <p className="text-sm text-neutral-500">Entity</p>
                                     <p className="font-medium capitalize">{selectedLog.entity_type}</p>
                                     {selectedLog.entity_name && (
-                                        <p className="text-xs text-gray-400">{selectedLog.entity_name}</p>
+                                        <p className="text-xs text-neutral-400">{selectedLog.entity_name}</p>
                                     )}
                                 </div>
                                 <div className="col-span-2">
-                                    <p className="text-sm text-gray-500">Description</p>
+                                    <p className="text-sm text-neutral-500">Description</p>
                                     <p className="font-medium">{selectedLog.description}</p>
                                 </div>
                                 {selectedLog.ip_address && (
                                     <div>
-                                        <p className="text-sm text-gray-500">IP Address</p>
+                                        <p className="text-sm text-neutral-500">IP Address</p>
                                         <p className="font-medium font-mono text-sm">{selectedLog.ip_address}</p>
                                     </div>
                                 )}
@@ -431,19 +431,19 @@ const BranchHRMAuditLogs: React.FC = () => {
 
                             {(selectedLog.old_values || selectedLog.new_values) && (
                                 <div className="pt-4 border-t">
-                                    <h4 className="font-semibold text-gray-800 mb-3">Changes</h4>
+                                    <h4 className="font-semibold text-neutral-800 mb-3">Changes</h4>
                                     <div className="grid grid-cols-2 gap-4">
                                         {selectedLog.old_values && (
                                             <div>
-                                                <p className="text-sm text-gray-500 mb-2">Old Values</p>
-                                                <pre className="bg-red-50 p-3 rounded-lg text-xs overflow-x-auto text-red-800">
+                                                <p className="text-sm text-neutral-500 mb-2">Old Values</p>
+                                                <pre className="bg-error-50 p-3 rounded-lg text-xs overflow-x-auto text-red-800">
                                                     {JSON.stringify(selectedLog.old_values, null, 2)}
                                                 </pre>
                                             </div>
                                         )}
                                         {selectedLog.new_values && (
                                             <div>
-                                                <p className="text-sm text-gray-500 mb-2">New Values</p>
+                                                <p className="text-sm text-neutral-500 mb-2">New Values</p>
                                                 <pre className="bg-emerald-50 p-3 rounded-lg text-xs overflow-x-auto text-emerald-800">
                                                     {JSON.stringify(selectedLog.new_values, null, 2)}
                                                 </pre>
@@ -453,13 +453,13 @@ const BranchHRMAuditLogs: React.FC = () => {
                                 </div>
                             )}
                         </div>
-                        <div className="bg-gray-50 px-6 py-4 flex justify-end">
+                        <div className="bg-neutral-50 px-6 py-4 flex justify-end">
                             <button 
                                 onClick={() => {
                                     setShowDetailModal(false);
                                     setSelectedLog(null);
                                 }}
-                                className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100"
+                                className="px-4 py-2 text-neutral-700 border border-neutral-300 rounded-lg hover:bg-neutral-100"
                             >
                                 Close
                             </button>

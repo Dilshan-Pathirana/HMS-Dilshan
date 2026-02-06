@@ -46,7 +46,7 @@ const CashierUserDashboardPage = () => {
     const totalProducts = Number(dashboardDetails.total_products);
 
     return (
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-neutral-100 p-6">
             <Spinner isLoading={isLoading} />
             {!isLoading && (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">

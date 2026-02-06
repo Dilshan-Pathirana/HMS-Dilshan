@@ -361,14 +361,14 @@ export const PRReviewModal: React.FC<PRReviewModalProps> = ({ isOpen, onClose, p
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden flex flex-col">
                 {/* Header */}
-                <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-4 flex items-center justify-between">
+                <div className="bg-gradient-to-r from-primary-500 to-blue-700 text-white px-6 py-4 flex items-center justify-between">
                     <div>
                         <h2 className="text-2xl font-bold">Review Purchase Request</h2>
                         <p className="text-blue-100 text-sm mt-1">
                             {purchaseRequest.pr_number} • Created by {purchaseRequest.creator.first_name} {purchaseRequest.creator.last_name}
                         </p>
                     </div>
-                    <button onClick={onClose} className="p-2 hover:bg-blue-700 rounded-lg transition-colors">
+                    <button onClick={onClose} className="p-2 hover:bg-primary-600 rounded-lg transition-colors">
                         <X className="w-6 h-6" />
                     </button>
                 </div>
@@ -378,12 +378,12 @@ export const PRReviewModal: React.FC<PRReviewModalProps> = ({ isOpen, onClose, p
                     {/* PR Details */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Supplier *</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">Supplier *</label>
                             <select
                                 value={selectedSupplier}
                                 onChange={(e) => setSelectedSupplier(e.target.value)}
                                 disabled={!isEditing}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100"
+                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-neutral-100"
                             >
                                 <option value="">Select Supplier</option>
                                 {suppliers.map(supplier => (
@@ -393,12 +393,12 @@ export const PRReviewModal: React.FC<PRReviewModalProps> = ({ isOpen, onClose, p
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Priority *</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">Priority *</label>
                             <select
                                 value={priority}
                                 onChange={(e) => setPriority(e.target.value as any)}
                                 disabled={!isEditing}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100"
+                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-neutral-100"
                             >
                                 <option value="Normal">Normal</option>
                                 <option value="Urgent">Urgent</option>
@@ -407,8 +407,8 @@ export const PRReviewModal: React.FC<PRReviewModalProps> = ({ isOpen, onClose, p
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Total Items</label>
-                            <div className="px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg font-semibold">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">Total Items</label>
+                            <div className="px-4 py-2 bg-neutral-100 border border-neutral-300 rounded-lg font-semibold">
                                 {prItems.length} items
                             </div>
                         </div>
@@ -417,47 +417,47 @@ export const PRReviewModal: React.FC<PRReviewModalProps> = ({ isOpen, onClose, p
                     {/* Admin Remarks */}
                     {isEditing && (
                         <div className="mb-6">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Admin Remarks (Optional)</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">Admin Remarks (Optional)</label>
                             <textarea
                                 value={adminRemarks}
                                 onChange={(e) => setAdminRemarks(e.target.value)}
                                 placeholder="Add any remarks or notes about your changes..."
                                 rows={2}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                             />
                         </div>
                     )}
 
                     {/* Original Remarks */}
                     {purchaseRequest.general_remarks && (
-                        <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                            <h3 className="font-semibold text-gray-800 mb-2">Request Remarks</h3>
-                            <p className="text-gray-700 text-sm whitespace-pre-wrap">{purchaseRequest.general_remarks}</p>
+                        <div className="mb-6 p-4 bg-neutral-50 rounded-lg border border-neutral-200">
+                            <h3 className="font-semibold text-neutral-800 mb-2">Request Remarks</h3>
+                            <p className="text-neutral-700 text-sm whitespace-pre-wrap">{purchaseRequest.general_remarks}</p>
                         </div>
                     )}
 
                     {/* Add Item Search (Only in Edit Mode) */}
                     {isEditing && (
                         <div className="mb-6">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Add Item</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">Add Item</label>
                             <div className="relative">
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400" />
                                 <input
                                     ref={searchInputRef}
                                     type="text"
                                     value={searchTerm}
                                     onChange={(e) => handleSearchChange(e.target.value)}
                                     placeholder="Search by name, code, or barcode..."
-                                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                 />
                                 {searchLoading && (
-                                    <Loader2 className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-blue-600 animate-spin" />
+                                    <Loader2 className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-primary-500 animate-spin" />
                                 )}
                             </div>
 
                             {/* Search Results */}
                             {searchResults.length > 0 && (
-                                <div className="mt-2 border border-gray-300 rounded-lg max-h-60 overflow-y-auto bg-white shadow-lg">
+                                <div className="mt-2 border border-neutral-300 rounded-lg max-h-60 overflow-y-auto bg-white shadow-lg">
                                     {searchResults.map((item) => (
                                         <div
                                             key={item.id}
@@ -466,12 +466,12 @@ export const PRReviewModal: React.FC<PRReviewModalProps> = ({ isOpen, onClose, p
                                         >
                                             <div className="flex items-center justify-between">
                                                 <div>
-                                                    <p className="font-medium text-gray-800">{item.item_name}</p>
-                                                    <p className="text-sm text-gray-600">
+                                                    <p className="font-medium text-neutral-800">{item.item_name}</p>
+                                                    <p className="text-sm text-neutral-600">
                                                         Code: {item.item_code || 'N/A'} | Stock: {item.current_stock} {item.unit}
                                                     </p>
                                                 </div>
-                                                <Plus className="w-5 h-5 text-blue-600" />
+                                                <Plus className="w-5 h-5 text-primary-500" />
                                             </div>
                                         </div>
                                     ))}
@@ -482,19 +482,19 @@ export const PRReviewModal: React.FC<PRReviewModalProps> = ({ isOpen, onClose, p
 
                     {/* Items Table */}
                     <div className="mb-6">
-                        <h3 className="font-semibold text-gray-800 mb-3">Items ({prItems.length})</h3>
-                        <div className="border border-gray-300 rounded-lg overflow-hidden overflow-x-auto">
+                        <h3 className="font-semibold text-neutral-800 mb-3">Items ({prItems.length})</h3>
+                        <div className="border border-neutral-300 rounded-lg overflow-hidden overflow-x-auto">
                             <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-gray-50">
+                                <thead className="bg-neutral-50">
                                     <tr>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Item</th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Supplier</th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Stock</th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Qty</th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Unit Price</th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Remarks</th>
-                                        {isEditing && <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>}
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Item</th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Supplier</th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Stock</th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Qty</th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Unit Price</th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Total</th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Remarks</th>
+                                        {isEditing && <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Action</th>}
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
@@ -502,9 +502,9 @@ export const PRReviewModal: React.FC<PRReviewModalProps> = ({ isOpen, onClose, p
                                         <tr key={index} className={item.is_suggested ? 'bg-blue-50' : ''}>
                                             <td className="px-4 py-3">
                                                 <div>
-                                                    <p className="font-medium text-gray-800">{item.item_name}</p>
+                                                    <p className="font-medium text-neutral-800">{item.item_name}</p>
                                                     {item.suggestion_reason && (
-                                                        <p className="text-xs text-blue-600">💡 {item.suggestion_reason}</p>
+                                                        <p className="text-xs text-primary-500">💡 {item.suggestion_reason}</p>
                                                     )}
                                                 </div>
                                             </td>
@@ -513,7 +513,7 @@ export const PRReviewModal: React.FC<PRReviewModalProps> = ({ isOpen, onClose, p
                                                     <select
                                                         value={item.supplier_id || ''}
                                                         onChange={(e) => updatePRItem(index, 'supplier_id', e.target.value)}
-                                                        className="w-full px-2 py-1 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-blue-500"
+                                                        className="w-full px-2 py-1 border border-neutral-300 rounded text-sm focus:ring-2 focus:ring-primary-500"
                                                     >
                                                         <option value="">Select Supplier</option>
                                                         {suppliers.map(s => (
@@ -521,12 +521,12 @@ export const PRReviewModal: React.FC<PRReviewModalProps> = ({ isOpen, onClose, p
                                                         ))}
                                                     </select>
                                                 ) : (
-                                                    <span className={item.supplier_name ? 'text-gray-700' : 'text-gray-400 italic'}>
+                                                    <span className={item.supplier_name ? 'text-neutral-700' : 'text-neutral-400 italic'}>
                                                         {item.supplier_name || suppliers.find(s => s.id === item.supplier_id)?.supplier_name || 'Not specified'}
                                                     </span>
                                                 )}
                                             </td>
-                                            <td className="px-4 py-3 text-sm text-gray-600">
+                                            <td className="px-4 py-3 text-sm text-neutral-600">
                                                 {item.current_stock} / {item.reorder_level}
                                             </td>
                                             <td className="px-4 py-3">
@@ -535,7 +535,7 @@ export const PRReviewModal: React.FC<PRReviewModalProps> = ({ isOpen, onClose, p
                                                     value={item.requested_quantity}
                                                     onChange={(e) => updatePRItem(index, 'requested_quantity', parseInt(e.target.value) || 0)}
                                                     disabled={!isEditing}
-                                                    className="w-20 px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
+                                                    className="w-20 px-2 py-1 border border-neutral-300 rounded focus:ring-2 focus:ring-primary-500 disabled:bg-neutral-100"
                                                     min="1"
                                                 />
                                             </td>
@@ -545,12 +545,12 @@ export const PRReviewModal: React.FC<PRReviewModalProps> = ({ isOpen, onClose, p
                                                     value={item.estimated_price}
                                                     onChange={(e) => updatePRItem(index, 'estimated_price', parseFloat(e.target.value) || 0)}
                                                     disabled={!isEditing}
-                                                    className="w-24 px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
+                                                    className="w-24 px-2 py-1 border border-neutral-300 rounded focus:ring-2 focus:ring-primary-500 disabled:bg-neutral-100"
                                                     step="0.01"
                                                     min="0"
                                                 />
                                             </td>
-                                            <td className="px-4 py-3 font-semibold text-gray-800">
+                                            <td className="px-4 py-3 font-semibold text-neutral-800">
                                                 {formatCurrency(item.requested_quantity * item.estimated_price)}
                                             </td>
                                             <td className="px-4 py-3">
@@ -560,14 +560,14 @@ export const PRReviewModal: React.FC<PRReviewModalProps> = ({ isOpen, onClose, p
                                                     onChange={(e) => updatePRItem(index, 'remarks', e.target.value)}
                                                     disabled={!isEditing}
                                                     placeholder="Optional"
-                                                    className="w-full px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 text-sm"
+                                                    className="w-full px-2 py-1 border border-neutral-300 rounded focus:ring-2 focus:ring-primary-500 disabled:bg-neutral-100 text-sm"
                                                 />
                                             </td>
                                             {isEditing && (
                                                 <td className="px-4 py-3">
                                                     <button
                                                         onClick={() => removeItemFromPR(index)}
-                                                        className="p-1 text-red-600 hover:bg-red-50 rounded"
+                                                        className="p-1 text-error-600 hover:bg-error-50 rounded"
                                                     >
                                                         <Trash2 className="w-4 h-4" />
                                                     </button>
@@ -581,16 +581,16 @@ export const PRReviewModal: React.FC<PRReviewModalProps> = ({ isOpen, onClose, p
 
                         {/* Total */}
                         <div className="mt-4 flex justify-end">
-                            <div className="bg-gray-50 px-6 py-3 rounded-lg border border-gray-300">
-                                <p className="text-sm text-gray-600">Total Estimated Cost</p>
-                                <p className="text-2xl font-bold text-gray-800">{formatCurrency(getTotalCost())}</p>
+                            <div className="bg-neutral-50 px-6 py-3 rounded-lg border border-neutral-300">
+                                <p className="text-sm text-neutral-600">Total Estimated Cost</p>
+                                <p className="text-2xl font-bold text-neutral-800">{formatCurrency(getTotalCost())}</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Footer Actions */}
-                <div className="border-t border-gray-200 px-6 py-4 bg-gray-50 flex items-center justify-between">
+                <div className="border-t border-neutral-200 px-6 py-4 bg-neutral-50 flex items-center justify-between">
                     <div>
                         {!isEditing ? (
                             <button
@@ -605,7 +605,7 @@ export const PRReviewModal: React.FC<PRReviewModalProps> = ({ isOpen, onClose, p
                                 <button
                                     onClick={handleSaveChanges}
                                     disabled={loading}
-                                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 disabled:opacity-50"
+                                    className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors flex items-center gap-2 disabled:opacity-50"
                                 >
                                     <Save className="w-4 h-4" />
                                     {loading ? 'Saving...' : 'Save Changes'}
@@ -617,7 +617,7 @@ export const PRReviewModal: React.FC<PRReviewModalProps> = ({ isOpen, onClose, p
                                         setAdminRemarks('');
                                     }}
                                     disabled={loading}
-                                    className="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition-colors"
+                                    className="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-neutral-500 transition-colors"
                                 >
                                     Cancel
                                 </button>
@@ -660,18 +660,18 @@ export const PRReviewModal: React.FC<PRReviewModalProps> = ({ isOpen, onClose, p
             {showApproveDialog && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-                        <h3 className="text-xl font-bold text-gray-800 mb-4">Approve Purchase Request</h3>
-                        <p className="text-gray-600 mb-4">
+                        <h3 className="text-xl font-bold text-neutral-800 mb-4">Approve Purchase Request</h3>
+                        <p className="text-neutral-600 mb-4">
                             Are you sure you want to approve this purchase request ({purchaseRequest.pr_number})?
                         </p>
                         <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Approval Remarks (Optional)</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">Approval Remarks (Optional)</label>
                             <textarea
                                 value={actionRemarks}
                                 onChange={(e) => setActionRemarks(e.target.value)}
                                 placeholder="Add any approval notes..."
                                 rows={3}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-green-500"
                             />
                         </div>
                         <div className="flex gap-2 justify-end">
@@ -681,7 +681,7 @@ export const PRReviewModal: React.FC<PRReviewModalProps> = ({ isOpen, onClose, p
                                     setActionRemarks('');
                                 }}
                                 disabled={loading}
-                                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+                                className="px-4 py-2 bg-neutral-300 text-neutral-700 rounded-lg hover:bg-gray-400"
                             >
                                 Cancel
                             </button>
@@ -702,18 +702,18 @@ export const PRReviewModal: React.FC<PRReviewModalProps> = ({ isOpen, onClose, p
             {showRejectDialog && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-                        <h3 className="text-xl font-bold text-gray-800 mb-4">Reject Purchase Request</h3>
-                        <p className="text-gray-600 mb-4">
+                        <h3 className="text-xl font-bold text-neutral-800 mb-4">Reject Purchase Request</h3>
+                        <p className="text-neutral-600 mb-4">
                             Please provide a reason for rejecting this purchase request ({purchaseRequest.pr_number}).
                         </p>
                         <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Rejection Reason *</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">Rejection Reason *</label>
                             <textarea
                                 value={actionRemarks}
                                 onChange={(e) => setActionRemarks(e.target.value)}
                                 placeholder="Minimum 10 characters..."
                                 rows={4}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
+                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500"
                                 required
                             />
                         </div>
@@ -724,7 +724,7 @@ export const PRReviewModal: React.FC<PRReviewModalProps> = ({ isOpen, onClose, p
                                     setActionRemarks('');
                                 }}
                                 disabled={loading}
-                                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+                                className="px-4 py-2 bg-neutral-300 text-neutral-700 rounded-lg hover:bg-gray-400"
                             >
                                 Cancel
                             </button>
@@ -745,18 +745,18 @@ export const PRReviewModal: React.FC<PRReviewModalProps> = ({ isOpen, onClose, p
             {showClarifyDialog && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-                        <h3 className="text-xl font-bold text-gray-800 mb-4">Request Clarification</h3>
-                        <p className="text-gray-600 mb-4">
+                        <h3 className="text-xl font-bold text-neutral-800 mb-4">Request Clarification</h3>
+                        <p className="text-neutral-600 mb-4">
                             Send this purchase request back for clarification ({purchaseRequest.pr_number}).
                         </p>
                         <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Clarification Request *</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">Clarification Request *</label>
                             <textarea
                                 value={actionRemarks}
                                 onChange={(e) => setActionRemarks(e.target.value)}
                                 placeholder="What needs to be clarified? (Minimum 10 characters)..."
                                 rows={4}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500"
+                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-yellow-500"
                                 required
                             />
                         </div>
@@ -767,7 +767,7 @@ export const PRReviewModal: React.FC<PRReviewModalProps> = ({ isOpen, onClose, p
                                     setActionRemarks('');
                                 }}
                                 disabled={loading}
-                                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+                                className="px-4 py-2 bg-neutral-300 text-neutral-700 rounded-lg hover:bg-gray-400"
                             >
                                 Cancel
                             </button>

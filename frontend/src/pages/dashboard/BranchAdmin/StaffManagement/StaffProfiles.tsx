@@ -50,9 +50,9 @@ const departments = [
 
 const employmentStatuses = [
     { value: 'active', label: 'Active', color: 'bg-green-100 text-green-700' },
-    { value: 'inactive', label: 'Inactive', color: 'bg-gray-100 text-gray-700' },
+    { value: 'inactive', label: 'Inactive', color: 'bg-neutral-100 text-neutral-700' },
     { value: 'on_leave', label: 'On Leave', color: 'bg-orange-100 text-orange-700' },
-    { value: 'terminated', label: 'Terminated', color: 'bg-red-100 text-red-700' },
+    { value: 'terminated', label: 'Terminated', color: 'bg-error-100 text-red-700' },
 ];
 
 // Mock data
@@ -298,7 +298,7 @@ export const StaffProfiles: React.FC = () => {
     const SidebarMenu = () => (
         <nav className="py-4">
             <div className="px-4 mb-4">
-                <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Navigation</h2>
+                <h2 className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Navigation</h2>
             </div>
             <ul className="space-y-1 px-2">
                 {BranchAdminMenuItems.map((item, index) => (
@@ -307,8 +307,8 @@ export const StaffProfiles: React.FC = () => {
                             onClick={() => navigate(item.path)}
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                                 item.path === '/branch-admin/hrm'
-                                    ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-md'
-                                    : 'text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
+                                    ? 'bg-gradient-to-r from-emerald-500 to-primary-500 text-white shadow-md'
+                                    : 'text-neutral-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
                             }`}
                         >
                             <span className="flex-shrink-0">{item.icon}</span>
@@ -323,7 +323,7 @@ export const StaffProfiles: React.FC = () => {
     const StatusBadge = ({ status }: { status: string }) => {
         const statusConfig = employmentStatuses.find(s => s.value === status);
         return (
-            <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusConfig?.color || 'bg-gray-100 text-gray-700'}`}>
+            <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusConfig?.color || 'bg-neutral-100 text-neutral-700'}`}>
                 {statusConfig?.label || status}
             </span>
         );
@@ -376,27 +376,27 @@ export const StaffProfiles: React.FC = () => {
                     <div className="flex items-center gap-4">
                         <button 
                             onClick={() => navigate('/branch-admin/hrm')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ChevronLeft className="w-5 h-5 text-gray-600" />
+                            <ChevronLeft className="w-5 h-5 text-neutral-600" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">Staff Profiles</h1>
-                            <p className="text-gray-500">Manage staff members, roles, and permissions</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">Staff Profiles</h1>
+                            <p className="text-neutral-500">Manage staff members, roles, and permissions</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
-                        <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                        <button className="flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50 transition-colors">
                             <Download className="w-4 h-4" />
                             Export
                         </button>
-                        <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                        <button className="flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50 transition-colors">
                             <Upload className="w-4 h-4" />
                             Import
                         </button>
                         <button 
                             onClick={handleCreateStaff}
-                            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all"
+                            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all"
                         >
                             <UserPlus className="w-4 h-4" />
                             Add New Staff
@@ -405,21 +405,21 @@ export const StaffProfiles: React.FC = () => {
                 </div>
 
                 {/* Search and Filters */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                     <div className="flex flex-col md:flex-row gap-4">
                         <div className="flex-1 relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                             <input
                                 type="text"
                                 placeholder="Search by name, email, or employee ID..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                             />
                         </div>
                         <button 
                             onClick={() => setShowFilters(!showFilters)}
-                            className={`flex items-center gap-2 px-4 py-2 border rounded-lg transition-colors ${showFilters ? 'border-emerald-500 bg-emerald-50 text-emerald-700' : 'border-gray-300 hover:bg-gray-50'}`}
+                            className={`flex items-center gap-2 px-4 py-2 border rounded-lg transition-colors ${showFilters ? 'border-emerald-500 bg-emerald-50 text-emerald-700' : 'border-neutral-300 hover:bg-neutral-50'}`}
                         >
                             <Filter className="w-4 h-4" />
                             Filters
@@ -427,13 +427,13 @@ export const StaffProfiles: React.FC = () => {
                     </div>
 
                     {showFilters && (
-                        <div className="mt-4 pt-4 border-t border-gray-200 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="mt-4 pt-4 border-t border-neutral-200 grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Department</label>
                                 <select
                                     value={selectedDepartment}
                                     onChange={(e) => setSelectedDepartment(e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                 >
                                     <option value="">All Departments</option>
                                     {departments.map(dept => (
@@ -442,11 +442,11 @@ export const StaffProfiles: React.FC = () => {
                                 </select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Role</label>
                                 <select
                                     value={selectedRole}
                                     onChange={(e) => setSelectedRole(e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                 >
                                     <option value="">All Roles</option>
                                     {roles.map(role => (
@@ -455,11 +455,11 @@ export const StaffProfiles: React.FC = () => {
                                 </select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Status</label>
                                 <select
                                     value={selectedStatus}
                                     onChange={(e) => setSelectedStatus(e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                 >
                                     <option value="">All Statuses</option>
                                     {employmentStatuses.map(status => (
@@ -472,22 +472,22 @@ export const StaffProfiles: React.FC = () => {
                 </div>
 
                 {/* Staff Table */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full">
-                            <thead className="bg-gray-50">
+                            <thead className="bg-neutral-50">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Employee</th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Role</th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Department</th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Contact</th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">Employee</th>
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">Role</th>
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">Department</th>
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">Contact</th>
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">Status</th>
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
                                 {paginatedStaff.map((staff) => (
-                                    <tr key={staff.id} className="hover:bg-gray-50">
+                                    <tr key={staff.id} className="hover:bg-neutral-50">
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">
                                                 <div className="w-10 h-10 rounded-full overflow-hidden">
@@ -500,22 +500,22 @@ export const StaffProfiles: React.FC = () => {
                                                     )}
                                                 </div>
                                                 <div>
-                                                    <p className="font-medium text-gray-800">{staff.first_name} {staff.last_name}</p>
-                                                    <p className="text-sm text-gray-500">{staff.employee_id}</p>
+                                                    <p className="font-medium text-neutral-800">{staff.first_name} {staff.last_name}</p>
+                                                    <p className="text-sm text-neutral-500">{staff.employee_id}</p>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <p className="text-gray-800">{staff.role}</p>
-                                            <p className="text-sm text-gray-500">{staff.designation}</p>
+                                            <p className="text-neutral-800">{staff.role}</p>
+                                            <p className="text-sm text-neutral-500">{staff.designation}</p>
                                         </td>
-                                        <td className="px-6 py-4 text-gray-600">{staff.department}</td>
+                                        <td className="px-6 py-4 text-neutral-600">{staff.department}</td>
                                         <td className="px-6 py-4">
                                             <div className="flex flex-col gap-1">
-                                                <span className="text-sm text-gray-600 flex items-center gap-1">
+                                                <span className="text-sm text-neutral-600 flex items-center gap-1">
                                                     <Mail className="w-3 h-3" /> {staff.email}
                                                 </span>
-                                                <span className="text-sm text-gray-500 flex items-center gap-1">
+                                                <span className="text-sm text-neutral-500 flex items-center gap-1">
                                                     <Phone className="w-3 h-3" /> {staff.phone}
                                                 </span>
                                             </div>
@@ -527,24 +527,24 @@ export const StaffProfiles: React.FC = () => {
                                             <div className="flex items-center gap-2">
                                                 <button 
                                                     onClick={() => handleViewStaff(staff)}
-                                                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                                    className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                                                     title="View"
                                                 >
-                                                    <Eye className="w-4 h-4 text-gray-600" />
+                                                    <Eye className="w-4 h-4 text-neutral-600" />
                                                 </button>
                                                 <button 
                                                     onClick={() => handleEditStaff(staff)}
                                                     className="p-2 hover:bg-blue-100 rounded-lg transition-colors"
                                                     title="Edit"
                                                 >
-                                                    <Edit2 className="w-4 h-4 text-blue-600" />
+                                                    <Edit2 className="w-4 h-4 text-primary-500" />
                                                 </button>
                                                 <button 
                                                     onClick={() => handleDeleteClick(staff)}
-                                                    className="p-2 hover:bg-red-100 rounded-lg transition-colors"
+                                                    className="p-2 hover:bg-error-100 rounded-lg transition-colors"
                                                     title="Delete"
                                                 >
-                                                    <Trash2 className="w-4 h-4 text-red-600" />
+                                                    <Trash2 className="w-4 h-4 text-error-600" />
                                                 </button>
                                             </div>
                                         </td>
@@ -556,15 +556,15 @@ export const StaffProfiles: React.FC = () => {
 
                     {/* Pagination */}
                     {totalPages > 1 && (
-                        <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
-                            <p className="text-sm text-gray-600">
+                        <div className="px-6 py-4 border-t border-neutral-200 flex items-center justify-between">
+                            <p className="text-sm text-neutral-600">
                                 Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, filteredStaff.length)} of {filteredStaff.length} results
                             </p>
                             <div className="flex items-center gap-2">
                                 <button
                                     onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                                     disabled={currentPage === 1}
-                                    className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="p-2 border border-neutral-300 rounded-lg hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     <ChevronLeft className="w-4 h-4" />
                                 </button>
@@ -572,7 +572,7 @@ export const StaffProfiles: React.FC = () => {
                                     <button
                                         key={i}
                                         onClick={() => setCurrentPage(i + 1)}
-                                        className={`px-3 py-1 rounded-lg ${currentPage === i + 1 ? 'bg-emerald-500 text-white' : 'hover:bg-gray-100'}`}
+                                        className={`px-3 py-1 rounded-lg ${currentPage === i + 1 ? 'bg-emerald-500 text-white' : 'hover:bg-neutral-100'}`}
                                     >
                                         {i + 1}
                                     </button>
@@ -580,7 +580,7 @@ export const StaffProfiles: React.FC = () => {
                                 <button
                                     onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                                     disabled={currentPage === totalPages}
-                                    className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="p-2 border border-neutral-300 rounded-lg hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     <ChevronRight className="w-4 h-4" />
                                 </button>
@@ -594,12 +594,12 @@ export const StaffProfiles: React.FC = () => {
             {showModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setShowModal(false)}>
                     <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto m-4" onClick={e => e.stopPropagation()}>
-                        <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-                            <h3 className="text-xl font-bold text-gray-800">
+                        <div className="sticky top-0 bg-white border-b border-neutral-200 px-6 py-4 flex items-center justify-between">
+                            <h3 className="text-xl font-bold text-neutral-800">
                                 {modalMode === 'create' ? 'Add New Staff Member' : modalMode === 'edit' ? 'Edit Staff Member' : 'Staff Details'}
                             </h3>
-                            <button onClick={() => setShowModal(false)} className="p-2 hover:bg-gray-100 rounded-lg">
-                                <X className="w-5 h-5 text-gray-500" />
+                            <button onClick={() => setShowModal(false)} className="p-2 hover:bg-neutral-100 rounded-lg">
+                                <X className="w-5 h-5 text-neutral-500" />
                             </button>
                         </div>
 
@@ -618,49 +618,49 @@ export const StaffProfiles: React.FC = () => {
                                             )}
                                         </div>
                                         <div>
-                                            <h4 className="text-xl font-bold text-gray-800">{selectedStaff.first_name} {selectedStaff.last_name}</h4>
-                                            <p className="text-gray-500">{selectedStaff.designation}</p>
+                                            <h4 className="text-xl font-bold text-neutral-800">{selectedStaff.first_name} {selectedStaff.last_name}</h4>
+                                            <p className="text-neutral-500">{selectedStaff.designation}</p>
                                             <StatusBadge status={selectedStaff.employment_status} />
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-2 gap-4">
-                                        <div className="p-3 bg-gray-50 rounded-lg">
-                                            <p className="text-sm text-gray-500">Employee ID</p>
+                                        <div className="p-3 bg-neutral-50 rounded-lg">
+                                            <p className="text-sm text-neutral-500">Employee ID</p>
                                             <p className="font-medium">{selectedStaff.employee_id}</p>
                                         </div>
-                                        <div className="p-3 bg-gray-50 rounded-lg">
-                                            <p className="text-sm text-gray-500">Department</p>
+                                        <div className="p-3 bg-neutral-50 rounded-lg">
+                                            <p className="text-sm text-neutral-500">Department</p>
                                             <p className="font-medium">{selectedStaff.department}</p>
                                         </div>
-                                        <div className="p-3 bg-gray-50 rounded-lg">
-                                            <p className="text-sm text-gray-500">Role</p>
+                                        <div className="p-3 bg-neutral-50 rounded-lg">
+                                            <p className="text-sm text-neutral-500">Role</p>
                                             <p className="font-medium">{selectedStaff.role}</p>
                                         </div>
-                                        <div className="p-3 bg-gray-50 rounded-lg">
-                                            <p className="text-sm text-gray-500">Shift</p>
+                                        <div className="p-3 bg-neutral-50 rounded-lg">
+                                            <p className="text-sm text-neutral-500">Shift</p>
                                             <p className="font-medium">{selectedStaff.shift}</p>
                                         </div>
-                                        <div className="p-3 bg-gray-50 rounded-lg">
-                                            <p className="text-sm text-gray-500">Email</p>
+                                        <div className="p-3 bg-neutral-50 rounded-lg">
+                                            <p className="text-sm text-neutral-500">Email</p>
                                             <p className="font-medium">{selectedStaff.email}</p>
                                         </div>
-                                        <div className="p-3 bg-gray-50 rounded-lg">
-                                            <p className="text-sm text-gray-500">Phone</p>
+                                        <div className="p-3 bg-neutral-50 rounded-lg">
+                                            <p className="text-sm text-neutral-500">Phone</p>
                                             <p className="font-medium">{selectedStaff.phone}</p>
                                         </div>
-                                        <div className="p-3 bg-gray-50 rounded-lg">
-                                            <p className="text-sm text-gray-500">Joining Date</p>
+                                        <div className="p-3 bg-neutral-50 rounded-lg">
+                                            <p className="text-sm text-neutral-500">Joining Date</p>
                                             <p className="font-medium">{new Date(selectedStaff.joining_date).toLocaleDateString()}</p>
                                         </div>
-                                        <div className="p-3 bg-gray-50 rounded-lg">
-                                            <p className="text-sm text-gray-500">Gender</p>
+                                        <div className="p-3 bg-neutral-50 rounded-lg">
+                                            <p className="text-sm text-neutral-500">Gender</p>
                                             <p className="font-medium">{selectedStaff.gender}</p>
                                         </div>
                                     </div>
 
-                                    <div className="p-3 bg-gray-50 rounded-lg">
-                                        <p className="text-sm text-gray-500 mb-2">Qualifications</p>
+                                    <div className="p-3 bg-neutral-50 rounded-lg">
+                                        <p className="text-sm text-neutral-500 mb-2">Qualifications</p>
                                         <div className="flex flex-wrap gap-2">
                                             {selectedStaff.qualifications.map((q, i) => (
                                                 <span key={i} className="px-2 py-1 bg-emerald-100 text-emerald-700 rounded text-sm">{q}</span>
@@ -673,22 +673,22 @@ export const StaffProfiles: React.FC = () => {
                                 <div className="space-y-4">
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">First Name *</label>
                                             <input
                                                 type="text"
                                                 value={formData.first_name || ''}
                                                 onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                                 required
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Last Name *</label>
                                             <input
                                                 type="text"
                                                 value={formData.last_name || ''}
                                                 onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                                 required
                                             />
                                         </div>
@@ -696,22 +696,22 @@ export const StaffProfiles: React.FC = () => {
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Email *</label>
                                             <input
                                                 type="email"
                                                 value={formData.email || ''}
                                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                                 required
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Phone *</label>
                                             <input
                                                 type="tel"
                                                 value={formData.phone || ''}
                                                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                                 required
                                             />
                                         </div>
@@ -719,11 +719,11 @@ export const StaffProfiles: React.FC = () => {
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Gender</label>
                                             <select
                                                 value={formData.gender || 'Male'}
                                                 onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             >
                                                 <option value="Male">Male</option>
                                                 <option value="Female">Female</option>
@@ -731,33 +731,33 @@ export const StaffProfiles: React.FC = () => {
                                             </select>
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Date of Birth</label>
                                             <input
                                                 type="date"
                                                 value={formData.date_of_birth || ''}
                                                 onChange={(e) => setFormData({ ...formData, date_of_birth: e.target.value })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             />
                                         </div>
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Address</label>
                                         <textarea
                                             value={formData.address || ''}
                                             onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             rows={2}
                                         />
                                     </div>
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Role *</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Role *</label>
                                             <select
                                                 value={formData.role_as || 5}
                                                 onChange={(e) => setFormData({ ...formData, role_as: parseInt(e.target.value) })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             >
                                                 {roles.map(role => (
                                                     <option key={role.value} value={role.value}>{role.label}</option>
@@ -765,11 +765,11 @@ export const StaffProfiles: React.FC = () => {
                                             </select>
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Department *</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Department *</label>
                                             <select
                                                 value={formData.department || ''}
                                                 onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             >
                                                 <option value="">Select Department</option>
                                                 {departments.map(dept => (
@@ -781,20 +781,20 @@ export const StaffProfiles: React.FC = () => {
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Designation</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Designation</label>
                                             <input
                                                 type="text"
                                                 value={formData.designation || ''}
                                                 onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Shift</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Shift</label>
                                             <select
                                                 value={formData.shift || 'Day Shift'}
                                                 onChange={(e) => setFormData({ ...formData, shift: e.target.value })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             >
                                                 <option value="Day Shift">Day Shift</option>
                                                 <option value="Night Shift">Night Shift</option>
@@ -805,11 +805,11 @@ export const StaffProfiles: React.FC = () => {
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Employment Status</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Employment Status</label>
                                         <select
                                             value={formData.employment_status || 'active'}
                                             onChange={(e) => setFormData({ ...formData, employment_status: e.target.value as any })}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                         >
                                             {employmentStatuses.map(status => (
                                                 <option key={status.value} value={status.value}>{status.label}</option>
@@ -820,17 +820,17 @@ export const StaffProfiles: React.FC = () => {
                             )}
                         </div>
 
-                        <div className="sticky bottom-0 bg-white border-t border-gray-200 px-6 py-4 flex justify-end gap-3">
+                        <div className="sticky bottom-0 bg-white border-t border-neutral-200 px-6 py-4 flex justify-end gap-3">
                             <button 
                                 onClick={() => setShowModal(false)}
-                                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                                className="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50"
                             >
                                 {modalMode === 'view' ? 'Close' : 'Cancel'}
                             </button>
                             {modalMode !== 'view' && (
                                 <button 
                                     onClick={handleSaveStaff}
-                                    className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600"
+                                    className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600"
                                 >
                                     {modalMode === 'create' ? 'Create Staff' : 'Save Changes'}
                                 </button>
@@ -844,21 +844,21 @@ export const StaffProfiles: React.FC = () => {
             {showDeleteConfirm && staffToDelete && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 m-4">
-                        <h3 className="text-xl font-bold text-gray-800 mb-4">Confirm Delete</h3>
-                        <p className="text-gray-600 mb-6">
+                        <h3 className="text-xl font-bold text-neutral-800 mb-4">Confirm Delete</h3>
+                        <p className="text-neutral-600 mb-6">
                             Are you sure you want to delete <strong>{staffToDelete.first_name} {staffToDelete.last_name}</strong>? 
                             This action cannot be undone.
                         </p>
                         <div className="flex justify-end gap-3">
                             <button 
                                 onClick={() => setShowDeleteConfirm(false)}
-                                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                                className="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50"
                             >
                                 Cancel
                             </button>
                             <button 
                                 onClick={handleDeleteConfirm}
-                                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                                className="px-4 py-2 bg-error-500 text-white rounded-lg hover:bg-red-600"
                             >
                                 Delete
                             </button>

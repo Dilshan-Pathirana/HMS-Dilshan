@@ -47,11 +47,11 @@ const ProductInformationForm: React.FC<ProductInformationFormProps> = ({
                     onChange={handleChange}
                     placeholder="Enter unique SKU"
                     className={`border p-2 w-full ${
-                        errors.sku ? "border-red-500" : "border-gray-300"
+                        errors.sku ? "border-error-500" : "border-neutral-300"
                     }`}
                 />
                 {errors.sku && (
-                    <p className="text-red-500 text-sm">{errors.sku}</p>
+                    <p className="text-error-500 text-sm">{errors.sku}</p>
                 )}
             </div>
 
@@ -64,11 +64,11 @@ const ProductInformationForm: React.FC<ProductInformationFormProps> = ({
                     onChange={handleChange}
                     placeholder="Enter product name"
                     className={`border p-2 w-full ${
-                        errors.name ? "border-red-500" : "border-gray-300"
+                        errors.name ? "border-error-500" : "border-neutral-300"
                     }`}
                 />
                 {errors.name && (
-                    <p className="text-red-500 text-sm">{errors.name}</p>
+                    <p className="text-error-500 text-sm">{errors.name}</p>
                 )}
             </div>
 
@@ -81,11 +81,11 @@ const ProductInformationForm: React.FC<ProductInformationFormProps> = ({
                     onChange={handleChange}
                     placeholder="Enter item barcode"
                     className={`border p-2 w-full ${
-                        errors.name ? "border-red-500" : "border-gray-300"
+                        errors.name ? "border-error-500" : "border-neutral-300"
                     }`}
                 />
                 {errors.barcode && (
-                    <p className="text-red-500 text-sm">{errors.barcode}</p>
+                    <p className="text-error-500 text-sm">{errors.barcode}</p>
                 )}
             </div>
 
@@ -99,12 +99,12 @@ const ProductInformationForm: React.FC<ProductInformationFormProps> = ({
                     placeholder="Enter generic name"
                     className={`border p-2 w-full ${
                         errors.genericName
-                            ? "border-red-500"
-                            : "border-gray-300"
+                            ? "border-error-500"
+                            : "border-neutral-300"
                     }`}
                 />
                 {errors.genericName && (
-                    <p className="text-red-500 text-sm">{errors.genericName}</p>
+                    <p className="text-error-500 text-sm">{errors.genericName}</p>
                 )}
             </div>
 
@@ -117,11 +117,11 @@ const ProductInformationForm: React.FC<ProductInformationFormProps> = ({
                     onChange={handleChange}
                     placeholder="Enter brand name"
                     className={`border p-2 w-full ${
-                        errors.brandName ? "border-red-500" : "border-gray-300"
+                        errors.brandName ? "border-error-500" : "border-neutral-300"
                     }`}
                 />
                 {errors.brandName && (
-                    <p className="text-red-500 text-sm">{errors.brandName}</p>
+                    <p className="text-error-500 text-sm">{errors.brandName}</p>
                 )}
             </div>
 
@@ -136,12 +136,12 @@ const ProductInformationForm: React.FC<ProductInformationFormProps> = ({
                     options={categories}
                     placeholder="Select Category"
                     className={`w-full ${
-                        errors.category ? "border-red-500" : ""
+                        errors.category ? "border-error-500" : ""
                     }`}
                     classNamePrefix="react-select"
                 />
                 {errors.category && (
-                    <p className="text-red-500 text-sm">{errors.category}</p>
+                    <p className="text-error-500 text-sm">{errors.category}</p>
                 )}
             </div>
 
@@ -153,18 +153,18 @@ const ProductInformationForm: React.FC<ProductInformationFormProps> = ({
                     onChange={handleUnitSelect}
                     options={units}
                     placeholder="Select Unit"
-                    className={`w-full ${errors.units ? "border-red-500" : ""}`}
+                    className={`w-full ${errors.units ? "border-error-500" : ""}`}
                     classNamePrefix="react-select"
                 />
                 {errors.units && (
-                    <p className="text-red-500 text-sm">{errors.units}</p>
+                    <p className="text-error-500 text-sm">{errors.units}</p>
                 )}
             </div>
 
             <div className="col-span-1 md:col-span-2 flex justify-between mt-4">
                 <button
                     type="submit"
-                    className="border px-4 py-2 bg-blue-500 text-white"
+                    className="border px-4 py-2 bg-primary-500 text-white"
                 >
                     Next
                 </button>

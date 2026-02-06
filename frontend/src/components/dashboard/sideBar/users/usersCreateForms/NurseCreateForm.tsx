@@ -315,62 +315,62 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
             className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-white rounded-lg shadow-md"
         >
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    First Name <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    First Name <span className="text-error-500">*</span>
                 </label>
                 <input
                     type="text"
                     name="first_name"
                     value={formData.first_name}
                     onChange={handleInputChange}
-                    className={`mt-1 p-2 block w-full border rounded-md shadow-sm ${errors.first_name ? 'border-red-500' : 'border-gray-300'}`}
+                    className={`mt-1 p-2 block w-full border rounded-md shadow-sm ${errors.first_name ? 'border-error-500' : 'border-neutral-300'}`}
                 />
                 {errors.first_name && (
-                    <p className="text-red-500 text-sm mt-1">{errors.first_name[0]}</p>
+                    <p className="text-error-500 text-sm mt-1">{errors.first_name[0]}</p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    Last Name <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    Last Name <span className="text-error-500">*</span>
                 </label>
                 <input
                     type="text"
                     name="last_name"
                     value={formData.last_name}
                     onChange={handleInputChange}
-                    className={`mt-1 p-2 block w-full border rounded-md shadow-sm ${errors.last_name ? 'border-red-500' : 'border-gray-300'}`}
+                    className={`mt-1 p-2 block w-full border rounded-md shadow-sm ${errors.last_name ? 'border-error-500' : 'border-neutral-300'}`}
                 />
                 {errors.last_name && (
-                    <p className="text-red-500 text-sm mt-1">{errors.last_name[0]}</p>
+                    <p className="text-error-500 text-sm mt-1">{errors.last_name[0]}</p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    Date of Birth <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    Date of Birth <span className="text-error-500">*</span>
                 </label>
                 <input
                     type="date"
                     name="date_of_birth"
                     value={formData.date_of_birth}
                     onChange={handleInputChange}
-                    className={`mt-1 p-2 block w-full border rounded-md shadow-sm ${errors.date_of_birth ? 'border-red-500' : 'border-gray-300'}`}
+                    className={`mt-1 p-2 block w-full border rounded-md shadow-sm ${errors.date_of_birth ? 'border-error-500' : 'border-neutral-300'}`}
                 />
                 {errors.date_of_birth && (
-                    <p className="text-red-500 text-sm mt-1">{errors.date_of_birth[0]}</p>
+                    <p className="text-error-500 text-sm mt-1">{errors.date_of_birth[0]}</p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    Gender <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    Gender <span className="text-error-500">*</span>
                 </label>
                 <select
                     name="gender"
                     value={formData.gender}
                     onChange={handleInputChange}
-                    className={`mt-1 p-2 block w-full border rounded-md shadow-sm ${errors.gender ? 'border-red-500' : 'border-gray-300'}`}
+                    className={`mt-1 p-2 block w-full border rounded-md shadow-sm ${errors.gender ? 'border-error-500' : 'border-neutral-300'}`}
                 >
                     <option value="">Select Gender</option>
                     <option value="Male">Male</option>
@@ -378,12 +378,12 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                     <option value="Other">Other</option>
                 </select>
                 {errors.gender && (
-                    <p className="text-red-500 text-sm mt-1">{errors.gender[0]}</p>
+                    <p className="text-error-500 text-sm mt-1">{errors.gender[0]}</p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     NIC/Passport Number
                 </label>
                 <input
@@ -391,28 +391,28 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                     name="nic_or_passport"
                     value={formData.nic_or_passport}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    Mobile Number <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    Mobile Number <span className="text-error-500">*</span>
                 </label>
                 <input
                     type="tel"
                     name="mobile_number"
                     value={formData.mobile_number}
                     onChange={handleInputChange}
-                    className={`mt-1 p-2 block w-full border rounded-md shadow-sm ${errors.mobile_number ? 'border-red-500' : 'border-gray-300'}`}
+                    className={`mt-1 p-2 block w-full border rounded-md shadow-sm ${errors.mobile_number ? 'border-error-500' : 'border-neutral-300'}`}
                 />
                 {errors.mobile_number && (
-                    <p className="text-red-500 text-sm mt-1">{errors.mobile_number[0]}</p>
+                    <p className="text-error-500 text-sm mt-1">{errors.mobile_number[0]}</p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Landline Number
                 </label>
                 <input
@@ -420,28 +420,28 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                     name="landline_number"
                     value={formData.landline_number}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    Email <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    Email <span className="text-error-500">*</span>
                 </label>
                 <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className={`mt-1 p-2 block w-full border rounded-md shadow-sm ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
+                    className={`mt-1 p-2 block w-full border rounded-md shadow-sm ${errors.email ? 'border-error-500' : 'border-neutral-300'}`}
                 />
                 {errors.email && (
-                    <p className="text-red-500 text-sm mt-1">{errors.email[0]}</p>
+                    <p className="text-error-500 text-sm mt-1">{errors.email[0]}</p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">                    Password <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">                    Password <span className="text-error-500">*</span>
                 </label>
                 <div className="relative">
                     <input
@@ -450,23 +450,23 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                         value={formData.password}
                         onChange={handleInputChange}
                         placeholder="Enter login password (min 6 characters)"
-                        className={`mt-1 p-2 block w-full border rounded-md shadow-sm pr-10 ${errors.password ? 'border-red-500' : 'border-gray-300'}`}
+                        className={`mt-1 p-2 block w-full border rounded-md shadow-sm pr-10 ${errors.password ? 'border-error-500' : 'border-neutral-300'}`}
                     />
                     <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-neutral-500 hover:text-neutral-700"
                     >
                         {showPassword ? '🙈' : '👁️'}
                     </button>
                 </div>
                 {errors.password && (
-                    <p className="text-red-500 text-sm mt-1">{errors.password[0]}</p>
+                    <p className="text-error-500 text-sm mt-1">{errors.password[0]}</p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">                    Confirm Password <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">                    Confirm Password <span className="text-error-500">*</span>
                 </label>
                 <div className="relative">
                     <input
@@ -475,35 +475,35 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         placeholder="Confirm password"
-                        className={`mt-1 p-2 block w-full border rounded-md shadow-sm pr-10 ${errors.confirm_password ? 'border-red-500' : 'border-gray-300'}`}
+                        className={`mt-1 p-2 block w-full border rounded-md shadow-sm pr-10 ${errors.confirm_password ? 'border-error-500' : 'border-neutral-300'}`}
                     />
                     <button
                         type="button"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-neutral-500 hover:text-neutral-700"
                     >
                         {showConfirmPassword ? '🙈' : '👁️'}
                     </button>
                 </div>
                 {errors.confirm_password && (
-                    <p className="text-red-500 text-sm mt-1">{errors.confirm_password[0]}</p>
+                    <p className="text-error-500 text-sm mt-1">{errors.confirm_password[0]}</p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Home Address
                 </label>
                 <textarea
                     name="home_address"
                     value={formData.home_address}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Emergency Contact Information
                 </label>
                 <input
@@ -511,12 +511,12 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                     name="emergency_contact"
                     value={formData.emergency_contact}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Upload Recent Photo
                 </label>
                 <input
@@ -524,7 +524,7 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                     name="photo"
                     accept="image/*"
                     onChange={handleFileChange}
-                    className="mt-1 block w-full text-sm text-gray-500 border border-dashed border-gray-300 p-2 rounded-md"
+                    className="mt-1 block w-full text-sm text-neutral-500 border border-dashed border-neutral-300 p-2 rounded-md"
                 />
                 {recentPhotoPreview && (
                     <div className="mt-2">
@@ -538,11 +538,11 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    Branch <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    Branch <span className="text-error-500">*</span>
                 </label>
                 {isBranchAdmin ? (
-                    <div className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm bg-gray-100">
+                    <div className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm bg-neutral-100">
                         {userBranchName}
                         <input type="hidden" name="branch_id" value={userBranchId} />
                     </div>
@@ -557,35 +557,35 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                     />
                 )}
                 {errors.branch_id && (
-                    <p className="text-red-500 text-sm mt-1">{errors.branch_id[0]}</p>
+                    <p className="text-error-500 text-sm mt-1">{errors.branch_id[0]}</p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    Nursing Registration Number <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    Nursing Registration Number <span className="text-error-500">*</span>
                 </label>
                 <input
                     type="text"
                     name="nursing_reg_number"
                     value={formData.nursing_reg_number}
                     onChange={handleInputChange}
-                    className={`mt-1 p-2 block w-full border rounded-md shadow-sm ${errors.nursing_reg_number ? 'border-red-500' : 'border-gray-300'}`}
+                    className={`mt-1 p-2 block w-full border rounded-md shadow-sm ${errors.nursing_reg_number ? 'border-error-500' : 'border-neutral-300'}`}
                 />
                 {errors.nursing_reg_number && (
-                    <p className="text-red-500 text-sm mt-1">{errors.nursing_reg_number[0]}</p>
+                    <p className="text-error-500 text-sm mt-1">{errors.nursing_reg_number[0]}</p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Qualifications
                 </label>
                 <select
                     name="qualifications"
                     value={formData.qualifications}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 >
                     <option value="">Select Qualification</option>
                     <option value="Certificate">Certificate</option>
@@ -598,7 +598,7 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Years of Experience
                 </label>
                 <input
@@ -607,12 +607,12 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                     value={formData.years_of_experience}
                     onChange={handleInputChange}
                     min={0}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Specialization
                 </label>
                 <input
@@ -620,12 +620,12 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                     name="specialization"
                     value={formData.specialization}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Work Experience
                 </label>
                 <input
@@ -633,12 +633,12 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                     name="workExperience"
                     value={formData.work_experience}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Nurse Training Certifications
                 </label>
                 <input
@@ -646,12 +646,12 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                     name="nurse_training_certifications"
                     value={formData.nurse_training_certifications}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Additional Certifications
                 </label>
                 <input
@@ -659,12 +659,12 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                     name="additional_certifications"
                     value={formData.additional_certifications}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     License Validity Date
                 </label>
                 <input
@@ -672,12 +672,12 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                     name="license_validity_date"
                     value={formData.license_validity_date}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Joining Date
                 </label>
                 <input
@@ -685,12 +685,12 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                     name="joining_date"
                     value={formData.joining_date}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Employee ID
                 </label>
                 <input
@@ -698,19 +698,19 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                     name="employee_id"
                     value={formData.employee_id}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Contract Type
                 </label>
                 <select
                     name="contract_type"
                     value={formData.contract_type}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 >
                     <option value="">Select Contract Type</option>
                     <option value="Full_time">Full-time</option>
@@ -721,7 +721,7 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
 
             {/* Probation Period Start */}
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Probation Start
                 </label>
                 <input
@@ -729,13 +729,13 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                     name="probation_start"
                     value={formData.probation_start}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             {/* Probation Period End */}
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Probation End
                 </label>
                 <input
@@ -743,13 +743,13 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                     name="probation_end"
                     value={formData.probation_end}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             {/* Basic Salary */}
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Basic Salary
                 </label>
                 <input
@@ -759,13 +759,13 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                     value={formData.basic_salary}
                     onChange={handleInputChange}
                     placeholder="Enter basic salary"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             {/* Compensation Package */}
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Compensation Package
                 </label>
                 <input
@@ -773,7 +773,7 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                     name="compensation_package"
                     value={formData.compensation_package}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
@@ -784,7 +784,7 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                     className={`px-8 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-medium ${
                         isSubmitting 
                             ? 'bg-gray-400 text-gray-200 cursor-not-allowed' 
-                            : 'bg-blue-600 text-white hover:bg-blue-700'
+                            : 'bg-primary-500 text-white hover:bg-primary-600'
                     }`}
                 >
                     {isSubmitting ? 'Creating...' : 'Create Nurse'}

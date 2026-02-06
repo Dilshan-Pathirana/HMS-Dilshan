@@ -76,11 +76,11 @@ export default function Navbar({ toggleSidebar }: NavbarProps) {
     };
 
     return (
-        <header className="flex items-center justify-between px-2 sm:px-4 lg:px-6 py-2 sm:py-3 lg:py-4 bg-[#ffffff] border-l-2 border-gray-200 gap-2">
+        <header className="flex items-center justify-between px-2 sm:px-4 lg:px-6 py-2 sm:py-3 lg:py-4 bg-[#ffffff] border-l-2 border-neutral-200 gap-2">
             <div className="flex items-center gap-2 min-w-0">
                 <button
                     onClick={toggleSidebar}
-                    className="text-gray-500 focus:outline-none md:hidden min-h-[44px] min-w-[44px] flex items-center justify-center flex-shrink-0"
+                    className="text-neutral-500 focus:outline-none md:hidden min-h-[44px] min-w-[44px] flex items-center justify-center flex-shrink-0"
                 >
                     <svg
                         className="h-5 w-5 sm:h-6 sm:w-6"
@@ -97,7 +97,7 @@ export default function Navbar({ toggleSidebar }: NavbarProps) {
                         />
                     </svg>
                 </button>
-                <h1 className="text-lg sm:text-2xl font-semibold text-gray-800 truncate">
+                <h1 className="text-lg sm:text-2xl font-semibold text-neutral-800 truncate">
                     Dashboard
                 </h1>
             </div>
@@ -124,12 +124,12 @@ export default function Navbar({ toggleSidebar }: NavbarProps) {
                 <div className="flex items-center relative gap-1">
                     <button
                         onClick={showNotificationSectionVisibility}
-                        className="text-gray-500 p-2 rounded-full hover:bg-gray-100 focus:outline-none relative min-h-[44px] min-w-[44px] flex items-center justify-center flex-shrink-0"
+                        className="text-neutral-500 p-2 rounded-full hover:bg-neutral-100 focus:outline-none relative min-h-[44px] min-w-[44px] flex items-center justify-center flex-shrink-0"
                     >
                         <Bell className="h-5 w-5" />
                         {notificationData.product_name !== "" &&
                         isNewNotificationAvailable ? (
-                            <p className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                            <p className="absolute -top-1 -right-1 bg-error-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                                 1
                             </p>
                         ) : (
@@ -150,7 +150,7 @@ export default function Navbar({ toggleSidebar }: NavbarProps) {
                 <div className="flex items-center relative">
                     <button
                         onClick={toggleDropdown}
-                        className="text-gray-500 p-2 rounded-full hover:bg-gray-100 focus:outline-none min-h-[44px] min-w-[44px] flex items-center justify-center flex-shrink-0"
+                        className="text-neutral-500 p-2 rounded-full hover:bg-neutral-100 focus:outline-none min-h-[44px] min-w-[44px] flex items-center justify-center flex-shrink-0"
                     >
                         <FaUserCircle className="h-5 w-5 sm:h-6 sm:w-6" />
                     </button>

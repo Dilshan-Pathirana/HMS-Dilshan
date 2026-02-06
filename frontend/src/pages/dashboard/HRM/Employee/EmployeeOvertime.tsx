@@ -21,20 +21,20 @@ const EmployeeOvertime: React.FC = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-neutral-50 p-6">
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => navigate('/dashboard/hrm')}
-                            className="p-2 hover:bg-gray-200 rounded-lg"
+                            className="p-2 hover:bg-neutral-200 rounded-lg"
                         >
                             <ArrowLeft className="w-5 h-5" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">My Overtime</h1>
-                            <p className="text-gray-500">Track your overtime hours and earnings</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">My Overtime</h1>
+                            <p className="text-neutral-500">Track your overtime hours and earnings</p>
                         </div>
                     </div>
                 </div>
@@ -49,36 +49,36 @@ const EmployeeOvertime: React.FC = () => {
                         <p className="text-3xl font-bold">{overtimeSummary.thisMonth.hours} hrs</p>
                         <p className="text-purple-200 text-sm mt-1">LKR {overtimeSummary.thisMonth.amount.toLocaleString()}</p>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5">
                         <div className="flex items-center gap-2 mb-2">
-                            <Calendar className="w-5 h-5 text-gray-400" />
-                            <span className="text-gray-500 text-sm">Last Month</span>
+                            <Calendar className="w-5 h-5 text-neutral-400" />
+                            <span className="text-neutral-500 text-sm">Last Month</span>
                         </div>
-                        <p className="text-2xl font-bold text-gray-800">{overtimeSummary.lastMonth.hours} hrs</p>
-                        <p className="text-gray-500 text-sm mt-1">LKR {overtimeSummary.lastMonth.amount.toLocaleString()}</p>
+                        <p className="text-2xl font-bold text-neutral-800">{overtimeSummary.lastMonth.hours} hrs</p>
+                        <p className="text-neutral-500 text-sm mt-1">LKR {overtimeSummary.lastMonth.amount.toLocaleString()}</p>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5">
                         <div className="flex items-center gap-2 mb-2">
                             <AlertCircle className="w-5 h-5 text-orange-500" />
-                            <span className="text-gray-500 text-sm">Pending Approval</span>
+                            <span className="text-neutral-500 text-sm">Pending Approval</span>
                         </div>
                         <p className="text-2xl font-bold text-orange-600">{overtimeSummary.pending.hours} hrs</p>
-                        <p className="text-gray-500 text-sm mt-1">LKR {overtimeSummary.pending.amount.toLocaleString()}</p>
+                        <p className="text-neutral-500 text-sm mt-1">LKR {overtimeSummary.pending.amount.toLocaleString()}</p>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5">
                         <div className="flex items-center gap-2 mb-2">
                             <CheckCircle className="w-5 h-5 text-emerald-500" />
-                            <span className="text-gray-500 text-sm">Approved</span>
+                            <span className="text-neutral-500 text-sm">Approved</span>
                         </div>
                         <p className="text-2xl font-bold text-emerald-600">{overtimeSummary.approved.hours} hrs</p>
-                        <p className="text-gray-500 text-sm mt-1">LKR {overtimeSummary.approved.amount.toLocaleString()}</p>
+                        <p className="text-neutral-500 text-sm mt-1">LKR {overtimeSummary.approved.amount.toLocaleString()}</p>
                     </div>
                 </div>
 
                 {/* OT Rate Info */}
                 <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
                     <div className="flex items-center gap-3">
-                        <DollarSign className="w-5 h-5 text-blue-600" />
+                        <DollarSign className="w-5 h-5 text-primary-500" />
                         <div>
                             <h3 className="font-semibold text-blue-800">Your Overtime Rate</h3>
                             <p className="text-sm text-blue-700">
@@ -89,33 +89,33 @@ const EmployeeOvertime: React.FC = () => {
                 </div>
 
                 {/* Overtime History */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h2 className="text-lg font-semibold text-gray-800 mb-4">Overtime History</h2>
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                    <h2 className="text-lg font-semibold text-neutral-800 mb-4">Overtime History</h2>
                     <div className="overflow-x-auto">
                         <table className="w-full">
-                            <thead className="bg-gray-50 border-b border-gray-200">
+                            <thead className="bg-neutral-50 border-b border-neutral-200">
                                 <tr>
-                                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Date</th>
-                                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Hours</th>
-                                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Rate</th>
-                                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Amount</th>
-                                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Reason</th>
-                                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Status</th>
+                                    <th className="text-left py-3 px-4 text-sm font-medium text-neutral-500">Date</th>
+                                    <th className="text-left py-3 px-4 text-sm font-medium text-neutral-500">Hours</th>
+                                    <th className="text-left py-3 px-4 text-sm font-medium text-neutral-500">Rate</th>
+                                    <th className="text-left py-3 px-4 text-sm font-medium text-neutral-500">Amount</th>
+                                    <th className="text-left py-3 px-4 text-sm font-medium text-neutral-500">Reason</th>
+                                    <th className="text-left py-3 px-4 text-sm font-medium text-neutral-500">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {overtimeHistory.map((ot) => (
-                                    <tr key={ot.id} className="border-b border-gray-100 hover:bg-gray-50">
-                                        <td className="py-3 px-4 font-medium text-gray-800">{ot.date}</td>
-                                        <td className="py-3 px-4 text-gray-600">{ot.hours} hrs</td>
-                                        <td className="py-3 px-4 text-gray-600">LKR {ot.rate}/hr</td>
+                                    <tr key={ot.id} className="border-b border-gray-100 hover:bg-neutral-50">
+                                        <td className="py-3 px-4 font-medium text-neutral-800">{ot.date}</td>
+                                        <td className="py-3 px-4 text-neutral-600">{ot.hours} hrs</td>
+                                        <td className="py-3 px-4 text-neutral-600">LKR {ot.rate}/hr</td>
                                         <td className="py-3 px-4 font-semibold text-purple-600">LKR {ot.amount.toLocaleString()}</td>
-                                        <td className="py-3 px-4 text-gray-600 text-sm">{ot.reason}</td>
+                                        <td className="py-3 px-4 text-neutral-600 text-sm">{ot.reason}</td>
                                         <td className="py-3 px-4">
                                             <span className={`px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1 w-fit ${
                                                 ot.status === 'approved' ? 'bg-emerald-100 text-emerald-700' :
                                                 ot.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
-                                                'bg-red-100 text-red-700'
+                                                'bg-error-100 text-red-700'
                                             }`}>
                                                 {ot.status === 'approved' && <CheckCircle className="w-3 h-3" />}
                                                 {ot.status === 'pending' && <AlertCircle className="w-3 h-3" />}
@@ -130,20 +130,20 @@ const EmployeeOvertime: React.FC = () => {
                 </div>
 
                 {/* Year to Date Summary */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mt-6">
-                    <h2 className="text-lg font-semibold text-gray-800 mb-4">Year to Date Summary</h2>
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 mt-6">
+                    <h2 className="text-lg font-semibold text-neutral-800 mb-4">Year to Date Summary</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div className="text-center p-4 bg-gray-50 rounded-lg">
-                            <p className="text-3xl font-bold text-gray-800">145.5</p>
-                            <p className="text-gray-500 text-sm mt-1">Total OT Hours</p>
+                        <div className="text-center p-4 bg-neutral-50 rounded-lg">
+                            <p className="text-3xl font-bold text-neutral-800">145.5</p>
+                            <p className="text-neutral-500 text-sm mt-1">Total OT Hours</p>
                         </div>
                         <div className="text-center p-4 bg-purple-50 rounded-lg">
                             <p className="text-3xl font-bold text-purple-600">LKR 218,250</p>
-                            <p className="text-gray-500 text-sm mt-1">Total OT Earnings</p>
+                            <p className="text-neutral-500 text-sm mt-1">Total OT Earnings</p>
                         </div>
                         <div className="text-center p-4 bg-emerald-50 rounded-lg">
                             <p className="text-3xl font-bold text-emerald-600">12.1</p>
-                            <p className="text-gray-500 text-sm mt-1">Avg Hours/Month</p>
+                            <p className="text-neutral-500 text-sm mt-1">Avg Hours/Month</p>
                         </div>
                     </div>
                 </div>

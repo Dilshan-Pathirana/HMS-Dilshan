@@ -285,7 +285,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   const SidebarMenu = () => (
     <nav className="py-4">
       <div className="px-4 mb-4">
-        <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Navigation</h2>
+        <h2 className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Navigation</h2>
       </div>
       <ul className="space-y-1 px-2">
         {BranchAdminMenuItems.map((item, index) => (
@@ -294,7 +294,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
               onClick={() => navigate(item.path)}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${item.path === '/branch-admin/appointments'
                 ? 'bg-gradient-to-r from-emerald-50 to-blue-50 text-emerald-700'
-                : 'text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
+                : 'text-neutral-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
                 }`}
             >
               <span className="flex-shrink-0">{item.icon}</span>
@@ -587,11 +587,11 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       case 'checked_in': return 'bg-blue-100 text-blue-800 border-blue-200';
       case 'in_session': return 'bg-purple-100 text-purple-800 border-purple-200';
       case 'completed': return 'bg-emerald-100 text-emerald-800 border-emerald-200';
-      case 'cancelled': return 'bg-red-100 text-red-800 border-red-200';
+      case 'cancelled': return 'bg-error-100 text-red-800 border-red-200';
       case 'rescheduled': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
       case 'no_show': return 'bg-orange-100 text-orange-800 border-orange-200';
       case 'pending_payment': return 'bg-amber-100 text-amber-800 border-amber-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+      default: return 'bg-neutral-100 text-neutral-800 border-neutral-200';
     }
   };
 
@@ -599,9 +599,9 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     switch (status) {
       case 'paid': return 'text-green-600';
       case 'pending': return 'text-amber-600';
-      case 'waived': return 'text-blue-600';
+      case 'waived': return 'text-primary-500';
       case 'refunded': return 'text-purple-600';
-      default: return 'text-gray-600';
+      default: return 'text-neutral-600';
     }
   };
 
@@ -630,8 +630,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     switch (status) {
       case 'confirmed': return 'bg-green-50 hover:bg-green-100';
       case 'rescheduled': return 'bg-yellow-50 hover:bg-yellow-100';
-      case 'cancelled': return 'bg-red-50 hover:bg-red-100';
-      default: return 'hover:bg-gray-50';
+      case 'cancelled': return 'bg-error-50 hover:bg-error-100';
+      default: return 'hover:bg-neutral-50';
     }
   };
 
@@ -1249,13 +1249,13 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       created: 'bg-green-100 text-green-700',
       updated: 'bg-blue-100 text-blue-700',
       rescheduled: 'bg-amber-100 text-amber-700',
-      cancelled: 'bg-red-100 text-red-700',
+      cancelled: 'bg-error-100 text-red-700',
       status_changed: 'bg-purple-100 text-purple-700',
       checked_in: 'bg-cyan-100 text-cyan-700',
       completed: 'bg-emerald-100 text-emerald-700',
-      no_show: 'bg-gray-100 text-gray-700',
+      no_show: 'bg-neutral-100 text-neutral-700',
     };
-    return actionColors[action] || 'bg-gray-100 text-gray-700';
+    return actionColors[action] || 'bg-neutral-100 text-neutral-700';
   };
 
   // ============================================
@@ -1271,13 +1271,13 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       branchLogo={branchLogo}
       userGender={userGender}
     >
-      <div className="p-6 bg-gray-50 min-h-screen">
+      <div className="p-6 bg-neutral-50 min-h-screen">
         {/* Header */}
         <div className="mb-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-800">Appointments Management</h1>
-              <p className="text-gray-600 mt-1">
+              <h1 className="text-2xl font-bold text-neutral-800">Appointments Management</h1>
+              <p className="text-neutral-600 mt-1">
                 Manage all appointments for <span className="font-semibold text-emerald-600">{branchName}</span>
               </p>
             </div>
@@ -1294,7 +1294,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                   setShowPrintModal(true);
                   loadPrintAppointments(printDate);
                 }}
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-colors shadow-lg shadow-blue-200"
+                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-primary-500 hover:to-indigo-700 transition-colors shadow-lg shadow-blue-200"
               >
                 <FaPrint />
                 <span>Print Report</span>
@@ -1304,7 +1304,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                   loadAppointments(activeView, filters);
                   loadCounts();
                 }}
-                className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-white border border-neutral-200 rounded-lg hover:bg-neutral-50 transition-colors"
               >
                 <FaSync className={loading ? 'animate-spin' : ''} />
                 <span>Refresh</span>
@@ -1315,12 +1315,12 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
         {/* Error Message */}
         {error && (
-          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 flex items-center gap-2">
+          <div className="mb-4 p-4 bg-error-50 border border-red-200 rounded-lg text-red-700 flex items-center gap-2">
             <FaExclamationTriangle />
             <span>{error}</span>
             <button
               onClick={() => setError(null)}
-              className="ml-auto text-red-500 hover:text-red-700"
+              className="ml-auto text-error-500 hover:text-red-700"
             >
               ×
             </button>
@@ -1338,18 +1338,18 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                   ? tab.color === 'emerald'
                     ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-200'
                     : tab.color === 'blue'
-                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-200'
+                      ? 'bg-primary-500 text-white shadow-lg shadow-blue-200'
                       : tab.color === 'purple'
                         ? 'bg-purple-600 text-white shadow-lg shadow-purple-200'
                         : 'bg-gray-600 text-white shadow-lg shadow-gray-200'
-                  : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
+                  : 'bg-white text-neutral-600 hover:bg-neutral-100 border border-neutral-200'
                   }`}
               >
                 {tab.icon}
                 <span>{tab.label}</span>
                 <span className={`ml-1 px-2 py-0.5 rounded-full text-xs font-bold ${activeView === tab.id
                   ? 'bg-white/20 text-white'
-                  : 'bg-gray-100 text-gray-600'
+                  : 'bg-neutral-100 text-neutral-600'
                   }`}>
                   {tab.count}
                 </span>
@@ -1362,24 +1362,24 @@ const BranchAdminAppointmentsNew: React.FC = () => {
         {activeView !== 'audit' && (
           <>
             {/* Search & Filters Bar */}
-            <div className="mb-4 bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+            <div className="mb-4 bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
               <div className="flex flex-wrap gap-4 items-center">
                 {/* Search Input */}
                 <form onSubmit={handleSearchSubmit} className="flex-1 min-w-[250px]">
                   <div className="relative">
-                    <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                    <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
                     <input
                       type="text"
                       placeholder="Search by patient name, phone, or appointment ID..."
                       value={filters.search}
                       onChange={handleSearchChange}
-                      className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"
+                      className="w-full pl-10 pr-4 py-2.5 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all"
                     />
                     {filters.search && (
                       <button
                         type="button"
                         onClick={() => clearSingleFilter('search')}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
                       >
                         <FaTimes className="w-4 h-4" />
                       </button>
@@ -1392,7 +1392,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                   onClick={() => setShowFilters(!showFilters)}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-lg border transition-all ${filtersApplied
                     ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
-                    : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'
+                    : 'bg-white border-neutral-200 text-neutral-600 hover:bg-neutral-50'
                     }`}
                 >
                   <FaFilter />
@@ -1409,7 +1409,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                 {filtersApplied && (
                   <button
                     onClick={clearFilters}
-                    className="text-sm text-red-600 hover:text-red-700 font-medium"
+                    className="text-sm text-error-600 hover:text-red-700 font-medium"
                   >
                     Clear All
                   </button>
@@ -1422,11 +1422,11 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     {/* Doctor Filter */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Doctor</label>
+                      <label className="block text-sm font-medium text-neutral-700 mb-1">Doctor</label>
                       <select
                         value={filters.doctorId}
                         onChange={(e) => handleFilterChange('doctorId', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                        className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
                       >
                         <option value="">All Doctors</option>
                         {doctors.map(doctor => (
@@ -1439,11 +1439,11 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
                     {/* Specialization Filter */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Specialization</label>
+                      <label className="block text-sm font-medium text-neutral-700 mb-1">Specialization</label>
                       <select
                         value={filters.specialization}
                         onChange={(e) => handleFilterChange('specialization', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                        className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
                       >
                         <option value="">All Specializations</option>
                         {specializations.map(spec => (
@@ -1454,11 +1454,11 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
                     {/* Status Filter */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                      <label className="block text-sm font-medium text-neutral-700 mb-1">Status</label>
                       <select
                         value={filters.status}
                         onChange={(e) => handleFilterChange('status', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                        className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
                       >
                         {statusOptions.map(opt => (
                           <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -1468,20 +1468,20 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
                     {/* Date Range */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Date Range</label>
+                      <label className="block text-sm font-medium text-neutral-700 mb-1">Date Range</label>
                       <div className="flex gap-2">
                         <input
                           type="date"
                           value={filters.startDate}
                           onChange={(e) => handleFilterChange('startDate', e.target.value)}
-                          className="flex-1 px-2 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none text-sm"
+                          className="flex-1 px-2 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none text-sm"
                           placeholder="From"
                         />
                         <input
                           type="date"
                           value={filters.endDate}
                           onChange={(e) => handleFilterChange('endDate', e.target.value)}
-                          className="flex-1 px-2 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none text-sm"
+                          className="flex-1 px-2 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none text-sm"
                           placeholder="To"
                         />
                       </div>
@@ -1521,16 +1521,16 @@ const BranchAdminAppointmentsNew: React.FC = () => {
             </div>
 
             {/* Appointments Table */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
               {/* Table Header Info */}
-              <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
+              <div className="px-6 py-4 border-b border-neutral-200 bg-neutral-50">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-semibold text-gray-800">
+                  <h3 className="font-semibold text-neutral-800">
                     {activeView === 'today' && "Today's Schedule"}
                     {activeView === 'upcoming' && 'Upcoming Schedule'}
                     {activeView === 'past' && 'Past & Cancelled Appointments'}
                   </h3>
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-neutral-500">
                     Showing {appointments.length} appointments
                     {filtersApplied && ' (filtered)'}
                   </span>
@@ -1541,13 +1541,13 @@ const BranchAdminAppointmentsNew: React.FC = () => {
               {loading ? (
                 <div className="p-12 text-center">
                   <FaSpinner className="w-8 h-8 text-emerald-600 animate-spin mx-auto mb-3" />
-                  <p className="text-gray-500">Loading appointments...</p>
+                  <p className="text-neutral-500">Loading appointments...</p>
                 </div>
               ) : appointments.length === 0 ? (
                 <div className="p-12 text-center">
                   <FaCalendarAlt className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                  <p className="text-gray-500 font-medium">No appointments found</p>
-                  <p className="text-gray-400 text-sm mt-1">
+                  <p className="text-neutral-500 font-medium">No appointments found</p>
+                  <p className="text-neutral-400 text-sm mt-1">
                     {filtersApplied
                       ? 'Try adjusting your filters'
                       : activeView === 'today'
@@ -1569,44 +1569,44 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
-                      <tr className="bg-gray-50 border-b border-gray-200">
-                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      <tr className="bg-neutral-50 border-b border-neutral-200">
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
                           <div className="flex items-center gap-1">
                             <FaHashtag className="w-3 h-3" />
                             ID / Token
                           </div>
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
                           <div className="flex items-center gap-1">
                             <FaUser className="w-3 h-3" />
                             Patient
                           </div>
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
                           <div className="flex items-center gap-1">
                             <FaUserMd className="w-3 h-3" />
                             Doctor & Specialization
                           </div>
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
                           <div className="flex items-center gap-1">
                             <FaCalendarAlt className="w-3 h-3" />
                             Date
                           </div>
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
                           <div className="flex items-center gap-1">
                             <FaClock className="w-3 h-3" />
                             Slot / Time
                           </div>
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
                           Status
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
                           Payment
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
                           Actions
                         </th>
                       </tr>
@@ -1623,7 +1623,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                               <span className="font-bold text-emerald-600 text-lg">
                                 #{apt.token_number}
                               </span>
-                              <span className="text-xs text-gray-400 font-mono truncate max-w-[100px]" title={apt.id}>
+                              <span className="text-xs text-neutral-400 font-mono truncate max-w-[100px]" title={apt.id}>
                                 {apt.id.substring(0, 8)}...
                               </span>
                             </div>
@@ -1632,11 +1632,11 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                           {/* Patient */}
                           <td className="px-4 py-4">
                             <div className="flex flex-col">
-                              <span className="font-medium text-gray-800">
+                              <span className="font-medium text-neutral-800">
                                 {apt.patient_name || 'Unknown Patient'}
                               </span>
                               {apt.patient_phone && (
-                                <span className="text-xs text-gray-500">{apt.patient_phone}</span>
+                                <span className="text-xs text-neutral-500">{apt.patient_phone}</span>
                               )}
                             </div>
                           </td>
@@ -1644,11 +1644,11 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                           {/* Doctor & Specialization */}
                           <td className="px-4 py-4">
                             <div className="flex flex-col">
-                              <span className="font-medium text-gray-800">
+                              <span className="font-medium text-neutral-800">
                                 Dr. {apt.doctor_name || 'Unknown'}
                               </span>
                               {apt.doctor_specialization && (
-                                <span className="text-xs text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full w-fit mt-1">
+                                <span className="text-xs text-primary-500 bg-blue-50 px-2 py-0.5 rounded-full w-fit mt-1">
                                   {apt.doctor_specialization}
                                 </span>
                               )}
@@ -1658,14 +1658,14 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                           {/* Date */}
                           <td className="px-4 py-4">
                             <div className="flex flex-col">
-                              <span className="font-medium text-gray-800">
+                              <span className="font-medium text-neutral-800">
                                 {new Date(apt.appointment_date).toLocaleDateString('en-US', {
                                   weekday: 'short',
                                   month: 'short',
                                   day: 'numeric',
                                 })}
                               </span>
-                              <span className="text-xs text-gray-500">
+                              <span className="text-xs text-neutral-500">
                                 {new Date(apt.appointment_date).toLocaleDateString('en-US', {
                                   year: 'numeric',
                                 })}
@@ -1676,7 +1676,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                           {/* Slot / Time */}
                           <td className="px-4 py-4">
                             <div className="flex flex-col">
-                              <span className="font-semibold text-gray-800">
+                              <span className="font-semibold text-neutral-800">
                                 Slot #{apt.slot_number}
                               </span>
                               <span className="text-sm text-emerald-600 font-medium">
@@ -1706,7 +1706,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                               {apt.payment_status}
                             </span>
                             {apt.amount_paid && apt.payment_status === 'paid' && (
-                              <div className="text-xs text-gray-500">
+                              <div className="text-xs text-neutral-500">
                                 Rs. {Number(apt.amount_paid).toFixed(2)}
                               </div>
                             )}
@@ -1723,7 +1723,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                                       e.stopPropagation();
                                       openEditModal(apt);
                                     }}
-                                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-sm font-medium transition-colors"
+                                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-primary-500 hover:bg-blue-100 rounded-lg text-sm font-medium transition-colors"
                                     title="Edit Appointment"
                                   >
                                     <FaEdit className="w-3 h-3" />
@@ -1734,7 +1734,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                                       e.stopPropagation();
                                       openCancelModal(apt);
                                     }}
-                                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-sm font-medium transition-colors"
+                                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-error-50 text-error-600 hover:bg-error-100 rounded-lg text-sm font-medium transition-colors"
                                     title="Cancel Appointment"
                                   >
                                     <FaTimesCircle className="w-3 h-3" />
@@ -1743,7 +1743,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                                 </>
                               )}
                               {['completed', 'cancelled', 'no_show'].includes(apt.status) && (
-                                <span className="text-xs text-gray-400 italic">No actions</span>
+                                <span className="text-xs text-neutral-400 italic">No actions</span>
                               )}
                             </div>
                           </td>
@@ -1758,27 +1758,27 @@ const BranchAdminAppointmentsNew: React.FC = () => {
             {/* Summary Cards */}
             {!loading && appointments.length > 0 && (
               <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div className="bg-white rounded-xl p-4 border border-gray-200">
-                  <div className="text-2xl font-bold text-gray-800">{appointments.length}</div>
-                  <div className="text-sm text-gray-500">Total Appointments</div>
+                <div className="bg-white rounded-xl p-4 border border-neutral-200">
+                  <div className="text-2xl font-bold text-neutral-800">{appointments.length}</div>
+                  <div className="text-sm text-neutral-500">Total Appointments</div>
                 </div>
-                <div className="bg-white rounded-xl p-4 border border-gray-200">
+                <div className="bg-white rounded-xl p-4 border border-neutral-200">
                   <div className="text-2xl font-bold text-green-600">
                     {appointments.filter(a => a.status === 'confirmed').length}
                   </div>
-                  <div className="text-sm text-gray-500">Confirmed</div>
+                  <div className="text-sm text-neutral-500">Confirmed</div>
                 </div>
-                <div className="bg-white rounded-xl p-4 border border-gray-200">
+                <div className="bg-white rounded-xl p-4 border border-neutral-200">
                   <div className="text-2xl font-bold text-emerald-600">
                     {appointments.filter(a => a.status === 'completed').length}
                   </div>
-                  <div className="text-sm text-gray-500">Completed</div>
+                  <div className="text-sm text-neutral-500">Completed</div>
                 </div>
-                <div className="bg-white rounded-xl p-4 border border-gray-200">
+                <div className="bg-white rounded-xl p-4 border border-neutral-200">
                   <div className="text-2xl font-bold text-amber-600">
                     {appointments.filter(a => a.payment_status === 'pending').length}
                   </div>
-                  <div className="text-sm text-gray-500">Pending Payment</div>
+                  <div className="text-sm text-neutral-500">Pending Payment</div>
                 </div>
               </div>
             )}
@@ -1789,14 +1789,14 @@ const BranchAdminAppointmentsNew: React.FC = () => {
         {activeView === 'audit' && (
           <>
             {/* Audit Logs Filters */}
-            <div className="mb-4 bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+            <div className="mb-4 bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
               <div className="flex flex-wrap gap-4 items-center">
                 {/* Filter Toggle */}
                 <button
                   onClick={() => setShowAuditFilters(!showAuditFilters)}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-lg border transition-all ${auditLogFilters.action || auditLogFilters.adminId || auditLogFilters.startDate || auditLogFilters.endDate
                     ? 'bg-purple-50 border-purple-200 text-purple-700'
-                    : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'
+                    : 'bg-white border-neutral-200 text-neutral-600 hover:bg-neutral-50'
                     }`}
                 >
                   <FaFilter />
@@ -1808,7 +1808,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                 {(auditLogFilters.action || auditLogFilters.adminId || auditLogFilters.startDate || auditLogFilters.endDate) && (
                   <button
                     onClick={clearAuditFilters}
-                    className="text-sm text-red-600 hover:text-red-700 font-medium"
+                    className="text-sm text-error-600 hover:text-red-700 font-medium"
                   >
                     Clear All
                   </button>
@@ -1817,7 +1817,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                 {/* Refresh */}
                 <button
                   onClick={() => loadAuditLogs(auditLogPagination.currentPage, auditLogFilters)}
-                  className="ml-auto flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="ml-auto flex items-center gap-2 px-4 py-2.5 bg-white border border-neutral-200 rounded-lg hover:bg-neutral-50 transition-colors"
                 >
                   <FaSync className={auditLogsLoading ? 'animate-spin' : ''} />
                   <span>Refresh</span>
@@ -1830,11 +1830,11 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     {/* Action Filter */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Action Type</label>
+                      <label className="block text-sm font-medium text-neutral-700 mb-1">Action Type</label>
                       <select
                         value={auditLogFilters.action}
                         onChange={(e) => handleAuditFilterChange('action', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none"
+                        className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none"
                       >
                         {auditActionOptions.map(opt => (
                           <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -1844,11 +1844,11 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
                     {/* Admin Filter */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Performed By</label>
+                      <label className="block text-sm font-medium text-neutral-700 mb-1">Performed By</label>
                       <select
                         value={auditLogFilters.adminId}
                         onChange={(e) => handleAuditFilterChange('adminId', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none"
+                        className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none"
                       >
                         <option value="">All Admins</option>
                         {branchAdmins.map(admin => (
@@ -1859,20 +1859,20 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
                     {/* Date Range */}
                     <div className="lg:col-span-2">
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Date Range</label>
+                      <label className="block text-sm font-medium text-neutral-700 mb-1">Date Range</label>
                       <div className="flex gap-2">
                         <input
                           type="date"
                           value={auditLogFilters.startDate}
                           onChange={(e) => handleAuditFilterChange('startDate', e.target.value)}
-                          className="flex-1 px-2 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none text-sm"
+                          className="flex-1 px-2 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none text-sm"
                           placeholder="From"
                         />
                         <input
                           type="date"
                           value={auditLogFilters.endDate}
                           onChange={(e) => handleAuditFilterChange('endDate', e.target.value)}
-                          className="flex-1 px-2 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none text-sm"
+                          className="flex-1 px-2 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none text-sm"
                           placeholder="To"
                         />
                       </div>
@@ -1884,12 +1884,12 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
             {/* Audit Logs Error */}
             {auditLogsError && (
-              <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 flex items-center gap-2">
+              <div className="mb-4 p-4 bg-error-50 border border-red-200 rounded-lg text-red-700 flex items-center gap-2">
                 <FaExclamationTriangle />
                 <span>{auditLogsError}</span>
                 <button
                   onClick={() => setAuditLogsError(null)}
-                  className="ml-auto text-red-500 hover:text-red-700"
+                  className="ml-auto text-error-500 hover:text-red-700"
                 >
                   ×
                 </button>
@@ -1897,15 +1897,15 @@ const BranchAdminAppointmentsNew: React.FC = () => {
             )}
 
             {/* Audit Logs Table */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
               {/* Table Header */}
-              <div className="px-6 py-4 border-b border-gray-200 bg-purple-50">
+              <div className="px-6 py-4 border-b border-neutral-200 bg-purple-50">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-semibold text-gray-800 flex items-center gap-2">
+                  <h3 className="font-semibold text-neutral-800 flex items-center gap-2">
                     <FaClipboardList className="text-purple-600" />
                     Appointment Audit Logs
                   </h3>
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-neutral-500">
                     Showing {auditLogs.length} of {auditLogPagination.total} logs
                   </span>
                 </div>
@@ -1915,13 +1915,13 @@ const BranchAdminAppointmentsNew: React.FC = () => {
               {auditLogsLoading ? (
                 <div className="p-12 text-center">
                   <FaSpinner className="w-8 h-8 text-purple-600 animate-spin mx-auto mb-3" />
-                  <p className="text-gray-500">Loading audit logs...</p>
+                  <p className="text-neutral-500">Loading audit logs...</p>
                 </div>
               ) : auditLogs.length === 0 ? (
                 <div className="p-12 text-center">
                   <FaClipboardList className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                  <p className="text-gray-500 font-medium">No audit logs found</p>
-                  <p className="text-gray-400 text-sm mt-1">
+                  <p className="text-neutral-500 font-medium">No audit logs found</p>
+                  <p className="text-neutral-400 text-sm mt-1">
                     Appointment activities will appear here
                   </p>
                 </div>
@@ -1930,45 +1930,45 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                   {/* Table */}
                   <div className="overflow-x-auto">
                     <table className="w-full">
-                      <thead className="bg-gray-50 border-b border-gray-200">
+                      <thead className="bg-neutral-50 border-b border-neutral-200">
                         <tr>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
                             Timestamp
                           </th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
                             Appointment
                           </th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
                             Action
                           </th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
                             Status Change
                           </th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
                             Performed By
                           </th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
                             Reason
                           </th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-100">
                         {auditLogs.map((log) => (
-                          <tr key={log.id} className="hover:bg-gray-50 transition-colors">
+                          <tr key={log.id} className="hover:bg-neutral-50 transition-colors">
                             <td className="px-4 py-3">
-                              <div className="text-sm text-gray-800 font-medium">
+                              <div className="text-sm text-neutral-800 font-medium">
                                 {log.created_at_human || new Date(log.created_at).toLocaleString()}
                               </div>
-                              <div className="text-xs text-gray-500">
+                              <div className="text-xs text-neutral-500">
                                 {log.ip_address && `IP: ${log.ip_address}`}
                               </div>
                             </td>
                             <td className="px-4 py-3">
-                              <div className="text-sm font-medium text-gray-800">
+                              <div className="text-sm font-medium text-neutral-800">
                                 {log.patient_name || 'N/A'}
                               </div>
                               {log.token_number && (
-                                <div className="text-xs text-gray-500">
+                                <div className="text-xs text-neutral-500">
                                   Token #{log.token_number}
                                 </div>
                               )}
@@ -1982,30 +1982,30 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                               {log.previous_status || log.new_status ? (
                                 <div className="flex items-center gap-1 text-sm">
                                   {log.previous_status && (
-                                    <span className="text-gray-500">{getStatusLabel(log.previous_status)}</span>
+                                    <span className="text-neutral-500">{getStatusLabel(log.previous_status)}</span>
                                   )}
                                   {log.previous_status && log.new_status && (
-                                    <span className="text-gray-400">→</span>
+                                    <span className="text-neutral-400">→</span>
                                   )}
                                   {log.new_status && (
-                                    <span className="text-gray-800 font-medium">{getStatusLabel(log.new_status)}</span>
+                                    <span className="text-neutral-800 font-medium">{getStatusLabel(log.new_status)}</span>
                                   )}
                                 </div>
                               ) : (
-                                <span className="text-gray-400 text-sm">-</span>
+                                <span className="text-neutral-400 text-sm">-</span>
                               )}
                             </td>
                             <td className="px-4 py-3">
-                              <div className="text-sm text-gray-800">{log.performed_by}</div>
-                              <div className="text-xs text-gray-500 capitalize">{log.performed_by_role}</div>
+                              <div className="text-sm text-neutral-800">{log.performed_by}</div>
+                              <div className="text-xs text-neutral-500 capitalize">{log.performed_by_role}</div>
                             </td>
                             <td className="px-4 py-3">
                               {log.reason ? (
-                                <div className="text-sm text-gray-600 max-w-[200px] truncate" title={log.reason}>
+                                <div className="text-sm text-neutral-600 max-w-[200px] truncate" title={log.reason}>
                                   {log.reason}
                                 </div>
                               ) : (
-                                <span className="text-gray-400 text-sm">-</span>
+                                <span className="text-neutral-400 text-sm">-</span>
                               )}
                             </td>
                           </tr>
@@ -2016,9 +2016,9 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
                   {/* Pagination */}
                   {auditLogPagination.lastPage > 1 && (
-                    <div className="px-6 py-4 border-t border-gray-200 bg-gray-50">
+                    <div className="px-6 py-4 border-t border-neutral-200 bg-neutral-50">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-600">
+                        <span className="text-sm text-neutral-600">
                           Page {auditLogPagination.currentPage} of {auditLogPagination.lastPage}
                         </span>
                         <div className="flex gap-2">
@@ -2026,8 +2026,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                             onClick={() => loadAuditLogs(auditLogPagination.currentPage - 1, auditLogFilters)}
                             disabled={auditLogPagination.currentPage === 1 || auditLogsLoading}
                             className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${auditLogPagination.currentPage === 1 || auditLogsLoading
-                              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                              : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
+                              ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed'
+                              : 'bg-white border border-neutral-200 text-neutral-700 hover:bg-neutral-50'
                               }`}
                           >
                             <FaChevronLeft className="w-3 h-3" />
@@ -2037,8 +2037,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                             onClick={() => loadAuditLogs(auditLogPagination.currentPage + 1, auditLogFilters)}
                             disabled={auditLogPagination.currentPage === auditLogPagination.lastPage || auditLogsLoading}
                             className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${auditLogPagination.currentPage === auditLogPagination.lastPage || auditLogsLoading
-                              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                              : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
+                              ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed'
+                              : 'bg-white border border-neutral-200 text-neutral-700 hover:bg-neutral-50'
                               }`}
                           >
                             Next
@@ -2067,17 +2067,17 @@ const BranchAdminAppointmentsNew: React.FC = () => {
               {/* Modal */}
               <div className="relative bg-white rounded-2xl shadow-xl transform transition-all w-full max-w-lg mx-auto">
                 {/* Header */}
-                <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-emerald-50 rounded-t-2xl">
+                <div className="px-6 py-4 border-b border-neutral-200 bg-gradient-to-r from-blue-50 to-emerald-50 rounded-t-2xl">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="text-lg font-bold text-gray-800">Edit Appointment</h3>
-                      <p className="text-sm text-gray-600 mt-0.5">
+                      <h3 className="text-lg font-bold text-neutral-800">Edit Appointment</h3>
+                      <p className="text-sm text-neutral-600 mt-0.5">
                         Patient: <span className="font-medium">{editingAppointment.patientName}</span>
                       </p>
                     </div>
                     <button
                       onClick={closeEditModal}
-                      className="text-gray-400 hover:text-gray-600 transition-colors"
+                      className="text-neutral-400 hover:text-neutral-600 transition-colors"
                     >
                       <FaTimes className="w-5 h-5" />
                     </button>
@@ -2087,15 +2087,15 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                 {/* Body */}
                 <div className="px-6 py-5">
                   {/* Current Info */}
-                  <div className="mb-5 p-3 bg-gray-50 rounded-lg text-sm">
-                    <p className="text-gray-600">
+                  <div className="mb-5 p-3 bg-neutral-50 rounded-lg text-sm">
+                    <p className="text-neutral-600">
                       <span className="font-medium">Current:</span> Dr. {editingAppointment.currentDoctorName} on {new Date(editingAppointment.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })} - Slot #{editingAppointment.slotNumber}
                     </p>
                   </div>
 
                   {/* Error Message */}
                   {editError && (
-                    <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm flex items-center gap-2">
+                    <div className="mb-4 p-3 bg-error-50 border border-red-200 rounded-lg text-red-700 text-sm flex items-center gap-2">
                       <FaExclamationTriangle className="flex-shrink-0" />
                       <span>{editError}</span>
                     </div>
@@ -2113,14 +2113,14 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                   <div className="space-y-4">
                     {/* Doctor Selection */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-neutral-700 mb-1">
                         <FaUserMd className="inline w-4 h-4 mr-1" />
                         Doctor
                       </label>
                       <select
                         value={editForm.doctorId}
                         onChange={(e) => handleEditFormChange('doctorId', e.target.value)}
-                        className="w-full px-3 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                        className="w-full px-3 py-2.5 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
                       >
                         <option value="">Select Doctor</option>
                         {doctors.map(doctor => (
@@ -2133,7 +2133,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
                     {/* Date Selection */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-neutral-700 mb-1">
                         <FaCalendarAlt className="inline w-4 h-4 mr-1" />
                         Date
                       </label>
@@ -2141,21 +2141,21 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                         type="date"
                         value={editForm.date}
                         onChange={(e) => handleEditFormChange('date', e.target.value)}
-                        className="w-full px-3 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                        className="w-full px-3 py-2.5 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
                       />
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="text-xs text-neutral-500 mt-1">
                         Note: As Branch Admin, you can select any date (no 24-hour restriction)
                       </p>
                     </div>
 
                     {/* Slot Selection */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-neutral-700 mb-1">
                         <FaClock className="inline w-4 h-4 mr-1" />
                         Available Slots
                       </label>
                       {loadingSlots ? (
-                        <div className="flex items-center gap-2 text-gray-500 py-2">
+                        <div className="flex items-center gap-2 text-neutral-500 py-2">
                           <FaSpinner className="animate-spin" />
                           <span>Loading available slots...</span>
                         </div>
@@ -2174,10 +2174,10 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                               onClick={() => setEditForm(prev => ({ ...prev, slotNumber: slot.slot_number }))}
                               disabled={!slot.is_available}
                               className={`p-2 rounded-lg text-sm font-medium transition-all ${editForm.slotNumber === slot.slot_number
-                                ? 'bg-blue-600 text-white ring-2 ring-blue-300'
+                                ? 'bg-primary-500 text-white ring-2 ring-blue-300'
                                 : slot.is_available
                                   ? 'bg-green-50 text-green-700 hover:bg-green-100 border border-green-200'
-                                  : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                  : 'bg-neutral-100 text-neutral-400 cursor-not-allowed'
                                 }`}
                             >
                               <div className="font-bold">#{slot.slot_number}</div>
@@ -2191,11 +2191,11 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                 </div>
 
                 {/* Footer */}
-                <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 rounded-b-2xl flex justify-end gap-3">
+                <div className="px-6 py-4 border-t border-neutral-200 bg-neutral-50 rounded-b-2xl flex justify-end gap-3">
                   <button
                     onClick={closeEditModal}
                     disabled={savingEdit}
-                    className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium transition-colors"
+                    className="px-4 py-2 text-neutral-600 hover:text-neutral-800 font-medium transition-colors"
                   >
                     Cancel
                   </button>
@@ -2203,8 +2203,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                     onClick={handleSaveEdit}
                     disabled={savingEdit || !editForm.slotNumber}
                     className={`inline-flex items-center gap-2 px-5 py-2 rounded-lg font-medium transition-all ${savingEdit || !editForm.slotNumber
-                      ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                      : 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-200'
+                      ? 'bg-neutral-300 text-neutral-500 cursor-not-allowed'
+                      : 'bg-primary-500 text-white hover:bg-primary-600 shadow-lg shadow-blue-200'
                       }`}
                   >
                     {savingEdit ? (
@@ -2241,17 +2241,17 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                 <div className="px-6 py-4 border-b border-red-200 bg-gradient-to-r from-red-50 to-orange-50 rounded-t-2xl">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-                        <FaExclamationTriangle className="w-5 h-5 text-red-600" />
+                      <div className="w-10 h-10 bg-error-100 rounded-full flex items-center justify-center">
+                        <FaExclamationTriangle className="w-5 h-5 text-error-600" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-bold text-gray-800">Cancel Appointment</h3>
-                        <p className="text-sm text-red-600 font-medium">This action cannot be undone</p>
+                        <h3 className="text-lg font-bold text-neutral-800">Cancel Appointment</h3>
+                        <p className="text-sm text-error-600 font-medium">This action cannot be undone</p>
                       </div>
                     </div>
                     <button
                       onClick={closeCancelModal}
-                      className="text-gray-400 hover:text-gray-600 transition-colors"
+                      className="text-neutral-400 hover:text-neutral-600 transition-colors"
                     >
                       <FaTimes className="w-5 h-5" />
                     </button>
@@ -2261,9 +2261,9 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                 {/* Body */}
                 <div className="px-6 py-5">
                   {/* Warning Banner */}
-                  <div className="mb-5 p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <div className="mb-5 p-4 bg-error-50 border border-red-200 rounded-lg">
                     <div className="flex items-start gap-3">
-                      <FaExclamationTriangle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                      <FaExclamationTriangle className="w-5 h-5 text-error-600 flex-shrink-0 mt-0.5" />
                       <div>
                         <p className="text-red-800 font-semibold">This cancellation is irreversible.</p>
                         <p className="text-red-700 text-sm mt-1">
@@ -2274,24 +2274,24 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                   </div>
 
                   {/* Appointment Info */}
-                  <div className="mb-5 p-3 bg-gray-50 rounded-lg text-sm">
-                    <p className="text-gray-700">
+                  <div className="mb-5 p-3 bg-neutral-50 rounded-lg text-sm">
+                    <p className="text-neutral-700">
                       <span className="font-semibold">Patient:</span> {cancellingAppointment.patientName}
                     </p>
-                    <p className="text-gray-700 mt-1">
+                    <p className="text-neutral-700 mt-1">
                       <span className="font-semibold">Doctor:</span> Dr. {cancellingAppointment.doctorName}
                     </p>
-                    <p className="text-gray-700 mt-1">
+                    <p className="text-neutral-700 mt-1">
                       <span className="font-semibold">Date:</span> {new Date(cancellingAppointment.date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
                     </p>
-                    <p className="text-gray-700 mt-1">
+                    <p className="text-neutral-700 mt-1">
                       <span className="font-semibold">Slot:</span> #{cancellingAppointment.slotNumber}
                     </p>
                   </div>
 
                   {/* Error Message */}
                   {cancelError && (
-                    <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm flex items-center gap-2">
+                    <div className="mb-4 p-3 bg-error-50 border border-red-200 rounded-lg text-red-700 text-sm flex items-center gap-2">
                       <FaExclamationTriangle className="flex-shrink-0" />
                       <span>{cancelError}</span>
                     </div>
@@ -2301,22 +2301,22 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                   <div className="space-y-4">
                     {/* Cancellation Type */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Cancellation Type <span className="text-red-500">*</span>
+                      <label className="block text-sm font-medium text-neutral-700 mb-2">
+                        Cancellation Type <span className="text-error-500">*</span>
                       </label>
                       <div className="space-y-2">
-                        <label className="flex items-start gap-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+                        <label className="flex items-start gap-3 p-3 border border-neutral-200 rounded-lg hover:bg-neutral-50 cursor-pointer transition-colors">
                           <input
                             type="radio"
                             name="cancellationType"
                             value="normal"
                             checked={cancellationType === 'normal'}
                             onChange={() => setCancellationType('normal')}
-                            className="mt-1 text-blue-600 focus:ring-blue-500"
+                            className="mt-1 text-primary-500 focus:ring-primary-500"
                           />
                           <div>
-                            <span className="font-medium text-gray-800">Normal Admin Cancellation</span>
-                            <p className="text-xs text-gray-500 mt-0.5">
+                            <span className="font-medium text-neutral-800">Normal Admin Cancellation</span>
+                            <p className="text-xs text-neutral-500 mt-0.5">
                               Standard cancellation by branch admin
                             </p>
                           </div>
@@ -2331,7 +2331,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                             className="mt-1 text-orange-600 focus:ring-orange-500"
                           />
                           <div>
-                            <span className="font-medium text-gray-800">Doctor-Requested Cancellation</span>
+                            <span className="font-medium text-neutral-800">Doctor-Requested Cancellation</span>
                             <p className="text-xs text-orange-700 mt-0.5">
                               <strong>Patient benefits:</strong> 2 reschedule attempts, no time restriction, any doctor/branch/date
                             </p>
@@ -2342,26 +2342,26 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
                     {/* Cancellation Reason */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Cancellation Reason <span className="text-red-500">*</span>
+                      <label className="block text-sm font-medium text-neutral-700 mb-1">
+                        Cancellation Reason <span className="text-error-500">*</span>
                       </label>
                       <textarea
                         value={cancelReason}
                         onChange={(e) => setCancelReason(e.target.value)}
                         placeholder="Please provide a reason for cancellation..."
                         rows={3}
-                        className="w-full px-3 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none resize-none"
+                        className="w-full px-3 py-2.5 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-error-500 outline-none resize-none"
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* Footer */}
-                <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 rounded-b-2xl flex justify-end gap-3">
+                <div className="px-6 py-4 border-t border-neutral-200 bg-neutral-50 rounded-b-2xl flex justify-end gap-3">
                   <button
                     onClick={closeCancelModal}
                     disabled={savingCancel}
-                    className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium transition-colors"
+                    className="px-4 py-2 text-neutral-600 hover:text-neutral-800 font-medium transition-colors"
                   >
                     Go Back
                   </button>
@@ -2369,7 +2369,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                     onClick={handleConfirmCancel}
                     disabled={savingCancel || !cancelReason.trim()}
                     className={`inline-flex items-center gap-2 px-5 py-2 rounded-lg font-medium transition-all ${savingCancel || !cancelReason.trim()
-                      ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      ? 'bg-neutral-300 text-neutral-500 cursor-not-allowed'
                       : 'bg-red-600 text-white hover:bg-red-700 shadow-lg shadow-red-200'
                       }`}
                   >
@@ -2404,20 +2404,20 @@ const BranchAdminAppointmentsNew: React.FC = () => {
               {/* Modal */}
               <div className="relative bg-white rounded-2xl shadow-xl transform transition-all w-full max-w-2xl mx-auto max-h-[90vh] overflow-hidden flex flex-col">
                 {/* Header */}
-                <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-t-2xl flex-shrink-0">
+                <div className="px-6 py-4 border-b border-neutral-200 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-t-2xl flex-shrink-0">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center">
                         <FaUserPlus className="w-5 h-5 text-emerald-600" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-bold text-gray-800">Create New Appointment</h3>
-                        <p className="text-sm text-gray-600">Book an appointment for walk-in or phone patient</p>
+                        <h3 className="text-lg font-bold text-neutral-800">Create New Appointment</h3>
+                        <p className="text-sm text-neutral-600">Book an appointment for walk-in or phone patient</p>
                       </div>
                     </div>
                     <button
                       onClick={closeBookingModal}
-                      className="text-gray-400 hover:text-gray-600 transition-colors"
+                      className="text-neutral-400 hover:text-neutral-600 transition-colors"
                     >
                       <FaTimes className="w-5 h-5" />
                     </button>
@@ -2436,10 +2436,10 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
                   {/* Booking Rules Summary Panel */}
                   {bookingSettings && !loadingSettings && (
-                    <div className="mb-4 p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                    <div className="mb-4 p-3 bg-neutral-50 border border-neutral-200 rounded-lg">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                          <FaInfoCircle className="text-blue-500" />
+                        <span className="text-sm font-medium text-neutral-700 flex items-center gap-2">
+                          <FaInfoCircle className="text-primary-500" />
                           Booking Rules
                         </span>
                         {/* Super Admin Override Toggle */}
@@ -2456,7 +2456,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                                 onChange={(e) => setOverrideRules(e.target.checked)}
                                 className="sr-only"
                               />
-                              <div className={`block w-10 h-6 rounded-full transition-colors ${overrideRules ? 'bg-amber-500' : 'bg-gray-300'
+                              <div className={`block w-10 h-6 rounded-full transition-colors ${overrideRules ? 'bg-amber-500' : 'bg-neutral-300'
                                 }`}></div>
                               <div className={`absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform ${overrideRules ? 'translate-x-4' : ''
                                 }`}></div>
@@ -2464,13 +2464,13 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                           </label>
                         )}
                       </div>
-                      <div className="grid grid-cols-3 gap-2 text-xs text-gray-600">
+                      <div className="grid grid-cols-3 gap-2 text-xs text-neutral-600">
                         <div className="flex items-center gap-1">
                           <FaCalendarAlt className="text-emerald-500" />
                           <span>Max {bookingSettings.max_advance_booking_days} days ahead</span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <FaUser className="text-blue-500" />
+                          <FaUser className="text-primary-500" />
                           <span>Max {bookingSettings.default_max_patients_per_session} patients/session</span>
                         </div>
                         <div className="flex items-center gap-1">
@@ -2489,7 +2489,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
                   {/* Error Message */}
                   {bookingError && (
-                    <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm flex items-center gap-2">
+                    <div className="mb-4 p-3 bg-error-50 border border-red-200 rounded-lg text-red-700 text-sm flex items-center gap-2">
                       <FaExclamationTriangle className="flex-shrink-0" />
                       <span>{bookingError}</span>
                     </div>
@@ -2505,8 +2505,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
                   <div className="space-y-5">
                     {/* Step 1: Patient Selection */}
-                    <div className="p-4 bg-gray-50 rounded-xl">
-                      <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                    <div className="p-4 bg-neutral-50 rounded-xl">
+                      <h4 className="font-semibold text-neutral-800 mb-3 flex items-center gap-2">
                         <span className="w-6 h-6 bg-emerald-600 text-white rounded-full text-sm flex items-center justify-center">1</span>
                         Select Patient
                       </h4>
@@ -2515,7 +2515,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                       {patientCredentials && (
                         <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
                           <div className="flex items-start gap-2">
-                            <FaKey className="text-blue-600 mt-0.5 flex-shrink-0" />
+                            <FaKey className="text-primary-500 mt-0.5 flex-shrink-0" />
                             <div className="text-sm">
                               <p className="font-semibold text-blue-800">Patient Login Credentials:</p>
                               <p className="text-blue-700 mt-1">
@@ -2524,7 +2524,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                               <p className="text-blue-700">
                                 <span className="font-medium">Password:</span> {patientCredentials.password}
                               </p>
-                              <p className="text-xs text-blue-600 mt-1">
+                              <p className="text-xs text-primary-500 mt-1">
                                 Login URL: {patientCredentials.login_url}
                               </p>
                             </div>
@@ -2540,7 +2540,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                             onClick={() => setShowNewPatientForm(false)}
                             className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${!showNewPatientForm
                               ? 'bg-emerald-600 text-white'
-                              : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
+                              : 'bg-white border border-neutral-200 text-neutral-600 hover:bg-neutral-50'
                               }`}
                           >
                             <FaSearch className="w-3.5 h-3.5" />
@@ -2550,8 +2550,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                             type="button"
                             onClick={() => setShowNewPatientForm(true)}
                             className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${showNewPatientForm
-                              ? 'bg-blue-600 text-white'
-                              : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
+                              ? 'bg-primary-500 text-white'
+                              : 'bg-white border border-neutral-200 text-neutral-600 hover:bg-neutral-50'
                               }`}
                           >
                             <FaUserPlus className="w-3.5 h-3.5" />
@@ -2564,7 +2564,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                       {!showNewPatientForm && !bookingForm.patientId && (
                         <div className="relative">
                           <div className="relative">
-                            <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                            <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
                             <input
                               type="text"
                               placeholder="Search by name, phone, or NIC..."
@@ -2573,16 +2573,16 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                                 setPatientSearchQuery(e.target.value);
                                 setBookingForm(prev => ({ ...prev, patientId: '', patientName: '' }));
                               }}
-                              className="w-full pl-10 pr-10 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                              className="w-full pl-10 pr-10 py-2.5 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
                             />
                             {searchingPatients && (
-                              <FaSpinner className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 animate-spin" />
+                              <FaSpinner className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 animate-spin" />
                             )}
                           </div>
 
                           {/* Patient Search Dropdown */}
                           {showPatientDropdown && patientSearchResults.length > 0 && (
-                            <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto">
+                            <div className="absolute z-10 w-full mt-1 bg-white border border-neutral-200 rounded-lg shadow-lg max-h-48 overflow-y-auto">
                               {patientSearchResults.map((patient) => (
                                 <button
                                   key={patient.id}
@@ -2590,12 +2590,12 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                                   onClick={() => selectPatient(patient)}
                                   className="w-full px-4 py-3 text-left hover:bg-emerald-50 transition-colors flex items-center gap-3 border-b border-gray-100 last:border-0"
                                 >
-                                  <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-                                    <FaUser className="w-4 h-4 text-gray-500" />
+                                  <div className="w-8 h-8 bg-neutral-100 rounded-full flex items-center justify-center">
+                                    <FaUser className="w-4 h-4 text-neutral-500" />
                                   </div>
                                   <div>
-                                    <div className="font-medium text-gray-800">{patient.name}</div>
-                                    <div className="text-xs text-gray-500">
+                                    <div className="font-medium text-neutral-800">{patient.name}</div>
+                                    <div className="text-xs text-neutral-500">
                                       {patient.phone && <span>{patient.phone}</span>}
                                       {patient.email && <span className="ml-2">{patient.email}</span>}
                                     </div>
@@ -2606,8 +2606,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                           )}
 
                           {showPatientDropdown && patientSearchResults.length === 0 && !searchingPatients && patientSearchQuery.length >= 2 && (
-                            <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-4 text-center">
-                              <p className="text-gray-500 mb-2">No patients found</p>
+                            <div className="absolute z-10 w-full mt-1 bg-white border border-neutral-200 rounded-lg shadow-lg p-4 text-center">
+                              <p className="text-neutral-500 mb-2">No patients found</p>
                               <button
                                 type="button"
                                 onClick={() => {
@@ -2619,7 +2619,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                                     setNewPatientForm(prev => ({ ...prev, full_name: patientSearchQuery }));
                                   }
                                 }}
-                                className="text-blue-600 hover:text-blue-800 font-medium text-sm"
+                                className="text-primary-500 hover:text-blue-800 font-medium text-sm"
                               >
                                 Register as new patient →
                               </button>
@@ -2638,37 +2638,37 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
                           {/* Full Name - Required */}
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                              Full Name <span className="text-red-500">*</span>
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">
+                              Full Name <span className="text-error-500">*</span>
                             </label>
                             <input
                               type="text"
                               value={newPatientForm.full_name}
                               onChange={(e) => setNewPatientForm(prev => ({ ...prev, full_name: e.target.value }))}
                               placeholder="Enter patient's full name"
-                              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                              className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
                             />
                           </div>
 
                           {/* Mobile Number - Required */}
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                              Mobile Number <span className="text-red-500">*</span>
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">
+                              Mobile Number <span className="text-error-500">*</span>
                             </label>
                             <input
                               type="tel"
                               value={newPatientForm.mobile_number}
                               onChange={(e) => setNewPatientForm(prev => ({ ...prev, mobile_number: e.target.value }))}
                               placeholder="e.g., 0771234567"
-                              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                              className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
                             />
-                            <p className="text-xs text-gray-500 mt-1">Username will be auto-generated from phone number</p>
+                            <p className="text-xs text-neutral-500 mt-1">Username will be auto-generated from phone number</p>
                           </div>
 
                           {/* Gender - Required */}
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                              Gender <span className="text-red-500">*</span>
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">
+                              Gender <span className="text-error-500">*</span>
                             </label>
                             <div className="flex gap-2">
                               {['male', 'female', 'other'].map((g) => (
@@ -2677,8 +2677,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                                   type="button"
                                   onClick={() => setNewPatientForm(prev => ({ ...prev, gender: g as 'male' | 'female' | 'other' }))}
                                   className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-all ${newPatientForm.gender === g
-                                    ? 'bg-blue-600 text-white'
-                                    : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
+                                    ? 'bg-primary-500 text-white'
+                                    : 'bg-white border border-neutral-200 text-neutral-600 hover:bg-neutral-50'
                                     }`}
                                 >
                                   {g.charAt(0).toUpperCase() + g.slice(1)}
@@ -2689,43 +2689,43 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
                           {/* NIC - Optional */}
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                              NIC / ID Number <span className="text-gray-400">(Optional)</span>
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">
+                              NIC / ID Number <span className="text-neutral-400">(Optional)</span>
                             </label>
                             <input
                               type="text"
                               value={newPatientForm.nic}
                               onChange={(e) => setNewPatientForm(prev => ({ ...prev, nic: e.target.value }))}
                               placeholder="e.g., 199012345678"
-                              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                              className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
                             />
                           </div>
 
                           {/* Date of Birth - Optional */}
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                              Date of Birth <span className="text-gray-400">(Optional)</span>
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">
+                              Date of Birth <span className="text-neutral-400">(Optional)</span>
                             </label>
                             <input
                               type="date"
                               value={newPatientForm.date_of_birth}
                               onChange={(e) => setNewPatientForm(prev => ({ ...prev, date_of_birth: e.target.value }))}
                               max={new Date().toISOString().split('T')[0]}
-                              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                              className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
                             />
                           </div>
 
                           {/* Address - Optional */}
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                              Address <span className="text-gray-400">(Optional)</span>
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">
+                              Address <span className="text-neutral-400">(Optional)</span>
                             </label>
                             <textarea
                               value={newPatientForm.address}
                               onChange={(e) => setNewPatientForm(prev => ({ ...prev, address: e.target.value }))}
                               placeholder="Enter address"
                               rows={2}
-                              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none resize-none"
+                              className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none resize-none"
                             />
                           </div>
 
@@ -2736,9 +2736,9 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                               id="send_sms"
                               checked={newPatientForm.send_sms}
                               onChange={(e) => setNewPatientForm(prev => ({ ...prev, send_sms: e.target.checked }))}
-                              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                              className="w-4 h-4 text-primary-500 border-neutral-300 rounded focus:ring-primary-500"
                             />
-                            <label htmlFor="send_sms" className="text-sm text-gray-700">
+                            <label htmlFor="send_sms" className="text-sm text-neutral-700">
                               Send login credentials via SMS
                             </label>
                           </div>
@@ -2748,7 +2748,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                             <button
                               type="button"
                               onClick={() => setShowNewPatientForm(false)}
-                              className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium transition-colors"
+                              className="px-4 py-2 text-neutral-600 hover:text-neutral-800 font-medium transition-colors"
                             >
                               Cancel
                             </button>
@@ -2757,8 +2757,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                               onClick={handleRegisterNewPatient}
                               disabled={registeringPatient || !newPatientForm.full_name || !newPatientForm.mobile_number}
                               className={`flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${registeringPatient || !newPatientForm.full_name || !newPatientForm.mobile_number
-                                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                : 'bg-blue-600 text-white hover:bg-blue-700'
+                                ? 'bg-neutral-300 text-neutral-500 cursor-not-allowed'
+                                : 'bg-primary-500 text-white hover:bg-primary-600'
                                 }`}
                             >
                               {registeringPatient ? (
@@ -2800,15 +2800,15 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                     </div>
 
                     {/* Step 2: Doctor Selection */}
-                    <div className="p-4 bg-gray-50 rounded-xl">
-                      <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                    <div className="p-4 bg-neutral-50 rounded-xl">
+                      <h4 className="font-semibold text-neutral-800 mb-3 flex items-center gap-2">
                         <span className="w-6 h-6 bg-emerald-600 text-white rounded-full text-sm flex items-center justify-center">2</span>
                         Select Doctor
                       </h4>
                       <select
                         value={bookingForm.doctorId}
                         onChange={(e) => handleBookingFormChange('doctorId', e.target.value)}
-                        className="w-full px-3 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                        className="w-full px-3 py-2.5 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
                       >
                         <option value="">Choose a doctor...</option>
                         {doctors.map(doctor => (
@@ -2820,8 +2820,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                     </div>
 
                     {/* Step 3: Date Selection */}
-                    <div className="p-4 bg-gray-50 rounded-xl">
-                      <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                    <div className="p-4 bg-neutral-50 rounded-xl">
+                      <h4 className="font-semibold text-neutral-800 mb-3 flex items-center gap-2">
                         <span className="w-6 h-6 bg-emerald-600 text-white rounded-full text-sm flex items-center justify-center">3</span>
                         Select Date
                       </h4>
@@ -2831,7 +2831,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                         min={new Date().toISOString().split('T')[0]}
                         max={maxBookingDate}
                         onChange={(e) => handleBookingFormChange('date', e.target.value)}
-                        className="w-full px-3 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                        className="w-full px-3 py-2.5 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
                       />
                       {/* Booking Rules Info */}
                       {bookingSettings && !overrideRules && (
@@ -2849,8 +2849,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                     </div>
 
                     {/* Step 4: Slot Selection */}
-                    <div className="p-4 bg-gray-50 rounded-xl">
-                      <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                    <div className="p-4 bg-neutral-50 rounded-xl">
+                      <h4 className="font-semibold text-neutral-800 mb-3 flex items-center gap-2">
                         <span className="w-6 h-6 bg-emerald-600 text-white rounded-full text-sm flex items-center justify-center">4</span>
                         Select Time Slot
                       </h4>
@@ -2864,20 +2864,20 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                               {bookingSchedule.start_time} - {bookingSchedule.end_time}
                             </span>
                             <span className={`font-medium ${bookingSchedule.booked_count >= bookingSchedule.max_patients
-                              ? 'text-red-600'
+                              ? 'text-error-600'
                               : bookingSchedule.booked_count >= bookingSchedule.max_patients * 0.8
                                 ? 'text-amber-600'
                                 : 'text-blue-700'
                               }`}>
                               {bookingSchedule.booked_count}/{bookingSchedule.max_patients} booked
                               {bookingSchedule.booked_count >= bookingSchedule.max_patients && !overrideRules && (
-                                <span className="ml-1 text-red-600">(Full)</span>
+                                <span className="ml-1 text-error-600">(Full)</span>
                               )}
                             </span>
                           </div>
                           {/* Slot Duration Info */}
                           {bookingSettings && (
-                            <div className="mt-1 text-xs text-blue-600">
+                            <div className="mt-1 text-xs text-primary-500">
                               <FaClock className="inline mr-1" />
                               {bookingSettings.default_time_per_patient} min per patient
                             </div>
@@ -2887,7 +2887,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
                       {/* Session Full Warning */}
                       {bookingSchedule && bookingSchedule.booked_count >= bookingSchedule.max_patients && !overrideRules && (
-                        <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+                        <div className="mb-3 p-3 bg-error-50 border border-red-200 rounded-lg text-sm text-red-700">
                           <FaExclamationTriangle className="inline mr-1" />
                           <strong>Session Full:</strong> Maximum patient limit ({bookingSchedule.max_patients}) reached.
                           {canOverrideRules && (
@@ -2899,12 +2899,12 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                       )}
 
                       {loadingBookingSlots ? (
-                        <div className="flex items-center justify-center py-6 text-gray-500">
+                        <div className="flex items-center justify-center py-6 text-neutral-500">
                           <FaSpinner className="animate-spin mr-2" />
                           Loading available slots...
                         </div>
                       ) : !bookingForm.doctorId || !bookingForm.date ? (
-                        <div className="text-center py-6 text-gray-500">
+                        <div className="text-center py-6 text-neutral-500">
                           Please select a doctor and date first
                         </div>
                       ) : bookingSlots.length === 0 ? (
@@ -2931,7 +2931,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                                   ? 'bg-emerald-600 text-white ring-2 ring-emerald-300'
                                   : !isDisabled
                                     ? 'bg-green-50 text-green-700 hover:bg-green-100 border border-green-200'
-                                    : 'bg-gray-100 text-gray-400 cursor-not-allowed line-through'
+                                    : 'bg-neutral-100 text-neutral-400 cursor-not-allowed line-through'
                                   }`}
                                 title={
                                   sessionFull
@@ -2951,8 +2951,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                     </div>
 
                     {/* Step 5: Booking Type & Payment */}
-                    <div className="p-4 bg-gray-50 rounded-xl">
-                      <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                    <div className="p-4 bg-neutral-50 rounded-xl">
+                      <h4 className="font-semibold text-neutral-800 mb-3 flex items-center gap-2">
                         <span className="w-6 h-6 bg-emerald-600 text-white rounded-full text-sm flex items-center justify-center">5</span>
                         Booking Details
                       </h4>
@@ -2960,14 +2960,14 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                       <div className="grid grid-cols-2 gap-4">
                         {/* Booking Type */}
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Booking Type</label>
+                          <label className="block text-sm font-medium text-neutral-700 mb-1">Booking Type</label>
                           <div className="flex gap-2">
                             <button
                               type="button"
                               onClick={() => setBookingForm(prev => ({ ...prev, bookingType: 'walk_in' }))}
                               className={`flex-1 flex items-center justify-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-all ${bookingForm.bookingType === 'walk_in'
                                 ? 'bg-emerald-600 text-white'
-                                : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
+                                : 'bg-white border border-neutral-200 text-neutral-600 hover:bg-neutral-50'
                                 }`}
                             >
                               <FaWalking className="w-3 h-3" />
@@ -2978,7 +2978,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                               onClick={() => setBookingForm(prev => ({ ...prev, bookingType: 'phone' }))}
                               className={`flex-1 flex items-center justify-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-all ${bookingForm.bookingType === 'phone'
                                 ? 'bg-emerald-600 text-white'
-                                : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
+                                : 'bg-white border border-neutral-200 text-neutral-600 hover:bg-neutral-50'
                                 }`}
                             >
                               <FaPhone className="w-3 h-3" />
@@ -2989,7 +2989,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                               onClick={() => setBookingForm(prev => ({ ...prev, bookingType: 'online' }))}
                               className={`flex-1 flex items-center justify-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-all ${bookingForm.bookingType === 'online'
                                 ? 'bg-emerald-600 text-white'
-                                : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
+                                : 'bg-white border border-neutral-200 text-neutral-600 hover:bg-neutral-50'
                                 }`}
                             >
                               <FaGlobe className="w-3 h-3" />
@@ -3000,11 +3000,11 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
                         {/* Payment Status */}
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Payment Status</label>
+                          <label className="block text-sm font-medium text-neutral-700 mb-1">Payment Status</label>
                           <select
                             value={bookingForm.paymentStatus}
                             onChange={(e) => setBookingForm(prev => ({ ...prev, paymentStatus: e.target.value as PaymentStatusType }))}
-                            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                            className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
                           >
                             <option value="pending">Pending</option>
                             <option value="paid">Paid</option>
@@ -3017,11 +3017,11 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                       {bookingForm.paymentStatus === 'paid' && (
                         <div className="grid grid-cols-2 gap-4 mt-4">
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">Payment Method</label>
                             <select
                               value={bookingForm.paymentMethod}
                               onChange={(e) => setBookingForm(prev => ({ ...prev, paymentMethod: e.target.value }))}
-                              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                              className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
                             >
                               <option value="">Select method...</option>
                               <option value="cash">Cash</option>
@@ -3030,13 +3030,13 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                             </select>
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Amount (Rs.)</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">Amount (Rs.)</label>
                             <input
                               type="number"
                               value={bookingForm.amountPaid || ''}
                               onChange={(e) => setBookingForm(prev => ({ ...prev, amountPaid: Number(e.target.value) }))}
                               placeholder="0.00"
-                              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                              className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
                             />
                           </div>
                         </div>
@@ -3044,13 +3044,13 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
                       {/* Notes */}
                       <div className="mt-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Notes (Optional)</label>
+                        <label className="block text-sm font-medium text-neutral-700 mb-1">Notes (Optional)</label>
                         <textarea
                           value={bookingForm.notes}
                           onChange={(e) => setBookingForm(prev => ({ ...prev, notes: e.target.value }))}
                           placeholder="Any additional notes..."
                           rows={2}
-                          className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none resize-none"
+                          className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none resize-none"
                         />
                       </div>
                     </div>
@@ -3058,8 +3058,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                 </div>
 
                 {/* Footer */}
-                <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 rounded-b-2xl flex justify-between items-center flex-shrink-0">
-                  <div className="text-sm text-gray-500">
+                <div className="px-6 py-4 border-t border-neutral-200 bg-neutral-50 rounded-b-2xl flex justify-between items-center flex-shrink-0">
+                  <div className="text-sm text-neutral-500">
                     {bookingForm.slotNumber > 0 && bookingSlots.find(s => s.slot_number === bookingForm.slotNumber) && (
                       <span className="font-medium text-emerald-600">
                         Selected: Slot #{bookingForm.slotNumber} at {bookingSlots.find(s => s.slot_number === bookingForm.slotNumber)?.time}
@@ -3076,7 +3076,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                     <button
                       onClick={closeBookingModal}
                       disabled={savingBooking}
-                      className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium transition-colors"
+                      className="px-4 py-2 text-neutral-600 hover:text-neutral-800 font-medium transition-colors"
                     >
                       Cancel
                     </button>
@@ -3084,7 +3084,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                       onClick={handleCreateBooking}
                       disabled={savingBooking || !bookingForm.patientId || !bookingForm.doctorId || !bookingForm.slotNumber}
                       className={`inline-flex items-center gap-2 px-5 py-2 rounded-lg font-medium transition-all ${savingBooking || !bookingForm.patientId || !bookingForm.doctorId || !bookingForm.slotNumber
-                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        ? 'bg-neutral-300 text-neutral-500 cursor-not-allowed'
                         : overrideRules
                           ? 'bg-amber-500 text-white hover:bg-amber-600 shadow-lg shadow-amber-200'
                           : 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-lg shadow-emerald-200'
@@ -3119,7 +3119,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
               {/* Modal Header */}
-              <div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+              <div className="px-6 py-4 border-b border-neutral-200 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <FaPrint className="w-5 h-5" />
@@ -3135,10 +3135,10 @@ const BranchAdminAppointmentsNew: React.FC = () => {
               </div>
 
               {/* Date Selection */}
-              <div className="px-6 py-4 border-b border-gray-100 bg-gray-50">
+              <div className="px-6 py-4 border-b border-gray-100 bg-neutral-50">
                 <div className="flex items-center gap-4 flex-wrap">
                   <div className="flex items-center gap-2">
-                    <label className="text-sm font-medium text-gray-700">Select Date:</label>
+                    <label className="text-sm font-medium text-neutral-700">Select Date:</label>
                     <input
                       type="date"
                       value={printDate}
@@ -3146,13 +3146,13 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                         setPrintDate(e.target.value);
                         loadPrintAppointments(e.target.value);
                       }}
-                      className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                      className="px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
                     />
                   </div>
                   <button
                     onClick={handlePrint}
                     disabled={loadingPrintData || printAppointments.length === 0}
-                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+                    className="flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:bg-neutral-300 disabled:cursor-not-allowed"
                   >
                     <FaPrint />
                     Print
@@ -3164,7 +3164,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
               <div className="flex-1 overflow-auto p-6">
                 {loadingPrintData ? (
                   <div className="flex items-center justify-center py-12">
-                    <FaSpinner className="w-8 h-8 text-blue-600 animate-spin" />
+                    <FaSpinner className="w-8 h-8 text-primary-500 animate-spin" />
                   </div>
                 ) : (
                   <div id="print-content">

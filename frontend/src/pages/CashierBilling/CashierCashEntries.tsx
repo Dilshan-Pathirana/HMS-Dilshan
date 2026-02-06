@@ -159,7 +159,7 @@ const CashierCashEntries = () => {
         const badges = {
             PENDING: { bg: "bg-yellow-100", text: "text-yellow-800", icon: Clock, label: "Pending" },
             APPROVED: { bg: "bg-green-100", text: "text-green-800", icon: CheckCircle, label: "Approved" },
-            REJECTED: { bg: "bg-red-100", text: "text-red-800", icon: AlertCircle, label: "Rejected" },
+            REJECTED: { bg: "bg-error-100", text: "text-red-800", icon: AlertCircle, label: "Rejected" },
         };
         const badge = badges[status as keyof typeof badges] || badges.PENDING;
         const Icon = badge.icon;
@@ -173,7 +173,7 @@ const CashierCashEntries = () => {
     };
 
     return (
-        <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
+        <div className="p-6 space-y-6 bg-neutral-50 min-h-screen">
             {/* Header */}
             <div className="bg-gradient-to-r from-emerald-500 to-blue-600 rounded-xl shadow-lg p-6 text-white">
                 <div className="flex items-center justify-between">
@@ -208,8 +208,8 @@ const CashierCashEntries = () => {
 
             {/* Alerts */}
             {error && (
-                <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-center gap-3">
-                    <AlertCircle className="h-5 w-5 text-red-500" />
+                <div className="bg-error-50 border border-red-200 rounded-xl p-4 flex items-center gap-3">
+                    <AlertCircle className="h-5 w-5 text-error-500" />
                     <p className="text-sm text-red-700">{error}</p>
                 </div>
             )}
@@ -232,39 +232,39 @@ const CashierCashEntries = () => {
 
             {/* Cash Summary */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+                <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
                     <div className="flex items-center justify-between mb-4">
                         <div className="p-3 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg">
                             <TrendingUp className="h-6 w-6 text-white" />
                         </div>
                     </div>
-                    <p className="text-sm text-gray-600 mb-1">Cash In</p>
-                    <p className="text-3xl font-bold text-gray-800">
+                    <p className="text-sm text-neutral-600 mb-1">Cash In</p>
+                    <p className="text-3xl font-bold text-neutral-800">
                         Rs. {(cashSummary?.cash_in_total || 0).toLocaleString()}
                     </p>
                 </div>
 
-                <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+                <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
                     <div className="flex items-center justify-between mb-4">
                         <div className="p-3 bg-gradient-to-br from-red-500 to-pink-600 rounded-lg">
                             <TrendingDown className="h-6 w-6 text-white" />
                         </div>
                     </div>
-                    <p className="text-sm text-gray-600 mb-1">Cash Out</p>
-                    <p className="text-3xl font-bold text-gray-800">
+                    <p className="text-sm text-neutral-600 mb-1">Cash Out</p>
+                    <p className="text-3xl font-bold text-neutral-800">
                         Rs. {(cashSummary?.cash_out_total || 0).toLocaleString()}
                     </p>
                 </div>
 
-                <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+                <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
                     <div className="flex items-center justify-between mb-4">
                         <div className="p-3 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg">
                             <DollarSign className="h-6 w-6 text-white" />
                         </div>
                     </div>
-                    <p className="text-sm text-gray-600 mb-1">Net Cash</p>
+                    <p className="text-sm text-neutral-600 mb-1">Net Cash</p>
                     <p className={`text-3xl font-bold ${
-                        (cashSummary?.net_cash || 0) >= 0 ? "text-green-600" : "text-red-600"
+                        (cashSummary?.net_cash || 0) >= 0 ? "text-green-600" : "text-error-600"
                     }`}>
                         Rs. {(cashSummary?.net_cash || 0).toLocaleString()}
                     </p>
@@ -273,12 +273,12 @@ const CashierCashEntries = () => {
 
             {/* Add Entry Form */}
             {showForm && (
-                <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+                <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
                     <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-lg font-semibold text-gray-800">Add New Cash Entry</h2>
+                        <h2 className="text-lg font-semibold text-neutral-800">Add New Cash Entry</h2>
                         <button
                             onClick={() => setShowForm(false)}
-                            className="text-gray-500 hover:text-gray-700 p-2 hover:bg-gray-100 rounded-lg"
+                            className="text-neutral-500 hover:text-neutral-700 p-2 hover:bg-neutral-100 rounded-lg"
                         >
                             ✕
                         </button>
@@ -287,7 +287,7 @@ const CashierCashEntries = () => {
                     <form onSubmit={handleSubmit} className="space-y-4">
                         {/* Entry Type */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Entry Type *
                             </label>
                             <div className="grid grid-cols-2 gap-3">
@@ -299,12 +299,12 @@ const CashierCashEntries = () => {
                                     }}
                                     className={`p-4 rounded-lg border-2 transition ${
                                         entryType === "CASH_OUT"
-                                            ? "border-red-500 bg-gradient-to-br from-red-50 to-pink-50"
-                                            : "border-gray-200 hover:border-gray-300"
+                                            ? "border-error-500 bg-gradient-to-br from-red-50 to-pink-50"
+                                            : "border-neutral-200 hover:border-neutral-300"
                                     }`}
                                 >
-                                    <div className={`p-2 rounded-lg mx-auto w-fit mb-2 ${entryType === "CASH_OUT" ? "bg-gradient-to-br from-red-500 to-pink-600" : "bg-gray-100"}`}>
-                                        <TrendingDown className={`h-5 w-5 ${entryType === "CASH_OUT" ? "text-white" : "text-gray-600"}`} />
+                                    <div className={`p-2 rounded-lg mx-auto w-fit mb-2 ${entryType === "CASH_OUT" ? "bg-gradient-to-br from-red-500 to-pink-600" : "bg-neutral-100"}`}>
+                                        <TrendingDown className={`h-5 w-5 ${entryType === "CASH_OUT" ? "text-white" : "text-neutral-600"}`} />
                                     </div>
                                     <span className={`font-medium ${entryType === "CASH_OUT" ? "text-red-700" : ""}`}>Cash Out</span>
                                 </button>
@@ -317,11 +317,11 @@ const CashierCashEntries = () => {
                                     className={`p-4 rounded-lg border-2 transition ${
                                         entryType === "CASH_IN"
                                             ? "border-emerald-500 bg-gradient-to-br from-emerald-50 to-green-50"
-                                            : "border-gray-200 hover:border-gray-300"
+                                            : "border-neutral-200 hover:border-neutral-300"
                                     }`}
                                 >
-                                    <div className={`p-2 rounded-lg mx-auto w-fit mb-2 ${entryType === "CASH_IN" ? "bg-gradient-to-br from-green-500 to-emerald-600" : "bg-gray-100"}`}>
-                                        <TrendingUp className={`h-5 w-5 ${entryType === "CASH_IN" ? "text-white" : "text-gray-600"}`} />
+                                    <div className={`p-2 rounded-lg mx-auto w-fit mb-2 ${entryType === "CASH_IN" ? "bg-gradient-to-br from-green-500 to-emerald-600" : "bg-neutral-100"}`}>
+                                        <TrendingUp className={`h-5 w-5 ${entryType === "CASH_IN" ? "text-white" : "text-neutral-600"}`} />
                                     </div>
                                     <span className={`font-medium ${entryType === "CASH_IN" ? "text-emerald-700" : ""}`}>Cash In</span>
                                 </button>
@@ -330,13 +330,13 @@ const CashierCashEntries = () => {
 
                         {/* Category */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Category *
                             </label>
                             <select
                                 value={category}
                                 onChange={(e) => setCategory(e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                 required
                             >
                                 <option value="">Select category</option>
@@ -351,7 +351,7 @@ const CashierCashEntries = () => {
                         {/* Amount & Reference */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Amount *
                                 </label>
                                 <input
@@ -359,20 +359,20 @@ const CashierCashEntries = () => {
                                     step="0.01"
                                     value={amount}
                                     onChange={(e) => setAmount(e.target.value)}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     placeholder="0.00"
                                     required
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Reference Number
                                 </label>
                                 <input
                                     type="text"
                                     value={referenceNumber}
                                     onChange={(e) => setReferenceNumber(e.target.value)}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     placeholder="e.g., REF-001"
                                 />
                             </div>
@@ -380,14 +380,14 @@ const CashierCashEntries = () => {
 
                         {/* Description */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Description *
                             </label>
                             <textarea
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                                 rows={3}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                 placeholder="Provide details about this cash entry..."
                                 required
                             />
@@ -395,14 +395,14 @@ const CashierCashEntries = () => {
 
                         {/* Remarks */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Remarks (Optional)
                             </label>
                             <input
                                 type="text"
                                 value={remarks}
                                 onChange={(e) => setRemarks(e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                 placeholder="Additional notes..."
                             />
                         </div>
@@ -419,7 +419,7 @@ const CashierCashEntries = () => {
                             <button
                                 type="button"
                                 onClick={() => setShowForm(false)}
-                                className="px-6 bg-gray-100 text-gray-700 py-3 rounded-lg hover:bg-gray-200 transition border border-gray-200"
+                                className="px-6 bg-neutral-100 text-neutral-700 py-3 rounded-lg hover:bg-neutral-200 transition border border-neutral-200"
                             >
                                 Cancel
                             </button>
@@ -429,9 +429,9 @@ const CashierCashEntries = () => {
             )}
 
             {/* Entries List */}
-            <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
-                <div className="p-6 border-b border-gray-200">
-                    <h2 className="text-lg font-semibold text-gray-800">Today's Cash Entries</h2>
+            <div className="bg-white rounded-xl shadow-md border border-neutral-200 overflow-hidden">
+                <div className="p-6 border-b border-neutral-200">
+                    <h2 className="text-lg font-semibold text-neutral-800">Today's Cash Entries</h2>
                 </div>
 
                 {isLoading ? (
@@ -443,17 +443,17 @@ const CashierCashEntries = () => {
                         <table className="w-full">
                             <thead className="bg-gradient-to-r from-emerald-50 to-blue-50">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">Type</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">Category</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">Description</th>
-                                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 uppercase">Amount</th>
-                                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-700 uppercase">Status</th>
-                                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-700 uppercase">Time</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-700 uppercase">Type</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-700 uppercase">Category</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-700 uppercase">Description</th>
+                                    <th className="px-6 py-3 text-right text-xs font-medium text-neutral-700 uppercase">Amount</th>
+                                    <th className="px-6 py-3 text-center text-xs font-medium text-neutral-700 uppercase">Status</th>
+                                    <th className="px-6 py-3 text-center text-xs font-medium text-neutral-700 uppercase">Time</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
                                 {entries.map((entry) => (
-                                    <tr key={entry.id} className="hover:bg-gray-50">
+                                    <tr key={entry.id} className="hover:bg-neutral-50">
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-2">
                                                 {entry.entry_type === "CASH_IN" ? (
@@ -472,19 +472,19 @@ const CashierCashEntries = () => {
                                                 </span>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-900">
+                                        <td className="px-6 py-4 text-sm text-neutral-900">
                                             {entry.category.replace(/_/g, " ")}
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-700 max-w-xs truncate">
+                                        <td className="px-6 py-4 text-sm text-neutral-700 max-w-xs truncate">
                                             {entry.description}
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-right font-semibold text-gray-900">
+                                        <td className="px-6 py-4 text-sm text-right font-semibold text-neutral-900">
                                             Rs. {entry.amount.toLocaleString()}
                                         </td>
                                         <td className="px-6 py-4 text-center">
                                             {getStatusBadge(entry.approval_status)}
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-500 text-center">
+                                        <td className="px-6 py-4 text-sm text-neutral-500 text-center">
                                             {new Date(entry.created_at).toLocaleTimeString()}
                                         </td>
                                     </tr>
@@ -495,9 +495,9 @@ const CashierCashEntries = () => {
                 ) : (
                     <div className="text-center py-12">
                         <div className="p-4 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full w-fit mx-auto mb-4">
-                            <DollarSign className="h-8 w-8 text-gray-500" />
+                            <DollarSign className="h-8 w-8 text-neutral-500" />
                         </div>
-                        <p className="text-gray-500">No cash entries for today</p>
+                        <p className="text-neutral-500">No cash entries for today</p>
                         {!isEodLocked && (
                             <button
                                 onClick={() => setShowForm(true)}

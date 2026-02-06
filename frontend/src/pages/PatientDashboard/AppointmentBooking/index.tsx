@@ -10,7 +10,7 @@ const PatientAppointmentModule: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('my-appointments');
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-neutral-50 flex flex-col">
       <NavBar />
       
       <div className="flex-grow pt-20 pb-8">
@@ -21,7 +21,7 @@ const PatientAppointmentModule: React.FC = () => {
               className={`px-6 py-3 rounded-lg font-medium transition-colors ${
                 activeTab === 'my-appointments'
                   ? 'bg-indigo-600 text-white shadow-md'
-                  : 'bg-white text-gray-600 hover:bg-gray-100'
+                  : 'bg-white text-neutral-600 hover:bg-neutral-100'
               }`}
               onClick={() => setActiveTab('my-appointments')}
             >
@@ -31,7 +31,7 @@ const PatientAppointmentModule: React.FC = () => {
               className={`px-6 py-3 rounded-lg font-medium transition-colors ${
                 activeTab === 'book'
                   ? 'bg-indigo-600 text-white shadow-md'
-                  : 'bg-white text-gray-600 hover:bg-gray-100'
+                  : 'bg-white text-neutral-600 hover:bg-neutral-100'
               }`}
               onClick={() => setActiveTab('book')}
             >

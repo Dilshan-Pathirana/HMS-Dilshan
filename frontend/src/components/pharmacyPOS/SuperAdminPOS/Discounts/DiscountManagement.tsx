@@ -186,7 +186,7 @@ const DiscountManagement = () => {
             case "item": return "bg-blue-100 text-blue-700";
             case "category": return "bg-purple-100 text-purple-700";
             case "bill": return "bg-green-100 text-green-700";
-            default: return "bg-gray-100 text-gray-700";
+            default: return "bg-neutral-100 text-neutral-700";
         }
     };
 
@@ -202,18 +202,18 @@ const DiscountManagement = () => {
     if (isLoading) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
             </div>
         );
     }
 
     return (
-        <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
+        <div className="p-6 space-y-6 bg-neutral-50 min-h-screen">
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Discount Management</h1>
-                    <p className="text-gray-600 mt-1">Create and manage discounts for items, categories, and bills</p>
+                    <h1 className="text-2xl font-bold text-neutral-900">Discount Management</h1>
+                    <p className="text-neutral-600 mt-1">Create and manage discounts for items, categories, and bills</p>
                 </div>
                 <button
                     onClick={() => {
@@ -221,7 +221,7 @@ const DiscountManagement = () => {
                         resetForm();
                         setShowModal(true);
                     }}
-                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
                 >
                     <Plus className="w-5 h-5" />
                     Create Discount
@@ -235,8 +235,8 @@ const DiscountManagement = () => {
                         onClick={() => setActiveTab("active")}
                         className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                             activeTab === "active" 
-                                ? "bg-blue-600 text-white" 
-                                : "bg-white text-gray-600 hover:bg-gray-100"
+                                ? "bg-primary-500 text-white" 
+                                : "bg-white text-neutral-600 hover:bg-neutral-100"
                         }`}
                     >
                         Active Offers ({activeOffers.length})
@@ -245,8 +245,8 @@ const DiscountManagement = () => {
                         onClick={() => setActiveTab("all")}
                         className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                             activeTab === "all" 
-                                ? "bg-blue-600 text-white" 
-                                : "bg-white text-gray-600 hover:bg-gray-100"
+                                ? "bg-primary-500 text-white" 
+                                : "bg-white text-neutral-600 hover:bg-neutral-100"
                         }`}
                     >
                         All Discounts
@@ -254,11 +254,11 @@ const DiscountManagement = () => {
                 </div>
                 
                 <div className="flex items-center gap-2">
-                    <Filter className="w-5 h-5 text-gray-400" />
+                    <Filter className="w-5 h-5 text-neutral-400" />
                     <select
                         value={filterScope}
                         onChange={(e) => setFilterScope(e.target.value)}
-                        className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     >
                         <option value="">All Scopes</option>
                         <option value="item">Item Discounts</option>
@@ -283,7 +283,7 @@ const DiscountManagement = () => {
                                     {getScopeIcon(offer.scope)}
                                 </div>
                                 <div>
-                                    <h3 className="font-semibold text-gray-900">{offer.name}</h3>
+                                    <h3 className="font-semibold text-neutral-900">{offer.name}</h3>
                                     <span className={`text-xs px-2 py-0.5 rounded-full ${getScopeColor(offer.scope)}`}>
                                         {offer.scope.toUpperCase()}
                                     </span>
@@ -294,13 +294,13 @@ const DiscountManagement = () => {
                                     onClick={() => {
                                         // Edit logic would go here
                                     }}
-                                    className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                    className="p-1.5 text-neutral-400 hover:text-primary-500 hover:bg-blue-50 rounded-lg transition-colors"
                                 >
                                     <Edit className="w-4 h-4" />
                                 </button>
                                 <button
                                     onClick={() => handleDelete(offer.id)}
-                                    className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                    className="p-1.5 text-neutral-400 hover:text-error-600 hover:bg-error-50 rounded-lg transition-colors"
                                 >
                                     <Trash2 className="w-4 h-4" />
                                 </button>
@@ -315,7 +315,7 @@ const DiscountManagement = () => {
                         </div>
 
                         {/* Details */}
-                        <div className="mt-4 space-y-2 text-sm text-gray-600">
+                        <div className="mt-4 space-y-2 text-sm text-neutral-600">
                             {offer.product && (
                                 <div className="flex items-center gap-2">
                                     <Tag className="w-4 h-4" />
@@ -368,14 +368,14 @@ const DiscountManagement = () => {
                 {activeOffers.length === 0 && (
                     <div className="col-span-full text-center py-12 bg-white rounded-xl">
                         <Gift className="w-12 h-12 mx-auto text-gray-300 mb-4" />
-                        <h3 className="text-lg font-medium text-gray-900">No Active Discounts</h3>
-                        <p className="text-gray-500 mt-1">Create your first discount to get started</p>
+                        <h3 className="text-lg font-medium text-neutral-900">No Active Discounts</h3>
+                        <p className="text-neutral-500 mt-1">Create your first discount to get started</p>
                         <button
                             onClick={() => {
                                 resetForm();
                                 setShowModal(true);
                             }}
-                            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                            className="mt-4 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
                         >
                             Create Discount
                         </button>
@@ -387,8 +387,8 @@ const DiscountManagement = () => {
             {showModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
-                        <div className="p-6 border-b border-gray-200">
-                            <h2 className="text-xl font-bold text-gray-900">
+                        <div className="p-6 border-b border-neutral-200">
+                            <h2 className="text-xl font-bold text-neutral-900">
                                 {editingDiscount ? "Edit Discount" : "Create New Discount"}
                             </h2>
                         </div>
@@ -396,21 +396,21 @@ const DiscountManagement = () => {
                         <form onSubmit={handleSubmit} className="p-6 space-y-4">
                             {/* Name */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">
                                     Discount Name *
                                 </label>
                                 <input
                                     type="text"
                                     value={formData.name}
                                     onChange={(e) => setFormData({...formData, name: e.target.value})}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                     required
                                 />
                             </div>
 
                             {/* Scope */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">
                                     Discount Scope *
                                 </label>
                                 <div className="grid grid-cols-3 gap-2">
@@ -422,7 +422,7 @@ const DiscountManagement = () => {
                                             className={`px-3 py-2 rounded-lg font-medium capitalize transition-colors ${
                                                 formData.scope === scope
                                                     ? getScopeColor(scope) + " ring-2 ring-offset-2 ring-blue-500"
-                                                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                                    : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
                                             }`}
                                         >
                                             {scope}
@@ -434,27 +434,27 @@ const DiscountManagement = () => {
                             {/* Type and Value */}
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Type *
                                     </label>
                                     <select
                                         value={formData.type}
                                         onChange={(e) => setFormData({...formData, type: e.target.value as "percentage" | "fixed"})}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                     >
                                         <option value="percentage">Percentage (%)</option>
                                         <option value="fixed">Fixed Amount (Rs.)</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Value *
                                     </label>
                                     <input
                                         type="number"
                                         value={formData.value}
                                         onChange={(e) => setFormData({...formData, value: parseFloat(e.target.value)})}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                         min="0"
                                         step="0.01"
                                         required
@@ -465,25 +465,25 @@ const DiscountManagement = () => {
                             {/* Period */}
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Valid From
                                     </label>
                                     <input
                                         type="date"
                                         value={formData.valid_from}
                                         onChange={(e) => setFormData({...formData, valid_from: e.target.value})}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Valid Until
                                     </label>
                                     <input
                                         type="date"
                                         value={formData.valid_until}
                                         onChange={(e) => setFormData({...formData, valid_until: e.target.value})}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                     />
                                 </div>
                             </div>
@@ -495,27 +495,27 @@ const DiscountManagement = () => {
                                         type="checkbox"
                                         checked={formData.cashier_can_apply}
                                         onChange={(e) => setFormData({...formData, cashier_can_apply: e.target.checked})}
-                                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                        className="rounded border-neutral-300 text-primary-500 focus:ring-primary-500"
                                     />
-                                    <span className="text-sm text-gray-700">Cashier can apply this discount</span>
+                                    <span className="text-sm text-neutral-700">Cashier can apply this discount</span>
                                 </label>
                                 <label className="flex items-center gap-2">
                                     <input
                                         type="checkbox"
                                         checked={formData.requires_approval}
                                         onChange={(e) => setFormData({...formData, requires_approval: e.target.checked})}
-                                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                        className="rounded border-neutral-300 text-primary-500 focus:ring-primary-500"
                                     />
-                                    <span className="text-sm text-gray-700">Requires manager approval</span>
+                                    <span className="text-sm text-neutral-700">Requires manager approval</span>
                                 </label>
                                 <label className="flex items-center gap-2">
                                     <input
                                         type="checkbox"
                                         checked={formData.is_active}
                                         onChange={(e) => setFormData({...formData, is_active: e.target.checked})}
-                                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                        className="rounded border-neutral-300 text-primary-500 focus:ring-primary-500"
                                     />
-                                    <span className="text-sm text-gray-700">Active</span>
+                                    <span className="text-sm text-neutral-700">Active</span>
                                 </label>
                             </div>
 
@@ -528,13 +528,13 @@ const DiscountManagement = () => {
                                         setEditingDiscount(null);
                                         resetForm();
                                     }}
-                                    className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                                    className="flex-1 px-4 py-2 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200 transition-colors"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                                    className="flex-1 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
                                 >
                                     {editingDiscount ? "Update" : "Create"} Discount
                                 </button>

@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import api from "../../../../utils/api/axios";
 import { Plus, Trash2, Calendar, Clock, User, X, Search, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -241,7 +241,7 @@ const ShiftManagement: React.FC = () => {
     const selectedUser = users.find((u) => u.id === formData.user_id);
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-neutral-50 p-6">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
@@ -249,19 +249,19 @@ const ShiftManagement: React.FC = () => {
                         <div className="flex items-center gap-4">
                             <button
                                 onClick={() => navigate(-1)}
-                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                                 title="Go back"
                             >
-                                <ArrowLeft className="w-6 h-6 text-gray-700" />
+                                <ArrowLeft className="w-6 h-6 text-neutral-700" />
                             </button>
                             <div>
-                                <h1 className="text-3xl font-bold text-gray-900">Shift Management</h1>
-                                <p className="text-gray-600 mt-1">Create and manage staff work schedules</p>
+                                <h1 className="text-3xl font-bold text-neutral-900">Shift Management</h1>
+                                <p className="text-neutral-600 mt-1">Create and manage staff work schedules</p>
                             </div>
                         </div>
                         <button
                             onClick={() => setIsModalOpen(true)}
-                            className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl"
+                            className="flex items-center gap-2 px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors shadow-lg hover:shadow-xl"
                         >
                             <Plus className="w-5 h-5" />
                             Add Shift
@@ -272,17 +272,17 @@ const ShiftManagement: React.FC = () => {
                 {/* Shifts List */}
                 {loading ? (
                     <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-                        <p className="text-gray-600 mt-4">Loading shifts...</p>
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mx-auto"></div>
+                        <p className="text-neutral-600 mt-4">Loading shifts...</p>
                     </div>
                 ) : shifts.length === 0 ? (
                     <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-                        <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                        <h3 className="text-lg font-medium text-gray-900 mb-2">No shifts scheduled</h3>
-                        <p className="text-gray-600 mb-4">Get started by creating your first shift</p>
+                        <Calendar className="w-16 h-16 text-neutral-400 mx-auto mb-4" />
+                        <h3 className="text-lg font-medium text-neutral-900 mb-2">No shifts scheduled</h3>
+                        <p className="text-neutral-600 mb-4">Get started by creating your first shift</p>
                         <button
                             onClick={() => setIsModalOpen(true)}
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                         >
                             <Plus className="w-4 h-4" />
                             Add First Shift
@@ -300,8 +300,8 @@ const ShiftManagement: React.FC = () => {
                                     <div className="flex items-start justify-between">
                                         <div className="flex-1">
                                             <div className="flex items-center gap-3 mb-3">
-                                                <User className="w-5 h-5 text-blue-600" />
-                                                <h3 className="text-lg font-semibold text-gray-900">
+                                                <User className="w-5 h-5 text-primary-500" />
+                                                <h3 className="text-lg font-semibold text-neutral-900">
                                                     {shift.user_first_name} {shift.user_last_name}
                                                 </h3>
                                                 <span className="px-3 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded-full">
@@ -309,26 +309,26 @@ const ShiftManagement: React.FC = () => {
                                                 </span>
                                             </div>
                                             <div className="grid grid-cols-2 gap-4 text-sm">
-                                                <div className="flex items-center gap-2 text-gray-600">
+                                                <div className="flex items-center gap-2 text-neutral-600">
                                                     <Clock className="w-4 h-4" />
                                                     <span>
                                                         {shift.start_time} - {shift.end_time}
                                                     </span>
                                                 </div>
-                                                <div className="flex items-center gap-2 text-gray-600">
+                                                <div className="flex items-center gap-2 text-neutral-600">
                                                     <Calendar className="w-4 h-4" />
                                                     <span>{days.map((d: string) => dayMap[d]).join(", ")}</span>
                                                 </div>
                                             </div>
                                             {shift.notes && (
-                                                <p className="mt-3 text-sm text-gray-600 bg-gray-50 p-3 rounded">
+                                                <p className="mt-3 text-sm text-neutral-600 bg-neutral-50 p-3 rounded">
                                                     {shift.notes}
                                                 </p>
                                             )}
                                         </div>
                                         <button
                                             onClick={() => handleDelete(shift.id)}
-                                            className="ml-4 p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                            className="ml-4 p-2 text-error-600 hover:bg-error-50 rounded-lg transition-colors"
                                         >
                                             <Trash2 className="w-5 h-5" />
                                         </button>
@@ -343,14 +343,14 @@ const ShiftManagement: React.FC = () => {
                 {isModalOpen && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
                         <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-                                <h2 className="text-2xl font-bold text-gray-900">Add New Shift</h2>
+                            <div className="sticky top-0 bg-white border-b border-neutral-200 px-6 py-4 flex items-center justify-between">
+                                <h2 className="text-2xl font-bold text-neutral-900">Add New Shift</h2>
                                 <button
                                     onClick={() => {
                                         setIsModalOpen(false);
                                         resetForm();
                                     }}
-                                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                    className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                                 >
                                     <X className="w-5 h-5" />
                                 </button>
@@ -359,22 +359,22 @@ const ShiftManagement: React.FC = () => {
                             <form onSubmit={handleSubmit} className="p-6 space-y-6">
                                 {/* User Selection */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                                         Select Staff Member *
                                     </label>
                                     <div className="relative mb-2">
-                                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400" />
                                         <input
                                             type="text"
                                             placeholder="Search by name or email..."
                                             value={searchTerm}
                                             onChange={(e) => setSearchTerm(e.target.value)}
-                                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                                         />
                                     </div>
-                                    <div className="border border-gray-300 rounded-lg max-h-48 overflow-y-auto">
+                                    <div className="border border-neutral-300 rounded-lg max-h-48 overflow-y-auto">
                                         {filteredUsers.length === 0 ? (
-                                            <div className="p-4 text-center text-gray-500">No users found</div>
+                                            <div className="p-4 text-center text-neutral-500">No users found</div>
                                         ) : (
                                             filteredUsers.map((user) => (
                                                 <div
@@ -382,14 +382,14 @@ const ShiftManagement: React.FC = () => {
                                                     onClick={() =>
                                                         setFormData({ ...formData, user_id: user.id })
                                                     }
-                                                    className={`p-3 cursor-pointer hover:bg-gray-50 border-b border-gray-100 ${
+                                                    className={`p-3 cursor-pointer hover:bg-neutral-50 border-b border-gray-100 ${
                                                         formData.user_id === user.id ? "bg-blue-50" : ""
                                                     }`}
                                                 >
-                                                    <div className="font-medium text-gray-900">
+                                                    <div className="font-medium text-neutral-900">
                                                         {user.first_name} {user.last_name}
                                                     </div>
-                                                    <div className="text-sm text-gray-500">{user.email}</div>
+                                                    <div className="text-sm text-neutral-500">{user.email}</div>
                                                 </div>
                                             ))
                                         )}
@@ -399,19 +399,19 @@ const ShiftManagement: React.FC = () => {
                                 {/* Branch Display */}
                                 {selectedUser && (
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Branch</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">Branch</label>
                                         <input
                                             type="text"
                                             value={selectedUser.center_name || ""}
                                             readOnly
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg bg-neutral-50"
                                         />
                                     </div>
                                 )}
 
                                 {/* Shift Type */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                                         Shift Type *
                                     </label>
                                     {!showCustomInput ? (
@@ -440,7 +440,7 @@ const ShiftManagement: React.FC = () => {
                                                     }
                                                 }}
                                                 required
-                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                                             >
                                                 <option value="">Select shift type</option>
                                                 {shiftTypes.map((type) => (
@@ -449,7 +449,7 @@ const ShiftManagement: React.FC = () => {
                                                         {shiftTypeTimings[type] && ` (${shiftTypeTimings[type].start_time} - ${shiftTypeTimings[type].end_time})`}
                                                     </option>
                                                 ))}
-                                                <option value="custom" className="text-blue-600 font-medium">
+                                                <option value="custom" className="text-primary-500 font-medium">
                                                     + Add Custom Shift Type
                                                 </option>
                                             </select>
@@ -461,7 +461,7 @@ const ShiftManagement: React.FC = () => {
                                                 value={customShiftType}
                                                 onChange={(e) => setCustomShiftType(e.target.value)}
                                                 placeholder="Enter custom shift type..."
-                                                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                className="flex-1 px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                                                 autoFocus
                                             />
                                             <button
@@ -477,7 +477,7 @@ const ShiftManagement: React.FC = () => {
                                                     setShowCustomInput(false);
                                                     setCustomShiftType("");
                                                 }}
-                                                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+                                                className="px-4 py-2 bg-neutral-300 text-neutral-700 rounded-lg hover:bg-gray-400"
                                             >
                                                 Cancel
                                             </button>
@@ -487,7 +487,7 @@ const ShiftManagement: React.FC = () => {
 
                                 {/* Days of Week */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                                         Days of Week *
                                     </label>
                                     <div className="grid grid-cols-4 gap-2">
@@ -498,8 +498,8 @@ const ShiftManagement: React.FC = () => {
                                                 onClick={() => handleDayToggle(key)}
                                                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                                                     formData.days_of_week.includes(key)
-                                                        ? "bg-blue-600 text-white"
-                                                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                                                        ? "bg-primary-500 text-white"
+                                                        : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
                                                 }`}
                                             >
                                                 {label.substring(0, 3)}
@@ -511,7 +511,7 @@ const ShiftManagement: React.FC = () => {
                                 {/* Time Selection */}
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">
                                             Start Time *
                                         </label>
                                         <input
@@ -519,11 +519,11 @@ const ShiftManagement: React.FC = () => {
                                             value={formData.start_time}
                                             onChange={(e) => setFormData({ ...formData, start_time: e.target.value })}
                                             required
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">
                                             End Time *
                                         </label>
                                         <input
@@ -531,20 +531,20 @@ const ShiftManagement: React.FC = () => {
                                             value={formData.end_time}
                                             onChange={(e) => setFormData({ ...formData, end_time: e.target.value })}
                                             required
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                                         />
                                     </div>
                                 </div>
 
                                 {/* Notes */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Notes</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">Notes</label>
                                     <textarea
                                         value={formData.notes}
                                         onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                                         rows={3}
                                         placeholder="Add any additional notes..."
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                                     />
                                 </div>
 
@@ -556,13 +556,13 @@ const ShiftManagement: React.FC = () => {
                                             setIsModalOpen(false);
                                             resetForm();
                                         }}
-                                        className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition-colors"
+                                        className="flex-1 px-6 py-3 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 font-medium transition-colors"
                                     >
                                         Cancel
                                     </button>
                                     <button
                                         type="submit"
-                                        className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors"
+                                        className="flex-1 px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 font-medium transition-colors"
                                     >
                                         Create Shift
                                     </button>

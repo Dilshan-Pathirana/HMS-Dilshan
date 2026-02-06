@@ -125,12 +125,12 @@ const BranchHRMReports: React.FC = () => {
     const StatCard = ({ title, value, icon, color, subtitle }: { 
         title: string; value: string | number; icon: React.ReactNode; color: string; subtitle?: string 
     }) => (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5">
             <div className="flex items-center justify-between">
                 <div>
-                    <p className="text-sm text-gray-500">{title}</p>
-                    <p className="text-2xl font-bold text-gray-800 mt-1">{value}</p>
-                    {subtitle && <p className="text-xs text-gray-400 mt-1">{subtitle}</p>}
+                    <p className="text-sm text-neutral-500">{title}</p>
+                    <p className="text-2xl font-bold text-neutral-800 mt-1">{value}</p>
+                    {subtitle && <p className="text-xs text-neutral-400 mt-1">{subtitle}</p>}
                 </div>
                 <div className={`p-3 rounded-xl bg-gradient-to-br ${color}`}>
                     {icon}
@@ -169,46 +169,46 @@ const BranchHRMReports: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h3 className="font-semibold text-gray-800 mb-4">Staff by Role</h3>
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                    <h3 className="font-semibold text-neutral-800 mb-4">Staff by Role</h3>
                     <div className="space-y-3">
                         {Object.entries(analytics.workforce.byRole || {}).map(([role, count]) => (
                             <div key={role} className="flex items-center justify-between">
-                                <span className="text-gray-600">{formatRole(role)}</span>
+                                <span className="text-neutral-600">{formatRole(role)}</span>
                                 <div className="flex items-center gap-2">
-                                    <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                    <div className="w-32 h-2 bg-neutral-200 rounded-full overflow-hidden">
                                         <div 
-                                            className="h-full bg-gradient-to-r from-emerald-500 to-blue-500 rounded-full"
+                                            className="h-full bg-gradient-to-r from-emerald-500 to-primary-500 rounded-full"
                                             style={{ width: `${Math.min((count / Math.max(analytics.workforce.total, 1)) * 100, 100)}%` }}
                                         />
                                     </div>
-                                    <span className="font-medium text-gray-800 w-8 text-right">{count}</span>
+                                    <span className="font-medium text-neutral-800 w-8 text-right">{count}</span>
                                 </div>
                             </div>
                         ))}
                         {Object.keys(analytics.workforce.byRole || {}).length === 0 && (
-                            <p className="text-gray-500 text-center py-4">No data available</p>
+                            <p className="text-neutral-500 text-center py-4">No data available</p>
                         )}
                     </div>
                 </div>
 
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h3 className="font-semibold text-gray-800 mb-4">Status Distribution</h3>
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                    <h3 className="font-semibold text-neutral-800 mb-4">Status Distribution</h3>
                     <div className="space-y-3">
                         {Object.entries(analytics.workforce.byStatus || {}).map(([status, count]) => (
                             <div key={status} className="flex items-center justify-between">
-                                <span className="text-gray-600 capitalize">{status.replace('_', ' ')}</span>
+                                <span className="text-neutral-600 capitalize">{status.replace('_', ' ')}</span>
                                 <div className="flex items-center gap-2">
                                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                                         status === 'active' ? 'bg-emerald-100 text-emerald-700' :
                                         status === 'on_leave' ? 'bg-orange-100 text-orange-700' :
-                                        'bg-gray-100 text-gray-700'
+                                        'bg-neutral-100 text-neutral-700'
                                     }`}>{count}</span>
                                 </div>
                             </div>
                         ))}
                         {Object.keys(analytics.workforce.byStatus || {}).length === 0 && (
-                            <p className="text-gray-500 text-center py-4">No data available</p>
+                            <p className="text-neutral-500 text-center py-4">No data available</p>
                         )}
                     </div>
                 </div>
@@ -245,8 +245,8 @@ const BranchHRMReports: React.FC = () => {
                 />
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <h3 className="font-semibold text-gray-800 mb-4">Monthly Attendance Trend</h3>
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                <h3 className="font-semibold text-neutral-800 mb-4">Monthly Attendance Trend</h3>
                 <div className="h-64 flex items-end gap-2">
                     {(analytics.attendance.monthlyTrend || []).map((item, index) => (
                         <div key={index} className="flex-1 flex flex-col items-center">
@@ -254,11 +254,11 @@ const BranchHRMReports: React.FC = () => {
                                 className="w-full bg-gradient-to-t from-emerald-500 to-emerald-400 rounded-t-md"
                                 style={{ height: `${Math.max(item.rate, 5)}%` }}
                             />
-                            <span className="text-xs text-gray-500 mt-2">{item.month}</span>
+                            <span className="text-xs text-neutral-500 mt-2">{item.month}</span>
                         </div>
                     ))}
                     {(analytics.attendance.monthlyTrend || []).length === 0 && (
-                        <p className="text-gray-500 w-full text-center">No trend data available</p>
+                        <p className="text-neutral-500 w-full text-center">No trend data available</p>
                     )}
                 </div>
             </div>
@@ -295,25 +295,25 @@ const BranchHRMReports: React.FC = () => {
                 />
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <h3 className="font-semibold text-gray-800 mb-4">Leave by Type</h3>
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                <h3 className="font-semibold text-neutral-800 mb-4">Leave by Type</h3>
                 <div className="space-y-3">
                     {Object.entries(analytics.leave.byType || {}).map(([type, days]) => (
                         <div key={type} className="flex items-center justify-between">
-                            <span className="text-gray-600">{type}</span>
+                            <span className="text-neutral-600">{type}</span>
                             <div className="flex items-center gap-2">
-                                <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div className="w-32 h-2 bg-neutral-200 rounded-full overflow-hidden">
                                     <div 
                                         className="h-full bg-gradient-to-r from-orange-500 to-yellow-500 rounded-full"
                                         style={{ width: `${Math.min((days / Math.max(analytics.leave.totalTaken, 1)) * 100, 100)}%` }}
                                     />
                                 </div>
-                                <span className="font-medium text-gray-800 w-12 text-right">{days} days</span>
+                                <span className="font-medium text-neutral-800 w-12 text-right">{days} days</span>
                             </div>
                         </div>
                     ))}
                     {Object.keys(analytics.leave.byType || {}).length === 0 && (
-                        <p className="text-gray-500 text-center py-4">No leave data available</p>
+                        <p className="text-neutral-500 text-center py-4">No leave data available</p>
                     )}
                 </div>
             </div>
@@ -349,8 +349,8 @@ const BranchHRMReports: React.FC = () => {
                 />
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <h3 className="font-semibold text-gray-800 mb-4">Monthly Overtime Trend</h3>
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                <h3 className="font-semibold text-neutral-800 mb-4">Monthly Overtime Trend</h3>
                 <div className="h-64 flex items-end gap-2">
                     {(analytics.overtime.monthlyTrend || []).map((item, index) => (
                         <div key={index} className="flex-1 flex flex-col items-center">
@@ -358,11 +358,11 @@ const BranchHRMReports: React.FC = () => {
                                 className="w-full bg-gradient-to-t from-purple-500 to-purple-400 rounded-t-md"
                                 style={{ height: `${Math.min((item.hours / 200) * 100, 100)}%` }}
                             />
-                            <span className="text-xs text-gray-500 mt-2">{item.month}</span>
+                            <span className="text-xs text-neutral-500 mt-2">{item.month}</span>
                         </div>
                     ))}
                     {(analytics.overtime.monthlyTrend || []).length === 0 && (
-                        <p className="text-gray-500 w-full text-center">No trend data available</p>
+                        <p className="text-neutral-500 w-full text-center">No trend data available</p>
                     )}
                 </div>
             </div>
@@ -399,9 +399,9 @@ const BranchHRMReports: React.FC = () => {
                 />
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <h3 className="font-semibold text-gray-800 mb-4">Payroll Summary</h3>
-                <p className="text-gray-500 text-center py-8">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                <h3 className="font-semibold text-neutral-800 mb-4">Payroll Summary</h3>
+                <p className="text-neutral-500 text-center py-8">
                     Payroll summary data will be displayed here once payslips are generated.
                 </p>
             </div>
@@ -411,17 +411,17 @@ const BranchHRMReports: React.FC = () => {
     const renderContent = () => {
         if (isLoading) {
             return (
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 flex items-center justify-center">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-12 flex items-center justify-center">
                     <Loader2 className="w-8 h-8 animate-spin text-emerald-500" />
-                    <span className="ml-3 text-gray-600">Loading analytics...</span>
+                    <span className="ml-3 text-neutral-600">Loading analytics...</span>
                 </div>
             );
         }
 
         if (error) {
             return (
-                <div className="bg-red-50 border border-red-200 rounded-xl p-6 flex items-center gap-3">
-                    <AlertCircle className="w-6 h-6 text-red-500" />
+                <div className="bg-error-50 border border-red-200 rounded-xl p-6 flex items-center gap-3">
+                    <AlertCircle className="w-6 h-6 text-error-500" />
                     <span className="text-red-700">{error}</span>
                 </div>
             );
@@ -438,20 +438,20 @@ const BranchHRMReports: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-neutral-50 p-6">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => navigate('/branch-admin/hrm')}
-                            className="p-2 hover:bg-gray-200 rounded-lg"
+                            className="p-2 hover:bg-neutral-200 rounded-lg"
                         >
                             <ArrowLeft className="w-5 h-5" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">HR Reports & Analytics</h1>
-                            <p className="text-gray-500">{branchName} - Insights and Reports</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">HR Reports & Analytics</h1>
+                            <p className="text-neutral-500">{branchName} - Insights and Reports</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
@@ -459,14 +459,14 @@ const BranchHRMReports: React.FC = () => {
                             type="date"
                             value={dateRange.start}
                             onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
-                            className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                            className="px-3 py-2 border border-neutral-300 rounded-lg text-sm"
                         />
-                        <span className="text-gray-500">to</span>
+                        <span className="text-neutral-500">to</span>
                         <input
                             type="date"
                             value={dateRange.end}
                             onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
-                            className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                            className="px-3 py-2 border border-neutral-300 rounded-lg text-sm"
                         />
                         <button 
                             onClick={fetchAnalytics}
@@ -475,7 +475,7 @@ const BranchHRMReports: React.FC = () => {
                             <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
                             Refresh
                         </button>
-                        <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:opacity-90">
+                        <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:opacity-90">
                             <Download className="w-4 h-4" />
                             Export
                         </button>
@@ -483,7 +483,7 @@ const BranchHRMReports: React.FC = () => {
                 </div>
 
                 {/* Tabs */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-1 mb-6">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-1 mb-6">
                     <div className="flex gap-1">
                         {tabs.map((tab) => (
                             <button
@@ -491,8 +491,8 @@ const BranchHRMReports: React.FC = () => {
                                 onClick={() => setActiveTab(tab.id as any)}
                                 className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-medium transition-all ${
                                     activeTab === tab.id
-                                        ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-md'
-                                        : 'text-gray-600 hover:bg-gray-100'
+                                        ? 'bg-gradient-to-r from-emerald-500 to-primary-500 text-white shadow-md'
+                                        : 'text-neutral-600 hover:bg-neutral-100'
                                 }`}
                             >
                                 {tab.icon}

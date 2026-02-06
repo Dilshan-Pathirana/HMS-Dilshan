@@ -164,7 +164,7 @@ const DoctorSessionCreate = () => {
     if (isLoading && branchOptions.length === 0) {
         return (
             <div className="flex justify-center items-center p-8">
-                <div className="text-lg text-gray-600">Loading...</div>
+                <div className="text-lg text-neutral-600">Loading...</div>
             </div>
         );
     }
@@ -176,16 +176,16 @@ const DoctorSessionCreate = () => {
                 className="grid grid-cols-1 gap-6 p-6 bg-white rounded-lg shadow-md"
             >
                 <div className="text-center mb-4">
-                    <h2 className="text-2xl font-bold text-gray-800">
+                    <h2 className="text-2xl font-bold text-neutral-800">
                         Create Doctor Session
                     </h2>
-                    <p className="text-gray-600 mt-2">
+                    <p className="text-neutral-600 mt-2">
                         Schedule a new appointment session
                     </p>
                 </div>
                 <div className="flex items-center gap-4 flex-wrap">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
                             Select Branch *
                         </label>
                         <Select
@@ -198,14 +198,14 @@ const DoctorSessionCreate = () => {
                             className="text-sm"
                         />
                         {errors.branch_id && (
-                            <p className="text-red-500 text-sm mt-1">
+                            <p className="text-error-500 text-sm mt-1">
                                 {errors.branch_id[0]}
                             </p>
                         )}
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
                             Select Doctor *
                         </label>
                         <Select
@@ -218,14 +218,14 @@ const DoctorSessionCreate = () => {
                             className="text-sm"
                         />
                         {errors.doctor_id && (
-                            <p className="text-red-500 text-sm mt-1">
+                            <p className="text-error-500 text-sm mt-1">
                                 {errors.doctor_id[0]}
                             </p>
                         )}
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
                             Select Patient *
                         </label>
                         <Select
@@ -238,7 +238,7 @@ const DoctorSessionCreate = () => {
                             className="text-sm"
                         />
                         {errors.patient_id && (
-                            <p className="text-red-500 text-sm mt-1">
+                            <p className="text-error-500 text-sm mt-1">
                                 {errors.patient_id[0]}
                             </p>
                         )}
@@ -251,7 +251,7 @@ const DoctorSessionCreate = () => {
                             className={`px-8 py-3 rounded-lg font-medium transition-colors duration-200 ${
                                 isLoading
                                     ? "bg-gray-400 cursor-not-allowed"
-                                    : "bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-400"
+                                    : "bg-primary-500 hover:bg-primary-500 focus:ring-2 focus:ring-blue-400"
                             } text-white focus:outline-none`}
                         >
                             {isLoading

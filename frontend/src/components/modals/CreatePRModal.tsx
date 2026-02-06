@@ -192,7 +192,7 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
     const getSuggestionTag = (reason: string) => {
         switch (reason) {
             case 'Out of Stock':
-                return <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-700 border border-red-300">🔴 Out of Stock</span>;
+                return <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-error-100 text-red-700 border border-red-300">🔴 Out of Stock</span>;
             case 'Low Stock':
                 return <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-700 border border-orange-300">⚠️ Low Stock</span>;
             case 'Fast Moving':
@@ -520,7 +520,7 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
     };
 
     const getStockStatusColor = (current: number, reorder: number) => {
-        if (current === 0) return 'text-red-600 bg-red-50';
+        if (current === 0) return 'text-error-600 bg-error-50';
         if (current <= reorder) return 'text-orange-600 bg-orange-50';
         return 'text-green-600 bg-green-50';
     };
@@ -528,7 +528,7 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
     const getStockStatusIcon = (status?: string) => {
         switch (status) {
             case 'out_of_stock':
-                return <span className="text-red-600">🔴</span>;
+                return <span className="text-error-600">🔴</span>;
             case 'low_stock':
                 return <span className="text-orange-600">🟡</span>;
             case 'in_stock':
@@ -538,9 +538,9 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
     };
 
     const getPriorityColor = (p: string) => {
-        if (p === 'Emergency') return 'bg-red-500';
+        if (p === 'Emergency') return 'bg-error-500';
         if (p === 'Urgent') return 'bg-orange-500';
-        return 'bg-blue-500';
+        return 'bg-primary-500';
     };
 
     const filteredItems = items.filter(item =>
@@ -567,14 +567,14 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
             <div className="bg-white rounded-lg shadow-2xl w-full max-w-6xl max-h-[90vh] flex flex-col">
                 {/* Modal Header */}
-                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+                <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-200">
                     <div className="flex items-center gap-3">
-                        <Package className={`w-6 h-6 ${isResubmitMode ? 'text-orange-600' : 'text-blue-600'}`} />
+                        <Package className={`w-6 h-6 ${isResubmitMode ? 'text-orange-600' : 'text-primary-500'}`} />
                         <div>
-                            <h2 className="text-xl font-bold text-gray-900">
+                            <h2 className="text-xl font-bold text-neutral-900">
                                 {getModalTitle()}
                             </h2>
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-neutral-600">
                                 {isResubmitMode
                                     ? 'Review the clarification request and update your purchase request'
                                     : 'Request medicines and supplies from supplier'}
@@ -583,10 +583,10 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
                     </div>
                     <button
                         onClick={onClose}
-                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                        className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         disabled={loading}
                     >
-                        <X className="w-5 h-5 text-gray-500" />
+                        <X className="w-5 h-5 text-neutral-500" />
                     </button>
                 </div>
 
@@ -599,14 +599,14 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
                                 <AlertTriangle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
                                 <div className="flex-1">
                                     <h3 className="font-semibold text-orange-800 mb-2">Clarification Requested by Branch Admin</h3>
-                                    <div className="bg-white rounded p-3 border border-orange-200 text-sm text-gray-700 mb-3">
+                                    <div className="bg-white rounded p-3 border border-orange-200 text-sm text-neutral-700 mb-3">
                                         {editingPR.general_remarks?.split('\n').map((line: string, idx: number) => (
                                             <p key={idx} className="mb-1">{line}</p>
                                         )) || 'Please review and update your purchase request.'}
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-orange-800 mb-1">
-                                            Your Response <span className="text-red-500">*</span>
+                                            Your Response <span className="text-error-500">*</span>
                                         </label>
                                         <textarea
                                             value={clarificationResponse}
@@ -626,13 +626,13 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {/* Supplier Selection - MANDATORY */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Supplier <span className="text-red-500">*</span>
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
+                                    Supplier <span className="text-error-500">*</span>
                                 </label>
                                 <select
                                     value={selectedSupplier}
                                     onChange={(e) => setSelectedSupplier(e.target.value)}
-                                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-4 py-2.5 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                     required
                                 >
                                     <option value="">-- Select Supplier --</option>
@@ -644,7 +644,7 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
                                     ))}
                                 </select>
                                 {selectedSupplierObj && (
-                                    <div className="mt-2 text-xs text-gray-600 space-y-1">
+                                    <div className="mt-2 text-xs text-neutral-600 space-y-1">
                                         <p>📞 {selectedSupplierObj.phone}</p>
                                         {selectedSupplierObj.email && <p>📧 {selectedSupplierObj.email}</p>}
                                         {selectedSupplierObj.contact_person && <p>👤 {selectedSupplierObj.contact_person}</p>}
@@ -654,12 +654,12 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
 
                             {/* Priority */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Priority</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">Priority</label>
                                 <div className="flex items-center gap-2">
                                     <select
                                         value={priority}
                                         onChange={(e) => setPriority(e.target.value as any)}
-                                        className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        className="flex-1 px-4 py-2.5 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                     >
                                         <option value="Normal">Normal</option>
                                         <option value="Urgent">Urgent</option>
@@ -709,12 +709,12 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
                     </div>
 
                     {/* Tabs */}
-                    <div className="flex gap-2 mb-4 border-b border-gray-200">
+                    <div className="flex gap-2 mb-4 border-b border-neutral-200">
                         <button
                             onClick={() => setActiveTab('suggested')}
                             className={`px-4 py-2 font-medium transition-colors ${activeTab === 'suggested'
-                                ? 'text-blue-600 border-b-2 border-blue-600'
-                                : 'text-gray-600 hover:text-gray-900'
+                                ? 'text-primary-500 border-b-2 border-primary-500'
+                                : 'text-neutral-600 hover:text-neutral-900'
                                 }`}
                         >
                             Suggested Items ({suggestedItems.length})
@@ -722,8 +722,8 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
                         <button
                             onClick={() => setActiveTab('manual')}
                             className={`px-4 py-2 font-medium transition-colors ${activeTab === 'manual'
-                                ? 'text-blue-600 border-b-2 border-blue-600'
-                                : 'text-gray-600 hover:text-gray-900'
+                                ? 'text-primary-500 border-b-2 border-primary-500'
+                                : 'text-neutral-600 hover:text-neutral-900'
                                 }`}
                         >
                             Add Manually
@@ -734,31 +734,31 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
                         {/* Left: Suggested Items or Manual Add */}
                         <div className="lg:col-span-1">
                             {activeTab === 'suggested' ? (
-                                <div className="bg-white rounded-lg border border-gray-200 p-4">
-                                    <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                                <div className="bg-white rounded-lg border border-neutral-200 p-4">
+                                    <h3 className="font-semibold text-neutral-900 mb-3 flex items-center gap-2">
                                         <TrendingUp className="w-5 h-5 text-orange-600" />
                                         Reorder Suggestions
                                     </h3>
                                     {suggestedItems.length === 0 ? (
                                         <div className="text-center py-8">
                                             <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-2" />
-                                            <p className="text-sm text-gray-600">All stock levels are healthy!</p>
+                                            <p className="text-sm text-neutral-600">All stock levels are healthy!</p>
                                         </div>
                                     ) : (
                                         <div className="space-y-2 max-h-[400px] overflow-y-auto">
                                             {suggestedItems.map((item: any) => (
-                                                <div key={item.id} className="border border-gray-200 rounded-lg p-3 hover:border-blue-400 transition-all hover:shadow-md">
+                                                <div key={item.id} className="border border-neutral-200 rounded-lg p-3 hover:border-blue-400 transition-all hover:shadow-md">
                                                     <div className="flex items-start justify-between mb-2">
                                                         <div className="flex-1 pr-2">
-                                                            <p className="font-medium text-gray-900 text-sm mb-1">{item.item_name}</p>
+                                                            <p className="font-medium text-neutral-900 text-sm mb-1">{item.item_name}</p>
                                                             {getSuggestionTag(item.suggestion_reason)}
                                                         </div>
                                                         <button
                                                             onClick={() => addSuggestedItemToPR(item)}
                                                             disabled={prItems.some(pr => pr.item_id === item.id)}
                                                             className={`p-1.5 rounded transition-colors ${prItems.some(pr => pr.item_id === item.id)
-                                                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                                                : 'bg-blue-50 text-blue-600 hover:bg-blue-100'
+                                                                ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed'
+                                                                : 'bg-blue-50 text-primary-500 hover:bg-blue-100'
                                                                 }`}
                                                             title={prItems.some(pr => pr.item_id === item.id) ? "Already added" : "Add to PR"}
                                                         >
@@ -769,10 +769,10 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
                                                             )}
                                                         </button>
                                                     </div>
-                                                    <div className="text-xs text-gray-600 space-y-1 bg-gray-50 p-2 rounded">
+                                                    <div className="text-xs text-neutral-600 space-y-1 bg-neutral-50 p-2 rounded">
                                                         <div className="flex justify-between">
                                                             <span>Current Stock:</span>
-                                                            <span className={`font-medium ${item.current_stock === 0 ? 'text-red-600' : item.current_stock <= item.reorder_level ? 'text-orange-600' : 'text-green-600'}`}>
+                                                            <span className={`font-medium ${item.current_stock === 0 ? 'text-error-600' : item.current_stock <= item.reorder_level ? 'text-orange-600' : 'text-green-600'}`}>
                                                                 {item.current_stock} {item.unit}
                                                             </span>
                                                         </div>
@@ -784,7 +784,7 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
                                                             <span>Monthly Usage:</span>
                                                             <span className="font-medium">{item.monthly_consumption} {item.unit}</span>
                                                         </div>
-                                                        <div className="flex justify-between pt-1 border-t border-gray-300">
+                                                        <div className="flex justify-between pt-1 border-t border-neutral-300">
                                                             <span className="font-semibold text-green-700">Suggested Qty:</span>
                                                             <span className="font-bold text-green-700">{item.suggested_quantity} {item.unit}</span>
                                                         </div>
@@ -795,44 +795,44 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
                                     )}
                                 </div>
                             ) : (
-                                <div className="bg-white rounded-lg border border-gray-200 p-4">
-                                    <h3 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                                        <Search className="w-5 h-5 text-blue-600" />
+                                <div className="bg-white rounded-lg border border-neutral-200 p-4">
+                                    <h3 className="font-semibold text-neutral-900 mb-3 flex items-center gap-2">
+                                        <Search className="w-5 h-5 text-primary-500" />
                                         Advanced Item Search
                                     </h3>
 
                                     {/* Search Input */}
                                     <div className="mb-3 space-y-2">
                                         <div className="relative">
-                                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-neutral-400" />
                                             <input
                                                 ref={searchInputRef}
                                                 type="text"
                                                 placeholder="Search by name, code, barcode, generic name..."
                                                 value={searchTerm}
                                                 onChange={(e) => handleSearchChange(e.target.value)}
-                                                className="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                                                className="w-full pl-10 pr-10 py-2.5 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 text-sm"
                                                 autoComplete="off"
                                             />
                                             {searchLoading && (
-                                                <Loader2 className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-blue-500 animate-spin" />
+                                                <Loader2 className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-primary-500 animate-spin" />
                                             )}
                                         </div>
 
                                         {/* Barcode Input */}
                                         <div className="relative">
-                                            <Barcode className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                            <Barcode className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-neutral-400" />
                                             <input
                                                 type="text"
                                                 placeholder="Scan or enter barcode..."
                                                 value={barcodeInput}
                                                 onChange={(e) => handleBarcodeInput(e.target.value)}
-                                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 text-sm"
+                                                className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-green-500 text-sm"
                                                 autoComplete="off"
                                             />
                                         </div>
 
-                                        <p className="text-xs text-gray-500">
+                                        <p className="text-xs text-neutral-500">
                                             💡 All items shown below. Type to filter by name, code, barcode, generic name, or brand name.
                                         </p>
                                     </div>
@@ -841,8 +841,8 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
                                     <div className="space-y-2 max-h-[400px] overflow-y-auto">
                                         {(searchLoading || itemsLoading) ? (
                                             <div className="text-center py-8">
-                                                <Loader2 className="w-8 h-8 text-blue-500 animate-spin mx-auto mb-2" />
-                                                <p className="text-sm text-gray-600">
+                                                <Loader2 className="w-8 h-8 text-primary-500 animate-spin mx-auto mb-2" />
+                                                <p className="text-sm text-neutral-600">
                                                     {itemsLoading ? 'Loading inventory...' : 'Searching...'}
                                                 </p>
                                             </div>
@@ -857,14 +857,14 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
                                                     return (searchTerm.length > 0 || barcodeInput.length > 0) ? (
                                                         <div className="text-center py-8">
                                                             <Package className="w-12 h-12 text-gray-300 mx-auto mb-2" />
-                                                            <p className="text-sm text-gray-600 font-medium">No items found</p>
-                                                            <p className="text-xs text-gray-500 mt-1">Try different search terms or check spelling</p>
+                                                            <p className="text-sm text-neutral-600 font-medium">No items found</p>
+                                                            <p className="text-xs text-neutral-500 mt-1">Try different search terms or check spelling</p>
                                                         </div>
                                                     ) : (
                                                         <div className="text-center py-8">
                                                             <Package className="w-12 h-12 text-gray-300 mx-auto mb-2" />
-                                                            <p className="text-sm text-gray-600 font-medium">No items available</p>
-                                                            <p className="text-xs text-gray-500 mt-1">No active products found in inventory</p>
+                                                            <p className="text-sm text-neutral-600 font-medium">No items available</p>
+                                                            <p className="text-xs text-neutral-500 mt-1">No active products found in inventory</p>
                                                         </div>
                                                     );
                                                 }
@@ -873,13 +873,13 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
                                                     <>
                                                         {/* Items count indicator */}
                                                         <div className="flex items-center justify-between mb-2 px-1">
-                                                            <span className="text-xs text-gray-500">
+                                                            <span className="text-xs text-neutral-500">
                                                                 {(searchTerm.length > 0 || barcodeInput.length > 0)
                                                                     ? `Found ${displayItems.length} item(s)`
                                                                     : `Showing all ${displayItems.length} item(s)`}
                                                             </span>
                                                             {!(searchTerm.length > 0 || barcodeInput.length > 0) && (
-                                                                <span className="text-xs text-blue-600">Scroll to browse or type to filter</span>
+                                                                <span className="text-xs text-primary-500">Scroll to browse or type to filter</span>
                                                             )}
                                                         </div>
                                                         {displayItems.map((item: any) => {
@@ -890,48 +890,48 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
                                                                     onClick={() => addManualItemToPR(item)}
                                                                     disabled={isAdded}
                                                                     className={`w-full text-left px-3 py-3 rounded-lg text-sm transition-all ${isAdded
-                                                                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed opacity-60'
-                                                                        : 'hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-400 hover:shadow-md'
+                                                                        ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed opacity-60'
+                                                                        : 'hover:bg-blue-50 border-2 border-neutral-200 hover:border-blue-400 hover:shadow-md'
                                                                         }`}
                                                                 >
                                                                     <div className="flex items-start justify-between gap-2">
                                                                         <div className="flex-1 min-w-0">
                                                                             <div className="flex items-center gap-2 mb-1">
                                                                                 {getStockStatusIcon(item.stock_status)}
-                                                                                <p className="font-semibold text-gray-900 truncate">{item.item_name}</p>
+                                                                                <p className="font-semibold text-neutral-900 truncate">{item.item_name}</p>
                                                                             </div>
 
                                                                             <div className="space-y-1">
                                                                                 {item.generic_name && (
-                                                                                    <p className="text-xs text-gray-600">
+                                                                                    <p className="text-xs text-neutral-600">
                                                                                         <span className="font-medium">Generic:</span> {item.generic_name}
                                                                                     </p>
                                                                                 )}
                                                                                 {item.brand_name && (
-                                                                                    <p className="text-xs text-gray-600">
+                                                                                    <p className="text-xs text-neutral-600">
                                                                                         <span className="font-medium">Brand:</span> {item.brand_name}
                                                                                     </p>
                                                                                 )}
                                                                                 <div className="flex items-center gap-3 text-xs">
                                                                                     {item.item_code && (
-                                                                                        <span className="text-gray-600">
+                                                                                        <span className="text-neutral-600">
                                                                                             <span className="font-medium">Code:</span> {item.item_code}
                                                                                         </span>
                                                                                     )}
                                                                                     {item.barcode && (
-                                                                                        <span className="text-gray-600">
+                                                                                        <span className="text-neutral-600">
                                                                                             <span className="font-medium">Barcode:</span> {item.barcode}
                                                                                         </span>
                                                                                     )}
                                                                                 </div>
                                                                                 <div className="flex items-center gap-3 mt-2">
-                                                                                    <span className={`px-2 py-0.5 rounded text-xs font-medium ${item.stock_status === 'out_of_stock' ? 'bg-red-100 text-red-700' :
+                                                                                    <span className={`px-2 py-0.5 rounded text-xs font-medium ${item.stock_status === 'out_of_stock' ? 'bg-error-100 text-red-700' :
                                                                                         item.stock_status === 'low_stock' ? 'bg-orange-100 text-orange-700' :
                                                                                             'bg-green-100 text-green-700'
                                                                                         }`}>
                                                                                         Stock: {item.current_stock} {item.unit}
                                                                                     </span>
-                                                                                    <span className="text-xs text-gray-500">
+                                                                                    <span className="text-xs text-neutral-500">
                                                                                         Reorder: {item.reorder_level} {item.unit}
                                                                                     </span>
                                                                                 </div>
@@ -949,9 +949,9 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
                                                                         </div>
                                                                         <div className="flex-shrink-0">
                                                                             {isAdded ? (
-                                                                                <CheckCircle className="w-5 h-5 text-gray-400" />
+                                                                                <CheckCircle className="w-5 h-5 text-neutral-400" />
                                                                             ) : (
-                                                                                <Plus className="w-5 h-5 text-blue-600" />
+                                                                                <Plus className="w-5 h-5 text-primary-500" />
                                                                             )}
                                                                         </div>
                                                                     </div>
@@ -969,23 +969,23 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
 
                         {/* Right: PR Items List */}
                         <div className="lg:col-span-2">
-                            <div className="bg-white rounded-lg border border-gray-200 p-4">
-                                <h3 className="font-semibold text-gray-900 mb-3">Purchase Request Items</h3>
+                            <div className="bg-white rounded-lg border border-neutral-200 p-4">
+                                <h3 className="font-semibold text-neutral-900 mb-3">Purchase Request Items</h3>
                                 {prItems.length === 0 ? (
                                     <div className="text-center py-12">
                                         <Package className="w-16 h-16 text-gray-300 mx-auto mb-3" />
-                                        <p className="text-gray-600 font-medium mb-1">No items added yet</p>
-                                        <p className="text-sm text-gray-500">Add items from suggestions or search manually</p>
+                                        <p className="text-neutral-600 font-medium mb-1">No items added yet</p>
+                                        <p className="text-sm text-neutral-500">Add items from suggestions or search manually</p>
                                     </div>
                                 ) : (
                                     <div className="space-y-3 max-h-[400px] overflow-y-auto">
                                         {prItems.map((item, index) => {
                                             const warning = validateQuantity(item, item.requested_quantity);
                                             return (
-                                                <div key={index} className="border border-gray-200 rounded-lg p-3 bg-gray-50">
+                                                <div key={index} className="border border-neutral-200 rounded-lg p-3 bg-neutral-50">
                                                     <div className="flex items-start justify-between mb-2">
                                                         <div className="flex-1">
-                                                            <p className="font-medium text-gray-900">{item.item_name}</p>
+                                                            <p className="font-medium text-neutral-900">{item.item_name}</p>
                                                             <div className="flex items-center gap-2 mt-1">
                                                                 <span className={`px-2 py-0.5 rounded text-xs font-medium ${getStockStatusColor(item.current_stock, item.reorder_level)}`}>
                                                                     Stock: {item.current_stock} {item.unit}
@@ -995,7 +995,7 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
                                                         </div>
                                                         <button
                                                             onClick={() => removeItemFromPR(index)}
-                                                            className="p-1 text-red-600 hover:bg-red-50 rounded"
+                                                            className="p-1 text-error-600 hover:bg-error-50 rounded"
                                                             title="Remove"
                                                         >
                                                             <Trash2 className="w-4 h-4" />
@@ -1003,13 +1003,13 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
                                                     </div>
                                                     <div className="grid grid-cols-3 gap-2">
                                                         <div>
-                                                            <label className="text-xs text-gray-600 block mb-1">Quantity *</label>
+                                                            <label className="text-xs text-neutral-600 block mb-1">Quantity *</label>
                                                             <input
                                                                 type="number"
                                                                 min="1"
                                                                 value={item.requested_quantity}
                                                                 onChange={(e) => updatePRItem(index, 'requested_quantity', parseInt(e.target.value) || 0)}
-                                                                className={`w-full px-2 py-1.5 border rounded text-sm focus:ring-2 focus:ring-blue-500 ${warning && warning.includes('⚠️') ? 'border-orange-400' : 'border-gray-300'
+                                                                className={`w-full px-2 py-1.5 border rounded text-sm focus:ring-2 focus:ring-primary-500 ${warning && warning.includes('⚠️') ? 'border-orange-400' : 'border-neutral-300'
                                                                     }`}
                                                             />
                                                             {warning && (
@@ -1017,31 +1017,31 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
                                                             )}
                                                         </div>
                                                         <div>
-                                                            <label className="text-xs text-gray-600 block mb-1">Est. Price (LKR)</label>
+                                                            <label className="text-xs text-neutral-600 block mb-1">Est. Price (LKR)</label>
                                                             <input
                                                                 type="number"
                                                                 step="0.01"
                                                                 min="0"
                                                                 value={item.estimated_price}
                                                                 onChange={(e) => updatePRItem(index, 'estimated_price', parseFloat(e.target.value) || 0)}
-                                                                className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-blue-500"
+                                                                className="w-full px-2 py-1.5 border border-neutral-300 rounded text-sm focus:ring-2 focus:ring-primary-500"
                                                             />
                                                         </div>
                                                         <div>
-                                                            <label className="text-xs text-gray-600 block mb-1">Line Total</label>
+                                                            <label className="text-xs text-neutral-600 block mb-1">Line Total</label>
                                                             <p className="text-sm font-bold text-green-700 pt-1.5">
                                                                 LKR {(item.requested_quantity * item.estimated_price).toLocaleString('en-LK', { minimumFractionDigits: 2 })}
                                                             </p>
                                                         </div>
                                                     </div>
                                                     <div className="mt-2">
-                                                        <label className="text-xs text-gray-600 block mb-1">Remarks</label>
+                                                        <label className="text-xs text-neutral-600 block mb-1">Remarks</label>
                                                         <input
                                                             type="text"
                                                             placeholder="Optional item-specific notes..."
                                                             value={item.remarks}
                                                             onChange={(e) => updatePRItem(index, 'remarks', e.target.value)}
-                                                            className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-blue-500"
+                                                            className="w-full px-2 py-1.5 border border-neutral-300 rounded text-sm focus:ring-2 focus:ring-primary-500"
                                                         />
                                                     </div>
                                                 </div>
@@ -1053,14 +1053,14 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
 
                             {/* General Remarks */}
                             {prItems.length > 0 && (
-                                <div className="bg-white rounded-lg border border-gray-200 p-4 mt-4">
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">General Remarks</label>
+                                <div className="bg-white rounded-lg border border-neutral-200 p-4 mt-4">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">General Remarks</label>
                                     <textarea
                                         rows={3}
                                         placeholder="Optional general notes for this purchase request..."
                                         value={generalRemarks}
                                         onChange={(e) => setGeneralRemarks(e.target.value)}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm resize-none"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 text-sm resize-none"
                                     />
                                 </div>
                             )}
@@ -1069,9 +1069,9 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
                 </div>
 
                 {/* Modal Footer */}
-                <div className="px-6 py-4 border-t border-gray-200 bg-gray-50">
+                <div className="px-6 py-4 border-t border-neutral-200 bg-neutral-50">
                     <div className="flex items-center justify-between">
-                        <div className="text-sm text-gray-600">
+                        <div className="text-sm text-neutral-600">
                             {prItems.length > 0 && (
                                 <p className="font-medium">
                                     Total Estimated Cost: <span className="text-green-700 text-lg font-bold">
@@ -1084,7 +1084,7 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
                             <button
                                 onClick={onClose}
                                 disabled={loading}
-                                className="px-5 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+                                className="px-5 py-2.5 text-neutral-700 bg-white border border-neutral-300 rounded-lg hover:bg-neutral-50 transition-colors disabled:opacity-50"
                             >
                                 Cancel
                             </button>
@@ -1092,7 +1092,7 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
                                 <button
                                     onClick={() => handleSubmit('Draft')}
                                     disabled={loading || prItems.length === 0}
-                                    className="px-5 py-2.5 text-gray-700 bg-yellow-100 border border-yellow-300 rounded-lg hover:bg-yellow-200 transition-colors disabled:opacity-50 flex items-center gap-2"
+                                    className="px-5 py-2.5 text-neutral-700 bg-yellow-100 border border-yellow-300 rounded-lg hover:bg-yellow-200 transition-colors disabled:opacity-50 flex items-center gap-2"
                                 >
                                     <Save className="w-4 h-4" />
                                     Save Draft
@@ -1103,7 +1103,7 @@ export const CreatePRModal: React.FC<CreatePRModalProps> = ({ isOpen, onClose, o
                                 disabled={loading || prItems.length === 0 || (isResubmitMode && !clarificationResponse.trim())}
                                 className={`px-5 py-2.5 text-white rounded-lg transition-colors disabled:opacity-50 flex items-center gap-2 ${isResubmitMode
                                     ? 'bg-orange-600 hover:bg-orange-700'
-                                    : 'bg-blue-600 hover:bg-blue-700'
+                                    : 'bg-primary-500 hover:bg-primary-600'
                                     }`}
                             >
                                 <Send className="w-4 h-4" />

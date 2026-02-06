@@ -15,7 +15,7 @@ const PatientDashboard = () => {
     }, []);
 
     return (
-        <div className="bg-gray-50 w-screen h-screen flex flex-col">
+        <div className="bg-neutral-50 w-screen h-screen flex flex-col">
             <NavBar />
 
             {isLoading ? (

@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from "../../utils/api/axios";
 import { Plus, Trash2, ArrowLeft, Users, Search } from 'lucide-react';
@@ -229,19 +229,19 @@ const BranchStaff: React.FC = () => {
             <div className="flex items-center gap-6">
               <button
                 onClick={() => navigate(`/branch/${id}`)}
-                className="p-3 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors"
+                className="p-3 bg-neutral-100 hover:bg-neutral-200 rounded-full transition-colors"
               >
-                <ArrowLeft className="w-5 h-5 text-gray-600" />
+                <ArrowLeft className="w-5 h-5 text-neutral-600" />
               </button>
               <div>
                 <div className="flex items-center gap-3 mb-1">
-                  <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-                  <span className="text-sm font-medium text-blue-600 uppercase tracking-wide">Staff Management</span>
+                  <div className="w-3 h-3 bg-primary-500 rounded-full animate-pulse"></div>
+                  <span className="text-sm font-medium text-primary-500 uppercase tracking-wide">Staff Management</span>
                 </div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-primary-500 to-indigo-600 bg-clip-text text-transparent">
                   {branchName || 'Loading...'}
                 </h1>
-                <p className="text-gray-500 mt-1">Manage and assign staff members to this branch</p>
+                <p className="text-neutral-500 mt-1">Manage and assign staff members to this branch</p>
               </div>
             </div>
             <button
@@ -249,7 +249,7 @@ const BranchStaff: React.FC = () => {
                 resetForm();
                 setShowModal(true);
               }}
-              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl font-medium"
+              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl font-medium"
             >
               <Plus className="w-5 h-5" />
               Assign Staff
@@ -259,7 +259,7 @@ const BranchStaff: React.FC = () => {
 
         {/* Error Alert */}
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+          <div className="mb-6 p-4 bg-error-50 border border-red-200 rounded-lg">
             <p className="text-red-800">{error}</p>
           </div>
         )}
@@ -268,12 +268,12 @@ const BranchStaff: React.FC = () => {
         <div className="bg-white rounded-lg shadow overflow-hidden">
           {staffAssignments.length === 0 ? (
             <div className="p-12 text-center">
-              <Users className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No staff assigned yet</h3>
-              <p className="text-gray-600 mb-4">Assign staff members to this branch to get started</p>
+              <Users className="w-16 h-16 mx-auto text-neutral-400 mb-4" />
+              <h3 className="text-lg font-medium text-neutral-900 mb-2">No staff assigned yet</h3>
+              <p className="text-neutral-600 mb-4">Assign staff members to this branch to get started</p>
               <button
                 onClick={() => setShowModal(true)}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
               >
                 <Plus className="w-5 h-5" />
                 Assign Staff
@@ -281,36 +281,36 @@ const BranchStaff: React.FC = () => {
             </div>
           ) : (
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="bg-neutral-50 border-b border-neutral-200">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     Staff Member
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     System Role
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     Branch Role
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     Assignment Date
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {staffAssignments.map((assignment) => (
-                  <tr key={assignment.id} className="hover:bg-gray-50">
+                  <tr key={assignment.id} className="hover:bg-neutral-50">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="font-medium text-gray-900">
+                      <div className="font-medium text-neutral-900">
                         {assignment.user_name || 'Unknown User'}
                       </div>
-                      <div className="text-sm text-gray-500">
+                      <div className="text-sm text-neutral-500">
                         {assignment.user_email || assignment.user_id}
                       </div>
                     </td>
@@ -319,10 +319,10 @@ const BranchStaff: React.FC = () => {
                         {assignment.role || 'N/A'}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 capitalize">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 capitalize">
                       {assignment.role}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700">
                       {new Date(assignment.assigned_date).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -330,7 +330,7 @@ const BranchStaff: React.FC = () => {
                         onClick={() => handleToggleStatus(assignment)}
                         className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full cursor-pointer ${assignment.is_active
                             ? 'bg-green-100 text-green-800'
-                            : 'bg-gray-100 text-gray-800'
+                            : 'bg-neutral-100 text-neutral-800'
                           }`}
                       >
                         {assignment.is_active ? 'Active' : 'Inactive'}
@@ -339,7 +339,7 @@ const BranchStaff: React.FC = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <button
                         onClick={() => handleRemove(assignment.id)}
-                        className="text-red-600 hover:text-red-900"
+                        className="text-error-600 hover:text-red-900"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -354,18 +354,18 @@ const BranchStaff: React.FC = () => {
         {/* Summary Stats */}
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-white p-4 rounded-lg shadow">
-            <div className="text-sm text-gray-600">Total Staff</div>
-            <div className="text-2xl font-bold text-gray-900">{staffAssignments.length}</div>
+            <div className="text-sm text-neutral-600">Total Staff</div>
+            <div className="text-2xl font-bold text-neutral-900">{staffAssignments.length}</div>
           </div>
           <div className="bg-white p-4 rounded-lg shadow">
-            <div className="text-sm text-gray-600">Active</div>
+            <div className="text-sm text-neutral-600">Active</div>
             <div className="text-2xl font-bold text-green-600">
               {staffAssignments.filter((s) => s.is_active).length}
             </div>
           </div>
           <div className="bg-white p-4 rounded-lg shadow">
-            <div className="text-sm text-gray-600">Inactive</div>
-            <div className="text-2xl font-bold text-gray-600">
+            <div className="text-sm text-neutral-600">Inactive</div>
+            <div className="text-2xl font-bold text-neutral-600">
               {staffAssignments.filter((s) => !s.is_active).length}
             </div>
           </div>
@@ -377,7 +377,7 @@ const BranchStaff: React.FC = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">Assign Staff to Branch</h2>
+              <h2 className="text-xl font-bold text-neutral-900 mb-6">Assign Staff to Branch</h2>
 
               {/* Success Message */}
               {successMessage && (
@@ -392,29 +392,29 @@ const BranchStaff: React.FC = () => {
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Search Users */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-neutral-700 mb-1">
                     Search Staff Member *
                   </label>
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400" />
                     <input
                       type="text"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       placeholder="Search by name or email..."
-                      className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full pl-10 pr-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     />
                   </div>
                 </div>
 
                 {/* User Selection */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-neutral-700 mb-1">
                     Select User *
                   </label>
-                  <div className="border border-gray-300 rounded-lg max-h-48 overflow-y-auto">
+                  <div className="border border-neutral-300 rounded-lg max-h-48 overflow-y-auto">
                     {filteredUsers.length === 0 ? (
-                      <div className="p-4 text-center text-gray-500">
+                      <div className="p-4 text-center text-neutral-500">
                         {searchTerm
                           ? 'No users found matching your search'
                           : 'No users available'}
@@ -428,15 +428,15 @@ const BranchStaff: React.FC = () => {
                           <div
                             key={user.id}
                             onClick={() => setFormData({ ...formData, user_id: user.id, role: user.role })}
-                            className={`p-3 cursor-pointer hover:bg-gray-50 border-b border-gray-100 ${formData.user_id === user.id ? 'bg-blue-50' : ''
+                            className={`p-3 cursor-pointer hover:bg-neutral-50 border-b border-gray-100 ${formData.user_id === user.id ? 'bg-blue-50' : ''
                               }`}
                           >
                             <div className="flex items-center justify-between">
                               <div className="flex-1">
-                                <div className="font-medium text-gray-900">{user.name}</div>
-                                <div className="text-sm text-gray-500">{user.email}</div>
+                                <div className="font-medium text-neutral-900">{user.name}</div>
+                                <div className="text-sm text-neutral-500">{user.email}</div>
                                 <div className="flex items-center gap-2 mt-1">
-                                  <span className="text-xs px-2 py-1 bg-gray-100 rounded-full">
+                                  <span className="text-xs px-2 py-1 bg-neutral-100 rounded-full">
                                     {user.role}
                                   </span>
                                   {isAssigned && (
@@ -461,14 +461,14 @@ const BranchStaff: React.FC = () => {
 
                 {/* Branch Role */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Branch Role * <span className="text-xs text-gray-500">(Auto-filled from user role)</span>
+                  <label className="block text-sm font-medium text-neutral-700 mb-1">
+                    Branch Role * <span className="text-xs text-neutral-500">(Auto-filled from user role)</span>
                   </label>
                   <input
                     type="text"
                     value={formData.role}
                     readOnly
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 cursor-not-allowed"
+                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg bg-neutral-50 text-neutral-700 cursor-not-allowed"
                     placeholder="Select a user to auto-fill role"
                   />
                 </div>
@@ -480,9 +480,9 @@ const BranchStaff: React.FC = () => {
                     id="is_active"
                     checked={formData.is_active}
                     onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
-                    className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    className="w-4 h-4 text-primary-500 border-neutral-300 rounded focus:ring-primary-500"
                   />
-                  <label htmlFor="is_active" className="text-sm font-medium text-gray-700">
+                  <label htmlFor="is_active" className="text-sm font-medium text-neutral-700">
                     Active Status
                   </label>
                 </div>
@@ -494,14 +494,14 @@ const BranchStaff: React.FC = () => {
                       setShowModal(false);
                       resetForm();
                     }}
-                    className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                    className="px-4 py-2 border border-neutral-300 rounded-lg text-neutral-700 hover:bg-neutral-50"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={!formData.user_id}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Assign Staff
                   </button>

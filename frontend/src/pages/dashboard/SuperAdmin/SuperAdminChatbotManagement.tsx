@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DashboardLayout } from '../../../components/common/Layout/DashboardLayout';
 import { SidebarMenu, SuperAdminMenuItems } from '../../../components/common/Layout/SidebarMenu';
 import {
@@ -362,21 +362,21 @@ const SuperAdminChatbotManagement: React.FC = () => {
             profileImage={profileImage}
             sidebarContent={<SidebarMenu items={SuperAdminMenuItems} />}
         >
-            <div className="p-6 overflow-auto bg-gray-50 min-h-screen">
+            <div className="p-6 overflow-auto bg-neutral-50 min-h-screen">
                 {/* Header */}
                 <div className="mb-6">
-                    <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                        <MessageSquare className="w-7 h-7 text-blue-600" />
+                    <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2">
+                        <MessageSquare className="w-7 h-7 text-primary-500" />
                         Chatbot Management
                     </h1>
-                    <p className="text-gray-600 mt-1">
+                    <p className="text-neutral-600 mt-1">
                         Manage FAQ responses, disease mappings, and monitor chatbot performance
                     </p>
                 </div>
 
                 {/* Error Alert */}
                 {error && (
-                    <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-700">
+                    <div className="mb-4 p-4 bg-error-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-700">
                         <AlertCircle className="w-5 h-5" />
                         {error}
                         <button onClick={() => setError(null)} className="ml-auto">
@@ -386,13 +386,13 @@ const SuperAdminChatbotManagement: React.FC = () => {
                 )}
 
                 {/* Tabs */}
-                <div className="flex gap-2 mb-6 border-b border-gray-200">
+                <div className="flex gap-2 mb-6 border-b border-neutral-200">
                     <button
                         onClick={() => setActiveTab('faqs')}
                         className={`px-4 py-2 font-medium border-b-2 transition-colors flex items-center gap-2 ${
                             activeTab === 'faqs'
-                                ? 'border-blue-600 text-blue-600'
-                                : 'border-transparent text-gray-600 hover:text-gray-900'
+                                ? 'border-primary-500 text-primary-500'
+                                : 'border-transparent text-neutral-600 hover:text-neutral-900'
                         }`}
                     >
                         <FileQuestion className="w-4 h-4" />
@@ -402,8 +402,8 @@ const SuperAdminChatbotManagement: React.FC = () => {
                         onClick={() => setActiveTab('mappings')}
                         className={`px-4 py-2 font-medium border-b-2 transition-colors flex items-center gap-2 ${
                             activeTab === 'mappings'
-                                ? 'border-blue-600 text-blue-600'
-                                : 'border-transparent text-gray-600 hover:text-gray-900'
+                                ? 'border-primary-500 text-primary-500'
+                                : 'border-transparent text-neutral-600 hover:text-neutral-900'
                         }`}
                     >
                         <Database className="w-4 h-4" />
@@ -413,8 +413,8 @@ const SuperAdminChatbotManagement: React.FC = () => {
                         onClick={() => setActiveTab('logs')}
                         className={`px-4 py-2 font-medium border-b-2 transition-colors flex items-center gap-2 ${
                             activeTab === 'logs'
-                                ? 'border-blue-600 text-blue-600'
-                                : 'border-transparent text-gray-600 hover:text-gray-900'
+                                ? 'border-primary-500 text-primary-500'
+                                : 'border-transparent text-neutral-600 hover:text-neutral-900'
                         }`}
                     >
                         <MessageCircle className="w-4 h-4" />
@@ -424,8 +424,8 @@ const SuperAdminChatbotManagement: React.FC = () => {
                         onClick={() => setActiveTab('analytics')}
                         className={`px-4 py-2 font-medium border-b-2 transition-colors flex items-center gap-2 ${
                             activeTab === 'analytics'
-                                ? 'border-blue-600 text-blue-600'
-                                : 'border-transparent text-gray-600 hover:text-gray-900'
+                                ? 'border-primary-500 text-primary-500'
+                                : 'border-transparent text-neutral-600 hover:text-neutral-900'
                         }`}
                     >
                         <BarChart3 className="w-4 h-4" />
@@ -435,23 +435,23 @@ const SuperAdminChatbotManagement: React.FC = () => {
 
                 {/* FAQs Tab */}
                 {activeTab === 'faqs' && (
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200">
                         {/* Toolbar */}
-                        <div className="p-4 border-b border-gray-200 flex flex-wrap gap-4 items-center">
+                        <div className="p-4 border-b border-neutral-200 flex flex-wrap gap-4 items-center">
                             <div className="relative flex-1 min-w-[200px]">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
                                 <input
                                     type="text"
                                     placeholder="Search FAQs..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className="w-full pl-10 pr-4 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                                 />
                             </div>
                             <select
                                 value={categoryFilter}
                                 onChange={(e) => setCategoryFilter(e.target.value)}
-                                className="px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                className="px-4 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-primary-500"
                             >
                                 <option value="">All Categories</option>
                                 {CATEGORIES.map(cat => (
@@ -460,14 +460,14 @@ const SuperAdminChatbotManagement: React.FC = () => {
                             </select>
                             <button
                                 onClick={() => fetchFaqs()}
-                                className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                                className="p-2 text-neutral-600 hover:bg-neutral-100 rounded-lg"
                                 title="Refresh"
                             >
                                 <RefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
                             </button>
                             <button
                                 onClick={() => { resetFaqForm(); setEditingFaq(null); setShowFaqModal(true); }}
-                                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2"
+                                className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 flex items-center gap-2"
                             >
                                 <Plus className="w-4 h-4" />
                                 Add FAQ
@@ -477,42 +477,42 @@ const SuperAdminChatbotManagement: React.FC = () => {
                         {/* FAQ List */}
                         <div className="divide-y divide-gray-100">
                             {loading && !faqs.length ? (
-                                <div className="p-8 text-center text-gray-500">Loading...</div>
+                                <div className="p-8 text-center text-neutral-500">Loading...</div>
                             ) : faqs.length === 0 ? (
-                                <div className="p-8 text-center text-gray-500">
+                                <div className="p-8 text-center text-neutral-500">
                                     <HelpCircle className="w-12 h-12 mx-auto mb-3 text-gray-300" />
                                     No FAQs found. Add your first FAQ!
                                 </div>
                             ) : (
                                 faqs.map(faq => (
-                                    <div key={faq.id} className="p-4 hover:bg-gray-50">
+                                    <div key={faq.id} className="p-4 hover:bg-neutral-50">
                                         <div className="flex items-start gap-4">
                                             <div className="flex-1">
                                                 <div className="flex items-center gap-2 mb-1">
                                                     <span className={`px-2 py-0.5 text-xs font-medium rounded ${
                                                         faq.is_active 
                                                             ? 'bg-green-100 text-green-700' 
-                                                            : 'bg-gray-100 text-gray-600'
+                                                            : 'bg-neutral-100 text-neutral-600'
                                                     }`}>
                                                         {faq.is_active ? 'Active' : 'Inactive'}
                                                     </span>
                                                     <span className="px-2 py-0.5 text-xs bg-blue-100 text-blue-700 rounded">
                                                         {getCategoryLabel(faq.category)}
                                                     </span>
-                                                    <span className="text-xs text-gray-400">
+                                                    <span className="text-xs text-neutral-400">
                                                         Priority: {faq.priority}
                                                     </span>
                                                 </div>
-                                                <h3 className="font-medium text-gray-900">{faq.question_en}</h3>
+                                                <h3 className="font-medium text-neutral-900">{faq.question_en}</h3>
                                                 {faq.question_si && (
-                                                    <p className="text-sm text-gray-500 mt-0.5">🇱🇰 {faq.question_si}</p>
+                                                    <p className="text-sm text-neutral-500 mt-0.5">???? {faq.question_si}</p>
                                                 )}
-                                                <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+                                                <p className="text-sm text-neutral-600 mt-1 line-clamp-2">
                                                     {faq.answer_en}
                                                 </p>
                                                 <div className="flex flex-wrap gap-1 mt-2">
                                                     {faq.keywords.map((keyword, idx) => (
-                                                        <span key={idx} className="px-2 py-0.5 text-xs bg-gray-100 text-gray-600 rounded">
+                                                        <span key={idx} className="px-2 py-0.5 text-xs bg-neutral-100 text-neutral-600 rounded">
                                                             {keyword}
                                                         </span>
                                                     ))}
@@ -524,7 +524,7 @@ const SuperAdminChatbotManagement: React.FC = () => {
                                                     className={`p-2 rounded-lg transition-colors ${
                                                         faq.is_active
                                                             ? 'text-green-600 hover:bg-green-50'
-                                                            : 'text-gray-400 hover:bg-gray-100'
+                                                            : 'text-neutral-400 hover:bg-neutral-100'
                                                     }`}
                                                     title={faq.is_active ? 'Deactivate' : 'Activate'}
                                                 >
@@ -532,14 +532,14 @@ const SuperAdminChatbotManagement: React.FC = () => {
                                                 </button>
                                                 <button
                                                     onClick={() => openEditFaq(faq)}
-                                                    className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
+                                                    className="p-2 text-primary-500 hover:bg-blue-50 rounded-lg"
                                                     title="Edit"
                                                 >
                                                     <Edit2 className="w-5 h-5" />
                                                 </button>
                                                 <button
                                                     onClick={() => deleteFaq(faq.id)}
-                                                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
+                                                    className="p-2 text-error-600 hover:bg-error-50 rounded-lg"
                                                     title="Delete"
                                                 >
                                                     <Trash2 className="w-5 h-5" />
@@ -555,12 +555,12 @@ const SuperAdminChatbotManagement: React.FC = () => {
 
                 {/* Disease Mappings Tab */}
                 {activeTab === 'mappings' && (
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-                        <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-                            <h2 className="font-semibold text-gray-900">Disease to Specialization Mappings</h2>
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200">
+                        <div className="p-4 border-b border-neutral-200 flex justify-between items-center">
+                            <h2 className="font-semibold text-neutral-900">Disease to Specialization Mappings</h2>
                             <button
                                 onClick={() => { resetMappingForm(); setEditingMapping(null); setShowMappingModal(true); }}
-                                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2"
+                                className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 flex items-center gap-2"
                             >
                                 <Plus className="w-4 h-4" />
                                 Add Mapping
@@ -569,35 +569,35 @@ const SuperAdminChatbotManagement: React.FC = () => {
 
                         <div className="overflow-x-auto">
                             <table className="w-full">
-                                <thead className="bg-gray-50">
+                                <thead className="bg-neutral-50">
                                     <tr>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Disease/Condition</th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Specialization</th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Safe Response</th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                                        <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Disease/Condition</th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Specialization</th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Safe Response</th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Status</th>
+                                        <th className="px-4 py-3 text-right text-xs font-medium text-neutral-500 uppercase">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-100">
                                     {loading && !mappings.length ? (
                                         <tr>
-                                            <td colSpan={5} className="px-4 py-8 text-center text-gray-500">Loading...</td>
+                                            <td colSpan={5} className="px-4 py-8 text-center text-neutral-500">Loading...</td>
                                         </tr>
                                     ) : mappings.length === 0 ? (
                                         <tr>
-                                            <td colSpan={5} className="px-4 py-8 text-center text-gray-500">No mappings found</td>
+                                            <td colSpan={5} className="px-4 py-8 text-center text-neutral-500">No mappings found</td>
                                         </tr>
                                     ) : (
                                         mappings.map(mapping => (
-                                            <tr key={mapping.id} className="hover:bg-gray-50">
-                                                <td className="px-4 py-3 font-medium text-gray-900">{mapping.disease_name}</td>
-                                                <td className="px-4 py-3 text-gray-600">{mapping.specialization}</td>
-                                                <td className="px-4 py-3 text-gray-600 max-w-xs truncate">{mapping.safe_response}</td>
+                                            <tr key={mapping.id} className="hover:bg-neutral-50">
+                                                <td className="px-4 py-3 font-medium text-neutral-900">{mapping.disease_name}</td>
+                                                <td className="px-4 py-3 text-neutral-600">{mapping.specialization}</td>
+                                                <td className="px-4 py-3 text-neutral-600 max-w-xs truncate">{mapping.safe_response}</td>
                                                 <td className="px-4 py-3">
                                                     <span className={`px-2 py-0.5 text-xs font-medium rounded ${
                                                         mapping.is_active 
                                                             ? 'bg-green-100 text-green-700' 
-                                                            : 'bg-gray-100 text-gray-600'
+                                                            : 'bg-neutral-100 text-neutral-600'
                                                     }`}>
                                                         {mapping.is_active ? 'Active' : 'Inactive'}
                                                     </span>
@@ -605,13 +605,13 @@ const SuperAdminChatbotManagement: React.FC = () => {
                                                 <td className="px-4 py-3 text-right">
                                                     <button
                                                         onClick={() => openEditMapping(mapping)}
-                                                        className="p-1.5 text-blue-600 hover:bg-blue-50 rounded"
+                                                        className="p-1.5 text-primary-500 hover:bg-blue-50 rounded"
                                                     >
                                                         <Edit2 className="w-4 h-4" />
                                                     </button>
                                                     <button
                                                         onClick={() => deleteMapping(mapping.id)}
-                                                        className="p-1.5 text-red-600 hover:bg-red-50 rounded ml-1"
+                                                        className="p-1.5 text-error-600 hover:bg-error-50 rounded ml-1"
                                                     >
                                                         <Trash2 className="w-4 h-4" />
                                                     </button>
@@ -627,12 +627,12 @@ const SuperAdminChatbotManagement: React.FC = () => {
 
                 {/* Interaction Logs Tab */}
                 {activeTab === 'logs' && (
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-                        <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-                            <h2 className="font-semibold text-gray-900">Recent Chatbot Interactions</h2>
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200">
+                        <div className="p-4 border-b border-neutral-200 flex justify-between items-center">
+                            <h2 className="font-semibold text-neutral-900">Recent Chatbot Interactions</h2>
                             <button
                                 onClick={fetchLogs}
-                                className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                                className="p-2 text-neutral-600 hover:bg-neutral-100 rounded-lg"
                             >
                                 <RefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
                             </button>
@@ -640,19 +640,19 @@ const SuperAdminChatbotManagement: React.FC = () => {
 
                         <div className="divide-y divide-gray-100 max-h-[600px] overflow-y-auto">
                             {loading && !logs.length ? (
-                                <div className="p-8 text-center text-gray-500">Loading...</div>
+                                <div className="p-8 text-center text-neutral-500">Loading...</div>
                             ) : logs.length === 0 ? (
-                                <div className="p-8 text-center text-gray-500">
+                                <div className="p-8 text-center text-neutral-500">
                                     <MessageCircle className="w-12 h-12 mx-auto mb-3 text-gray-300" />
                                     No interactions logged yet
                                 </div>
                             ) : (
                                 logs.map(log => (
-                                    <div key={log.id} className="p-4 hover:bg-gray-50">
+                                    <div key={log.id} className="p-4 hover:bg-neutral-50">
                                         <div className="flex items-start gap-3">
                                             <div className="flex-1">
                                                 <div className="flex items-center gap-2 mb-1">
-                                                    <span className="text-xs text-gray-400">
+                                                    <span className="text-xs text-neutral-400">
                                                         {new Date(log.created_at).toLocaleString()}
                                                     </span>
                                                     <span className="px-2 py-0.5 text-xs bg-blue-100 text-blue-700 rounded">
@@ -662,7 +662,7 @@ const SuperAdminChatbotManagement: React.FC = () => {
                                                         <span className={`px-2 py-0.5 text-xs rounded flex items-center gap-1 ${
                                                             log.was_helpful 
                                                                 ? 'bg-green-100 text-green-700' 
-                                                                : 'bg-red-100 text-red-700'
+                                                                : 'bg-error-100 text-red-700'
                                                         }`}>
                                                             {log.was_helpful ? (
                                                                 <><CheckCircle className="w-3 h-3" /> Helpful</>
@@ -672,10 +672,10 @@ const SuperAdminChatbotManagement: React.FC = () => {
                                                         </span>
                                                     )}
                                                 </div>
-                                                <p className="font-medium text-gray-900 mb-1">
-                                                    <span className="text-blue-600">Q:</span> {log.question}
+                                                <p className="font-medium text-neutral-900 mb-1">
+                                                    <span className="text-primary-500">Q:</span> {log.question}
                                                 </p>
-                                                <p className="text-sm text-gray-600 line-clamp-2">
+                                                <p className="text-sm text-neutral-600 line-clamp-2">
                                                     <span className="text-green-600">A:</span> {log.response_given}
                                                 </p>
                                             </div>
@@ -692,53 +692,53 @@ const SuperAdminChatbotManagement: React.FC = () => {
                     <div className="space-y-6">
                         {/* Stats Cards */}
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                                 <div className="flex items-center gap-3">
                                     <div className="p-3 bg-blue-100 rounded-lg">
-                                        <MessageSquare className="w-6 h-6 text-blue-600" />
+                                        <MessageSquare className="w-6 h-6 text-primary-500" />
                                     </div>
                                     <div>
-                                        <p className="text-sm text-gray-500">Total Interactions</p>
-                                        <p className="text-2xl font-bold text-gray-900">
+                                        <p className="text-sm text-neutral-500">Total Interactions</p>
+                                        <p className="text-2xl font-bold text-neutral-900">
                                             {analytics?.total_interactions || 0}
                                         </p>
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                                 <div className="flex items-center gap-3">
                                     <div className="p-3 bg-green-100 rounded-lg">
                                         <TrendingUp className="w-6 h-6 text-green-600" />
                                     </div>
                                     <div>
-                                        <p className="text-sm text-gray-500">Satisfaction Rate</p>
-                                        <p className="text-2xl font-bold text-gray-900">
+                                        <p className="text-sm text-neutral-500">Satisfaction Rate</p>
+                                        <p className="text-2xl font-bold text-neutral-900">
                                             {analytics?.satisfaction_rate?.toFixed(1) || 0}%
                                         </p>
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                                 <div className="flex items-center gap-3">
                                     <div className="p-3 bg-emerald-100 rounded-lg">
                                         <CheckCircle className="w-6 h-6 text-emerald-600" />
                                     </div>
                                     <div>
-                                        <p className="text-sm text-gray-500">Helpful Responses</p>
-                                        <p className="text-2xl font-bold text-gray-900">
+                                        <p className="text-sm text-neutral-500">Helpful Responses</p>
+                                        <p className="text-2xl font-bold text-neutral-900">
                                             {analytics?.helpful_count || 0}
                                         </p>
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                                 <div className="flex items-center gap-3">
-                                    <div className="p-3 bg-red-100 rounded-lg">
-                                        <X className="w-6 h-6 text-red-600" />
+                                    <div className="p-3 bg-error-100 rounded-lg">
+                                        <X className="w-6 h-6 text-error-600" />
                                     </div>
                                     <div>
-                                        <p className="text-sm text-gray-500">Not Helpful</p>
-                                        <p className="text-2xl font-bold text-gray-900">
+                                        <p className="text-sm text-neutral-500">Not Helpful</p>
+                                        <p className="text-2xl font-bold text-neutral-900">
                                             {analytics?.not_helpful_count || 0}
                                         </p>
                                     </div>
@@ -747,8 +747,8 @@ const SuperAdminChatbotManagement: React.FC = () => {
                         </div>
 
                         {/* Category Breakdown */}
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                            <h3 className="font-semibold text-gray-900 mb-4">Questions by Category</h3>
+                        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                            <h3 className="font-semibold text-neutral-900 mb-4">Questions by Category</h3>
                             <div className="space-y-3">
                                 {analytics?.category_breakdown && Object.entries(analytics.category_breakdown).map(([category, count]) => {
                                     const total = analytics.total_interactions || 1;
@@ -756,12 +756,12 @@ const SuperAdminChatbotManagement: React.FC = () => {
                                     return (
                                         <div key={category}>
                                             <div className="flex justify-between text-sm mb-1">
-                                                <span className="text-gray-600">{getCategoryLabel(category)}</span>
-                                                <span className="text-gray-900 font-medium">{count} ({percentage.toFixed(1)}%)</span>
+                                                <span className="text-neutral-600">{getCategoryLabel(category)}</span>
+                                                <span className="text-neutral-900 font-medium">{count} ({percentage.toFixed(1)}%)</span>
                                             </div>
-                                            <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                                            <div className="h-2 bg-neutral-100 rounded-full overflow-hidden">
                                                 <div 
-                                                    className="h-full bg-blue-600 rounded-full transition-all"
+                                                    className="h-full bg-primary-500 rounded-full transition-all"
                                                     style={{ width: `${percentage}%` }}
                                                 />
                                             </div>
@@ -769,7 +769,7 @@ const SuperAdminChatbotManagement: React.FC = () => {
                                     );
                                 })}
                                 {(!analytics?.category_breakdown || Object.keys(analytics.category_breakdown).length === 0) && (
-                                    <p className="text-gray-500 text-center py-4">No data available yet</p>
+                                    <p className="text-neutral-500 text-center py-4">No data available yet</p>
                                 )}
                             </div>
                         </div>
@@ -780,21 +780,21 @@ const SuperAdminChatbotManagement: React.FC = () => {
                 {showFaqModal && (
                     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                         <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                            <div className="p-6 border-b border-gray-200 flex justify-between items-center">
-                                <h2 className="text-xl font-bold text-gray-900">
+                            <div className="p-6 border-b border-neutral-200 flex justify-between items-center">
+                                <h2 className="text-xl font-bold text-neutral-900">
                                     {editingFaq ? 'Edit FAQ' : 'Add New FAQ'}
                                 </h2>
-                                <button onClick={() => setShowFaqModal(false)} className="text-gray-400 hover:text-gray-600">
+                                <button onClick={() => setShowFaqModal(false)} className="text-neutral-400 hover:text-neutral-600">
                                     <X className="w-6 h-6" />
                                 </button>
                             </div>
                             <div className="p-6 space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Category</label>
                                     <select
                                         value={faqForm.category}
                                         onChange={(e) => setFaqForm({ ...faqForm, category: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-4 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-primary-500"
                                     >
                                         {CATEGORIES.map(cat => (
                                             <option key={cat.value} value={cat.value}>{cat.label}</option>
@@ -805,26 +805,26 @@ const SuperAdminChatbotManagement: React.FC = () => {
                                 {/* English Section */}
                                 <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
                                     <h4 className="font-medium text-blue-900 mb-3 flex items-center gap-2">
-                                        🇬🇧 English Content
+                                        ???? English Content
                                     </h4>
                                     <div className="space-y-3">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Question (English) *</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Question (English) *</label>
                                             <input
                                                 type="text"
                                                 value={faqForm.question_en}
                                                 onChange={(e) => setFaqForm({ ...faqForm, question_en: e.target.value })}
-                                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-4 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-primary-500"
                                                 placeholder="What is homeopathy?"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Answer (English) *</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Answer (English) *</label>
                                             <textarea
                                                 value={faqForm.answer_en}
                                                 onChange={(e) => setFaqForm({ ...faqForm, answer_en: e.target.value })}
                                                 rows={4}
-                                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-4 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-primary-500"
                                                 placeholder="Provide a detailed answer in English..."
                                             />
                                         </div>
@@ -834,49 +834,49 @@ const SuperAdminChatbotManagement: React.FC = () => {
                                 {/* Sinhala Section */}
                                 <div className="bg-green-50 p-4 rounded-lg border border-green-200">
                                     <h4 className="font-medium text-green-900 mb-3 flex items-center gap-2">
-                                        🇱🇰 Sinhala Content (Optional)
+                                        ???? Sinhala Content (Optional)
                                     </h4>
                                     <div className="space-y-3">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Question (Sinhala)</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Question (Sinhala)</label>
                                             <input
                                                 type="text"
                                                 value={faqForm.question_si}
                                                 onChange={(e) => setFaqForm({ ...faqForm, question_si: e.target.value })}
-                                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500"
-                                                placeholder="හෝමියෝපති යනු කුමක්ද?"
+                                                className="w-full px-4 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-primary-500"
+                                                placeholder="????????? ??? ???????"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Answer (Sinhala)</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Answer (Sinhala)</label>
                                             <textarea
                                                 value={faqForm.answer_si}
                                                 onChange={(e) => setFaqForm({ ...faqForm, answer_si: e.target.value })}
                                                 rows={4}
-                                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500"
-                                                placeholder="සිංහල භාෂාවෙන් විස්තරාත්මක පිළිතුරක් ලබා දෙන්න..."
+                                                className="w-full px-4 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-primary-500"
+                                                placeholder="????? ???????? ??????????? ????????? ??? ?????..."
                                             />
                                         </div>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Keywords (comma-separated)
                                     </label>
                                     <input
                                         type="text"
                                         value={faqForm.keywords}
                                         onChange={(e) => setFaqForm({ ...faqForm, keywords: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500"
-                                        placeholder="homeopathy, treatment, medicine, හෝමියෝපති"
+                                        className="w-full px-4 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-primary-500"
+                                        placeholder="homeopathy, treatment, medicine, ?????????"
                                     />
-                                    <p className="text-xs text-gray-500 mt-1">
+                                    <p className="text-xs text-neutral-500 mt-1">
                                         Include both English and Sinhala keywords for better matching
                                     </p>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Priority (1-100)
                                     </label>
                                     <input
@@ -885,23 +885,23 @@ const SuperAdminChatbotManagement: React.FC = () => {
                                         max="100"
                                         value={faqForm.priority}
                                         onChange={(e) => setFaqForm({ ...faqForm, priority: parseInt(e.target.value) || 50 })}
-                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-4 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-primary-500"
                                     />
-                                    <p className="text-xs text-gray-500 mt-1">
+                                    <p className="text-xs text-neutral-500 mt-1">
                                         Higher priority FAQs are matched first when multiple FAQs match a query
                                     </p>
                                 </div>
                             </div>
-                            <div className="p-6 border-t border-gray-200 flex justify-end gap-3">
+                            <div className="p-6 border-t border-neutral-200 flex justify-end gap-3">
                                 <button
                                     onClick={() => setShowFaqModal(false)}
-                                    className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                                    className="px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={saveFaq}
-                                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                                    className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                                 >
                                     {editingFaq ? 'Update FAQ' : 'Create FAQ'}
                                 </button>
@@ -914,56 +914,56 @@ const SuperAdminChatbotManagement: React.FC = () => {
                 {showMappingModal && (
                     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                         <div className="bg-white rounded-xl shadow-xl max-w-lg w-full">
-                            <div className="p-6 border-b border-gray-200 flex justify-between items-center">
-                                <h2 className="text-xl font-bold text-gray-900">
+                            <div className="p-6 border-b border-neutral-200 flex justify-between items-center">
+                                <h2 className="text-xl font-bold text-neutral-900">
                                     {editingMapping ? 'Edit Disease Mapping' : 'Add Disease Mapping'}
                                 </h2>
-                                <button onClick={() => setShowMappingModal(false)} className="text-gray-400 hover:text-gray-600">
+                                <button onClick={() => setShowMappingModal(false)} className="text-neutral-400 hover:text-neutral-600">
                                     <X className="w-6 h-6" />
                                 </button>
                             </div>
                             <div className="p-6 space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Disease/Condition Name</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Disease/Condition Name</label>
                                     <input
                                         type="text"
                                         value={mappingForm.disease_name}
                                         onChange={(e) => setMappingForm({ ...mappingForm, disease_name: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-4 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-primary-500"
                                         placeholder="e.g., allergies, asthma, skin problems"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Specialization</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Specialization</label>
                                     <input
                                         type="text"
                                         value={mappingForm.specialization}
                                         onChange={(e) => setMappingForm({ ...mappingForm, specialization: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-4 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-primary-500"
                                         placeholder="e.g., Immunology, Dermatology"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Safe Response</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Safe Response</label>
                                     <textarea
                                         value={mappingForm.safe_response}
                                         onChange={(e) => setMappingForm({ ...mappingForm, safe_response: e.target.value })}
                                         rows={4}
-                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-4 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-primary-500"
                                         placeholder="A safe, informative response about this condition and available specialists..."
                                     />
                                 </div>
                             </div>
-                            <div className="p-6 border-t border-gray-200 flex justify-end gap-3">
+                            <div className="p-6 border-t border-neutral-200 flex justify-end gap-3">
                                 <button
                                     onClick={() => setShowMappingModal(false)}
-                                    className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                                    className="px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={saveMapping}
-                                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                                    className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                                 >
                                     {editingMapping ? 'Update Mapping' : 'Create Mapping'}
                                 </button>

@@ -31,7 +31,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
                     onClick={() => onPageChange(pageNum)}
                     className={`${
                         pageNum === currentPage ? "bg-black text-white" : ""
-                    } border border-gray-200 px-[10px] text-[0.9rem] py-[1px] rounded-md`}
+                    } border border-neutral-200 px-[10px] text-[0.9rem] py-[1px] rounded-md`}
                 >
                     {pageNum}
                 </button>
@@ -44,7 +44,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
             <button
                 onClick={() => onPageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="border border-gray-200 hover:bg-gray-50 cursor-pointer px-[10px] text-[0.9rem] py-[5px] rounded-md"
+                className="border border-neutral-200 hover:bg-neutral-50 cursor-pointer px-[10px] text-[0.9rem] py-[5px] rounded-md"
             >
                 <BsChevronLeft />
             </button>
@@ -52,7 +52,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
             <button
                 onClick={() => onPageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="border border-gray-200 px-[10px] cursor-pointer hover:bg-gray-50 text-[0.9rem] py-[5px] rounded-md"
+                className="border border-neutral-200 px-[10px] cursor-pointer hover:bg-neutral-50 text-[0.9rem] py-[5px] rounded-md"
             >
                 <BsChevronRight />
             </button>

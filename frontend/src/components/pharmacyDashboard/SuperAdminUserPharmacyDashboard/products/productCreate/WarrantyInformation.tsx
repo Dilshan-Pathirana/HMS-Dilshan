@@ -78,10 +78,10 @@ const WarrantyInformation: React.FC<WarrantyStepProps> = ({
                         value={data.warrantySerial}
                         onChange={handleChange}
                         placeholder="Enter warranty serial/code"
-                        className={`border p-2 w-full ${errors.warrantySerial ? "border-red-500" : "border-gray-300"}`}
+                        className={`border p-2 w-full ${errors.warrantySerial ? "border-error-500" : "border-neutral-300"}`}
                     />
                     {errors.warrantySerial && (
-                        <p className="text-red-500 text-sm">
+                        <p className="text-error-500 text-sm">
                             {errors.warrantySerial}
                         </p>
                     )}
@@ -98,11 +98,11 @@ const WarrantyInformation: React.FC<WarrantyStepProps> = ({
                         onChange={handleWarrantyDuration}
                         options={warrantyDuration}
                         placeholder="Select warranty duration"
-                        className={`w-full ${errors.warrantyDuration ? "border-red-500" : ""}`}
+                        className={`w-full ${errors.warrantyDuration ? "border-error-500" : ""}`}
                         classNamePrefix="react-select"
                     />
                     {errors.warrantyDuration && (
-                        <p className="text-red-500 text-sm">
+                        <p className="text-error-500 text-sm">
                             {errors.warrantyDuration}
                         </p>
                     )}
@@ -118,10 +118,10 @@ const WarrantyInformation: React.FC<WarrantyStepProps> = ({
                         type="date"
                         value={data.warrantyStartDate}
                         onChange={handleChange}
-                        className={`border p-2 w-full ${errors.warrantyStartDate ? "border-red-500" : "border-gray-300"}`}
+                        className={`border p-2 w-full ${errors.warrantyStartDate ? "border-error-500" : "border-neutral-300"}`}
                     />
                     {errors.warrantyStartDate && (
-                        <p className="text-red-500 text-sm">
+                        <p className="text-error-500 text-sm">
                             {errors.warrantyStartDate}
                         </p>
                     )}
@@ -137,10 +137,10 @@ const WarrantyInformation: React.FC<WarrantyStepProps> = ({
                         type="date"
                         value={data.warrantyExpirationDate}
                         onChange={handleChange}
-                        className={`border p-2 w-full ${errors.warrantyExpirationDate ? "border-red-500" : "border-gray-300"}`}
+                        className={`border p-2 w-full ${errors.warrantyExpirationDate ? "border-error-500" : "border-neutral-300"}`}
                     />
                     {errors.warrantyExpirationDate && (
-                        <p className="text-red-500 text-sm">
+                        <p className="text-error-500 text-sm">
                             {errors.warrantyExpirationDate}
                         </p>
                     )}
@@ -157,11 +157,11 @@ const WarrantyInformation: React.FC<WarrantyStepProps> = ({
                         onChange={handleWarrantyTypes}
                         options={warrantyTypes}
                         placeholder="Select warranty Type"
-                        className={`w-full ${errors.warrantyType ? "border-red-500" : ""}`}
+                        className={`w-full ${errors.warrantyType ? "border-error-500" : ""}`}
                         classNamePrefix="react-select"
                     />
                     {errors.warrantyType && (
-                        <p className="text-red-500 text-sm">
+                        <p className="text-error-500 text-sm">
                             {errors.warrantyType}
                         </p>
                     )}
@@ -178,7 +178,7 @@ const WarrantyInformation: React.FC<WarrantyStepProps> = ({
                 </button>
                 <button
                     type="submit"
-                    className="border px-4 py-2 bg-blue-500 text-white"
+                    className="border px-4 py-2 bg-primary-500 text-white"
                 >
                     Next
                 </button>

@@ -158,13 +158,13 @@ export const BranchAdminPurchaseRequests: React.FC = () => {
     const getPriorityBadge = (priority: string) => {
         switch (priority) {
             case 'Emergency':
-                return <span className="px-2 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700 border border-red-300">🚨 Emergency</span>;
+                return <span className="px-2 py-1 rounded-full text-xs font-semibold bg-error-100 text-red-700 border border-red-300">🚨 Emergency</span>;
             case 'Urgent':
                 return <span className="px-2 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-700 border border-orange-300">⚡ Urgent</span>;
             case 'Normal':
                 return <span className="px-2 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 border border-blue-300">📋 Normal</span>;
             default:
-                return <span className="px-2 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700 border border-gray-300">{priority}</span>;
+                return <span className="px-2 py-1 rounded-full text-xs font-semibold bg-neutral-100 text-neutral-700 border border-neutral-300">{priority}</span>;
         }
     };
 
@@ -175,7 +175,7 @@ export const BranchAdminPurchaseRequests: React.FC = () => {
             case 'doctor':
                 return <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">🩺 Doctor</span>;
             default:
-                return <span className="px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">{userType}</span>;
+                return <span className="px-2 py-1 rounded-full text-xs font-medium bg-neutral-100 text-neutral-700">{userType}</span>;
         }
     };
 
@@ -251,35 +251,35 @@ export const BranchAdminPurchaseRequests: React.FC = () => {
                 )}
 
                 {/* Filters */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-4">
                     <div className="flex items-center gap-2 mb-4">
-                        <Filter className="w-5 h-5 text-gray-600" />
-                        <h3 className="font-semibold text-gray-800">Filters & Search</h3>
+                        <Filter className="w-5 h-5 text-neutral-600" />
+                        <h3 className="font-semibold text-neutral-800">Filters & Search</h3>
                     </div>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
                         {/* Search */}
                         <div className="lg:col-span-2">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Search</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">Search</label>
                             <div className="relative">
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-neutral-400" />
                                 <input
                                     type="text"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                     placeholder="PR Number or Creator..."
-                                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                 />
                             </div>
                         </div>
 
                         {/* Role Filter */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Requester Role</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">Requester Role</label>
                             <select
                                 value={filterRole}
                                 onChange={(e) => setFilterRole(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                             >
                                 <option value="all">All Roles</option>
                                 <option value="pharmacist">Pharmacist</option>
@@ -289,11 +289,11 @@ export const BranchAdminPurchaseRequests: React.FC = () => {
 
                         {/* Supplier Filter */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Supplier</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">Supplier</label>
                             <select
                                 value={filterSupplier}
                                 onChange={(e) => setFilterSupplier(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                             >
                                 <option value="all">All Suppliers</option>
                                 {suppliers.map(supplier => (
@@ -304,11 +304,11 @@ export const BranchAdminPurchaseRequests: React.FC = () => {
 
                         {/* Priority Filter */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">Priority</label>
                             <select
                                 value={filterPriority}
                                 onChange={(e) => setFilterPriority(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                             >
                                 <option value="all">All Priorities</option>
                                 <option value="Emergency">Emergency</option>
@@ -319,11 +319,11 @@ export const BranchAdminPurchaseRequests: React.FC = () => {
 
                         {/* Sort By */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Sort By</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">Sort By</label>
                             <select
                                 value={sortBy}
                                 onChange={(e) => setSortBy(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                             >
                                 <option value="urgent_first">Urgent First</option>
                                 <option value="oldest_first">Oldest First</option>
@@ -335,40 +335,40 @@ export const BranchAdminPurchaseRequests: React.FC = () => {
                     {/* Date Range */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Date From</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">Date From</label>
                             <input
                                 type="date"
                                 value={dateFrom}
                                 onChange={(e) => setDateFrom(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Date To</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">Date To</label>
                             <input
                                 type="date"
                                 value={dateTo}
                                 onChange={(e) => setDateTo(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                             />
                         </div>
                     </div>
                 </div>
 
                 {/* Purchase Requests Table */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                <div className="bg-white rounded-lg shadow-sm border border-neutral-200 overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
+                            <thead className="bg-neutral-50">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PR Number</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Requested By</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Items</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Est. Cost</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Priority</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">PR Number</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">Type</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">Requested By</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">Items</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">Est. Cost</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">Date</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">Priority</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
@@ -376,39 +376,39 @@ export const BranchAdminPurchaseRequests: React.FC = () => {
                                     <tr>
                                         <td colSpan={8} className="px-6 py-8 text-center">
                                             <div className="flex items-center justify-center">
-                                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                                                <span className="ml-3 text-gray-600">Loading purchase requests...</span>
+                                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
+                                                <span className="ml-3 text-neutral-600">Loading purchase requests...</span>
                                             </div>
                                         </td>
                                     </tr>
                                 ) : filteredPRs.length === 0 ? (
                                     <tr>
-                                        <td colSpan={8} className="px-6 py-8 text-center text-gray-500">
+                                        <td colSpan={8} className="px-6 py-8 text-center text-neutral-500">
                                             <Package className="w-12 h-12 mx-auto text-gray-300 mb-2" />
                                             <p>No pending purchase requests found</p>
                                         </td>
                                     </tr>
                                 ) : (
                                     filteredPRs.map((pr) => (
-                                        <tr key={pr.id} className="hover:bg-gray-50 transition-colors">
+                                        <tr key={pr.id} className="hover:bg-neutral-50 transition-colors">
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className="font-semibold text-blue-600">{pr.pr_number}</span>
+                                                <span className="font-semibold text-primary-500">{pr.pr_number}</span>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 {getRoleBadge(pr.creator.user_type)}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div>
-                                                    <p className="font-medium text-gray-800">{pr.creator.first_name} {pr.creator.last_name}</p>
+                                                    <p className="font-medium text-neutral-800">{pr.creator.first_name} {pr.creator.last_name}</p>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className="px-2 py-1 bg-gray-100 rounded-full text-sm font-medium">{pr.total_items} items</span>
+                                                <span className="px-2 py-1 bg-neutral-100 rounded-full text-sm font-medium">{pr.total_items} items</span>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className="font-semibold text-gray-800">{formatCurrency(pr.total_estimated_cost)}</span>
+                                                <span className="font-semibold text-neutral-800">{formatCurrency(pr.total_estimated_cost)}</span>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-600">
                                                 {formatDate(pr.created_at)}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
@@ -417,7 +417,7 @@ export const BranchAdminPurchaseRequests: React.FC = () => {
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <button
                                                     onClick={() => handleViewPR(pr)}
-                                                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 text-sm font-medium"
+                                                    className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors flex items-center gap-2 text-sm font-medium"
                                                 >
                                                     <Eye className="w-4 h-4" />
                                                     Review

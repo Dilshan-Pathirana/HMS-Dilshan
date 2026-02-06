@@ -89,11 +89,11 @@ const NurseMedication: React.FC = () => {
       case 'administered':
         return 'bg-green-100 text-green-800';
       case 'missed':
-        return 'bg-red-100 text-red-800';
+        return 'bg-error-100 text-red-800';
       case 'refused':
         return 'bg-orange-100 text-orange-800';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-neutral-100 text-neutral-800';
     }
   };
 
@@ -119,7 +119,7 @@ const NurseMedication: React.FC = () => {
   const missedCount = medications.filter(m => m.status === 'missed').length;
 
   return (
-    <div className="p-6 space-y-6 bg-gray-50 min-h-screen sm:ml-64 mt-16">
+    <div className="p-6 space-y-6 bg-neutral-50 min-h-screen sm:ml-64 mt-16">
       {/* Header */}
       <div className="bg-gradient-to-r from-teal-600 to-cyan-600 rounded-xl shadow-lg p-8 text-white">
         <div className="flex items-center justify-between">
@@ -133,66 +133,66 @@ const NurseMedication: React.FC = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="p-3 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-lg">
               <Clock className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold text-gray-900">{pendingCount}</span>
+            <span className="text-2xl font-bold text-neutral-900">{pendingCount}</span>
           </div>
-          <h3 className="text-gray-600 text-sm font-medium">Pending</h3>
+          <h3 className="text-neutral-600 text-sm font-medium">Pending</h3>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="p-3 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg">
               <CheckCircle className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold text-gray-900">{administeredCount}</span>
+            <span className="text-2xl font-bold text-neutral-900">{administeredCount}</span>
           </div>
-          <h3 className="text-gray-600 text-sm font-medium">Administered Today</h3>
+          <h3 className="text-neutral-600 text-sm font-medium">Administered Today</h3>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="p-3 bg-gradient-to-br from-red-500 to-pink-500 rounded-lg">
               <AlertTriangle className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold text-gray-900">{missedCount}</span>
+            <span className="text-2xl font-bold text-neutral-900">{missedCount}</span>
           </div>
-          <h3 className="text-gray-600 text-sm font-medium">Missed Doses</h3>
+          <h3 className="text-neutral-600 text-sm font-medium">Missed Doses</h3>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="p-3 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg">
               <Pill className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold text-gray-900">{medications.length}</span>
+            <span className="text-2xl font-bold text-neutral-900">{medications.length}</span>
           </div>
-          <h3 className="text-gray-600 text-sm font-medium">Total Scheduled</h3>
+          <h3 className="text-neutral-600 text-sm font-medium">Total Scheduled</h3>
         </div>
       </div>
 
       {/* Search and Filter */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
             <input
               type="text"
               placeholder="Search by patient, medication, or bed..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
             />
           </div>
           <div className="flex items-center gap-2">
-            <Filter className="w-5 h-5 text-gray-400" />
+            <Filter className="w-5 h-5 text-neutral-400" />
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500"
+              className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-teal-500"
             >
               <option value="all">All Status</option>
               <option value="pending">Pending</option>
@@ -205,38 +205,38 @@ const NurseMedication: React.FC = () => {
       </div>
 
       {/* Medications Table */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gradient-to-r from-blue-50 to-cyan-50">
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Patient</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Medication</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Dosage</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Route</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Frequency</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Time</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-neutral-700 uppercase tracking-wider">Patient</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-neutral-700 uppercase tracking-wider">Medication</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-neutral-700 uppercase tracking-wider">Dosage</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-neutral-700 uppercase tracking-wider">Route</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-neutral-700 uppercase tracking-wider">Frequency</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-neutral-700 uppercase tracking-wider">Time</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-neutral-700 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-neutral-700 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
               {filteredMedications.map((med) => (
-                <tr key={med.id} className="hover:bg-gray-50 transition-colors">
+                <tr key={med.id} className="hover:bg-neutral-50 transition-colors">
                   <td className="px-6 py-4">
                     <div>
-                      <div className="font-medium text-gray-900">{med.patientName}</div>
-                      <div className="text-sm text-gray-500">{med.bed}</div>
+                      <div className="font-medium text-neutral-900">{med.patientName}</div>
+                      <div className="text-sm text-neutral-500">{med.bed}</div>
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="font-medium text-gray-900">{med.medicationName}</div>
-                    <div className="text-sm text-gray-500">Dr. {med.prescribedBy}</div>
+                    <div className="font-medium text-neutral-900">{med.medicationName}</div>
+                    <div className="text-sm text-neutral-500">Dr. {med.prescribedBy}</div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-900">{med.dosage}</td>
-                  <td className="px-6 py-4 text-sm text-gray-900">{med.route}</td>
-                  <td className="px-6 py-4 text-sm text-gray-900">{med.frequency}</td>
-                  <td className="px-6 py-4 text-sm text-gray-900">{med.scheduledTime}</td>
+                  <td className="px-6 py-4 text-sm text-neutral-900">{med.dosage}</td>
+                  <td className="px-6 py-4 text-sm text-neutral-900">{med.route}</td>
+                  <td className="px-6 py-4 text-sm text-neutral-900">{med.frequency}</td>
+                  <td className="px-6 py-4 text-sm text-neutral-900">{med.scheduledTime}</td>
                   <td className="px-6 py-4">
                     <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusBadge(med.status)}`}>
                       {med.status.charAt(0).toUpperCase() + med.status.slice(1)}
@@ -249,7 +249,7 @@ const NurseMedication: React.FC = () => {
                           setSelectedMed(med);
                           setShowAdministerModal(true);
                         }}
-                        className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-cyan-700 text-sm"
+                        className="bg-gradient-to-r from-primary-500 to-cyan-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-cyan-700 text-sm"
                       >
                         Administer
                       </button>
@@ -269,7 +269,7 @@ const NurseMedication: React.FC = () => {
       {showAdministerModal && selectedMed && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full">
-            <div className="bg-gradient-to-r from-blue-600 to-cyan-600 p-6 text-white">
+            <div className="bg-gradient-to-r from-primary-500 to-cyan-600 p-6 text-white">
               <h2 className="text-2xl font-bold">Administer Medication</h2>
             </div>
             
@@ -277,23 +277,23 @@ const NurseMedication: React.FC = () => {
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Patient:</span>
+                    <span className="text-neutral-600">Patient:</span>
                     <span className="font-medium">{selectedMed.patientName}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Medication:</span>
+                    <span className="text-neutral-600">Medication:</span>
                     <span className="font-medium">{selectedMed.medicationName}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Dosage:</span>
+                    <span className="text-neutral-600">Dosage:</span>
                     <span className="font-medium">{selectedMed.dosage}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Route:</span>
+                    <span className="text-neutral-600">Route:</span>
                     <span className="font-medium">{selectedMed.route}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Scheduled Time:</span>
+                    <span className="text-neutral-600">Scheduled Time:</span>
                     <span className="font-medium">{selectedMed.scheduledTime}</span>
                   </div>
                 </div>
@@ -312,35 +312,35 @@ const NurseMedication: React.FC = () => {
               )}
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Administration Notes</label>
+                <label className="block text-sm font-medium text-neutral-700 mb-2">Administration Notes</label>
                 <textarea
                   rows={3}
                   placeholder="Any observations or notes..."
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                 />
               </div>
 
-              <div className="bg-gray-50 rounded-lg p-4">
+              <div className="bg-neutral-50 rounded-lg p-4">
                 <label className="flex items-center gap-2">
-                  <input type="checkbox" className="w-4 h-4 text-blue-600" />
-                  <span className="text-sm text-gray-700">I confirm that I have administered this medication</span>
+                  <input type="checkbox" className="w-4 h-4 text-primary-500" />
+                  <span className="text-sm text-neutral-700">I confirm that I have administered this medication</span>
                 </label>
               </div>
             </div>
 
-            <div className="flex justify-end gap-4 p-6 bg-gray-50 rounded-b-xl">
+            <div className="flex justify-end gap-4 p-6 bg-neutral-50 rounded-b-xl">
               <button
                 onClick={() => {
                   setShowAdministerModal(false);
                   setSelectedMed(null);
                 }}
-                className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+                className="px-6 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-100 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleAdminister}
-                className="px-6 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all"
+                className="px-6 py-2 bg-gradient-to-r from-primary-500 to-cyan-600 text-white rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all"
               >
                 Confirm Administration
               </button>

@@ -57,10 +57,10 @@ export default function BillModal({
     };
 
     return (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-neutral-900 bg-opacity-50 flex items-center justify-center">
             <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full relative">
                 <button onClick={closeModal} className="absolute top-2 right-2">
-                    <X className="h-5 w-5 text-gray-500" />
+                    <X className="h-5 w-5 text-neutral-500" />
                 </button>
                 <h2 className="text-lg font-medium">Payment Successful</h2>
                 <p className="text-2xl font-bold text-center mb-4">
@@ -68,7 +68,7 @@ export default function BillModal({
                 </p>
                 <button
                     onClick={generatePDF}
-                    className="bg-blue-500 text-white px-4 py-2 rounded-lg w-full flex items-center justify-center"
+                    className="bg-primary-500 text-white px-4 py-2 rounded-lg w-full flex items-center justify-center"
                 >
                     <Printer className="mr-2 h-4 w-4" />
                     Print Bill

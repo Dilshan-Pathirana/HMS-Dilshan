@@ -111,14 +111,14 @@ const PatientDashboardHome: React.FC = () => {
     }, [userId]);
 
     const quickActions = [
-        { label: 'Book Appointment', path: 'appointments/book', icon: <Calendar className="w-6 h-6" />, color: 'bg-blue-500' },
+        { label: 'Book Appointment', path: 'appointments/book', icon: <Calendar className="w-6 h-6" />, color: 'bg-primary-500' },
         { label: 'View Queue Status', path: 'queue', icon: <Clock className="w-6 h-6" />, color: 'bg-purple-500' },
         { label: 'Medical Records', path: 'records', icon: <FileText className="w-6 h-6" />, color: 'bg-emerald-500' },
         { label: 'My Medications', path: 'medications', icon: <Pill className="w-6 h-6" />, color: 'bg-orange-500' },
     ];
 
     const statCards = [
-        { label: 'Upcoming Appointments', value: stats.upcomingAppointments, icon: <Calendar className="w-8 h-8" />, color: 'text-blue-600', bgColor: 'bg-blue-50' },
+        { label: 'Upcoming Appointments', value: stats.upcomingAppointments, icon: <Calendar className="w-8 h-8" />, color: 'text-primary-500', bgColor: 'bg-blue-50' },
         { label: 'Pending Reports', value: stats.pendingReports, icon: <FileText className="w-8 h-8" />, color: 'text-amber-600', bgColor: 'bg-amber-50' },
         { label: 'Active Medications', value: stats.activeMedications, icon: <Pill className="w-8 h-8" />, color: 'text-emerald-600', bgColor: 'bg-emerald-50' },
         { label: 'Unread Notifications', value: stats.unreadNotifications, icon: <Bell className="w-8 h-8" />, color: 'text-purple-600', bgColor: 'bg-purple-50' },
@@ -128,9 +128,9 @@ const PatientDashboardHome: React.FC = () => {
         switch (status?.toLowerCase()) {
             case 'confirmed': return 'bg-green-100 text-green-700';
             case 'pending': return 'bg-yellow-100 text-yellow-700';
-            case 'cancelled': return 'bg-red-100 text-red-700';
+            case 'cancelled': return 'bg-error-100 text-red-700';
             case 'completed': return 'bg-blue-100 text-blue-700';
-            default: return 'bg-gray-100 text-gray-700';
+            default: return 'bg-neutral-100 text-neutral-700';
         }
     };
 
@@ -174,7 +174,7 @@ const PatientDashboardHome: React.FC = () => {
                     <div key={index} className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">{stat.label}</p>
+                                <p className="text-sm text-neutral-500">{stat.label}</p>
                                 <p className={`text-3xl font-bold ${stat.color}`}>{stat.value}</p>
                             </div>
                             <div className={`${stat.bgColor} p-3 rounded-xl ${stat.color}`}>
@@ -187,7 +187,7 @@ const PatientDashboardHome: React.FC = () => {
 
             {/* Quick Actions */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                <h2 className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h2>
+                <h2 className="text-lg font-semibold text-neutral-800 mb-4">Quick Actions</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {quickActions.map((action, index) => (
                         <Link
@@ -198,7 +198,7 @@ const PatientDashboardHome: React.FC = () => {
                             <div className={`${action.color} text-white p-3 rounded-xl mb-3 group-hover:scale-110 transition-transform`}>
                                 {action.icon}
                             </div>
-                            <span className="text-sm font-medium text-gray-700 text-center">{action.label}</span>
+                            <span className="text-sm font-medium text-neutral-700 text-center">{action.label}</span>
                         </Link>
                     ))}
                 </div>
@@ -209,7 +209,7 @@ const PatientDashboardHome: React.FC = () => {
                 {/* Upcoming Appointments */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                     <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-lg font-semibold text-gray-800">Upcoming Appointments</h2>
+                        <h2 className="text-lg font-semibold text-neutral-800">Upcoming Appointments</h2>
                         <Link to="appointments" className="text-sm text-emerald-600 hover:text-emerald-700 flex items-center gap-1">
                             View All <ChevronRight className="w-4 h-4" />
                         </Link>
@@ -218,7 +218,7 @@ const PatientDashboardHome: React.FC = () => {
                     {upcomingAppointments.length === 0 ? (
                         <div className="text-center py-8">
                             <Calendar className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                            <p className="text-gray-500">No upcoming appointments</p>
+                            <p className="text-neutral-500">No upcoming appointments</p>
                             <Link to="appointments/book" className="text-emerald-600 text-sm hover:underline mt-2 inline-block">
                                 Book an appointment
                             </Link>
@@ -226,20 +226,20 @@ const PatientDashboardHome: React.FC = () => {
                     ) : (
                         <div className="space-y-3">
                             {upcomingAppointments.map((apt) => (
-                                <div key={apt.id} className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                                <div key={apt.id} className="flex items-center gap-4 p-3 bg-neutral-50 rounded-lg hover:bg-neutral-100 transition-colors">
                                     <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 font-bold text-lg">
                                         {apt.doctor_name.charAt(4) || 'D'}
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <p className="font-medium text-gray-800 truncate">{apt.doctor_name}</p>
-                                        <p className="text-sm text-gray-500">{apt.specialization}</p>
-                                        <p className="text-xs text-gray-400">{apt.branch_name}</p>
+                                        <p className="font-medium text-neutral-800 truncate">{apt.doctor_name}</p>
+                                        <p className="text-sm text-neutral-500">{apt.specialization}</p>
+                                        <p className="text-xs text-neutral-400">{apt.branch_name}</p>
                                     </div>
                                     <div className="text-right">
-                                        <p className="text-sm font-medium text-gray-700">
+                                        <p className="text-sm font-medium text-neutral-700">
                                             {new Date(apt.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                                         </p>
-                                        <p className="text-xs text-gray-500">{apt.time}</p>
+                                        <p className="text-xs text-neutral-500">{apt.time}</p>
                                         <span className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full ${getStatusColor(apt.status)}`}>
                                             {getStatusIcon(apt.status)}
                                             {apt.status}
@@ -254,7 +254,7 @@ const PatientDashboardHome: React.FC = () => {
                 {/* Recent Notifications */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                     <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-lg font-semibold text-gray-800">Recent Notifications</h2>
+                        <h2 className="text-lg font-semibold text-neutral-800">Recent Notifications</h2>
                         <Link to="notifications" className="text-sm text-emerald-600 hover:text-emerald-700 flex items-center gap-1">
                             View All <ChevronRight className="w-4 h-4" />
                         </Link>
@@ -263,7 +263,7 @@ const PatientDashboardHome: React.FC = () => {
                     {recentNotifications.length === 0 ? (
                         <div className="text-center py-8">
                             <Bell className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                            <p className="text-gray-500">No notifications yet</p>
+                            <p className="text-neutral-500">No notifications yet</p>
                         </div>
                     ) : (
                         <div className="space-y-3">
@@ -272,13 +272,13 @@ const PatientDashboardHome: React.FC = () => {
                                     key={notification.id} 
                                     className={`p-3 rounded-lg border-l-4 ${
                                         notification.is_read 
-                                            ? 'bg-gray-50 border-gray-300' 
-                                            : 'bg-blue-50 border-blue-500'
+                                            ? 'bg-neutral-50 border-neutral-300' 
+                                            : 'bg-blue-50 border-primary-500'
                                     }`}
                                 >
-                                    <p className="font-medium text-gray-800 text-sm">{notification.title}</p>
-                                    <p className="text-xs text-gray-500 mt-1 line-clamp-2">{notification.message}</p>
-                                    <p className="text-xs text-gray-400 mt-1">
+                                    <p className="font-medium text-neutral-800 text-sm">{notification.title}</p>
+                                    <p className="text-xs text-neutral-500 mt-1 line-clamp-2">{notification.message}</p>
+                                    <p className="text-xs text-neutral-400 mt-1">
                                         {new Date(notification.created_at).toLocaleDateString()}
                                     </p>
                                 </div>
@@ -295,8 +295,8 @@ const PatientDashboardHome: React.FC = () => {
                         <Heart className="w-6 h-6" />
                     </div>
                     <div>
-                        <h3 className="font-semibold text-gray-800 mb-1">Daily Health Tip</h3>
-                        <p className="text-gray-600 text-sm">
+                        <h3 className="font-semibold text-neutral-800 mb-1">Daily Health Tip</h3>
+                        <p className="text-neutral-600 text-sm">
                             Remember to stay hydrated! Drinking at least 8 glasses of water a day helps maintain 
                             your body's fluid balance, supports digestion, and keeps your skin healthy.
                         </p>

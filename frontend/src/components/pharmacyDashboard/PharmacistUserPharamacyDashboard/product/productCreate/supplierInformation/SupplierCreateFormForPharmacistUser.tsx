@@ -72,11 +72,11 @@ const SupplierCreateFormForPharmacistUser: React.FC<
                     onChange={handleChange}
                     placeholder="Full name of the supplier company"
                     className={`border p-2 w-full mb-1 ${
-                        errors.supplier_name ? "border-red-500" : ""
+                        errors.supplier_name ? "border-error-500" : ""
                     }`}
                 />
                 {errors.supplier_name && (
-                    <p className="text-red-500 text-sm">
+                    <p className="text-error-500 text-sm">
                         {errors.supplier_name}
                     </p>
                 )}
@@ -106,11 +106,11 @@ const SupplierCreateFormForPharmacistUser: React.FC<
                     onChange={handleChange}
                     placeholder="Phone number for reaching the supplier"
                     className={`border p-2 w-full mb-1 ${
-                        errors.contact_number ? "border-red-500" : ""
+                        errors.contact_number ? "border-error-500" : ""
                     }`}
                 />
                 {errors.contact_number && (
-                    <p className="text-red-500 text-sm">
+                    <p className="text-error-500 text-sm">
                         {errors.contact_number}
                     </p>
                 )}
@@ -127,11 +127,11 @@ const SupplierCreateFormForPharmacistUser: React.FC<
                     onChange={handleChange}
                     placeholder="Contact email for communication"
                     className={`border p-2 w-full mb-1 ${
-                        errors.contact_email ? "border-red-500" : ""
+                        errors.contact_email ? "border-error-500" : ""
                     }`}
                 />
                 {errors.contact_email && (
-                    <p className="text-red-500 text-sm">
+                    <p className="text-error-500 text-sm">
                         {errors.contact_email}
                     </p>
                 )}
@@ -199,11 +199,11 @@ const SupplierCreateFormForPharmacistUser: React.FC<
                     onChange={handleChange}
                     placeholder="List or reference to products supplied"
                     className={`border p-2 w-full mb-1 ${
-                        errors.products_supplied ? "border-red-500" : ""
+                        errors.products_supplied ? "border-error-500" : ""
                     }`}
                 />
                 {errors.products_supplied && (
-                    <p className="text-red-500 text-sm">
+                    <p className="text-error-500 text-sm">
                         {errors.products_supplied}
                     </p>
                 )}
@@ -305,7 +305,7 @@ const SupplierCreateFormForPharmacistUser: React.FC<
                     type="submit"
                     onClick={handleSupplierInsert}
                     disabled={isLoading}
-                    className="bg-blue-500 text-white px-4 py-2 rounded flex items-center justify-center"
+                    className="bg-primary-500 text-white px-4 py-2 rounded flex items-center justify-center"
                 >
                     {isLoading ? (
                         <>

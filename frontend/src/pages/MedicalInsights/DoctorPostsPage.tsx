@@ -29,7 +29,7 @@ interface DoctorPost {
 const categoryInfo: Record<string, { label: string; icon: React.ReactNode; color: string; bgColor: string }> = {
     success_story: { label: 'Success Story', icon: <FaHeart />, color: 'text-green-600', bgColor: 'bg-green-100' },
     medical_finding: { label: 'Medical Finding', icon: <FaFlask />, color: 'text-purple-600', bgColor: 'bg-purple-100' },
-    video_vlog: { label: 'Video Vlog', icon: <FaVideo />, color: 'text-red-600', bgColor: 'bg-red-100' },
+    video_vlog: { label: 'Video Vlog', icon: <FaVideo />, color: 'text-error-600', bgColor: 'bg-error-100' },
     research_article: { label: 'Research Article', icon: <FaNewspaper />, color: 'text-orange-600', bgColor: 'bg-orange-100' },
 };
 
@@ -160,20 +160,20 @@ const DoctorPostsPage: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-neutral-50">
             <div className="p-6">
                 {/* Header */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                            <FaBookMedical className="text-blue-600" />
+                        <h1 className="text-2xl font-bold text-neutral-800 flex items-center gap-2">
+                            <FaBookMedical className="text-primary-500" />
                             My Medical Insights
                         </h1>
-                        <p className="text-gray-500">Manage your posts, view analytics, and answer questions</p>
+                        <p className="text-neutral-500">Manage your posts, view analytics, and answer questions</p>
                     </div>
                     <Link
                         to="/doctor-dashboard/posts/create"
-                        className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                        className="flex items-center gap-2 bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors"
                     >
                         <FaPlus /> Create New Post
                     </Link>
@@ -184,8 +184,8 @@ const DoctorPostsPage: React.FC = () => {
                     <div className="bg-white rounded-lg shadow p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-gray-500 text-sm">Total Posts</p>
-                                <p className="text-2xl font-bold text-gray-800">{posts.length}</p>
+                                <p className="text-neutral-500 text-sm">Total Posts</p>
+                                <p className="text-2xl font-bold text-neutral-800">{posts.length}</p>
                             </div>
                             <FaBookMedical className="text-3xl text-blue-200" />
                         </div>
@@ -193,7 +193,7 @@ const DoctorPostsPage: React.FC = () => {
                     <div className="bg-white rounded-lg shadow p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-gray-500 text-sm">Published</p>
+                                <p className="text-neutral-500 text-sm">Published</p>
                                 <p className="text-2xl font-bold text-green-600">
                                     {posts.filter(p => p.status === 'published').length}
                                 </p>
@@ -204,8 +204,8 @@ const DoctorPostsPage: React.FC = () => {
                     <div className="bg-white rounded-lg shadow p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-gray-500 text-sm">Total Views</p>
-                                <p className="text-2xl font-bold text-gray-800">
+                                <p className="text-neutral-500 text-sm">Total Views</p>
+                                <p className="text-2xl font-bold text-neutral-800">
                                     {posts.reduce((sum, p) => sum + p.view_count, 0).toLocaleString()}
                                 </p>
                             </div>
@@ -215,7 +215,7 @@ const DoctorPostsPage: React.FC = () => {
                     <div className="bg-white rounded-lg shadow p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-gray-500 text-sm">Pending Questions</p>
+                                <p className="text-neutral-500 text-sm">Pending Questions</p>
                                 <p className="text-2xl font-bold text-orange-600">{pendingQuestionsCount}</p>
                             </div>
                             <FaQuestionCircle className="text-3xl text-orange-200" />
@@ -228,23 +228,23 @@ const DoctorPostsPage: React.FC = () => {
                     <div className="flex flex-col md:flex-row gap-4">
                         {/* Search */}
                         <div className="flex-1 relative">
-                            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400" />
                             <input
                                 type="text"
                                 placeholder="Search posts..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                             />
                         </div>
 
                         {/* Status Filter */}
                         <div className="flex items-center gap-2">
-                            <FaFilter className="text-gray-400" />
+                            <FaFilter className="text-neutral-400" />
                             <select
                                 value={statusFilter}
                                 onChange={(e) => setStatusFilter(e.target.value as any)}
-                                className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500"
                             >
                                 <option value="all">All Status</option>
                                 <option value="published">Published</option>
@@ -257,7 +257,7 @@ const DoctorPostsPage: React.FC = () => {
                             <select
                                 value={categoryFilter}
                                 onChange={(e) => setCategoryFilter(e.target.value)}
-                                className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500"
                             >
                                 <option value="all">All Categories</option>
                                 <option value="success_story">Success Stories</option>
@@ -272,13 +272,13 @@ const DoctorPostsPage: React.FC = () => {
                 {/* Posts List */}
                 {loading ? (
                     <div className="flex justify-center items-center py-20">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
                     </div>
                 ) : filteredPosts.length === 0 ? (
                     <div className="bg-white rounded-lg shadow p-8 text-center">
                         <FaBookMedical className="text-6xl text-gray-300 mx-auto mb-4" />
-                        <h3 className="text-xl font-semibold text-gray-600 mb-2">No posts found</h3>
-                        <p className="text-gray-500 mb-6">
+                        <h3 className="text-xl font-semibold text-neutral-600 mb-2">No posts found</h3>
+                        <p className="text-neutral-500 mb-6">
                             {posts.length === 0
                                 ? "You haven't created any posts yet. Share your knowledge with patients!"
                                 : "No posts match your current filters."
@@ -286,7 +286,7 @@ const DoctorPostsPage: React.FC = () => {
                         </p>
                         <Link
                             to="/doctor-dashboard/posts/create"
-                            className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
+                            className="inline-flex items-center gap-2 bg-primary-500 text-white px-6 py-3 rounded-lg hover:bg-primary-600"
                         >
                             <FaPlus /> Create Your First Post
                         </Link>
@@ -295,24 +295,24 @@ const DoctorPostsPage: React.FC = () => {
                     <div className="bg-white rounded-lg shadow overflow-hidden">
                         <div className="overflow-x-auto">
                             <table className="w-full">
-                                <thead className="bg-gray-50">
+                                <thead className="bg-neutral-50">
                                     <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Post
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Category
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Status
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Engagement
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Date
                                         </th>
-                                        <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-right text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Actions
                                         </th>
                                     </tr>
@@ -321,13 +321,13 @@ const DoctorPostsPage: React.FC = () => {
                                     {filteredPosts.map((post) => {
                                         const catInfo = categoryInfo[post.category];
                                         return (
-                                            <tr key={post.id} className="hover:bg-gray-50">
+                                            <tr key={post.id} className="hover:bg-neutral-50">
                                                 <td className="px-6 py-4">
                                                     <div className="max-w-xs">
-                                                        <p className="font-medium text-gray-800 truncate">
+                                                        <p className="font-medium text-neutral-800 truncate">
                                                             {post.title}
                                                         </p>
-                                                        <p className="text-sm text-gray-500">
+                                                        <p className="text-sm text-neutral-500">
                                                             {post.slug}
                                                         </p>
                                                     </div>
@@ -350,12 +350,12 @@ const DoctorPostsPage: React.FC = () => {
                                                     )}
                                                 </td>
                                                 <td className="px-6 py-4">
-                                                    <div className="flex items-center gap-4 text-sm text-gray-500">
+                                                    <div className="flex items-center gap-4 text-sm text-neutral-500">
                                                         <span className="flex items-center gap-1" title="Views">
                                                             <FaEye /> {post.view_count}
                                                         </span>
                                                         <span className="flex items-center gap-1" title="Likes">
-                                                            <FaHeart className="text-red-500" /> {post.like_count}
+                                                            <FaHeart className="text-error-500" /> {post.like_count}
                                                         </span>
                                                         <span className="flex items-center gap-1" title="Comments">
                                                             <FaComments /> {post.comment_count}
@@ -371,7 +371,7 @@ const DoctorPostsPage: React.FC = () => {
                                                         </span>
                                                     </div>
                                                 </td>
-                                                <td className="px-6 py-4 text-sm text-gray-500">
+                                                <td className="px-6 py-4 text-sm text-neutral-500">
                                                     {formatDate(post.created_at)}
                                                 </td>
                                                 <td className="px-6 py-4 text-right">
@@ -379,21 +379,21 @@ const DoctorPostsPage: React.FC = () => {
                                                         <Link
                                                             to={`/medical-insights/${post.slug}`}
                                                             target="_blank"
-                                                            className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                                            className="p-2 text-neutral-500 hover:text-primary-500 hover:bg-blue-50 rounded-lg transition-colors"
                                                             title="View"
                                                         >
                                                             <FaEye />
                                                         </Link>
                                                         <Link
                                                             to={`/doctor-dashboard/posts/edit/${post.id}`}
-                                                            className="p-2 text-gray-500 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                                                            className="p-2 text-neutral-500 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors"
                                                             title="Edit"
                                                         >
                                                             <FaEdit />
                                                         </Link>
                                                         <button
                                                             onClick={() => handleDeletePost(post.id)}
-                                                            className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                            className="p-2 text-neutral-500 hover:text-error-600 hover:bg-error-50 rounded-lg transition-colors"
                                                             title="Delete"
                                                         >
                                                             <FaTrash />

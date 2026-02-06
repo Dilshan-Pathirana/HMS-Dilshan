@@ -13,10 +13,10 @@ export const SelectAvailableSlots = ({
 
     return (
         <div>
-            <h4 className="text-lg font-semibold m-2 text-gray-800">
+            <h4 className="text-lg font-semibold m-2 text-neutral-800">
                 Available Slots
             </h4>
-            <div className="overflow-y-auto max-h-60 border border-gray-300 rounded-md p-4">
+            <div className="overflow-y-auto max-h-60 border border-neutral-300 rounded-md p-4">
                 <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-4">
                     {allSlotsChild.map((slot) => {
                         const isBooked = bookedSlotNumbers.includes(slot);
@@ -36,10 +36,10 @@ export const SelectAvailableSlots = ({
                                         isOriginalSlot
                                             ? "bg-blue-200 text-blue-800 border-2 border-blue-300 hover:bg-blue-300"
                                             : isBooked
-                                              ? "bg-yellow-200 text-gray-600 cursor-not-allowed"
+                                              ? "bg-yellow-200 text-neutral-600 cursor-not-allowed"
                                               : isSelected
                                                 ? "bg-red-600 text-white"
-                                                : "bg-gray-50 text-gray-800 hover:bg-blue-500 hover:text-white"
+                                                : "bg-neutral-50 text-neutral-800 hover:bg-primary-500 hover:text-white"
                                     }`}
                                     disabled={isBooked && !isOriginalSlot}
                                 >
@@ -47,7 +47,7 @@ export const SelectAvailableSlots = ({
                                         <FaUserMd
                                             className={`text-2xl ${
                                                 isOriginalSlot
-                                                    ? "text-blue-600"
+                                                    ? "text-primary-500"
                                                     : isBooked
                                                       ? "text-yellow-600"
                                                       : isSelected
@@ -62,8 +62,8 @@ export const SelectAvailableSlots = ({
                                                     : isOriginalSlot
                                                       ? "text-blue-800"
                                                       : isBooked
-                                                        ? "text-gray-600"
-                                                        : "text-gray-800"
+                                                        ? "text-neutral-600"
+                                                        : "text-neutral-800"
                                             }`}
                                         >
                                             No.{slot}

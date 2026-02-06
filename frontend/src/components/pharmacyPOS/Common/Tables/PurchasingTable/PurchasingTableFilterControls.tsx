@@ -28,7 +28,7 @@ const PurchasingTableFilterControls: React.FC<FilterControlsProps> = ({
     return (
         <div className="grid grid-cols-2 sm:grid-cols-6 gap-4 mb-4">
             <div className="relative">
-                <Search className="absolute w-5 h-5 text-gray-500 left-3 top-1/2 transform -translate-y-1/2" />
+                <Search className="absolute w-5 h-5 text-neutral-500 left-3 top-1/2 transform -translate-y-1/2" />
                 <input
                     type="text"
                     placeholder="Invoice ID"
@@ -37,7 +37,7 @@ const PurchasingTableFilterControls: React.FC<FilterControlsProps> = ({
                         setSearchTerm(e.target.value);
                         setCurrentPage(1);
                     }}
-                    className="border border-gray-300 rounded pl-10 pr-4 py-2 w-full"
+                    className="border border-neutral-300 rounded pl-10 pr-4 py-2 w-full"
                 />
             </div>
 
@@ -50,11 +50,11 @@ const PurchasingTableFilterControls: React.FC<FilterControlsProps> = ({
                     setSelectedMonth("");
                     setSelectedYear("");
                 }}
-                className="border border-gray-300 rounded pl-4 pr-4 py-2 w-full"
+                className="border border-neutral-300 rounded pl-4 pr-4 py-2 w-full"
             />
 
             <select
-                className="border border-gray-300 rounded pl-4 pr-4 py-2 w-full"
+                className="border border-neutral-300 rounded pl-4 pr-4 py-2 w-full"
                 value={selectedMonth}
                 onChange={(event) => {
                     setSelectedMonth(Number(event.target.value).toString());
@@ -72,7 +72,7 @@ const PurchasingTableFilterControls: React.FC<FilterControlsProps> = ({
             </select>
 
             <select
-                className="border border-gray-300 rounded pl-4 pr-4 py-2 w-full"
+                className="border border-neutral-300 rounded pl-4 pr-4 py-2 w-full"
                 value={selectedYear}
                 onChange={(event) => {
                     setSelectedYear(event.target.value);
@@ -89,14 +89,14 @@ const PurchasingTableFilterControls: React.FC<FilterControlsProps> = ({
 
             <button
                 onClick={exportSelectedRows}
-                className="bg-blue-700 text-white rounded px-4 py-2 w-full hover:bg-blue-800 transition duration-200"
+                className="bg-primary-600 text-white rounded px-4 py-2 w-full hover:bg-blue-800 transition duration-200"
             >
                 Get Report
             </button>
 
             <button
                 onClick={resetFilters}
-                className="bg-red-500 text-white rounded px-4 py-2 w-full hover:bg-red-600 transition duration-200"
+                className="bg-error-500 text-white rounded px-4 py-2 w-full hover:bg-red-600 transition duration-200"
             >
                 Reset Filters
             </button>

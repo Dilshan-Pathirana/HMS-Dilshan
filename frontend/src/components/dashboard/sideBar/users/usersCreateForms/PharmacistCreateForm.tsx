@@ -196,7 +196,7 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
             className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-white rounded-lg shadow-md"
         >
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     First Name
                 </label>
                 <input
@@ -204,17 +204,17 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     name="first_name"
                     value={formData.first_name}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
                 {errors.first_name && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <p className="text-error-500 text-sm mt-1">
                         {errors.first_name[0]}
                     </p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Last Name
                 </label>
                 <input
@@ -222,21 +222,21 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     name="last_name"
                     value={formData.last_name}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
                 {errors.last_name && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <p className="text-error-500 text-sm mt-1">
                         {errors.last_name[0]}
                     </p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    Branch <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    Branch <span className="text-error-500">*</span>
                 </label>
                 {isBranchAdmin ? (
-                    <div className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm bg-gray-100">
+                    <div className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm bg-neutral-100">
                         {userBranchName}
                         <input type="hidden" name="branch_id" value={userBranchId} />
                     </div>
@@ -255,7 +255,7 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Date of Birth
                 </label>
                 <input
@@ -263,19 +263,19 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     name="date_of_birth"
                     value={formData.date_of_birth}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Gender
                 </label>
                 <select
                     name="gender"
                     value={formData.gender}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 >
                     <option value="">Select Gender</option>
                     <option value="male">Male</option>
@@ -285,7 +285,7 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     NIC/Passport Number
                 </label>
                 <input
@@ -293,12 +293,12 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     name="nic_number"
                     value={formData.nic_number}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Mobile Number
                 </label>
                 <input
@@ -306,12 +306,12 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     name="contact_number_mobile"
                     value={formData.contact_number_mobile}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Landline Number
                 </label>
                 <input
@@ -319,12 +319,12 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     name="contact_number_landline"
                     value={formData.contact_number_landline}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Email
                 </label>
                 <input
@@ -332,29 +332,29 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
                 {errors.email && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <p className="text-error-500 text-sm mt-1">
                         {errors.email[0]}
                     </p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Home Address
                 </label>
                 <textarea
                     name="home_address"
                     value={formData.home_address}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Emergency Contact Information
                 </label>
                 <input
@@ -362,12 +362,12 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     name="emergency_contact_info"
                     value={formData.emergency_contact_info}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Upload Recent Photo (JPG/PDF)
                 </label>
                 <input
@@ -375,7 +375,7 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     name="photo"
                     accept=".jpg,.jpeg,.pdf"
                     onChange={handleFileChange}
-                    className="mt-1 block w-full text-sm text-gray-500 border border-dashed border-gray-300 p-2 rounded-md"
+                    className="mt-1 block w-full text-sm text-neutral-500 border border-dashed border-neutral-300 p-2 rounded-md"
                 />
                 {recentPhotoPreview && (
                     <div className="mt-2">
@@ -389,7 +389,7 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Upload NIC Photo (JPG/PDF)
                 </label>
                 <input
@@ -397,7 +397,7 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     name="nic_photo"
                     accept=".jpg,.jpeg,.pdf"
                     onChange={handleFileChange}
-                    className="mt-1 block w-full text-sm text-gray-500 border border-dashed border-gray-300 p-2 rounded-md"
+                    className="mt-1 block w-full text-sm text-neutral-500 border border-dashed border-neutral-300 p-2 rounded-md"
                 />
                 {nicPhotoPreview && (
                     <div className="mt-2">
@@ -411,7 +411,7 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Pharmacist Registration Number
                 </label>
                 <input
@@ -419,12 +419,12 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     name="pharmacist_registration_number"
                     value={formData.pharmacist_registration_number}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Work Experience
                 </label>
                 <input
@@ -432,12 +432,12 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     name="work_experience"
                     value={formData.work_experience}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Years of Experience
                 </label>
                 <input
@@ -445,12 +445,12 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     name="years_of_experience"
                     value={formData.years_of_experience}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Previous Employment
                 </label>
                 <input
@@ -458,12 +458,12 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     name="previous_employment"
                     value={formData.previous_employment}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     License Validity Date
                 </label>
                 <input
@@ -471,12 +471,12 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     name="license_validity_date"
                     value={formData.license_validity_date}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Qualifications
                 </label>
                 <input
@@ -484,12 +484,12 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     name="qualifications"
                     value={formData.qualifications}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Joining Date
                 </label>
                 <input
@@ -497,19 +497,19 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     name="joining_date"
                     value={formData.joining_date}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Contract Type
                 </label>
                 <select
                     name="contract_type"
                     value={formData.contract_type}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 >
                     <option value="">Select Contract Type</option>
                     <option value="full-time">Full-time</option>
@@ -517,13 +517,13 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     <option value="consultant">Consultant</option>
                 </select>
                 {errors.contract_type && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <p className="text-error-500 text-sm mt-1">
                         {errors.contract_type[0]}
                     </p>
                 )}
             </div>
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Contract Duration
                 </label>
                 <input
@@ -531,12 +531,12 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     name="contract_duration"
                     value={formData.contract_duration}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Probation Start Date
                 </label>
                 <input
@@ -544,12 +544,12 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     name="probation_start_date"
                     value={formData.probation_start_date}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Probation End Date
                 </label>
                 <input
@@ -557,12 +557,12 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     name="probation_end_date"
                     value={formData.probation_end_date}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Basic Salary
                 </label>
                 <input
@@ -572,12 +572,12 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     value={formData.basic_salary}
                     onChange={handleInputChange}
                     placeholder="Enter basic salary"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Compensation Package
                 </label>
                 <input
@@ -585,13 +585,13 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     name="compensation_package"
                     value={formData.compensation_package}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    Password <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    Password <span className="text-error-500">*</span>
                 </label>
                 <div className="relative">
                     <input
@@ -600,26 +600,26 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                         value={formData.password}
                         onChange={handleInputChange}
                         placeholder="Enter login password (min 6 characters)"
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm pr-10"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm pr-10"
                     />
                     <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-neutral-500 hover:text-neutral-700"
                     >
                         {showPassword ? '🙈' : '👁️'}
                     </button>
                 </div>
                 {errors.password && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <p className="text-error-500 text-sm mt-1">
                         {errors.password[0]}
                     </p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    Confirm Password <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    Confirm Password <span className="text-error-500">*</span>
                 </label>
                 <div className="relative">
                     <input
@@ -628,12 +628,12 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         placeholder="Confirm password"
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm pr-10"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm pr-10"
                     />
                     <button
                         type="button"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-neutral-500 hover:text-neutral-700"
                     >
                         {showConfirmPassword ? '🙈' : '👁️'}
                     </button>
@@ -643,7 +643,7 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
             <div className="col-span-2 flex justify-center mt-6">
                 <button
                     type="submit"
-                    className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="bg-primary-500 text-white px-6 py-2 rounded hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-blue-400"
                 >
                     Create Pharmacist
                 </button>

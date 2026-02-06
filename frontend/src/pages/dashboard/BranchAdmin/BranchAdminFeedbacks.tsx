@@ -342,7 +342,7 @@ export const BranchAdminFeedbacks: React.FC = () => {
             'in-review': { bg: 'bg-blue-100', text: 'text-blue-700', icon: <Eye className="w-3 h-3" /> },
             responded: { bg: 'bg-purple-100', text: 'text-purple-700', icon: <MessageCircle className="w-3 h-3" /> },
             resolved: { bg: 'bg-green-100', text: 'text-green-700', icon: <CheckCircle className="w-3 h-3" /> },
-            closed: { bg: 'bg-gray-100', text: 'text-gray-700', icon: <X className="w-3 h-3" /> }
+            closed: { bg: 'bg-neutral-100', text: 'text-neutral-700', icon: <X className="w-3 h-3" /> }
         };
         const badge = badges[status] || badges.pending;
         return (
@@ -355,10 +355,10 @@ export const BranchAdminFeedbacks: React.FC = () => {
 
     const getPriorityBadge = (priority: string) => {
         const badges: Record<string, { bg: string; text: string }> = {
-            low: { bg: 'bg-gray-100', text: 'text-gray-600' },
-            medium: { bg: 'bg-blue-100', text: 'text-blue-600' },
+            low: { bg: 'bg-neutral-100', text: 'text-neutral-600' },
+            medium: { bg: 'bg-blue-100', text: 'text-primary-500' },
             high: { bg: 'bg-orange-100', text: 'text-orange-600' },
-            urgent: { bg: 'bg-red-100', text: 'text-red-600' }
+            urgent: { bg: 'bg-error-100', text: 'text-error-600' }
         };
         const badge = badges[priority] || badges.medium;
         return (
@@ -387,13 +387,13 @@ export const BranchAdminFeedbacks: React.FC = () => {
         const icons: Record<string, React.ReactNode> = {
             positive: <ThumbsUp className="w-4 h-4 text-green-500" />,
             neutral: <Meh className="w-4 h-4 text-yellow-500" />,
-            negative: <ThumbsDown className="w-4 h-4 text-red-500" />
+            negative: <ThumbsDown className="w-4 h-4 text-error-500" />
         };
         return icons[experience];
     };
 
     const renderStars = (rating: number | null) => {
-        if (!rating) return <span className="text-gray-400 text-sm">No rating</span>;
+        if (!rating) return <span className="text-neutral-400 text-sm">No rating</span>;
         return (
             <div className="flex items-center gap-0.5">
                 {[1, 2, 3, 4, 5].map((star) => (
@@ -429,8 +429,8 @@ export const BranchAdminFeedbacks: React.FC = () => {
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900">Feedback Management</h1>
-                        <p className="text-gray-600 mt-1">Review and respond to feedback from patients and staff</p>
+                        <h1 className="text-2xl font-bold text-neutral-900">Feedback Management</h1>
+                        <p className="text-neutral-600 mt-1">Review and respond to feedback from patients and staff</p>
                     </div>
                     <button
                         onClick={() => { fetchFeedbacks(); fetchStats(); }}
@@ -447,11 +447,11 @@ export const BranchAdminFeedbacks: React.FC = () => {
                         <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                             <div className="flex items-center gap-3">
                                 <div className="p-2 bg-blue-100 rounded-lg">
-                                    <MessageSquare className="w-5 h-5 text-blue-600" />
+                                    <MessageSquare className="w-5 h-5 text-primary-500" />
                                 </div>
                                 <div>
-                                    <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
-                                    <p className="text-xs text-gray-500">Total</p>
+                                    <p className="text-2xl font-bold text-neutral-900">{stats.total}</p>
+                                    <p className="text-xs text-neutral-500">Total</p>
                                 </div>
                             </div>
                         </div>
@@ -461,8 +461,8 @@ export const BranchAdminFeedbacks: React.FC = () => {
                                     <Clock className="w-5 h-5 text-yellow-600" />
                                 </div>
                                 <div>
-                                    <p className="text-2xl font-bold text-gray-900">{stats.pending}</p>
-                                    <p className="text-xs text-gray-500">Pending</p>
+                                    <p className="text-2xl font-bold text-neutral-900">{stats.pending}</p>
+                                    <p className="text-xs text-neutral-500">Pending</p>
                                 </div>
                             </div>
                         </div>
@@ -472,8 +472,8 @@ export const BranchAdminFeedbacks: React.FC = () => {
                                     <Eye className="w-5 h-5 text-purple-600" />
                                 </div>
                                 <div>
-                                    <p className="text-2xl font-bold text-gray-900">{stats.in_review}</p>
-                                    <p className="text-xs text-gray-500">In Review</p>
+                                    <p className="text-2xl font-bold text-neutral-900">{stats.in_review}</p>
+                                    <p className="text-xs text-neutral-500">In Review</p>
                                 </div>
                             </div>
                         </div>
@@ -483,19 +483,19 @@ export const BranchAdminFeedbacks: React.FC = () => {
                                     <CheckCircle className="w-5 h-5 text-green-600" />
                                 </div>
                                 <div>
-                                    <p className="text-2xl font-bold text-gray-900">{stats.resolved}</p>
-                                    <p className="text-xs text-gray-500">Resolved</p>
+                                    <p className="text-2xl font-bold text-neutral-900">{stats.resolved}</p>
+                                    <p className="text-xs text-neutral-500">Resolved</p>
                                 </div>
                             </div>
                         </div>
                         <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                             <div className="flex items-center gap-3">
-                                <div className="p-2 bg-red-100 rounded-lg">
-                                    <Flag className="w-5 h-5 text-red-600" />
+                                <div className="p-2 bg-error-100 rounded-lg">
+                                    <Flag className="w-5 h-5 text-error-600" />
                                 </div>
                                 <div>
-                                    <p className="text-2xl font-bold text-gray-900">{stats.flagged}</p>
-                                    <p className="text-xs text-gray-500">Flagged</p>
+                                    <p className="text-2xl font-bold text-neutral-900">{stats.flagged}</p>
+                                    <p className="text-xs text-neutral-500">Flagged</p>
                                 </div>
                             </div>
                         </div>
@@ -505,8 +505,8 @@ export const BranchAdminFeedbacks: React.FC = () => {
                                     <Star className="w-5 h-5 text-amber-600" />
                                 </div>
                                 <div>
-                                    <p className="text-2xl font-bold text-gray-900">{stats.average_rating.toFixed(1)}</p>
-                                    <p className="text-xs text-gray-500">Avg Rating</p>
+                                    <p className="text-2xl font-bold text-neutral-900">{stats.average_rating.toFixed(1)}</p>
+                                    <p className="text-xs text-neutral-500">Avg Rating</p>
                                 </div>
                             </div>
                         </div>
@@ -519,14 +519,14 @@ export const BranchAdminFeedbacks: React.FC = () => {
                         {/* Search */}
                         <div className="flex-1 min-w-[200px]">
                             <div className="relative">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
                                 <input
                                     type="text"
                                     placeholder="Search feedbacks..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                     onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                                    className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                    className="w-full pl-10 pr-4 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                 />
                             </div>
                         </div>
@@ -535,7 +535,7 @@ export const BranchAdminFeedbacks: React.FC = () => {
                         <select
                             value={filterCategory}
                             onChange={(e) => setFilterCategory(e.target.value)}
-                            className="px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                            className="px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500"
                         >
                             {CATEGORIES.map((cat) => (
                                 <option key={cat.value} value={cat.value}>{cat.label}</option>
@@ -546,7 +546,7 @@ export const BranchAdminFeedbacks: React.FC = () => {
                         <select
                             value={filterStatus}
                             onChange={(e) => setFilterStatus(e.target.value)}
-                            className="px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                            className="px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500"
                         >
                             {STATUSES.map((status) => (
                                 <option key={status.value} value={status.value}>{status.label}</option>
@@ -557,7 +557,7 @@ export const BranchAdminFeedbacks: React.FC = () => {
                         <select
                             value={filterPriority}
                             onChange={(e) => setFilterPriority(e.target.value)}
-                            className="px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                            className="px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500"
                         >
                             {PRIORITIES.map((priority) => (
                                 <option key={priority.value} value={priority.value}>{priority.label}</option>
@@ -568,7 +568,7 @@ export const BranchAdminFeedbacks: React.FC = () => {
                         <select
                             value={filterUserType}
                             onChange={(e) => setFilterUserType(e.target.value)}
-                            className="px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                            className="px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500"
                         >
                             {USER_TYPES.map((type) => (
                                 <option key={type.value} value={type.value}>{type.label}</option>
@@ -580,8 +580,8 @@ export const BranchAdminFeedbacks: React.FC = () => {
                             onClick={() => setShowFlagged(!showFlagged)}
                             className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors ${
                                 showFlagged 
-                                    ? 'bg-red-100 border-red-300 text-red-700' 
-                                    : 'border-gray-200 text-gray-600 hover:bg-gray-50'
+                                    ? 'bg-error-100 border-red-300 text-red-700' 
+                                    : 'border-neutral-200 text-neutral-600 hover:bg-neutral-50'
                             }`}
                         >
                             <Flag className="w-4 h-4" />
@@ -599,30 +599,30 @@ export const BranchAdminFeedbacks: React.FC = () => {
                     ) : feedbacks.length === 0 ? (
                         <div className="text-center py-12">
                             <MessageSquare className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                            <p className="text-gray-500">No feedbacks found</p>
+                            <p className="text-neutral-500">No feedbacks found</p>
                         </div>
                     ) : (
                         <div className="divide-y divide-gray-100">
                             {feedbacks.map((feedback) => (
                                 <div
                                     key={feedback.id}
-                                    className={`p-4 hover:bg-gray-50 transition-colors ${feedback.is_flagged ? 'bg-red-50' : ''}`}
+                                    className={`p-4 hover:bg-neutral-50 transition-colors ${feedback.is_flagged ? 'bg-error-50' : ''}`}
                                 >
                                     <div className="flex items-start justify-between gap-4">
                                         <div className="flex-1">
                                             <div className="flex items-center gap-3 mb-2">
                                                 <span className="text-xl">{getCategoryIcon(feedback.category)}</span>
-                                                <h3 className="font-semibold text-gray-900">{feedback.subject}</h3>
+                                                <h3 className="font-semibold text-neutral-900">{feedback.subject}</h3>
                                                 {feedback.is_flagged && (
-                                                    <Flag className="w-4 h-4 text-red-500 fill-red-500" />
+                                                    <Flag className="w-4 h-4 text-error-500 fill-red-500" />
                                                 )}
                                             </div>
                                             
-                                            <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500 mb-3">
+                                            <div className="flex flex-wrap items-center gap-3 text-sm text-neutral-500 mb-3">
                                                 <span className="flex items-center gap-1">
                                                     <User className="w-3.5 h-3.5" />
                                                     {feedback.user_name}
-                                                    <span className="text-xs bg-gray-100 px-1.5 py-0.5 rounded">
+                                                    <span className="text-xs bg-neutral-100 px-1.5 py-0.5 rounded">
                                                         {feedback.user_type}
                                                     </span>
                                                 </span>
@@ -644,7 +644,7 @@ export const BranchAdminFeedbacks: React.FC = () => {
                                                 </span>
                                             </div>
 
-                                            <p className={`text-gray-600 ${expandedId === feedback.id ? '' : 'line-clamp-2'}`}>
+                                            <p className={`text-neutral-600 ${expandedId === feedback.id ? '' : 'line-clamp-2'}`}>
                                                 {feedback.description}
                                             </p>
                                             {feedback.description.length > 150 && (
@@ -684,7 +684,7 @@ export const BranchAdminFeedbacks: React.FC = () => {
                                                     setSelectedFeedback(feedback);
                                                     setShowDetailModal(true);
                                                 }}
-                                                className="flex items-center gap-1 px-3 py-1.5 text-sm bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200"
+                                                className="flex items-center gap-1 px-3 py-1.5 text-sm bg-neutral-100 text-neutral-600 rounded-lg hover:bg-neutral-200"
                                             >
                                                 <CheckCircle className="w-3.5 h-3.5 text-emerald-500" />
                                                 Responded
@@ -705,7 +705,7 @@ export const BranchAdminFeedbacks: React.FC = () => {
                                         <select
                                             value={feedback.status}
                                             onChange={(e) => handleUpdateStatus(feedback.id, e.target.value)}
-                                            className="px-2 py-1.5 text-sm border border-gray-200 rounded-lg"
+                                            className="px-2 py-1.5 text-sm border border-neutral-200 rounded-lg"
                                         >
                                             <option value="pending">Pending</option>
                                             <option value="in-review">In Review</option>
@@ -717,7 +717,7 @@ export const BranchAdminFeedbacks: React.FC = () => {
                                         <select
                                             value={feedback.priority}
                                             onChange={(e) => handleUpdatePriority(feedback.id, e.target.value)}
-                                            className="px-2 py-1.5 text-sm border border-gray-200 rounded-lg"
+                                            className="px-2 py-1.5 text-sm border border-neutral-200 rounded-lg"
                                         >
                                             <option value="low">Low</option>
                                             <option value="medium">Medium</option>
@@ -729,8 +729,8 @@ export const BranchAdminFeedbacks: React.FC = () => {
                                             onClick={() => handleToggleFlag(feedback.id)}
                                             className={`flex items-center gap-1 px-3 py-1.5 text-sm rounded-lg border ${
                                                 feedback.is_flagged
-                                                    ? 'bg-red-100 border-red-300 text-red-700'
-                                                    : 'border-gray-200 text-gray-600 hover:bg-gray-50'
+                                                    ? 'bg-error-100 border-red-300 text-red-700'
+                                                    : 'border-neutral-200 text-neutral-600 hover:bg-neutral-50'
                                             }`}
                                         >
                                             <Flag className="w-3.5 h-3.5" />
@@ -742,7 +742,7 @@ export const BranchAdminFeedbacks: React.FC = () => {
                                                 setSelectedFeedback(feedback);
                                                 setShowDetailModal(true);
                                             }}
-                                            className="flex items-center gap-1 px-3 py-1.5 text-sm border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50"
+                                            className="flex items-center gap-1 px-3 py-1.5 text-sm border border-neutral-200 rounded-lg text-neutral-600 hover:bg-neutral-50"
                                         >
                                             <Eye className="w-3.5 h-3.5" />
                                             Details
@@ -763,29 +763,29 @@ export const BranchAdminFeedbacks: React.FC = () => {
                                     <h3 className="text-lg font-semibold">Respond to Feedback</h3>
                                     <button
                                         onClick={() => setShowResponseModal(false)}
-                                        className="p-2 hover:bg-gray-100 rounded-lg"
+                                        className="p-2 hover:bg-neutral-100 rounded-lg"
                                     >
                                         <X className="w-5 h-5" />
                                     </button>
                                 </div>
                             </div>
                             <div className="p-6">
-                                <div className="mb-4 p-3 bg-gray-50 rounded-lg">
-                                    <p className="text-sm font-medium text-gray-700">{selectedFeedback.subject}</p>
-                                    <p className="text-sm text-gray-500 mt-1">{selectedFeedback.description}</p>
+                                <div className="mb-4 p-3 bg-neutral-50 rounded-lg">
+                                    <p className="text-sm font-medium text-neutral-700">{selectedFeedback.subject}</p>
+                                    <p className="text-sm text-neutral-500 mt-1">{selectedFeedback.description}</p>
                                 </div>
                                 <textarea
                                     value={responseText}
                                     onChange={(e) => setResponseText(e.target.value)}
                                     placeholder="Type your response here..."
                                     rows={5}
-                                    className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                    className="w-full p-3 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                 />
                             </div>
                             <div className="p-6 border-t border-gray-100 flex justify-end gap-3">
                                 <button
                                     onClick={() => setShowResponseModal(false)}
-                                    className="px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50"
+                                    className="px-4 py-2 border border-neutral-200 rounded-lg hover:bg-neutral-50"
                                 >
                                     Cancel
                                 </button>
@@ -812,7 +812,7 @@ export const BranchAdminFeedbacks: React.FC = () => {
                                     <h3 className="text-lg font-semibold">Feedback Details</h3>
                                     <button
                                         onClick={() => setShowDetailModal(false)}
-                                        className="p-2 hover:bg-gray-100 rounded-lg"
+                                        className="p-2 hover:bg-neutral-100 rounded-lg"
                                     >
                                         <X className="w-5 h-5" />
                                     </button>
@@ -821,31 +821,31 @@ export const BranchAdminFeedbacks: React.FC = () => {
                             <div className="p-6 space-y-4">
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <p className="text-sm text-gray-500">User</p>
+                                        <p className="text-sm text-neutral-500">User</p>
                                         <p className="font-medium">{selectedFeedback.user_name}</p>
-                                        <p className="text-sm text-gray-400">{selectedFeedback.user_type}</p>
+                                        <p className="text-sm text-neutral-400">{selectedFeedback.user_type}</p>
                                     </div>
                                     <div>
-                                        <p className="text-sm text-gray-500">Category</p>
+                                        <p className="text-sm text-neutral-500">Category</p>
                                         <p className="font-medium flex items-center gap-2">
                                             {getCategoryIcon(selectedFeedback.category)}
                                             {selectedFeedback.category}
                                         </p>
                                     </div>
                                     <div>
-                                        <p className="text-sm text-gray-500">Status</p>
+                                        <p className="text-sm text-neutral-500">Status</p>
                                         {getStatusBadge(selectedFeedback.status)}
                                     </div>
                                     <div>
-                                        <p className="text-sm text-gray-500">Priority</p>
+                                        <p className="text-sm text-neutral-500">Priority</p>
                                         {getPriorityBadge(selectedFeedback.priority)}
                                     </div>
                                     <div>
-                                        <p className="text-sm text-gray-500">Rating</p>
+                                        <p className="text-sm text-neutral-500">Rating</p>
                                         {renderStars(selectedFeedback.rating)}
                                     </div>
                                     <div>
-                                        <p className="text-sm text-gray-500">Experience</p>
+                                        <p className="text-sm text-neutral-500">Experience</p>
                                         <div className="flex items-center gap-2">
                                             {getExperienceIcon(selectedFeedback.experience)}
                                             <span className="capitalize">{selectedFeedback.experience || 'Not specified'}</span>
@@ -853,26 +853,26 @@ export const BranchAdminFeedbacks: React.FC = () => {
                                     </div>
                                     {selectedFeedback.branch_name && (
                                         <div>
-                                            <p className="text-sm text-gray-500">Branch</p>
+                                            <p className="text-sm text-neutral-500">Branch</p>
                                             <p className="font-medium">{selectedFeedback.branch_name}</p>
                                         </div>
                                     )}
                                     {selectedFeedback.doctor_name && (
                                         <div>
-                                            <p className="text-sm text-gray-500">Doctor</p>
+                                            <p className="text-sm text-neutral-500">Doctor</p>
                                             <p className="font-medium">{selectedFeedback.doctor_name}</p>
                                         </div>
                                     )}
                                 </div>
 
                                 <div>
-                                    <p className="text-sm text-gray-500 mb-1">Subject</p>
+                                    <p className="text-sm text-neutral-500 mb-1">Subject</p>
                                     <p className="font-medium text-lg">{selectedFeedback.subject}</p>
                                 </div>
 
                                 <div>
-                                    <p className="text-sm text-gray-500 mb-1">Description</p>
-                                    <p className="text-gray-700 whitespace-pre-wrap">{selectedFeedback.description}</p>
+                                    <p className="text-sm text-neutral-500 mb-1">Description</p>
+                                    <p className="text-neutral-700 whitespace-pre-wrap">{selectedFeedback.description}</p>
                                 </div>
 
                                 {selectedFeedback.admin_response && (
@@ -892,7 +892,7 @@ export const BranchAdminFeedbacks: React.FC = () => {
                                     </div>
                                 )}
 
-                                <div className="text-sm text-gray-400">
+                                <div className="text-sm text-neutral-400">
                                     <p>Created: {formatDate(selectedFeedback.created_at)}</p>
                                     <p>Updated: {formatDate(selectedFeedback.updated_at)}</p>
                                 </div>

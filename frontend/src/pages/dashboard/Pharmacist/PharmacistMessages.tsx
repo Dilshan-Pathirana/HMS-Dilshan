@@ -121,7 +121,7 @@ export const PharmacistMessages: React.FC = () => {
     const getPriorityBadge = (priority: string) => {
         switch (priority) {
             case 'urgent':
-                return <span className="px-2 py-0.5 bg-red-100 text-red-800 text-xs rounded-full">Urgent</span>;
+                return <span className="px-2 py-0.5 bg-error-100 text-red-800 text-xs rounded-full">Urgent</span>;
             case 'clarification':
                 return <span className="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded-full">Clarification</span>;
             default:
@@ -145,16 +145,16 @@ export const PharmacistMessages: React.FC = () => {
     const unreadCount = messages.filter(m => !m.is_read && m.type === 'received').length;
 
     return (
-        <div className="ml-0 md:ml-64 pt-24 min-h-screen bg-gray-50">
+        <div className="ml-0 md:ml-64 pt-24 min-h-screen bg-neutral-50">
             <div className="p-6">
                 {/* Header */}
                 <div className="flex justify-between items-start mb-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                        <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2">
                             <MessageSquare className="w-7 h-7 text-purple-600" />
                             Messages & Communication
                         </h1>
-                        <p className="text-gray-600">Internal messaging with doctors and staff</p>
+                        <p className="text-neutral-600">Internal messaging with doctors and staff</p>
                     </div>
                     <button
                         onClick={() => setShowCompose(true)}
@@ -170,7 +170,7 @@ export const PharmacistMessages: React.FC = () => {
                     <div className="lg:col-span-1">
                         <div className="bg-white rounded-lg shadow">
                             <div className="p-4 border-b">
-                                <h3 className="font-semibold text-gray-900 flex items-center gap-2">
+                                <h3 className="font-semibold text-neutral-900 flex items-center gap-2">
                                     <Users className="w-5 h-5" />
                                     Quick Contacts
                                 </h3>
@@ -184,7 +184,7 @@ export const PharmacistMessages: React.FC = () => {
                                             setShowCompose(true);
                                             setNewMessage(prev => ({ ...prev, to: contact.name }));
                                         }}
-                                        className={`p-3 rounded-lg hover:bg-gray-50 cursor-pointer ${
+                                        className={`p-3 rounded-lg hover:bg-neutral-50 cursor-pointer ${
                                             selectedContact?.id === contact.id ? 'bg-purple-50' : ''
                                         }`}
                                     >
@@ -196,8 +196,8 @@ export const PharmacistMessages: React.FC = () => {
                                                 <span className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 ${getStatusColor(contact.status)} rounded-full border-2 border-white`} />
                                             </div>
                                             <div className="flex-1 min-w-0">
-                                                <p className="font-medium text-gray-900 truncate">{contact.name}</p>
-                                                <p className="text-xs text-gray-500">{contact.department}</p>
+                                                <p className="font-medium text-neutral-900 truncate">{contact.name}</p>
+                                                <p className="text-xs text-neutral-500">{contact.department}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -216,17 +216,17 @@ export const PharmacistMessages: React.FC = () => {
                                     className={`flex-1 px-4 py-3 text-sm font-medium ${
                                         activeTab === 'inbox' 
                                             ? 'text-purple-600 border-b-2 border-purple-600' 
-                                            : 'text-gray-500 hover:text-gray-700'
+                                            : 'text-neutral-500 hover:text-neutral-700'
                                     }`}
                                 >
-                                    Inbox {unreadCount > 0 && <span className="ml-1 px-2 py-0.5 bg-red-500 text-white text-xs rounded-full">{unreadCount}</span>}
+                                    Inbox {unreadCount > 0 && <span className="ml-1 px-2 py-0.5 bg-error-500 text-white text-xs rounded-full">{unreadCount}</span>}
                                 </button>
                                 <button
                                     onClick={() => setActiveTab('sent')}
                                     className={`flex-1 px-4 py-3 text-sm font-medium ${
                                         activeTab === 'sent' 
                                             ? 'text-purple-600 border-b-2 border-purple-600' 
-                                            : 'text-gray-500 hover:text-gray-700'
+                                            : 'text-neutral-500 hover:text-neutral-700'
                                     }`}
                                 >
                                     Sent
@@ -236,7 +236,7 @@ export const PharmacistMessages: React.FC = () => {
                                     className={`flex-1 px-4 py-3 text-sm font-medium ${
                                         activeTab === 'clarifications' 
                                             ? 'text-purple-600 border-b-2 border-purple-600' 
-                                            : 'text-gray-500 hover:text-gray-700'
+                                            : 'text-neutral-500 hover:text-neutral-700'
                                     }`}
                                 >
                                     Clarifications
@@ -246,7 +246,7 @@ export const PharmacistMessages: React.FC = () => {
                                     className={`flex-1 px-4 py-3 text-sm font-medium ${
                                         activeTab === 'handover' 
                                             ? 'text-purple-600 border-b-2 border-purple-600' 
-                                            : 'text-gray-500 hover:text-gray-700'
+                                            : 'text-neutral-500 hover:text-neutral-700'
                                     }`}
                                 >
                                     Handover Notes
@@ -256,13 +256,13 @@ export const PharmacistMessages: React.FC = () => {
                             {/* Search */}
                             <div className="p-4 border-b">
                                 <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400" />
                                     <input
                                         type="text"
                                         placeholder="Search messages..."
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                                        className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-purple-500"
                                     />
                                 </div>
                             </div>
@@ -272,7 +272,7 @@ export const PharmacistMessages: React.FC = () => {
                                 {activeTab === 'handover' ? (
                                     <div className="p-8 text-center">
                                         <FileText className="w-12 h-12 text-gray-300 mx-auto mb-2" />
-                                        <p className="text-gray-500">Shift handover notes appear here</p>
+                                        <p className="text-neutral-500">Shift handover notes appear here</p>
                                         <button className="mt-4 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
                                             Create Handover Note
                                         </button>
@@ -280,14 +280,14 @@ export const PharmacistMessages: React.FC = () => {
                                 ) : filteredMessages.length === 0 ? (
                                     <div className="p-8 text-center">
                                         <MessageSquare className="w-12 h-12 text-gray-300 mx-auto mb-2" />
-                                        <p className="text-gray-500">No messages found</p>
+                                        <p className="text-neutral-500">No messages found</p>
                                     </div>
                                 ) : (
                                     filteredMessages.map((message) => (
                                         <div
                                             key={message.id}
                                             onClick={() => setSelectedMessage(message)}
-                                            className={`p-4 hover:bg-gray-50 cursor-pointer ${
+                                            className={`p-4 hover:bg-neutral-50 cursor-pointer ${
                                                 !message.is_read ? 'bg-purple-50' : ''
                                             }`}
                                         >
@@ -302,7 +302,7 @@ export const PharmacistMessages: React.FC = () => {
                                                 <div className="flex-1 min-w-0">
                                                     <div className="flex items-center justify-between">
                                                         <div className="flex items-center gap-2">
-                                                            <span className={`font-medium ${!message.is_read ? 'text-gray-900' : 'text-gray-700'}`}>
+                                                            <span className={`font-medium ${!message.is_read ? 'text-neutral-900' : 'text-neutral-700'}`}>
                                                                 {message.type === 'sent' ? `To: ${message.recipient}` : message.sender}
                                                             </span>
                                                             {getPriorityBadge(message.priority)}
@@ -310,25 +310,25 @@ export const PharmacistMessages: React.FC = () => {
                                                                 <span className="w-2 h-2 bg-purple-600 rounded-full" />
                                                             )}
                                                         </div>
-                                                        <span className="text-xs text-gray-500 flex items-center gap-1">
+                                                        <span className="text-xs text-neutral-500 flex items-center gap-1">
                                                             <Clock className="w-3 h-3" />
                                                             {new Date(message.timestamp).toLocaleString()}
                                                         </span>
                                                     </div>
-                                                    <p className={`text-sm ${!message.is_read ? 'font-semibold text-gray-900' : 'text-gray-700'}`}>
+                                                    <p className={`text-sm ${!message.is_read ? 'font-semibold text-neutral-900' : 'text-neutral-700'}`}>
                                                         {message.subject}
                                                     </p>
-                                                    <p className="text-sm text-gray-500 truncate mt-1">
+                                                    <p className="text-sm text-neutral-500 truncate mt-1">
                                                         {message.content}
                                                     </p>
                                                     {message.related_prescription && (
-                                                        <div className="mt-2 flex items-center gap-1 text-xs text-blue-600">
+                                                        <div className="mt-2 flex items-center gap-1 text-xs text-primary-500">
                                                             <FileText className="w-3 h-3" />
                                                             Related: {message.related_prescription}
                                                         </div>
                                                     )}
                                                 </div>
-                                                <ChevronRight className="w-5 h-5 text-gray-400" />
+                                                <ChevronRight className="w-5 h-5 text-neutral-400" />
                                             </div>
                                         </div>
                                     ))
@@ -343,45 +343,45 @@ export const PharmacistMessages: React.FC = () => {
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                         <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4">
                             <div className="p-4 border-b flex items-center justify-between">
-                                <h3 className="font-semibold text-gray-900 flex items-center gap-2">
+                                <h3 className="font-semibold text-neutral-900 flex items-center gap-2">
                                     <Send className="w-5 h-5 text-purple-600" />
                                     New Message
                                 </h3>
                                 <button
                                     onClick={() => setShowCompose(false)}
-                                    className="text-gray-400 hover:text-gray-600"
+                                    className="text-neutral-400 hover:text-neutral-600"
                                 >
                                     &times;
                                 </button>
                             </div>
                             <div className="p-4 space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">To:</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">To:</label>
                                     <input
                                         type="text"
                                         value={newMessage.to}
                                         onChange={(e) => setNewMessage(prev => ({ ...prev, to: e.target.value }))}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-purple-500"
                                         placeholder="Search for a contact..."
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Subject:</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Subject:</label>
                                     <input
                                         type="text"
                                         value={newMessage.subject}
                                         onChange={(e) => setNewMessage(prev => ({ ...prev, subject: e.target.value }))}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-purple-500"
                                         placeholder="Enter subject..."
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Message:</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Message:</label>
                                     <textarea
                                         value={newMessage.content}
                                         onChange={(e) => setNewMessage(prev => ({ ...prev, content: e.target.value }))}
                                         rows={6}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-purple-500"
                                         placeholder="Type your message..."
                                     />
                                 </div>
@@ -389,7 +389,7 @@ export const PharmacistMessages: React.FC = () => {
                             <div className="p-4 border-t flex justify-end gap-3">
                                 <button
                                     onClick={() => setShowCompose(false)}
-                                    className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50"
+                                    className="px-4 py-2 text-neutral-600 border border-neutral-300 rounded-lg hover:bg-neutral-50"
                                 >
                                     Cancel
                                 </button>
@@ -408,8 +408,8 @@ export const PharmacistMessages: React.FC = () => {
                         <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4 max-h-[80vh] overflow-y-auto">
                             <div className="p-4 border-b flex items-center justify-between sticky top-0 bg-white">
                                 <div>
-                                    <h3 className="font-semibold text-gray-900">{selectedMessage.subject}</h3>
-                                    <p className="text-sm text-gray-500">
+                                    <h3 className="font-semibold text-neutral-900">{selectedMessage.subject}</h3>
+                                    <p className="text-sm text-neutral-500">
                                         {selectedMessage.type === 'sent' ? 
                                             `To: ${selectedMessage.recipient}` : 
                                             `From: ${selectedMessage.sender}`
@@ -418,20 +418,20 @@ export const PharmacistMessages: React.FC = () => {
                                 </div>
                                 <button
                                     onClick={() => setSelectedMessage(null)}
-                                    className="text-gray-400 hover:text-gray-600 text-2xl"
+                                    className="text-neutral-400 hover:text-neutral-600 text-2xl"
                                 >
                                     &times;
                                 </button>
                             </div>
                             <div className="p-6">
-                                <div className="flex items-center gap-4 mb-4 text-sm text-gray-500">
+                                <div className="flex items-center gap-4 mb-4 text-sm text-neutral-500">
                                     <span>{selectedMessage.sender_role}</span>
                                     <span>•</span>
                                     <span>{new Date(selectedMessage.timestamp).toLocaleString()}</span>
                                     {getPriorityBadge(selectedMessage.priority)}
                                 </div>
                                 <div className="prose max-w-none">
-                                    <p className="text-gray-800 whitespace-pre-wrap">{selectedMessage.content}</p>
+                                    <p className="text-neutral-800 whitespace-pre-wrap">{selectedMessage.content}</p>
                                 </div>
                                 {selectedMessage.related_prescription && (
                                     <div className="mt-6 p-3 bg-blue-50 rounded-lg flex items-center gap-2 text-blue-800">
@@ -443,7 +443,7 @@ export const PharmacistMessages: React.FC = () => {
                             <div className="p-4 border-t flex justify-end gap-3">
                                 <button
                                     onClick={() => setSelectedMessage(null)}
-                                    className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50"
+                                    className="px-4 py-2 text-neutral-600 border border-neutral-300 rounded-lg hover:bg-neutral-50"
                                 >
                                     Close
                                 </button>

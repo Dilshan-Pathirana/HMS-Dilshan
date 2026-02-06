@@ -16,7 +16,7 @@ const SuperAdminStockTransferForm: React.FC<TransferStockFormProps> = ({
             <div className="mb-4">
                 <label
                     htmlFor="product"
-                    className="block text-sm font-medium text-gray-700 mb-1"
+                    className="block text-sm font-medium text-neutral-700 mb-1"
                 >
                     Select Product
                 </label>
@@ -32,14 +32,14 @@ const SuperAdminStockTransferForm: React.FC<TransferStockFormProps> = ({
             <div className="mb-4">
                 <label
                     htmlFor="quantity"
-                    className="block text-sm font-medium text-gray-700 mb-1"
+                    className="block text-sm font-medium text-neutral-700 mb-1"
                 >
                     Quantity
                 </label>
                 <input
                     type="number"
                     id="quantity"
-                    className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300"
+                    className="w-full border border-neutral-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300"
                     value={formData.quantity}
                     onChange={onInputChange}
                     min="0"
@@ -50,13 +50,13 @@ const SuperAdminStockTransferForm: React.FC<TransferStockFormProps> = ({
             <div className="mb-4">
                 <label
                     htmlFor="remarks"
-                    className="block text-sm font-medium text-gray-700 mb-1"
+                    className="block text-sm font-medium text-neutral-700 mb-1"
                 >
                     Remark
                 </label>
                 <textarea
                     id="remarks"
-                    className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300"
+                    className="w-full border border-neutral-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300"
                     value={formData.remarks}
                     onChange={onInputChange}
                     placeholder="Enter reason for the damage"
@@ -67,7 +67,7 @@ const SuperAdminStockTransferForm: React.FC<TransferStockFormProps> = ({
             <button
                 onClick={onSubmit}
                 disabled={isLoading}
-                className={`w-full bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-700 transition ${
+                className={`w-full bg-primary-500 text-white py-2 rounded-md font-semibold hover:bg-primary-600 transition ${
                     isLoading ? "opacity-50 cursor-not-allowed" : ""
                 }`}
             >

@@ -10,7 +10,7 @@ const NavbarNotificationSection: React.FC<INavbarNotificationSectionProps> = ({
     }, []);
 
     return (
-        <div className="absolute top-full right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+        <div className="absolute top-full right-0 mt-2 w-48 bg-white border border-neutral-200 rounded-lg shadow-lg z-50">
             {notificationMessage && (
                 <div className="p-2">
                     <p>

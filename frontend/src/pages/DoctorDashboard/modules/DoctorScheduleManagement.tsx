@@ -223,10 +223,10 @@ const ScheduleList: React.FC = () => {
         today.setHours(0, 0, 0, 0);
 
         if (schedule.status === 'cancelled') {
-            return <span className="px-2 py-1 text-xs font-medium bg-red-100 text-red-700 rounded-full flex items-center gap-1"><XCircle className="w-3 h-3" /> Cancelled</span>;
+            return <span className="px-2 py-1 text-xs font-medium bg-error-100 text-red-700 rounded-full flex items-center gap-1"><XCircle className="w-3 h-3" /> Cancelled</span>;
         }
         if (scheduleDate < today) {
-            return <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded-full flex items-center gap-1"><CheckCircle className="w-3 h-3" /> Completed</span>;
+            return <span className="px-2 py-1 text-xs font-medium bg-neutral-100 text-neutral-700 rounded-full flex items-center gap-1"><CheckCircle className="w-3 h-3" /> Completed</span>;
         }
         if (schedule.booked_slots >= schedule.max_patients) {
             return <span className="px-2 py-1 text-xs font-medium bg-orange-100 text-orange-700 rounded-full">Fully Booked</span>;
@@ -237,7 +237,7 @@ const ScheduleList: React.FC = () => {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+                <Loader2 className="w-8 h-8 animate-spin text-primary-500" />
             </div>
         );
     }
@@ -256,20 +256,20 @@ const ScheduleList: React.FC = () => {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-800">Schedule Management</h1>
-                    <p className="text-gray-500">Manage your consultation schedules and availability</p>
+                    <h1 className="text-2xl font-bold text-neutral-800">Schedule Management</h1>
+                    <p className="text-neutral-500">Manage your consultation schedules and availability</p>
                 </div>
                 <div className="flex gap-3">
                     <Link
                         to="blocked-dates"
-                        className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                        className="inline-flex items-center gap-2 px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors"
                     >
                         <CalendarX className="w-5 h-5" />
                         Blocked Dates
                     </Link>
                     <Link
                         to="create"
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
                     >
                         <Plus className="w-5 h-5" />
                         Create Schedule
@@ -281,90 +281,90 @@ const ScheduleList: React.FC = () => {
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                 <button 
                     onClick={() => setFilter('pending')}
-                    className={`p-4 rounded-xl border transition-all hover:shadow-md ${filter === 'pending' ? 'bg-amber-50 border-amber-300 ring-2 ring-amber-200' : pendingCount > 0 ? 'bg-amber-50 border-amber-200' : 'bg-white border-gray-200'}`}
+                    className={`p-4 rounded-xl border transition-all hover:shadow-md ${filter === 'pending' ? 'bg-amber-50 border-amber-300 ring-2 ring-amber-200' : pendingCount > 0 ? 'bg-amber-50 border-amber-200' : 'bg-white border-neutral-200'}`}
                 >
                     <div className="flex items-center gap-3">
                         <div className={`p-2 rounded-lg ${filter === 'pending' || pendingCount > 0 ? 'bg-amber-100' : 'bg-amber-50'}`}>
                             <Clock className="w-5 h-5 text-amber-600" />
                         </div>
                         <div className="text-left">
-                            <p className="text-2xl font-bold text-gray-800">{pendingCount}</p>
-                            <p className="text-xs text-gray-500">Pending</p>
+                            <p className="text-2xl font-bold text-neutral-800">{pendingCount}</p>
+                            <p className="text-xs text-neutral-500">Pending</p>
                         </div>
                     </div>
                 </button>
 
                 <button 
                     onClick={() => setFilter('approved')}
-                    className={`p-4 rounded-xl border transition-all hover:shadow-md ${filter === 'approved' ? 'bg-green-50 border-green-300 ring-2 ring-green-200' : approvedCount > 0 ? 'bg-green-50 border-green-200' : 'bg-white border-gray-200'}`}
+                    className={`p-4 rounded-xl border transition-all hover:shadow-md ${filter === 'approved' ? 'bg-green-50 border-green-300 ring-2 ring-green-200' : approvedCount > 0 ? 'bg-green-50 border-green-200' : 'bg-white border-neutral-200'}`}
                 >
                     <div className="flex items-center gap-3">
                         <div className={`p-2 rounded-lg ${filter === 'approved' || approvedCount > 0 ? 'bg-green-100' : 'bg-green-50'}`}>
                             <CheckCircle className="w-5 h-5 text-green-600" />
                         </div>
                         <div className="text-left">
-                            <p className="text-2xl font-bold text-gray-800">{approvedCount}</p>
-                            <p className="text-xs text-gray-500">Approved</p>
+                            <p className="text-2xl font-bold text-neutral-800">{approvedCount}</p>
+                            <p className="text-xs text-neutral-500">Approved</p>
                         </div>
                     </div>
                 </button>
                 
                 <button 
                     onClick={() => setFilter('past')}
-                    className={`p-4 rounded-xl border transition-all hover:shadow-md ${filter === 'past' ? 'bg-gray-100 border-gray-400 ring-2 ring-gray-200' : 'bg-white border-gray-200'}`}
+                    className={`p-4 rounded-xl border transition-all hover:shadow-md ${filter === 'past' ? 'bg-neutral-100 border-gray-400 ring-2 ring-gray-200' : 'bg-white border-neutral-200'}`}
                 >
                     <div className="flex items-center gap-3">
-                        <div className={`p-2 rounded-lg ${filter === 'past' ? 'bg-gray-200' : 'bg-gray-100'}`}>
-                            <CalendarDays className="w-5 h-5 text-gray-600" />
+                        <div className={`p-2 rounded-lg ${filter === 'past' ? 'bg-neutral-200' : 'bg-neutral-100'}`}>
+                            <CalendarDays className="w-5 h-5 text-neutral-600" />
                         </div>
                         <div className="text-left">
-                            <p className="text-2xl font-bold text-gray-800">{pastCount}</p>
-                            <p className="text-xs text-gray-500">Past</p>
+                            <p className="text-2xl font-bold text-neutral-800">{pastCount}</p>
+                            <p className="text-xs text-neutral-500">Past</p>
                         </div>
                     </div>
                 </button>
                 
                 <button 
                     onClick={() => setFilter('cancelled')}
-                    className={`p-4 rounded-xl border transition-all hover:shadow-md ${filter === 'cancelled' ? 'bg-orange-50 border-orange-300 ring-2 ring-orange-200' : 'bg-white border-gray-200'}`}
+                    className={`p-4 rounded-xl border transition-all hover:shadow-md ${filter === 'cancelled' ? 'bg-orange-50 border-orange-300 ring-2 ring-orange-200' : 'bg-white border-neutral-200'}`}
                 >
                     <div className="flex items-center gap-3">
                         <div className={`p-2 rounded-lg ${filter === 'cancelled' ? 'bg-orange-100' : 'bg-orange-50'}`}>
                             <XCircle className="w-5 h-5 text-orange-600" />
                         </div>
                         <div className="text-left">
-                            <p className="text-2xl font-bold text-gray-800">{cancelledCount}</p>
-                            <p className="text-xs text-gray-500">Cancelled</p>
+                            <p className="text-2xl font-bold text-neutral-800">{cancelledCount}</p>
+                            <p className="text-xs text-neutral-500">Cancelled</p>
                         </div>
                     </div>
                 </button>
                 
                 <button 
                     onClick={() => setFilter('rejected')}
-                    className={`p-4 rounded-xl border transition-all hover:shadow-md ${filter === 'rejected' ? 'bg-red-50 border-red-300 ring-2 ring-red-200' : rejectedCount > 0 ? 'bg-red-50 border-red-200' : 'bg-white border-gray-200'}`}
+                    className={`p-4 rounded-xl border transition-all hover:shadow-md ${filter === 'rejected' ? 'bg-error-50 border-red-300 ring-2 ring-red-200' : rejectedCount > 0 ? 'bg-error-50 border-red-200' : 'bg-white border-neutral-200'}`}
                 >
                     <div className="flex items-center gap-3">
-                        <div className={`p-2 rounded-lg ${filter === 'rejected' || rejectedCount > 0 ? 'bg-red-100' : 'bg-red-50'}`}>
-                            <AlertCircle className="w-5 h-5 text-red-600" />
+                        <div className={`p-2 rounded-lg ${filter === 'rejected' || rejectedCount > 0 ? 'bg-error-100' : 'bg-error-50'}`}>
+                            <AlertCircle className="w-5 h-5 text-error-600" />
                         </div>
                         <div className="text-left">
-                            <p className="text-2xl font-bold text-gray-800">{rejectedCount}</p>
-                            <p className="text-xs text-gray-500">Rejected</p>
+                            <p className="text-2xl font-bold text-neutral-800">{rejectedCount}</p>
+                            <p className="text-xs text-neutral-500">Rejected</p>
                         </div>
                     </div>
                 </button>
                 
                 <button 
                     onClick={() => setFilter('revision_requested')}
-                    className={`p-4 rounded-xl border transition-all hover:shadow-md ${filter === 'revision_requested' ? 'bg-amber-50 border-amber-300 ring-2 ring-amber-200' : revisionCount > 0 ? 'bg-amber-50 border-amber-200' : 'bg-white border-gray-200'}`}
+                    className={`p-4 rounded-xl border transition-all hover:shadow-md ${filter === 'revision_requested' ? 'bg-amber-50 border-amber-300 ring-2 ring-amber-200' : revisionCount > 0 ? 'bg-amber-50 border-amber-200' : 'bg-white border-neutral-200'}`}
                 >
                     <div className="flex items-center gap-3">
                         <div className={`p-2 rounded-lg ${filter === 'revision_requested' || revisionCount > 0 ? 'bg-amber-100' : 'bg-amber-50'}`}>
                             <Edit3 className="w-5 h-5 text-amber-600" />
                         </div>
                         <div className="text-left">
-                            <p className="text-2xl font-bold text-gray-800">{revisionCount}</p>
-                            <p className="text-xs text-gray-500">Needs Revision</p>
+                            <p className="text-2xl font-bold text-neutral-800">{revisionCount}</p>
+                            <p className="text-xs text-neutral-500">Needs Revision</p>
                         </div>
                     </div>
                 </button>
@@ -376,13 +376,13 @@ const ScheduleList: React.FC = () => {
                     {filteredSchedules.length === 0 ? (
                         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
                             <Calendar className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                            <h3 className="text-lg font-medium text-gray-800 mb-2">No schedules found</h3>
-                            <p className="text-gray-500 mb-4">
+                            <h3 className="text-lg font-medium text-neutral-800 mb-2">No schedules found</h3>
+                            <p className="text-neutral-500 mb-4">
                                 No schedules match your criteria
                             </p>
                             <Link
                                 to="create"
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                             >
                                 <Plus className="w-5 h-5" />
                                 Create New Schedule
@@ -395,15 +395,15 @@ const ScheduleList: React.FC = () => {
                                     <div className="flex flex-col md:flex-row md:items-center gap-4">
                                         {/* Date Info */}
                                         <div className="flex items-center gap-4 flex-1">
-                                            <div className="w-16 h-16 bg-blue-100 rounded-xl flex flex-col items-center justify-center text-blue-600">
+                                            <div className="w-16 h-16 bg-blue-100 rounded-xl flex flex-col items-center justify-center text-primary-500">
                                                 <span className="text-xs font-medium uppercase">{schedule.day?.substring(0, 3)}</span>
                                                 <span className="text-2xl font-bold">{new Date(schedule.date).getDate()}</span>
                                             </div>
                                             <div>
-                                                <p className="font-semibold text-gray-800">
+                                                <p className="font-semibold text-neutral-800">
                                                     {new Date(schedule.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
                                                 </p>
-                                                <div className="flex items-center gap-4 text-sm text-gray-500 mt-1">
+                                                <div className="flex items-center gap-4 text-sm text-neutral-500 mt-1">
                                                     <span className="flex items-center gap-1">
                                                         <Clock className="w-4 h-4" />
                                                         {schedule.start_time} - {schedule.end_time}
@@ -419,16 +419,16 @@ const ScheduleList: React.FC = () => {
                                         {/* Slots Info */}
                                         <div className="flex items-center gap-6">
                                             <div className="text-center">
-                                                <p className="text-2xl font-bold text-gray-800">{schedule.booked_slots}</p>
-                                                <p className="text-xs text-gray-500">Booked</p>
+                                                <p className="text-2xl font-bold text-neutral-800">{schedule.booked_slots}</p>
+                                                <p className="text-xs text-neutral-500">Booked</p>
                                             </div>
                                             <div className="text-center">
                                                 <p className="text-2xl font-bold text-green-600">{schedule.available_slots}</p>
-                                                <p className="text-xs text-gray-500">Available</p>
+                                                <p className="text-xs text-neutral-500">Available</p>
                                             </div>
                                             <div className="text-center">
-                                                <p className="text-2xl font-bold text-blue-600">{schedule.max_patients}</p>
-                                                <p className="text-xs text-gray-500">Max</p>
+                                                <p className="text-2xl font-bold text-primary-500">{schedule.max_patients}</p>
+                                                <p className="text-xs text-neutral-500">Max</p>
                                             </div>
                                         </div>
 
@@ -444,7 +444,7 @@ const ScheduleList: React.FC = () => {
                                                             cancelSchedule(schedule.id, reason);
                                                         }
                                                     }}
-                                                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                    className="p-2 text-error-600 hover:bg-error-50 rounded-lg transition-colors"
                                                     title="Cancel Schedule"
                                                 >
                                                     <XCircle className="w-5 h-5" />
@@ -465,13 +465,13 @@ const ScheduleList: React.FC = () => {
                     {pendingRequests.length === 0 ? (
                         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
                             <Clock className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                            <h3 className="text-lg font-medium text-gray-800 mb-2">No pending requests</h3>
-                            <p className="text-gray-500 mb-4">
+                            <h3 className="text-lg font-medium text-neutral-800 mb-2">No pending requests</h3>
+                            <p className="text-neutral-500 mb-4">
                                 All your schedule requests have been processed
                             </p>
                             <Link
                                 to="create"
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                             >
                                 <Plus className="w-5 h-5" />
                                 Create New Schedule
@@ -495,10 +495,10 @@ const ScheduleList: React.FC = () => {
                                                 <span className="text-xs font-medium uppercase mt-1">{request.schedule_day?.substring(0, 3)}</span>
                                             </div>
                                             <div>
-                                                <p className="font-semibold text-gray-800">
+                                                <p className="font-semibold text-neutral-800">
                                                     Every {request.schedule_day}
                                                 </p>
-                                                <div className="flex items-center gap-4 text-sm text-gray-500 mt-1">
+                                                <div className="flex items-center gap-4 text-sm text-neutral-500 mt-1">
                                                     <span className="flex items-center gap-1">
                                                         <Clock className="w-4 h-4" />
                                                         {request.start_time} - {request.end_time || 'N/A'}
@@ -508,7 +508,7 @@ const ScheduleList: React.FC = () => {
                                                         {request.branch_name}
                                                     </span>
                                                 </div>
-                                                <p className="text-xs text-gray-400 mt-1">
+                                                <p className="text-xs text-neutral-400 mt-1">
                                                     Requested: {new Date(request.requested_at).toLocaleDateString()}
                                                 </p>
                                             </div>
@@ -517,12 +517,12 @@ const ScheduleList: React.FC = () => {
                                         {/* Schedule Info */}
                                         <div className="flex items-center gap-6">
                                             <div className="text-center">
-                                                <p className="text-2xl font-bold text-blue-600">{request.max_patients}</p>
-                                                <p className="text-xs text-gray-500">Max Patients</p>
+                                                <p className="text-2xl font-bold text-primary-500">{request.max_patients}</p>
+                                                <p className="text-xs text-neutral-500">Max Patients</p>
                                             </div>
                                             <div className="text-center">
                                                 <p className="text-2xl font-bold text-purple-600">{request.time_per_patient}</p>
-                                                <p className="text-xs text-gray-500">Min/Patient</p>
+                                                <p className="text-xs text-neutral-500">Min/Patient</p>
                                             </div>
                                         </div>
 
@@ -533,7 +533,7 @@ const ScheduleList: React.FC = () => {
                                             </span>
                                             <button
                                                 onClick={() => editScheduleRequest(request)}
-                                                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                                className="p-2 text-primary-500 hover:bg-blue-50 rounded-lg transition-colors"
                                                 title="Edit Request"
                                             >
                                                 <Edit2 className="w-5 h-5" />
@@ -541,7 +541,7 @@ const ScheduleList: React.FC = () => {
                                             <button
                                                 onClick={() => cancelScheduleRequest(request.id)}
                                                 disabled={cancellingId === request.id}
-                                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+                                                className="p-2 text-error-600 hover:bg-error-50 rounded-lg transition-colors disabled:opacity-50"
                                                 title="Cancel Request"
                                             >
                                                 {cancellingId === request.id ? (
@@ -565,13 +565,13 @@ const ScheduleList: React.FC = () => {
                     {approvedRequests.length === 0 ? (
                         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
                             <CheckCircle className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                            <h3 className="text-lg font-medium text-gray-800 mb-2">No approved requests</h3>
-                            <p className="text-gray-500 mb-4">
+                            <h3 className="text-lg font-medium text-neutral-800 mb-2">No approved requests</h3>
+                            <p className="text-neutral-500 mb-4">
                                 You don't have any approved schedule requests yet
                             </p>
                             <Link
                                 to="create"
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                             >
                                 <Plus className="w-5 h-5" />
                                 Create New Schedule
@@ -595,10 +595,10 @@ const ScheduleList: React.FC = () => {
                                                 <span className="text-xs font-medium uppercase mt-1">{request.schedule_day?.substring(0, 3)}</span>
                                             </div>
                                             <div>
-                                                <p className="font-semibold text-gray-800">
+                                                <p className="font-semibold text-neutral-800">
                                                     Every {request.schedule_day}
                                                 </p>
-                                                <div className="flex items-center gap-4 text-sm text-gray-500 mt-1">
+                                                <div className="flex items-center gap-4 text-sm text-neutral-500 mt-1">
                                                     <span className="flex items-center gap-1">
                                                         <Clock className="w-4 h-4" />
                                                         {request.start_time} - {request.end_time || 'N/A'}
@@ -608,7 +608,7 @@ const ScheduleList: React.FC = () => {
                                                         {request.branch_name}
                                                     </span>
                                                 </div>
-                                                <p className="text-xs text-gray-400 mt-1">
+                                                <p className="text-xs text-neutral-400 mt-1">
                                                     Approved: {request.approved_at ? new Date(request.approved_at).toLocaleDateString() : 'N/A'}
                                                 </p>
                                             </div>
@@ -617,12 +617,12 @@ const ScheduleList: React.FC = () => {
                                         {/* Schedule Info */}
                                         <div className="flex items-center gap-6">
                                             <div className="text-center">
-                                                <p className="text-2xl font-bold text-blue-600">{request.max_patients}</p>
-                                                <p className="text-xs text-gray-500">Max Patients</p>
+                                                <p className="text-2xl font-bold text-primary-500">{request.max_patients}</p>
+                                                <p className="text-xs text-neutral-500">Max Patients</p>
                                             </div>
                                             <div className="text-center">
                                                 <p className="text-2xl font-bold text-purple-600">{request.time_per_patient}</p>
-                                                <p className="text-xs text-gray-500">Min/Patient</p>
+                                                <p className="text-xs text-neutral-500">Min/Patient</p>
                                             </div>
                                         </div>
 
@@ -633,7 +633,7 @@ const ScheduleList: React.FC = () => {
                                             </span>
                                             <button
                                                 onClick={() => editScheduleRequest(request)}
-                                                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                                className="p-2 text-primary-500 hover:bg-blue-50 rounded-lg transition-colors"
                                                 title="Edit Schedule"
                                             >
                                                 <Edit2 className="w-5 h-5" />
@@ -641,7 +641,7 @@ const ScheduleList: React.FC = () => {
                                             <button
                                                 onClick={() => deleteScheduleRequest(request.id)}
                                                 disabled={deletingId === request.id}
-                                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+                                                className="p-2 text-error-600 hover:bg-error-50 rounded-lg transition-colors disabled:opacity-50"
                                                 title="Delete Schedule"
                                             >
                                                 {deletingId === request.id ? (
@@ -665,8 +665,8 @@ const ScheduleList: React.FC = () => {
                     {rejectedRequests.length === 0 ? (
                         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
                             <CheckCircle className="w-16 h-16 text-green-300 mx-auto mb-4" />
-                            <h3 className="text-lg font-medium text-gray-800 mb-2">No rejected requests</h3>
-                            <p className="text-gray-500 mb-4">
+                            <h3 className="text-lg font-medium text-neutral-800 mb-2">No rejected requests</h3>
+                            <p className="text-neutral-500 mb-4">
                                 None of your schedule requests have been rejected
                             </p>
                         </div>
@@ -677,15 +677,15 @@ const ScheduleList: React.FC = () => {
                                     <div className="flex flex-col md:flex-row md:items-center gap-4">
                                         {/* Day Info */}
                                         <div className="flex items-center gap-4 flex-1">
-                                            <div className="w-16 h-16 bg-red-100 rounded-xl flex flex-col items-center justify-center text-red-600">
+                                            <div className="w-16 h-16 bg-error-100 rounded-xl flex flex-col items-center justify-center text-error-600">
                                                 <XCircle className="w-6 h-6" />
                                                 <span className="text-xs font-medium uppercase mt-1">{request.schedule_day?.substring(0, 3)}</span>
                                             </div>
                                             <div>
-                                                <p className="font-semibold text-gray-800">
+                                                <p className="font-semibold text-neutral-800">
                                                     Every {request.schedule_day}
                                                 </p>
-                                                <div className="flex items-center gap-4 text-sm text-gray-500 mt-1">
+                                                <div className="flex items-center gap-4 text-sm text-neutral-500 mt-1">
                                                     <span className="flex items-center gap-1">
                                                         <Clock className="w-4 h-4" />
                                                         {request.start_time} - {request.end_time || 'N/A'}
@@ -696,7 +696,7 @@ const ScheduleList: React.FC = () => {
                                                     </span>
                                                 </div>
                                                 {request.approval_notes && (
-                                                    <p className="text-sm text-red-600 mt-2">
+                                                    <p className="text-sm text-error-600 mt-2">
                                                         <span className="font-medium">Reason: </span>{request.approval_notes}
                                                     </p>
                                                 )}
@@ -706,24 +706,24 @@ const ScheduleList: React.FC = () => {
                                         {/* Schedule Info */}
                                         <div className="flex items-center gap-6">
                                             <div className="text-center">
-                                                <p className="text-2xl font-bold text-gray-400">{request.max_patients}</p>
-                                                <p className="text-xs text-gray-500">Max Patients</p>
+                                                <p className="text-2xl font-bold text-neutral-400">{request.max_patients}</p>
+                                                <p className="text-xs text-neutral-500">Max Patients</p>
                                             </div>
                                             <div className="text-center">
-                                                <p className="text-2xl font-bold text-gray-400">{request.time_per_patient}</p>
-                                                <p className="text-xs text-gray-500">Min/Patient</p>
+                                                <p className="text-2xl font-bold text-neutral-400">{request.time_per_patient}</p>
+                                                <p className="text-xs text-neutral-500">Min/Patient</p>
                                             </div>
                                         </div>
 
                                         {/* Status & Actions */}
                                         <div className="flex items-center gap-2">
-                                            <span className="px-3 py-1 text-xs font-medium bg-red-100 text-red-700 rounded-full flex items-center gap-1">
+                                            <span className="px-3 py-1 text-xs font-medium bg-error-100 text-red-700 rounded-full flex items-center gap-1">
                                                 <XCircle className="w-3 h-3" /> Rejected
                                             </span>
                                             <button
                                                 onClick={() => deleteScheduleRequest(request.id)}
                                                 disabled={deletingId === request.id}
-                                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+                                                className="p-2 text-error-600 hover:bg-error-50 rounded-lg transition-colors disabled:opacity-50"
                                                 title="Delete Request"
                                             >
                                                 {deletingId === request.id ? (
@@ -747,8 +747,8 @@ const ScheduleList: React.FC = () => {
                     {revisionRequests.length === 0 ? (
                         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
                             <CheckCircle className="w-16 h-16 text-green-300 mx-auto mb-4" />
-                            <h3 className="text-lg font-medium text-gray-800 mb-2">No revision requests</h3>
-                            <p className="text-gray-500 mb-4">
+                            <h3 className="text-lg font-medium text-neutral-800 mb-2">No revision requests</h3>
+                            <p className="text-neutral-500 mb-4">
                                 None of your schedule requests need revision
                             </p>
                         </div>
@@ -764,10 +764,10 @@ const ScheduleList: React.FC = () => {
                                                 <span className="text-xs font-medium uppercase mt-1">{request.schedule_day?.substring(0, 3)}</span>
                                             </div>
                                             <div>
-                                                <p className="font-semibold text-gray-800">
+                                                <p className="font-semibold text-neutral-800">
                                                     Every {request.schedule_day}
                                                 </p>
-                                                <div className="flex items-center gap-4 text-sm text-gray-500 mt-1">
+                                                <div className="flex items-center gap-4 text-sm text-neutral-500 mt-1">
                                                     <span className="flex items-center gap-1">
                                                         <Clock className="w-4 h-4" />
                                                         {request.start_time} - {request.end_time || 'N/A'}
@@ -790,12 +790,12 @@ const ScheduleList: React.FC = () => {
                                         {/* Schedule Info */}
                                         <div className="flex items-center gap-6">
                                             <div className="text-center">
-                                                <p className="text-2xl font-bold text-gray-400">{request.max_patients}</p>
-                                                <p className="text-xs text-gray-500">Max Patients</p>
+                                                <p className="text-2xl font-bold text-neutral-400">{request.max_patients}</p>
+                                                <p className="text-xs text-neutral-500">Max Patients</p>
                                             </div>
                                             <div className="text-center">
-                                                <p className="text-2xl font-bold text-gray-400">{request.time_per_patient}</p>
-                                                <p className="text-xs text-gray-500">Min/Patient</p>
+                                                <p className="text-2xl font-bold text-neutral-400">{request.time_per_patient}</p>
+                                                <p className="text-xs text-neutral-500">Min/Patient</p>
                                             </div>
                                         </div>
 
@@ -806,7 +806,7 @@ const ScheduleList: React.FC = () => {
                                             </span>
                                             <Link
                                                 to={`edit/${request.id}`}
-                                                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                                className="p-2 text-primary-500 hover:bg-blue-50 rounded-lg transition-colors"
                                                 title="Edit & Resubmit"
                                             >
                                                 <Edit3 className="w-5 h-5" />
@@ -814,7 +814,7 @@ const ScheduleList: React.FC = () => {
                                             <button
                                                 onClick={() => deleteScheduleRequest(request.id)}
                                                 disabled={deletingId === request.id}
-                                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+                                                className="p-2 text-error-600 hover:bg-error-50 rounded-lg transition-colors disabled:opacity-50"
                                                 title="Delete Request"
                                             >
                                                 {deletingId === request.id ? (
@@ -963,13 +963,13 @@ const CreateSchedule: React.FC = () => {
     return (
         <div className="max-w-2xl mx-auto">
             <div className="mb-6">
-                <Link to="/doctor-dashboard-new/schedule" className="text-blue-600 hover:text-blue-700 text-sm flex items-center gap-1 mb-2">
+                <Link to="/doctor-dashboard-new/schedule" className="text-primary-500 hover:text-blue-700 text-sm flex items-center gap-1 mb-2">
                     <ChevronLeft className="w-4 h-4" /> Back to Schedules
                 </Link>
-                <h1 className="text-2xl font-bold text-gray-800">
+                <h1 className="text-2xl font-bold text-neutral-800">
                     {isEditMode ? 'Edit Schedule Request' : 'Create New Schedule'}
                 </h1>
-                <p className="text-gray-500">
+                <p className="text-neutral-500">
                     {isEditMode 
                         ? 'Update your pending schedule request and resubmit for approval'
                         : 'Request a recurring weekly consultation session (requires branch manager approval)'
@@ -981,7 +981,7 @@ const CreateSchedule: React.FC = () => {
             {isEditMode && (
                 <div className="mb-6 bg-blue-50 border border-blue-200 rounded-xl p-4">
                     <div className="flex items-center gap-3">
-                        <Edit2 className="w-5 h-5 text-blue-500" />
+                        <Edit2 className="w-5 h-5 text-primary-500" />
                         <p className="text-blue-700">You are editing a pending schedule request. Your changes will be resubmitted for approval.</p>
                     </div>
                 </div>
@@ -1049,7 +1049,7 @@ const CreateSchedule: React.FC = () => {
             <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 space-y-6">
                 {/* Info Banner */}
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 flex items-start gap-2">
-                    <svg className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-primary-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     <p className="text-sm text-blue-700">
@@ -1059,14 +1059,14 @@ const CreateSchedule: React.FC = () => {
 
                 {/* Branch Selection */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Select Branch <span className="text-red-500">*</span>
+                    <label className="block text-sm font-medium text-neutral-700 mb-2">
+                        Select Branch <span className="text-error-500">*</span>
                     </label>
                     <select
                         required
                         value={formData.branch_id}
                         onChange={(e) => setFormData({ ...formData, branch_id: e.target.value })}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     >
                         <option value="">Select a branch</option>
                         {branches.map((branch) => (
@@ -1077,43 +1077,43 @@ const CreateSchedule: React.FC = () => {
 
                 {/* Day Selection */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Day of Week <span className="text-red-500">*</span>
+                    <label className="block text-sm font-medium text-neutral-700 mb-2">
+                        Day of Week <span className="text-error-500">*</span>
                     </label>
                     <select
                         required
                         value={formData.schedule_day}
                         onChange={(e) => setFormData({ ...formData, schedule_day: e.target.value })}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     >
                         <option value="">Select a day</option>
                         {daysOfWeek.map((day) => (
                             <option key={day.value} value={day.value}>{day.label}</option>
                         ))}
                     </select>
-                    <p className="text-sm text-gray-500 mt-1">
+                    <p className="text-sm text-neutral-500 mt-1">
                         This schedule will repeat every {formData.schedule_day ? daysOfWeek.find(d => d.value === formData.schedule_day)?.label : 'selected day'}
                     </p>
                 </div>
 
                 {/* Start Time */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Start Time <span className="text-red-500">*</span>
+                    <label className="block text-sm font-medium text-neutral-700 mb-2">
+                        Start Time <span className="text-error-500">*</span>
                     </label>
                     <input
                         type="time"
                         required
                         value={formData.start_time}
                         onChange={(e) => setFormData({ ...formData, start_time: e.target.value })}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     />
                 </div>
 
                 {/* Max Patients */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Maximum Patients <span className="text-red-500">*</span>
+                    <label className="block text-sm font-medium text-neutral-700 mb-2">
+                        Maximum Patients <span className="text-error-500">*</span>
                     </label>
                     <input
                         type="number"
@@ -1122,17 +1122,17 @@ const CreateSchedule: React.FC = () => {
                         max="100"
                         value={formData.max_patients}
                         onChange={(e) => setFormData({ ...formData, max_patients: parseInt(e.target.value) || 0 })}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     />
-                    <p className="text-sm text-gray-500 mt-1">
+                    <p className="text-sm text-neutral-500 mt-1">
                         Maximum number of patients that can book appointments for this schedule
                     </p>
                 </div>
 
                 {/* Time Per Patient */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Time Per Patient (minutes) <span className="text-red-500">*</span>
+                    <label className="block text-sm font-medium text-neutral-700 mb-2">
+                        Time Per Patient (minutes) <span className="text-error-500">*</span>
                     </label>
                     <input
                         type="number"
@@ -1141,9 +1141,9 @@ const CreateSchedule: React.FC = () => {
                         max="120"
                         value={formData.time_per_patient}
                         onChange={(e) => setFormData({ ...formData, time_per_patient: parseInt(e.target.value) || 0 })}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     />
-                    <p className="text-sm text-gray-500 mt-1">
+                    <p className="text-sm text-neutral-500 mt-1">
                         Average consultation duration per patient in minutes
                     </p>
                 </div>
@@ -1157,7 +1157,7 @@ const CreateSchedule: React.FC = () => {
                         <div className="text-2xl font-bold text-blue-800">
                             {endTime || '--:--'}
                         </div>
-                        <div className="text-sm text-blue-600">
+                        <div className="text-sm text-primary-500">
                             {formData.start_time && endTime && (
                                 <span>
                                     ({formData.max_patients} patients × {formData.time_per_patient} min = {formData.max_patients * formData.time_per_patient} min total)
@@ -1165,7 +1165,7 @@ const CreateSchedule: React.FC = () => {
                             )}
                         </div>
                     </div>
-                    <p className="text-sm text-blue-600 mt-2">
+                    <p className="text-sm text-primary-500 mt-2">
                         Session duration: {formData.start_time} - {endTime || '--:--'}
                     </p>
                 </div>
@@ -1175,14 +1175,14 @@ const CreateSchedule: React.FC = () => {
                     <button
                         type="button"
                         onClick={() => navigate('/doctor-dashboard-new/schedule')}
-                        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                        className="flex-1 px-4 py-3 border border-neutral-300 rounded-lg text-neutral-700 hover:bg-neutral-50"
                     >
                         Cancel
                     </button>
                     <button
                         type="submit"
                         disabled={loading}
-                        className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center justify-center gap-2"
+                        className="flex-1 px-4 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 flex items-center justify-center gap-2"
                     >
                         {loading ? (
                             <>
@@ -1343,7 +1343,7 @@ const EditSchedule: React.FC = () => {
     if (loading) {
         return (
             <div className="flex items-center justify-center py-12">
-                <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+                <Loader2 className="w-8 h-8 animate-spin text-primary-500" />
             </div>
         );
     }
@@ -1352,14 +1352,14 @@ const EditSchedule: React.FC = () => {
         return (
             <div className="max-w-2xl mx-auto">
                 <div className="mb-6">
-                    <Link to="/doctor-dashboard-new/schedule" className="text-blue-600 hover:text-blue-700 text-sm flex items-center gap-1 mb-2">
+                    <Link to="/doctor-dashboard-new/schedule" className="text-primary-500 hover:text-blue-700 text-sm flex items-center gap-1 mb-2">
                         <ChevronLeft className="w-4 h-4" /> Back to Schedules
                     </Link>
                 </div>
-                <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
-                    <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-3" />
+                <div className="bg-error-50 border border-red-200 rounded-xl p-6 text-center">
+                    <AlertCircle className="w-12 h-12 text-error-500 mx-auto mb-3" />
                     <h2 className="text-lg font-semibold text-red-800 mb-2">Unable to Edit</h2>
-                    <p className="text-red-600">{error}</p>
+                    <p className="text-error-600">{error}</p>
                 </div>
             </div>
         );
@@ -1368,11 +1368,11 @@ const EditSchedule: React.FC = () => {
     return (
         <div className="max-w-2xl mx-auto">
             <div className="mb-6">
-                <Link to="/doctor-dashboard-new/schedule" className="text-blue-600 hover:text-blue-700 text-sm flex items-center gap-1 mb-2">
+                <Link to="/doctor-dashboard-new/schedule" className="text-primary-500 hover:text-blue-700 text-sm flex items-center gap-1 mb-2">
                     <ChevronLeft className="w-4 h-4" /> Back to Schedules
                 </Link>
-                <h1 className="text-2xl font-bold text-gray-800">Edit Schedule Request</h1>
-                <p className="text-gray-500">Update your schedule request and resubmit for approval</p>
+                <h1 className="text-2xl font-bold text-neutral-800">Edit Schedule Request</h1>
+                <p className="text-neutral-500">Update your schedule request and resubmit for approval</p>
             </div>
 
             {/* Revision Notes Banner */}
@@ -1441,13 +1441,13 @@ const EditSchedule: React.FC = () => {
             <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 space-y-6">
                 {/* Branch Selection */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                         Branch / Medical Center
                     </label>
                     <select
                         value={formData.branch_id}
                         onChange={(e) => setFormData({ ...formData, branch_id: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         required
                     >
                         <option value="">Select a branch</option>
@@ -1461,13 +1461,13 @@ const EditSchedule: React.FC = () => {
 
                 {/* Day Selection */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                         Day of Week
                     </label>
                     <select
                         value={formData.schedule_day}
                         onChange={(e) => setFormData({ ...formData, schedule_day: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         required
                     >
                         <option value="">Select a day</option>
@@ -1481,21 +1481,21 @@ const EditSchedule: React.FC = () => {
 
                 {/* Start Time */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                         Start Time
                     </label>
                     <input
                         type="time"
                         value={formData.start_time}
                         onChange={(e) => setFormData({ ...formData, start_time: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         required
                     />
                 </div>
 
                 {/* Max Patients */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                         Maximum Patients
                     </label>
                     <input
@@ -1504,14 +1504,14 @@ const EditSchedule: React.FC = () => {
                         max="100"
                         value={formData.max_patients}
                         onChange={(e) => setFormData({ ...formData, max_patients: parseInt(e.target.value) || 1 })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         required
                     />
                 </div>
 
                 {/* Time Per Patient */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                         Time Per Patient (minutes)
                     </label>
                     <input
@@ -1520,18 +1520,18 @@ const EditSchedule: React.FC = () => {
                         max="120"
                         value={formData.time_per_patient}
                         onChange={(e) => setFormData({ ...formData, time_per_patient: parseInt(e.target.value) || 15 })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         required
                     />
                 </div>
 
                 {/* Calculated End Time Display */}
-                <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-4">
                     <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-gray-600">Calculated End Time:</span>
-                        <span className="text-lg font-semibold text-blue-600">{endTime || '--:--'}</span>
+                        <span className="text-sm font-medium text-neutral-600">Calculated End Time:</span>
+                        <span className="text-lg font-semibold text-primary-500">{endTime || '--:--'}</span>
                     </div>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-neutral-500 mt-1">
                         Based on {formData.max_patients} patients × {formData.time_per_patient} minutes each
                     </p>
                 </div>
@@ -1540,14 +1540,14 @@ const EditSchedule: React.FC = () => {
                 <div className="flex gap-3">
                     <Link
                         to="/doctor-dashboard-new/schedule"
-                        className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-center"
+                        className="flex-1 px-4 py-3 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 text-center"
                     >
                         Cancel
                     </Link>
                     <button
                         type="submit"
                         disabled={saving || !!successMessage}
-                        className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                        className="flex-1 px-4 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
                         {saving ? (
                             <>
@@ -1563,7 +1563,7 @@ const EditSchedule: React.FC = () => {
                     </button>
                 </div>
 
-                <p className="text-sm text-gray-500 text-center">
+                <p className="text-sm text-neutral-500 text-center">
                     Your updated schedule will be resubmitted for branch manager approval.
                 </p>
             </form>
@@ -1821,11 +1821,11 @@ const BlockedDates: React.FC = () => {
             case 'approved':
                 return <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">Approved</span>;
             case 'rejected':
-                return <span className="px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full">Rejected</span>;
+                return <span className="px-2 py-1 bg-error-100 text-red-700 text-xs rounded-full">Rejected</span>;
             case 'pending_cancellation':
                 return <span className="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full">Pending Cancellation</span>;
             case 'cancelled':
-                return <span className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">Cancelled</span>;
+                return <span className="px-2 py-1 bg-neutral-100 text-neutral-700 text-xs rounded-full">Cancelled</span>;
             default:
                 return null;
         }
@@ -1834,9 +1834,9 @@ const BlockedDates: React.FC = () => {
     const getRequestTypeIcon = (type: string) => {
         switch (type) {
             case 'block_date':
-                return <CalendarX className="w-5 h-5 text-red-500" />;
+                return <CalendarX className="w-5 h-5 text-error-500" />;
             case 'block_schedule':
-                return <XCircle className="w-5 h-5 text-red-500" />;
+                return <XCircle className="w-5 h-5 text-error-500" />;
             case 'delay_start':
                 return <Clock className="w-5 h-5 text-orange-500" />;
             case 'limit_appointments':
@@ -1844,7 +1844,7 @@ const BlockedDates: React.FC = () => {
             case 'early_end':
                 return <Clock className="w-5 h-5 text-purple-500" />;
             default:
-                return <Calendar className="w-5 h-5 text-gray-500" />;
+                return <Calendar className="w-5 h-5 text-neutral-500" />;
         }
     };
 
@@ -1869,11 +1869,11 @@ const BlockedDates: React.FC = () => {
     return (
         <div className="max-w-4xl mx-auto">
             <div className="mb-6">
-                <Link to="/doctor-dashboard-new/schedule" className="text-blue-600 hover:text-blue-700 text-sm flex items-center gap-1 mb-2">
+                <Link to="/doctor-dashboard-new/schedule" className="text-primary-500 hover:text-blue-700 text-sm flex items-center gap-1 mb-2">
                     <ChevronLeft className="w-4 h-4" /> Back to Schedules
                 </Link>
-                <h1 className="text-2xl font-bold text-gray-800">Schedule Modifications</h1>
-                <p className="text-gray-500">Request to block dates, delay schedules, limit appointments, and more</p>
+                <h1 className="text-2xl font-bold text-neutral-800">Schedule Modifications</h1>
+                <p className="text-neutral-500">Request to block dates, delay schedules, limit appointments, and more</p>
             </div>
 
             {/* Stats Cards */}
@@ -1885,11 +1885,11 @@ const BlockedDates: React.FC = () => {
                         className={`p-4 rounded-xl border transition-all ${
                             activeTab === tab
                                 ? 'bg-blue-50 border-blue-200 ring-2 ring-blue-500'
-                                : 'bg-white border-gray-100 hover:bg-gray-50'
+                                : 'bg-white border-gray-100 hover:bg-neutral-50'
                         }`}
                     >
-                        <p className="text-2xl font-bold text-gray-800">{counts[tab]}</p>
-                        <p className="text-sm text-gray-500 capitalize">{tab === 'all' ? 'All Requests' : tab}</p>
+                        <p className="text-2xl font-bold text-neutral-800">{counts[tab]}</p>
+                        <p className="text-sm text-neutral-500 capitalize">{tab === 'all' ? 'All Requests' : tab}</p>
                     </button>
                 ))}
             </div>
@@ -1897,12 +1897,12 @@ const BlockedDates: React.FC = () => {
             {/* Main Content */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100">
                 <div className="p-5 border-b border-gray-100 flex items-center justify-between">
-                    <h2 className="text-lg font-semibold text-gray-800">
+                    <h2 className="text-lg font-semibold text-neutral-800">
                         {activeTab === 'all' ? 'All Requests' : `${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Requests`}
                     </h2>
                     <button
                         onClick={() => { resetForm(); setShowAddModal(true); }}
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                     >
                         <Plus className="w-5 h-5" />
                         New Request
@@ -1911,13 +1911,13 @@ const BlockedDates: React.FC = () => {
 
                 {loading ? (
                     <div className="p-8 text-center">
-                        <Loader2 className="w-8 h-8 animate-spin text-blue-500 mx-auto" />
+                        <Loader2 className="w-8 h-8 animate-spin text-primary-500 mx-auto" />
                     </div>
                 ) : filteredRequests.length === 0 ? (
                     <div className="p-12 text-center">
                         <CalendarX className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                        <h3 className="text-lg font-medium text-gray-800 mb-2">No requests found</h3>
-                        <p className="text-gray-500">
+                        <h3 className="text-lg font-medium text-neutral-800 mb-2">No requests found</h3>
+                        <p className="text-neutral-500">
                             {activeTab === 'all' 
                                 ? "You haven't made any modification requests yet"
                                 : `No ${activeTab} requests`
@@ -1931,55 +1931,55 @@ const BlockedDates: React.FC = () => {
                             const canCancel = canRequestCancellation(request);
                             
                             return (
-                            <div key={request.id} className={`p-4 ${isPast ? 'bg-gray-50 opacity-70' : 'hover:bg-gray-50'}`}>
+                            <div key={request.id} className={`p-4 ${isPast ? 'bg-neutral-50 opacity-70' : 'hover:bg-neutral-50'}`}>
                                 <div className="flex items-start justify-between">
                                     <div className="flex items-start gap-4">
-                                        <div className={`p-2 rounded-lg ${isPast ? 'bg-gray-200' : 'bg-gray-100'}`}>
+                                        <div className={`p-2 rounded-lg ${isPast ? 'bg-neutral-200' : 'bg-neutral-100'}`}>
                                             {getRequestTypeIcon(request.request_type)}
                                         </div>
                                         <div>
                                             <div className="flex items-center gap-2 mb-1">
-                                                <span className={`font-medium ${isPast ? 'text-gray-500' : 'text-gray-800'}`}>
+                                                <span className={`font-medium ${isPast ? 'text-neutral-500' : 'text-neutral-800'}`}>
                                                     {requestTypeLabels[request.request_type]}
                                                 </span>
                                                 {getStatusBadge(request.status)}
                                                 {isPast && (
-                                                    <span className="px-2 py-1 bg-gray-200 text-gray-600 text-xs rounded-full">Past</span>
+                                                    <span className="px-2 py-1 bg-neutral-200 text-neutral-600 text-xs rounded-full">Past</span>
                                                 )}
                                             </div>
-                                            <p className="text-sm text-gray-600 mb-1">
+                                            <p className="text-sm text-neutral-600 mb-1">
                                                 {request.branch_name}
                                                 {request.schedule_day && ` • ${request.schedule_day}`}
                                                 {request.schedule_start_time && ` (${formatTime(request.schedule_start_time)} - ${formatTime(request.schedule_end_time || '')})`}
                                             </p>
-                                            <p className="text-sm text-gray-500">
+                                            <p className="text-sm text-neutral-500">
                                                 <span className="font-medium">Date:</span> {formatDate(request.start_date)}
                                                 {request.end_date && request.end_date !== request.start_date && ` to ${formatDate(request.end_date)}`}
                                             </p>
                                             {request.new_start_time && (
-                                                <p className="text-sm text-gray-500">
+                                                <p className="text-sm text-neutral-500">
                                                     <span className="font-medium">New Start:</span> {formatTime(request.new_start_time)}
                                                 </p>
                                             )}
                                             {request.new_end_time && (
-                                                <p className="text-sm text-gray-500">
+                                                <p className="text-sm text-neutral-500">
                                                     <span className="font-medium">New End:</span> {formatTime(request.new_end_time)}
                                                 </p>
                                             )}
                                             {request.new_max_patients && (
-                                                <p className="text-sm text-gray-500">
+                                                <p className="text-sm text-neutral-500">
                                                     <span className="font-medium">Max Patients:</span> {request.new_max_patients}
                                                 </p>
                                             )}
-                                            <p className="text-sm text-gray-500 mt-1">
+                                            <p className="text-sm text-neutral-500 mt-1">
                                                 <span className="font-medium">Reason:</span> {request.reason}
                                             </p>
                                             {request.approval_notes && (
-                                                <p className="text-sm text-blue-600 mt-1">
+                                                <p className="text-sm text-primary-500 mt-1">
                                                     <span className="font-medium">Admin Notes:</span> {request.approval_notes}
                                                 </p>
                                             )}
-                                            <p className="text-xs text-gray-400 mt-2">
+                                            <p className="text-xs text-neutral-400 mt-2">
                                                 Submitted: {formatDate(request.created_at)}
                                                 {request.approved_at && ` • Processed: ${formatDate(request.approved_at)}`}
                                             </p>
@@ -1991,14 +1991,14 @@ const BlockedDates: React.FC = () => {
                                             <>
                                                 <button
                                                     onClick={() => openEditModal(request)}
-                                                    className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
+                                                    className="p-2 text-primary-500 hover:bg-blue-50 rounded-lg"
                                                     title="Edit"
                                                 >
                                                     <Edit2 className="w-4 h-4" />
                                                 </button>
                                                 <button
                                                     onClick={() => setDeleteConfirm(request.id)}
-                                                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
+                                                    className="p-2 text-error-600 hover:bg-error-50 rounded-lg"
                                                     title="Delete"
                                                 >
                                                     <Trash2 className="w-4 h-4" />
@@ -2034,10 +2034,10 @@ const BlockedDates: React.FC = () => {
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
                         <div className="p-6 border-b border-gray-100">
-                            <h3 className="text-lg font-semibold text-gray-800">
+                            <h3 className="text-lg font-semibold text-neutral-800">
                                 {editingRequest ? 'Edit Modification Request' : 'New Modification Request'}
                             </h3>
-                            <p className="text-sm text-gray-500 mt-1">
+                            <p className="text-sm text-neutral-500 mt-1">
                                 All requests require branch manager approval
                             </p>
                         </div>
@@ -2045,28 +2045,28 @@ const BlockedDates: React.FC = () => {
                         <div className="p-6 space-y-4">
                             {/* Request Type */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Request Type</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">Request Type</label>
                                 <select
                                     value={formData.request_type}
                                     onChange={(e) => setFormData({ ...formData, request_type: e.target.value as any })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                 >
                                     {Object.entries(requestTypeLabels).map(([value, label]) => (
                                         <option key={value} value={value}>{label}</option>
                                     ))}
                                 </select>
-                                <p className="text-xs text-gray-500 mt-1">
+                                <p className="text-xs text-neutral-500 mt-1">
                                     {requestTypeDescriptions[formData.request_type]}
                                 </p>
                             </div>
 
                             {/* Branch Selection */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Branch</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">Branch</label>
                                 <select
                                     value={formData.branch_id}
                                     onChange={(e) => setFormData({ ...formData, branch_id: e.target.value, schedule_id: '' })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                     required
                                 >
                                     <option value="">Select a branch</option>
@@ -2079,11 +2079,11 @@ const BlockedDates: React.FC = () => {
                             {/* Schedule Selection (for certain request types) */}
                             {['block_schedule', 'delay_start', 'limit_appointments', 'early_end'].includes(formData.request_type) && (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Schedule (Optional)</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">Schedule (Optional)</label>
                                     <select
                                         value={formData.schedule_id}
                                         onChange={(e) => setFormData({ ...formData, schedule_id: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                     >
                                         <option value="">Select a schedule</option>
                                         {filteredSchedules.map((schedule) => (
@@ -2098,7 +2098,7 @@ const BlockedDates: React.FC = () => {
                             {/* Date Selection */}
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                                         {formData.request_type === 'block_date' ? 'Start Date' : 'Date'}
                                     </label>
                                     <input
@@ -2106,19 +2106,19 @@ const BlockedDates: React.FC = () => {
                                         min={new Date().toISOString().split('T')[0]}
                                         value={formData.start_date}
                                         onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                         required
                                     />
                                 </div>
                                 {formData.request_type === 'block_date' && (
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">End Date (Optional)</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">End Date (Optional)</label>
                                         <input
                                             type="date"
                                             min={formData.start_date || new Date().toISOString().split('T')[0]}
                                             value={formData.end_date}
                                             onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                         />
                                     </div>
                                 )}
@@ -2127,12 +2127,12 @@ const BlockedDates: React.FC = () => {
                             {/* Time fields for delay_start and early_end */}
                             {formData.request_type === 'delay_start' && (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">New Start Time</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">New Start Time</label>
                                     <input
                                         type="time"
                                         value={formData.new_start_time}
                                         onChange={(e) => setFormData({ ...formData, new_start_time: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                         required
                                     />
                                 </div>
@@ -2140,12 +2140,12 @@ const BlockedDates: React.FC = () => {
 
                             {formData.request_type === 'early_end' && (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">New End Time</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">New End Time</label>
                                     <input
                                         type="time"
                                         value={formData.new_end_time}
                                         onChange={(e) => setFormData({ ...formData, new_end_time: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                         required
                                     />
                                 </div>
@@ -2154,14 +2154,14 @@ const BlockedDates: React.FC = () => {
                             {/* Max patients for limit_appointments */}
                             {formData.request_type === 'limit_appointments' && (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Maximum Patients</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">Maximum Patients</label>
                                     <input
                                         type="number"
                                         min="1"
                                         max="100"
                                         value={formData.new_max_patients}
                                         onChange={(e) => setFormData({ ...formData, new_max_patients: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                         placeholder="Enter new maximum"
                                         required
                                     />
@@ -2170,11 +2170,11 @@ const BlockedDates: React.FC = () => {
 
                             {/* Reason */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Reason</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">Reason</label>
                                 <textarea
                                     value={formData.reason}
                                     onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                     rows={3}
                                     placeholder="Please provide a reason for this request..."
                                     required
@@ -2185,14 +2185,14 @@ const BlockedDates: React.FC = () => {
                         <div className="p-6 border-t border-gray-100 flex gap-3">
                             <button
                                 onClick={() => { setShowAddModal(false); resetForm(); }}
-                                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                                className="flex-1 px-4 py-2 border border-neutral-300 rounded-lg text-neutral-700 hover:bg-neutral-50"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleSubmit}
                                 disabled={!formData.branch_id || !formData.start_date || !formData.reason}
-                                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                                className="flex-1 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50"
                             >
                                 {editingRequest ? 'Update Request' : 'Submit Request'}
                             </button>
@@ -2205,14 +2205,14 @@ const BlockedDates: React.FC = () => {
             {deleteConfirm && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-md mx-4">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-2">Delete Request?</h3>
-                        <p className="text-gray-600 mb-6">
+                        <h3 className="text-lg font-semibold text-neutral-800 mb-2">Delete Request?</h3>
+                        <p className="text-neutral-600 mb-6">
                             Are you sure you want to delete this modification request? This action cannot be undone.
                         </p>
                         <div className="flex gap-3">
                             <button
                                 onClick={() => setDeleteConfirm(null)}
-                                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                                className="flex-1 px-4 py-2 border border-neutral-300 rounded-lg text-neutral-700 hover:bg-neutral-50"
                             >
                                 Cancel
                             </button>
@@ -2231,15 +2231,15 @@ const BlockedDates: React.FC = () => {
             {showCancelModal && cancellingRequest && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-md mx-4">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-2">Request Cancellation</h3>
-                        <p className="text-gray-600 mb-4">
+                        <h3 className="text-lg font-semibold text-neutral-800 mb-2">Request Cancellation</h3>
+                        <p className="text-neutral-600 mb-4">
                             You are requesting to cancel the following approved modification:
                         </p>
-                        <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                            <p className="font-medium text-gray-800">
+                        <div className="bg-neutral-50 rounded-lg p-4 mb-4">
+                            <p className="font-medium text-neutral-800">
                                 {requestTypeLabels[cancellingRequest.request_type]}
                             </p>
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-neutral-600">
                                 {cancellingRequest.branch_name} • {formatDate(cancellingRequest.start_date)}
                                 {cancellingRequest.end_date && cancellingRequest.end_date !== cancellingRequest.start_date && 
                                     ` to ${formatDate(cancellingRequest.end_date)}`
@@ -2247,24 +2247,24 @@ const BlockedDates: React.FC = () => {
                             </p>
                         </div>
                         <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Reason for cancellation <span className="text-red-500">*</span>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
+                                Reason for cancellation <span className="text-error-500">*</span>
                             </label>
                             <textarea
                                 value={cancelReason}
                                 onChange={(e) => setCancelReason(e.target.value)}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                                 rows={3}
                                 placeholder="Please explain why you need to cancel this..."
                             />
                         </div>
-                        <p className="text-xs text-gray-500 mb-4">
+                        <p className="text-xs text-neutral-500 mb-4">
                             This request will be sent to your branch manager for approval. You will be notified once it's processed.
                         </p>
                         <div className="flex gap-3">
                             <button
                                 onClick={() => { setShowCancelModal(false); setCancellingRequest(null); setCancelReason(''); }}
-                                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                                className="flex-1 px-4 py-2 border border-neutral-300 rounded-lg text-neutral-700 hover:bg-neutral-50"
                             >
                                 Back
                             </button>

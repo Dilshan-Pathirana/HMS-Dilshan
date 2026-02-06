@@ -100,10 +100,10 @@ const NurseFeedback: React.FC = () => {
     const getTypeStyle = (type: string) => {
         switch (type) {
             case 'suggestion': return 'bg-blue-100 text-blue-700';
-            case 'complaint': return 'bg-red-100 text-red-700';
+            case 'complaint': return 'bg-error-100 text-red-700';
             case 'praise': return 'bg-green-100 text-green-700';
             case 'question': return 'bg-purple-100 text-purple-700';
-            default: return 'bg-gray-100 text-gray-700';
+            default: return 'bg-neutral-100 text-neutral-700';
         }
     };
 
@@ -113,27 +113,27 @@ const NurseFeedback: React.FC = () => {
             case 'in-review': return 'bg-blue-100 text-blue-700';
             case 'responded': return 'bg-green-100 text-green-700';
             case 'resolved': return 'bg-emerald-100 text-emerald-700';
-            case 'closed': return 'bg-gray-100 text-gray-700';
-            default: return 'bg-gray-100 text-gray-700';
+            case 'closed': return 'bg-neutral-100 text-neutral-700';
+            default: return 'bg-neutral-100 text-neutral-700';
         }
     };
 
     const getPriorityStyle = (priority: string) => {
         switch (priority) {
-            case 'urgent': return 'bg-red-100 text-red-700';
+            case 'urgent': return 'bg-error-100 text-red-700';
             case 'high': return 'bg-orange-100 text-orange-700';
             case 'medium': return 'bg-yellow-100 text-yellow-700';
-            case 'low': return 'bg-gray-100 text-gray-700';
-            default: return 'bg-gray-100 text-gray-700';
+            case 'low': return 'bg-neutral-100 text-neutral-700';
+            default: return 'bg-neutral-100 text-neutral-700';
         }
     };
 
     const getTypeIcon = (type: string) => {
         switch (type) {
             case 'praise': return <ThumbsUp className="w-5 h-5 text-green-600" />;
-            case 'complaint': return <ThumbsDown className="w-5 h-5 text-red-600" />;
+            case 'complaint': return <ThumbsDown className="w-5 h-5 text-error-600" />;
             case 'question': return <MessageCircle className="w-5 h-5 text-purple-600" />;
-            default: return <MessageSquare className="w-5 h-5 text-blue-600" />;
+            default: return <MessageSquare className="w-5 h-5 text-primary-500" />;
         }
     };
 
@@ -152,24 +152,24 @@ const NurseFeedback: React.FC = () => {
 
     if (loading) {
         return (
-            <div className="p-6 bg-gray-50 min-h-screen sm:ml-64 mt-16 flex items-center justify-center">
+            <div className="p-6 bg-neutral-50 min-h-screen sm:ml-64 mt-16 flex items-center justify-center">
                 <div className="text-center">
                     <div className="w-12 h-12 border-4 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                    <p className="text-gray-600">Loading feedbacks...</p>
+                    <p className="text-neutral-600">Loading feedbacks...</p>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 bg-gray-50 min-h-screen sm:ml-64 mt-16">
+        <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 bg-neutral-50 min-h-screen sm:ml-64 mt-16">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center gap-2 sm:gap-3">
+                    <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 flex items-center gap-2 sm:gap-3">
                         <MessageSquare className="w-6 h-6 sm:w-8 sm:h-8 text-teal-600" />
                         Feedback & Complaints
                     </h1>
-                    <p className="text-sm sm:text-base text-gray-600 mt-1">Submit feedback or view your submissions</p>
+                    <p className="text-sm sm:text-base text-neutral-600 mt-1">Submit feedback or view your submissions</p>
                 </div>
                 <button
                     onClick={() => setShowNewFeedback(true)}
@@ -182,7 +182,7 @@ const NurseFeedback: React.FC = () => {
 
             {message && (
                 <div className={`p-4 rounded-xl flex items-center gap-3 ${
-                    message.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+                    message.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-error-50 text-red-700'
                 }`}>
                     {message.type === 'success' ? (
                         <CheckCircle className="w-5 h-5" />
@@ -194,52 +194,52 @@ const NurseFeedback: React.FC = () => {
             )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-xs sm:text-sm text-gray-600">Total Submissions</p>
-                            <p className="text-xl sm:text-2xl font-bold text-gray-900">{stats.total}</p>
+                            <p className="text-xs sm:text-sm text-neutral-600">Total Submissions</p>
+                            <p className="text-xl sm:text-2xl font-bold text-neutral-900">{stats.total}</p>
                         </div>
                         <MessageSquare className="w-8 h-8 sm:w-10 sm:h-10 text-teal-500" />
                     </div>
                 </div>
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-xs sm:text-sm text-gray-600">Pending</p>
+                            <p className="text-xs sm:text-sm text-neutral-600">Pending</p>
                             <p className="text-xl sm:text-2xl font-bold text-yellow-600">{stats.pending}</p>
                         </div>
                         <Clock className="w-8 h-8 sm:w-10 sm:h-10 text-yellow-500" />
                     </div>
                 </div>
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-xs sm:text-sm text-gray-600">Resolved</p>
+                            <p className="text-xs sm:text-sm text-neutral-600">Resolved</p>
                             <p className="text-xl sm:text-2xl font-bold text-green-600">{stats.resolved}</p>
                         </div>
                         <CheckCircle className="w-8 h-8 sm:w-10 sm:h-10 text-green-500" />
                     </div>
                 </div>
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-xs sm:text-sm text-gray-600">Complaints</p>
-                            <p className="text-xl sm:text-2xl font-bold text-red-600">{stats.complaints}</p>
+                            <p className="text-xs sm:text-sm text-neutral-600">Complaints</p>
+                            <p className="text-xl sm:text-2xl font-bold text-error-600">{stats.complaints}</p>
                         </div>
-                        <AlertTriangle className="w-8 h-8 sm:w-10 sm:h-10 text-red-500" />
+                        <AlertTriangle className="w-8 h-8 sm:w-10 sm:h-10 text-error-500" />
                     </div>
                 </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">Category</label>
                         <select
                             value={filterType}
                             onChange={(e) => setFilterType(e.target.value)}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                         >
                             <option value="all">All Categories</option>
                             <option value="suggestion">Suggestion</option>
@@ -254,11 +254,11 @@ const NurseFeedback: React.FC = () => {
                         </select>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">Status</label>
                         <select
                             value={filterStatus}
                             onChange={(e) => setFilterStatus(e.target.value)}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                         >
                             <option value="all">All Status</option>
                             <option value="pending">Pending</option>
@@ -273,9 +273,9 @@ const NurseFeedback: React.FC = () => {
 
             <div className="space-y-3 sm:space-y-4">
                 {filteredFeedbacks.length === 0 ? (
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 sm:p-12 text-center">
-                        <MessageSquare className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-4" />
-                        <p className="text-sm sm:text-base text-gray-600">No feedbacks found</p>
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-8 sm:p-12 text-center">
+                        <MessageSquare className="w-12 h-12 sm:w-16 sm:h-16 text-neutral-400 mx-auto mb-4" />
+                        <p className="text-sm sm:text-base text-neutral-600">No feedbacks found</p>
                         <button
                             onClick={() => setShowNewFeedback(true)}
                             className="mt-4 px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg transition-colors text-sm sm:text-base"
@@ -285,14 +285,14 @@ const NurseFeedback: React.FC = () => {
                     </div>
                 ) : (
                     filteredFeedbacks.map((feedback) => (
-                        <div key={feedback.id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 hover:shadow-md transition-shadow">
+                        <div key={feedback.id} className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4 sm:p-6 hover:shadow-md transition-shadow">
                             <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4 mb-4">
                                 <div className="hidden sm:block p-3 rounded-xl bg-gradient-to-br from-teal-50 to-cyan-50 shrink-0">
                                     {getTypeIcon(feedback.type)}
                                 </div>
                                 <div className="flex-1 min-w-0 w-full">
                                     <div className="flex flex-wrap items-center gap-2 mb-2">
-                                        <h3 className="text-base sm:text-lg font-semibold text-gray-900 break-words">{feedback.subject}</h3>
+                                        <h3 className="text-base sm:text-lg font-semibold text-neutral-900 break-words">{feedback.subject}</h3>
                                         <span className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium ${getTypeStyle(feedback.type)}`}>
                                             {feedback.type}
                                         </span>
@@ -305,8 +305,8 @@ const NurseFeedback: React.FC = () => {
                                             </span>
                                         )}
                                     </div>
-                                    <p className="text-sm sm:text-base text-gray-700 mb-3 break-words">{feedback.description}</p>
-                                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500">
+                                    <p className="text-sm sm:text-base text-neutral-700 mb-3 break-words">{feedback.description}</p>
+                                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-neutral-500">
                                         <span className="break-words">Category: {feedback.category}</span>
                                         <span className="hidden sm:inline">•</span>
                                         <span className="break-words">Submitted: {new Date(feedback.created_at).toLocaleDateString()}</span>
@@ -353,12 +353,12 @@ const NurseFeedback: React.FC = () => {
                         onClick={(e) => e.stopPropagation()}
                         style={{ position: 'relative', zIndex: 10000 }}
                     >
-                        <div className="sticky top-0 bg-white border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between rounded-t-2xl">
-                            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Submit Feedback</h2>
+                        <div className="sticky top-0 bg-white border-b border-neutral-200 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between rounded-t-2xl">
+                            <h2 className="text-xl sm:text-2xl font-bold text-neutral-900">Submit Feedback</h2>
                             <button
                                 type="button"
                                 onClick={() => setShowNewFeedback(false)}
-                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors shrink-0"
+                                className="p-2 hover:bg-neutral-100 rounded-lg transition-colors shrink-0"
                             >
                                 <X className="w-5 h-5" />
                             </button>
@@ -366,11 +366,11 @@ const NurseFeedback: React.FC = () => {
 
                         <div className="p-4 sm:p-6 space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Type *</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">Type *</label>
                                 <select
                                     value={newFeedback.type}
                                     onChange={(e) => setNewFeedback({ ...newFeedback, type: e.target.value as any })}
-                                    className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                                    className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-neutral-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                                 >
                                     <option value="suggestion">Suggestion</option>
                                     <option value="complaint">Complaint</option>
@@ -380,11 +380,11 @@ const NurseFeedback: React.FC = () => {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Category *</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">Category *</label>
                                 <select
                                     value={newFeedback.category}
                                     onChange={(e) => setNewFeedback({ ...newFeedback, category: e.target.value })}
-                                    className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                                    className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-neutral-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                                 >
                                     <option value="general">General</option>
                                     <option value="service">Service</option>
@@ -398,25 +398,25 @@ const NurseFeedback: React.FC = () => {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Subject *</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">Subject *</label>
                                 <input
                                     type="text"
                                     value={newFeedback.subject}
                                     onChange={(e) => setNewFeedback({ ...newFeedback, subject: e.target.value })}
                                     placeholder="Brief summary of your feedback"
-                                    className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                                    className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-neutral-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                                     required
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Message *</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">Message *</label>
                                 <textarea
                                     value={newFeedback.description}
                                     onChange={(e) => setNewFeedback({ ...newFeedback, description: e.target.value })}
                                     placeholder="Describe your feedback in detail..."
                                     rows={6}
-                                    className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 resize-none"
+                                    className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-neutral-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 resize-none"
                                     required
                                 />
                             </div>
@@ -425,7 +425,7 @@ const NurseFeedback: React.FC = () => {
                                 <button
                                     type="button"
                                     onClick={() => setShowNewFeedback(false)}
-                                    className="w-full sm:w-auto px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                                    className="w-full sm:w-auto px-6 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors cursor-pointer"
                                 >
                                     Cancel
                                 </button>
@@ -445,11 +445,11 @@ const NurseFeedback: React.FC = () => {
             {selectedFeedback && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
                     <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl my-4 max-h-[90vh] overflow-y-auto">
-                        <div className="sticky top-0 bg-white border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between rounded-t-2xl">
-                            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Feedback Details</h2>
+                        <div className="sticky top-0 bg-white border-b border-neutral-200 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between rounded-t-2xl">
+                            <h2 className="text-xl sm:text-2xl font-bold text-neutral-900">Feedback Details</h2>
                             <button
                                 onClick={() => setSelectedFeedback(null)}
-                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors shrink-0"
+                                className="p-2 hover:bg-neutral-100 rounded-lg transition-colors shrink-0"
                             >
                                 <X className="w-5 h-5" />
                             </button>
@@ -470,13 +470,13 @@ const NurseFeedback: React.FC = () => {
                                         </span>
                                     )}
                                 </div>
-                                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 break-words">{selectedFeedback.subject}</h3>
-                                <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500 mb-4">
+                                <h3 className="text-lg sm:text-xl font-semibold text-neutral-900 mb-2 break-words">{selectedFeedback.subject}</h3>
+                                <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-neutral-500 mb-4">
                                     <span className="break-words">Category: {selectedFeedback.category}</span>
                                     <span className="hidden sm:inline">•</span>
                                     <span className="break-words">Submitted: {new Date(selectedFeedback.created_at).toLocaleString()}</span>
                                 </div>
-                                <p className="text-sm sm:text-base text-gray-700 whitespace-pre-wrap break-words">{selectedFeedback.description}</p>
+                                <p className="text-sm sm:text-base text-neutral-700 whitespace-pre-wrap break-words">{selectedFeedback.description}</p>
                             </div>
 
                             {selectedFeedback.response && (
@@ -493,7 +493,7 @@ const NurseFeedback: React.FC = () => {
                             <div className="flex justify-end pt-2">
                                 <button
                                     onClick={() => setSelectedFeedback(null)}
-                                    className="w-full sm:w-auto px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-colors"
+                                    className="w-full sm:w-auto px-6 py-2 bg-neutral-200 hover:bg-neutral-300 text-neutral-700 rounded-lg transition-colors"
                                 >
                                     Close
                                 </button>

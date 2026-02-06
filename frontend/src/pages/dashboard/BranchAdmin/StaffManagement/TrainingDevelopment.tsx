@@ -42,7 +42,7 @@ interface Certification {
 }
 
 const categories = [
-    { value: 'mandatory', label: 'Mandatory', color: 'bg-red-100 text-red-700' },
+    { value: 'mandatory', label: 'Mandatory', color: 'bg-error-100 text-red-700' },
     { value: 'skill', label: 'Skill Development', color: 'bg-blue-100 text-blue-700' },
     { value: 'compliance', label: 'Compliance', color: 'bg-orange-100 text-orange-700' },
     { value: 'leadership', label: 'Leadership', color: 'bg-purple-100 text-purple-700' },
@@ -117,15 +117,15 @@ export const TrainingDevelopment: React.FC = () => {
     const pendingTrainingsCount = staffProgress.reduce((sum, s) => sum + s.pendingTrainings, 0);
 
     const getCategoryStyle = (category: string) => {
-        return categories.find(c => c.value === category)?.color || 'bg-gray-100 text-gray-700';
+        return categories.find(c => c.value === category)?.color || 'bg-neutral-100 text-neutral-700';
     };
 
     const getStatusStyle = (status: string) => {
         switch (status) {
             case 'active': return 'bg-green-100 text-green-700';
             case 'scheduled': return 'bg-blue-100 text-blue-700';
-            case 'completed': return 'bg-gray-100 text-gray-700';
-            default: return 'bg-gray-100 text-gray-700';
+            case 'completed': return 'bg-neutral-100 text-neutral-700';
+            default: return 'bg-neutral-100 text-neutral-700';
         }
     };
 
@@ -133,15 +133,15 @@ export const TrainingDevelopment: React.FC = () => {
         switch (status) {
             case 'valid': return 'bg-green-100 text-green-700';
             case 'expiring': return 'bg-yellow-100 text-yellow-700';
-            case 'expired': return 'bg-red-100 text-red-700';
-            default: return 'bg-gray-100 text-gray-700';
+            case 'expired': return 'bg-error-100 text-red-700';
+            default: return 'bg-neutral-100 text-neutral-700';
         }
     };
 
     const SidebarMenu = () => (
         <nav className="py-4">
             <div className="px-4 mb-4">
-                <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Navigation</h2>
+                <h2 className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Navigation</h2>
             </div>
             <ul className="space-y-1 px-2">
                 {BranchAdminMenuItems.map((item, index) => (
@@ -150,8 +150,8 @@ export const TrainingDevelopment: React.FC = () => {
                             onClick={() => navigate(item.path)}
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                                 item.path === '/branch-admin/hrm'
-                                    ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-md'
-                                    : 'text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
+                                    ? 'bg-gradient-to-r from-emerald-500 to-primary-500 text-white shadow-md'
+                                    : 'text-neutral-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
                             }`}
                         >
                             <span className="flex-shrink-0">{item.icon}</span>
@@ -185,18 +185,18 @@ export const TrainingDevelopment: React.FC = () => {
                     <div className="flex items-center gap-4">
                         <button 
                             onClick={() => navigate('/branch-admin/hrm')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ChevronLeft className="w-5 h-5 text-gray-600" />
+                            <ChevronLeft className="w-5 h-5 text-neutral-600" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">Training & Development</h1>
-                            <p className="text-gray-500">Manage training programs and track staff certifications</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">Training & Development</h1>
+                            <p className="text-neutral-500">Manage training programs and track staff certifications</p>
                         </div>
                     </div>
                     <button 
                         onClick={() => setShowCreateModal(true)}
-                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:opacity-90"
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:opacity-90"
                     >
                         <Plus className="w-4 h-4" />
                         Create Program
@@ -205,10 +205,10 @@ export const TrainingDevelopment: React.FC = () => {
 
                 {/* Quick Stats */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Active Programs</p>
+                                <p className="text-sm text-neutral-500">Active Programs</p>
                                 <p className="text-2xl font-bold text-emerald-600">{trainingPrograms.filter(p => p.status === 'active').length}</p>
                             </div>
                             <div className="p-3 bg-emerald-100 rounded-lg">
@@ -216,10 +216,10 @@ export const TrainingDevelopment: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Pending Trainings</p>
+                                <p className="text-sm text-neutral-500">Pending Trainings</p>
                                 <p className="text-2xl font-bold text-orange-600">{pendingTrainingsCount}</p>
                             </div>
                             <div className="p-3 bg-orange-100 rounded-lg">
@@ -227,33 +227,33 @@ export const TrainingDevelopment: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Valid Certifications</p>
-                                <p className="text-2xl font-bold text-blue-600">{certifications.filter(c => c.status === 'valid').length}</p>
+                                <p className="text-sm text-neutral-500">Valid Certifications</p>
+                                <p className="text-2xl font-bold text-primary-500">{certifications.filter(c => c.status === 'valid').length}</p>
                             </div>
                             <div className="p-3 bg-blue-100 rounded-lg">
-                                <Award className="w-6 h-6 text-blue-600" />
+                                <Award className="w-6 h-6 text-primary-500" />
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Expiring Soon</p>
-                                <p className="text-2xl font-bold text-red-600">{expiringCertsCount}</p>
+                                <p className="text-sm text-neutral-500">Expiring Soon</p>
+                                <p className="text-2xl font-bold text-error-600">{expiringCertsCount}</p>
                             </div>
-                            <div className="p-3 bg-red-100 rounded-lg">
-                                <AlertTriangle className="w-6 h-6 text-red-600" />
+                            <div className="p-3 bg-error-100 rounded-lg">
+                                <AlertTriangle className="w-6 h-6 text-error-600" />
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Tabs */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-                    <div className="border-b border-gray-200">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200">
+                    <div className="border-b border-neutral-200">
                         <div className="flex overflow-x-auto">
                             {tabs.map(tab => (
                                 <button
@@ -262,13 +262,13 @@ export const TrainingDevelopment: React.FC = () => {
                                     className={`flex items-center gap-2 px-6 py-4 font-medium text-sm whitespace-nowrap border-b-2 transition-colors ${
                                         activeTab === tab.id
                                             ? 'border-emerald-500 text-emerald-600'
-                                            : 'border-transparent text-gray-500 hover:text-gray-700'
+                                            : 'border-transparent text-neutral-500 hover:text-neutral-700'
                                     }`}
                                 >
                                     {tab.icon}
                                     {tab.label}
                                     {tab.count !== undefined && tab.count > 0 && (
-                                        <span className="ml-1 px-2 py-0.5 bg-red-500 text-white text-xs rounded-full">{tab.count}</span>
+                                        <span className="ml-1 px-2 py-0.5 bg-error-500 text-white text-xs rounded-full">{tab.count}</span>
                                     )}
                                 </button>
                             ))}
@@ -282,19 +282,19 @@ export const TrainingDevelopment: React.FC = () => {
                                 {/* Filters */}
                                 <div className="flex flex-col md:flex-row gap-4">
                                     <div className="flex-1 relative">
-                                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                                         <input
                                             type="text"
                                             placeholder="Search programs..."
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
-                                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                         />
                                     </div>
                                     <select
                                         value={filterCategory}
                                         onChange={(e) => setFilterCategory(e.target.value)}
-                                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="all">All Categories</option>
                                         {categories.map(cat => (
@@ -304,7 +304,7 @@ export const TrainingDevelopment: React.FC = () => {
                                     <select
                                         value={filterStatus}
                                         onChange={(e) => setFilterStatus(e.target.value)}
-                                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="all">All Status</option>
                                         <option value="active">Active</option>
@@ -316,7 +316,7 @@ export const TrainingDevelopment: React.FC = () => {
                                 {/* Programs Grid */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {filteredPrograms.map(program => (
-                                        <div key={program.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                                        <div key={program.id} className="border border-neutral-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                                             <div className="flex items-start justify-between mb-3">
                                                 <div>
                                                     <div className="flex items-center gap-2 mb-1">
@@ -327,28 +327,28 @@ export const TrainingDevelopment: React.FC = () => {
                                                             {program.status.charAt(0).toUpperCase() + program.status.slice(1)}
                                                         </span>
                                                     </div>
-                                                    <h4 className="font-semibold text-gray-800">{program.title}</h4>
+                                                    <h4 className="font-semibold text-neutral-800">{program.title}</h4>
                                                 </div>
                                                 <div className="flex gap-1">
                                                     <button 
                                                         onClick={() => handleViewProgram(program)}
-                                                        className="p-1.5 hover:bg-gray-100 rounded"
+                                                        className="p-1.5 hover:bg-neutral-100 rounded"
                                                     >
-                                                        <Eye className="w-4 h-4 text-gray-500" />
+                                                        <Eye className="w-4 h-4 text-neutral-500" />
                                                     </button>
-                                                    <button className="p-1.5 hover:bg-gray-100 rounded">
-                                                        <Edit2 className="w-4 h-4 text-gray-500" />
+                                                    <button className="p-1.5 hover:bg-neutral-100 rounded">
+                                                        <Edit2 className="w-4 h-4 text-neutral-500" />
                                                     </button>
                                                     <button 
                                                         onClick={() => handleDeleteProgram(program.id)}
-                                                        className="p-1.5 hover:bg-red-50 rounded"
+                                                        className="p-1.5 hover:bg-error-50 rounded"
                                                     >
-                                                        <Trash2 className="w-4 h-4 text-red-500" />
+                                                        <Trash2 className="w-4 h-4 text-error-500" />
                                                     </button>
                                                 </div>
                                             </div>
-                                            <p className="text-sm text-gray-600 mb-3">{program.description}</p>
-                                            <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
+                                            <p className="text-sm text-neutral-600 mb-3">{program.description}</p>
+                                            <div className="flex items-center gap-4 text-sm text-neutral-500 mb-3">
                                                 <span className="flex items-center gap-1">
                                                     <Clock className="w-4 h-4" /> {program.duration}
                                                 </span>
@@ -360,13 +360,13 @@ export const TrainingDevelopment: React.FC = () => {
                                                 </span>
                                             </div>
                                             <div className="flex items-center justify-between">
-                                                <span className="text-sm text-gray-500">Completion: {program.completionRate}%</span>
-                                                <div className="w-32 h-2 bg-gray-200 rounded-full">
+                                                <span className="text-sm text-neutral-500">Completion: {program.completionRate}%</span>
+                                                <div className="w-32 h-2 bg-neutral-200 rounded-full">
                                                     <div 
                                                         className={`h-full rounded-full ${
                                                             program.completionRate >= 80 ? 'bg-green-500' :
                                                             program.completionRate >= 50 ? 'bg-yellow-500' :
-                                                            'bg-red-500'
+                                                            'bg-error-500'
                                                         }`}
                                                         style={{ width: `${program.completionRate}%` }}
                                                     ></div>
@@ -383,29 +383,29 @@ export const TrainingDevelopment: React.FC = () => {
                             <div className="space-y-4">
                                 <div className="overflow-x-auto">
                                     <table className="w-full">
-                                        <thead className="bg-gray-50">
+                                        <thead className="bg-neutral-50">
                                             <tr>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Staff</th>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Department</th>
-                                                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Completed</th>
-                                                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Pending</th>
-                                                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Certifications</th>
-                                                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Expiring</th>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Last Training</th>
+                                                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Staff</th>
+                                                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Department</th>
+                                                <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Completed</th>
+                                                <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Pending</th>
+                                                <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Certifications</th>
+                                                <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Expiring</th>
+                                                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Last Training</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200">
                                             {staffProgress.map(staff => (
-                                                <tr key={staff.staffId} className="hover:bg-gray-50">
+                                                <tr key={staff.staffId} className="hover:bg-neutral-50">
                                                     <td className="px-4 py-3">
                                                         <div className="flex items-center gap-3">
                                                             <div className="w-8 h-8 bg-gradient-to-br from-emerald-100 to-blue-100 rounded-full flex items-center justify-center">
                                                                 <User className="w-4 h-4 text-emerald-600" />
                                                             </div>
-                                                            <span className="font-medium text-gray-800">{staff.staffName}</span>
+                                                            <span className="font-medium text-neutral-800">{staff.staffName}</span>
                                                         </div>
                                                     </td>
-                                                    <td className="px-4 py-3 text-gray-600">{staff.department}</td>
+                                                    <td className="px-4 py-3 text-neutral-600">{staff.department}</td>
                                                     <td className="px-4 py-3 text-center">
                                                         <span className="px-2 py-1 bg-green-100 text-green-700 rounded text-sm font-medium">
                                                             {staff.completedTrainings}
@@ -413,7 +413,7 @@ export const TrainingDevelopment: React.FC = () => {
                                                     </td>
                                                     <td className="px-4 py-3 text-center">
                                                         <span className={`px-2 py-1 rounded text-sm font-medium ${
-                                                            staff.pendingTrainings > 0 ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-700'
+                                                            staff.pendingTrainings > 0 ? 'bg-orange-100 text-orange-700' : 'bg-neutral-100 text-neutral-700'
                                                         }`}>
                                                             {staff.pendingTrainings}
                                                         </span>
@@ -425,14 +425,14 @@ export const TrainingDevelopment: React.FC = () => {
                                                     </td>
                                                     <td className="px-4 py-3 text-center">
                                                         {staff.expiringCerts > 0 ? (
-                                                            <span className="px-2 py-1 bg-red-100 text-red-700 rounded text-sm font-medium flex items-center gap-1 justify-center">
+                                                            <span className="px-2 py-1 bg-error-100 text-red-700 rounded text-sm font-medium flex items-center gap-1 justify-center">
                                                                 <AlertTriangle className="w-3 h-3" /> {staff.expiringCerts}
                                                             </span>
                                                         ) : (
-                                                            <span className="text-gray-400">-</span>
+                                                            <span className="text-neutral-400">-</span>
                                                         )}
                                                     </td>
-                                                    <td className="px-4 py-3 text-gray-600">{staff.lastTraining}</td>
+                                                    <td className="px-4 py-3 text-neutral-600">{staff.lastTraining}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -456,23 +456,23 @@ export const TrainingDevelopment: React.FC = () => {
 
                                 <div className="overflow-x-auto">
                                     <table className="w-full">
-                                        <thead className="bg-gray-50">
+                                        <thead className="bg-neutral-50">
                                             <tr>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Staff</th>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Certification</th>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Issued Date</th>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Expiry Date</th>
-                                                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Status</th>
-                                                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Actions</th>
+                                                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Staff</th>
+                                                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Certification</th>
+                                                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Issued Date</th>
+                                                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Expiry Date</th>
+                                                <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Status</th>
+                                                <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200">
                                             {certifications.map(cert => (
-                                                <tr key={cert.id} className={`hover:bg-gray-50 ${cert.status === 'expired' ? 'bg-red-50' : ''}`}>
-                                                    <td className="px-4 py-3 font-medium text-gray-800">{cert.staffName}</td>
-                                                    <td className="px-4 py-3 text-gray-600">{cert.certName}</td>
-                                                    <td className="px-4 py-3 text-gray-600">{cert.issuedDate}</td>
-                                                    <td className="px-4 py-3 text-gray-600">{cert.expiryDate}</td>
+                                                <tr key={cert.id} className={`hover:bg-neutral-50 ${cert.status === 'expired' ? 'bg-error-50' : ''}`}>
+                                                    <td className="px-4 py-3 font-medium text-neutral-800">{cert.staffName}</td>
+                                                    <td className="px-4 py-3 text-neutral-600">{cert.certName}</td>
+                                                    <td className="px-4 py-3 text-neutral-600">{cert.issuedDate}</td>
+                                                    <td className="px-4 py-3 text-neutral-600">{cert.expiryDate}</td>
                                                     <td className="px-4 py-3 text-center">
                                                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${getCertStatusStyle(cert.status)}`}>
                                                             {cert.status.charAt(0).toUpperCase() + cert.status.slice(1)}
@@ -480,7 +480,7 @@ export const TrainingDevelopment: React.FC = () => {
                                                     </td>
                                                     <td className="px-4 py-3 text-center">
                                                         {cert.status !== 'valid' && (
-                                                            <button className="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600">
+                                                            <button className="px-3 py-1 bg-primary-500 text-white rounded text-sm hover:bg-primary-500">
                                                                 Send Reminder
                                                             </button>
                                                         )}
@@ -500,36 +500,36 @@ export const TrainingDevelopment: React.FC = () => {
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                         <div className="bg-white rounded-xl shadow-xl max-w-lg w-full mx-4 p-6">
                             <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-xl font-bold text-gray-800">Create Training Program</h3>
-                                <button onClick={() => setShowCreateModal(false)} className="p-2 hover:bg-gray-100 rounded-lg">
+                                <h3 className="text-xl font-bold text-neutral-800">Create Training Program</h3>
+                                <button onClick={() => setShowCreateModal(false)} className="p-2 hover:bg-neutral-100 rounded-lg">
                                     <X className="w-5 h-5" />
                                 </button>
                             </div>
                             <form className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Program Title</label>
-                                    <input type="text" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Program Title</label>
+                                    <input type="text" className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
-                                    <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Category</label>
+                                    <select className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                                         {categories.map(cat => (
                                             <option key={cat.value} value={cat.value}>{cat.label}</option>
                                         ))}
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                                    <textarea className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" rows={3}></textarea>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Description</label>
+                                    <textarea className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500" rows={3}></textarea>
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Duration</label>
-                                        <input type="text" placeholder="e.g., 2 hours" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Duration</label>
+                                        <input type="text" placeholder="e.g., 2 hours" className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Format</label>
-                                        <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Format</label>
+                                        <select className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                                             <option value="online">Online</option>
                                             <option value="in-person">In-Person</option>
                                             <option value="hybrid">Hybrid</option>
@@ -537,14 +537,14 @@ export const TrainingDevelopment: React.FC = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Due Date</label>
-                                    <input type="date" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Due Date</label>
+                                    <input type="date" className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
                                 </div>
                                 <div className="flex justify-end gap-3 pt-4">
-                                    <button type="button" onClick={() => setShowCreateModal(false)} className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                                    <button type="button" onClick={() => setShowCreateModal(false)} className="px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50">
                                         Cancel
                                     </button>
-                                    <button type="submit" className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:opacity-90">
+                                    <button type="submit" className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:opacity-90">
                                         Create Program
                                     </button>
                                 </div>
@@ -558,8 +558,8 @@ export const TrainingDevelopment: React.FC = () => {
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                         <div className="bg-white rounded-xl shadow-xl max-w-lg w-full mx-4 p-6">
                             <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-xl font-bold text-gray-800">{selectedProgram.title}</h3>
-                                <button onClick={() => setShowViewModal(false)} className="p-2 hover:bg-gray-100 rounded-lg">
+                                <h3 className="text-xl font-bold text-neutral-800">{selectedProgram.title}</h3>
+                                <button onClick={() => setShowViewModal(false)} className="p-2 hover:bg-neutral-100 rounded-lg">
                                     <X className="w-5 h-5" />
                                 </button>
                             </div>
@@ -572,36 +572,36 @@ export const TrainingDevelopment: React.FC = () => {
                                         {selectedProgram.status.charAt(0).toUpperCase() + selectedProgram.status.slice(1)}
                                     </span>
                                 </div>
-                                <p className="text-gray-600">{selectedProgram.description}</p>
+                                <p className="text-neutral-600">{selectedProgram.description}</p>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <p className="text-sm text-gray-500">Duration</p>
+                                        <p className="text-sm text-neutral-500">Duration</p>
                                         <p className="font-medium">{selectedProgram.duration}</p>
                                     </div>
                                     <div>
-                                        <p className="text-sm text-gray-500">Format</p>
+                                        <p className="text-sm text-neutral-500">Format</p>
                                         <p className="font-medium capitalize">{selectedProgram.format}</p>
                                     </div>
                                     <div>
-                                        <p className="text-sm text-gray-500">Due Date</p>
+                                        <p className="text-sm text-neutral-500">Due Date</p>
                                         <p className="font-medium">{selectedProgram.dueDate}</p>
                                     </div>
                                     <div>
-                                        <p className="text-sm text-gray-500">Completion Rate</p>
+                                        <p className="text-sm text-neutral-500">Completion Rate</p>
                                         <p className="font-medium">{selectedProgram.completionRate}%</p>
                                     </div>
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500 mb-2">Assigned To</p>
+                                    <p className="text-sm text-neutral-500 mb-2">Assigned To</p>
                                     <div className="flex flex-wrap gap-2">
                                         {selectedProgram.assignedTo.map((group, idx) => (
-                                            <span key={idx} className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-sm">{group}</span>
+                                            <span key={idx} className="px-2 py-1 bg-neutral-100 text-neutral-700 rounded text-sm">{group}</span>
                                         ))}
                                     </div>
                                 </div>
                             </div>
                             <div className="flex justify-end mt-6">
-                                <button onClick={() => setShowViewModal(false)} className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                                <button onClick={() => setShowViewModal(false)} className="px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50">
                                     Close
                                 </button>
                             </div>

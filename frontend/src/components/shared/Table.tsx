@@ -56,7 +56,7 @@ const Table: React.FC<TableProps> = ({
                     {" "}
                     {/* Reduced width */}
                     <FaSearch
-                        className="absolute left-3 top-2.5 text-gray-400"
+                        className="absolute left-3 top-2.5 text-neutral-400"
                         size={20}
                     />
                     <input
@@ -69,18 +69,18 @@ const Table: React.FC<TableProps> = ({
                 </div>
             </div>
 
-            <table className="min-w-full table-auto bg-white border border-gray-200">
+            <table className="min-w-full table-auto bg-white border border-neutral-200">
                 <thead>
                     <tr>
                         {columns.map((column) => (
                             <th
                                 key={column.accessor}
-                                className="px-4 py-2 text-left text-sm font-semibold bg-gray-100"
+                                className="px-4 py-2 text-left text-sm font-semibold bg-neutral-100"
                             >
                                 {column.header}
                             </th>
                         ))}
-                        <th className="px-4 py-2 text-left text-sm font-semibold bg-gray-100">
+                        <th className="px-4 py-2 text-left text-sm font-semibold bg-neutral-100">
                             Actions
                         </th>
                     </tr>
@@ -99,7 +99,7 @@ const Table: React.FC<TableProps> = ({
                             <td className="px-4 py-2 text-sm">
                                 <button
                                     onClick={() => onView(item)}
-                                    className="text-blue-500 mr-2"
+                                    className="text-primary-500 mr-2"
                                 >
                                     <FaEye />
                                 </button>
@@ -111,7 +111,7 @@ const Table: React.FC<TableProps> = ({
                                 </button>
                                 <button
                                     onClick={() => onDelete(item)}
-                                    className="text-red-500"
+                                    className="text-error-500"
                                 >
                                     <FaTrash />
                                 </button>
@@ -125,7 +125,7 @@ const Table: React.FC<TableProps> = ({
                 <button
                     onClick={handlePrevious}
                     disabled={currentPage === 1}
-                    className="px-4 py-2 text-sm bg-gray-200 rounded disabled:opacity-50"
+                    className="px-4 py-2 text-sm bg-neutral-200 rounded disabled:opacity-50"
                 >
                     Previous
                 </button>
@@ -135,7 +135,7 @@ const Table: React.FC<TableProps> = ({
                 <button
                     onClick={handleNext}
                     disabled={currentPage === totalPages}
-                    className="px-4 py-2 text-sm bg-gray-200 rounded disabled:opacity-50"
+                    className="px-4 py-2 text-sm bg-neutral-200 rounded disabled:opacity-50"
                 >
                     Next
                 </button>

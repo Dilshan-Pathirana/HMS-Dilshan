@@ -53,7 +53,7 @@ export const BranchAdminSidebar: React.FC<BranchAdminSidebarProps> = ({ menuItem
     return (
         <nav className="py-4">
             <div className="px-4 mb-4">
-                <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                <h2 className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">
                     Navigation
                 </h2>
             </div>
@@ -70,18 +70,18 @@ export const BranchAdminSidebar: React.FC<BranchAdminSidebarProps> = ({ menuItem
                                 className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all w-full ${
                                     location.pathname === item.path || location.pathname.startsWith(item.path + '/')
                                         ? 'bg-gradient-to-r from-emerald-100 to-blue-100 text-emerald-700'
-                                        : 'text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
+                                        : 'text-neutral-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
                                 }`}
                             >
                                 <span className="flex-shrink-0 relative">
                                     {item.icon}
                                     {showBadge && (
-                                        <span className="absolute -top-1.5 -right-1.5 w-3 h-3 bg-red-500 rounded-full animate-pulse border-2 border-white shadow-sm" />
+                                        <span className="absolute -top-1.5 -right-1.5 w-3 h-3 bg-error-500 rounded-full animate-pulse border-2 border-white shadow-sm" />
                                     )}
                                 </span>
                                 <span className="flex-1 font-medium text-left">{item.label}</span>
                                 {showBadge && (
-                                    <span className="px-2 py-0.5 text-xs font-bold bg-red-500 text-white rounded-full min-w-[20px] text-center">
+                                    <span className="px-2 py-0.5 text-xs font-bold bg-error-500 text-white rounded-full min-w-[20px] text-center">
                                         {feedbackNotificationCount > 99 ? '99+' : feedbackNotificationCount}
                                     </span>
                                 )}

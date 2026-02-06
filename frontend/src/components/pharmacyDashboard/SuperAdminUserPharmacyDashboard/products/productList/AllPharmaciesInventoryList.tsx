@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from "../../../../../utils/api/axios";
 import { Search, Filter, Package, AlertTriangle, Calendar, Building2, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -129,7 +129,7 @@ const AllPharmaciesInventoryList: React.FC = () => {
     };
 
     const getStockStatus = (quantity: number, reorderLevel: number) => {
-        if (quantity === 0) return { label: 'Out of Stock', color: 'bg-red-100 text-red-800' };
+        if (quantity === 0) return { label: 'Out of Stock', color: 'bg-error-100 text-red-800' };
         if (quantity <= reorderLevel) return { label: 'Low Stock', color: 'bg-yellow-100 text-yellow-800' };
         return { label: 'In Stock', color: 'bg-green-100 text-green-800' };
     };
@@ -139,7 +139,7 @@ const AllPharmaciesInventoryList: React.FC = () => {
         const expiry = new Date(expiryDate);
         const daysUntilExpiry = Math.floor((expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 
-        if (daysUntilExpiry < 0) return { label: 'Expired', color: 'bg-red-100 text-red-800' };
+        if (daysUntilExpiry < 0) return { label: 'Expired', color: 'bg-error-100 text-red-800' };
         if (daysUntilExpiry <= 30) return { label: 'Expiring Soon', color: 'bg-orange-100 text-orange-800' };
         if (daysUntilExpiry <= 90) return { label: 'Expiring in 3 months', color: 'bg-yellow-100 text-yellow-800' };
         return { label: 'Good', color: 'bg-green-100 text-green-800' };
@@ -184,8 +184,8 @@ const AllPharmaciesInventoryList: React.FC = () => {
                 disabled={currentPage === 1}
                 className={`px-3 py-2 rounded-lg ${
                     currentPage === 1
-                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                        : 'bg-white text-gray-700 hover:bg-blue-50 border border-gray-300'
+                        ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed'
+                        : 'bg-white text-neutral-700 hover:bg-blue-50 border border-neutral-300'
                 }`}
             >
                 <ChevronLeft className="w-5 h-5" />
@@ -198,14 +198,14 @@ const AllPharmaciesInventoryList: React.FC = () => {
                 <button
                     key={1}
                     onClick={() => handlePageChange(1)}
-                    className="px-4 py-2 rounded-lg bg-white text-gray-700 hover:bg-blue-50 border border-gray-300"
+                    className="px-4 py-2 rounded-lg bg-white text-neutral-700 hover:bg-blue-50 border border-neutral-300"
                 >
                     1
                 </button>
             );
             if (startPage > 2) {
                 pages.push(
-                    <span key="ellipsis1" className="px-2 py-2 text-gray-500">
+                    <span key="ellipsis1" className="px-2 py-2 text-neutral-500">
                         ...
                     </span>
                 );
@@ -220,8 +220,8 @@ const AllPharmaciesInventoryList: React.FC = () => {
                     onClick={() => handlePageChange(i)}
                     className={`px-4 py-2 rounded-lg ${
                         i === currentPage
-                            ? 'bg-blue-600 text-white font-semibold'
-                            : 'bg-white text-gray-700 hover:bg-blue-50 border border-gray-300'
+                            ? 'bg-primary-500 text-white font-semibold'
+                            : 'bg-white text-neutral-700 hover:bg-blue-50 border border-neutral-300'
                     }`}
                 >
                     {i}
@@ -233,7 +233,7 @@ const AllPharmaciesInventoryList: React.FC = () => {
         if (endPage < pagination.last_page) {
             if (endPage < pagination.last_page - 1) {
                 pages.push(
-                    <span key="ellipsis2" className="px-2 py-2 text-gray-500">
+                    <span key="ellipsis2" className="px-2 py-2 text-neutral-500">
                         ...
                     </span>
                 );
@@ -242,7 +242,7 @@ const AllPharmaciesInventoryList: React.FC = () => {
                 <button
                     key={pagination.last_page}
                     onClick={() => handlePageChange(pagination.last_page)}
-                    className="px-4 py-2 rounded-lg bg-white text-gray-700 hover:bg-blue-50 border border-gray-300"
+                    className="px-4 py-2 rounded-lg bg-white text-neutral-700 hover:bg-blue-50 border border-neutral-300"
                 >
                     {pagination.last_page}
                 </button>
@@ -257,8 +257,8 @@ const AllPharmaciesInventoryList: React.FC = () => {
                 disabled={currentPage === pagination.last_page}
                 className={`px-3 py-2 rounded-lg ${
                     currentPage === pagination.last_page
-                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                        : 'bg-white text-gray-700 hover:bg-blue-50 border border-gray-300'
+                        ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed'
+                        : 'bg-white text-neutral-700 hover:bg-blue-50 border border-neutral-300'
                 }`}
             >
                 <ChevronRight className="w-5 h-5" />
@@ -275,11 +275,11 @@ const AllPharmaciesInventoryList: React.FC = () => {
                 <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
                     <div className="flex items-center justify-between mb-4">
                         <div>
-                            <h1 className="text-3xl font-bold text-gray-800">All Pharmacies Inventory</h1>
-                            <p className="text-gray-600 mt-1">View and filter products across all pharmacy locations</p>
+                            <h1 className="text-3xl font-bold text-neutral-800">All Pharmacies Inventory</h1>
+                            <p className="text-neutral-600 mt-1">View and filter products across all pharmacy locations</p>
                         </div>
                         <div className="flex items-center gap-2 px-4 py-2 bg-blue-100 rounded-lg">
-                            <Package className="w-5 h-5 text-blue-600" />
+                            <Package className="w-5 h-5 text-primary-500" />
                             <span className="text-blue-800 font-semibold">
                                 {pagination ? `${pagination.total} Total Items` : `${filteredInventory.length} Items`}
                             </span>
@@ -288,13 +288,13 @@ const AllPharmaciesInventoryList: React.FC = () => {
 
                     {/* Search Bar */}
                     <div className="relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
                         <input
                             type="text"
                             placeholder="Search by product name, generic name, or pharmacy..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         />
                     </div>
                 </div>
@@ -302,21 +302,21 @@ const AllPharmaciesInventoryList: React.FC = () => {
                 {/* Filters */}
                 <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
                     <div className="flex items-center gap-2 mb-4">
-                        <Filter className="w-5 h-5 text-gray-600" />
-                        <h3 className="text-lg font-semibold text-gray-800">Filters</h3>
+                        <Filter className="w-5 h-5 text-neutral-600" />
+                        <h3 className="text-lg font-semibold text-neutral-800">Filters</h3>
                     </div>
                     
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {/* Pharmacy Filter */}
                         <div>
-                            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                            <label className="flex items-center gap-2 text-sm font-medium text-neutral-700 mb-2">
                                 <Building2 className="w-4 h-4" />
                                 Pharmacy
                             </label>
                             <select
                                 value={selectedPharmacy}
                                 onChange={(e) => setSelectedPharmacy(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white"
                             >
                                 <option value="all">All Pharmacies</option>
                                 {pharmacies.map((pharmacy) => (
@@ -329,14 +329,14 @@ const AllPharmaciesInventoryList: React.FC = () => {
 
                         {/* Stock Level Filter */}
                         <div>
-                            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                            <label className="flex items-center gap-2 text-sm font-medium text-neutral-700 mb-2">
                                 <Package className="w-4 h-4" />
                                 Stock Level
                             </label>
                             <select
                                 value={stockFilter}
                                 onChange={(e) => setStockFilter(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white"
                             >
                                 <option value="all">All Stock Levels</option>
                                 <option value="low_stock">Low Stock</option>
@@ -346,14 +346,14 @@ const AllPharmaciesInventoryList: React.FC = () => {
 
                         {/* Expiry Filter */}
                         <div>
-                            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                            <label className="flex items-center gap-2 text-sm font-medium text-neutral-700 mb-2">
                                 <Calendar className="w-4 h-4" />
                                 Expiry Status
                             </label>
                             <select
                                 value={expiryFilter}
                                 onChange={(e) => setExpiryFilter(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white"
                             >
                                 <option value="all">All Items</option>
                                 <option value="expiring">Expiring Soon (30 days)</option>
@@ -367,7 +367,7 @@ const AllPharmaciesInventoryList: React.FC = () => {
                         <div className="mt-4">
                             <button
                                 onClick={resetFilters}
-                                className="px-4 py-2 text-sm text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-colors"
+                                className="px-4 py-2 text-sm text-primary-500 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-colors"
                             >
                                 Reset All Filters
                             </button>
@@ -379,10 +379,10 @@ const AllPharmaciesInventoryList: React.FC = () => {
                 <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
                     {loading ? (
                         <div className="flex items-center justify-center py-12">
-                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
                         </div>
                     ) : filteredInventory.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center py-12 text-gray-500">
+                        <div className="flex flex-col items-center justify-center py-12 text-neutral-500">
                             <AlertTriangle className="w-12 h-12 mb-4" />
                             <p className="text-lg font-medium">No items found</p>
                             <p className="text-sm">Try adjusting your filters or search criteria</p>
@@ -390,33 +390,33 @@ const AllPharmaciesInventoryList: React.FC = () => {
                     ) : (
                         <div className="overflow-x-auto">
                             <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-gray-50">
+                                <thead className="bg-neutral-50">
                                     <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Pharmacy
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Product Name
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Generic Name
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Batch No.
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Quantity
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Stock Status
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Unit Price
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Expiry Date
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Expiry Status
                                         </th>
                                     </tr>
@@ -427,26 +427,26 @@ const AllPharmaciesInventoryList: React.FC = () => {
                                         const expiryStatus = getExpiryStatus(item.expiry_date);
                                         
                                         return (
-                                            <tr key={item.id} className="hover:bg-gray-50 transition-colors">
+                                            <tr key={item.id} className="hover:bg-neutral-50 transition-colors">
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <div className="flex items-center">
-                                                        <Building2 className="w-4 h-4 text-gray-400 mr-2" />
-                                                        <span className="text-sm font-medium text-gray-900">
+                                                        <Building2 className="w-4 h-4 text-neutral-400 mr-2" />
+                                                        <span className="text-sm font-medium text-neutral-900">
                                                             {item.pharmacy_name}
                                                         </span>
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4">
-                                                    <div className="text-sm font-medium text-gray-900">{item.medicine_name}</div>
+                                                    <div className="text-sm font-medium text-neutral-900">{item.medicine_name}</div>
                                                 </td>
                                                 <td className="px-6 py-4">
-                                                    <div className="text-sm text-gray-500">{item.generic_name || 'N/A'}</div>
+                                                    <div className="text-sm text-neutral-500">{item.generic_name || 'N/A'}</div>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="text-sm text-gray-900">{item.batch_number}</div>
+                                                    <div className="text-sm text-neutral-900">{item.batch_number}</div>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="text-sm font-semibold text-gray-900">
+                                                    <div className="text-sm font-semibold text-neutral-900">
                                                         {item.quantity} {item.unit}
                                                     </div>
                                                 </td>
@@ -456,12 +456,12 @@ const AllPharmaciesInventoryList: React.FC = () => {
                                                     </span>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="text-sm text-gray-900">
+                                                    <div className="text-sm text-neutral-900">
                                                         LKR {parseFloat(String(item.unit_price || 0)).toFixed(2)}
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="text-sm text-gray-900">
+                                                    <div className="text-sm text-neutral-900">
                                                         {new Date(item.expiry_date).toLocaleDateString()}
                                                     </div>
                                                 </td>
@@ -480,9 +480,9 @@ const AllPharmaciesInventoryList: React.FC = () => {
 
                     {/* Pagination */}
                     {!loading && pagination && pagination.last_page > 1 && (
-                        <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                        <div className="px-6 py-4 bg-neutral-50 border-t border-neutral-200">
                             <div className="flex items-center justify-between">
-                                <div className="text-sm text-gray-700">
+                                <div className="text-sm text-neutral-700">
                                     Showing <span className="font-medium">{pagination.from}</span> to{' '}
                                     <span className="font-medium">{pagination.to}</span> of{' '}
                                     <span className="font-medium">{pagination.total}</span> results

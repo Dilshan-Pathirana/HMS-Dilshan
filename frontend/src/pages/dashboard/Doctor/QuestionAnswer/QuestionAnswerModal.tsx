@@ -125,20 +125,20 @@ const QuestionAnswerModal: React.FC<QuestionAnswerModalProps> = ({
             <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
                 <div className="flex justify-between items-center mb-6">
                     <div>
-                        <h2 className="text-2xl font-bold text-gray-800">
+                        <h2 className="text-2xl font-bold text-neutral-800">
                             Manage Answers
                         </h2>
-                        <p className="text-sm text-gray-600 mt-1">
+                        <p className="text-sm text-neutral-600 mt-1">
                             Question: {question.question}
                         </p>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-neutral-500">
                             Doctor: Dr. {question.doctor_first_name}{" "}
                             {question.doctor_last_name}
                         </p>
                     </div>
                     <button
                         onClick={handleClose}
-                        className="text-gray-500 hover:text-gray-700 text-2xl"
+                        className="text-neutral-500 hover:text-neutral-700 text-2xl"
                     >
                         ✕
                     </button>
@@ -149,7 +149,7 @@ const QuestionAnswerModal: React.FC<QuestionAnswerModalProps> = ({
                 {!isLoading && (
                     <div className="space-y-6">
                         <div>
-                            <h3 className="text-lg font-semibold text-gray-800 mb-3">
+                            <h3 className="text-lg font-semibold text-neutral-800 mb-3">
                                 Existing Answers ({answers.length})
                             </h3>
                             {answers.length > 0 ? (
@@ -157,9 +157,9 @@ const QuestionAnswerModal: React.FC<QuestionAnswerModalProps> = ({
                                     {answers.map((answer, index) => (
                                         <div
                                             key={answer.id || index}
-                                            className="flex items-center justify-between bg-gray-50 p-3 rounded-lg"
+                                            className="flex items-center justify-between bg-neutral-50 p-3 rounded-lg"
                                         >
-                                            <span className="text-gray-800">
+                                            <span className="text-neutral-800">
                                                 {answer.answer}
                                             </span>
                                             <button
@@ -168,7 +168,7 @@ const QuestionAnswerModal: React.FC<QuestionAnswerModalProps> = ({
                                                         answer.id!,
                                                     )
                                                 }
-                                                className="text-red-500 hover:text-red-700 p-1"
+                                                className="text-error-500 hover:text-red-700 p-1"
                                                 title="Delete answer"
                                             >
                                                 <FiTrash />
@@ -177,7 +177,7 @@ const QuestionAnswerModal: React.FC<QuestionAnswerModalProps> = ({
                                     ))}
                                 </div>
                             ) : (
-                                <p className="text-gray-500 text-center py-4">
+                                <p className="text-neutral-500 text-center py-4">
                                     No answers found for this question
                                 </p>
                             )}
@@ -185,12 +185,12 @@ const QuestionAnswerModal: React.FC<QuestionAnswerModalProps> = ({
 
                         <div>
                             <div className="flex items-center justify-between mb-3">
-                                <h3 className="text-lg font-semibold text-gray-800">
+                                <h3 className="text-lg font-semibold text-neutral-800">
                                     Add New Answers
                                 </h3>
                                 <button
                                     onClick={addNewAnswerField}
-                                    className="flex items-center space-x-1 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm"
+                                    className="flex items-center space-x-1 px-3 py-1 bg-primary-500 text-white rounded hover:bg-primary-500 text-sm"
                                 >
                                     <FiPlus />
                                     <span>Add Field</span>
@@ -213,14 +213,14 @@ const QuestionAnswerModal: React.FC<QuestionAnswerModalProps> = ({
                                                 )
                                             }
                                             placeholder={`Answer option ${index + 1}`}
-                                            className="flex-1 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            className="flex-1 border border-neutral-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500"
                                         />
                                         {newAnswers.length > 1 && (
                                             <button
                                                 onClick={() =>
                                                     removeNewAnswerField(index)
                                                 }
-                                                className="text-red-500 hover:text-red-700 p-2"
+                                                className="text-error-500 hover:text-red-700 p-2"
                                                 title="Remove field"
                                             >
                                                 <FiTrash />

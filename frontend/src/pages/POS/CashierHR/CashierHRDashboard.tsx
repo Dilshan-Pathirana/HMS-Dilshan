@@ -126,7 +126,7 @@ const CashierHRDashboard: React.FC = () => {
         color: string;
         trend?: string;
     }) => (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 hover:shadow-md transition-shadow">
+        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5 hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between mb-3">
                 <div className={`p-3 rounded-lg bg-gradient-to-br ${color}`}>
                     <div className="text-white">
@@ -141,8 +141,8 @@ const CashierHRDashboard: React.FC = () => {
                 )}
             </div>
             <div>
-                <p className="text-2xl font-bold text-gray-800">{value}</p>
-                <p className="text-sm text-gray-500 mt-1">{title}</p>
+                <p className="text-2xl font-bold text-neutral-800">{value}</p>
+                <p className="text-sm text-neutral-500 mt-1">{title}</p>
             </div>
         </div>
     );
@@ -150,7 +150,7 @@ const CashierHRDashboard: React.FC = () => {
     const ModuleCard = ({ module }: { module: typeof hrModules[0] }) => (
         <div
             onClick={() => navigate(module.path)}
-            className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all duration-200 cursor-pointer group"
+            className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 hover:shadow-lg transition-all duration-200 cursor-pointer group"
         >
             <div className="flex items-start justify-between mb-4">
                 <div className={`p-4 rounded-xl bg-gradient-to-br ${module.color} group-hover:scale-110 transition-transform duration-200`}>
@@ -158,18 +158,18 @@ const CashierHRDashboard: React.FC = () => {
                         {module.icon}
                     </div>
                 </div>
-                <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all" />
+                <ArrowRight className="w-5 h-5 text-neutral-400 group-hover:text-neutral-600 group-hover:translate-x-1 transition-all" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-800 mb-2 group-hover:text-gray-900">
+            <h3 className="text-lg font-semibold text-neutral-800 mb-2 group-hover:text-neutral-900">
                 {module.title}
             </h3>
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-sm text-neutral-600 mb-4">
                 {module.description}
             </p>
             <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                <span className="text-xs text-gray-500">{module.stats.label}</span>
+                <span className="text-xs text-neutral-500">{module.stats.label}</span>
                 <div className="flex items-center gap-2">
-                    <span className="text-sm font-semibold text-gray-700">{module.stats.value}</span>
+                    <span className="text-sm font-semibold text-neutral-700">{module.stats.value}</span>
                     {module.stats.alert && (
                         <span className="flex items-center gap-1 text-xs text-amber-600 bg-amber-50 px-2 py-1 rounded-full">
                             <Bell className="w-3 h-3" />
@@ -184,14 +184,14 @@ const CashierHRDashboard: React.FC = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
             {/* Header */}
-            <div className="bg-white border-b border-gray-200 shadow-sm">
+            <div className="bg-white border-b border-neutral-200 shadow-sm">
                 <div className="max-w-7xl mx-auto px-6 py-6">
                     <div className="flex items-center justify-between">
                         <div>
-                            <h1 className="text-3xl font-bold text-gray-800 mb-2">
+                            <h1 className="text-3xl font-bold text-neutral-800 mb-2">
                                 HR Self-Service Portal
                             </h1>
-                            <p className="text-gray-600">
+                            <p className="text-neutral-600">
                                 Manage your schedules, overtime, payslips, and HR requests
                             </p>
                         </div>
@@ -242,7 +242,7 @@ const CashierHRDashboard: React.FC = () => {
 
                 {/* HR Modules Grid */}
                 <div className="mb-6">
-                    <h2 className="text-xl font-semibold text-gray-800 mb-4">HR Services</h2>
+                    <h2 className="text-xl font-semibold text-neutral-800 mb-4">HR Services</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {hrModules.map((module) => (
                             <ModuleCard key={module.id} module={module} />
@@ -261,7 +261,7 @@ const CashierHRDashboard: React.FC = () => {
                         </div>
                         <button
                             onClick={() => navigate('/pos/feedback')}
-                            className="bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors"
+                            className="bg-white text-primary-500 px-6 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors"
                         >
                             Contact HR
                         </button>

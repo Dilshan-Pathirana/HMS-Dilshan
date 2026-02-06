@@ -212,7 +212,7 @@ const ConsultationFlow: React.FC = () => {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+                <Loader2 className="w-8 h-8 animate-spin text-primary-500" />
             </div>
         );
     }
@@ -222,10 +222,10 @@ const ConsultationFlow: React.FC = () => {
             <div className="flex items-center justify-center h-64">
                 <div className="text-center">
                     <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
-                    <p className="text-red-600">{error}</p>
+                    <p className="text-error-600">{error}</p>
                     <button
                         onClick={() => navigate('/doctor-dashboard-new/consultation')}
-                        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                        className="mt-4 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                     >
                         Back to Queue
                     </button>
@@ -241,16 +241,16 @@ const ConsultationFlow: React.FC = () => {
                 <div>
                     <button
                         onClick={() => navigate('/doctor-dashboard-new/consultation')}
-                        className="text-blue-600 hover:text-blue-700 text-sm flex items-center gap-1 mb-2"
+                        className="text-primary-500 hover:text-blue-700 text-sm flex items-center gap-1 mb-2"
                     >
                         <ChevronLeft className="w-4 h-4" /> Back to Queue
                     </button>
-                    <h1 className="text-2xl font-bold text-gray-800">
+                    <h1 className="text-2xl font-bold text-neutral-800">
                         Consultation: {patient?.patient.first_name} {patient?.patient.last_name}
                     </h1>
                 </div>
                 {saving && (
-                    <div className="flex items-center gap-2 text-blue-600">
+                    <div className="flex items-center gap-2 text-primary-500">
                         <Loader2 className="w-5 h-5 animate-spin" />
                         <span>Saving...</span>
                     </div>
@@ -265,10 +265,10 @@ const ConsultationFlow: React.FC = () => {
                             <div
                                 className={`flex items-center gap-2 cursor-pointer ${
                                     currentStep === step.id
-                                        ? 'text-blue-600'
+                                        ? 'text-primary-500'
                                         : currentStep > step.id
                                         ? 'text-green-600'
-                                        : 'text-gray-400'
+                                        : 'text-neutral-400'
                                 }`}
                                 onClick={() => {
                                     if (step.id < currentStep) {
@@ -278,10 +278,10 @@ const ConsultationFlow: React.FC = () => {
                             >
                                 <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
                                     currentStep === step.id
-                                        ? 'bg-blue-100 text-blue-600'
+                                        ? 'bg-blue-100 text-primary-500'
                                         : currentStep > step.id
                                         ? 'bg-green-100 text-green-600'
-                                        : 'bg-gray-100 text-gray-400'
+                                        : 'bg-neutral-100 text-neutral-400'
                                 }`}>
                                     {currentStep > step.id ? (
                                         <Check className="w-5 h-5" />
@@ -295,7 +295,7 @@ const ConsultationFlow: React.FC = () => {
                             </div>
                             {index < steps.length - 1 && (
                                 <div className={`flex-1 h-0.5 mx-2 ${
-                                    currentStep > step.id ? 'bg-green-500' : 'bg-gray-200'
+                                    currentStep > step.id ? 'bg-green-500' : 'bg-neutral-200'
                                 }`} />
                             )}
                         </React.Fragment>
@@ -352,7 +352,7 @@ const ConsultationFlow: React.FC = () => {
                 <button
                     onClick={handlePrevStep}
                     disabled={currentStep === 1}
-                    className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="inline-flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     <ChevronLeft className="w-5 h-5" />
                     Previous
@@ -363,7 +363,7 @@ const ConsultationFlow: React.FC = () => {
                         <button
                             onClick={handleNextStep}
                             disabled={saving}
-                            className="inline-flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                            className="inline-flex items-center gap-2 px-6 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50"
                         >
                             {saving ? (
                                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -406,20 +406,20 @@ const PatientOverviewStep: React.FC<{
         <div className="p-6 space-y-6">
             {/* Patient Info */}
             <div className="flex items-start gap-6">
-                <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-2xl">
+                <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center text-primary-500 font-bold text-2xl">
                     {patient.patient.first_name?.charAt(0)}{patient.patient.last_name?.charAt(0)}
                 </div>
                 <div className="flex-1">
-                    <h2 className="text-2xl font-bold text-gray-800">
+                    <h2 className="text-2xl font-bold text-neutral-800">
                         {patient.patient.first_name} {patient.patient.last_name}
                     </h2>
-                    <div className="flex flex-wrap items-center gap-4 text-gray-600 mt-2">
+                    <div className="flex flex-wrap items-center gap-4 text-neutral-600 mt-2">
                         {patient.patient.age && (
                             <span>{patient.patient.age} years, {patient.patient.gender}</span>
                         )}
                         <span>{patient.patient.phone}</span>
                         {patient.patient.blood_type && (
-                            <span className="text-red-600 font-medium">Blood: {patient.patient.blood_type}</span>
+                            <span className="text-error-600 font-medium">Blood: {patient.patient.blood_type}</span>
                         )}
                     </div>
                 </div>
@@ -427,11 +427,11 @@ const PatientOverviewStep: React.FC<{
 
             {/* Allergies Warning */}
             {patient.patient.allergies && (
-                <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">
-                    <AlertCircle className="w-6 h-6 text-red-500 flex-shrink-0 mt-0.5" />
+                <div className="bg-error-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">
+                    <AlertCircle className="w-6 h-6 text-error-500 flex-shrink-0 mt-0.5" />
                     <div>
                         <p className="font-semibold text-red-700">Known Allergies</p>
-                        <p className="text-red-600">{patient.patient.allergies}</p>
+                        <p className="text-error-600">{patient.patient.allergies}</p>
                     </div>
                 </div>
             )}
@@ -446,41 +446,41 @@ const PatientOverviewStep: React.FC<{
 
             {/* Chief Complaint */}
             <div>
-                <label className="block font-semibold text-gray-800 mb-2">
+                <label className="block font-semibold text-neutral-800 mb-2">
                     Chief Complaint / Reason for Visit
                 </label>
                 <textarea
                     value={chiefComplaint}
                     onChange={(e) => setChiefComplaint(e.target.value)}
                     placeholder="Enter the patient's main complaint or reason for this visit..."
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[100px] resize-none"
+                    className="w-full px-4 py-3 border border-neutral-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 min-h-[100px] resize-none"
                 />
             </div>
 
             {/* Recent History Summary */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-gray-50 rounded-xl p-4">
-                    <h3 className="font-semibold text-gray-800 mb-2">Recent Diagnoses</h3>
+                <div className="bg-neutral-50 rounded-xl p-4">
+                    <h3 className="font-semibold text-neutral-800 mb-2">Recent Diagnoses</h3>
                     {patient.all_diagnoses.length === 0 ? (
-                        <p className="text-gray-500 text-sm">No previous diagnoses</p>
+                        <p className="text-neutral-500 text-sm">No previous diagnoses</p>
                     ) : (
                         <div className="flex flex-wrap gap-2">
                             {patient.all_diagnoses.slice(0, 5).map((d, i) => (
-                                <span key={i} className="px-2 py-1 bg-white text-sm rounded-lg border border-gray-200">
+                                <span key={i} className="px-2 py-1 bg-white text-sm rounded-lg border border-neutral-200">
                                     {d.diagnosis_name}
                                 </span>
                             ))}
                         </div>
                     )}
                 </div>
-                <div className="bg-gray-50 rounded-xl p-4">
-                    <h3 className="font-semibold text-gray-800 mb-2">Recent Medications</h3>
+                <div className="bg-neutral-50 rounded-xl p-4">
+                    <h3 className="font-semibold text-neutral-800 mb-2">Recent Medications</h3>
                     {patient.medication_history.length === 0 ? (
-                        <p className="text-gray-500 text-sm">No medication history</p>
+                        <p className="text-neutral-500 text-sm">No medication history</p>
                     ) : (
                         <div className="flex flex-wrap gap-2">
                             {patient.medication_history.slice(0, 5).map((m, i) => (
-                                <span key={i} className="px-2 py-1 bg-white text-sm rounded-lg border border-gray-200">
+                                <span key={i} className="px-2 py-1 bg-white text-sm rounded-lg border border-neutral-200">
                                     {m.medicine_name} {m.potency}
                                 </span>
                             ))}

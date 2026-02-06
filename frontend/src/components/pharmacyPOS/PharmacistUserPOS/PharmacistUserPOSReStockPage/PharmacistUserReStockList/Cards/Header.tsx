@@ -7,10 +7,10 @@ const Header = () => {
         <header className="flex items-center justify-between px-6 py-4 bg-white border-b mb-4">
             <div className="flex items-center">
                 <ArrowLeft
-                    className="h-6 w-6 text-gray-500 cursor-pointer"
+                    className="h-6 w-6 text-neutral-500 cursor-pointer"
                     onClick={() => navigate(-1)}
                 />
-                <h1 className="text-2xl font-semibold text-gray-800 ml-4">
+                <h1 className="text-2xl font-semibold text-neutral-800 ml-4">
                     Re Order Stock Management
                 </h1>
             </div>

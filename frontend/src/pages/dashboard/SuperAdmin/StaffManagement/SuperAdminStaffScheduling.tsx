@@ -292,7 +292,7 @@ export const SuperAdminStaffScheduling: React.FC = () => {
 
     const getUserColor = (roleAs: number): string => {
         switch (roleAs) {
-            case 2: return 'bg-blue-500'; // Branch Admin
+            case 2: return 'bg-primary-500'; // Branch Admin
             case 3: return 'bg-emerald-500'; // Doctor
             case 4: return 'bg-teal-500'; // Nurse
             case 5: return 'bg-gray-400'; // Patient
@@ -629,7 +629,7 @@ export const SuperAdminStaffScheduling: React.FC = () => {
             'pending_acknowledgment': 'bg-blue-100 text-blue-700 border border-blue-300',
             'approved': 'bg-green-100 text-green-700 border border-green-300',
             'accepted': 'bg-emerald-100 text-emerald-700 border border-emerald-300',
-            'rejected': 'bg-red-100 text-red-700 border border-red-300',
+            'rejected': 'bg-error-100 text-red-700 border border-red-300',
             'rejected_by_user': 'bg-orange-100 text-orange-700 border border-orange-300'
         };
 
@@ -643,7 +643,7 @@ export const SuperAdminStaffScheduling: React.FC = () => {
         };
 
         return (
-            <span className={`px-2 py-1 text-xs font-medium rounded-full ${styles[status] || 'bg-gray-100 text-gray-700'}`}>
+            <span className={`px-2 py-1 text-xs font-medium rounded-full ${styles[status] || 'bg-neutral-100 text-neutral-700'}`}>
                 {labels[status] || status}
             </span>
         );
@@ -669,18 +669,18 @@ export const SuperAdminStaffScheduling: React.FC = () => {
 
     // Render Branch Selector
     const renderBranchSelector = () => (
-        <div className="mb-6 bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+        <div className="mb-6 bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div className="flex items-center gap-3">
                     <button
                         onClick={() => navigate('/super-admin/staff')}
-                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                        className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                     >
-                        <ArrowLeft className="w-5 h-5 text-gray-600" />
+                        <ArrowLeft className="w-5 h-5 text-neutral-600" />
                     </button>
                     <div>
-                        <h1 className="text-xl font-bold text-gray-800">Scheduling & Shift Management</h1>
-                        <p className="text-sm text-gray-500">Manage shifts, schedules, overtime, and on-call staff</p>
+                        <h1 className="text-xl font-bold text-neutral-800">Scheduling & Shift Management</h1>
+                        <p className="text-sm text-neutral-500">Manage shifts, schedules, overtime, and on-call staff</p>
                     </div>
                 </div>
 
@@ -701,10 +701,10 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                     </div>
                     <button
                         onClick={() => { fetchUsers(); fetchRealShifts(); }}
-                        className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                        className="p-2 bg-neutral-100 rounded-lg hover:bg-neutral-200 transition-colors"
                         title="Refresh data"
                     >
-                        <RefreshCw className="w-5 h-5 text-gray-600" />
+                        <RefreshCw className="w-5 h-5 text-neutral-600" />
                     </button>
                 </div>
             </div>
@@ -718,19 +718,19 @@ export const SuperAdminStaffScheduling: React.FC = () => {
         return (
             <div className="space-y-4">
                 {/* Week Navigation */}
-                <div className="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                <div className="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border border-neutral-200">
                     <button
                         onClick={() => navigateWeek('prev')}
-                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                        className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                     >
                         <ChevronLeft className="w-5 h-5" />
                     </button>
-                    <h3 className="text-lg font-semibold text-gray-800">
+                    <h3 className="text-lg font-semibold text-neutral-800">
                         {weekDays[0].toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - {weekDays[6].toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                     </h3>
                     <button
                         onClick={() => navigateWeek('next')}
-                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                        className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                     >
                         <ChevronRight className="w-5 h-5" />
                     </button>
@@ -738,11 +738,11 @@ export const SuperAdminStaffScheduling: React.FC = () => {
 
                 {/* Filter */}
                 <div className="flex items-center gap-3">
-                    <Filter className="w-4 h-4 text-gray-500" />
+                    <Filter className="w-4 h-4 text-neutral-500" />
                     <select
                         value={filterRole}
                         onChange={(e) => setFilterRole(e.target.value)}
-                        className="text-sm border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500"
+                        className="text-sm border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500"
                     >
                         <option value="">All Roles</option>
                         {uniqueRoles.map(role => (
@@ -752,12 +752,12 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                 </div>
 
                 {/* Schedule Grid */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full">
-                            <thead className="bg-gray-50">
+                            <thead className="bg-neutral-50">
                                 <tr>
-                                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 sticky left-0 bg-gray-50 min-w-[200px]">
+                                    <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-700 sticky left-0 bg-neutral-50 min-w-[200px]">
                                         Staff Member
                                     </th>
                                     {weekDays.map((day, idx) => {
@@ -767,16 +767,16 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                                             <th
                                                 key={idx}
                                                 className={`px-2 py-3 text-center text-sm font-medium min-w-[120px] ${isToday ? 'bg-emerald-50' : ''
-                                                    } ${holidayInfo.isHoliday ? 'bg-red-50' : ''}`}
+                                                    } ${holidayInfo.isHoliday ? 'bg-error-50' : ''}`}
                                             >
-                                                <div className={`${isToday ? 'text-emerald-600' : 'text-gray-700'}`}>
+                                                <div className={`${isToday ? 'text-emerald-600' : 'text-neutral-700'}`}>
                                                     {day.toLocaleDateString('en-US', { weekday: 'short' })}
                                                 </div>
-                                                <div className={`text-xs ${isToday ? 'text-emerald-500' : 'text-gray-500'}`}>
+                                                <div className={`text-xs ${isToday ? 'text-emerald-500' : 'text-neutral-500'}`}>
                                                     {day.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                                                 </div>
                                                 {holidayInfo.isHoliday && (
-                                                    <div className="text-xs text-red-600 font-medium mt-1 truncate" title={holidayInfo.name}>
+                                                    <div className="text-xs text-error-600 font-medium mt-1 truncate" title={holidayInfo.name}>
                                                         🎉 {holidayInfo.name}
                                                     </div>
                                                 )}
@@ -788,29 +788,29 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                             <tbody>
                                 {loading ? (
                                     <tr>
-                                        <td colSpan={8} className="text-center py-8 text-gray-500">
+                                        <td colSpan={8} className="text-center py-8 text-neutral-500">
                                             Loading shifts...
                                         </td>
                                     </tr>
                                 ) : filteredUsers.length === 0 ? (
                                     <tr>
-                                        <td colSpan={8} className="text-center py-8 text-gray-500">
+                                        <td colSpan={8} className="text-center py-8 text-neutral-500">
                                             No staff members found for this branch
                                         </td>
                                     </tr>
                                 ) : (
                                     filteredUsers.map((user) => (
-                                        <tr key={user.id} className="border-t border-gray-100 hover:bg-gray-50">
+                                        <tr key={user.id} className="border-t border-gray-100 hover:bg-neutral-50">
                                             <td className="px-4 py-3 sticky left-0 bg-white">
                                                 <div className="flex items-center gap-3">
                                                     <div className={`w-8 h-8 rounded-full ${getUserColor(user.role_as)} flex items-center justify-center text-white text-sm font-medium`}>
                                                         {user.first_name.charAt(0)}{user.last_name.charAt(0)}
                                                     </div>
                                                     <div>
-                                                        <div className="font-medium text-gray-800">
+                                                        <div className="font-medium text-neutral-800">
                                                             {user.first_name} {user.last_name}
                                                         </div>
-                                                        <div className="text-xs text-gray-500">{getRoleName(user.role_as)}</div>
+                                                        <div className="text-xs text-neutral-500">{getRoleName(user.role_as)}</div>
                                                     </div>
                                                 </div>
                                             </td>
@@ -822,7 +822,7 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                                                 return (
                                                     <td
                                                         key={dayIdx}
-                                                        className={`px-2 py-2 text-center cursor-pointer hover:bg-blue-50 transition-colors ${isToday ? 'bg-emerald-50/50' : ''} ${holidayInfo.isHoliday ? 'bg-red-50/50' : ''}`}
+                                                        className={`px-2 py-2 text-center cursor-pointer hover:bg-blue-50 transition-colors ${isToday ? 'bg-emerald-50/50' : ''} ${holidayInfo.isHoliday ? 'bg-error-50/50' : ''}`}
                                                         onClick={() => handleCellClick(user, day, shifts)}
                                                     >
                                                         {shifts.length > 0 ? (
@@ -838,7 +838,7 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                                                                 ))}
                                                             </div>
                                                         ) : (
-                                                            <div className="text-gray-400 hover:text-blue-500 transition-colors">
+                                                            <div className="text-neutral-400 hover:text-primary-500 transition-colors">
                                                                 <Plus className="w-4 h-4 mx-auto" />
                                                             </div>
                                                         )}
@@ -861,8 +861,8 @@ export const SuperAdminStaffScheduling: React.FC = () => {
         <div className="space-y-4">
             <div className="flex justify-between items-center">
                 <div>
-                    <h3 className="font-semibold text-gray-800 text-lg">Shift Templates</h3>
-                    <p className="text-sm text-gray-500 mt-1">View shift type templates for the selected branch</p>
+                    <h3 className="font-semibold text-neutral-800 text-lg">Shift Templates</h3>
+                    <p className="text-sm text-neutral-500 mt-1">View shift type templates for the selected branch</p>
                 </div>
             </div>
 
@@ -871,10 +871,10 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
                 </div>
             ) : availableShiftTypes.length === 0 ? (
-                <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-                    <Clock className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-                    <h3 className="text-lg font-medium text-gray-900 mb-1">No shift types in this branch</h3>
-                    <p className="text-gray-500">No shift templates have been created yet for this branch</p>
+                <div className="text-center py-12 bg-neutral-50 rounded-lg border-2 border-dashed border-neutral-300">
+                    <Clock className="w-12 h-12 text-neutral-400 mx-auto mb-3" />
+                    <h3 className="text-lg font-medium text-neutral-900 mb-1">No shift types in this branch</h3>
+                    <p className="text-neutral-500">No shift templates have been created yet for this branch</p>
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -900,32 +900,32 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                         const usageCount = realShifts.filter(s => s.shift_type === shiftType).length;
 
                         return (
-                            <div key={shiftType} className="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-lg transition-all">
+                            <div key={shiftType} className="bg-white border border-neutral-200 rounded-xl p-5 hover:shadow-lg transition-all">
                                 <div className="flex items-start justify-between mb-4">
                                     <div className="flex items-center gap-3">
                                         <div className={`w-12 h-12 rounded-lg ${isNightShift ? 'bg-indigo-500' : 'bg-amber-500'} flex items-center justify-center text-white shadow-md`}>
                                             <Clock className="w-6 h-6" />
                                         </div>
                                         <div>
-                                            <h4 className="font-bold text-gray-900 text-lg">{shiftType}</h4>
-                                            <p className="text-sm text-gray-500">{durationText}</p>
+                                            <h4 className="font-bold text-neutral-900 text-lg">{shiftType}</h4>
+                                            <p className="text-sm text-neutral-500">{durationText}</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="space-y-2">
                                     <div className="flex items-center justify-between text-sm">
-                                        <span className="text-gray-600 font-medium">Start Time:</span>
-                                        <span className="text-gray-900 font-semibold">{timing.start_time}</span>
+                                        <span className="text-neutral-600 font-medium">Start Time:</span>
+                                        <span className="text-neutral-900 font-semibold">{timing.start_time}</span>
                                     </div>
                                     <div className="flex items-center justify-between text-sm">
-                                        <span className="text-gray-600 font-medium">End Time:</span>
-                                        <span className="text-gray-900 font-semibold">{timing.end_time}</span>
+                                        <span className="text-neutral-600 font-medium">End Time:</span>
+                                        <span className="text-neutral-900 font-semibold">{timing.end_time}</span>
                                     </div>
                                 </div>
 
-                                <div className="mt-4 pt-4 border-t border-gray-200">
-                                    <div className="flex items-center gap-2 text-xs text-gray-500">
+                                <div className="mt-4 pt-4 border-t border-neutral-200">
+                                    <div className="flex items-center gap-2 text-xs text-neutral-500">
                                         <Calendar className="w-3 h-3" />
                                         <span>Used in {usageCount} schedule(s)</span>
                                     </div>
@@ -943,7 +943,7 @@ export const SuperAdminStaffScheduling: React.FC = () => {
         <div className="space-y-4">
             {/* Header */}
             <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-gray-800">Overtime Assignments</h3>
+                <h3 className="text-lg font-semibold text-neutral-800">Overtime Assignments</h3>
                 <button
                     onClick={() => {
                         setEditingOvertimeId(null);
@@ -966,43 +966,43 @@ export const SuperAdminStaffScheduling: React.FC = () => {
             </div>
 
             {/* Overtime List */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
                 {overtimeRequests.length === 0 ? (
-                    <div className="p-8 text-center text-gray-500">
+                    <div className="p-8 text-center text-neutral-500">
                         <Clock className="w-12 h-12 mx-auto mb-3 text-gray-300" />
                         <p>No overtime assignments yet</p>
-                        <p className="text-sm text-gray-400">Click "Assign Overtime" to add one</p>
+                        <p className="text-sm text-neutral-400">Click "Assign Overtime" to add one</p>
                     </div>
                 ) : (
                     <table className="w-full">
-                        <thead className="bg-gray-50">
+                        <thead className="bg-neutral-50">
                             <tr>
-                                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Staff</th>
-                                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Role</th>
-                                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Date</th>
-                                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Shift</th>
-                                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Hours</th>
-                                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Reason</th>
-                                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Status</th>
-                                <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">Actions</th>
+                                <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-700">Staff</th>
+                                <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-700">Role</th>
+                                <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-700">Date</th>
+                                <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-700">Shift</th>
+                                <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-700">Hours</th>
+                                <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-700">Reason</th>
+                                <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-700">Status</th>
+                                <th className="px-4 py-3 text-center text-sm font-semibold text-neutral-700">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {overtimeRequests.map((request) => (
-                                <tr key={request.id} className="border-t border-gray-100 hover:bg-gray-50">
-                                    <td className="px-4 py-3 font-medium text-gray-800">{request.staffName}</td>
-                                    <td className="px-4 py-3 text-gray-600">{request.department}</td>
-                                    <td className="px-4 py-3 text-gray-600">{request.date}</td>
-                                    <td className="px-4 py-3 text-gray-600">
+                                <tr key={request.id} className="border-t border-gray-100 hover:bg-neutral-50">
+                                    <td className="px-4 py-3 font-medium text-neutral-800">{request.staffName}</td>
+                                    <td className="px-4 py-3 text-neutral-600">{request.department}</td>
+                                    <td className="px-4 py-3 text-neutral-600">{request.date}</td>
+                                    <td className="px-4 py-3 text-neutral-600">
                                         {request.shiftType && (
                                             <div>
                                                 <div className="font-medium">{request.shiftType}</div>
-                                                <div className="text-xs text-gray-400">{request.startTime} - {request.endTime}</div>
+                                                <div className="text-xs text-neutral-400">{request.startTime} - {request.endTime}</div>
                                             </div>
                                         )}
                                     </td>
-                                    <td className="px-4 py-3 text-gray-600">{request.hours}h</td>
-                                    <td className="px-4 py-3 text-gray-600 max-w-[200px] truncate" title={request.reason}>
+                                    <td className="px-4 py-3 text-neutral-600">{request.hours}h</td>
+                                    <td className="px-4 py-3 text-neutral-600 max-w-[200px] truncate" title={request.reason}>
                                         {request.reason}
                                     </td>
                                     <td className="px-4 py-3">{getStatusBadge(request.status)}</td>
@@ -1010,14 +1010,14 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                                         <div className="flex items-center justify-center gap-2">
                                             <button
                                                 onClick={() => handleEditOvertime(request)}
-                                                className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                                className="p-1.5 text-primary-500 hover:bg-blue-50 rounded-lg transition-colors"
                                                 title="Edit"
                                             >
                                                 <Edit2 className="w-4 h-4" />
                                             </button>
                                             <button
                                                 onClick={() => handleDeleteOvertime(request.id)}
-                                                className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                className="p-1.5 text-error-600 hover:bg-error-50 rounded-lg transition-colors"
                                                 title="Delete"
                                             >
                                                 <Trash2 className="w-4 h-4" />
@@ -1093,12 +1093,12 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                                             {shift.user_first_name?.charAt(0) || '?'}{shift.user_last_name?.charAt(0) || '?'}
                                         </div>
                                         <div>
-                                            <p className="font-medium text-gray-800">{shift.user_first_name} {shift.user_last_name}</p>
+                                            <p className="font-medium text-neutral-800">{shift.user_first_name} {shift.user_last_name}</p>
                                             <p className="text-sm text-emerald-600">{getRoleName(shift.user_role_as || 0)}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center justify-between mt-3 pt-3 border-t border-emerald-200">
-                                        <div className="text-sm text-gray-600">
+                                        <div className="text-sm text-neutral-600">
                                             <Clock className="w-4 h-4 inline mr-1" />
                                             {shift.start_time} - {shift.end_time}
                                         </div>
@@ -1119,49 +1119,49 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                 )}
 
                 {/* All Staff on Shift Today */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                    <div className="p-4 border-b border-gray-200">
-                        <h4 className="text-lg font-semibold text-gray-800">All Staff Scheduled Today</h4>
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
+                    <div className="p-4 border-b border-neutral-200">
+                        <h4 className="text-lg font-semibold text-neutral-800">All Staff Scheduled Today</h4>
                     </div>
                     {todayShifts.length === 0 ? (
-                        <div className="p-8 text-center text-gray-500">
+                        <div className="p-8 text-center text-neutral-500">
                             <Users className="w-12 h-12 mx-auto mb-3 text-gray-300" />
                             <p>No shifts scheduled for today</p>
                         </div>
                     ) : (
                         <table className="w-full">
-                            <thead className="bg-gray-50">
+                            <thead className="bg-neutral-50">
                                 <tr>
-                                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Staff Member</th>
-                                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Role</th>
-                                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Shift Type</th>
-                                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Time</th>
-                                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Contact</th>
-                                    <th className="px-4 py-3 text-center text-sm font-semibold text-gray-700">Status</th>
+                                    <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-700">Staff Member</th>
+                                    <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-700">Role</th>
+                                    <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-700">Shift Type</th>
+                                    <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-700">Time</th>
+                                    <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-700">Contact</th>
+                                    <th className="px-4 py-3 text-center text-sm font-semibold text-neutral-700">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {todayShifts.map((shift) => {
                                     const isActive = isShiftActive(shift.start_time, shift.end_time);
                                     return (
-                                        <tr key={shift.id} className={`border-t border-gray-100 ${isActive ? 'bg-emerald-50' : 'hover:bg-gray-50'}`}>
+                                        <tr key={shift.id} className={`border-t border-gray-100 ${isActive ? 'bg-emerald-50' : 'hover:bg-neutral-50'}`}>
                                             <td className="px-4 py-3">
                                                 <div className="flex items-center gap-3">
                                                     <div className={`w-8 h-8 rounded-full ${getUserColor(shift.user_role_as || 0)} flex items-center justify-center text-white text-sm font-medium`}>
                                                         {shift.user_first_name?.charAt(0) || '?'}{shift.user_last_name?.charAt(0) || '?'}
                                                     </div>
-                                                    <span className="font-medium text-gray-800">
+                                                    <span className="font-medium text-neutral-800">
                                                         {shift.user_first_name} {shift.user_last_name}
                                                     </span>
                                                 </div>
                                             </td>
-                                            <td className="px-4 py-3 text-gray-600">{getRoleName(shift.user_role_as || 0)}</td>
+                                            <td className="px-4 py-3 text-neutral-600">{getRoleName(shift.user_role_as || 0)}</td>
                                             <td className="px-4 py-3">
-                                                <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded">
+                                                <span className="px-2 py-1 text-xs font-medium bg-neutral-100 text-neutral-700 rounded">
                                                     {shift.shift_type}
                                                 </span>
                                             </td>
-                                            <td className="px-4 py-3 text-gray-600">
+                                            <td className="px-4 py-3 text-neutral-600">
                                                 {shift.start_time} - {shift.end_time}
                                             </td>
                                             <td className="px-4 py-3">
@@ -1174,7 +1174,7 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                                                         {shift.user_phone}
                                                     </a>
                                                 ) : (
-                                                    <span className="text-gray-400">N/A</span>
+                                                    <span className="text-neutral-400">N/A</span>
                                                 )}
                                             </td>
                                             <td className="px-4 py-3 text-center">
@@ -1183,7 +1183,7 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                                                         On Duty
                                                     </span>
                                                 ) : (
-                                                    <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full">
+                                                    <span className="px-2 py-1 text-xs font-medium bg-neutral-100 text-neutral-600 rounded-full">
                                                         Scheduled
                                                     </span>
                                                 )}
@@ -1203,19 +1203,19 @@ export const SuperAdminStaffScheduling: React.FC = () => {
     const renderOvertimeModal = () => (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             <div className="bg-white rounded-xl shadow-xl w-full max-w-md mx-4 overflow-hidden">
-                <div className="px-6 py-4 border-b border-gray-200">
-                    <h3 className="text-lg font-semibold text-gray-800">
+                <div className="px-6 py-4 border-b border-neutral-200">
+                    <h3 className="text-lg font-semibold text-neutral-800">
                         {editingOvertimeId ? 'Edit Overtime Assignment' : 'Assign Overtime'}
                     </h3>
                 </div>
                 <div className="p-6 space-y-4">
                     {/* User Select */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Staff Member</label>
+                        <label className="block text-sm font-medium text-neutral-700 mb-1">Staff Member</label>
                         <select
                             value={overtimeAssignment.userId}
                             onChange={(e) => setOvertimeAssignment(prev => ({ ...prev, userId: e.target.value }))}
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                            className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                         >
                             <option value="">Select staff member</option>
                             {filteredUsers.map(user => (
@@ -1228,18 +1228,18 @@ export const SuperAdminStaffScheduling: React.FC = () => {
 
                     {/* Date */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                        <label className="block text-sm font-medium text-neutral-700 mb-1">Date</label>
                         <input
                             type="date"
                             value={overtimeAssignment.date}
                             onChange={(e) => setOvertimeAssignment(prev => ({ ...prev, date: e.target.value }))}
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                            className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                         />
                     </div>
 
                     {/* Shift Type */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Shift Type</label>
+                        <label className="block text-sm font-medium text-neutral-700 mb-1">Shift Type</label>
                         <select
                             value={overtimeAssignment.shiftType}
                             onChange={(e) => {
@@ -1253,7 +1253,7 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                                     hours: timing ? calculateOvertimeHours(timing.start_time, timing.end_time) : prev.hours
                                 }));
                             }}
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                            className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                         >
                             <option value="">Select shift type</option>
                             {availableShiftTypes.map(type => (
@@ -1265,7 +1265,7 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                     {/* Time */}
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Start Time</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">Start Time</label>
                             <input
                                 type="time"
                                 value={overtimeAssignment.startTime}
@@ -1277,11 +1277,11 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                                         hours: calculateOvertimeHours(newStart, prev.endTime)
                                     }));
                                 }}
-                                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">End Time</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">End Time</label>
                             <input
                                 type="time"
                                 value={overtimeAssignment.endTime}
@@ -1293,19 +1293,19 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                                         hours: calculateOvertimeHours(prev.startTime, newEnd)
                                     }));
                                 }}
-                                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                             />
                         </div>
                     </div>
 
                     {/* Hours (calculated) */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Total Hours</label>
+                        <label className="block text-sm font-medium text-neutral-700 mb-1">Total Hours</label>
                         <input
                             type="number"
                             value={overtimeAssignment.hours}
                             onChange={(e) => setOvertimeAssignment(prev => ({ ...prev, hours: parseFloat(e.target.value) || 0 }))}
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"
+                            className="w-full border border-neutral-300 rounded-lg px-3 py-2 bg-neutral-50"
                             min="0"
                             step="0.5"
                         />
@@ -1313,23 +1313,23 @@ export const SuperAdminStaffScheduling: React.FC = () => {
 
                     {/* Reason */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Reason</label>
+                        <label className="block text-sm font-medium text-neutral-700 mb-1">Reason</label>
                         <textarea
                             value={overtimeAssignment.reason}
                             onChange={(e) => setOvertimeAssignment(prev => ({ ...prev, reason: e.target.value }))}
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                            className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                             rows={3}
                             placeholder="Reason for overtime assignment..."
                         />
                     </div>
                 </div>
-                <div className="px-6 py-4 border-t border-gray-200 flex justify-end gap-3">
+                <div className="px-6 py-4 border-t border-neutral-200 flex justify-end gap-3">
                     <button
                         onClick={() => {
                             setShowAssignOvertimeModal(false);
                             setEditingOvertimeId(null);
                         }}
-                        className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                        className="px-4 py-2 text-neutral-700 bg-neutral-100 rounded-lg hover:bg-neutral-200 transition-colors"
                     >
                         Cancel
                     </button>
@@ -1370,7 +1370,7 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                 {renderBranchSelector()}
 
                 {/* Tabs */}
-                <div className="mb-6 flex gap-2 bg-white p-2 rounded-xl shadow-sm border border-gray-200 overflow-x-auto">
+                <div className="mb-6 flex gap-2 bg-white p-2 rounded-xl shadow-sm border border-neutral-200 overflow-x-auto">
                     {[
                         { id: 'schedule', label: 'Weekly Schedule', icon: <Calendar className="w-4 h-4" /> },
                         { id: 'shifts', label: 'Manage Shifts', icon: <Clock className="w-4 h-4" /> },
@@ -1382,7 +1382,7 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                             onClick={() => setActiveTab(tab.id as any)}
                             className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all whitespace-nowrap ${activeTab === tab.id
                                     ? 'bg-emerald-600 text-white shadow-md'
-                                    : 'text-gray-600 hover:bg-gray-100'
+                                    : 'text-neutral-600 hover:bg-neutral-100'
                                 }`}
                         >
                             {tab.icon}
@@ -1404,19 +1404,19 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                 {showShiftAssignModal && selectedCell && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                         <div className="bg-white rounded-xl shadow-2xl w-full max-w-md">
-                            <div className="px-6 py-4 border-b border-gray-200">
+                            <div className="px-6 py-4 border-b border-neutral-200">
                                 <div className="flex justify-between items-center">
-                                    <h3 className="text-lg font-semibold text-gray-800">
+                                    <h3 className="text-lg font-semibold text-neutral-800">
                                         {selectedCell.existingShifts.length > 0 ? 'Edit Shift' : 'Assign Shift'}
                                     </h3>
                                     <button
                                         onClick={() => setShowShiftAssignModal(false)}
-                                        className="text-gray-400 hover:text-gray-600"
+                                        className="text-neutral-400 hover:text-neutral-600"
                                     >
                                         ✕
                                     </button>
                                 </div>
-                                <div className="mt-2 text-sm text-gray-600">
+                                <div className="mt-2 text-sm text-neutral-600">
                                     <p className="font-medium">{selectedCell.user.first_name} {selectedCell.user.last_name}</p>
                                     <p className="text-xs">{selectedCell.date.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' })}</p>
                                 </div>
@@ -1427,7 +1427,7 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                                     <div className="bg-blue-50 border-2 border-blue-200 p-4 rounded-lg">
                                         <div className="flex items-center justify-between mb-3">
                                             <p className="text-sm font-semibold text-blue-900">Currently Assigned Shifts ({selectedCell.existingShifts.length})</p>
-                                            <span className="text-xs text-blue-600">Click shift to edit, or delete</span>
+                                            <span className="text-xs text-primary-500">Click shift to edit, or delete</span>
                                         </div>
                                         <div className="space-y-2">
                                             {selectedCell.existingShifts.map((shift) => (
@@ -1442,12 +1442,12 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                                                     })}
                                                 >
                                                     <div className="flex-1">
-                                                        <div className="font-medium text-gray-800 text-sm">{shift.shift_type}</div>
-                                                        <div className="text-gray-600 text-xs mt-1">
+                                                        <div className="font-medium text-neutral-800 text-sm">{shift.shift_type}</div>
+                                                        <div className="text-neutral-600 text-xs mt-1">
                                                             {shift.start_time} - {shift.end_time}
                                                         </div>
                                                         {shift.notes && (
-                                                            <div className="text-gray-500 text-xs mt-1 italic">{shift.notes}</div>
+                                                            <div className="text-neutral-500 text-xs mt-1 italic">{shift.notes}</div>
                                                         )}
                                                     </div>
                                                     <button
@@ -1455,7 +1455,7 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                                                             e.stopPropagation();
                                                             handleDeleteShift(shift.id);
                                                         }}
-                                                        className="text-red-600 hover:text-red-800 p-2 hover:bg-red-50 rounded-lg transition-colors"
+                                                        className="text-error-600 hover:text-red-800 p-2 hover:bg-error-50 rounded-lg transition-colors"
                                                         title="Delete this shift"
                                                     >
                                                         <Trash2 className="w-4 h-4" />
@@ -1471,8 +1471,8 @@ export const SuperAdminStaffScheduling: React.FC = () => {
 
                                 {/* Divider if there are existing shifts */}
                                 {selectedCell.existingShifts.length > 0 && (
-                                    <div className="border-t border-gray-300 pt-4">
-                                        <p className="text-sm font-medium text-gray-700 mb-3">
+                                    <div className="border-t border-neutral-300 pt-4">
+                                        <p className="text-sm font-medium text-neutral-700 mb-3">
                                             {selectedCell.existingShifts.length > 0 ? 'Add New Shift' : 'Assign Shift'}
                                         </p>
                                     </div>
@@ -1480,12 +1480,12 @@ export const SuperAdminStaffScheduling: React.FC = () => {
 
                                 {/* Shift Type */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Shift Type</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Shift Type</label>
                                     <input
                                         type="text"
                                         value={shiftAssignment.shift_type}
                                         onChange={(e) => setShiftAssignment(prev => ({ ...prev, shift_type: e.target.value }))}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                        className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                         placeholder="e.g., Morning, Evening, Night"
                                         list="shift-types"
                                     />
@@ -1498,33 +1498,33 @@ export const SuperAdminStaffScheduling: React.FC = () => {
 
                                 {/* Start Time */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Start Time</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Start Time</label>
                                     <input
                                         type="time"
                                         value={shiftAssignment.start_time}
                                         onChange={(e) => setShiftAssignment(prev => ({ ...prev, start_time: e.target.value }))}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                        className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                     />
                                 </div>
 
                                 {/* End Time */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">End Time</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">End Time</label>
                                     <input
                                         type="time"
                                         value={shiftAssignment.end_time}
                                         onChange={(e) => setShiftAssignment(prev => ({ ...prev, end_time: e.target.value }))}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                        className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                     />
                                 </div>
 
                                 {/* Recurrence */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Recurrence Pattern</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Recurrence Pattern</label>
                                     <select
                                         value={shiftAssignment.recurrence}
                                         onChange={(e) => setShiftAssignment(prev => ({ ...prev, recurrence: e.target.value }))}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                        className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                     >
                                         <option value="once">This day only</option>
                                         <option value="weekly">Every {selectedCell.date.toLocaleDateString('en-US', { weekday: 'long' })}</option>
@@ -1534,10 +1534,10 @@ export const SuperAdminStaffScheduling: React.FC = () => {
                                     </select>
                                 </div>
                             </div>
-                            <div className="px-6 py-4 border-t border-gray-200 flex justify-end gap-3">
+                            <div className="px-6 py-4 border-t border-neutral-200 flex justify-end gap-3">
                                 <button
                                     onClick={() => setShowShiftAssignModal(false)}
-                                    className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                                    className="px-4 py-2 text-neutral-700 bg-neutral-100 rounded-lg hover:bg-neutral-200 transition-colors"
                                 >
                                     Cancel
                                 </button>

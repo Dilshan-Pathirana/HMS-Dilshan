@@ -95,7 +95,7 @@ const RecordsOverview: React.FC = () => {
             icon: <Stethoscope className="w-8 h-8" />,
             path: 'visits',
             count: recentVisits.length,
-            color: 'bg-blue-500'
+            color: 'bg-primary-500'
         },
         { 
             title: 'Lab Reports', 
@@ -119,8 +119,8 @@ const RecordsOverview: React.FC = () => {
         <div className="space-y-6">
             {/* Header */}
             <div>
-                <h1 className="text-2xl font-bold text-gray-800">Medical Records</h1>
-                <p className="text-gray-500">Access your complete medical history</p>
+                <h1 className="text-2xl font-bold text-neutral-800">Medical Records</h1>
+                <p className="text-neutral-500">Access your complete medical history</p>
             </div>
 
             {/* Category Cards */}
@@ -135,10 +135,10 @@ const RecordsOverview: React.FC = () => {
                             <div className={`${category.color} text-white p-3 rounded-xl`}>
                                 {category.icon}
                             </div>
-                            <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-emerald-600 group-hover:translate-x-1 transition-all" />
+                            <ChevronRight className="w-5 h-5 text-neutral-400 group-hover:text-emerald-600 group-hover:translate-x-1 transition-all" />
                         </div>
-                        <h3 className="font-semibold text-gray-800 mt-4">{category.title}</h3>
-                        <p className="text-sm text-gray-500 mt-1">{category.description}</p>
+                        <h3 className="font-semibold text-neutral-800 mt-4">{category.title}</h3>
+                        <p className="text-sm text-neutral-500 mt-1">{category.description}</p>
                         <p className="text-sm text-emerald-600 mt-2 font-medium">{category.count} records</p>
                     </Link>
                 ))}
@@ -147,31 +147,31 @@ const RecordsOverview: React.FC = () => {
             {/* Recent Visits */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                 <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-lg font-semibold text-gray-800">Recent Visits</h2>
+                    <h2 className="text-lg font-semibold text-neutral-800">Recent Visits</h2>
                     <Link to="visits" className="text-sm text-emerald-600 hover:text-emerald-700 flex items-center gap-1">
                         View All <ChevronRight className="w-4 h-4" />
                     </Link>
                 </div>
 
                 {recentVisits.length === 0 ? (
-                    <div className="text-center py-8 text-gray-500">
+                    <div className="text-center py-8 text-neutral-500">
                         <Stethoscope className="w-12 h-12 mx-auto mb-3 text-gray-300" />
                         <p>No visit records found</p>
                     </div>
                 ) : (
                     <div className="space-y-3">
                         {recentVisits.map((visit) => (
-                            <div key={visit.id} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
-                                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
+                            <div key={visit.id} className="flex items-center gap-4 p-4 bg-neutral-50 rounded-lg">
+                                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-primary-500">
                                     <Stethoscope className="w-6 h-6" />
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <p className="font-medium text-gray-800">{visit.doctor_name}</p>
-                                    <p className="text-sm text-gray-500">{visit.specialization}</p>
-                                    <p className="text-xs text-gray-400 mt-1">{visit.diagnosis}</p>
+                                    <p className="font-medium text-neutral-800">{visit.doctor_name}</p>
+                                    <p className="text-sm text-neutral-500">{visit.specialization}</p>
+                                    <p className="text-xs text-neutral-400 mt-1">{visit.diagnosis}</p>
                                 </div>
                                 <div className="text-right">
-                                    <p className="text-sm font-medium text-gray-700">
+                                    <p className="text-sm font-medium text-neutral-700">
                                         {new Date(visit.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                     </p>
                                     <button className="text-emerald-600 hover:text-emerald-700 text-sm flex items-center gap-1 mt-1">
@@ -187,29 +187,29 @@ const RecordsOverview: React.FC = () => {
             {/* Recent Lab Reports */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                 <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-lg font-semibold text-gray-800">Recent Lab Reports</h2>
+                    <h2 className="text-lg font-semibold text-neutral-800">Recent Lab Reports</h2>
                     <Link to="labs" className="text-sm text-emerald-600 hover:text-emerald-700 flex items-center gap-1">
                         View All <ChevronRight className="w-4 h-4" />
                     </Link>
                 </div>
 
                 {recentLabs.length === 0 ? (
-                    <div className="text-center py-8 text-gray-500">
+                    <div className="text-center py-8 text-neutral-500">
                         <FlaskConical className="w-12 h-12 mx-auto mb-3 text-gray-300" />
                         <p>No lab reports found</p>
                     </div>
                 ) : (
                     <div className="space-y-3">
                         {recentLabs.map((lab) => (
-                            <div key={lab.id} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+                            <div key={lab.id} className="flex items-center gap-4 p-4 bg-neutral-50 rounded-lg">
                                 <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
                                     lab.status === 'completed' ? 'bg-green-100 text-green-600' : 'bg-yellow-100 text-yellow-600'
                                 }`}>
                                     <FlaskConical className="w-6 h-6" />
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <p className="font-medium text-gray-800">{lab.test_name}</p>
-                                    <p className="text-sm text-gray-500">Ordered by: {lab.doctor_name}</p>
+                                    <p className="font-medium text-neutral-800">{lab.test_name}</p>
+                                    <p className="text-sm text-neutral-500">Ordered by: {lab.doctor_name}</p>
                                 </div>
                                 <div className="text-right">
                                     <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
@@ -220,7 +220,7 @@ const RecordsOverview: React.FC = () => {
                                         {lab.status === 'completed' ? <CheckCircle className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
                                         {lab.status}
                                     </span>
-                                    <p className="text-xs text-gray-400 mt-1">
+                                    <p className="text-xs text-neutral-400 mt-1">
                                         {new Date(lab.date).toLocaleDateString()}
                                     </p>
                                 </div>
@@ -233,7 +233,7 @@ const RecordsOverview: React.FC = () => {
             {/* Privacy Notice */}
             <div className="bg-blue-50 border border-blue-200 rounded-xl p-5">
                 <div className="flex items-start gap-3">
-                    <AlertCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <AlertCircle className="w-5 h-5 text-primary-500 flex-shrink-0 mt-0.5" />
                     <div>
                         <h4 className="font-medium text-blue-800">Privacy & Security</h4>
                         <p className="text-sm text-blue-700 mt-1">
@@ -317,20 +317,20 @@ const VisitHistory: React.FC = () => {
                 <Link to="/patient-dashboard/records" className="text-emerald-600 hover:text-emerald-700 text-sm flex items-center gap-1 mb-2">
                     <ChevronRight className="w-4 h-4 rotate-180" /> Back to Records
                 </Link>
-                <h1 className="text-2xl font-bold text-gray-800">Visit History</h1>
-                <p className="text-gray-500">View all your past consultations</p>
+                <h1 className="text-2xl font-bold text-neutral-800">Visit History</h1>
+                <p className="text-neutral-500">View all your past consultations</p>
             </div>
 
             {/* Search */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
                 <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                     <input
                         type="text"
                         placeholder="Search by doctor, diagnosis, or specialization..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                        className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                     />
                 </div>
             </div>
@@ -339,8 +339,8 @@ const VisitHistory: React.FC = () => {
             {filteredVisits.length === 0 ? (
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
                     <Stethoscope className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-800 mb-2">No visits found</h3>
-                    <p className="text-gray-500">Your visit history will appear here after consultations</p>
+                    <h3 className="text-lg font-medium text-neutral-800 mb-2">No visits found</h3>
+                    <p className="text-neutral-500">Your visit history will appear here after consultations</p>
                 </div>
             ) : (
                 <div className="space-y-4">
@@ -349,17 +349,17 @@ const VisitHistory: React.FC = () => {
                             <div className="p-5">
                                 <div className="flex items-start justify-between mb-4">
                                     <div className="flex items-center gap-4">
-                                        <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
+                                        <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center text-primary-500">
                                             <User className="w-7 h-7" />
                                         </div>
                                         <div>
-                                            <h3 className="font-semibold text-gray-800">{visit.doctor_name}</h3>
-                                            <p className="text-sm text-gray-500">{visit.specialization}</p>
-                                            <p className="text-xs text-gray-400">{visit.branch_name}</p>
+                                            <h3 className="font-semibold text-neutral-800">{visit.doctor_name}</h3>
+                                            <p className="text-sm text-neutral-500">{visit.specialization}</p>
+                                            <p className="text-xs text-neutral-400">{visit.branch_name}</p>
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <p className="text-sm font-medium text-gray-700 flex items-center gap-1">
+                                        <p className="text-sm font-medium text-neutral-700 flex items-center gap-1">
                                             <Calendar className="w-4 h-4" />
                                             {new Date(visit.date).toLocaleDateString('en-US', { 
                                                 weekday: 'short',
@@ -373,20 +373,20 @@ const VisitHistory: React.FC = () => {
 
                                 <div className="space-y-3">
                                     <div>
-                                        <p className="text-sm font-medium text-gray-700">Diagnosis</p>
-                                        <p className="text-gray-600">{visit.diagnosis}</p>
+                                        <p className="text-sm font-medium text-neutral-700">Diagnosis</p>
+                                        <p className="text-neutral-600">{visit.diagnosis}</p>
                                     </div>
                                     
                                     {visit.notes && (
                                         <div>
-                                            <p className="text-sm font-medium text-gray-700">Notes</p>
-                                            <p className="text-gray-600 text-sm">{visit.notes}</p>
+                                            <p className="text-sm font-medium text-neutral-700">Notes</p>
+                                            <p className="text-neutral-600 text-sm">{visit.notes}</p>
                                         </div>
                                     )}
 
                                     {visit.prescriptions.length > 0 && (
                                         <div>
-                                            <p className="text-sm font-medium text-gray-700 mb-1">Prescriptions</p>
+                                            <p className="text-sm font-medium text-neutral-700 mb-1">Prescriptions</p>
                                             <div className="flex flex-wrap gap-2">
                                                 {visit.prescriptions.map((med, idx) => (
                                                     <span key={idx} className="px-2 py-1 bg-emerald-50 text-emerald-700 text-sm rounded-full">
@@ -399,8 +399,8 @@ const VisitHistory: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="px-5 py-3 bg-gray-50 border-t flex justify-end gap-2">
-                                <button className="inline-flex items-center gap-1 px-3 py-1.5 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors">
+                            <div className="px-5 py-3 bg-neutral-50 border-t flex justify-end gap-2">
+                                <button className="inline-flex items-center gap-1 px-3 py-1.5 text-sm text-neutral-600 hover:text-neutral-800 hover:bg-neutral-100 rounded-lg transition-colors">
                                     <Printer className="w-4 h-4" /> Print
                                 </button>
                                 <button className="inline-flex items-center gap-1 px-3 py-1.5 text-sm text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg transition-colors">
@@ -485,8 +485,8 @@ const LabReports: React.FC = () => {
                 <Link to="/patient-dashboard/records" className="text-emerald-600 hover:text-emerald-700 text-sm flex items-center gap-1 mb-2">
                     <ChevronRight className="w-4 h-4 rotate-180" /> Back to Records
                 </Link>
-                <h1 className="text-2xl font-bold text-gray-800">Lab Reports</h1>
-                <p className="text-gray-500">View and download your laboratory results</p>
+                <h1 className="text-2xl font-bold text-neutral-800">Lab Reports</h1>
+                <p className="text-neutral-500">View and download your laboratory results</p>
             </div>
 
             {/* Filter Tabs */}
@@ -502,7 +502,7 @@ const LabReports: React.FC = () => {
                         className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                             filter === tab.key
                                 ? 'bg-emerald-600 text-white'
-                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
                         }`}
                     >
                         {tab.label}
@@ -514,8 +514,8 @@ const LabReports: React.FC = () => {
             {filteredReports.length === 0 ? (
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
                     <FlaskConical className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-800 mb-2">No reports found</h3>
-                    <p className="text-gray-500">Lab reports will appear here after tests are ordered</p>
+                    <h3 className="text-lg font-medium text-neutral-800 mb-2">No reports found</h3>
+                    <p className="text-neutral-500">Lab reports will appear here after tests are ordered</p>
                 </div>
             ) : (
                 <div className="space-y-4">
@@ -531,9 +531,9 @@ const LabReports: React.FC = () => {
                                         <FlaskConical className="w-6 h-6" />
                                     </div>
                                     <div>
-                                        <h3 className="font-semibold text-gray-800">{report.test_name}</h3>
-                                        <p className="text-sm text-gray-500">Ordered by: {report.doctor_name}</p>
-                                        <p className="text-xs text-gray-400 mt-1">
+                                        <h3 className="font-semibold text-neutral-800">{report.test_name}</h3>
+                                        <p className="text-sm text-neutral-500">Ordered by: {report.doctor_name}</p>
+                                        <p className="text-xs text-neutral-400 mt-1">
                                             {new Date(report.date).toLocaleDateString('en-US', { 
                                                 month: 'long', 
                                                 day: 'numeric', 
@@ -559,7 +559,7 @@ const LabReports: React.FC = () => {
 
                                     {report.status === 'completed' && (
                                         <div className="flex gap-2">
-                                            <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                            <button className="p-2 text-primary-500 hover:bg-blue-50 rounded-lg transition-colors">
                                                 <Eye className="w-5 h-5" />
                                             </button>
                                             <button className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors">
@@ -571,9 +571,9 @@ const LabReports: React.FC = () => {
                             </div>
 
                             {report.status === 'completed' && report.result_summary && (
-                                <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-                                    <p className="text-sm font-medium text-gray-700">Result Summary</p>
-                                    <p className="text-sm text-gray-600 mt-1">{report.result_summary}</p>
+                                <div className="mt-4 p-3 bg-neutral-50 rounded-lg">
+                                    <p className="text-sm font-medium text-neutral-700">Result Summary</p>
+                                    <p className="text-sm text-neutral-600 mt-1">{report.result_summary}</p>
                                 </div>
                             )}
                         </div>

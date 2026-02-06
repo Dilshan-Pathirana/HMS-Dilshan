@@ -626,7 +626,7 @@ const CashierScheduleRequests: React.FC = () => {
         const badges = {
             pending: { bg: 'bg-amber-100', text: 'text-amber-800', icon: <Clock className="w-4 h-4" />, label: 'Pending' },
             approved: { bg: 'bg-green-100', text: 'text-green-800', icon: <CheckCircle className="w-4 h-4" />, label: 'Approved' },
-            rejected: { bg: 'bg-red-100', text: 'text-red-800', icon: <XCircle className="w-4 h-4" />, label: 'Rejected' }
+            rejected: { bg: 'bg-error-100', text: 'text-red-800', icon: <XCircle className="w-4 h-4" />, label: 'Rejected' }
         };
         const badge = badges[status as keyof typeof badges] || badges.pending;
         return (
@@ -653,10 +653,10 @@ const CashierScheduleRequests: React.FC = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+            <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
                 <div className="text-center">
                     <Loader2 className="w-12 h-12 animate-spin text-purple-500 mx-auto mb-4" />
-                    <p className="text-gray-600">Loading schedule requests...</p>
+                    <p className="text-neutral-600">Loading schedule requests...</p>
                 </div>
             </div>
         );
@@ -665,18 +665,18 @@ const CashierScheduleRequests: React.FC = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-purple-50/30 p-6">
             {/* Header */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 mb-6">
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => navigate('/pos/hr')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ArrowLeft className="w-5 h-5 text-gray-600" />
+                            <ArrowLeft className="w-5 h-5 text-neutral-600" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">Schedule Change Requests</h1>
-                            <p className="text-gray-600 text-sm mt-1">Request schedule changes or swap shifts with colleagues</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">Schedule Change Requests</h1>
+                            <p className="text-neutral-600 text-sm mt-1">Request schedule changes or swap shifts with colleagues</p>
                         </div>
                     </div>
                     <button
@@ -717,13 +717,13 @@ const CashierScheduleRequests: React.FC = () => {
                             <CheckCircle className="w-8 h-8 text-green-500" />
                         </div>
                     </div>
-                    <div className="bg-red-50 rounded-lg p-4 border border-red-200">
+                    <div className="bg-error-50 rounded-lg p-4 border border-red-200">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-red-900 font-semibold text-2xl">{rejectedRequests}</p>
                                 <p className="text-red-700 text-sm">Rejected</p>
                             </div>
-                            <XCircle className="w-8 h-8 text-red-500" />
+                            <XCircle className="w-8 h-8 text-error-500" />
                         </div>
                     </div>
                     <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
@@ -732,7 +732,7 @@ const CashierScheduleRequests: React.FC = () => {
                                 <p className="text-blue-900 font-semibold text-2xl">{requests.length}</p>
                                 <p className="text-blue-700 text-sm">Total Requests</p>
                             </div>
-                            <Calendar className="w-8 h-8 text-blue-500" />
+                            <Calendar className="w-8 h-8 text-primary-500" />
                         </div>
                     </div>
                     {incomingSwapRequests.length > 0 && (
@@ -750,14 +750,14 @@ const CashierScheduleRequests: React.FC = () => {
             </div>
 
             {/* Tabs */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 mb-6">
-                <div className="flex border-b border-gray-200">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 mb-6">
+                <div className="flex border-b border-neutral-200">
                     <button
                         onClick={() => setActiveTab('incoming')}
                         className={`flex-1 px-6 py-4 text-sm font-medium flex items-center justify-center gap-2 ${
                             activeTab === 'incoming'
                                 ? 'text-purple-600 border-b-2 border-purple-600 bg-purple-50/50'
-                                : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+                                : 'text-neutral-600 hover:text-neutral-800 hover:bg-neutral-50'
                         }`}
                     >
                         <Bell className="w-4 h-4" />
@@ -773,7 +773,7 @@ const CashierScheduleRequests: React.FC = () => {
                         className={`flex-1 px-6 py-4 text-sm font-medium flex items-center justify-center gap-2 ${
                             activeTab === 'swap-requests'
                                 ? 'text-cyan-600 border-b-2 border-cyan-600 bg-cyan-50/50'
-                                : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+                                : 'text-neutral-600 hover:text-neutral-800 hover:bg-neutral-50'
                         }`}
                     >
                         <Users className="w-4 h-4" />
@@ -789,13 +789,13 @@ const CashierScheduleRequests: React.FC = () => {
                         className={`flex-1 px-6 py-4 text-sm font-medium flex items-center justify-center gap-2 ${
                             activeTab === 'my-requests'
                                 ? 'text-purple-600 border-b-2 border-purple-600 bg-purple-50/50'
-                                : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+                                : 'text-neutral-600 hover:text-neutral-800 hover:bg-neutral-50'
                         }`}
                     >
                         <Send className="w-4 h-4" />
                         My Requests
                         {requests.length > 0 && (
-                            <span className="px-2 py-0.5 text-xs bg-gray-100 text-gray-700 rounded-full">
+                            <span className="px-2 py-0.5 text-xs bg-neutral-100 text-neutral-700 rounded-full">
                                 {requests.length}
                             </span>
                         )}
@@ -805,9 +805,9 @@ const CashierScheduleRequests: React.FC = () => {
 
             {/* Incoming Swap Requests Tab */}
             {activeTab === 'swap-requests' && (
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
-                    <div className="p-4 border-b border-gray-200 flex items-center justify-between">
-                        <h2 className="text-lg font-semibold text-gray-800">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden mb-6">
+                    <div className="p-4 border-b border-neutral-200 flex items-center justify-between">
+                        <h2 className="text-lg font-semibold text-neutral-800">
                             Shift Swap Requests from Colleagues ({incomingSwapRequests.length})
                         </h2>
                     </div>
@@ -815,8 +815,8 @@ const CashierScheduleRequests: React.FC = () => {
                     {incomingSwapRequests.length === 0 ? (
                         <div className="p-12 text-center">
                             <Users className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                            <p className="text-gray-500">No pending swap requests from colleagues</p>
-                            <p className="text-sm text-gray-400 mt-1">When a colleague wants to swap shifts with you, it will appear here</p>
+                            <p className="text-neutral-500">No pending swap requests from colleagues</p>
+                            <p className="text-sm text-neutral-400 mt-1">When a colleague wants to swap shifts with you, it will appear here</p>
                         </div>
                     ) : (
                         <div className="divide-y divide-gray-100">
@@ -829,20 +829,20 @@ const CashierScheduleRequests: React.FC = () => {
                                                     <Users className="w-5 h-5 text-cyan-600" />
                                                 </div>
                                                 <div>
-                                                    <p className="font-semibold text-gray-800">{swapReq.requesterName}</p>
-                                                    <p className="text-xs text-gray-500">wants to swap shifts with you</p>
+                                                    <p className="font-semibold text-neutral-800">{swapReq.requesterName}</p>
+                                                    <p className="text-xs text-neutral-500">wants to swap shifts with you</p>
                                                 </div>
                                             </div>
                                             
-                                            <div className="grid grid-cols-2 gap-4 mt-3 p-3 bg-gray-50 rounded-lg">
+                                            <div className="grid grid-cols-2 gap-4 mt-3 p-3 bg-neutral-50 rounded-lg">
                                                 <div>
-                                                    <p className="text-xs text-gray-500 mb-1">Their Shift (You'll Get)</p>
-                                                    <p className="font-medium text-gray-800">{formatDate(swapReq.requesterShiftDate)}</p>
+                                                    <p className="text-xs text-neutral-500 mb-1">Their Shift (You'll Get)</p>
+                                                    <p className="font-medium text-neutral-800">{formatDate(swapReq.requesterShiftDate)}</p>
                                                     <p className="text-sm text-cyan-600">{swapReq.requesterShiftType || 'Not specified'}</p>
                                                 </div>
                                                 <div>
-                                                    <p className="text-xs text-gray-500 mb-1">Your Shift (They Want)</p>
-                                                    <p className="font-medium text-gray-800">
+                                                    <p className="text-xs text-neutral-500 mb-1">Your Shift (They Want)</p>
+                                                    <p className="font-medium text-neutral-800">
                                                         {swapReq.yourShiftDate ? formatDate(swapReq.yourShiftDate) : 'To be determined'}
                                                     </p>
                                                     <p className="text-sm text-purple-600">{swapReq.yourShiftType || 'Not specified'}</p>
@@ -851,10 +851,10 @@ const CashierScheduleRequests: React.FC = () => {
                                             
                                             <div className="mt-3 p-2 bg-amber-50 rounded-lg">
                                                 <p className="text-xs text-amber-700 font-medium">Reason:</p>
-                                                <p className="text-sm text-gray-700">{swapReq.reason}</p>
+                                                <p className="text-sm text-neutral-700">{swapReq.reason}</p>
                                             </div>
                                             
-                                            <p className="text-xs text-gray-400 mt-2">
+                                            <p className="text-xs text-neutral-400 mt-2">
                                                 Requested on {new Date(swapReq.createdAt).toLocaleDateString()}
                                             </p>
                                         </div>
@@ -871,7 +871,7 @@ const CashierScheduleRequests: React.FC = () => {
                                             <button
                                                 onClick={() => openSwapRejectModal(swapReq)}
                                                 disabled={processingSwap}
-                                                className="px-4 py-2 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600 transition-colors flex items-center gap-1 disabled:opacity-50"
+                                                className="px-4 py-2 bg-error-500 text-white text-sm rounded-lg hover:bg-red-600 transition-colors flex items-center gap-1 disabled:opacity-50"
                                             >
                                                 <X className="w-4 h-4" />
                                                 Reject
@@ -887,23 +887,23 @@ const CashierScheduleRequests: React.FC = () => {
 
             {/* Incoming Assignments Tab */}
             {activeTab === 'incoming' && (
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
-                    <div className="p-4 border-b border-gray-200 flex items-center justify-between">
-                        <h2 className="text-lg font-semibold text-gray-800">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden mb-6">
+                    <div className="p-4 border-b border-neutral-200 flex items-center justify-between">
+                        <h2 className="text-lg font-semibold text-neutral-800">
                             Incoming Schedule Assignments ({incomingAssignments.length})
                         </h2>
-                        <p className="text-sm text-gray-500">Schedules assigned by Branch Admin that need your response</p>
+                        <p className="text-sm text-neutral-500">Schedules assigned by Branch Admin that need your response</p>
                     </div>
                     <div className="divide-y divide-gray-100">
                         {incomingAssignments.length === 0 ? (
-                            <div className="py-12 text-center text-gray-500">
+                            <div className="py-12 text-center text-neutral-500">
                                 <Bell className="w-16 h-16 mx-auto mb-4 text-gray-300" />
                                 <p className="text-lg mb-2">No pending assignments</p>
                                 <p className="text-sm">You have no new schedule assignments from your Branch Admin</p>
                             </div>
                         ) : (
                             incomingAssignments.map((assignment) => (
-                                <div key={assignment.id} className="p-6 hover:bg-gray-50 transition-colors">
+                                <div key={assignment.id} className="p-6 hover:bg-neutral-50 transition-colors">
                                     <div className="flex items-start justify-between mb-4">
                                         <div className="flex items-center gap-3">
                                             <div className={`p-2 rounded-lg ${assignment.isOvertime ? 'bg-orange-100' : 'bg-purple-100'}`}>
@@ -914,10 +914,10 @@ const CashierScheduleRequests: React.FC = () => {
                                                 )}
                                             </div>
                                             <div>
-                                                <h3 className="font-semibold text-gray-800">
+                                                <h3 className="font-semibold text-neutral-800">
                                                     {assignment.isOvertime ? 'Overtime Assignment' : 'Schedule Assignment'}
                                                 </h3>
-                                                <p className="text-xs text-gray-500">
+                                                <p className="text-xs text-neutral-500">
                                                     {assignment.assignedBy ? `Assigned by ${assignment.assignedBy}` : 'Assigned by Branch Admin'}
                                                 </p>
                                             </div>
@@ -929,31 +929,31 @@ const CashierScheduleRequests: React.FC = () => {
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                                        <div className="bg-gray-50 p-4 rounded-lg">
-                                            <p className="text-xs text-gray-500 mb-2">Shift Type</p>
-                                            <p className="font-medium text-gray-800">{assignment.shiftType}</p>
+                                        <div className="bg-neutral-50 p-4 rounded-lg">
+                                            <p className="text-xs text-neutral-500 mb-2">Shift Type</p>
+                                            <p className="font-medium text-neutral-800">{assignment.shiftType}</p>
                                         </div>
-                                        <div className="bg-gray-50 p-4 rounded-lg">
-                                            <p className="text-xs text-gray-500 mb-2">Date</p>
-                                            <p className="font-medium text-gray-800">{formatDate(assignment.date)}</p>
+                                        <div className="bg-neutral-50 p-4 rounded-lg">
+                                            <p className="text-xs text-neutral-500 mb-2">Date</p>
+                                            <p className="font-medium text-neutral-800">{formatDate(assignment.date)}</p>
                                         </div>
-                                        <div className="bg-gray-50 p-4 rounded-lg">
-                                            <p className="text-xs text-gray-500 mb-2">Time</p>
-                                            <p className="font-medium text-gray-800">{assignment.startTime} - {assignment.endTime}</p>
+                                        <div className="bg-neutral-50 p-4 rounded-lg">
+                                            <p className="text-xs text-neutral-500 mb-2">Time</p>
+                                            <p className="font-medium text-neutral-800">{assignment.startTime} - {assignment.endTime}</p>
                                         </div>
                                     </div>
                                     
                                     {assignment.isOvertime && assignment.reason && (
                                         <div className="bg-orange-50 p-4 rounded-lg mb-4">
                                             <p className="text-xs text-orange-600 mb-2">Overtime Reason ({assignment.hours}h)</p>
-                                            <p className="text-gray-700">{assignment.reason}</p>
+                                            <p className="text-neutral-700">{assignment.reason}</p>
                                         </div>
                                     )}
                                     
                                     {assignment.notes && !assignment.isOvertime && (
                                         <div className="bg-blue-50 p-4 rounded-lg mb-4">
-                                            <p className="text-xs text-blue-600 mb-2">Notes</p>
-                                            <p className="text-gray-700">{assignment.notes}</p>
+                                            <p className="text-xs text-primary-500 mb-2">Notes</p>
+                                            <p className="text-neutral-700">{assignment.notes}</p>
                                         </div>
                                     )}
 
@@ -965,7 +965,7 @@ const CashierScheduleRequests: React.FC = () => {
                                                     handleRejectAssignment(assignment.id, reason);
                                                 }
                                             }}
-                                            className="flex items-center gap-2 px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors"
+                                            className="flex items-center gap-2 px-4 py-2 bg-error-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors"
                                         >
                                             <X className="w-4 h-4" />
                                             Reject
@@ -987,20 +987,20 @@ const CashierScheduleRequests: React.FC = () => {
 
             {/* My Requests Tab */}
             {activeTab === 'my-requests' && (
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div className="p-4 border-b border-gray-200">
-                    <h2 className="text-lg font-semibold text-gray-800">My Requests ({requests.length})</h2>
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
+                <div className="p-4 border-b border-neutral-200">
+                    <h2 className="text-lg font-semibold text-neutral-800">My Requests ({requests.length})</h2>
                 </div>
                 <div className="divide-y divide-gray-100">
                     {requests.length === 0 ? (
-                        <div className="py-12 text-center text-gray-500">
+                        <div className="py-12 text-center text-neutral-500">
                             <Calendar className="w-16 h-16 mx-auto mb-4 text-gray-300" />
                             <p className="text-lg mb-2">No schedule requests yet</p>
                             <p className="text-sm">Click "New Request" to submit a schedule change request</p>
                         </div>
                     ) : (
                         requests.map((request) => (
-                            <div key={request.id} className="p-6 hover:bg-gray-50 transition-colors">
+                            <div key={request.id} className="p-6 hover:bg-neutral-50 transition-colors">
                                 <div className="flex items-start justify-between mb-4">
                                     <div className="flex items-center gap-3">
                                         <div className={`p-2 rounded-lg ${
@@ -1011,14 +1011,14 @@ const CashierScheduleRequests: React.FC = () => {
                                             {request.requestType === 'interchange' ? (
                                                 <Users className="w-5 h-5 text-purple-600" />
                                             ) : (
-                                                <Calendar className="w-5 h-5 text-blue-600" />
+                                                <Calendar className="w-5 h-5 text-primary-500" />
                                             )}
                                         </div>
                                         <div>
-                                            <h3 className="font-semibold text-gray-800">
+                                            <h3 className="font-semibold text-neutral-800">
                                                 {getRequestTypeLabel(request.requestType)}
                                             </h3>
-                                            <p className="text-xs text-gray-500">
+                                            <p className="text-xs text-neutral-500">
                                                 Requested on {formatDate(request.requestedDate)}
                                             </p>
                                         </div>
@@ -1027,22 +1027,22 @@ const CashierScheduleRequests: React.FC = () => {
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                    <div className="bg-gray-50 p-4 rounded-lg">
-                                        <p className="text-xs text-gray-500 mb-2">Original Shift</p>
-                                        <p className="font-medium text-gray-800">{formatDate(request.originalShiftDate)}</p>
-                                        <p className="text-sm text-gray-600">{request.originalShiftType}</p>
+                                    <div className="bg-neutral-50 p-4 rounded-lg">
+                                        <p className="text-xs text-neutral-500 mb-2">Original Shift</p>
+                                        <p className="font-medium text-neutral-800">{formatDate(request.originalShiftDate)}</p>
+                                        <p className="text-sm text-neutral-600">{request.originalShiftType}</p>
                                     </div>
                                     {request.requestType === 'change' && request.requestedShiftDate && (
                                         <div className="bg-blue-50 p-4 rounded-lg">
-                                            <p className="text-xs text-blue-600 mb-2">Requested Shift</p>
-                                            <p className="font-medium text-gray-800">{formatDate(request.requestedShiftDate)}</p>
-                                            <p className="text-sm text-gray-600">{request.requestedShiftType}</p>
+                                            <p className="text-xs text-primary-500 mb-2">Requested Shift</p>
+                                            <p className="font-medium text-neutral-800">{formatDate(request.requestedShiftDate)}</p>
+                                            <p className="text-sm text-neutral-600">{request.requestedShiftType}</p>
                                         </div>
                                     )}
                                     {request.requestType === 'interchange' && request.interchangeWithName && (
                                         <div className="bg-purple-50 p-4 rounded-lg">
                                             <p className="text-xs text-purple-600 mb-2">Swap With</p>
-                                            <p className="font-medium text-gray-800">{request.interchangeWithName}</p>
+                                            <p className="font-medium text-neutral-800">{request.interchangeWithName}</p>
                                             {/* Peer approval status */}
                                             {request.peerStatus && (
                                                 <div className="mt-2">
@@ -1059,7 +1059,7 @@ const CashierScheduleRequests: React.FC = () => {
                                                         </span>
                                                     )}
                                                     {request.peerStatus === 'rejected' && (
-                                                        <span className="inline-flex items-center gap-1 text-xs px-2 py-1 bg-red-100 text-red-700 rounded-full">
+                                                        <span className="inline-flex items-center gap-1 text-xs px-2 py-1 bg-error-100 text-red-700 rounded-full">
                                                             <XCircle className="w-3 h-3" />
                                                             Declined by colleague
                                                         </span>
@@ -1072,9 +1072,9 @@ const CashierScheduleRequests: React.FC = () => {
 
                                 {/* Peer rejection reason */}
                                 {request.requestType === 'interchange' && request.peerStatus === 'rejected' && request.peerRejectionReason && (
-                                    <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                                    <div className="bg-error-50 border border-red-200 rounded-lg p-4 mb-4">
                                         <div className="flex items-start gap-2">
-                                            <Users className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                                            <Users className="w-5 h-5 text-error-500 flex-shrink-0 mt-0.5" />
                                             <div>
                                                 <p className="text-sm font-medium text-red-800 mb-1">Colleague's Response:</p>
                                                 <p className="text-sm text-red-700">{request.peerRejectionReason}</p>
@@ -1084,14 +1084,14 @@ const CashierScheduleRequests: React.FC = () => {
                                 )}
 
                                 <div className="mb-4">
-                                    <p className="text-sm font-medium text-gray-700 mb-1">Reason:</p>
-                                    <p className="text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">{request.reason}</p>
+                                    <p className="text-sm font-medium text-neutral-700 mb-1">Reason:</p>
+                                    <p className="text-sm text-neutral-600 bg-neutral-50 p-3 rounded-lg">{request.reason}</p>
                                 </div>
 
                                 {request.status === 'rejected' && request.rejectionReason && (
-                                    <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                                    <div className="bg-error-50 border border-red-200 rounded-lg p-4">
                                         <div className="flex items-start gap-2">
-                                            <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                                            <AlertCircle className="w-5 h-5 text-error-500 flex-shrink-0 mt-0.5" />
                                             <div>
                                                 <p className="text-sm font-medium text-red-800 mb-1">Rejection Reason:</p>
                                                 <p className="text-sm text-red-700">{request.rejectionReason}</p>
@@ -1101,7 +1101,7 @@ const CashierScheduleRequests: React.FC = () => {
                                 )}
 
                                 {request.responseDate && (
-                                    <div className="text-xs text-gray-500 mt-3">
+                                    <div className="text-xs text-neutral-500 mt-3">
                                         {request.status === 'approved' ? 'Approved' : 'Rejected'} on {formatDate(request.responseDate)}
                                         {request.responseBy && ` by ${request.responseBy}`}
                                     </div>
@@ -1117,14 +1117,14 @@ const CashierScheduleRequests: React.FC = () => {
             {showRequestModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                        <div className="p-6 border-b border-gray-200">
-                            <h2 className="text-xl font-bold text-gray-800">New Schedule Request</h2>
+                        <div className="p-6 border-b border-neutral-200">
+                            <h2 className="text-xl font-bold text-neutral-800">New Schedule Request</h2>
                         </div>
                         <form onSubmit={handleSubmitRequest} className="p-6">
                             <div className="space-y-4">
                                 {/* Request Type */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                                         Request Type *
                                     </label>
                                     <div className="grid grid-cols-3 gap-3">
@@ -1133,11 +1133,11 @@ const CashierScheduleRequests: React.FC = () => {
                                             onClick={() => setRequestType('change')}
                                             className={`p-4 border-2 rounded-lg text-center transition-all ${
                                                 requestType === 'change'
-                                                    ? 'border-blue-500 bg-blue-50'
-                                                    : 'border-gray-200 hover:border-gray-300'
+                                                    ? 'border-primary-500 bg-blue-50'
+                                                    : 'border-neutral-200 hover:border-neutral-300'
                                             }`}
                                         >
-                                            <Calendar className="w-6 h-6 mx-auto mb-2 text-blue-500" />
+                                            <Calendar className="w-6 h-6 mx-auto mb-2 text-primary-500" />
                                             <p className="text-sm font-medium">Schedule Change</p>
                                         </button>
                                         <button
@@ -1146,7 +1146,7 @@ const CashierScheduleRequests: React.FC = () => {
                                             className={`p-4 border-2 rounded-lg text-center transition-all ${
                                                 requestType === 'interchange'
                                                     ? 'border-purple-500 bg-purple-50'
-                                                    : 'border-gray-200 hover:border-gray-300'
+                                                    : 'border-neutral-200 hover:border-neutral-300'
                                             }`}
                                         >
                                             <Users className="w-6 h-6 mx-auto mb-2 text-purple-500" />
@@ -1158,7 +1158,7 @@ const CashierScheduleRequests: React.FC = () => {
                                             className={`p-4 border-2 rounded-lg text-center transition-all ${
                                                 requestType === 'time_off'
                                                     ? 'border-amber-500 bg-amber-50'
-                                                    : 'border-gray-200 hover:border-gray-300'
+                                                    : 'border-neutral-200 hover:border-neutral-300'
                                             }`}
                                         >
                                             <Clock className="w-6 h-6 mx-auto mb-2 text-amber-500" />
@@ -1169,11 +1169,11 @@ const CashierScheduleRequests: React.FC = () => {
                                             onClick={() => setRequestType('cancellation')}
                                             className={`p-4 border-2 rounded-lg text-center transition-all ${
                                                 requestType === 'cancellation'
-                                                    ? 'border-red-500 bg-red-50'
-                                                    : 'border-gray-200 hover:border-gray-300'
+                                                    ? 'border-error-500 bg-error-50'
+                                                    : 'border-neutral-200 hover:border-neutral-300'
                                             }`}
                                         >
-                                            <XCircle className="w-6 h-6 mx-auto mb-2 text-red-500" />
+                                            <XCircle className="w-6 h-6 mx-auto mb-2 text-error-500" />
                                             <p className="text-sm font-medium">Cancel Shift</p>
                                         </button>
                                     </div>
@@ -1181,22 +1181,22 @@ const CashierScheduleRequests: React.FC = () => {
 
                                 {/* Select from Available Schedules */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                                         Select Your Schedule *
                                     </label>
                                     {loadingSchedules ? (
-                                        <div className="flex items-center justify-center py-8 bg-gray-50 rounded-lg">
+                                        <div className="flex items-center justify-center py-8 bg-neutral-50 rounded-lg">
                                             <Loader2 className="w-6 h-6 animate-spin text-purple-500 mr-2" />
-                                            <span className="text-gray-500">Loading your schedules...</span>
+                                            <span className="text-neutral-500">Loading your schedules...</span>
                                         </div>
                                     ) : userSchedules.length === 0 ? (
-                                        <div className="text-center py-8 bg-gray-50 rounded-lg">
+                                        <div className="text-center py-8 bg-neutral-50 rounded-lg">
                                             <Calendar className="w-12 h-12 mx-auto mb-2 text-gray-300" />
-                                            <p className="text-gray-500">No upcoming schedules found</p>
-                                            <p className="text-xs text-gray-400 mt-1">You need assigned schedules to make a request</p>
+                                            <p className="text-neutral-500">No upcoming schedules found</p>
+                                            <p className="text-xs text-neutral-400 mt-1">You need assigned schedules to make a request</p>
                                         </div>
                                     ) : (
-                                        <div className="space-y-2 max-h-48 overflow-y-auto border border-gray-200 rounded-lg p-2">
+                                        <div className="space-y-2 max-h-48 overflow-y-auto border border-neutral-200 rounded-lg p-2">
                                             {userSchedules.map((schedule) => {
                                                 const isSelected = selectedScheduleId === schedule.id;
                                                 const dateObj = new Date(schedule.date);
@@ -1209,17 +1209,17 @@ const CashierScheduleRequests: React.FC = () => {
                                                                 ? 'bg-purple-50 border-purple-200'
                                                                 : isSelected
                                                                     ? 'border-purple-500 bg-purple-50'
-                                                                    : 'border-gray-200 hover:border-purple-300 hover:bg-gray-50'
+                                                                    : 'border-neutral-200 hover:border-purple-300 hover:bg-neutral-50'
                                                         }`}
                                                     >
                                                         <div className="flex items-center justify-between">
                                                             <div className="flex items-center gap-3">
-                                                                <div className={`w-3 h-3 rounded-full ${isSelected ? 'bg-purple-500' : schedule.isOverridden ? 'bg-purple-400' : 'bg-gray-300'}`}></div>
+                                                                <div className={`w-3 h-3 rounded-full ${isSelected ? 'bg-purple-500' : schedule.isOverridden ? 'bg-purple-400' : 'bg-neutral-300'}`}></div>
                                                                 <div>
-                                                                    <p className="font-medium text-gray-800">
+                                                                    <p className="font-medium text-neutral-800">
                                                                         {dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
                                                                     </p>
-                                                                    <p className="text-xs text-gray-500">{schedule.date}</p>
+                                                                    <p className="text-xs text-neutral-500">{schedule.date}</p>
                                                                 </div>
                                                             </div>
                                                             <div className="text-right">
@@ -1236,7 +1236,7 @@ const CashierScheduleRequests: React.FC = () => {
                                                                         {schedule.shiftType}
                                                                     </span>
                                                                 </div>
-                                                                <p className="text-xs text-gray-500 mt-1">
+                                                                <p className="text-xs text-neutral-500 mt-1">
                                                                     {schedule.startTime} - {schedule.endTime}
                                                                 </p>
                                                             </div>
@@ -1258,25 +1258,25 @@ const CashierScheduleRequests: React.FC = () => {
                                 {requestType === 'change' && (
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                                 Requested Shift Date *
                                             </label>
                                             <input
                                                 type="date"
                                                 value={formData.requestedShiftDate}
                                                 onChange={(e) => setFormData({ ...formData, requestedShiftDate: e.target.value })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                                                 required
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                                 Requested Shift Type *
                                             </label>
                                             <select
                                                 value={formData.requestedShiftType}
                                                 onChange={(e) => setFormData({ ...formData, requestedShiftType: e.target.value })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                                                 required
                                             >
                                                 <option value="">Select shift</option>
@@ -1302,14 +1302,14 @@ const CashierScheduleRequests: React.FC = () => {
                                 {requestType === 'interchange' && (
                                     <div className="space-y-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                                 <Users className="w-4 h-4 inline mr-1" />
                                                 Swap With Colleague *
                                             </label>
                                             <select
                                                 value={formData.interchangeWith}
                                                 onChange={(e) => setFormData({ ...formData, interchangeWith: e.target.value })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                                                 required
                                             >
                                                 <option value="">Select colleague</option>
@@ -1344,14 +1344,14 @@ const CashierScheduleRequests: React.FC = () => {
 
                                 {/* Reason */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                                         Reason *
                                     </label>
                                     <textarea
                                         value={formData.reason}
                                         onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
                                         rows={4}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                                         placeholder="Please provide a detailed reason for this request..."
                                         required
                                     />
@@ -1379,7 +1379,7 @@ const CashierScheduleRequests: React.FC = () => {
                                 <button
                                     type="button"
                                     onClick={() => setShowRequestModal(false)}
-                                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                                    className="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors"
                                 >
                                     Cancel
                                 </button>
@@ -1394,30 +1394,30 @@ const CashierScheduleRequests: React.FC = () => {
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6">
                         <div className="flex items-center gap-3 mb-4">
-                            <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
-                                <X className="w-5 h-5 text-red-600" />
+                            <div className="w-10 h-10 rounded-full bg-error-100 flex items-center justify-center">
+                                <X className="w-5 h-5 text-error-600" />
                             </div>
                             <div>
-                                <h3 className="text-lg font-bold text-gray-800">Reject Swap Request</h3>
-                                <p className="text-sm text-gray-500">From {selectedSwapRequest.requesterName}</p>
+                                <h3 className="text-lg font-bold text-neutral-800">Reject Swap Request</h3>
+                                <p className="text-sm text-neutral-500">From {selectedSwapRequest.requesterName}</p>
                             </div>
                         </div>
                         
-                        <div className="mb-4 p-3 bg-gray-50 rounded-lg">
-                            <p className="text-sm text-gray-600">
+                        <div className="mb-4 p-3 bg-neutral-50 rounded-lg">
+                            <p className="text-sm text-neutral-600">
                                 <span className="font-medium">Their shift:</span> {formatDate(selectedSwapRequest.requesterShiftDate)} - {selectedSwapRequest.requesterShiftType}
                             </p>
                         </div>
                         
                         <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Reason for rejection (optional)
                             </label>
                             <textarea
                                 value={swapRejectionReason}
                                 onChange={(e) => setSwapRejectionReason(e.target.value)}
                                 rows={3}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-error-500"
                                 placeholder="e.g., I have a prior commitment on that date..."
                             />
                         </div>
@@ -1426,7 +1426,7 @@ const CashierScheduleRequests: React.FC = () => {
                             <button
                                 onClick={handleRejectSwapRequest}
                                 disabled={processingSwap}
-                                className="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50"
+                                className="flex-1 px-4 py-2 bg-error-500 text-white rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50"
                             >
                                 {processingSwap ? 'Rejecting...' : 'Confirm Reject'}
                             </button>
@@ -1436,7 +1436,7 @@ const CashierScheduleRequests: React.FC = () => {
                                     setSelectedSwapRequest(null);
                                     setSwapRejectionReason('');
                                 }}
-                                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                                className="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors"
                             >
                                 Cancel
                             </button>

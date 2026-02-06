@@ -184,10 +184,10 @@ const ReceptionistAppointments: React.FC = () => {
             confirmed: 'bg-blue-100 text-blue-700',
             in_progress: 'bg-purple-100 text-purple-700',
             completed: 'bg-green-100 text-green-700',
-            cancelled: 'bg-red-100 text-red-700',
-            no_show: 'bg-gray-100 text-gray-700',
+            cancelled: 'bg-error-100 text-red-700',
+            no_show: 'bg-neutral-100 text-neutral-700',
         };
-        return styles[status] || 'bg-gray-100 text-gray-700';
+        return styles[status] || 'bg-neutral-100 text-neutral-700';
     };
 
     const timeSlots = [
@@ -206,20 +206,20 @@ const ReceptionistAppointments: React.FC = () => {
     return (
         <div className="space-y-6">
             {/* Header */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="p-3 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600">
                             <Calendar className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                            <h1 className="text-xl font-bold text-gray-800">Appointments</h1>
-                            <p className="text-sm text-gray-500">Manage and schedule patient appointments</p>
+                            <h1 className="text-xl font-bold text-neutral-800">Appointments</h1>
+                            <p className="text-sm text-neutral-500">Manage and schedule patient appointments</p>
                         </div>
                     </div>
                     <button
                         onClick={() => setShowCreateModal(true)}
-                        className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all font-medium"
+                        className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all font-medium"
                     >
                         <Plus className="w-4 h-4 inline mr-2" />
                         New Appointment
@@ -232,7 +232,7 @@ const ReceptionistAppointments: React.FC = () => {
                 <div className={`p-4 rounded-lg flex items-center gap-3 ${
                     message.type === 'success' 
                         ? 'bg-green-50 text-green-800 border border-green-200'
-                        : 'bg-red-50 text-red-800 border border-red-200'
+                        : 'bg-error-50 text-red-800 border border-red-200'
                 }`}>
                     {message.type === 'success' ? <Check className="w-5 h-5" /> : <AlertCircle className="w-5 h-5" />}
                     {message.text}
@@ -240,12 +240,12 @@ const ReceptionistAppointments: React.FC = () => {
             )}
 
             {/* Date Navigation & Filters */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                 <div className="flex items-center justify-between flex-wrap gap-4">
                     <div className="flex items-center gap-2">
                         <button
                             onClick={() => changeDate(-1)}
-                            className="p-2 hover:bg-gray-100 rounded-lg"
+                            className="p-2 hover:bg-neutral-100 rounded-lg"
                         >
                             <ChevronLeft className="w-5 h-5" />
                         </button>
@@ -253,27 +253,27 @@ const ReceptionistAppointments: React.FC = () => {
                             type="date"
                             value={selectedDate}
                             onChange={(e) => setSelectedDate(e.target.value)}
-                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                            className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                         />
                         <button
                             onClick={() => changeDate(1)}
-                            className="p-2 hover:bg-gray-100 rounded-lg"
+                            className="p-2 hover:bg-neutral-100 rounded-lg"
                         >
                             <ChevronRight className="w-5 h-5" />
                         </button>
                         <button
                             onClick={() => setSelectedDate(new Date().toISOString().split('T')[0])}
-                            className="px-3 py-2 text-sm text-blue-600 hover:bg-blue-50 rounded-lg"
+                            className="px-3 py-2 text-sm text-primary-500 hover:bg-blue-50 rounded-lg"
                         >
                             Today
                         </button>
                     </div>
                     <div className="flex items-center gap-2">
-                        <Filter className="w-4 h-4 text-gray-500" />
+                        <Filter className="w-4 h-4 text-neutral-500" />
                         <select
                             value={statusFilter}
                             onChange={(e) => setStatusFilter(e.target.value)}
-                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                            className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                         >
                             <option value="">All Status</option>
                             <option value="pending">Pending</option>
@@ -287,40 +287,40 @@ const ReceptionistAppointments: React.FC = () => {
             </div>
 
             {/* Appointments List */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200">
                 {loading ? (
                     <div className="flex items-center justify-center h-64">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
                     </div>
                 ) : appointments.length === 0 ? (
-                    <div className="text-center py-12 text-gray-500">
+                    <div className="text-center py-12 text-neutral-500">
                         <Calendar className="w-12 h-12 mx-auto mb-4 opacity-50" />
                         <p>No appointments for this date</p>
                     </div>
                 ) : (
                     <div className="divide-y">
                         {appointments.map((apt) => (
-                            <div key={apt.id} className="p-4 hover:bg-gray-50">
+                            <div key={apt.id} className="p-4 hover:bg-neutral-50">
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-4">
                                         <div className="flex flex-col items-center min-w-[80px]">
-                                            <Clock className="w-4 h-4 text-gray-400 mb-1" />
-                                            <span className="text-sm font-medium text-gray-800">
+                                            <Clock className="w-4 h-4 text-neutral-400 mb-1" />
+                                            <span className="text-sm font-medium text-neutral-800">
                                                 {formatTime(apt.appointment_time)}
                                             </span>
                                         </div>
                                         <div className="border-l pl-4">
                                             <div className="flex items-center gap-2 mb-1">
-                                                <User className="w-4 h-4 text-gray-400" />
-                                                <span className="font-medium text-gray-800">{apt.patient_name}</span>
-                                                <span className="text-xs text-gray-500">({apt.patient_code})</span>
+                                                <User className="w-4 h-4 text-neutral-400" />
+                                                <span className="font-medium text-neutral-800">{apt.patient_name}</span>
+                                                <span className="text-xs text-neutral-500">({apt.patient_code})</span>
                                             </div>
-                                            <p className="text-sm text-gray-600">
+                                            <p className="text-sm text-neutral-600">
                                                 Dr. {apt.doctor_name} 
-                                                {apt.department && <span className="text-gray-400"> • {apt.department}</span>}
+                                                {apt.department && <span className="text-neutral-400"> • {apt.department}</span>}
                                             </p>
                                             {apt.patient_phone && (
-                                                <div className="flex items-center gap-1 mt-1 text-xs text-gray-500">
+                                                <div className="flex items-center gap-1 mt-1 text-xs text-neutral-500">
                                                     <Phone className="w-3 h-3" />
                                                     {apt.patient_phone}
                                                 </div>
@@ -350,14 +350,14 @@ const ReceptionistAppointments: React.FC = () => {
                                                         });
                                                         setShowRescheduleModal(true);
                                                     }}
-                                                    className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
+                                                    className="p-2 text-primary-500 hover:bg-blue-50 rounded-lg"
                                                     title="Reschedule"
                                                 >
                                                     <RefreshCw className="w-4 h-4" />
                                                 </button>
                                                 <button
                                                     onClick={() => handleCancelAppointment(apt.id)}
-                                                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
+                                                    className="p-2 text-error-600 hover:bg-error-50 rounded-lg"
                                                     title="Cancel"
                                                 >
                                                     <X className="w-4 h-4" />
@@ -386,20 +386,20 @@ const ReceptionistAppointments: React.FC = () => {
                     <div className="bg-white rounded-xl shadow-xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
                         <div className="p-6 border-b">
                             <div className="flex items-center justify-between">
-                                <h2 className="text-lg font-bold text-gray-800">New Appointment</h2>
+                                <h2 className="text-lg font-bold text-neutral-800">New Appointment</h2>
                                 <button onClick={() => { setShowCreateModal(false); resetForm(); }}>
-                                    <X className="w-5 h-5 text-gray-500" />
+                                    <X className="w-5 h-5 text-neutral-500" />
                                 </button>
                             </div>
                         </div>
                         <div className="p-6 space-y-4">
                             {/* Patient Search */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Patient <span className="text-red-500">*</span>
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
+                                    Patient <span className="text-error-500">*</span>
                                 </label>
                                 <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
                                     <input
                                         type="text"
                                         value={searchQuery}
@@ -408,7 +408,7 @@ const ReceptionistAppointments: React.FC = () => {
                                             searchPatients(e.target.value);
                                         }}
                                         placeholder="Search patient by name or phone..."
-                                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                     />
                                 </div>
                                 {patients.length > 0 && (
@@ -421,10 +421,10 @@ const ReceptionistAppointments: React.FC = () => {
                                                     setSearchQuery(patient.name);
                                                     setPatients([]);
                                                 }}
-                                                className="p-3 hover:bg-gray-50 cursor-pointer"
+                                                className="p-3 hover:bg-neutral-50 cursor-pointer"
                                             >
                                                 <p className="font-medium">{patient.name}</p>
-                                                <p className="text-xs text-gray-500">{patient.phone}</p>
+                                                <p className="text-xs text-neutral-500">{patient.phone}</p>
                                             </div>
                                         ))}
                                     </div>
@@ -433,13 +433,13 @@ const ReceptionistAppointments: React.FC = () => {
 
                             {/* Doctor */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Doctor <span className="text-red-500">*</span>
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
+                                    Doctor <span className="text-error-500">*</span>
                                 </label>
                                 <select
                                     value={newAppointment.doctor_id}
                                     onChange={(e) => setNewAppointment(prev => ({ ...prev, doctor_id: parseInt(e.target.value) }))}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                 >
                                     <option value={0}>Select Doctor</option>
                                     {doctors.map((doctor) => (
@@ -453,25 +453,25 @@ const ReceptionistAppointments: React.FC = () => {
                             {/* Date & Time */}
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                                        Date <span className="text-red-500">*</span>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">
+                                        Date <span className="text-error-500">*</span>
                                     </label>
                                     <input
                                         type="date"
                                         value={newAppointment.appointment_date}
                                         onChange={(e) => setNewAppointment(prev => ({ ...prev, appointment_date: e.target.value }))}
                                         min={new Date().toISOString().split('T')[0]}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                                        Time <span className="text-red-500">*</span>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">
+                                        Time <span className="text-error-500">*</span>
                                     </label>
                                     <select
                                         value={newAppointment.appointment_time}
                                         onChange={(e) => setNewAppointment(prev => ({ ...prev, appointment_time: e.target.value }))}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                     >
                                         <option value="">Select Time</option>
                                         {timeSlots.map((slot) => (
@@ -483,7 +483,7 @@ const ReceptionistAppointments: React.FC = () => {
 
                             {/* Reason */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Reason for Visit
                                 </label>
                                 <input
@@ -491,13 +491,13 @@ const ReceptionistAppointments: React.FC = () => {
                                     value={newAppointment.reason}
                                     onChange={(e) => setNewAppointment(prev => ({ ...prev, reason: e.target.value }))}
                                     placeholder="Brief description..."
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                 />
                             </div>
 
                             {/* Notes */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Notes
                                 </label>
                                 <textarea
@@ -505,20 +505,20 @@ const ReceptionistAppointments: React.FC = () => {
                                     onChange={(e) => setNewAppointment(prev => ({ ...prev, notes: e.target.value }))}
                                     rows={2}
                                     placeholder="Additional notes..."
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                 />
                             </div>
                         </div>
                         <div className="p-6 border-t flex justify-end gap-3">
                             <button
                                 onClick={() => { setShowCreateModal(false); resetForm(); }}
-                                className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                                className="px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleCreateAppointment}
-                                className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600"
+                                className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600"
                             >
                                 Create Appointment
                             </button>
@@ -533,34 +533,34 @@ const ReceptionistAppointments: React.FC = () => {
                     <div className="bg-white rounded-xl shadow-xl w-full max-w-md mx-4">
                         <div className="p-6 border-b">
                             <div className="flex items-center justify-between">
-                                <h2 className="text-lg font-bold text-gray-800">Reschedule Appointment</h2>
+                                <h2 className="text-lg font-bold text-neutral-800">Reschedule Appointment</h2>
                                 <button onClick={() => { setShowRescheduleModal(false); setSelectedAppointment(null); }}>
-                                    <X className="w-5 h-5 text-gray-500" />
+                                    <X className="w-5 h-5 text-neutral-500" />
                                 </button>
                             </div>
                         </div>
                         <div className="p-6 space-y-4">
-                            <div className="p-3 bg-gray-50 rounded-lg">
-                                <p className="text-sm text-gray-600">Current: {selectedAppointment.appointment_date} at {formatTime(selectedAppointment.appointment_time)}</p>
+                            <div className="p-3 bg-neutral-50 rounded-lg">
+                                <p className="text-sm text-neutral-600">Current: {selectedAppointment.appointment_date} at {formatTime(selectedAppointment.appointment_time)}</p>
                                 <p className="text-sm font-medium">{selectedAppointment.patient_name}</p>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">New Date</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">New Date</label>
                                     <input
                                         type="date"
                                         value={rescheduleData.appointment_date}
                                         onChange={(e) => setRescheduleData(prev => ({ ...prev, appointment_date: e.target.value }))}
                                         min={new Date().toISOString().split('T')[0]}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">New Time</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">New Time</label>
                                     <select
                                         value={rescheduleData.appointment_time}
                                         onChange={(e) => setRescheduleData(prev => ({ ...prev, appointment_time: e.target.value }))}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                     >
                                         <option value="">Select Time</option>
                                         {timeSlots.map((slot) => (
@@ -570,26 +570,26 @@ const ReceptionistAppointments: React.FC = () => {
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Reason</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">Reason</label>
                                 <input
                                     type="text"
                                     value={rescheduleData.reason}
                                     onChange={(e) => setRescheduleData(prev => ({ ...prev, reason: e.target.value }))}
                                     placeholder="Reason for rescheduling..."
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                 />
                             </div>
                         </div>
                         <div className="p-6 border-t flex justify-end gap-3">
                             <button
                                 onClick={() => { setShowRescheduleModal(false); setSelectedAppointment(null); }}
-                                className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                                className="px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleReschedule}
-                                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                                className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-500"
                             >
                                 Reschedule
                             </button>

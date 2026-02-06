@@ -214,7 +214,7 @@ export const BranchAdminScheduleRequests: React.FC = () => {
     const SidebarMenu = () => (
         <nav className="py-4">
             <div className="px-4 mb-4">
-                <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Navigation</h2>
+                <h2 className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Navigation</h2>
             </div>
             <ul className="space-y-1 px-2">
                 {BranchAdminMenuItems.map((item, index) => (
@@ -224,7 +224,7 @@ export const BranchAdminScheduleRequests: React.FC = () => {
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                                 item.path.includes('/requests') 
                                     ? 'bg-gradient-to-r from-emerald-50 to-blue-50 text-emerald-700'
-                                    : 'text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
+                                    : 'text-neutral-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
                             }`}
                         >
                             <span className="flex-shrink-0">{item.icon}</span>
@@ -284,8 +284,8 @@ export const BranchAdminScheduleRequests: React.FC = () => {
                                 <CalendarDays className="w-5 h-5 text-purple-600" />
                             </div>
                             <div>
-                                <p className="text-2xl font-bold text-gray-900">{stats.totalRequests}</p>
-                                <p className="text-xs text-gray-500">Total Requests</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.totalRequests}</p>
+                                <p className="text-xs text-neutral-500">Total Requests</p>
                             </div>
                         </div>
                     </div>
@@ -295,8 +295,8 @@ export const BranchAdminScheduleRequests: React.FC = () => {
                                 <Clock className="w-5 h-5 text-amber-600" />
                             </div>
                             <div>
-                                <p className="text-2xl font-bold text-gray-900">{stats.pendingRequests}</p>
-                                <p className="text-xs text-gray-500">Pending</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.pendingRequests}</p>
+                                <p className="text-xs text-neutral-500">Pending</p>
                             </div>
                         </div>
                     </div>
@@ -306,19 +306,19 @@ export const BranchAdminScheduleRequests: React.FC = () => {
                                 <CheckCircle className="w-5 h-5 text-green-600" />
                             </div>
                             <div>
-                                <p className="text-2xl font-bold text-gray-900">{stats.approvedToday}</p>
-                                <p className="text-xs text-gray-500">Approved Today</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.approvedToday}</p>
+                                <p className="text-xs text-neutral-500">Approved Today</p>
                             </div>
                         </div>
                     </div>
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-red-100 rounded-lg">
-                                <XCircle className="w-5 h-5 text-red-600" />
+                            <div className="p-2 bg-error-100 rounded-lg">
+                                <XCircle className="w-5 h-5 text-error-600" />
                             </div>
                             <div>
-                                <p className="text-2xl font-bold text-gray-900">{stats.rejectedToday}</p>
-                                <p className="text-xs text-gray-500">Rejected Today</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.rejectedToday}</p>
+                                <p className="text-xs text-neutral-500">Rejected Today</p>
                             </div>
                         </div>
                     </div>
@@ -327,8 +327,8 @@ export const BranchAdminScheduleRequests: React.FC = () => {
                 {/* Requests List */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100">
                     <div className="p-4 border-b border-gray-100">
-                        <h3 className="text-lg font-semibold text-gray-900">Pending Schedule Requests</h3>
-                        <p className="text-sm text-gray-500">Review doctor schedule requests and approve or send back for revision</p>
+                        <h3 className="text-lg font-semibold text-neutral-900">Pending Schedule Requests</h3>
+                        <p className="text-sm text-neutral-500">Review doctor schedule requests and approve or send back for revision</p>
                     </div>
                     
                     {loading ? (
@@ -338,13 +338,13 @@ export const BranchAdminScheduleRequests: React.FC = () => {
                     ) : requests.length === 0 ? (
                         <div className="text-center py-12">
                             <AlertCircle className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-                            <h3 className="text-lg font-medium text-gray-900 mb-2">No Pending Requests</h3>
-                            <p className="text-gray-500">All schedule requests have been processed</p>
+                            <h3 className="text-lg font-medium text-neutral-900 mb-2">No Pending Requests</h3>
+                            <p className="text-neutral-500">All schedule requests have been processed</p>
                         </div>
                     ) : (
                         <div className="p-4 space-y-4">
                             {requests.map((request) => (
-                                <div key={request.id} className="bg-gray-50 rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+                                <div key={request.id} className="bg-neutral-50 rounded-xl border border-neutral-200 overflow-hidden hover:shadow-md transition-shadow">
                                     {/* Request Header */}
                                     <div className="bg-gradient-to-r from-purple-500 to-violet-600 px-5 py-3 flex items-center justify-between">
                                         <div className="flex items-center gap-3">
@@ -366,46 +366,46 @@ export const BranchAdminScheduleRequests: React.FC = () => {
                                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                                             {/* Day */}
                                             <div className="bg-white rounded-lg p-4 border border-gray-100">
-                                                <div className="flex items-center gap-2 text-gray-500 mb-1">
+                                                <div className="flex items-center gap-2 text-neutral-500 mb-1">
                                                     <Calendar className="w-4 h-4" />
                                                     <span className="text-xs font-medium uppercase">Day of Week</span>
                                                 </div>
                                                 <p className="text-lg font-bold text-purple-600">{request.schedule_day}</p>
-                                                <p className="text-xs text-gray-400">Recurring weekly</p>
+                                                <p className="text-xs text-neutral-400">Recurring weekly</p>
                                             </div>
 
                                             {/* Time Slot */}
                                             <div className="bg-white rounded-lg p-4 border border-gray-100">
-                                                <div className="flex items-center gap-2 text-gray-500 mb-1">
+                                                <div className="flex items-center gap-2 text-neutral-500 mb-1">
                                                     <Clock className="w-4 h-4" />
                                                     <span className="text-xs font-medium uppercase">Time Slot</span>
                                                 </div>
-                                                <p className="text-lg font-bold text-blue-600">
+                                                <p className="text-lg font-bold text-primary-500">
                                                     {formatTime(request.start_time)} - {formatTime(request.end_time)}
                                                 </p>
-                                                <p className="text-xs text-gray-400">
+                                                <p className="text-xs text-neutral-400">
                                                     Duration: {calculateDuration(request.start_time, request.end_time)}
                                                 </p>
                                             </div>
 
                                             {/* Max Patients */}
                                             <div className="bg-white rounded-lg p-4 border border-gray-100">
-                                                <div className="flex items-center gap-2 text-gray-500 mb-1">
+                                                <div className="flex items-center gap-2 text-neutral-500 mb-1">
                                                     <Users className="w-4 h-4" />
                                                     <span className="text-xs font-medium uppercase">Max Patients</span>
                                                 </div>
                                                 <p className="text-lg font-bold text-green-600">{request.max_patients}</p>
-                                                <p className="text-xs text-gray-400">per session</p>
+                                                <p className="text-xs text-neutral-400">per session</p>
                                             </div>
 
                                             {/* Time Per Patient */}
                                             <div className="bg-white rounded-lg p-4 border border-gray-100">
-                                                <div className="flex items-center gap-2 text-gray-500 mb-1">
+                                                <div className="flex items-center gap-2 text-neutral-500 mb-1">
                                                     <Clock className="w-4 h-4" />
                                                     <span className="text-xs font-medium uppercase">Time/Patient</span>
                                                 </div>
                                                 <p className="text-lg font-bold text-orange-600">{request.time_per_patient} min</p>
-                                                <p className="text-xs text-gray-400">consultation time</p>
+                                                <p className="text-xs text-neutral-400">consultation time</p>
                                             </div>
                                         </div>
 
@@ -413,13 +413,13 @@ export const BranchAdminScheduleRequests: React.FC = () => {
                                         <div className="flex items-center gap-4 mb-4 p-3 bg-white rounded-lg border border-gray-100">
                                             <div className="flex items-center gap-2">
                                                 <Building2 className="w-5 h-5 text-purple-500" />
-                                                <span className="text-sm font-medium text-gray-700">Branch:</span>
-                                                <span className="text-sm text-gray-900">{request.branch_name}</span>
+                                                <span className="text-sm font-medium text-neutral-700">Branch:</span>
+                                                <span className="text-sm text-neutral-900">{request.branch_name}</span>
                                             </div>
                                             <div className="text-gray-300">|</div>
                                             <div className="flex items-center gap-2">
-                                                <CalendarDays className="w-5 h-5 text-gray-400" />
-                                                <span className="text-sm text-gray-500">
+                                                <CalendarDays className="w-5 h-5 text-neutral-400" />
+                                                <span className="text-sm text-neutral-500">
                                                     Requested: {formatDate(request.requested_at)}
                                                 </span>
                                             </div>
@@ -429,9 +429,9 @@ export const BranchAdminScheduleRequests: React.FC = () => {
                                         {request.reason && (
                                             <div className="p-3 bg-blue-50 rounded-lg border border-blue-100 mb-4">
                                                 <div className="flex items-start gap-2">
-                                                    <MessageSquare className="w-4 h-4 text-blue-500 mt-0.5" />
+                                                    <MessageSquare className="w-4 h-4 text-primary-500 mt-0.5" />
                                                     <div>
-                                                        <span className="text-xs font-medium text-blue-600 uppercase">Request Notes</span>
+                                                        <span className="text-xs font-medium text-primary-500 uppercase">Request Notes</span>
                                                         <p className="text-sm text-blue-800 mt-1">{request.reason}</p>
                                                     </div>
                                                 </div>
@@ -439,7 +439,7 @@ export const BranchAdminScheduleRequests: React.FC = () => {
                                         )}
 
                                         {/* Actions */}
-                                        <div className="flex flex-wrap items-center justify-end gap-3 pt-4 border-t border-gray-200">
+                                        <div className="flex flex-wrap items-center justify-end gap-3 pt-4 border-t border-neutral-200">
                                             <button
                                                 onClick={() => handleApprove(request)}
                                                 disabled={processingId === request.id}
@@ -487,15 +487,15 @@ export const BranchAdminScheduleRequests: React.FC = () => {
             {showRejectModal && selectedRequest && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl shadow-xl max-w-md w-full mx-4 p-6">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Reject Schedule Request</h3>
-                        <p className="text-sm text-gray-600 mb-4">
+                        <h3 className="text-lg font-semibold text-neutral-900 mb-4">Reject Schedule Request</h3>
+                        <p className="text-sm text-neutral-600 mb-4">
                             Rejecting request from <strong>{selectedRequest.doctor_name}</strong> for <strong>{selectedRequest.schedule_day}</strong>
                         </p>
                         <textarea
                             value={rejectReason}
                             onChange={(e) => setRejectReason(e.target.value)}
                             placeholder="Enter reason for rejection (optional)"
-                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none"
+                            className="w-full p-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none"
                             rows={4}
                         />
                         <div className="flex justify-end gap-3 mt-4">
@@ -505,7 +505,7 @@ export const BranchAdminScheduleRequests: React.FC = () => {
                                     setRejectReason('');
                                     setSelectedRequest(null);
                                 }}
-                                className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                                className="px-4 py-2 text-neutral-700 bg-neutral-100 rounded-lg hover:bg-neutral-200 transition-colors"
                             >
                                 Cancel
                             </button>
@@ -525,15 +525,15 @@ export const BranchAdminScheduleRequests: React.FC = () => {
             {showRequestEditModal && selectedRequest && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl shadow-xl max-w-md w-full mx-4 p-6">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Request Schedule Edit</h3>
-                        <p className="text-sm text-gray-600 mb-4">
+                        <h3 className="text-lg font-semibold text-neutral-900 mb-4">Request Schedule Edit</h3>
+                        <p className="text-sm text-neutral-600 mb-4">
                             Send back to <strong>{selectedRequest.doctor_name}</strong> for revision
                         </p>
                         <textarea
                             value={editNotes}
                             onChange={(e) => setEditNotes(e.target.value)}
                             placeholder="Enter notes for the doctor on what needs to be changed..."
-                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent resize-none"
+                            className="w-full p-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent resize-none"
                             rows={4}
                         />
                         <div className="flex justify-end gap-3 mt-4">
@@ -543,7 +543,7 @@ export const BranchAdminScheduleRequests: React.FC = () => {
                                     setEditNotes('');
                                     setSelectedRequest(null);
                                 }}
-                                className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                                className="px-4 py-2 text-neutral-700 bg-neutral-100 rounded-lg hover:bg-neutral-200 transition-colors"
                             >
                                 Cancel
                             </button>

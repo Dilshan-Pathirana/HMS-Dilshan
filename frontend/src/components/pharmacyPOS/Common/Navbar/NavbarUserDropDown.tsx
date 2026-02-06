@@ -8,12 +8,12 @@ const NavbarUserDropDown: React.FC<UserDropDownProps> = ({
     userRole,
 }) => {
     return (
-        <div className="absolute top-full right-0 mt-2 w-48 sm:w-56 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-            <div className="md:hidden py-1 border-b border-gray-200">
+        <div className="absolute top-full right-0 mt-2 w-48 sm:w-56 bg-white border border-neutral-200 rounded-lg shadow-lg z-50">
+            <div className="md:hidden py-1 border-b border-neutral-200">
                 {userRole === 1 && (
                     <Link
                         to="/dashboard"
-                        className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="flex items-center w-full px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100"
                     >
                         Admin Dashboard
                     </Link>
@@ -21,7 +21,7 @@ const NavbarUserDropDown: React.FC<UserDropDownProps> = ({
                 {userRole === 7 || userRole === 1 ? (
                     <Link
                         to="/pharmacy-dashboard"
-                        className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="flex items-center w-full px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100"
                     >
                         Pharmacy
                     </Link>
@@ -30,16 +30,16 @@ const NavbarUserDropDown: React.FC<UserDropDownProps> = ({
                 )}
             </div>
             <button
-                className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                className="flex items-center w-full px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100"
                 onClick={handleHrDashboard}
             >
                 <FaCog className="mr-2" /> HR Dashboard
             </button>
             <button
-                className="flex items-center w-full px-4 py-2 text-sm hover:bg-gray-100 text-red-500"
+                className="flex items-center w-full px-4 py-2 text-sm hover:bg-neutral-100 text-error-500"
                 onClick={signOutHandle}
             >
-                <FaSignOutAlt className="mr-2 text-red-500" /> Logout
+                <FaSignOutAlt className="mr-2 text-error-500" /> Logout
             </button>
         </div>
     );

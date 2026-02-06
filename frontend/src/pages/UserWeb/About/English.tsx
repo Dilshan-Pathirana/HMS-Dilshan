@@ -2,14 +2,14 @@ import {Link} from "react-router-dom";
 
 const English = () => {
     return (
-        <div className="min-h-screen  bg-gray-50">
+        <div className="min-h-screen  bg-neutral-50">
             <div className="max-w-6xl mx-auto px-4 py-12">
                 <section className="mb-16">
-                    <h2 className="text-3xl font-semibold text-gray-800 mb-6">
+                    <h2 className="text-3xl font-semibold text-neutral-800 mb-6">
                         Welcome to Cure Health Care International (Pvt) Ltd
                         (CHC)
                     </h2>
-                    <p className="text-gray-600 mb-6">
+                    <p className="text-neutral-600 mb-6">
                         Cure Health Care International (Pvt) Ltd, commonly known
                         as CHC, is an innovative and rapidly growing company in
                         Sri Lanka’s healthcare sector. We are dedicated to
@@ -27,7 +27,7 @@ const English = () => {
                         <p className="text-lg font-semibold mb-2">
                             📍 Headquarters
                         </p>
-                        <p className="text-gray-600">
+                        <p className="text-neutral-600">
                             "Dhamsith", Heelogama, Nikaweratiya, Sri Lanka
                         </p>
                     </div>
@@ -38,7 +38,7 @@ const English = () => {
                         <div className="flex items-center mb-4">
                             <div className="bg-blue-100 p-3 rounded-full mr-4">
                                 <svg
-                                    className="w-6 h-6 text-blue-600"
+                                    className="w-6 h-6 text-primary-500"
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
@@ -55,7 +55,7 @@ const English = () => {
                                 Our Vision
                             </h3>
                         </div>
-                        <p className="text-gray-600">
+                        <p className="text-neutral-600">
                             To be the leading innovator in Sri Lanka’s
                             healthcare sector, bringing affordable and
                             sustainable health solutions to every citizen while
@@ -85,7 +85,7 @@ const English = () => {
                                 Our Mission
                             </h3>
                         </div>
-                        <ul className="text-gray-600 list-disc list-inside space-y-2">
+                        <ul className="text-neutral-600 list-disc list-inside space-y-2">
                             <li>
                                 To promote and develop homeopathy as a
                                 recognized and widely accepted medical practice
@@ -121,7 +121,7 @@ const English = () => {
                 </section>
 
                 <section className="mb-16">
-                    <h2 className="text-3xl font-semibold text-gray-800 mb-8">
+                    <h2 className="text-3xl font-semibold text-neutral-800 mb-8">
                         Key Initiatives
                     </h2>
 
@@ -130,7 +130,7 @@ const English = () => {
                             www.cure.lk – Sri Lanka’s First Homeopathy Doctor &
                             Patient Platform
                         </h3>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-neutral-600 mb-6">
                             One of our flagship projects,{" "}
                             <strong>www.cure.lk</strong>, is Sri Lanka’s first
                             and only digital platform designed exclusively for
@@ -143,7 +143,7 @@ const English = () => {
                             <h4 className="font-semibold mb-2">
                                 Key Features of www.cure.lk
                             </h4>
-                            <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                            <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                                 <li>
                                     ✅ Doctor Appointment Scheduling – A smart
                                     system that allows patients to book
@@ -174,7 +174,7 @@ const English = () => {
                         <h3 className="text-2xl font-semibold mb-4">
                             Healthcare Product Manufacturing & Research
                         </h3>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-neutral-600 mb-6">
                             At CHC, we take pride in our manufacturing facility
                             in Nikaweratiya, where we research, develop, and
                             produce high-quality, natural, and effective
@@ -185,7 +185,7 @@ const English = () => {
                                 <p className="font-semibold mb-2">
                                     ✔ Medicated Shampoo
                                 </p>
-                                <p className="text-sm text-gray-600">
+                                <p className="text-sm text-neutral-600">
                                     Specially formulated for scalp health and
                                     fungal infections.
                                 </p>
@@ -194,7 +194,7 @@ const English = () => {
                                 <p className="font-semibold mb-2">
                                     ✔ Herbal Hair Oil
                                 </p>
-                                <p className="text-sm text-gray-600">
+                                <p className="text-sm text-neutral-600">
                                     A natural solution for hair growth and scalp
                                     nourishment.
                                 </p>
@@ -203,7 +203,7 @@ const English = () => {
                                 <p className="font-semibold mb-2">
                                     ✔ Creams for Pain Relief
                                 </p>
-                                <p className="text-sm text-gray-600">
+                                <p className="text-sm text-neutral-600">
                                     Provides symptomatic relief for muscular and
                                     joint pains.
                                 </p>
@@ -212,7 +212,7 @@ const English = () => {
                                 <p className="font-semibold mb-2">
                                     ✔ Medicated Soap
                                 </p>
-                                <p className="text-sm text-gray-600">
+                                <p className="text-sm text-neutral-600">
                                     Formulated with anti-fungal and
                                     antibacterial properties.
                                 </p>
@@ -221,7 +221,7 @@ const English = () => {
                                 <p className="font-semibold mb-2">
                                     ✔ Non-Medicated Homeopathic Sugar Globules
                                 </p>
-                                <p className="text-sm text-gray-600">
+                                <p className="text-sm text-neutral-600">
                                     Essential carriers for homeopathic remedies.
                                 </p>
                             </div>
@@ -230,7 +230,7 @@ const English = () => {
                 </section>
 
                 <section className="mb-16">
-                    <h2 className="text-3xl font-semibold text-gray-800 mb-8">
+                    <h2 className="text-3xl font-semibold text-neutral-800 mb-8">
                         Why Choose CHC?
                     </h2>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -245,7 +245,7 @@ const English = () => {
                                 key={index}
                                 className="bg-white p-6 rounded-lg shadow-sm border border-gray-100"
                             >
-                                <p className="font-semibold text-gray-800">
+                                <p className="font-semibold text-neutral-800">
                                     {item}
                                 </p>
                             </div>
@@ -253,7 +253,7 @@ const English = () => {
                     </div>
                 </section>
 
-                <section className="bg-gray-800 text-white p-8 rounded-lg mb-16">
+                <section className="bg-neutral-800 text-white p-8 rounded-lg mb-16">
                     <h2 className="text-2xl font-semibold mb-4">
                         Our Commitment to the Future
                     </h2>
@@ -274,7 +274,7 @@ const English = () => {
                     </p>
                 </section>
 
-                <section className="bg-blue-600 text-white p-8 rounded-lg">
+                <section className="bg-primary-500 text-white p-8 rounded-lg">
                     <h2 className="text-2xl font-semibold mb-6">
                         Get in Touch
                     </h2>
@@ -291,7 +291,7 @@ const English = () => {
                             <p className="mb-4">🌐 Visit our platform:</p>
                             <a
                                 href="https://www.cure.lk"
-                                className="bg-white text-blue-600 px-6 py-2 rounded-lg font-semibold inline-block"
+                                className="bg-white text-primary-500 px-6 py-2 rounded-lg font-semibold inline-block"
                             >
                                 www.cure.lk
                             </a>

@@ -100,7 +100,7 @@ const OTTable: React.FC<OTTableProps> = ({ refreshOTs, triggerRefresh }) => {
         <div className="bg-white shadow rounded-lg p-4">
             <Spinner isLoading={isLoading} />
             {!isLoading && otRecords.length === 0 && (
-                <div className="text-center text-gray-500 mt-4">
+                <div className="text-center text-neutral-500 mt-4">
                     No records found.
                 </div>
             )}
@@ -108,19 +108,19 @@ const OTTable: React.FC<OTTableProps> = ({ refreshOTs, triggerRefresh }) => {
                 <>
                     <div className="flex items-center space-x-2 mb-4">
                         <div className="relative w-1/2">
-                            <Search className="absolute w-5 h-5 text-gray-500 left-3 top-1/2 transform -translate-y-1/2" />
+                            <Search className="absolute w-5 h-5 text-neutral-500 left-3 top-1/2 transform -translate-y-1/2" />
                             <input
                                 type="text"
                                 placeholder="Search by Employee Name..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="border border-gray-300 rounded pl-10 pr-4 py-2 w-full"
+                                className="border border-neutral-300 rounded pl-10 pr-4 py-2 w-full"
                             />
                         </div>
                     </div>
 
-                    <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
-                        <thead className="bg-gray-50">
+                    <table className="min-w-full divide-y divide-gray-200 border border-neutral-200">
+                        <thead className="bg-neutral-50">
                             <tr>
                                 {[
                                     "First Name",
@@ -133,7 +133,7 @@ const OTTable: React.FC<OTTableProps> = ({ refreshOTs, triggerRefresh }) => {
                                 ].map((header) => (
                                     <th
                                         key={header}
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider"
                                     >
                                         {header}
                                     </th>
@@ -144,7 +144,7 @@ const OTTable: React.FC<OTTableProps> = ({ refreshOTs, triggerRefresh }) => {
                             {paginatedOTRecords.map((record) => (
                                 <tr
                                     key={record.id}
-                                    className="hover:bg-gray-50 cursor-pointer"
+                                    className="hover:bg-neutral-50 cursor-pointer"
                                 >
                                     <td className="px-6 py-4 text-sm">
                                         {record.user_first_name}
@@ -173,7 +173,7 @@ const OTTable: React.FC<OTTableProps> = ({ refreshOTs, triggerRefresh }) => {
                                                 }
                                             />
                                             <FiTrash
-                                                className="text-red-500 cursor-pointer hover:text-red-700"
+                                                className="text-error-500 cursor-pointer hover:text-red-700"
                                                 onClick={() =>
                                                     handleDelete(record.id)
                                                 }

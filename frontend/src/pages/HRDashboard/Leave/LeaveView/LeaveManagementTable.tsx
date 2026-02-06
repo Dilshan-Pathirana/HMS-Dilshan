@@ -108,19 +108,19 @@ const LeaveManagementTable: React.FC<LeaveManagementTableProps> = ({
                 <>
                     <div className="flex items-center space-x-2 mb-4">
                         <div className="relative w-1/2">
-                            <Search className="absolute w-5 h-5 text-gray-500 left-3 top-1/2 transform -translate-y-1/2" />
+                            <Search className="absolute w-5 h-5 text-neutral-500 left-3 top-1/2 transform -translate-y-1/2" />
                             <input
                                 type="text"
                                 placeholder="Search..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="border border-gray-300 rounded pl-10 pr-4 py-2 w-full"
+                                className="border border-neutral-300 rounded pl-10 pr-4 py-2 w-full"
                             />
                         </div>
                     </div>
 
-                    <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
-                        <thead className="bg-gray-50">
+                    <table className="min-w-full divide-y divide-gray-200 border border-neutral-200">
+                        <thead className="bg-neutral-50">
                             <tr>
                                 {[
                                     "Start Date",
@@ -131,7 +131,7 @@ const LeaveManagementTable: React.FC<LeaveManagementTableProps> = ({
                                 ].map((header) => (
                                     <th
                                         key={header}
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider"
                                     >
                                         {header}
                                     </th>
@@ -142,13 +142,13 @@ const LeaveManagementTable: React.FC<LeaveManagementTableProps> = ({
                         <tbody className="bg-white divide-y divide-gray-200">
                             {paginatedLeaves.map((leave) => (
                                 <tr key={leave.id}>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         {leave.leaves_start_date}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         {leave.leaves_end_date}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         {leave.reason || "N/A"}
                                     </td>
                                     <td
@@ -156,16 +156,16 @@ const LeaveManagementTable: React.FC<LeaveManagementTableProps> = ({
                                             leave.admin_status === "Approved"
                                                 ? "text-green-600"
                                                 : leave.admin_status === "Rejected"
-                                                    ? "text-red-600"
-                                                    : "text-gray-900"
+                                                    ? "text-error-600"
+                                                    : "text-neutral-900"
                                         }`}
                                     >
                                         {leave.admin_status || "N/A"}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         <div className="flex items-center space-x-2">
                                             <FiEye
-                                                className="text-blue-500 cursor-pointer hover:text-blue-700"
+                                                className="text-primary-500 cursor-pointer hover:text-blue-700"
                                                 onClick={() => openModal(leave)}
                                             />
                                         </div>

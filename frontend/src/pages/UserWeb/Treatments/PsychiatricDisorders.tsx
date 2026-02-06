@@ -9,28 +9,28 @@ const PsychiatricDisorders = () => {
         <>
             <NavBar />
 
-            <div className="flex justify-end p-4 mt-20 bg-gray-100">
+            <div className="flex justify-end p-4 mt-20 bg-neutral-100">
                 <button
-                    className={`px-4 py-2 rounded-md mx-1 ${language === "en" ? "bg-blue-600 text-white" : "bg-white text-black border"}`}
+                    className={`px-4 py-2 rounded-md mx-1 ${language === "en" ? "bg-primary-500 text-white" : "bg-white text-black border"}`}
                     onClick={() => setLanguage("en")}
                 >
                     English
                 </button>
                 <button
-                    className={`px-4 py-2 rounded-md mx-1 ${language === "si" ? "bg-blue-600 text-white" : "bg-white text-black border"}`}
+                    className={`px-4 py-2 rounded-md mx-1 ${language === "si" ? "bg-primary-500 text-white" : "bg-white text-black border"}`}
                     onClick={() => setLanguage("si")}
                 >
                     සිංහල
                 </button>
                 <button
-                    className={`px-4 py-2 rounded-md mx-1 ${language === "ta" ? "bg-blue-600 text-white" : "bg-white text-black border"}`}
+                    className={`px-4 py-2 rounded-md mx-1 ${language === "ta" ? "bg-primary-500 text-white" : "bg-white text-black border"}`}
                     onClick={() => setLanguage("ta")}
                 >
                     தமிழ்
                 </button>
             </div>
 
-            <section className="bg-blue-600 text-white mt-10 py-20 px-4">
+            <section className="bg-primary-500 text-white mt-10 py-20 px-4">
                 <div className="max-w-6xl mx-auto">
                     <h1 className="text-4xl font-bold mb-4">
                         {language === "en"
@@ -48,7 +48,7 @@ const PsychiatricDisorders = () => {
                         <h2 className="text-2xl font-semibold mb-4">
                             Understanding Psychiatric Disorders
                         </h2>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-neutral-600 mb-6">
                             Psychiatric disorders are mental health conditions
                             that affect emotions, thoughts, and behavior. They
                             can range from mild anxiety and depression to severe
@@ -57,7 +57,7 @@ const PsychiatricDisorders = () => {
                         <h3 className="text-xl font-semibold mb-4">
                             Common Causes of Psychiatric Disorders
                         </h3>
-                        <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                        <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                             <li>
                                 🔹 Chemical Imbalance in the Brain – Disrupts
                                 neurotransmitter function.
@@ -87,7 +87,7 @@ const PsychiatricDisorders = () => {
                         <h3 className="text-xl font-semibold mb-4">
                             How Homeopathy Helps with Psychiatric Disorders
                         </h3>
-                        <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                        <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                             <li>
                                 ✅ Restoring chemical balance in the brain
                                 naturally
@@ -111,7 +111,7 @@ const PsychiatricDisorders = () => {
                         <h3 className="text-xl font-semibold mb-4">
                             Why Homeopathy is the Best Choice?
                         </h3>
-                        <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                        <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                             <li>
                                 🔹 No Side Effects – Free from chemical
                                 dependency and drowsiness.
@@ -134,7 +134,7 @@ const PsychiatricDisorders = () => {
                                 href="https://www.cure.lk"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold inline-block"
+                                className="bg-primary-500 text-white px-6 py-3 rounded-lg font-semibold inline-block"
                             >
                                 📞 Book an Appointment Today at www.cure.lk
                             </a>
@@ -147,7 +147,7 @@ const PsychiatricDisorders = () => {
                         <h2 className="text-2xl font-semibold mb-4">
                             මානසික ආබාධ පිළිබඳ හැඳින්වීම
                         </h2>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-neutral-600 mb-6">
                             මානසික ආබාධ යනු මනස, හැසිරීම, හා චේතනාවලියන්ට බලපාන
                             ගැටළු වන අතර එය මානුසික ආතතිය, ආතතවය, මතභේදය, සහ
                             මෝඩයෙකු වැනි ගැටළු ඇති කළ හැක.
@@ -155,7 +155,7 @@ const PsychiatricDisorders = () => {
                         <h3 className="text-xl font-semibold mb-4">
                             මානසික ආබාධ සඳහා සාමාන්‍ය හේතු
                         </h3>
-                        <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                        <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                             <li>
                                 🔹 මස්තානීය රසායනික වියළීම – මස්තානීය පණුකඩු
                                 කාර්යය බාධා කරයි.
@@ -179,7 +179,7 @@ const PsychiatricDisorders = () => {
                                 href="https://www.cure.lk"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold inline-block"
+                                className="bg-primary-500 text-white px-6 py-3 rounded-lg font-semibold inline-block"
                             >
                                 📞 Book an Appointment Today at www.cure.lk
                             </a>
@@ -192,7 +192,7 @@ const PsychiatricDisorders = () => {
                         <h2 className="text-2xl font-semibold mb-4">
                             மனநலம் சார்ந்த கோளாறுகள்
                         </h2>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-neutral-600 mb-6">
                             மனநலம் சார்ந்த கோளாறுகள் மனதின் செயல்பாடுகளை
                             பாதிக்கக்கூடிய நோய்கள் ஆகும். இதனால் மனச்சோர்வு,
                             கவலை, பைப்பிளர் கோளாறு, மன அழுத்தம் போன்ற நிலைமைகள்
@@ -201,7 +201,7 @@ const PsychiatricDisorders = () => {
                         <h3 className="text-xl font-semibold mb-4">
                             மனநலம் கோளாறுகளுக்கான பொதுவான காரணிகள்
                         </h3>
-                        <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                        <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                             <li>🔹 மூளையின் நரம்பணுக்களின் சமநிலையற்ற நிலை</li>
                             <li>🔹 பரம்பரை காரணிகள்</li>
                             <li>🔹 மன அழுத்தம் மற்றும் வாழ்க்கை முறைகள்</li>
@@ -215,7 +215,7 @@ const PsychiatricDisorders = () => {
                                 href="https://www.cure.lk"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold inline-block"
+                                className="bg-primary-500 text-white px-6 py-3 rounded-lg font-semibold inline-block"
                             >
                                 📞 Book an Appointment Today at www.cure.lk
                             </a>

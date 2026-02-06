@@ -291,13 +291,13 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
                             <button
                                 type="button"
                                 onClick={onClose}
-                                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                                className="px-4 py-2 bg-neutral-300 text-neutral-700 rounded-md hover:bg-gray-400"
                             >
                                 Cancel
                             </button>
                             <button
                                 type="submit"
-                                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                                className="px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600"
                             >
                                 Update User
                             </button>

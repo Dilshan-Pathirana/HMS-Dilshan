@@ -24,12 +24,12 @@ const DoctorScheduleManagement: React.FC = () => {
                 <h1 className="text-xl md:text-2xl font-bold">Doctor Schedule</h1>
                 <button
                     onClick={openModal}
-                    className="w-full sm:w-auto px-4 md:px-6 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 active:bg-blue-800 text-white text-sm md:text-base transition-colors"
+                    className="w-full sm:w-auto px-4 md:px-6 py-2 bg-primary-500 rounded-lg hover:bg-primary-600 active:bg-blue-800 text-white text-sm md:text-base transition-colors"
                 >
                     Add Schedule
                 </button>
             </div>
-            <div className="overflow-x-auto max-h-[calc(100vh-200px)] rounded-lg border border-gray-200">
+            <div className="overflow-x-auto max-h-[calc(100vh-200px)] rounded-lg border border-neutral-200">
                 <DoctorScheduleTable
                     refreshSchedules={refreshSchedules}
                     triggerRefresh={triggerRefresh}

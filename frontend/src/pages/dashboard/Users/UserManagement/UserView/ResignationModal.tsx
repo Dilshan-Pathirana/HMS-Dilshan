@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from "../../../../../utils/api/axios";
 import { X } from 'lucide-react';
 
@@ -131,12 +131,12 @@ const ResignationModal: React.FC<ResignationModalProps> = ({
             <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                 <div className="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
                     <div>
-                        <h2 className="text-xl font-bold text-gray-900">Record Resignation / Termination</h2>
-                        <p className="text-sm text-gray-500 mt-1">For: {userName}</p>
+                        <h2 className="text-xl font-bold text-neutral-900">Record Resignation / Termination</h2>
+                        <p className="text-sm text-neutral-500 mt-1">For: {userName}</p>
                     </div>
                     <button
                         onClick={onClose}
-                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                        className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                     >
                         <X className="w-5 h-5" />
                     </button>
@@ -153,7 +153,7 @@ const ResignationModal: React.FC<ResignationModalProps> = ({
                     )}
 
                     {error && (
-                        <div className="p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                        <div className="p-4 bg-error-100 border border-red-400 text-red-700 rounded-lg">
                             {error}
                         </div>
                     )}
@@ -161,7 +161,7 @@ const ResignationModal: React.FC<ResignationModalProps> = ({
                     {/* Dates Section */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">
                                 Resignation Date *
                             </label>
                             <input
@@ -169,11 +169,11 @@ const ResignationModal: React.FC<ResignationModalProps> = ({
                                 required
                                 value={formData.resignation_date}
                                 onChange={(e) => setFormData({ ...formData, resignation_date: e.target.value })}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">
                                 Last Working Date *
                             </label>
                             <input
@@ -181,21 +181,21 @@ const ResignationModal: React.FC<ResignationModalProps> = ({
                                 required
                                 value={formData.last_working_date}
                                 onChange={(e) => setFormData({ ...formData, last_working_date: e.target.value })}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                             />
                         </div>
                     </div>
 
                     {/* Reason Section */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-neutral-700 mb-1">
                             Reason for Leaving *
                         </label>
                         <select
                             required
                             value={formData.reason}
                             onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         >
                             <option value="">Select a reason...</option>
                             {Object.entries(reasons).map(([key, label]) => (
@@ -207,7 +207,7 @@ const ResignationModal: React.FC<ResignationModalProps> = ({
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-neutral-700 mb-1">
                             Additional Details
                         </label>
                         <textarea
@@ -215,16 +215,16 @@ const ResignationModal: React.FC<ResignationModalProps> = ({
                             onChange={(e) => setFormData({ ...formData, reason_details: e.target.value })}
                             rows={2}
                             placeholder="Provide additional details about the reason..."
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         />
                     </div>
 
                     {/* Financial Section */}
                     <div className="border-t pt-4 mt-4">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-3">Final Pay Details</h3>
+                        <h3 className="text-lg font-semibold text-neutral-800 mb-3">Final Pay Details</h3>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">
                                     Final Salary (Rs.) *
                                 </label>
                                 <input
@@ -235,11 +235,11 @@ const ResignationModal: React.FC<ResignationModalProps> = ({
                                     value={formData.final_salary}
                                     onChange={(e) => setFormData({ ...formData, final_salary: e.target.value })}
                                     placeholder="0.00"
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">
                                     Pending Leaves Payment (Rs.)
                                 </label>
                                 <input
@@ -249,11 +249,11 @@ const ResignationModal: React.FC<ResignationModalProps> = ({
                                     value={formData.pending_leaves_payment}
                                     onChange={(e) => setFormData({ ...formData, pending_leaves_payment: e.target.value })}
                                     placeholder="0.00"
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">
                                     Deductions (Rs.)
                                 </label>
                                 <input
@@ -263,7 +263,7 @@ const ResignationModal: React.FC<ResignationModalProps> = ({
                                     value={formData.deductions}
                                     onChange={(e) => setFormData({ ...formData, deductions: e.target.value })}
                                     placeholder="0.00"
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                                 />
                             </div>
                         </div>
@@ -271,8 +271,8 @@ const ResignationModal: React.FC<ResignationModalProps> = ({
                         {/* Total Calculation */}
                         <div className="mt-4 p-4 bg-blue-50 rounded-lg">
                             <div className="flex justify-between items-center">
-                                <span className="font-semibold text-gray-700">Total Final Pay:</span>
-                                <span className="text-2xl font-bold text-blue-600">
+                                <span className="font-semibold text-neutral-700">Total Final Pay:</span>
+                                <span className="text-2xl font-bold text-primary-500">
                                     LKR {calculateTotalPay().toLocaleString('en-LK', { minimumFractionDigits: 2 })}
                                 </span>
                             </div>
@@ -281,7 +281,7 @@ const ResignationModal: React.FC<ResignationModalProps> = ({
 
                     {/* Notes Section */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-neutral-700 mb-1">
                             Additional Notes
                         </label>
                         <textarea
@@ -289,7 +289,7 @@ const ResignationModal: React.FC<ResignationModalProps> = ({
                             onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                             rows={3}
                             placeholder="Any additional notes or comments..."
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         />
                     </div>
 
@@ -298,7 +298,7 @@ const ResignationModal: React.FC<ResignationModalProps> = ({
                         <button
                             type="button"
                             onClick={onClose}
-                            className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                            className="px-4 py-2 text-neutral-700 bg-neutral-100 rounded-lg hover:bg-neutral-200 transition-colors"
                         >
                             Cancel
                         </button>

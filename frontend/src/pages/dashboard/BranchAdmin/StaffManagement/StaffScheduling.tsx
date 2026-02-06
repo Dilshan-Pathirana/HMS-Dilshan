@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DashboardLayout } from '../../../../components/common/Layout/DashboardLayout';
 import {
     Users, Calendar, Clock, Plus, Trash2, ChevronLeft, ChevronRight,
@@ -109,10 +109,10 @@ interface ScheduleChangeRequest {
 
 const defaultShifts: Shift[] = [
     { id: '1', name: 'Morning Shift', startTime: '06:00', endTime: '14:00', color: 'bg-amber-500', type: 'day' },
-    { id: '2', name: 'Day Shift', startTime: '08:00', endTime: '16:00', color: 'bg-blue-500', type: 'day' },
+    { id: '2', name: 'Day Shift', startTime: '08:00', endTime: '16:00', color: 'bg-primary-500', type: 'day' },
     { id: '3', name: 'Evening Shift', startTime: '14:00', endTime: '22:00', color: 'bg-purple-500', type: 'day' },
     { id: '4', name: 'Night Shift', startTime: '22:00', endTime: '06:00', color: 'bg-indigo-800', type: 'night' },
-    { id: '5', name: 'On-Call', startTime: '00:00', endTime: '23:59', color: 'bg-red-500', type: 'oncall' },
+    { id: '5', name: 'On-Call', startTime: '00:00', endTime: '23:59', color: 'bg-error-500', type: 'oncall' },
 ];
 
 const mockSchedule: ScheduleEntry[] = [
@@ -508,7 +508,7 @@ export const StaffScheduling: React.FC = () => {
                 return 'bg-amber-500'; // Yellow/Amber for pending acknowledgment
             }
             if (shift.status === 'cancelled') {
-                return 'bg-red-500'; // Red for cancelled
+                return 'bg-error-500'; // Red for cancelled
             }
         }
 
@@ -1059,7 +1059,7 @@ export const StaffScheduling: React.FC = () => {
     const SidebarMenu = () => (
         <nav className="py-4">
             <div className="px-4 mb-4">
-                <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Navigation</h2>
+                <h2 className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Navigation</h2>
             </div>
             <ul className="space-y-1 px-2">
                 {BranchAdminMenuItems.map((item, index) => (
@@ -1067,8 +1067,8 @@ export const StaffScheduling: React.FC = () => {
                         <button
                             onClick={() => navigate(item.path)}
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${item.path === '/branch-admin/hrm' || item.path === '/branch-admin/hrm/scheduling'
-                                    ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-md'
-                                    : 'text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
+                                    ? 'bg-gradient-to-r from-emerald-500 to-primary-500 text-white shadow-md'
+                                    : 'text-neutral-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
                                 }`}
                         >
                             <span className="flex-shrink-0">{item.icon}</span>
@@ -1108,18 +1108,18 @@ export const StaffScheduling: React.FC = () => {
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => navigate('/branch-admin/hrm')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ChevronLeft className="w-5 h-5 text-gray-600" />
+                            <ChevronLeft className="w-5 h-5 text-neutral-600" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">Scheduling & Shift Management</h1>
-                            <p className="text-gray-500">Manage staff schedules, shifts, and overtime</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">Scheduling & Shift Management</h1>
+                            <p className="text-neutral-500">Manage staff schedules, shifts, and overtime</p>
                         </div>
                     </div>
                     <button
                         onClick={() => navigate('/shift-management')}
-                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all"
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all"
                     >
                         <Plus className="w-4 h-4" />
                         Add Schedule
@@ -1127,8 +1127,8 @@ export const StaffScheduling: React.FC = () => {
                 </div>
 
                 {/* Tabs */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-                    <div className="border-b border-gray-200">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200">
+                    <div className="border-b border-neutral-200">
                         <div className="flex overflow-x-auto">
                             {tabs.map(tab => (
                                 <button
@@ -1136,13 +1136,13 @@ export const StaffScheduling: React.FC = () => {
                                     onClick={() => setActiveTab(tab.id as any)}
                                     className={`flex items-center gap-2 px-6 py-4 font-medium text-sm whitespace-nowrap border-b-2 transition-colors ${activeTab === tab.id
                                             ? 'border-emerald-500 text-emerald-600'
-                                            : 'border-transparent text-gray-500 hover:text-gray-700'
+                                            : 'border-transparent text-neutral-500 hover:text-neutral-700'
                                         }`}
                                 >
                                     {tab.icon}
                                     {tab.label}
                                     {tab.count !== undefined && tab.count > 0 && (
-                                        <span className="ml-1 px-2 py-0.5 bg-red-500 text-white text-xs rounded-full">{tab.count}</span>
+                                        <span className="ml-1 px-2 py-0.5 bg-error-500 text-white text-xs rounded-full">{tab.count}</span>
                                     )}
                                 </button>
                             ))}
@@ -1154,14 +1154,14 @@ export const StaffScheduling: React.FC = () => {
                         {activeTab === 'schedule' && (
                             <div className="space-y-4">
                                 {/* Filters */}
-                                <div className="flex gap-4 items-center mb-4 p-4 bg-gray-50 rounded-lg flex-wrap">
-                                    <Filter className="w-5 h-5 text-gray-600" />
+                                <div className="flex gap-4 items-center mb-4 p-4 bg-neutral-50 rounded-lg flex-wrap">
+                                    <Filter className="w-5 h-5 text-neutral-600" />
                                     <div className="flex-1">
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Filter by Role</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Filter by Role</label>
                                         <select
                                             value={filterRole}
                                             onChange={(e) => setFilterRole(e.target.value)}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                         >
                                             <option value="">All Staff Roles</option>
                                             {uniqueRoles.map(role => (
@@ -1172,7 +1172,7 @@ export const StaffScheduling: React.FC = () => {
                                     {filterRole && (
                                         <button
                                             onClick={() => setFilterRole('')}
-                                            className="mt-6 px-4 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-200 rounded-lg"
+                                            className="mt-6 px-4 py-2 text-sm text-neutral-600 hover:text-neutral-800 hover:bg-neutral-200 rounded-lg"
                                         >
                                             Clear Filter
                                         </button>
@@ -1188,7 +1188,7 @@ export const StaffScheduling: React.FC = () => {
                                             {holidaysLoading ? 'Updating...' : 'Refresh Holidays'}
                                         </button>
                                         {lastHolidayFetch && (
-                                            <p className="text-xs text-gray-500 mt-1">
+                                            <p className="text-xs text-neutral-500 mt-1">
                                                 Last updated: {lastHolidayFetch}
                                             </p>
                                         )}
@@ -1199,35 +1199,35 @@ export const StaffScheduling: React.FC = () => {
                                 <div className="flex items-center justify-between mb-4">
                                     <button
                                         onClick={() => navigateWeek('prev')}
-                                        className="p-2 hover:bg-gray-100 rounded-lg"
+                                        className="p-2 hover:bg-neutral-100 rounded-lg"
                                     >
                                         <ChevronLeft className="w-5 h-5" />
                                     </button>
-                                    <h3 className="font-semibold text-gray-800">
+                                    <h3 className="font-semibold text-neutral-800">
                                         Week of {weekDays[0].toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - {weekDays[6].toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                     </h3>
                                     <button
                                         onClick={() => navigateWeek('next')}
-                                        className="p-2 hover:bg-gray-100 rounded-lg"
+                                        className="p-2 hover:bg-neutral-100 rounded-lg"
                                     >
                                         <ChevronRight className="w-5 h-5" />
                                     </button>
                                 </div>
 
                                 {/* Acknowledgment Status Legend */}
-                                <div className="flex items-center gap-6 mb-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                                    <span className="text-sm font-medium text-gray-700">Status Legend:</span>
+                                <div className="flex items-center gap-6 mb-4 p-3 bg-neutral-50 rounded-lg border border-neutral-200">
+                                    <span className="text-sm font-medium text-neutral-700">Status Legend:</span>
                                     <div className="flex items-center gap-2">
                                         <div className="w-4 h-4 bg-amber-500 rounded"></div>
-                                        <span className="text-sm text-gray-600">Pending Acknowledgment</span>
+                                        <span className="text-sm text-neutral-600">Pending Acknowledgment</span>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <div className="w-4 h-4 bg-green-500 rounded"></div>
-                                        <span className="text-sm text-gray-600">Acknowledged</span>
+                                        <span className="text-sm text-neutral-600">Acknowledged</span>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <div className="w-4 h-4 bg-red-500 rounded"></div>
-                                        <span className="text-sm text-gray-600">Cancelled</span>
+                                        <div className="w-4 h-4 bg-error-500 rounded"></div>
+                                        <span className="text-sm text-neutral-600">Cancelled</span>
                                     </div>
                                 </div>
 
@@ -1235,18 +1235,18 @@ export const StaffScheduling: React.FC = () => {
                                 {loading ? (
                                     <div className="text-center py-8">
                                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto"></div>
-                                        <p className="text-gray-600 mt-4">Loading schedule...</p>
+                                        <p className="text-neutral-600 mt-4">Loading schedule...</p>
                                     </div>
                                 ) : filteredUsers.length === 0 ? (
-                                    <div className="text-center py-8 text-gray-500">
+                                    <div className="text-center py-8 text-neutral-500">
                                         No staff members found. Try adjusting your filters.
                                     </div>
                                 ) : (
                                     <div className="overflow-x-auto">
                                         <table className="w-full min-w-[800px]">
                                             <thead>
-                                                <tr className="bg-gray-50">
-                                                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600 w-48">Staff Member</th>
+                                                <tr className="bg-neutral-50">
+                                                    <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-600 w-48">Staff Member</th>
                                                     {weekDays.map((day, i) => {
                                                         const holidayInfo = isHoliday(day);
                                                         const isWeekend = day.getDay() === 0 || day.getDay() === 6;
@@ -1254,12 +1254,12 @@ export const StaffScheduling: React.FC = () => {
                                                             ? 'bg-green-100 text-green-800'
                                                             : isWeekend
                                                                 ? 'bg-blue-100 text-blue-800'
-                                                                : 'text-gray-600';
+                                                                : 'text-neutral-600';
                                                         const textColor = holidayInfo.isHoliday
                                                             ? 'text-green-700'
                                                             : isWeekend
                                                                 ? 'text-blue-700'
-                                                                : 'text-gray-400';
+                                                                : 'text-neutral-400';
                                                         return (
                                                             <th
                                                                 key={i}
@@ -1289,18 +1289,18 @@ export const StaffScheduling: React.FC = () => {
                                                 {filteredUsers.map((user) => (
                                                     <tr
                                                         key={user.id}
-                                                        className="border-b border-gray-100 hover:bg-gray-50"
+                                                        className="border-b border-gray-100 hover:bg-neutral-50"
                                                         draggable
                                                         onDragStart={() => handleDragStart(user)}
                                                     >
                                                         <td className="px-4 py-3">
                                                             <div className="flex items-center gap-2">
-                                                                <GripVertical className="w-4 h-4 text-gray-400 cursor-move" />
+                                                                <GripVertical className="w-4 h-4 text-neutral-400 cursor-move" />
                                                                 <div>
-                                                                    <div className="font-medium text-gray-800">
+                                                                    <div className="font-medium text-neutral-800">
                                                                         {user.first_name} {user.last_name}
                                                                     </div>
-                                                                    <div className="text-xs text-gray-500">
+                                                                    <div className="text-xs text-neutral-500">
                                                                         {getRoleName(user)}
                                                                     </div>
                                                                 </div>
@@ -1320,7 +1320,7 @@ export const StaffScheduling: React.FC = () => {
                                                                 ? 'hover:bg-green-100'
                                                                 : isWeekend
                                                                     ? 'hover:bg-blue-100'
-                                                                    : 'hover:bg-gray-100';
+                                                                    : 'hover:bg-neutral-100';
                                                             return (
                                                                 <td
                                                                     key={dayIndex}
@@ -1344,13 +1344,13 @@ export const StaffScheduling: React.FC = () => {
                                                                                             {shift.start_time} - {shift.end_time}
                                                                                         </div>
                                                                                         {shift.status === 'pending' && (
-                                                                                            <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse" title="Pending Acknowledgment"></div>
+                                                                                            <div className="absolute -top-1 -right-1 w-3 h-3 bg-error-500 rounded-full animate-pulse" title="Pending Acknowledgment"></div>
                                                                                         )}
                                                                                     </div>
                                                                                 ))}
                                                                                 <div
                                                                                     onClick={() => handleCellClick(user, day, undefined)}
-                                                                                    className="text-blue-600 text-xs hover:text-blue-800 font-medium mt-1"
+                                                                                    className="text-primary-500 text-xs hover:text-blue-800 font-medium mt-1"
                                                                                 >
                                                                                     + Add Another
                                                                                 </div>
@@ -1358,7 +1358,7 @@ export const StaffScheduling: React.FC = () => {
                                                                         ) : (
                                                                             <div
                                                                                 onClick={() => handleCellClick(user, day, undefined)}
-                                                                                className="text-gray-400 text-xs"
+                                                                                className="text-neutral-400 text-xs"
                                                                             >
                                                                                 + Add
                                                                             </div>
@@ -1375,8 +1375,8 @@ export const StaffScheduling: React.FC = () => {
                                 )}
 
                                 {/* Instructions */}
-                                <div className="mt-4 pt-4 border-t border-gray-200">
-                                    <div className="flex items-start gap-2 text-sm text-gray-600">
+                                <div className="mt-4 pt-4 border-t border-neutral-200">
+                                    <div className="flex items-start gap-2 text-sm text-neutral-600">
                                         <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
                                         <div>
                                             <strong>How to use:</strong> Click any cell to assign/edit a shift, or drag a staff member to a day cell.
@@ -1392,8 +1392,8 @@ export const StaffScheduling: React.FC = () => {
                             <div className="space-y-4">
                                 <div className="flex justify-between items-center">
                                     <div>
-                                        <h3 className="font-semibold text-gray-800 text-lg">Shift Templates</h3>
-                                        <p className="text-sm text-gray-500 mt-1">Create and manage shift type templates</p>
+                                        <h3 className="font-semibold text-neutral-800 text-lg">Shift Templates</h3>
+                                        <p className="text-sm text-neutral-500 mt-1">Create and manage shift type templates</p>
                                     </div>
                                     <button
                                         onClick={() => {
@@ -1412,10 +1412,10 @@ export const StaffScheduling: React.FC = () => {
                                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
                                     </div>
                                 ) : availableShiftTypes.length === 0 ? (
-                                    <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-                                        <Clock className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-                                        <h3 className="text-lg font-medium text-gray-900 mb-1">No shift types created yet</h3>
-                                        <p className="text-gray-500 mb-4">Create your first shift type template to get started</p>
+                                    <div className="text-center py-12 bg-neutral-50 rounded-lg border-2 border-dashed border-neutral-300">
+                                        <Clock className="w-12 h-12 text-neutral-400 mx-auto mb-3" />
+                                        <h3 className="text-lg font-medium text-neutral-900 mb-1">No shift types created yet</h3>
+                                        <p className="text-neutral-500 mb-4">Create your first shift type template to get started</p>
                                         <button
                                             onClick={() => {
                                                 setNewShiftType({ name: '', start_time: '08:00', end_time: '16:00' });
@@ -1449,15 +1449,15 @@ export const StaffScheduling: React.FC = () => {
                                             const isNightShift = startHour >= 20 || startHour < 6;
 
                                             return (
-                                                <div key={shiftType} className="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-lg transition-all hover:border-emerald-300">
+                                                <div key={shiftType} className="bg-white border border-neutral-200 rounded-xl p-5 hover:shadow-lg transition-all hover:border-emerald-300">
                                                     <div className="flex items-start justify-between mb-4">
                                                         <div className="flex items-center gap-3">
                                                             <div className={`w-12 h-12 rounded-lg ${isNightShift ? 'bg-indigo-500' : 'bg-amber-500'} flex items-center justify-center text-white shadow-md`}>
                                                                 <Clock className="w-6 h-6" />
                                                             </div>
                                                             <div>
-                                                                <h4 className="font-bold text-gray-900 text-lg">{shiftType}</h4>
-                                                                <p className="text-sm text-gray-500">{durationText}</p>
+                                                                <h4 className="font-bold text-neutral-900 text-lg">{shiftType}</h4>
+                                                                <p className="text-sm text-neutral-500">{durationText}</p>
                                                             </div>
                                                         </div>
                                                         <div className="flex gap-1">
@@ -1471,27 +1471,27 @@ export const StaffScheduling: React.FC = () => {
                                                                     setEditingShiftType(shiftType);
                                                                     setShowEditShiftTypeModal(true);
                                                                 }}
-                                                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                                                className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                                                                 title="Edit shift type"
                                                             >
-                                                                <Trash2 className="w-4 h-4 text-gray-600" />
+                                                                <Trash2 className="w-4 h-4 text-neutral-600" />
                                                             </button>
                                                         </div>
                                                     </div>
 
                                                     <div className="space-y-2">
                                                         <div className="flex items-center justify-between text-sm">
-                                                            <span className="text-gray-600 font-medium">Start Time:</span>
-                                                            <span className="text-gray-900 font-semibold">{timing.start_time}</span>
+                                                            <span className="text-neutral-600 font-medium">Start Time:</span>
+                                                            <span className="text-neutral-900 font-semibold">{timing.start_time}</span>
                                                         </div>
                                                         <div className="flex items-center justify-between text-sm">
-                                                            <span className="text-gray-600 font-medium">End Time:</span>
-                                                            <span className="text-gray-900 font-semibold">{timing.end_time}</span>
+                                                            <span className="text-neutral-600 font-medium">End Time:</span>
+                                                            <span className="text-neutral-900 font-semibold">{timing.end_time}</span>
                                                         </div>
                                                     </div>
 
-                                                    <div className="mt-4 pt-4 border-t border-gray-200">
-                                                        <div className="flex items-center gap-2 text-xs text-gray-500">
+                                                    <div className="mt-4 pt-4 border-t border-neutral-200">
+                                                        <div className="flex items-center gap-2 text-xs text-neutral-500">
                                                             <Calendar className="w-3 h-3" />
                                                             <span>Used in {realShifts.filter(s => s.shift_type === shiftType).length} schedule(s)</span>
                                                         </div>
@@ -1509,8 +1509,8 @@ export const StaffScheduling: React.FC = () => {
                             <div className="space-y-4">
                                 <div className="flex justify-between items-center">
                                     <div>
-                                        <h3 className="font-semibold text-gray-800 text-lg">Overtime Management</h3>
-                                        <p className="text-sm text-gray-500 mt-1">Review requests and assign overtime to staff</p>
+                                        <h3 className="font-semibold text-neutral-800 text-lg">Overtime Management</h3>
+                                        <p className="text-sm text-neutral-500 mt-1">Review requests and assign overtime to staff</p>
                                     </div>
                                     <button
                                         onClick={() => setShowAssignOvertimeModal(true)}
@@ -1522,30 +1522,30 @@ export const StaffScheduling: React.FC = () => {
                                 </div>
                                 <div className="space-y-3">
                                     {overtimeRequests.map(request => (
-                                        <div key={request.id} className="border border-gray-200 rounded-lg p-4 flex items-center justify-between">
+                                        <div key={request.id} className="border border-neutral-200 rounded-lg p-4 flex items-center justify-between">
                                             <div className="flex items-center gap-4 flex-1">
                                                 <div className={`w-10 h-10 ${request.assignmentType === 'assigned' ? 'bg-amber-100' : 'bg-orange-100'} rounded-full flex items-center justify-center`}>
                                                     <Clock className={`w-5 h-5 ${request.assignmentType === 'assigned' ? 'text-amber-600' : 'text-orange-600'}`} />
                                                 </div>
                                                 <div className="flex-1">
                                                     <div className="flex items-center gap-2">
-                                                        <h4 className="font-medium text-gray-800">{request.staffName}</h4>
+                                                        <h4 className="font-medium text-neutral-800">{request.staffName}</h4>
                                                         {request.assignmentType === 'assigned' && (
                                                             <span className="px-2 py-0.5 bg-amber-100 text-amber-700 text-xs rounded-full font-medium">
                                                                 Manager Assigned
                                                             </span>
                                                         )}
                                                     </div>
-                                                    <p className="text-sm text-gray-500">
-                                                        {request.department} • {request.date}
-                                                        {request.shiftType && ` • ${request.shiftType}`}
+                                                    <p className="text-sm text-neutral-500">
+                                                        {request.department} � {request.date}
+                                                        {request.shiftType && ` � ${request.shiftType}`}
                                                         {request.startTime && request.endTime && ` (${request.startTime} - ${request.endTime})`}
                                                     </p>
-                                                    <p className="text-sm text-gray-600 mt-1">
+                                                    <p className="text-sm text-neutral-600 mt-1">
                                                         <strong>{request.hours} hours</strong> - {request.reason}
                                                     </p>
                                                     {request.rejectionReason && (
-                                                        <p className="text-sm text-red-600 mt-1 bg-red-50 p-2 rounded">
+                                                        <p className="text-sm text-error-600 mt-1 bg-error-50 p-2 rounded">
                                                             <strong>Rejection Reason:</strong> {request.rejectionReason}
                                                         </p>
                                                     )}
@@ -1562,7 +1562,7 @@ export const StaffScheduling: React.FC = () => {
                                                         </button>
                                                         <button
                                                             onClick={() => handleRejectOvertime(request.id)}
-                                                            className="flex items-center gap-1 px-3 py-1.5 bg-red-500 text-white rounded-lg hover:bg-red-600 text-sm"
+                                                            className="flex items-center gap-1 px-3 py-1.5 bg-error-500 text-white rounded-lg hover:bg-red-600 text-sm"
                                                         >
                                                             <X className="w-4 h-4" /> Reject
                                                         </button>
@@ -1576,14 +1576,14 @@ export const StaffScheduling: React.FC = () => {
                                                             <>
                                                                 <button
                                                                     onClick={() => handleEditOvertime(request)}
-                                                                    className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                                                    className="p-2 text-primary-500 hover:bg-blue-50 rounded-lg transition-colors"
                                                                     title="Edit overtime"
                                                                 >
                                                                     <Edit2 className="w-4 h-4" />
                                                                 </button>
                                                                 <button
                                                                     onClick={() => handleDeleteOvertime(request.id)}
-                                                                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                                    className="p-2 text-error-600 hover:bg-error-50 rounded-lg transition-colors"
                                                                     title="Delete overtime"
                                                                 >
                                                                     <Trash2 className="w-4 h-4" />
@@ -1594,12 +1594,12 @@ export const StaffScheduling: React.FC = () => {
                                                 ) : request.status === 'accepted' ? (
                                                     <>
                                                         <span className="px-3 py-1 rounded-full text-sm bg-green-100 text-green-700">
-                                                            ✓ Accepted by User
+                                                            ? Accepted by User
                                                         </span>
                                                         {request.assignmentType === 'assigned' && (
                                                             <button
                                                                 onClick={() => handleDeleteOvertime(request.id)}
-                                                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                                className="p-2 text-error-600 hover:bg-error-50 rounded-lg transition-colors"
                                                                 title="Delete overtime"
                                                             >
                                                                 <Trash2 className="w-4 h-4" />
@@ -1608,8 +1608,8 @@ export const StaffScheduling: React.FC = () => {
                                                     </>
                                                 ) : request.status === 'rejected_by_user' ? (
                                                     <div className="flex items-center gap-2">
-                                                        <span className="px-3 py-1 rounded-full text-sm bg-red-100 text-red-700">
-                                                            ✗ Rejected by User
+                                                        <span className="px-3 py-1 rounded-full text-sm bg-error-100 text-red-700">
+                                                            ? Rejected by User
                                                         </span>
                                                         <button
                                                             onClick={() => {
@@ -1625,21 +1625,21 @@ export const StaffScheduling: React.FC = () => {
                                                                 });
                                                                 setShowAssignOvertimeModal(true);
                                                             }}
-                                                            className="flex items-center gap-1 px-3 py-1.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm"
+                                                            className="flex items-center gap-1 px-3 py-1.5 bg-primary-500 text-white rounded-lg hover:bg-primary-500 text-sm"
                                                             title="Reassign to another user"
                                                         >
                                                             Reassign
                                                         </button>
                                                         <button
                                                             onClick={() => handleDeleteOvertime(request.id)}
-                                                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                            className="p-2 text-error-600 hover:bg-error-50 rounded-lg transition-colors"
                                                             title="Delete overtime"
                                                         >
                                                             <Trash2 className="w-4 h-4" />
                                                         </button>
                                                     </div>
                                                 ) : (
-                                                    <span className={`px-3 py-1 rounded-full text-sm ${request.status === 'approved' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                                                    <span className={`px-3 py-1 rounded-full text-sm ${request.status === 'approved' ? 'bg-green-100 text-green-700' : 'bg-error-100 text-red-700'
                                                         }`}>
                                                         {request.status.charAt(0).toUpperCase() + request.status.slice(1)}
                                                     </span>
@@ -1648,7 +1648,7 @@ export const StaffScheduling: React.FC = () => {
                                         </div>
                                     ))}
                                     {overtimeRequests.length === 0 && (
-                                        <p className="text-center text-gray-500 py-8">No overtime requests</p>
+                                        <p className="text-center text-neutral-500 py-8">No overtime requests</p>
                                     )}
                                 </div>
                             </div>
@@ -1657,22 +1657,22 @@ export const StaffScheduling: React.FC = () => {
                         {/* Shift Swaps Tab */}
                         {activeTab === 'swaps' && (
                             <div className="space-y-4">
-                                <h3 className="font-semibold text-gray-800">Shift Swap Requests</h3>
+                                <h3 className="font-semibold text-neutral-800">Shift Swap Requests</h3>
                                 <div className="space-y-3">
                                     {swapRequests.map(request => (
-                                        <div key={request.id} className="border border-gray-200 rounded-lg p-4 flex items-center justify-between">
+                                        <div key={request.id} className="border border-neutral-200 rounded-lg p-4 flex items-center justify-between">
                                             <div className="flex items-center gap-4">
                                                 <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                                                    <RefreshCw className="w-5 h-5 text-blue-600" />
+                                                    <RefreshCw className="w-5 h-5 text-primary-500" />
                                                 </div>
                                                 <div>
-                                                    <h4 className="font-medium text-gray-800">
-                                                        {request.requestorName} <span className="text-gray-400">↔</span> {request.targetName}
+                                                    <h4 className="font-medium text-neutral-800">
+                                                        {request.requestorName} <span className="text-neutral-400">?</span> {request.targetName}
                                                     </h4>
-                                                    <p className="text-sm text-gray-500">
-                                                        {request.originalDate} → {request.swapDate}
+                                                    <p className="text-sm text-neutral-500">
+                                                        {request.originalDate} ? {request.swapDate}
                                                     </p>
-                                                    <p className="text-sm text-gray-600 mt-1">{request.reason}</p>
+                                                    <p className="text-sm text-neutral-600 mt-1">{request.reason}</p>
                                                 </div>
                                             </div>
                                             <div className="flex items-center gap-2">
@@ -1686,13 +1686,13 @@ export const StaffScheduling: React.FC = () => {
                                                         </button>
                                                         <button
                                                             onClick={() => handleRejectSwap(request.id)}
-                                                            className="flex items-center gap-1 px-3 py-1.5 bg-red-500 text-white rounded-lg hover:bg-red-600 text-sm"
+                                                            className="flex items-center gap-1 px-3 py-1.5 bg-error-500 text-white rounded-lg hover:bg-red-600 text-sm"
                                                         >
                                                             <X className="w-4 h-4" /> Reject
                                                         </button>
                                                     </>
                                                 ) : (
-                                                    <span className={`px-3 py-1 rounded-full text-sm ${request.status === 'approved' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                                                    <span className={`px-3 py-1 rounded-full text-sm ${request.status === 'approved' ? 'bg-green-100 text-green-700' : 'bg-error-100 text-red-700'
                                                         }`}>
                                                         {request.status.charAt(0).toUpperCase() + request.status.slice(1)}
                                                     </span>
@@ -1701,7 +1701,7 @@ export const StaffScheduling: React.FC = () => {
                                         </div>
                                     ))}
                                     {swapRequests.length === 0 && (
-                                        <p className="text-center text-gray-500 py-8">No shift swap requests</p>
+                                        <p className="text-center text-neutral-500 py-8">No shift swap requests</p>
                                     )}
                                 </div>
                             </div>
@@ -1712,8 +1712,8 @@ export const StaffScheduling: React.FC = () => {
                             <div className="space-y-4">
                                 <div className="flex justify-between items-center">
                                     <div>
-                                        <h3 className="font-semibold text-gray-800">Today's Staff on Duty</h3>
-                                        <p className="text-sm text-gray-500">
+                                        <h3 className="font-semibold text-neutral-800">Today's Staff on Duty</h3>
+                                        <p className="text-sm text-neutral-500">
                                             {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
                                         </p>
                                     </div>
@@ -1763,7 +1763,7 @@ export const StaffScheduling: React.FC = () => {
                                                     <p className="text-2xl font-bold text-emerald-700">{uniqueUsers.size}</p>
                                                 </div>
                                                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                                                    <div className="flex items-center gap-2 text-blue-600 mb-1">
+                                                    <div className="flex items-center gap-2 text-primary-500 mb-1">
                                                         <Calendar className="w-5 h-5" />
                                                         <span className="text-sm font-medium">Total Shifts</span>
                                                     </div>
@@ -1791,17 +1791,17 @@ export const StaffScheduling: React.FC = () => {
                                 </div>
 
                                 {/* Staff List */}
-                                <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                                <div className="bg-white border border-neutral-200 rounded-lg overflow-hidden">
                                     <div className="overflow-x-auto">
                                         <table className="w-full">
-                                            <thead className="bg-gray-50 border-b border-gray-200">
+                                            <thead className="bg-neutral-50 border-b border-neutral-200">
                                                 <tr>
-                                                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Staff Name</th>
-                                                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Role</th>
-                                                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Shift Type</th>
-                                                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Time</th>
-                                                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Contact</th>
-                                                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Action</th>
+                                                    <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">Staff Name</th>
+                                                    <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">Role</th>
+                                                    <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">Shift Type</th>
+                                                    <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">Time</th>
+                                                    <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">Contact</th>
+                                                    <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-gray-200">
@@ -1828,7 +1828,7 @@ export const StaffScheduling: React.FC = () => {
                                                     if (todaysShifts.length === 0) {
                                                         return (
                                                             <tr>
-                                                                <td colSpan={6} className="px-4 py-8 text-center text-gray-500">
+                                                                <td colSpan={6} className="px-4 py-8 text-center text-neutral-500">
                                                                     <div className="flex flex-col items-center gap-2">
                                                                         <Calendar className="w-12 h-12 text-gray-300" />
                                                                         <p>No shifts scheduled for today</p>
@@ -1868,14 +1868,14 @@ export const StaffScheduling: React.FC = () => {
                                                         const isActive = shift.start_time <= currentTime && shift.end_time >= currentTime;
 
                                                         return (
-                                                            <tr key={shift.id || index} className={`hover:bg-gray-50 ${isActive ? 'bg-green-50' : ''}`}>
+                                                            <tr key={shift.id || index} className={`hover:bg-neutral-50 ${isActive ? 'bg-green-50' : ''}`}>
                                                                 <td className="px-4 py-3">
                                                                     <div className="flex items-center gap-3">
-                                                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${isActive ? 'bg-green-100' : 'bg-gray-100'}`}>
-                                                                            <User className={`w-5 h-5 ${isActive ? 'text-green-600' : 'text-gray-600'}`} />
+                                                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${isActive ? 'bg-green-100' : 'bg-neutral-100'}`}>
+                                                                            <User className={`w-5 h-5 ${isActive ? 'text-green-600' : 'text-neutral-600'}`} />
                                                                         </div>
                                                                         <div>
-                                                                            <p className="font-medium text-gray-800">{staffName}</p>
+                                                                            <p className="font-medium text-neutral-800">{staffName}</p>
                                                                             {isActive && (
                                                                                 <span className="inline-flex items-center gap-1 text-xs text-green-600">
                                                                                     <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
@@ -1890,22 +1890,22 @@ export const StaffScheduling: React.FC = () => {
                                                                             roleAs === 3 ? 'bg-pink-100 text-pink-700' :
                                                                                 roleAs === 4 ? 'bg-purple-100 text-purple-700' :
                                                                                     roleAs === 10 ? 'bg-orange-100 text-orange-700' :
-                                                                                        'bg-gray-100 text-gray-700'
+                                                                                        'bg-neutral-100 text-neutral-700'
                                                                         }`}>
                                                                         {roleName}
                                                                     </span>
                                                                 </td>
                                                                 <td className="px-4 py-3">
-                                                                    <span className="text-gray-700">{shift.shift_type}</span>
+                                                                    <span className="text-neutral-700">{shift.shift_type}</span>
                                                                 </td>
                                                                 <td className="px-4 py-3">
-                                                                    <div className="flex items-center gap-1 text-gray-600">
+                                                                    <div className="flex items-center gap-1 text-neutral-600">
                                                                         <Clock className="w-4 h-4" />
                                                                         <span>{formatTime(shift.start_time)} - {formatTime(shift.end_time)}</span>
                                                                     </div>
                                                                 </td>
                                                                 <td className="px-4 py-3">
-                                                                    <div className="flex items-center gap-1 text-gray-600">
+                                                                    <div className="flex items-center gap-1 text-neutral-600">
                                                                         <Phone className="w-4 h-4" />
                                                                         <span>{phone}</span>
                                                                     </div>
@@ -1920,7 +1920,7 @@ export const StaffScheduling: React.FC = () => {
                                                                             Call
                                                                         </a>
                                                                     ) : (
-                                                                        <span className="text-gray-400 text-sm">No contact</span>
+                                                                        <span className="text-neutral-400 text-sm">No contact</span>
                                                                     )}
                                                                 </td>
                                                             </tr>
@@ -1934,7 +1934,7 @@ export const StaffScheduling: React.FC = () => {
 
                                 {/* Quick Contact Cards - Currently Active Staff */}
                                 <div>
-                                    <h4 className="font-medium text-gray-700 mb-3">Currently On Duty</h4>
+                                    <h4 className="font-medium text-neutral-700 mb-3">Currently On Duty</h4>
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                         {(() => {
                                             const today = new Date();
@@ -1961,7 +1961,7 @@ export const StaffScheduling: React.FC = () => {
 
                                             if (activeShifts.length === 0) {
                                                 return (
-                                                    <div className="col-span-full text-center py-8 text-gray-500">
+                                                    <div className="col-span-full text-center py-8 text-neutral-500">
                                                         <Clock className="w-12 h-12 mx-auto text-gray-300 mb-2" />
                                                         <p>No staff currently on active shift</p>
                                                     </div>
@@ -1990,8 +1990,8 @@ export const StaffScheduling: React.FC = () => {
                                                                     <User className="w-5 h-5 text-green-600" />
                                                                 </div>
                                                                 <div>
-                                                                    <h4 className="font-medium text-gray-800">{staffName}</h4>
-                                                                    <p className="text-sm text-gray-500">{roleName}</p>
+                                                                    <h4 className="font-medium text-neutral-800">{staffName}</h4>
+                                                                    <p className="text-sm text-neutral-500">{roleName}</p>
                                                                 </div>
                                                             </div>
                                                             <span className="flex items-center gap-1 px-2 py-1 rounded-full text-xs bg-green-100 text-green-700">
@@ -1999,7 +1999,7 @@ export const StaffScheduling: React.FC = () => {
                                                                 Active
                                                             </span>
                                                         </div>
-                                                        <div className="space-y-2 text-sm text-gray-600">
+                                                        <div className="space-y-2 text-sm text-neutral-600">
                                                             <p><strong>Shift:</strong> {shift.shift_type}</p>
                                                             <p><strong>Time:</strong> {shift.start_time} - {shift.end_time}</p>
                                                             <p><strong>Contact:</strong> {phone}</p>
@@ -2027,8 +2027,8 @@ export const StaffScheduling: React.FC = () => {
                             <div className="space-y-4">
                                 <div className="flex justify-between items-center mb-4">
                                     <div>
-                                        <h3 className="font-semibold text-gray-800">Pending Schedule Acknowledgments</h3>
-                                        <p className="text-sm text-gray-500">
+                                        <h3 className="font-semibold text-neutral-800">Pending Schedule Acknowledgments</h3>
+                                        <p className="text-sm text-neutral-500">
                                             Track which staff members have acknowledged their assigned schedules
                                         </p>
                                     </div>
@@ -2044,7 +2044,7 @@ export const StaffScheduling: React.FC = () => {
                                 {/* Info Alert */}
                                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                                     <div className="flex gap-3">
-                                        <AlertCircle className="w-5 h-5 text-blue-500 mt-0.5" />
+                                        <AlertCircle className="w-5 h-5 text-primary-500 mt-0.5" />
                                         <div>
                                             <h4 className="font-medium text-blue-800">About Schedule Acknowledgments</h4>
                                             <p className="text-sm text-blue-700 mt-1">
@@ -2056,21 +2056,21 @@ export const StaffScheduling: React.FC = () => {
                                 </div>
 
                                 {/* Staff Acknowledgment Status */}
-                                <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                                <div className="bg-white border border-neutral-200 rounded-lg overflow-hidden">
                                     <table className="w-full">
-                                        <thead className="bg-gray-50">
+                                        <thead className="bg-neutral-50">
                                             <tr>
-                                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Staff Member</th>
-                                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Shift Type</th>
-                                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Days</th>
-                                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Updated</th>
+                                                <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">Staff Member</th>
+                                                <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">Shift Type</th>
+                                                <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">Days</th>
+                                                <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">Status</th>
+                                                <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">Last Updated</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200">
                                             {realShifts.length === 0 ? (
                                                 <tr>
-                                                    <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
+                                                    <td colSpan={5} className="px-4 py-8 text-center text-neutral-500">
                                                         No shift assignments found. Assign shifts from the Weekly Schedule tab.
                                                     </td>
                                                 </tr>
@@ -2086,13 +2086,13 @@ export const StaffScheduling: React.FC = () => {
                                                     } catch { }
 
                                                     return (
-                                                        <tr key={shift.id || index} className="hover:bg-gray-50">
+                                                        <tr key={shift.id || index} className="hover:bg-neutral-50">
                                                             <td className="px-4 py-3">
                                                                 <div className="flex items-center gap-2">
-                                                                    <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-                                                                        <Users className="w-4 h-4 text-gray-600" />
+                                                                    <div className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center">
+                                                                        <Users className="w-4 h-4 text-neutral-600" />
                                                                     </div>
-                                                                    <span className="font-medium text-gray-800">{staffName}</span>
+                                                                    <span className="font-medium text-neutral-800">{staffName}</span>
                                                                 </div>
                                                             </td>
                                                             <td className="px-4 py-3">
@@ -2100,14 +2100,14 @@ export const StaffScheduling: React.FC = () => {
                                                                     {shift.shift_type}
                                                                 </span>
                                                             </td>
-                                                            <td className="px-4 py-3 text-sm text-gray-600">{daysStr}</td>
+                                                            <td className="px-4 py-3 text-sm text-neutral-600">{daysStr}</td>
                                                             <td className="px-4 py-3">
                                                                 <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">
                                                                     <Check className="w-3 h-3" />
                                                                     Active
                                                                 </span>
                                                             </td>
-                                                            <td className="px-4 py-3 text-sm text-gray-500">
+                                                            <td className="px-4 py-3 text-sm text-neutral-500">
                                                                 {new Date().toLocaleDateString()}
                                                             </td>
                                                         </tr>
@@ -2125,16 +2125,16 @@ export const StaffScheduling: React.FC = () => {
                             <div className="space-y-4">
                                 <div className="flex justify-between items-center mb-4">
                                     <div>
-                                        <h3 className="font-semibold text-gray-800 flex items-center gap-2">
+                                        <h3 className="font-semibold text-neutral-800 flex items-center gap-2">
                                             Employee Schedule Requests
                                             {scheduleRequestsPendingCount > 0 && (
-                                                <span className="flex items-center gap-1 px-2 py-1 bg-red-100 text-red-600 text-xs rounded-full font-medium animate-pulse">
+                                                <span className="flex items-center gap-1 px-2 py-1 bg-error-100 text-error-600 text-xs rounded-full font-medium animate-pulse">
                                                     <Bell className="w-3 h-3" />
                                                     {scheduleRequestsPendingCount} new
                                                 </span>
                                             )}
                                         </h3>
-                                        <p className="text-sm text-gray-500">
+                                        <p className="text-sm text-neutral-500">
                                             Review and respond to employee requests for schedule changes, time off, and shift cancellations
                                         </p>
                                     </div>
@@ -2148,33 +2148,33 @@ export const StaffScheduling: React.FC = () => {
                                 </div>
 
                                 {/* Request Type Legend */}
-                                <div className="flex items-center gap-6 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                                    <span className="text-sm font-medium text-gray-700">Request Types:</span>
+                                <div className="flex items-center gap-6 p-3 bg-neutral-50 rounded-lg border border-neutral-200">
+                                    <span className="text-sm font-medium text-neutral-700">Request Types:</span>
                                     <div className="flex items-center gap-2">
-                                        <div className="w-3 h-3 bg-blue-500 rounded"></div>
-                                        <span className="text-sm text-gray-600">Schedule Change</span>
+                                        <div className="w-3 h-3 bg-primary-500 rounded"></div>
+                                        <span className="text-sm text-neutral-600">Schedule Change</span>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <div className="w-3 h-3 bg-purple-500 rounded"></div>
-                                        <span className="text-sm text-gray-600">Shift Swap</span>
+                                        <span className="text-sm text-neutral-600">Shift Swap</span>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <div className="w-3 h-3 bg-amber-500 rounded"></div>
-                                        <span className="text-sm text-gray-600">Time Off</span>
+                                        <span className="text-sm text-neutral-600">Time Off</span>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <div className="w-3 h-3 bg-red-500 rounded"></div>
-                                        <span className="text-sm text-gray-600">Cancellation</span>
+                                        <div className="w-3 h-3 bg-error-500 rounded"></div>
+                                        <span className="text-sm text-neutral-600">Cancellation</span>
                                     </div>
                                 </div>
 
                                 {/* Requests List */}
                                 <div className="space-y-3">
                                     {scheduleChangeRequests.length === 0 ? (
-                                        <div className="text-center py-12 bg-gray-50 rounded-lg">
+                                        <div className="text-center py-12 bg-neutral-50 rounded-lg">
                                             <MessageSquare className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-                                            <p className="text-gray-500 text-lg">No schedule requests</p>
-                                            <p className="text-gray-400 text-sm">Employee requests will appear here</p>
+                                            <p className="text-neutral-500 text-lg">No schedule requests</p>
+                                            <p className="text-neutral-400 text-sm">Employee requests will appear here</p>
                                         </div>
                                     ) : (
                                         scheduleChangeRequests.map(request => {
@@ -2182,7 +2182,7 @@ export const StaffScheduling: React.FC = () => {
                                                 change: 'bg-blue-100 text-blue-700 border-blue-200',
                                                 interchange: 'bg-purple-100 text-purple-700 border-purple-200',
                                                 time_off: 'bg-amber-100 text-amber-700 border-amber-200',
-                                                cancellation: 'bg-red-100 text-red-700 border-red-200'
+                                                cancellation: 'bg-error-100 text-red-700 border-red-200'
                                             };
                                             const typeLabels = {
                                                 change: 'Schedule Change',
@@ -2198,15 +2198,15 @@ export const StaffScheduling: React.FC = () => {
                                             };
 
                                             return (
-                                                <div key={request.id} className={`border-2 rounded-lg p-4 ${request.status === 'pending' ? 'border-amber-300 bg-amber-50/30' : 'border-gray-200'}`}>
+                                                <div key={request.id} className={`border-2 rounded-lg p-4 ${request.status === 'pending' ? 'border-amber-300 bg-amber-50/30' : 'border-neutral-200'}`}>
                                                     <div className="flex items-start justify-between mb-3">
                                                         <div className="flex items-center gap-3">
                                                             <div className={`p-2 rounded-lg ${typeColors[request.requestType] || typeColors.change}`}>
                                                                 {typeIcons[request.requestType] || typeIcons.change}
                                                             </div>
                                                             <div>
-                                                                <h4 className="font-semibold text-gray-800">{request.requesterName}</h4>
-                                                                <p className="text-xs text-gray-500">{request.requesterRole}</p>
+                                                                <h4 className="font-semibold text-neutral-800">{request.requesterName}</h4>
+                                                                <p className="text-xs text-neutral-500">{request.requesterRole}</p>
                                                             </div>
                                                         </div>
                                                         <div className="flex items-center gap-2">
@@ -2218,51 +2218,51 @@ export const StaffScheduling: React.FC = () => {
                                                             ) : request.status === 'approved' ? (
                                                                 <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">Approved</span>
                                                             ) : (
-                                                                <span className="px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full font-medium">Rejected</span>
+                                                                <span className="px-2 py-1 bg-error-100 text-red-700 text-xs rounded-full font-medium">Rejected</span>
                                                             )}
                                                         </div>
                                                     </div>
 
                                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
-                                                        <div className="bg-gray-50 p-3 rounded-lg">
-                                                            <p className="text-xs text-gray-500 mb-1">Original Shift</p>
-                                                            <p className="font-medium text-gray-800">
+                                                        <div className="bg-neutral-50 p-3 rounded-lg">
+                                                            <p className="text-xs text-neutral-500 mb-1">Original Shift</p>
+                                                            <p className="font-medium text-neutral-800">
                                                                 {new Date(request.originalShiftDate).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
                                                             </p>
                                                             {request.originalShiftType && (
-                                                                <p className="text-sm text-gray-600">{request.originalShiftType}</p>
+                                                                <p className="text-sm text-neutral-600">{request.originalShiftType}</p>
                                                             )}
                                                         </div>
                                                         {request.requestType === 'change' && request.requestedShiftDate && (
                                                             <div className="bg-blue-50 p-3 rounded-lg">
-                                                                <p className="text-xs text-blue-600 mb-1">Requested Shift</p>
-                                                                <p className="font-medium text-gray-800">
+                                                                <p className="text-xs text-primary-500 mb-1">Requested Shift</p>
+                                                                <p className="font-medium text-neutral-800">
                                                                     {new Date(request.requestedShiftDate).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
                                                                 </p>
                                                                 {request.requestedShiftType && (
-                                                                    <p className="text-sm text-gray-600">{request.requestedShiftType}</p>
+                                                                    <p className="text-sm text-neutral-600">{request.requestedShiftType}</p>
                                                                 )}
                                                             </div>
                                                         )}
                                                         {request.requestType === 'interchange' && request.interchangeWithName && (
                                                             <div className="bg-purple-50 p-3 rounded-lg">
                                                                 <p className="text-xs text-purple-600 mb-1">Swap With</p>
-                                                                <p className="font-medium text-gray-800">{request.interchangeWithName}</p>
+                                                                <p className="font-medium text-neutral-800">{request.interchangeWithName}</p>
                                                             </div>
                                                         )}
                                                     </div>
 
                                                     <div className="mb-3">
-                                                        <p className="text-sm text-gray-600">
+                                                        <p className="text-sm text-neutral-600">
                                                             <span className="font-medium">Reason:</span> {request.reason}
                                                         </p>
-                                                        <p className="text-xs text-gray-400 mt-1">
+                                                        <p className="text-xs text-neutral-400 mt-1">
                                                             Submitted on {new Date(request.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                                                         </p>
                                                     </div>
 
                                                     {request.status === 'pending' && (
-                                                        <div className="flex items-center gap-2 pt-3 border-t border-gray-200">
+                                                        <div className="flex items-center gap-2 pt-3 border-t border-neutral-200">
                                                             <button
                                                                 onClick={() => handleRespondToScheduleRequest(request.id, 'approve')}
                                                                 className="flex items-center gap-1 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 text-sm font-medium"
@@ -2275,7 +2275,7 @@ export const StaffScheduling: React.FC = () => {
                                                                     const reason = prompt('Enter rejection reason (optional):');
                                                                     handleRespondToScheduleRequest(request.id, 'reject', reason || undefined);
                                                                 }}
-                                                                className="flex items-center gap-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 text-sm font-medium"
+                                                                className="flex items-center gap-1 px-4 py-2 bg-error-500 text-white rounded-lg hover:bg-red-600 text-sm font-medium"
                                                             >
                                                                 <X className="w-4 h-4" />
                                                                 Reject
@@ -2284,13 +2284,13 @@ export const StaffScheduling: React.FC = () => {
                                                     )}
 
                                                     {request.status !== 'pending' && request.respondedBy && (
-                                                        <div className="pt-3 border-t border-gray-200">
-                                                            <p className="text-xs text-gray-500">
+                                                        <div className="pt-3 border-t border-neutral-200">
+                                                            <p className="text-xs text-neutral-500">
                                                                 {request.status === 'approved' ? 'Approved' : 'Rejected'} by {request.respondedBy}
                                                                 {request.respondedAt && ` on ${new Date(request.respondedAt).toLocaleDateString()}`}
                                                             </p>
                                                             {request.rejectionReason && (
-                                                                <p className="text-xs text-red-600 mt-1">Reason: {request.rejectionReason}</p>
+                                                                <p className="text-xs text-error-600 mt-1">Reason: {request.rejectionReason}</p>
                                                             )}
                                                         </div>
                                                     )}
@@ -2309,40 +2309,40 @@ export const StaffScheduling: React.FC = () => {
             {showShiftModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setShowShiftModal(false)}>
                     <div className="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 m-4" onClick={e => e.stopPropagation()}>
-                        <h3 className="text-xl font-bold text-gray-800 mb-4">
+                        <h3 className="text-xl font-bold text-neutral-800 mb-4">
                             {selectedShift ? 'Edit Shift' : 'Create New Shift'}
                         </h3>
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Shift Name</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Shift Name</label>
                                 <input
                                     type="text"
                                     defaultValue={selectedShift?.name || ''}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     placeholder="e.g., Morning Shift"
                                 />
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Start Time</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Start Time</label>
                                     <input
                                         type="time"
                                         defaultValue={selectedShift?.startTime || '08:00'}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">End Time</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">End Time</label>
                                     <input
                                         type="time"
                                         defaultValue={selectedShift?.endTime || '16:00'}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Shift Type</label>
-                                <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Shift Type</label>
+                                <select className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                                     <option value="day">Day Shift</option>
                                     <option value="night">Night Shift</option>
                                     <option value="rotating">Rotating</option>
@@ -2353,13 +2353,13 @@ export const StaffScheduling: React.FC = () => {
                         <div className="flex justify-end gap-3 mt-6">
                             <button
                                 onClick={() => setShowShiftModal(false)}
-                                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                                className="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={() => { setShowShiftModal(false); toast.success('Shift saved successfully'); }}
-                                className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg"
+                                className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg"
                             >
                                 Save Shift
                             </button>
@@ -2373,30 +2373,30 @@ export const StaffScheduling: React.FC = () => {
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setShowEditModal(false)}>
                     <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 m-4 max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
                         <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-xl font-bold text-gray-800">
+                            <h3 className="text-xl font-bold text-neutral-800">
                                 Assign Shift
                             </h3>
-                            <button onClick={() => setShowEditModal(false)} className="text-gray-400 hover:text-gray-600">
+                            <button onClick={() => setShowEditModal(false)} className="text-neutral-400 hover:text-neutral-600">
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
 
                         <div className="space-y-4">
-                            <div className="bg-gray-50 p-3 rounded-lg">
-                                <p className="text-sm text-gray-600">
+                            <div className="bg-neutral-50 p-3 rounded-lg">
+                                <p className="text-sm text-neutral-600">
                                     <strong>Staff:</strong> {selectedCell.user.first_name} {selectedCell.user.last_name}
                                 </p>
-                                <p className="text-sm text-gray-600">
+                                <p className="text-sm text-neutral-600">
                                     <strong>Date:</strong> {selectedCell.date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
                                 </p>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Shift Type *</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Shift Type *</label>
                                 <select
                                     value={editShiftData.shift_type}
                                     onChange={(e) => handleShiftTypeChange(e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                 >
                                     <option value="">Select shift type</option>
                                     {availableShiftTypes.map(type => (
@@ -2404,33 +2404,33 @@ export const StaffScheduling: React.FC = () => {
                                             {type} {shiftTypeTimings[type] && `(${shiftTypeTimings[type].start_time} - ${shiftTypeTimings[type].end_time})`}
                                         </option>
                                     ))}
-                                    <option value="add_new" className="text-blue-600 font-medium">+ Add New Shift Type</option>
+                                    <option value="add_new" className="text-primary-500 font-medium">+ Add New Shift Type</option>
                                 </select>
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Start Time *</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Start Time *</label>
                                     <input
                                         type="time"
                                         value={editShiftData.start_time}
                                         onChange={(e) => setEditShiftData({ ...editShiftData, start_time: e.target.value })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">End Time *</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">End Time *</label>
                                     <input
                                         type="time"
                                         value={editShiftData.end_time}
                                         onChange={(e) => setEditShiftData({ ...editShiftData, end_time: e.target.value })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Repeat Schedule</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">Repeat Schedule</label>
                                 <div className="space-y-2">
                                     <label className="flex items-center gap-2 cursor-pointer">
                                         <input
@@ -2441,7 +2441,7 @@ export const StaffScheduling: React.FC = () => {
                                             onChange={(e) => setEditShiftData({ ...editShiftData, recurrence: e.target.value })}
                                             className="w-4 h-4 text-emerald-600"
                                         />
-                                        <span className="text-sm text-gray-700">One time only (selected day)</span>
+                                        <span className="text-sm text-neutral-700">One time only (selected day)</span>
                                     </label>
                                     <label className="flex items-center gap-2 cursor-pointer">
                                         <input
@@ -2452,7 +2452,7 @@ export const StaffScheduling: React.FC = () => {
                                             onChange={(e) => setEditShiftData({ ...editShiftData, recurrence: e.target.value })}
                                             className="w-4 h-4 text-emerald-600"
                                         />
-                                        <span className="text-sm text-gray-700">Weekly (every {selectedCell.date.toLocaleDateString('en-US', { weekday: 'long' })})</span>
+                                        <span className="text-sm text-neutral-700">Weekly (every {selectedCell.date.toLocaleDateString('en-US', { weekday: 'long' })})</span>
                                     </label>
                                     <label className="flex items-center gap-2 cursor-pointer">
                                         <input
@@ -2463,7 +2463,7 @@ export const StaffScheduling: React.FC = () => {
                                             onChange={(e) => setEditShiftData({ ...editShiftData, recurrence: e.target.value })}
                                             className="w-4 h-4 text-emerald-600"
                                         />
-                                        <span className="text-sm text-gray-700">Weekdays only (Monday - Friday)</span>
+                                        <span className="text-sm text-neutral-700">Weekdays only (Monday - Friday)</span>
                                     </label>
                                     <label className="flex items-center gap-2 cursor-pointer">
                                         <input
@@ -2474,7 +2474,7 @@ export const StaffScheduling: React.FC = () => {
                                             onChange={(e) => setEditShiftData({ ...editShiftData, recurrence: e.target.value })}
                                             className="w-4 h-4 text-emerald-600"
                                         />
-                                        <span className="text-sm text-gray-700">Weekends only (Saturday - Sunday)</span>
+                                        <span className="text-sm text-neutral-700">Weekends only (Saturday - Sunday)</span>
                                     </label>
                                     <label className="flex items-center gap-2 cursor-pointer">
                                         <input
@@ -2485,7 +2485,7 @@ export const StaffScheduling: React.FC = () => {
                                             onChange={(e) => setEditShiftData({ ...editShiftData, recurrence: e.target.value })}
                                             className="w-4 h-4 text-emerald-600"
                                         />
-                                        <span className="text-sm text-gray-700">Continuous (every day including weekends)</span>
+                                        <span className="text-sm text-neutral-700">Continuous (every day including weekends)</span>
                                     </label>
                                 </div>
                             </div>
@@ -2508,7 +2508,7 @@ export const StaffScheduling: React.FC = () => {
                                         );
                                         if (matchingShift) handleDeleteShift(matchingShift.id);
                                     }}
-                                    className="px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg border border-red-300"
+                                    className="px-4 py-2 text-error-600 hover:bg-error-50 rounded-lg border border-red-300"
                                 >
                                     Delete This Shift
                                 </button>
@@ -2516,13 +2516,13 @@ export const StaffScheduling: React.FC = () => {
                             <div className="flex gap-3 ml-auto">
                                 <button
                                     onClick={() => setShowEditModal(false)}
-                                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                                    className="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={handleSaveShift}
-                                    className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600"
+                                    className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600"
                                 >
                                     Save Shift
                                 </button>
@@ -2537,22 +2537,22 @@ export const StaffScheduling: React.FC = () => {
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60]" onClick={() => setShowAddShiftTypeModal(false)}>
                     <div className="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 m-4" onClick={e => e.stopPropagation()}>
                         <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-xl font-bold text-gray-800">
+                            <h3 className="text-xl font-bold text-neutral-800">
                                 Create New Shift Type
                             </h3>
-                            <button onClick={() => setShowAddShiftTypeModal(false)} className="text-gray-400 hover:text-gray-600">
+                            <button onClick={() => setShowAddShiftTypeModal(false)} className="text-neutral-400 hover:text-neutral-600">
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
 
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Shift Type Name *</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Shift Type Name *</label>
                                 <input
                                     type="text"
                                     value={newShiftType.name}
                                     onChange={(e) => setNewShiftType({ ...newShiftType, name: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     placeholder="e.g., Evening Shift, Weekend Shift"
                                     autoFocus
                                 />
@@ -2560,21 +2560,21 @@ export const StaffScheduling: React.FC = () => {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Start Time *</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Start Time *</label>
                                     <input
                                         type="time"
                                         value={newShiftType.start_time}
                                         onChange={(e) => setNewShiftType({ ...newShiftType, start_time: e.target.value })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">End Time *</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">End Time *</label>
                                     <input
                                         type="time"
                                         value={newShiftType.end_time}
                                         onChange={(e) => setNewShiftType({ ...newShiftType, end_time: e.target.value })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                             </div>
@@ -2589,13 +2589,13 @@ export const StaffScheduling: React.FC = () => {
                         <div className="flex justify-end gap-3 mt-6">
                             <button
                                 onClick={() => setShowAddShiftTypeModal(false)}
-                                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                                className="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleAddNewShiftType}
-                                className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600"
+                                className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600"
                             >
                                 Create Shift Type
                             </button>
@@ -2609,25 +2609,25 @@ export const StaffScheduling: React.FC = () => {
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60]" onClick={() => setShowEditShiftTypeModal(false)}>
                     <div className="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 m-4" onClick={e => e.stopPropagation()}>
                         <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-xl font-bold text-gray-800">
+                            <h3 className="text-xl font-bold text-neutral-800">
                                 Edit Shift Type
                             </h3>
                             <button onClick={() => {
                                 setShowEditShiftTypeModal(false);
                                 setEditingShiftType(null);
-                            }} className="text-gray-400 hover:text-gray-600">
+                            }} className="text-neutral-400 hover:text-neutral-600">
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
 
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Shift Type Name *</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Shift Type Name *</label>
                                 <input
                                     type="text"
                                     value={newShiftType.name}
                                     onChange={(e) => setNewShiftType({ ...newShiftType, name: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     placeholder="e.g., Evening Shift, Weekend Shift"
                                     autoFocus
                                 />
@@ -2635,21 +2635,21 @@ export const StaffScheduling: React.FC = () => {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Start Time *</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Start Time *</label>
                                     <input
                                         type="time"
                                         value={newShiftType.start_time}
                                         onChange={(e) => setNewShiftType({ ...newShiftType, start_time: e.target.value })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">End Time *</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">End Time *</label>
                                     <input
                                         type="time"
                                         value={newShiftType.end_time}
                                         onChange={(e) => setNewShiftType({ ...newShiftType, end_time: e.target.value })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                             </div>
@@ -2667,13 +2667,13 @@ export const StaffScheduling: React.FC = () => {
                                     setShowEditShiftTypeModal(false);
                                     setEditingShiftType(null);
                                 }}
-                                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                                className="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleEditShiftType}
-                                className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg hover:from-blue-600 hover:to-purple-600"
+                                className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg hover:from-primary-500 hover:to-purple-600"
                             >
                                 Update Shift Type
                             </button>
@@ -2687,10 +2687,10 @@ export const StaffScheduling: React.FC = () => {
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setShowAssignOvertimeModal(false)}>
                     <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 m-4 max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
                         <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-xl font-bold text-gray-800">
+                            <h3 className="text-xl font-bold text-neutral-800">
                                 {editingOvertimeId ? 'Edit Overtime' : 'Assign Overtime'}
                             </h3>
-                            <button onClick={() => setShowAssignOvertimeModal(false)} className="text-gray-400 hover:text-gray-600">
+                            <button onClick={() => setShowAssignOvertimeModal(false)} className="text-neutral-400 hover:text-neutral-600">
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
@@ -2703,11 +2703,11 @@ export const StaffScheduling: React.FC = () => {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Select User *</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Select User *</label>
                                 <select
                                     value={overtimeAssignment.userId}
                                     onChange={(e) => setOvertimeAssignment({ ...overtimeAssignment, userId: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                 >
                                     <option value="">Choose a user...</option>
                                     {users
@@ -2721,18 +2721,18 @@ export const StaffScheduling: React.FC = () => {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Date *</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Date *</label>
                                 <input
                                     type="date"
                                     value={overtimeAssignment.date}
                                     onChange={(e) => setOvertimeAssignment({ ...overtimeAssignment, date: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     min={new Date().toISOString().split('T')[0]}
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Shift Type *</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Shift Type *</label>
                                 <select
                                     value={overtimeAssignment.shiftType}
                                     onChange={(e) => {
@@ -2751,7 +2751,7 @@ export const StaffScheduling: React.FC = () => {
                                             setOvertimeAssignment({ ...overtimeAssignment, shiftType });
                                         }
                                     }}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                 >
                                     <option value="">Select shift type</option>
                                     {availableShiftTypes.map(type => (
@@ -2764,7 +2764,7 @@ export const StaffScheduling: React.FC = () => {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Start Time *</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Start Time *</label>
                                     <input
                                         type="time"
                                         value={overtimeAssignment.startTime}
@@ -2776,11 +2776,11 @@ export const StaffScheduling: React.FC = () => {
                                                 hours: parseFloat(hours.toFixed(2))
                                             });
                                         }}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">End Time *</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">End Time *</label>
                                     <input
                                         type="time"
                                         value={overtimeAssignment.endTime}
@@ -2792,13 +2792,13 @@ export const StaffScheduling: React.FC = () => {
                                                 hours: parseFloat(hours.toFixed(2))
                                             });
                                         }}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Total Hours *</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Total Hours *</label>
                                 <input
                                     type="number"
                                     step="0.5"
@@ -2806,18 +2806,18 @@ export const StaffScheduling: React.FC = () => {
                                     max="24"
                                     value={overtimeAssignment.hours}
                                     onChange={(e) => setOvertimeAssignment({ ...overtimeAssignment, hours: parseFloat(e.target.value) || 0 })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Reason *</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Reason *</label>
                                 <textarea
                                     value={overtimeAssignment.reason}
                                     onChange={(e) => setOvertimeAssignment({ ...overtimeAssignment, reason: e.target.value })}
                                     rows={3}
                                     placeholder="Enter reason for overtime assignment..."
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 resize-none"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 resize-none"
                                 />
                             </div>
                         </div>
@@ -2837,7 +2837,7 @@ export const StaffScheduling: React.FC = () => {
                                         reason: ''
                                     });
                                 }}
-                                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                                className="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50"
                             >
                                 Cancel
                             </button>

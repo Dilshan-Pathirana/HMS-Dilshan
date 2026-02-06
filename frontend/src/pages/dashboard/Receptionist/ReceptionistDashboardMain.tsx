@@ -48,19 +48,19 @@ const ReceptionistDashboardMain: React.FC = () => {
         color: string;
         subText?: string;
     }) => (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between mb-4">
                 <div className={`p-3 rounded-lg bg-gradient-to-br ${color}`}>
                     {icon}
                 </div>
                 {subText && (
-                    <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                    <span className="text-xs text-neutral-500 bg-neutral-100 px-2 py-1 rounded-full">
                         {subText}
                     </span>
                 )}
             </div>
-            <h3 className="text-gray-600 text-sm font-medium mb-1">{title}</h3>
-            <p className="text-3xl font-bold text-gray-800">{value}</p>
+            <h3 className="text-neutral-600 text-sm font-medium mb-1">{title}</h3>
+            <p className="text-3xl font-bold text-neutral-800">{value}</p>
         </div>
     );
 
@@ -87,17 +87,17 @@ const ReceptionistDashboardMain: React.FC = () => {
     return (
         <div className="space-y-6">
             {/* Page Header */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">
                             Good day, {userName}!
                         </h1>
-                        <p className="text-gray-600 mt-1">
+                        <p className="text-neutral-600 mt-1">
                             Manage appointments and patient registrations efficiently.
                         </p>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                    <div className="flex items-center gap-2 text-sm text-neutral-500">
                         <Calendar className="w-5 h-5" />
                         {new Date().toLocaleDateString('en-US', { 
                             weekday: 'long', 
@@ -139,25 +139,25 @@ const ReceptionistDashboardMain: React.FC = () => {
 
             {/* Quick Stats Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                     <div className="flex items-center gap-3">
                         <div className="p-3 rounded-lg bg-gradient-to-br from-teal-500 to-teal-600">
                             <TrendingUp className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                            <p className="text-sm text-gray-600">Completed Today</p>
-                            <p className="text-2xl font-bold text-gray-800">{stats?.completedToday || 0}</p>
+                            <p className="text-sm text-neutral-600">Completed Today</p>
+                            <p className="text-2xl font-bold text-neutral-800">{stats?.completedToday || 0}</p>
                         </div>
                     </div>
                 </div>
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                     <div className="flex items-center gap-3">
                         <div className="p-3 rounded-lg bg-gradient-to-br from-amber-500 to-amber-600">
                             <Users className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                            <p className="text-sm text-gray-600">Walk-ins Today</p>
-                            <p className="text-2xl font-bold text-gray-800">{stats?.walkInsToday || 0}</p>
+                            <p className="text-sm text-neutral-600">Walk-ins Today</p>
+                            <p className="text-2xl font-bold text-neutral-800">{stats?.walkInsToday || 0}</p>
                         </div>
                     </div>
                 </div>
@@ -166,8 +166,8 @@ const ReceptionistDashboardMain: React.FC = () => {
             {/* Today's Schedule & Quick Actions */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Upcoming Appointments */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                    <h2 className="text-lg font-semibold text-neutral-800 mb-4 flex items-center gap-2">
                         <Calendar className="w-5 h-5 text-emerald-600" />
                         Upcoming Appointments
                     </h2>
@@ -179,25 +179,25 @@ const ReceptionistDashboardMain: React.FC = () => {
                                     className={`flex items-center gap-3 p-3 rounded-lg border ${
                                         index === 0 
                                             ? 'bg-emerald-50 border-emerald-200' 
-                                            : 'bg-gray-50 border-gray-200'
+                                            : 'bg-neutral-50 border-neutral-200'
                                     }`}
                                 >
-                                    <Clock className={`w-5 h-5 ${index === 0 ? 'text-emerald-600' : 'text-gray-600'}`} />
+                                    <Clock className={`w-5 h-5 ${index === 0 ? 'text-emerald-600' : 'text-neutral-600'}`} />
                                     <div className="flex-1">
-                                        <p className="font-medium text-gray-800">
+                                        <p className="font-medium text-neutral-800">
                                             {formatTime(apt.appointment_time)} - {apt.doctor_name || 'Doctor'}
                                         </p>
-                                        <p className="text-xs text-gray-500">Patient: {apt.patient_name || 'Unknown'}</p>
+                                        <p className="text-xs text-neutral-500">Patient: {apt.patient_name || 'Unknown'}</p>
                                     </div>
                                     {apt.patient_phone && (
                                         <a href={`tel:${apt.patient_phone}`}>
-                                            <Phone className={`w-5 h-5 ${index === 0 ? 'text-emerald-600' : 'text-gray-600'} cursor-pointer hover:opacity-70`} />
+                                            <Phone className={`w-5 h-5 ${index === 0 ? 'text-emerald-600' : 'text-neutral-600'} cursor-pointer hover:opacity-70`} />
                                         </a>
                                     )}
                                 </div>
                             ))
                         ) : (
-                            <div className="text-center py-8 text-gray-500">
+                            <div className="text-center py-8 text-neutral-500">
                                 <AlertCircle className="w-8 h-8 mx-auto mb-2 opacity-50" />
                                 <p>No upcoming appointments</p>
                             </div>
@@ -205,15 +205,15 @@ const ReceptionistDashboardMain: React.FC = () => {
                     </div>
                     <Link 
                         to="/receptionist-dashboard/appointments"
-                        className="w-full mt-4 px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all font-medium flex items-center justify-center"
+                        className="w-full mt-4 px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all font-medium flex items-center justify-center"
                     >
                         View All Appointments
                     </Link>
                 </div>
 
                 {/* Quick Actions */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h2 className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h2>
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                    <h2 className="text-lg font-semibold text-neutral-800 mb-4">Quick Actions</h2>
                     <div className="space-y-3">
                         <Link 
                             to="/receptionist-dashboard/register-patient"
@@ -221,18 +221,18 @@ const ReceptionistDashboardMain: React.FC = () => {
                         >
                             <UserPlus className="w-5 h-5 text-emerald-600" />
                             <div>
-                                <p className="font-medium text-gray-800">Register New Patient</p>
-                                <p className="text-xs text-gray-500">Add new patient to system</p>
+                                <p className="font-medium text-neutral-800">Register New Patient</p>
+                                <p className="text-xs text-neutral-500">Add new patient to system</p>
                             </div>
                         </Link>
                         <Link 
                             to="/receptionist-dashboard/appointments"
                             className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-lg hover:from-emerald-100 hover:to-blue-100 transition-all text-left"
                         >
-                            <Calendar className="w-5 h-5 text-blue-600" />
+                            <Calendar className="w-5 h-5 text-primary-500" />
                             <div>
-                                <p className="font-medium text-gray-800">Schedule Appointment</p>
-                                <p className="text-xs text-gray-500">Book doctor appointment</p>
+                                <p className="font-medium text-neutral-800">Schedule Appointment</p>
+                                <p className="text-xs text-neutral-500">Book doctor appointment</p>
                             </div>
                         </Link>
                         <Link 
@@ -241,8 +241,8 @@ const ReceptionistDashboardMain: React.FC = () => {
                         >
                             <Ticket className="w-5 h-5 text-purple-600" />
                             <div>
-                                <p className="font-medium text-gray-800">Issue Queue Token</p>
-                                <p className="text-xs text-gray-500">Add patient to queue</p>
+                                <p className="font-medium text-neutral-800">Issue Queue Token</p>
+                                <p className="text-xs text-neutral-500">Add patient to queue</p>
                             </div>
                         </Link>
                         <Link 
@@ -251,8 +251,8 @@ const ReceptionistDashboardMain: React.FC = () => {
                         >
                             <Users className="w-5 h-5 text-orange-600" />
                             <div>
-                                <p className="font-medium text-gray-800">Record Visit</p>
-                                <p className="text-xs text-gray-500">Log OPD or walk-in visit</p>
+                                <p className="font-medium text-neutral-800">Record Visit</p>
+                                <p className="text-xs text-neutral-500">Log OPD or walk-in visit</p>
                             </div>
                         </Link>
                     </div>

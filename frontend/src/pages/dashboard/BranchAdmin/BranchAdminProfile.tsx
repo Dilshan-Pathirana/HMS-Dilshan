@@ -438,9 +438,9 @@ export const BranchAdminProfile: React.FC = () => {
                             </div>
                             <button 
                                 onClick={() => setShowPhotoModal(true)}
-                                className="absolute bottom-0 right-0 w-8 h-8 bg-white rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:bg-gray-100 transition-colors"
+                                className="absolute bottom-0 right-0 w-8 h-8 bg-white rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:bg-neutral-100 transition-colors"
                             >
-                                <Camera className="w-4 h-4 text-gray-700" />
+                                <Camera className="w-4 h-4 text-neutral-700" />
                             </button>
                         </div>
                         <div className="flex-1">
@@ -471,8 +471,8 @@ export const BranchAdminProfile: React.FC = () => {
                 </div>
 
                 {/* Tabs */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-                    <div className="border-b border-gray-200">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200">
+                    <div className="border-b border-neutral-200">
                         <div className="flex overflow-x-auto">
                             {tabs.map(tab => (
                                 <button
@@ -481,7 +481,7 @@ export const BranchAdminProfile: React.FC = () => {
                                     className={`flex items-center gap-2 px-6 py-4 font-medium text-sm whitespace-nowrap border-b-2 transition-colors ${
                                         activeTab === tab.id
                                             ? 'border-emerald-500 text-emerald-600'
-                                            : 'border-transparent text-gray-500 hover:text-gray-700'
+                                            : 'border-transparent text-neutral-500 hover:text-neutral-700'
                                     }`}
                                 >
                                     {tab.icon}
@@ -496,7 +496,7 @@ export const BranchAdminProfile: React.FC = () => {
                         {activeTab === 'personal' && (
                             <div className="space-y-6">
                                 <div className="flex items-center justify-between">
-                                    <h2 className="text-lg font-semibold text-gray-800">Personal Information</h2>
+                                    <h2 className="text-lg font-semibold text-neutral-800">Personal Information</h2>
                                     {!isEditing ? (
                                         <button
                                             onClick={() => setIsEditing(true)}
@@ -509,7 +509,7 @@ export const BranchAdminProfile: React.FC = () => {
                                         <div className="flex gap-2">
                                             <button
                                                 onClick={() => setIsEditing(false)}
-                                                className="flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                                                className="flex items-center gap-2 px-4 py-2 bg-neutral-200 text-neutral-700 rounded-lg hover:bg-neutral-300 transition-colors"
                                             >
                                                 <X className="w-4 h-4" />
                                                 Cancel
@@ -528,32 +528,32 @@ export const BranchAdminProfile: React.FC = () => {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">First Name</label>
                                         <input
                                             type="text"
                                             value={profile.first_name}
                                             onChange={(e) => setProfile(prev => ({ ...prev, first_name: e.target.value }))}
                                             disabled={!isEditing}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-gray-100"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-neutral-100"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">Last Name</label>
                                         <input
                                             type="text"
                                             value={profile.last_name}
                                             onChange={(e) => setProfile(prev => ({ ...prev, last_name: e.target.value }))}
                                             disabled={!isEditing}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-gray-100"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-neutral-100"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">Gender</label>
                                         <select
                                             value={profile.gender}
                                             onChange={(e) => setProfile(prev => ({ ...prev, gender: e.target.value }))}
                                             disabled={!isEditing}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-gray-100"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-neutral-100"
                                         >
                                             <option value="">Select Gender</option>
                                             <option value="male">Male</option>
@@ -562,93 +562,93 @@ export const BranchAdminProfile: React.FC = () => {
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Date of Birth</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">Date of Birth</label>
                                         <input
                                             type="date"
                                             value={profile.date_of_birth}
                                             onChange={(e) => setProfile(prev => ({ ...prev, date_of_birth: e.target.value }))}
                                             disabled={!isEditing}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-gray-100"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-neutral-100"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Primary Phone</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">Primary Phone</label>
                                         <input
                                             type="tel"
                                             value={profile.phone}
                                             onChange={(e) => setProfile(prev => ({ ...prev, phone: e.target.value }))}
                                             disabled={!isEditing}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-gray-100"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-neutral-100"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Alternate Phone</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">Alternate Phone</label>
                                         <input
                                             type="tel"
                                             value={profile.alternate_phone}
                                             onChange={(e) => setProfile(prev => ({ ...prev, alternate_phone: e.target.value }))}
                                             disabled={!isEditing}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-gray-100"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-neutral-100"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">Email Address</label>
                                         <input
                                             type="email"
                                             value={profile.email}
                                             onChange={(e) => setProfile(prev => ({ ...prev, email: e.target.value }))}
                                             disabled={!isEditing}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-gray-100"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-neutral-100"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Current Address</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">Current Address</label>
                                         <input
                                             type="text"
                                             value={profile.address}
                                             onChange={(e) => setProfile(prev => ({ ...prev, address: e.target.value }))}
                                             disabled={!isEditing}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-gray-100"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-neutral-100"
                                         />
                                     </div>
                                     <div className="md:col-span-2">
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Correspondence Address</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">Correspondence Address</label>
                                         <input
                                             type="text"
                                             value={profile.correspondence_address}
                                             onChange={(e) => setProfile(prev => ({ ...prev, correspondence_address: e.target.value }))}
                                             disabled={!isEditing}
                                             placeholder="Same as current address if left empty"
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-gray-100"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-neutral-100"
                                         />
                                     </div>
                                 </div>
 
                                 {/* Emergency Contact */}
-                                <div className="border-t border-gray-200 pt-6">
-                                    <h3 className="text-md font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                                        <AlertCircle className="w-5 h-5 text-red-500" />
+                                <div className="border-t border-neutral-200 pt-6">
+                                    <h3 className="text-md font-semibold text-neutral-800 mb-4 flex items-center gap-2">
+                                        <AlertCircle className="w-5 h-5 text-error-500" />
                                         Emergency Contact Details
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">Contact Name</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-2">Contact Name</label>
                                             <input
                                                 type="text"
                                                 value={profile.emergency_contact_name}
                                                 onChange={(e) => setProfile(prev => ({ ...prev, emergency_contact_name: e.target.value }))}
                                                 disabled={!isEditing}
-                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-gray-100"
+                                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-neutral-100"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">Contact Phone</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-2">Contact Phone</label>
                                             <input
                                                 type="tel"
                                                 value={profile.emergency_contact_phone}
                                                 onChange={(e) => setProfile(prev => ({ ...prev, emergency_contact_phone: e.target.value }))}
                                                 disabled={!isEditing}
-                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-gray-100"
+                                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 disabled:bg-neutral-100"
                                             />
                                         </div>
                                     </div>
@@ -659,75 +659,75 @@ export const BranchAdminProfile: React.FC = () => {
                         {/* Professional Information Tab */}
                         {activeTab === 'professional' && (
                             <div className="space-y-6">
-                                <h2 className="text-lg font-semibold text-gray-800">Professional / Role Information</h2>
+                                <h2 className="text-lg font-semibold text-neutral-800">Professional / Role Information</h2>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Role</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">Role</label>
                                         <input
                                             type="text"
                                             value="Branch Admin"
                                             disabled
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg bg-neutral-100 text-neutral-600"
                                         />
-                                        <p className="text-xs text-gray-500 mt-1">View only - Contact Super Admin to change</p>
+                                        <p className="text-xs text-neutral-500 mt-1">View only - Contact Super Admin to change</p>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Employee ID</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">Employee ID</label>
                                         <input
                                             type="text"
                                             value={profile.employee_id}
                                             disabled
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg bg-neutral-100 text-neutral-600"
                                         />
-                                        <p className="text-xs text-gray-500 mt-1">View only</p>
+                                        <p className="text-xs text-neutral-500 mt-1">View only</p>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Branch / Center Name</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">Branch / Center Name</label>
                                         <input
                                             type="text"
                                             value={profile.branch_name}
                                             disabled
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg bg-neutral-100 text-neutral-600"
                                         />
-                                        <p className="text-xs text-gray-500 mt-1">View only</p>
+                                        <p className="text-xs text-neutral-500 mt-1">View only</p>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Designation / Title</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">Designation / Title</label>
                                         <input
                                             type="text"
                                             value={profile.designation}
                                             disabled
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg bg-neutral-100 text-neutral-600"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Date of Joining</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">Date of Joining</label>
                                         <input
                                             type="text"
                                             value={profile.joining_date ? new Date(profile.joining_date).toLocaleDateString() : 'Not set'}
                                             disabled
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg bg-neutral-100 text-neutral-600"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Work Shift / Hours</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">Work Shift / Hours</label>
                                         <input
                                             type="text"
                                             value={profile.work_shift}
                                             disabled
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg bg-neutral-100 text-neutral-600"
                                         />
-                                        <p className="text-xs text-gray-500 mt-1">View only</p>
+                                        <p className="text-xs text-neutral-500 mt-1">View only</p>
                                     </div>
                                     <div className="md:col-span-2">
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Reporting Authority</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">Reporting Authority</label>
                                         <input
                                             type="text"
                                             value={profile.reporting_authority}
                                             disabled
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg bg-neutral-100 text-neutral-600"
                                         />
-                                        <p className="text-xs text-gray-500 mt-1">View only</p>
+                                        <p className="text-xs text-neutral-500 mt-1">View only</p>
                                     </div>
                                 </div>
                             </div>
@@ -738,85 +738,85 @@ export const BranchAdminProfile: React.FC = () => {
                             <div className="space-y-8">
                                 {/* Login Details */}
                                 <div>
-                                    <h2 className="text-lg font-semibold text-gray-800 mb-4">Account & Login Details</h2>
+                                    <h2 className="text-lg font-semibold text-neutral-800 mb-4">Account & Login Details</h2>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-2">Username</label>
                                             <input
                                                 type="text"
                                                 value={profile.username}
                                                 disabled
-                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
+                                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg bg-neutral-100 text-neutral-600"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">Last Login</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-2">Last Login</label>
                                             <input
                                                 type="text"
                                                 value={profile.last_login ? new Date(profile.last_login).toLocaleString() : 'Never'}
                                                 disabled
-                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
+                                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg bg-neutral-100 text-neutral-600"
                                             />
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Password Change */}
-                                <div className="border-t border-gray-200 pt-6">
-                                    <h3 className="text-md font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                                <div className="border-t border-neutral-200 pt-6">
+                                    <h3 className="text-md font-semibold text-neutral-800 mb-4 flex items-center gap-2">
                                         <Key className="w-5 h-5 text-emerald-600" />
                                         Change Password
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">Current Password</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-2">Current Password</label>
                                             <div className="relative">
                                                 <input
                                                     type={showPassword ? 'text' : 'password'}
                                                     value={passwordForm.current_password}
                                                     onChange={(e) => setPasswordForm(prev => ({ ...prev, current_password: e.target.value }))}
-                                                    className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                                    className="w-full px-4 py-2 pr-10 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                                 />
                                                 <button
                                                     type="button"
                                                     onClick={() => setShowPassword(!showPassword)}
-                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500"
                                                 >
                                                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                                                 </button>
                                             </div>
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">New Password</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-2">New Password</label>
                                             <div className="relative">
                                                 <input
                                                     type={showNewPassword ? 'text' : 'password'}
                                                     value={passwordForm.new_password}
                                                     onChange={(e) => setPasswordForm(prev => ({ ...prev, new_password: e.target.value }))}
-                                                    className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                                    className="w-full px-4 py-2 pr-10 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                                 />
                                                 <button
                                                     type="button"
                                                     onClick={() => setShowNewPassword(!showNewPassword)}
-                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500"
                                                 >
                                                     {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                                                 </button>
                                             </div>
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-2">Confirm Password</label>
                                             <div className="relative">
                                                 <input
                                                     type={showConfirmPassword ? 'text' : 'password'}
                                                     value={passwordForm.confirm_password}
                                                     onChange={(e) => setPasswordForm(prev => ({ ...prev, confirm_password: e.target.value }))}
-                                                    className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                                    className="w-full px-4 py-2 pr-10 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                                 />
                                                 <button
                                                     type="button"
                                                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500"
                                                 >
                                                     {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                                                 </button>
@@ -834,15 +834,15 @@ export const BranchAdminProfile: React.FC = () => {
                                 </div>
 
                                 {/* Two-Factor Authentication */}
-                                <div className="border-t border-gray-200 pt-6">
-                                    <h3 className="text-md font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                                        <Shield className="w-5 h-5 text-blue-600" />
+                                <div className="border-t border-neutral-200 pt-6">
+                                    <h3 className="text-md font-semibold text-neutral-800 mb-4 flex items-center gap-2">
+                                        <Shield className="w-5 h-5 text-primary-500" />
                                         Two-Factor Authentication
                                     </h3>
-                                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                    <div className="flex items-center justify-between p-4 bg-neutral-50 rounded-lg">
                                         <div>
-                                            <p className="font-medium text-gray-800">Two-Factor Authentication</p>
-                                            <p className="text-sm text-gray-500">Add an extra layer of security to your account</p>
+                                            <p className="font-medium text-neutral-800">Two-Factor Authentication</p>
+                                            <p className="text-sm text-neutral-500">Add an extra layer of security to your account</p>
                                         </div>
                                         <label className="relative inline-flex items-center cursor-pointer">
                                             <input
@@ -851,36 +851,36 @@ export const BranchAdminProfile: React.FC = () => {
                                                 onChange={() => setProfile(prev => ({ ...prev, two_factor_enabled: !prev.two_factor_enabled }))}
                                                 className="sr-only peer"
                                             />
-                                            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+                                            <div className="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
                                         </label>
                                     </div>
                                 </div>
 
                                 {/* Active Sessions */}
-                                <div className="border-t border-gray-200 pt-6">
-                                    <h3 className="text-md font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                                <div className="border-t border-neutral-200 pt-6">
+                                    <h3 className="text-md font-semibold text-neutral-800 mb-4 flex items-center gap-2">
                                         <Monitor className="w-5 h-5 text-purple-600" />
                                         Active Sessions
                                     </h3>
                                     <div className="space-y-3">
                                         {activeSessions.map(session => (
-                                            <div key={session.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                            <div key={session.id} className="flex items-center justify-between p-4 bg-neutral-50 rounded-lg">
                                                 <div className="flex items-center gap-3">
-                                                    <Monitor className="w-8 h-8 text-gray-400" />
+                                                    <Monitor className="w-8 h-8 text-neutral-400" />
                                                     <div>
-                                                        <p className="font-medium text-gray-800">
+                                                        <p className="font-medium text-neutral-800">
                                                             {session.device} - {session.browser}
                                                             {session.is_current && (
                                                                 <span className="ml-2 px-2 py-0.5 bg-emerald-100 text-emerald-700 text-xs rounded-full">Current</span>
                                                             )}
                                                         </p>
-                                                        <p className="text-sm text-gray-500">{session.ip_address} • Last active: {new Date(session.last_active).toLocaleString()}</p>
+                                                        <p className="text-sm text-neutral-500">{session.ip_address} • Last active: {new Date(session.last_active).toLocaleString()}</p>
                                                     </div>
                                                 </div>
                                                 {!session.is_current && (
                                                     <button
                                                         onClick={() => handleLogoutSession(session.id)}
-                                                        className="flex items-center gap-1 px-3 py-1 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                        className="flex items-center gap-1 px-3 py-1 text-error-600 hover:bg-error-50 rounded-lg transition-colors"
                                                     >
                                                         <LogOut className="w-4 h-4" />
                                                         Logout
@@ -896,14 +896,14 @@ export const BranchAdminProfile: React.FC = () => {
                         {/* Communication Preferences Tab */}
                         {activeTab === 'communication' && (
                             <div className="space-y-6">
-                                <h2 className="text-lg font-semibold text-gray-800">Communication Preferences</h2>
+                                <h2 className="text-lg font-semibold text-neutral-800">Communication Preferences</h2>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Preferred Notification Channel</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">Preferred Notification Channel</label>
                                         <select
                                             value={profile.preferred_notification}
                                             onChange={(e) => setProfile(prev => ({ ...prev, preferred_notification: e.target.value }))}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                         >
                                             <option value="email">Email</option>
                                             <option value="sms">SMS</option>
@@ -912,11 +912,11 @@ export const BranchAdminProfile: React.FC = () => {
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Language Preference</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">Language Preference</label>
                                         <select
                                             value={profile.language_preference}
                                             onChange={(e) => setProfile(prev => ({ ...prev, language_preference: e.target.value }))}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                         >
                                             <option value="en">English</option>
                                             <option value="si">Sinhala</option>
@@ -924,11 +924,11 @@ export const BranchAdminProfile: React.FC = () => {
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Timezone</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">Timezone</label>
                                         <select
                                             value={profile.timezone}
                                             onChange={(e) => setProfile(prev => ({ ...prev, timezone: e.target.value }))}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                         >
                                             <option value="Asia/Colombo">Asia/Colombo (GMT+5:30)</option>
                                             <option value="UTC">UTC</option>
@@ -938,8 +938,8 @@ export const BranchAdminProfile: React.FC = () => {
                                 </div>
 
                                 {/* Alert Preferences */}
-                                <div className="border-t border-gray-200 pt-6">
-                                    <h3 className="text-md font-semibold text-gray-800 mb-4">Alert Preferences</h3>
+                                <div className="border-t border-neutral-200 pt-6">
+                                    <h3 className="text-md font-semibold text-neutral-800 mb-4">Alert Preferences</h3>
                                     <div className="space-y-3">
                                         {[
                                             { label: 'Appointment Reminders', key: 'appointments' },
@@ -947,11 +947,11 @@ export const BranchAdminProfile: React.FC = () => {
                                             { label: 'System Alerts', key: 'system' },
                                             { label: 'Staff Updates', key: 'staff' },
                                         ].map(alert => (
-                                            <div key={alert.key} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                                <span className="font-medium text-gray-700">{alert.label}</span>
+                                            <div key={alert.key} className="flex items-center justify-between p-3 bg-neutral-50 rounded-lg">
+                                                <span className="font-medium text-neutral-700">{alert.label}</span>
                                                 <label className="relative inline-flex items-center cursor-pointer">
                                                     <input type="checkbox" defaultChecked className="sr-only peer" />
-                                                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+                                                    <div className="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
                                                 </label>
                                             </div>
                                         ))}
@@ -963,14 +963,14 @@ export const BranchAdminProfile: React.FC = () => {
                         {/* Documents Tab */}
                         {activeTab === 'documents' && (
                             <div className="space-y-6">
-                                <h2 className="text-lg font-semibold text-gray-800">Documents & Identity</h2>
+                                <h2 className="text-lg font-semibold text-neutral-800">Documents & Identity</h2>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Government ID Type</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">Government ID Type</label>
                                         <select
                                             value={profile.government_id_type}
                                             onChange={(e) => setProfile(prev => ({ ...prev, government_id_type: e.target.value }))}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                         >
                                             <option value="">Select ID Type</option>
                                             <option value="nic">National ID Card (NIC)</option>
@@ -979,31 +979,31 @@ export const BranchAdminProfile: React.FC = () => {
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">ID Number</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">ID Number</label>
                                         <input
                                             type="text"
                                             value={profile.government_id_number}
                                             onChange={(e) => setProfile(prev => ({ ...prev, government_id_number: e.target.value }))}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                         />
                                     </div>
                                 </div>
 
                                 {/* Document Uploads */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-emerald-500 transition-colors">
-                                        <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                                        <p className="font-medium text-gray-700">Government ID Proof</p>
-                                        <p className="text-sm text-gray-500 mb-3">Upload NIC, Passport, or Driving License</p>
+                                    <div className="border-2 border-dashed border-neutral-300 rounded-lg p-6 text-center hover:border-emerald-500 transition-colors">
+                                        <Upload className="w-8 h-8 text-neutral-400 mx-auto mb-2" />
+                                        <p className="font-medium text-neutral-700">Government ID Proof</p>
+                                        <p className="text-sm text-neutral-500 mb-3">Upload NIC, Passport, or Driving License</p>
                                         <label className="px-4 py-2 bg-emerald-500 text-white rounded-lg cursor-pointer hover:bg-emerald-600 transition-colors">
                                             Upload Document
                                             <input type="file" className="hidden" accept=".pdf,.jpg,.jpeg,.png" />
                                         </label>
                                     </div>
-                                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-emerald-500 transition-colors">
-                                        <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                                        <p className="font-medium text-gray-700">Digital Signature</p>
-                                        <p className="text-sm text-gray-500 mb-3">For approvals and reports</p>
+                                    <div className="border-2 border-dashed border-neutral-300 rounded-lg p-6 text-center hover:border-emerald-500 transition-colors">
+                                        <Upload className="w-8 h-8 text-neutral-400 mx-auto mb-2" />
+                                        <p className="font-medium text-neutral-700">Digital Signature</p>
+                                        <p className="text-sm text-neutral-500 mb-3">For approvals and reports</p>
                                         <label className="px-4 py-2 bg-emerald-500 text-white rounded-lg cursor-pointer hover:bg-emerald-600 transition-colors">
                                             Upload Signature
                                             <input type="file" className="hidden" accept=".png,.jpg,.jpeg" />
@@ -1016,59 +1016,59 @@ export const BranchAdminProfile: React.FC = () => {
                         {/* Activity & Audit Tab */}
                         {activeTab === 'activity' && (
                             <div className="space-y-6">
-                                <h2 className="text-lg font-semibold text-gray-800">Activity & Audit Information</h2>
+                                <h2 className="text-lg font-semibold text-neutral-800">Activity & Audit Information</h2>
                                 
                                 {/* Account Status */}
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                    <div className="p-4 bg-gray-50 rounded-lg">
-                                        <p className="text-sm text-gray-500 mb-1">Account Status</p>
-                                        <p className={`font-semibold ${profile.account_status === 'Active' ? 'text-emerald-600' : 'text-red-600'}`}>
+                                    <div className="p-4 bg-neutral-50 rounded-lg">
+                                        <p className="text-sm text-neutral-500 mb-1">Account Status</p>
+                                        <p className={`font-semibold ${profile.account_status === 'Active' ? 'text-emerald-600' : 'text-error-600'}`}>
                                             {profile.account_status}
                                         </p>
                                     </div>
-                                    <div className="p-4 bg-gray-50 rounded-lg">
-                                        <p className="text-sm text-gray-500 mb-1">Profile Last Updated</p>
-                                        <p className="font-semibold text-gray-800">
+                                    <div className="p-4 bg-neutral-50 rounded-lg">
+                                        <p className="text-sm text-neutral-500 mb-1">Profile Last Updated</p>
+                                        <p className="font-semibold text-neutral-800">
                                             {profile.profile_updated_at ? new Date(profile.profile_updated_at).toLocaleString() : 'Never'}
                                         </p>
                                     </div>
-                                    <div className="p-4 bg-gray-50 rounded-lg">
-                                        <p className="text-sm text-gray-500 mb-1">Last Password Change</p>
-                                        <p className="font-semibold text-gray-800">
+                                    <div className="p-4 bg-neutral-50 rounded-lg">
+                                        <p className="text-sm text-neutral-500 mb-1">Last Password Change</p>
+                                        <p className="font-semibold text-neutral-800">
                                             {profile.last_password_change ? new Date(profile.last_password_change).toLocaleString() : 'Never'}
                                         </p>
                                     </div>
                                 </div>
 
                                 {/* Login History */}
-                                <div className="border-t border-gray-200 pt-6">
-                                    <h3 className="text-md font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                                        <Clock className="w-5 h-5 text-blue-600" />
+                                <div className="border-t border-neutral-200 pt-6">
+                                    <h3 className="text-md font-semibold text-neutral-800 mb-4 flex items-center gap-2">
+                                        <Clock className="w-5 h-5 text-primary-500" />
                                         Login History
                                     </h3>
                                     <div className="overflow-x-auto">
                                         <table className="w-full">
                                             <thead>
-                                                <tr className="bg-gray-50">
-                                                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Date & Time</th>
-                                                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">IP Address</th>
-                                                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Device</th>
-                                                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Browser</th>
-                                                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-600">Status</th>
+                                                <tr className="bg-neutral-50">
+                                                    <th className="px-4 py-3 text-left text-sm font-medium text-neutral-600">Date & Time</th>
+                                                    <th className="px-4 py-3 text-left text-sm font-medium text-neutral-600">IP Address</th>
+                                                    <th className="px-4 py-3 text-left text-sm font-medium text-neutral-600">Device</th>
+                                                    <th className="px-4 py-3 text-left text-sm font-medium text-neutral-600">Browser</th>
+                                                    <th className="px-4 py-3 text-left text-sm font-medium text-neutral-600">Status</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {loginHistory.map(log => (
                                                     <tr key={log.id} className="border-b border-gray-100">
-                                                        <td className="px-4 py-3 text-sm text-gray-800">{new Date(log.login_time).toLocaleString()}</td>
-                                                        <td className="px-4 py-3 text-sm text-gray-600">{log.ip_address}</td>
-                                                        <td className="px-4 py-3 text-sm text-gray-600">{log.device}</td>
-                                                        <td className="px-4 py-3 text-sm text-gray-600">{log.browser}</td>
+                                                        <td className="px-4 py-3 text-sm text-neutral-800">{new Date(log.login_time).toLocaleString()}</td>
+                                                        <td className="px-4 py-3 text-sm text-neutral-600">{log.ip_address}</td>
+                                                        <td className="px-4 py-3 text-sm text-neutral-600">{log.device}</td>
+                                                        <td className="px-4 py-3 text-sm text-neutral-600">{log.browser}</td>
                                                         <td className="px-4 py-3">
                                                             <span className={`px-2 py-1 text-xs rounded-full ${
                                                                 log.status === 'success' 
                                                                     ? 'bg-emerald-100 text-emerald-700' 
-                                                                    : 'bg-red-100 text-red-700'
+                                                                    : 'bg-error-100 text-red-700'
                                                             }`}>
                                                                 {log.status}
                                                             </span>
@@ -1081,31 +1081,31 @@ export const BranchAdminProfile: React.FC = () => {
                                 </div>
 
                                 {/* Recent Critical Actions */}
-                                <div className="border-t border-gray-200 pt-6">
-                                    <h3 className="text-md font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                                <div className="border-t border-neutral-200 pt-6">
+                                    <h3 className="text-md font-semibold text-neutral-800 mb-4 flex items-center gap-2">
                                         <Activity className="w-5 h-5 text-orange-600" />
                                         Recent Critical Actions (Audit Snapshot)
                                     </h3>
                                     <div className="space-y-3">
-                                        <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                                        <div className="flex items-start gap-3 p-3 bg-neutral-50 rounded-lg">
                                             <div className="w-2 h-2 mt-2 rounded-full bg-emerald-500"></div>
                                             <div>
-                                                <p className="text-sm font-medium text-gray-800">Profile Information Updated</p>
-                                                <p className="text-xs text-gray-500">Changed phone number - 2 days ago</p>
+                                                <p className="text-sm font-medium text-neutral-800">Profile Information Updated</p>
+                                                <p className="text-xs text-neutral-500">Changed phone number - 2 days ago</p>
                                             </div>
                                         </div>
-                                        <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-                                            <div className="w-2 h-2 mt-2 rounded-full bg-blue-500"></div>
+                                        <div className="flex items-start gap-3 p-3 bg-neutral-50 rounded-lg">
+                                            <div className="w-2 h-2 mt-2 rounded-full bg-primary-500"></div>
                                             <div>
-                                                <p className="text-sm font-medium text-gray-800">Password Changed</p>
-                                                <p className="text-xs text-gray-500">1 week ago</p>
+                                                <p className="text-sm font-medium text-neutral-800">Password Changed</p>
+                                                <p className="text-xs text-neutral-500">1 week ago</p>
                                             </div>
                                         </div>
-                                        <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                                        <div className="flex items-start gap-3 p-3 bg-neutral-50 rounded-lg">
                                             <div className="w-2 h-2 mt-2 rounded-full bg-orange-500"></div>
                                             <div>
-                                                <p className="text-sm font-medium text-gray-800">Staff Member Added</p>
-                                                <p className="text-xs text-gray-500">Added Dr. Smith as Cardiologist - 1 week ago</p>
+                                                <p className="text-sm font-medium text-neutral-800">Staff Member Added</p>
+                                                <p className="text-xs text-neutral-500">Added Dr. Smith as Cardiologist - 1 week ago</p>
                                             </div>
                                         </div>
                                     </div>
@@ -1121,18 +1121,18 @@ export const BranchAdminProfile: React.FC = () => {
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setShowPhotoModal(false)}>
                     <div className="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 m-4" onClick={e => e.stopPropagation()}>
                         <div className="flex items-center justify-between mb-6">
-                            <h3 className="text-xl font-bold text-gray-800">Profile Photo</h3>
+                            <h3 className="text-xl font-bold text-neutral-800">Profile Photo</h3>
                             <button 
                                 onClick={() => setShowPhotoModal(false)}
-                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                             >
-                                <X className="w-5 h-5 text-gray-500" />
+                                <X className="w-5 h-5 text-neutral-500" />
                             </button>
                         </div>
 
                         {/* Current Photo Preview */}
                         <div className="flex justify-center mb-6">
-                            <div className="w-36 h-36 rounded-full overflow-hidden border-4 border-gray-200 shadow-lg">
+                            <div className="w-36 h-36 rounded-full overflow-hidden border-4 border-neutral-200 shadow-lg">
                                 {profile.profile_picture ? (
                                     <img 
                                         src={getProfileImageUrl(profile.profile_picture)} 
@@ -1147,7 +1147,7 @@ export const BranchAdminProfile: React.FC = () => {
 
                         {/* Gender Info */}
                         {!profile.profile_picture && (
-                            <p className="text-center text-sm text-gray-500 mb-4">
+                            <p className="text-center text-sm text-neutral-500 mb-4">
                                 Showing default {profile.gender?.toLowerCase() === 'female' || profile.gender?.toLowerCase() === 'f' ? 'female' : 'male'} avatar
                             </p>
                         )}
@@ -1165,7 +1165,7 @@ export const BranchAdminProfile: React.FC = () => {
                             <button
                                 onClick={() => fileInputRef.current?.click()}
                                 disabled={uploadingPhoto}
-                                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {uploadingPhoto ? (
                                     <>
@@ -1184,7 +1184,7 @@ export const BranchAdminProfile: React.FC = () => {
                                 <button
                                     onClick={handleRemoveProfilePicture}
                                     disabled={uploadingPhoto}
-                                    className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-error-50 text-error-600 rounded-lg hover:bg-error-100 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     <Trash2 className="w-5 h-5" />
                                     <span>Remove Photo</span>
@@ -1193,15 +1193,15 @@ export const BranchAdminProfile: React.FC = () => {
 
                             <button
                                 onClick={() => setShowPhotoModal(false)}
-                                className="w-full px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all"
+                                className="w-full px-4 py-3 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-all"
                             >
                                 Cancel
                             </button>
                         </div>
 
                         {/* Photo Guidelines */}
-                        <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-                            <p className="text-xs text-gray-500 text-center">
+                        <div className="mt-4 p-3 bg-neutral-50 rounded-lg">
+                            <p className="text-xs text-neutral-500 text-center">
                                 <strong>Photo Guidelines:</strong><br />
                                 • Supported formats: JPEG, PNG, GIF, WebP<br />
                                 • Maximum file size: 5MB<br />

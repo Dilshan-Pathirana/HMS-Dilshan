@@ -117,7 +117,7 @@ export const PharmacistWardSupply: React.FC = () => {
             pending: 'bg-yellow-100 text-yellow-800',
             processing: 'bg-blue-100 text-blue-800',
             issued: 'bg-green-100 text-green-800',
-            received: 'bg-gray-100 text-gray-800'
+            received: 'bg-neutral-100 text-neutral-800'
         };
         return (
             <span className={`px-2 py-1 rounded-full text-xs font-medium ${styles[status]}`}>
@@ -128,9 +128,9 @@ export const PharmacistWardSupply: React.FC = () => {
 
     const getPriorityBadge = (priority: string) => {
         const styles: Record<string, string> = {
-            normal: 'bg-gray-100 text-gray-800',
+            normal: 'bg-neutral-100 text-neutral-800',
             urgent: 'bg-orange-100 text-orange-800',
-            emergency: 'bg-red-100 text-red-800'
+            emergency: 'bg-error-100 text-red-800'
         };
         return (
             <span className={`px-2 py-1 rounded-full text-xs font-medium ${styles[priority]}`}>
@@ -147,16 +147,16 @@ export const PharmacistWardSupply: React.FC = () => {
     });
 
     return (
-        <div className="ml-0 md:ml-64 pt-24 min-h-screen bg-gray-50">
+        <div className="ml-0 md:ml-64 pt-24 min-h-screen bg-neutral-50">
             <div className="p-6">
                 {/* Header */}
                 <div className="flex justify-between items-start mb-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                        <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2">
                             <Building2 className="w-7 h-7 text-purple-600" />
                             Ward Supply Management
                         </h1>
-                        <p className="text-gray-600">Issue medicines to wards and manage ward stock</p>
+                        <p className="text-neutral-600">Issue medicines to wards and manage ward stock</p>
                     </div>
                     <button
                         className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
@@ -171,8 +171,8 @@ export const PharmacistWardSupply: React.FC = () => {
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-purple-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Total Wards</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.total_wards}</p>
+                                <p className="text-sm text-neutral-600">Total Wards</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.total_wards}</p>
                             </div>
                             <Building2 className="w-10 h-10 text-purple-500" />
                         </div>
@@ -180,8 +180,8 @@ export const PharmacistWardSupply: React.FC = () => {
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-yellow-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Pending Requests</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.pending_requests}</p>
+                                <p className="text-sm text-neutral-600">Pending Requests</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.pending_requests}</p>
                             </div>
                             <Clock className="w-10 h-10 text-yellow-500" />
                         </div>
@@ -189,26 +189,26 @@ export const PharmacistWardSupply: React.FC = () => {
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-green-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Issued Today</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.issued_today}</p>
+                                <p className="text-sm text-neutral-600">Issued Today</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.issued_today}</p>
                             </div>
                             <CheckCircle className="w-10 h-10 text-green-500" />
                         </div>
                     </div>
-                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-red-500">
+                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-error-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Low Stock Wards</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.low_stock_wards}</p>
+                                <p className="text-sm text-neutral-600">Low Stock Wards</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.low_stock_wards}</p>
                             </div>
-                            <AlertTriangle className="w-10 h-10 text-red-500" />
+                            <AlertTriangle className="w-10 h-10 text-error-500" />
                         </div>
                     </div>
                 </div>
 
                 {/* Tabs */}
                 <div className="bg-white rounded-lg shadow mb-6">
-                    <div className="border-b border-gray-200">
+                    <div className="border-b border-neutral-200">
                         <nav className="flex -mb-px">
                             {[
                                 { id: 'requests', label: 'Ward Requests' },
@@ -221,7 +221,7 @@ export const PharmacistWardSupply: React.FC = () => {
                                     className={`px-6 py-4 text-sm font-medium border-b-2 transition-colors ${
                                         activeTab === tab.id
                                             ? 'border-purple-500 text-purple-600'
-                                            : 'border-transparent text-gray-500 hover:text-gray-700'
+                                            : 'border-transparent text-neutral-500 hover:text-neutral-700'
                                     }`}
                                 >
                                     {tab.label}
@@ -234,17 +234,17 @@ export const PharmacistWardSupply: React.FC = () => {
                         {/* Search & Filters */}
                         <div className="flex flex-col md:flex-row gap-4 mb-4">
                             <div className="flex-1 relative">
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
                                 <input
                                     type="text"
                                     placeholder="Search ward name or code..."
-                                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                                    className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-purple-500"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
                             </div>
                             <select
-                                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                                className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-purple-500"
                                 value={filterStatus}
                                 onChange={(e) => setFilterStatus(e.target.value)}
                             >
@@ -255,7 +255,7 @@ export const PharmacistWardSupply: React.FC = () => {
                             </select>
                             <button
                                 onClick={fetchData}
-                                className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200"
+                                className="flex items-center gap-2 px-4 py-2 bg-neutral-100 rounded-lg hover:bg-neutral-200"
                             >
                                 <RefreshCw className="w-4 h-4" />
                                 Refresh
@@ -268,28 +268,28 @@ export const PharmacistWardSupply: React.FC = () => {
                 {activeTab === 'requests' && (
                     <div className="bg-white rounded-lg shadow overflow-hidden">
                         <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
+                            <thead className="bg-neutral-50">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ward</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Requested By</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Items</th>
-                                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Priority</th>
-                                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Status</th>
-                                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Ward</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Requested By</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Date</th>
+                                    <th className="px-6 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Items</th>
+                                    <th className="px-6 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Priority</th>
+                                    <th className="px-6 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Status</th>
+                                    <th className="px-6 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
                                 {filteredRequests.map((request) => (
-                                    <tr key={request.id} className="hover:bg-gray-50">
+                                    <tr key={request.id} className="hover:bg-neutral-50">
                                         <td className="px-6 py-4">
                                             <div>
-                                                <p className="font-medium text-gray-900">{request.ward_name}</p>
-                                                <p className="text-sm text-gray-500">{request.ward_code}</p>
+                                                <p className="font-medium text-neutral-900">{request.ward_name}</p>
+                                                <p className="text-sm text-neutral-500">{request.ward_code}</p>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4 text-gray-600">{request.requested_by}</td>
-                                        <td className="px-6 py-4 text-sm text-gray-600">
+                                        <td className="px-6 py-4 text-neutral-600">{request.requested_by}</td>
+                                        <td className="px-6 py-4 text-sm text-neutral-600">
                                             {new Date(request.request_date).toLocaleString()}
                                         </td>
                                         <td className="px-6 py-4 text-center font-medium">{request.items_count}</td>
@@ -297,15 +297,15 @@ export const PharmacistWardSupply: React.FC = () => {
                                         <td className="px-6 py-4 text-center">{getStatusBadge(request.status)}</td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center justify-center gap-2">
-                                                <button className="p-1 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded" title="View">
+                                                <button className="p-1 text-neutral-600 hover:text-primary-500 hover:bg-blue-50 rounded" title="View">
                                                     <Eye className="w-4 h-4" />
                                                 </button>
                                                 {request.status === 'pending' && (
-                                                    <button className="p-1 text-gray-600 hover:text-green-600 hover:bg-green-50 rounded" title="Process">
+                                                    <button className="p-1 text-neutral-600 hover:text-green-600 hover:bg-green-50 rounded" title="Process">
                                                         <Send className="w-4 h-4" />
                                                     </button>
                                                 )}
-                                                <button className="p-1 text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded" title="Print">
+                                                <button className="p-1 text-neutral-600 hover:text-purple-600 hover:bg-purple-50 rounded" title="Print">
                                                     <Printer className="w-4 h-4" />
                                                 </button>
                                             </div>
@@ -320,29 +320,29 @@ export const PharmacistWardSupply: React.FC = () => {
                 {activeTab === 'stock' && (
                     <div className="bg-white rounded-lg shadow overflow-hidden">
                         <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
+                            <thead className="bg-neutral-50">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ward</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Medicine</th>
-                                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Current Stock</th>
-                                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Min</th>
-                                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Max</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Last Issued</th>
-                                    <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Status</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Ward</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Medicine</th>
+                                    <th className="px-6 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Current Stock</th>
+                                    <th className="px-6 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Min</th>
+                                    <th className="px-6 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Max</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Last Issued</th>
+                                    <th className="px-6 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Status</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
                                 {wardStock.map((item) => (
-                                    <tr key={item.id} className="hover:bg-gray-50">
-                                        <td className="px-6 py-4 font-medium text-gray-900">{item.ward_name}</td>
-                                        <td className="px-6 py-4 text-gray-600">{item.medicine_name}</td>
+                                    <tr key={item.id} className="hover:bg-neutral-50">
+                                        <td className="px-6 py-4 font-medium text-neutral-900">{item.ward_name}</td>
+                                        <td className="px-6 py-4 text-neutral-600">{item.medicine_name}</td>
                                         <td className="px-6 py-4 text-center font-bold">{item.current_stock}</td>
-                                        <td className="px-6 py-4 text-center text-gray-500">{item.min_stock}</td>
-                                        <td className="px-6 py-4 text-center text-gray-500">{item.max_stock}</td>
-                                        <td className="px-6 py-4 text-sm text-gray-600">{item.last_issued}</td>
+                                        <td className="px-6 py-4 text-center text-neutral-500">{item.min_stock}</td>
+                                        <td className="px-6 py-4 text-center text-neutral-500">{item.max_stock}</td>
+                                        <td className="px-6 py-4 text-sm text-neutral-600">{item.last_issued}</td>
                                         <td className="px-6 py-4 text-center">
                                             {item.current_stock < item.min_stock ? (
-                                                <span className="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs font-medium">
+                                                <span className="px-2 py-1 bg-error-100 text-red-800 rounded-full text-xs font-medium">
                                                     Low Stock
                                                 </span>
                                             ) : (
@@ -360,11 +360,11 @@ export const PharmacistWardSupply: React.FC = () => {
 
                 {activeTab === 'issue' && (
                     <div className="bg-white rounded-lg shadow p-6">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Medicine Issue to Ward</h3>
+                        <h3 className="text-lg font-semibold text-neutral-900 mb-4">Quick Medicine Issue to Ward</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Select Ward</label>
-                                <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">Select Ward</label>
+                                <select className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-purple-500">
                                     <option value="">Choose a ward...</option>
                                     <option value="icu">ICU Ward</option>
                                     <option value="surgical">Surgical Ward</option>
@@ -373,8 +373,8 @@ export const PharmacistWardSupply: React.FC = () => {
                                 </select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Issue Type</label>
-                                <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">Issue Type</label>
+                                <select className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-purple-500">
                                     <option value="regular">Regular Supply</option>
                                     <option value="emergency">Emergency Issue</option>
                                     <option value="topup">Top-up Stock</option>

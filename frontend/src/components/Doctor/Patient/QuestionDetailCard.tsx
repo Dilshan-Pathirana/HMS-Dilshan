@@ -6,8 +6,8 @@ const QuestionDetailCard: React.FC<QuestionDetailCardProps> = ({
     className = "",
 }) => {
     return (
-        <div className={`bg-gray-50 p-4 rounded-lg ${className}`}>
-            <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+        <div className={`bg-neutral-50 p-4 rounded-lg ${className}`}>
+            <h3 className="text-sm font-medium text-neutral-500 uppercase tracking-wide">
                 {title}
             </h3>
             <div className="mt-1">{children}</div>

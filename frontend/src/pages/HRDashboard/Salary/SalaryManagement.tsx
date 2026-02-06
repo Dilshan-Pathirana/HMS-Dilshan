@@ -24,7 +24,7 @@ const SalaryManagement: React.FC = () => {
                 <h1 className="text-2xl font-bold">Salary Management</h1>
                 <button
                     onClick={openModal}
-                    className="px-6 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 text-white"
+                    className="px-6 py-2 bg-primary-500 rounded-lg hover:bg-primary-600 text-white"
                 >
                     Add Salary
                 </button>

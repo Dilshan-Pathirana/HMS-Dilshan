@@ -110,17 +110,17 @@ const DoctorDiseaseTable: React.FC<DoctorDiseaseTableProps> = ({
             {!isLoading && (
                 <>
                     <div className="mb-4">
-                        <h2 className="text-xl font-semibold text-gray-800">
+                        <h2 className="text-xl font-semibold text-neutral-800">
                             Doctor Diseases
                         </h2>
-                        <p className="text-gray-600">
+                        <p className="text-neutral-600">
                             Manage diseases created by doctors
                         </p>
                     </div>
 
                     {paginatedDiseases.length > 0 ? (
-                        <table className="min-w-full divide-y divide-gray-200 border border-gray-200 mt-4">
-                            <thead className="bg-gray-50">
+                        <table className="min-w-full divide-y divide-gray-200 border border-neutral-200 mt-4">
+                            <thead className="bg-neutral-50">
                                 <tr>
                                     {[
                                         "Disease Name",
@@ -131,7 +131,7 @@ const DoctorDiseaseTable: React.FC<DoctorDiseaseTableProps> = ({
                                     ].map((header) => (
                                         <th
                                             key={header}
-                                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                            className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider"
                                         >
                                             {header}
                                         </th>
@@ -142,16 +142,16 @@ const DoctorDiseaseTable: React.FC<DoctorDiseaseTableProps> = ({
                                 {paginatedDiseases.map((disease) => (
                                     <tr
                                         key={disease.id}
-                                        className="hover:bg-gray-50"
+                                        className="hover:bg-neutral-50"
                                     >
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-neutral-900">
                                             {disease.disease_name}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                             Dr. {disease.doctor_first_name}{" "}
                                             {disease.doctor_last_name}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                             {disease.priority ? (
                                                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                                                     Priority {disease.priority}
@@ -160,13 +160,13 @@ const DoctorDiseaseTable: React.FC<DoctorDiseaseTableProps> = ({
                                                 "-"
                                             )}
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-900 max-w-xs truncate">
+                                        <td className="px-6 py-4 text-sm text-neutral-900 max-w-xs truncate">
                                             {disease.description || "-"}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                             <div className="flex items-center space-x-3">
                                                 <FiEye
-                                                    className="text-blue-500 cursor-pointer hover:text-blue-700 w-4 h-4"
+                                                    className="text-primary-500 cursor-pointer hover:text-blue-700 w-4 h-4"
                                                     onClick={() =>
                                                         handleViewClick(disease)
                                                     }
@@ -180,7 +180,7 @@ const DoctorDiseaseTable: React.FC<DoctorDiseaseTableProps> = ({
                                                     title="Edit Disease"
                                                 />
                                                 <FiTrash2
-                                                    className="text-red-500 cursor-pointer hover:text-red-700 w-4 h-4"
+                                                    className="text-error-500 cursor-pointer hover:text-red-700 w-4 h-4"
                                                     onClick={() =>
                                                         handleDeleteDisease(
                                                             disease.id,
@@ -195,7 +195,7 @@ const DoctorDiseaseTable: React.FC<DoctorDiseaseTableProps> = ({
                             </tbody>
                         </table>
                     ) : (
-                        <div className="text-center py-8 text-gray-600">
+                        <div className="text-center py-8 text-neutral-600">
                             No doctor diseases found.
                         </div>
                     )}
@@ -212,49 +212,49 @@ const DoctorDiseaseTable: React.FC<DoctorDiseaseTableProps> = ({
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
                         <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-lg font-semibold text-gray-800">
+                            <h3 className="text-lg font-semibold text-neutral-800">
                                 Disease Details
                             </h3>
                             <button
                                 onClick={() => setIsDetailsModalOpen(false)}
-                                className="text-gray-400 hover:text-gray-600"
+                                className="text-neutral-400 hover:text-neutral-600"
                             >
                                 ✕
                             </button>
                         </div>
                         <div className="space-y-3">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700">
+                                <label className="block text-sm font-medium text-neutral-700">
                                     Disease Name
                                 </label>
-                                <p className="text-sm text-gray-900 mt-1">
+                                <p className="text-sm text-neutral-900 mt-1">
                                     {selectedDisease.disease_name}
                                 </p>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700">
+                                <label className="block text-sm font-medium text-neutral-700">
                                     Doctor
                                 </label>
-                                <p className="text-sm text-gray-900 mt-1">
+                                <p className="text-sm text-neutral-900 mt-1">
                                     Dr. {selectedDisease.doctor_first_name}{" "}
                                     {selectedDisease.doctor_last_name}
                                 </p>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700">
+                                <label className="block text-sm font-medium text-neutral-700">
                                     Priority
                                 </label>
-                                <p className="text-sm text-gray-900 mt-1">
+                                <p className="text-sm text-neutral-900 mt-1">
                                     {selectedDisease.priority
                                         ? `Priority ${selectedDisease.priority}`
                                         : "Not set"}
                                 </p>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700">
+                                <label className="block text-sm font-medium text-neutral-700">
                                     Description
                                 </label>
-                                <p className="text-sm text-gray-900 mt-1">
+                                <p className="text-sm text-neutral-900 mt-1">
                                     {selectedDisease.description ||
                                         "No description provided"}
                                 </p>
@@ -263,7 +263,7 @@ const DoctorDiseaseTable: React.FC<DoctorDiseaseTableProps> = ({
                         <div className="flex justify-end mt-6">
                             <button
                                 onClick={() => setIsDetailsModalOpen(false)}
-                                className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors"
+                                className="px-4 py-2 bg-neutral-200 text-neutral-800 rounded-md hover:bg-neutral-300 transition-colors"
                             >
                                 Close
                             </button>

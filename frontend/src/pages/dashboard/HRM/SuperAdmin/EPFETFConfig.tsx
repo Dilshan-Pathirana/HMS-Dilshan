@@ -21,20 +21,20 @@ const EPFETFConfig: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-neutral-50 p-6">
             <div className="max-w-4xl mx-auto">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => navigate('/super-admin/hrm')}
-                            className="p-2 hover:bg-gray-200 rounded-lg"
+                            className="p-2 hover:bg-neutral-200 rounded-lg"
                         >
                             <ArrowLeft className="w-5 h-5" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">EPF / ETF Configuration</h1>
-                            <p className="text-gray-500">Configure Sri Lanka statutory contribution rates</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">EPF / ETF Configuration</h1>
+                            <p className="text-neutral-500">Configure Sri Lanka statutory contribution rates</p>
                         </div>
                     </div>
                 </div>
@@ -42,7 +42,7 @@ const EPFETFConfig: React.FC = () => {
                 {/* Info Banner */}
                 <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
                     <div className="flex items-start gap-3">
-                        <Info className="w-5 h-5 text-blue-600 mt-0.5" />
+                        <Info className="w-5 h-5 text-primary-500 mt-0.5" />
                         <div>
                             <h3 className="font-semibold text-blue-800">Sri Lanka Statutory Rates</h3>
                             <p className="text-sm text-blue-700 mt-1">
@@ -55,87 +55,87 @@ const EPFETFConfig: React.FC = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* EPF Configuration */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="p-2 bg-blue-100 rounded-lg">
-                                <Shield className="w-5 h-5 text-blue-600" />
+                                <Shield className="w-5 h-5 text-primary-500" />
                             </div>
-                            <h2 className="text-lg font-semibold text-gray-800">EPF (Employees' Provident Fund)</h2>
+                            <h2 className="text-lg font-semibold text-neutral-800">EPF (Employees' Provident Fund)</h2>
                         </div>
 
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Employee Contribution Rate (%)
                                 </label>
                                 <input
                                     type="number"
                                     value={config.epfEmployeeRate}
                                     onChange={(e) => setConfig({ ...config, epfEmployeeRate: Number(e.target.value) })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                 />
-                                <p className="text-xs text-gray-500 mt-1">Standard rate: 8%</p>
+                                <p className="text-xs text-neutral-500 mt-1">Standard rate: 8%</p>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Employer Contribution Rate (%)
                                 </label>
                                 <input
                                     type="number"
                                     value={config.epfEmployerRate}
                                     onChange={(e) => setConfig({ ...config, epfEmployerRate: Number(e.target.value) })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                 />
-                                <p className="text-xs text-gray-500 mt-1">Standard rate: 12%</p>
+                                <p className="text-xs text-neutral-500 mt-1">Standard rate: 12%</p>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     EPF Registration Number
                                 </label>
                                 <input
                                     type="text"
                                     value={config.epfNumber}
                                     onChange={(e) => setConfig({ ...config, epfNumber: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                 />
                             </div>
                         </div>
                     </div>
 
                     {/* ETF Configuration */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="p-2 bg-emerald-100 rounded-lg">
                                 <Shield className="w-5 h-5 text-emerald-600" />
                             </div>
-                            <h2 className="text-lg font-semibold text-gray-800">ETF (Employees' Trust Fund)</h2>
+                            <h2 className="text-lg font-semibold text-neutral-800">ETF (Employees' Trust Fund)</h2>
                         </div>
 
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Employer Contribution Rate (%)
                                 </label>
                                 <input
                                     type="number"
                                     value={config.etfEmployerRate}
                                     onChange={(e) => setConfig({ ...config, etfEmployerRate: Number(e.target.value) })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                 />
-                                <p className="text-xs text-gray-500 mt-1">Standard rate: 3% (employer only)</p>
+                                <p className="text-xs text-neutral-500 mt-1">Standard rate: 3% (employer only)</p>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     ETF Registration Number
                                 </label>
                                 <input
                                     type="text"
                                     value={config.etfNumber}
                                     onChange={(e) => setConfig({ ...config, etfNumber: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                 />
                             </div>
 
@@ -150,36 +150,36 @@ const EPFETFConfig: React.FC = () => {
                 </div>
 
                 {/* General Settings */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mt-6">
-                    <h2 className="text-lg font-semibold text-gray-800 mb-6">General Settings</h2>
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 mt-6">
+                    <h2 className="text-lg font-semibold text-neutral-800 mb-6">General Settings</h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Effective From Date
                             </label>
                             <input
                                 type="date"
                                 value={config.effectiveFrom}
                                 onChange={(e) => setConfig({ ...config, effectiveFrom: e.target.value })}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Monthly Payment Due Date
                             </label>
                             <select
                                 value={config.paymentDueDate}
                                 onChange={(e) => setConfig({ ...config, paymentDueDate: Number(e.target.value) })}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                             >
                                 {[...Array(28)].map((_, i) => (
                                     <option key={i + 1} value={i + 1}>{i + 1}th of each month</option>
                                 ))}
                             </select>
-                            <p className="text-xs text-gray-500 mt-1">Deadline for submitting EPF/ETF to authorities</p>
+                            <p className="text-xs text-neutral-500 mt-1">Deadline for submitting EPF/ETF to authorities</p>
                         </div>
                     </div>
 
@@ -191,7 +191,7 @@ const EPFETFConfig: React.FC = () => {
                                 onChange={(e) => setConfig({ ...config, autoCalculate: e.target.checked })}
                                 className="w-5 h-5 text-emerald-500 rounded focus:ring-emerald-500"
                             />
-                            <span className="text-gray-700">
+                            <span className="text-neutral-700">
                                 Auto-calculate EPF/ETF during payroll processing
                             </span>
                         </label>
@@ -199,24 +199,24 @@ const EPFETFConfig: React.FC = () => {
                 </div>
 
                 {/* Calculation Example */}
-                <div className="bg-gray-100 rounded-xl p-6 mt-6">
-                    <h3 className="font-semibold text-gray-800 mb-4">Calculation Example</h3>
-                    <p className="text-sm text-gray-600 mb-4">For a basic salary of <strong>LKR 100,000</strong>:</p>
+                <div className="bg-neutral-100 rounded-xl p-6 mt-6">
+                    <h3 className="font-semibold text-neutral-800 mb-4">Calculation Example</h3>
+                    <p className="text-sm text-neutral-600 mb-4">For a basic salary of <strong>LKR 100,000</strong>:</p>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="bg-white p-4 rounded-lg">
-                            <p className="text-sm text-gray-500">EPF (Employee)</p>
-                            <p className="text-xl font-bold text-blue-600">LKR 8,000</p>
-                            <p className="text-xs text-gray-500">8% of basic salary</p>
+                            <p className="text-sm text-neutral-500">EPF (Employee)</p>
+                            <p className="text-xl font-bold text-primary-500">LKR 8,000</p>
+                            <p className="text-xs text-neutral-500">8% of basic salary</p>
                         </div>
                         <div className="bg-white p-4 rounded-lg">
-                            <p className="text-sm text-gray-500">EPF (Employer)</p>
-                            <p className="text-xl font-bold text-blue-600">LKR 12,000</p>
-                            <p className="text-xs text-gray-500">12% of basic salary</p>
+                            <p className="text-sm text-neutral-500">EPF (Employer)</p>
+                            <p className="text-xl font-bold text-primary-500">LKR 12,000</p>
+                            <p className="text-xs text-neutral-500">12% of basic salary</p>
                         </div>
                         <div className="bg-white p-4 rounded-lg">
-                            <p className="text-sm text-gray-500">ETF (Employer)</p>
+                            <p className="text-sm text-neutral-500">ETF (Employer)</p>
                             <p className="text-xl font-bold text-emerald-600">LKR 3,000</p>
-                            <p className="text-xs text-gray-500">3% of basic salary</p>
+                            <p className="text-xs text-neutral-500">3% of basic salary</p>
                         </div>
                     </div>
                 </div>

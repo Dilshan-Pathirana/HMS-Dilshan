@@ -314,14 +314,14 @@ const LetterPreviewModal: React.FC<LetterPreviewModalProps> = ({
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] flex flex-col">
                 {/* Header */}
-                <div className="p-4 border-b border-gray-200 flex items-center justify-between bg-gradient-to-r from-indigo-50 to-blue-50 rounded-t-xl">
+                <div className="p-4 border-b border-neutral-200 flex items-center justify-between bg-gradient-to-r from-indigo-50 to-blue-50 rounded-t-xl">
                     <div className="flex items-center gap-3">
                         <div className="p-2 bg-indigo-100 rounded-lg">
                             <FileText className="w-5 h-5 text-indigo-600" />
                         </div>
                         <div>
-                            <h2 className="text-lg font-bold text-gray-800">{letterDetails.template_name}</h2>
-                            <p className="text-sm text-gray-500">Ref: {letterDetails.reference_number}</p>
+                            <h2 className="text-lg font-bold text-neutral-800">{letterDetails.template_name}</h2>
+                            <p className="text-sm text-neutral-500">Ref: {letterDetails.reference_number}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -341,7 +341,7 @@ const LetterPreviewModal: React.FC<LetterPreviewModalProps> = ({
                                         setIsEditing(false);
                                         setEditedContent(letterContent);
                                     }}
-                                    className="flex items-center gap-2 px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                                    className="flex items-center gap-2 px-3 py-2 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200 transition-colors"
                                 >
                                     <X className="w-4 h-4" />
                                     Cancel
@@ -360,7 +360,7 @@ const LetterPreviewModal: React.FC<LetterPreviewModalProps> = ({
                             <>
                                 <button
                                     onClick={handlePrint}
-                                    className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                                    className="flex items-center gap-2 px-3 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-500 transition-colors"
                                 >
                                     <Printer className="w-4 h-4" />
                                     Print
@@ -376,22 +376,22 @@ const LetterPreviewModal: React.FC<LetterPreviewModalProps> = ({
                         )}
                         <button
                             onClick={onClose}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <X className="w-5 h-5 text-gray-500" />
+                            <X className="w-5 h-5 text-neutral-500" />
                         </button>
                     </div>
                 </div>
 
                 {/* Letter Info Bar */}
-                <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 flex items-center gap-6 text-sm">
-                    <div className="flex items-center gap-2 text-gray-600">
+                <div className="px-4 py-3 bg-neutral-50 border-b border-neutral-200 flex items-center gap-6 text-sm">
+                    <div className="flex items-center gap-2 text-neutral-600">
                         <User className="w-4 h-4" />
                         <span>{letterDetails.employee_name}</span>
-                        <span className="text-gray-400">|</span>
-                        <span className="text-gray-500">{letterDetails.designation}</span>
+                        <span className="text-neutral-400">|</span>
+                        <span className="text-neutral-500">{letterDetails.designation}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-gray-600">
+                    <div className="flex items-center gap-2 text-neutral-600">
                         <Calendar className="w-4 h-4" />
                         <span>{letterDetails.date || new Date().toLocaleDateString()}</span>
                     </div>
@@ -401,18 +401,18 @@ const LetterPreviewModal: React.FC<LetterPreviewModalProps> = ({
                 <div className="flex-1 overflow-auto p-6">
                     <div ref={printRef} className="max-w-3xl mx-auto">
                         {/* Letterhead Preview */}
-                        <div className="text-center border-b-2 border-blue-600 pb-6 mb-8">
+                        <div className="text-center border-b-2 border-primary-500 pb-6 mb-8">
                             <h1 className="text-3xl font-bold text-blue-700 mb-2" style={{ fontFamily: 'Georgia, serif' }}>
                                 {companyInfo.name}
                             </h1>
-                            <p className="text-gray-500 text-sm">
+                            <p className="text-neutral-500 text-sm">
                                 {companyInfo.address}<br />
                                 Tel: {companyInfo.phone} | Email: {companyInfo.email}
                             </p>
                         </div>
 
                         {/* Meta Info */}
-                        <div className="flex justify-between text-sm text-gray-600 mb-8">
+                        <div className="flex justify-between text-sm text-neutral-600 mb-8">
                             <div>
                                 <span className="font-semibold">Ref:</span> {letterDetails.reference_number}
                             </div>
@@ -431,12 +431,12 @@ const LetterPreviewModal: React.FC<LetterPreviewModalProps> = ({
                             <textarea
                                 value={editedContent}
                                 onChange={(e) => setEditedContent(e.target.value)}
-                                className="w-full min-h-[400px] p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-800 leading-relaxed"
+                                className="w-full min-h-[400px] p-4 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-neutral-800 leading-relaxed"
                                 style={{ fontFamily: 'Georgia, serif', fontSize: '15px' }}
                             />
                         ) : (
                             <div 
-                                className="text-gray-800 leading-relaxed whitespace-pre-wrap text-justify"
+                                className="text-neutral-800 leading-relaxed whitespace-pre-wrap text-justify"
                                 style={{ fontFamily: 'Georgia, serif', fontSize: '15px', lineHeight: '2' }}
                             >
                                 {letterContent}
@@ -446,13 +446,13 @@ const LetterPreviewModal: React.FC<LetterPreviewModalProps> = ({
                         {/* Signature Section */}
                         <div className="mt-16">
                             <div className="w-48 border-t border-gray-400 mt-16 pt-2">
-                                <p className="font-semibold text-gray-800">Authorized Signatory</p>
-                                <p className="text-sm text-gray-600">Human Resources Department</p>
+                                <p className="font-semibold text-neutral-800">Authorized Signatory</p>
+                                <p className="text-sm text-neutral-600">Human Resources Department</p>
                             </div>
                         </div>
 
                         {/* Footer */}
-                        <div className="mt-12 pt-4 border-t border-gray-200 text-center text-xs text-gray-400">
+                        <div className="mt-12 pt-4 border-t border-neutral-200 text-center text-xs text-neutral-400">
                             This is a computer-generated document. For verification, please contact HR department.
                         </div>
                     </div>

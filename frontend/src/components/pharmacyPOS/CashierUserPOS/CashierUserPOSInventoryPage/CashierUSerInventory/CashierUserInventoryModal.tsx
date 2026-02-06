@@ -45,7 +45,7 @@ export default function CashierUserInventoryModal({
 
                 <button
                     onClick={onClose}
-                    className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 absolute bottom-4 right-4"
+                    className="px-4 py-2 bg-error-500 text-white rounded hover:bg-red-600 absolute bottom-4 right-4"
                 >
                     Close
                 </button>

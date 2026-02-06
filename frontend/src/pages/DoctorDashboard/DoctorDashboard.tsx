@@ -13,7 +13,7 @@ const DoctorDashboard: React.FC = () => {
     };
 
     return (
-        <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="flex h-screen bg-neutral-50 dark:bg-neutral-900">
             <Navbar toggleSidebar={toggleSidebar} />
             <DoctorDashboardSideBar isOpenSidebarMenu={isSidebarOpen} />
 

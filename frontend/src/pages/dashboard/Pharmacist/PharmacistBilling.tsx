@@ -129,7 +129,7 @@ export const PharmacistBilling: React.FC = () => {
             'paid': { bg: 'bg-green-100', text: 'text-green-800', icon: <CheckCircle className="w-3 h-3" /> },
             'pending': { bg: 'bg-yellow-100', text: 'text-yellow-800', icon: <Clock className="w-3 h-3" /> },
             'partial': { bg: 'bg-blue-100', text: 'text-blue-800', icon: <DollarSign className="w-3 h-3" /> },
-            'voided': { bg: 'bg-red-100', text: 'text-red-800', icon: <XCircle className="w-3 h-3" /> }
+            'voided': { bg: 'bg-error-100', text: 'text-red-800', icon: <XCircle className="w-3 h-3" /> }
         };
         const style = styles[status] || styles['pending'];
         return (
@@ -166,16 +166,16 @@ export const PharmacistBilling: React.FC = () => {
     };
 
     return (
-        <div className="ml-0 md:ml-64 pt-24 min-h-screen bg-gray-50">
+        <div className="ml-0 md:ml-64 pt-24 min-h-screen bg-neutral-50">
             <div className="p-6">
                 {/* Header */}
                 <div className="flex justify-between items-start mb-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                        <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2">
                             <DollarSign className="w-7 h-7 text-green-600" />
                             Billing & Invoices
                         </h1>
-                        <p className="text-gray-600">Manage pharmacy billing and payment records</p>
+                        <p className="text-neutral-600">Manage pharmacy billing and payment records</p>
                     </div>
                     <button
                         onClick={() => setShowNewBillModal(true)}
@@ -191,8 +191,8 @@ export const PharmacistBilling: React.FC = () => {
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-green-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Today's Sales</p>
-                                <p className="text-2xl font-bold text-gray-900">{formatCurrency(stats.today_sales)}</p>
+                                <p className="text-sm text-neutral-600">Today's Sales</p>
+                                <p className="text-2xl font-bold text-neutral-900">{formatCurrency(stats.today_sales)}</p>
                             </div>
                             <DollarSign className="w-10 h-10 text-green-500" />
                         </div>
@@ -200,28 +200,28 @@ export const PharmacistBilling: React.FC = () => {
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-yellow-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Pending Amount</p>
-                                <p className="text-2xl font-bold text-gray-900">{formatCurrency(stats.pending_amount)}</p>
+                                <p className="text-sm text-neutral-600">Pending Amount</p>
+                                <p className="text-2xl font-bold text-neutral-900">{formatCurrency(stats.pending_amount)}</p>
                             </div>
                             <Clock className="w-10 h-10 text-yellow-500" />
                         </div>
                     </div>
-                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-blue-500">
+                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-primary-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Invoices Today</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.invoices_count}</p>
+                                <p className="text-sm text-neutral-600">Invoices Today</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.invoices_count}</p>
                             </div>
-                            <Receipt className="w-10 h-10 text-blue-500" />
+                            <Receipt className="w-10 h-10 text-primary-500" />
                         </div>
                     </div>
-                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-red-500">
+                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-error-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Refunds</p>
-                                <p className="text-2xl font-bold text-gray-900">{formatCurrency(stats.refunds)}</p>
+                                <p className="text-sm text-neutral-600">Refunds</p>
+                                <p className="text-2xl font-bold text-neutral-900">{formatCurrency(stats.refunds)}</p>
                             </div>
-                            <RefreshCw className="w-10 h-10 text-red-500" />
+                            <RefreshCw className="w-10 h-10 text-error-500" />
                         </div>
                     </div>
                 </div>
@@ -230,19 +230,19 @@ export const PharmacistBilling: React.FC = () => {
                 <div className="bg-white rounded-lg shadow p-4 mb-6">
                     <div className="flex flex-wrap items-center gap-4">
                         <div className="relative flex-1 min-w-[200px] max-w-md">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400" />
                             <input
                                 type="text"
                                 placeholder="Search by invoice, patient, or prescription..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                                className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-green-500"
                             />
                         </div>
                         <select
                             value={filterStatus}
                             onChange={(e) => setFilterStatus(e.target.value)}
-                            className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                            className="px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-green-500"
                         >
                             <option value="all">All Status</option>
                             <option value="paid">Paid</option>
@@ -253,14 +253,14 @@ export const PharmacistBilling: React.FC = () => {
                         <select
                             value={filterDate}
                             onChange={(e) => setFilterDate(e.target.value)}
-                            className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                            className="px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-green-500"
                         >
                             <option value="today">Today</option>
                             <option value="yesterday">Yesterday</option>
                             <option value="week">This Week</option>
                             <option value="month">This Month</option>
                         </select>
-                        <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
+                        <button className="flex items-center gap-2 px-4 py-2 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200">
                             <Download className="w-4 h-4" />
                             Export
                         </button>
@@ -271,59 +271,59 @@ export const PharmacistBilling: React.FC = () => {
                 <div className="bg-white rounded-lg shadow overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full">
-                            <thead className="bg-gray-50 border-b">
+                            <thead className="bg-neutral-50 border-b">
                                 <tr>
-                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Invoice #</th>
-                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Patient</th>
-                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
-                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Items</th>
-                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
-                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Invoice #</th>
+                                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Patient</th>
+                                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Type</th>
+                                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Items</th>
+                                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Total</th>
+                                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Status</th>
+                                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Date</th>
+                                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
                                 {filteredInvoices.map((invoice) => (
-                                    <tr key={invoice.id} className="hover:bg-gray-50">
+                                    <tr key={invoice.id} className="hover:bg-neutral-50">
                                         <td className="px-4 py-3">
-                                            <div className="font-medium text-gray-900">{invoice.invoice_number}</div>
-                                            <div className="text-xs text-gray-500">{invoice.prescription_no}</div>
+                                            <div className="font-medium text-neutral-900">{invoice.invoice_number}</div>
+                                            <div className="text-xs text-neutral-500">{invoice.prescription_no}</div>
                                         </td>
                                         <td className="px-4 py-3">
-                                            <div className="text-gray-900">{invoice.patient_name}</div>
-                                            <div className="text-xs text-gray-500">{invoice.patient_id}</div>
+                                            <div className="text-neutral-900">{invoice.patient_name}</div>
+                                            <div className="text-xs text-neutral-500">{invoice.patient_id}</div>
                                         </td>
                                         <td className="px-4 py-3">{getTypeBadge(invoice.type)}</td>
-                                        <td className="px-4 py-3 text-gray-900">{invoice.items_count}</td>
+                                        <td className="px-4 py-3 text-neutral-900">{invoice.items_count}</td>
                                         <td className="px-4 py-3">
-                                            <div className="font-medium text-gray-900">{formatCurrency(invoice.total)}</div>
+                                            <div className="font-medium text-neutral-900">{formatCurrency(invoice.total)}</div>
                                             {invoice.discount > 0 && (
                                                 <div className="text-xs text-green-600">-{formatCurrency(invoice.discount)}</div>
                                             )}
                                         </td>
                                         <td className="px-4 py-3">{getStatusBadge(invoice.payment_status)}</td>
-                                        <td className="px-4 py-3 text-sm text-gray-500">
+                                        <td className="px-4 py-3 text-sm text-neutral-500">
                                             {new Date(invoice.created_at).toLocaleString()}
                                         </td>
                                         <td className="px-4 py-3">
                                             <div className="flex items-center gap-2">
                                                 <button
                                                     onClick={() => setSelectedInvoice(invoice)}
-                                                    className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded"
+                                                    className="p-1.5 text-neutral-400 hover:text-primary-500 hover:bg-blue-50 rounded"
                                                     title="View"
                                                 >
                                                     <Eye className="w-4 h-4" />
                                                 </button>
                                                 <button
-                                                    className="p-1.5 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded"
+                                                    className="p-1.5 text-neutral-400 hover:text-green-600 hover:bg-green-50 rounded"
                                                     title="Print"
                                                 >
                                                     <Printer className="w-4 h-4" />
                                                 </button>
                                                 {invoice.payment_status === 'pending' && (
                                                     <button
-                                                        className="p-1.5 text-gray-400 hover:text-purple-600 hover:bg-purple-50 rounded"
+                                                        className="p-1.5 text-neutral-400 hover:text-purple-600 hover:bg-purple-50 rounded"
                                                         title="Collect Payment"
                                                     >
                                                         <CreditCard className="w-4 h-4" />
@@ -343,13 +343,13 @@ export const PharmacistBilling: React.FC = () => {
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                         <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4 max-h-[80vh] overflow-y-auto">
                             <div className="p-4 border-b flex items-center justify-between sticky top-0 bg-white">
-                                <h3 className="font-semibold text-gray-900 flex items-center gap-2">
+                                <h3 className="font-semibold text-neutral-900 flex items-center gap-2">
                                     <Receipt className="w-5 h-5 text-green-600" />
                                     Invoice Details - {selectedInvoice.invoice_number}
                                 </h3>
                                 <button
                                     onClick={() => setSelectedInvoice(null)}
-                                    className="text-gray-400 hover:text-gray-600 text-2xl"
+                                    className="text-neutral-400 hover:text-neutral-600 text-2xl"
                                 >
                                     &times;
                                 </button>
@@ -357,30 +357,30 @@ export const PharmacistBilling: React.FC = () => {
                             <div className="p-6">
                                 <div className="grid grid-cols-2 gap-4 mb-6">
                                     <div>
-                                        <label className="text-xs text-gray-500 uppercase">Patient</label>
-                                        <p className="text-gray-900 font-medium">{selectedInvoice.patient_name}</p>
-                                        <p className="text-sm text-gray-500">{selectedInvoice.patient_id}</p>
+                                        <label className="text-xs text-neutral-500 uppercase">Patient</label>
+                                        <p className="text-neutral-900 font-medium">{selectedInvoice.patient_name}</p>
+                                        <p className="text-sm text-neutral-500">{selectedInvoice.patient_id}</p>
                                     </div>
                                     <div>
-                                        <label className="text-xs text-gray-500 uppercase">Prescription</label>
-                                        <p className="text-gray-900">{selectedInvoice.prescription_no}</p>
+                                        <label className="text-xs text-neutral-500 uppercase">Prescription</label>
+                                        <p className="text-neutral-900">{selectedInvoice.prescription_no}</p>
                                     </div>
                                     <div>
-                                        <label className="text-xs text-gray-500 uppercase">Type</label>
+                                        <label className="text-xs text-neutral-500 uppercase">Type</label>
                                         <div className="mt-1">{getTypeBadge(selectedInvoice.type)}</div>
                                     </div>
                                     <div>
-                                        <label className="text-xs text-gray-500 uppercase">Status</label>
+                                        <label className="text-xs text-neutral-500 uppercase">Status</label>
                                         <div className="mt-1">{getStatusBadge(selectedInvoice.payment_status)}</div>
                                     </div>
                                 </div>
 
                                 <div className="border-t pt-4">
-                                    <h4 className="font-medium text-gray-900 mb-3">Bill Summary</h4>
+                                    <h4 className="font-medium text-neutral-900 mb-3">Bill Summary</h4>
                                     <div className="space-y-2">
                                         <div className="flex justify-between">
-                                            <span className="text-gray-600">Subtotal ({selectedInvoice.items_count} items)</span>
-                                            <span className="text-gray-900">{formatCurrency(selectedInvoice.subtotal)}</span>
+                                            <span className="text-neutral-600">Subtotal ({selectedInvoice.items_count} items)</span>
+                                            <span className="text-neutral-900">{formatCurrency(selectedInvoice.subtotal)}</span>
                                         </div>
                                         {selectedInvoice.discount > 0 && (
                                             <div className="flex justify-between text-green-600">
@@ -397,14 +397,14 @@ export const PharmacistBilling: React.FC = () => {
 
                                 {selectedInvoice.payment_method && (
                                     <div className="border-t pt-4 mt-4">
-                                        <div className="flex items-center gap-2 text-gray-600">
+                                        <div className="flex items-center gap-2 text-neutral-600">
                                             <CreditCard className="w-4 h-4" />
                                             <span>Payment Method: {selectedInvoice.payment_method}</span>
                                         </div>
                                     </div>
                                 )}
 
-                                <div className="text-sm text-gray-500 mt-4">
+                                <div className="text-sm text-neutral-500 mt-4">
                                     <p>Created by: {selectedInvoice.created_by}</p>
                                     <p>Date: {new Date(selectedInvoice.created_at).toLocaleString()}</p>
                                 </div>
@@ -412,7 +412,7 @@ export const PharmacistBilling: React.FC = () => {
                             <div className="p-4 border-t flex justify-end gap-3">
                                 <button
                                     onClick={() => setSelectedInvoice(null)}
-                                    className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50"
+                                    className="px-4 py-2 text-neutral-600 border border-neutral-300 rounded-lg hover:bg-neutral-50"
                                 >
                                     Close
                                 </button>

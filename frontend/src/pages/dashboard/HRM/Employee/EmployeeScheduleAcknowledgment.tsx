@@ -60,7 +60,7 @@ const EmployeeScheduleAcknowledgment: React.FC = () => {
     const SidebarMenu = () => (
         <nav className="space-y-4">
             <div className="px-4 py-2">
-                <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">HR Self-Service</h2>
+                <h2 className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">HR Self-Service</h2>
             </div>
             <ul className="space-y-1 px-2">
                 {sidebarItems.map((item, index) => (
@@ -69,8 +69,8 @@ const EmployeeScheduleAcknowledgment: React.FC = () => {
                             onClick={() => navigate(item.path)}
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                                 location.pathname === item.path
-                                    ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-md'
-                                    : 'text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
+                                    ? 'bg-gradient-to-r from-emerald-500 to-primary-500 text-white shadow-md'
+                                    : 'text-neutral-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
                             }`}
                         >
                             <span className="flex-shrink-0">{item.icon}</span>
@@ -243,7 +243,7 @@ const EmployeeScheduleAcknowledgment: React.FC = () => {
                                 {schedule.shift_code} Shift
                             </div>
                             {isPending && (
-                                <span className="text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full font-medium">
+                                <span className="text-xs bg-error-100 text-red-800 px-2 py-1 rounded-full font-medium">
                                     Pending Acknowledgment
                                 </span>
                             )}
@@ -253,13 +253,13 @@ const EmployeeScheduleAcknowledgment: React.FC = () => {
                                 </span>
                             )}
                         </div>
-                        <h3 className="text-lg font-semibold text-gray-900">
+                        <h3 className="text-lg font-semibold text-neutral-900">
                             {schedule.shift_name}
                         </h3>
                     </div>
                     <button
                         onClick={() => setExpandedId(isExpanded ? null : schedule.id)}
-                        className="text-gray-400 hover:text-gray-600"
+                        className="text-neutral-400 hover:text-neutral-600"
                     >
                         {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                     </button>
@@ -268,19 +268,19 @@ const EmployeeScheduleAcknowledgment: React.FC = () => {
                 {/* Main Details */}
                 <div className="grid grid-cols-2 gap-4 my-3">
                     <div className="flex items-center gap-2">
-                        <Clock className="w-4 h-4 text-gray-600" />
+                        <Clock className="w-4 h-4 text-neutral-600" />
                         <div>
-                            <p className="text-xs text-gray-500">Time</p>
-                            <p className="text-sm font-medium text-gray-900">
+                            <p className="text-xs text-neutral-500">Time</p>
+                            <p className="text-sm font-medium text-neutral-900">
                                 {formatTime(schedule.start_time)} - {formatTime(schedule.end_time)}
                             </p>
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-gray-600" />
+                        <Calendar className="w-4 h-4 text-neutral-600" />
                         <div>
-                            <p className="text-xs text-gray-500">Effective From</p>
-                            <p className="text-sm font-medium text-gray-900">
+                            <p className="text-xs text-neutral-500">Effective From</p>
+                            <p className="text-sm font-medium text-neutral-900">
                                 {formatDate(schedule.effective_from)}
                             </p>
                         </div>
@@ -289,13 +289,13 @@ const EmployeeScheduleAcknowledgment: React.FC = () => {
 
                 {/* Expanded Details */}
                 {isExpanded && (
-                    <div className="mt-4 pt-4 border-t border-gray-300">
+                    <div className="mt-4 pt-4 border-t border-neutral-300">
                         <div className="space-y-3">
                             <div className="flex items-center gap-2">
-                                <Building2 className="w-4 h-4 text-gray-600" />
+                                <Building2 className="w-4 h-4 text-neutral-600" />
                                 <div className="flex-1">
-                                    <p className="text-xs text-gray-500">Assigned Branch</p>
-                                    <p className="text-sm font-medium text-gray-900">
+                                    <p className="text-xs text-neutral-500">Assigned Branch</p>
+                                    <p className="text-sm font-medium text-neutral-900">
                                         {getBranchName(schedule.branch_id)}
                                     </p>
                                 </div>
@@ -303,10 +303,10 @@ const EmployeeScheduleAcknowledgment: React.FC = () => {
 
                             {schedule.effective_to && (
                                 <div className="flex items-center gap-2">
-                                    <Calendar className="w-4 h-4 text-gray-600" />
+                                    <Calendar className="w-4 h-4 text-neutral-600" />
                                     <div className="flex-1">
-                                        <p className="text-xs text-gray-500">Effective Until</p>
-                                        <p className="text-sm font-medium text-gray-900">
+                                        <p className="text-xs text-neutral-500">Effective Until</p>
+                                        <p className="text-sm font-medium text-neutral-900">
                                             {formatDate(schedule.effective_to)}
                                         </p>
                                     </div>
@@ -314,9 +314,9 @@ const EmployeeScheduleAcknowledgment: React.FC = () => {
                             )}
 
                             {schedule.notes && (
-                                <div className="mt-3 p-3 bg-gray-100 rounded border border-gray-200">
-                                    <p className="text-xs text-gray-600 font-medium mb-1">Notes</p>
-                                    <p className="text-sm text-gray-700">{schedule.notes}</p>
+                                <div className="mt-3 p-3 bg-neutral-100 rounded border border-neutral-200">
+                                    <p className="text-xs text-neutral-600 font-medium mb-1">Notes</p>
+                                    <p className="text-sm text-neutral-700">{schedule.notes}</p>
                                 </div>
                             )}
 
@@ -337,7 +337,7 @@ const EmployeeScheduleAcknowledgment: React.FC = () => {
                         disabled={acknowledging === schedule.id}
                         className={`w-full mt-4 px-4 py-2 rounded-lg font-medium transition-all flex items-center justify-center gap-2 ${
                             acknowledging === schedule.id
-                                ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                                ? 'bg-neutral-300 text-neutral-600 cursor-not-allowed'
                                 : 'bg-green-600 text-white hover:bg-green-700 active:scale-95'
                         }`}
                     >
@@ -365,21 +365,21 @@ const EmployeeScheduleAcknowledgment: React.FC = () => {
             sidebarContent={<SidebarMenu />}
             userGender={userGender}
         >
-            <div className="min-h-screen bg-gray-50 p-6">
+            <div className="min-h-screen bg-neutral-50 p-6">
                 <div className="max-w-2xl mx-auto">
                     {/* Header */}
                     <div className="mb-8">
-                        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                        <h1 className="text-3xl font-bold text-neutral-900 mb-2">
                             Schedule Assignments
                         </h1>
-                        <p className="text-gray-600">
+                        <p className="text-neutral-600">
                             Review and acknowledge your assigned work schedules
                         </p>
                     </div>
 
                     {loading ? (
                         <div className="flex items-center justify-center py-12">
-                            <Loader className="w-8 h-8 animate-spin text-blue-600" />
+                            <Loader className="w-8 h-8 animate-spin text-primary-500" />
                         </div>
                     ) : (
                         <div>
@@ -388,7 +388,7 @@ const EmployeeScheduleAcknowledgment: React.FC = () => {
                                 <div className="mb-8">
                                     <div className="flex items-center gap-2 mb-4">
                                         <AlertCircle className="w-5 h-5 text-yellow-600" />
-                                        <h2 className="text-xl font-bold text-gray-900">
+                                        <h2 className="text-xl font-bold text-neutral-900">
                                             Pending Acknowledgment ({pendingSchedules.length})
                                         </h2>
                                     </div>
@@ -409,7 +409,7 @@ const EmployeeScheduleAcknowledgment: React.FC = () => {
                                 <div className="mb-8">
                                     <div className="flex items-center gap-2 mb-4">
                                         <CheckCircle className="w-5 h-5 text-green-600" />
-                                        <h2 className="text-xl font-bold text-gray-900">
+                                        <h2 className="text-xl font-bold text-neutral-900">
                                             Acknowledged Schedules ({acknowledgedSchedules.length})
                                         </h2>
                                     </div>
@@ -427,12 +427,12 @@ const EmployeeScheduleAcknowledgment: React.FC = () => {
 
                             {/* Empty State */}
                             {pendingSchedules.length === 0 && acknowledgedSchedules.length === 0 && (
-                                <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
-                                    <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                                <div className="text-center py-12 bg-white rounded-lg border border-neutral-200">
+                                    <Calendar className="w-12 h-12 text-neutral-400 mx-auto mb-4" />
+                                    <h3 className="text-lg font-semibold text-neutral-900 mb-2">
                                         No Schedule Assignments
                                     </h3>
-                                    <p className="text-gray-600">
+                                    <p className="text-neutral-600">
                                         You don't have any assigned schedules yet. Check back later for new assignments.
                                     </p>
                                 </div>

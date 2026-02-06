@@ -2,7 +2,7 @@ import React from "react";
 
 const PatientAppointmentScheduleTableHeader: React.FC = () => {
     return (
-        <thead className="bg-gradient-to-r from-blue-600 to-blue-400">
+        <thead className="bg-gradient-to-r from-primary-500 to-blue-400">
             <tr>
                 <th className="p-4 text-left text-white font-semibold">
                     Slot No

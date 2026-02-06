@@ -117,17 +117,17 @@ export const EmployeeRecords: React.FC = () => {
 
     const getFileIcon = (type: string) => {
         switch (type) {
-            case 'pdf': return <FileText className="w-8 h-8 text-red-500" />;
-            case 'doc': return <File className="w-8 h-8 text-blue-500" />;
+            case 'pdf': return <FileText className="w-8 h-8 text-error-500" />;
+            case 'doc': return <File className="w-8 h-8 text-primary-500" />;
             case 'image': return <FileImage className="w-8 h-8 text-green-500" />;
-            default: return <File className="w-8 h-8 text-gray-500" />;
+            default: return <File className="w-8 h-8 text-neutral-500" />;
         }
     };
 
     const SidebarMenu = () => (
         <nav className="py-4">
             <div className="px-4 mb-4">
-                <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Navigation</h2>
+                <h2 className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Navigation</h2>
             </div>
             <ul className="space-y-1 px-2">
                 {BranchAdminMenuItems.map((item, index) => (
@@ -135,8 +135,8 @@ export const EmployeeRecords: React.FC = () => {
                         <button
                             onClick={() => navigate(item.path)}
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${item.path === '/branch-admin/hrm'
-                                    ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-md'
-                                    : 'text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
+                                    ? 'bg-gradient-to-r from-emerald-500 to-primary-500 text-white shadow-md'
+                                    : 'text-neutral-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
                                 }`}
                         >
                             <span className="flex-shrink-0">{item.icon}</span>
@@ -170,18 +170,18 @@ export const EmployeeRecords: React.FC = () => {
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => navigate('/branch-admin/hrm')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ChevronLeft className="w-5 h-5 text-gray-600" />
+                            <ChevronLeft className="w-5 h-5 text-neutral-600" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">Employee Records</h1>
-                            <p className="text-gray-500">Manage documents and work history</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">Employee Records</h1>
+                            <p className="text-neutral-500">Manage documents and work history</p>
                         </div>
                     </div>
                     <button
                         onClick={() => setShowUploadModal(true)}
-                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:opacity-90"
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:opacity-90"
                     >
                         <Upload className="w-4 h-4" />
                         Upload Document
@@ -190,21 +190,21 @@ export const EmployeeRecords: React.FC = () => {
 
                 {/* Quick Stats */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Total Staff Records</p>
-                                <p className="text-2xl font-bold text-blue-600">{staffRecords.length}</p>
+                                <p className="text-sm text-neutral-500">Total Staff Records</p>
+                                <p className="text-2xl font-bold text-primary-500">{staffRecords.length}</p>
                             </div>
                             <div className="p-3 bg-blue-100 rounded-lg">
-                                <Users className="w-6 h-6 text-blue-600" />
+                                <Users className="w-6 h-6 text-primary-500" />
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Total Documents</p>
+                                <p className="text-sm text-neutral-500">Total Documents</p>
                                 <p className="text-2xl font-bold text-emerald-600">{staffRecords.reduce((sum, s) => sum + s.documentsCount, 0)}</p>
                             </div>
                             <div className="p-3 bg-emerald-100 rounded-lg">
@@ -212,10 +212,10 @@ export const EmployeeRecords: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Pending Updates</p>
+                                <p className="text-sm text-neutral-500">Pending Updates</p>
                                 <p className="text-2xl font-bold text-orange-600">3</p>
                             </div>
                             <div className="p-3 bg-orange-100 rounded-lg">
@@ -223,10 +223,10 @@ export const EmployeeRecords: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Active Positions</p>
+                                <p className="text-sm text-neutral-500">Active Positions</p>
                                 <p className="text-2xl font-bold text-purple-600">{workHistory.filter(w => w.status === 'current').length}</p>
                             </div>
                             <div className="p-3 bg-purple-100 rounded-lg">
@@ -241,17 +241,17 @@ export const EmployeeRecords: React.FC = () => {
                     <div className="bg-gradient-to-r from-emerald-50 to-blue-50 border border-emerald-200 rounded-xl p-4">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-blue-500 rounded-full flex items-center justify-center">
+                                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-primary-500 rounded-full flex items-center justify-center">
                                     <User className="w-6 h-6 text-white" />
                                 </div>
                                 <div>
-                                    <h3 className="font-semibold text-gray-800">{selectedStaff.name}</h3>
-                                    <p className="text-sm text-gray-600">{selectedStaff.position} • {selectedStaff.department}</p>
+                                    <h3 className="font-semibold text-neutral-800">{selectedStaff.name}</h3>
+                                    <p className="text-sm text-neutral-600">{selectedStaff.position} • {selectedStaff.department}</p>
                                 </div>
                             </div>
                             <button
                                 onClick={() => setSelectedStaff(null)}
-                                className="text-sm text-gray-500 hover:text-gray-700"
+                                className="text-sm text-neutral-500 hover:text-neutral-700"
                             >
                                 Clear Selection
                             </button>
@@ -260,8 +260,8 @@ export const EmployeeRecords: React.FC = () => {
                 )}
 
                 {/* Tabs */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-                    <div className="border-b border-gray-200">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200">
+                    <div className="border-b border-neutral-200">
                         <div className="flex overflow-x-auto">
                             {tabs.map(tab => (
                                 <button
@@ -269,7 +269,7 @@ export const EmployeeRecords: React.FC = () => {
                                     onClick={() => setActiveTab(tab.id as any)}
                                     className={`flex items-center gap-2 px-6 py-4 font-medium text-sm whitespace-nowrap border-b-2 transition-colors ${activeTab === tab.id
                                             ? 'border-emerald-500 text-emerald-600'
-                                            : 'border-transparent text-gray-500 hover:text-gray-700'
+                                            : 'border-transparent text-neutral-500 hover:text-neutral-700'
                                         }`}
                                 >
                                     {tab.icon}
@@ -284,47 +284,47 @@ export const EmployeeRecords: React.FC = () => {
                         {activeTab === 'records' && (
                             <div className="space-y-4">
                                 <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                                     <input
                                         type="text"
                                         placeholder="Search staff records..."
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
 
                                 <div className="overflow-x-auto">
                                     <table className="w-full">
-                                        <thead className="bg-gray-50">
+                                        <thead className="bg-neutral-50">
                                             <tr>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Staff</th>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Position</th>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Department</th>
-                                                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Documents</th>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Last Updated</th>
-                                                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Actions</th>
+                                                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Staff</th>
+                                                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Position</th>
+                                                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Department</th>
+                                                <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Documents</th>
+                                                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Last Updated</th>
+                                                <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200">
                                             {filteredRecords.map(record => (
-                                                <tr key={record.id} className="hover:bg-gray-50">
+                                                <tr key={record.id} className="hover:bg-neutral-50">
                                                     <td className="px-4 py-3">
                                                         <div className="flex items-center gap-3">
                                                             <div className="w-8 h-8 bg-gradient-to-br from-emerald-100 to-blue-100 rounded-full flex items-center justify-center">
                                                                 <User className="w-4 h-4 text-emerald-600" />
                                                             </div>
-                                                            <span className="font-medium text-gray-800">{record.name}</span>
+                                                            <span className="font-medium text-neutral-800">{record.name}</span>
                                                         </div>
                                                     </td>
-                                                    <td className="px-4 py-3 text-gray-600">{record.position}</td>
-                                                    <td className="px-4 py-3 text-gray-600">{record.department}</td>
+                                                    <td className="px-4 py-3 text-neutral-600">{record.position}</td>
+                                                    <td className="px-4 py-3 text-neutral-600">{record.department}</td>
                                                     <td className="px-4 py-3 text-center">
                                                         <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-sm font-medium">
                                                             {record.documentsCount}
                                                         </span>
                                                     </td>
-                                                    <td className="px-4 py-3 text-gray-600">{record.lastUpdated}</td>
+                                                    <td className="px-4 py-3 text-neutral-600">{record.lastUpdated}</td>
                                                     <td className="px-4 py-3 text-center">
                                                         <button
                                                             onClick={() => handleSelectStaff(record)}
@@ -348,7 +348,7 @@ export const EmployeeRecords: React.FC = () => {
                                     <select
                                         value={filterCategory}
                                         onChange={(e) => setFilterCategory(e.target.value)}
-                                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="all">All Categories</option>
                                         {documentCategories.map(cat => (
@@ -359,13 +359,13 @@ export const EmployeeRecords: React.FC = () => {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                     {filteredDocuments.map(doc => (
-                                        <div key={doc.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                                        <div key={doc.id} className="border border-neutral-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                                             <div className="flex items-start gap-3">
                                                 {getFileIcon(doc.type)}
                                                 <div className="flex-1 min-w-0">
-                                                    <h4 className="font-medium text-gray-800 truncate">{doc.name}</h4>
-                                                    <p className="text-sm text-gray-500">{doc.category}</p>
-                                                    <div className="flex items-center gap-2 mt-2 text-xs text-gray-400">
+                                                    <h4 className="font-medium text-neutral-800 truncate">{doc.name}</h4>
+                                                    <p className="text-sm text-neutral-500">{doc.category}</p>
+                                                    <div className="flex items-center gap-2 mt-2 text-xs text-neutral-400">
                                                         <span>{doc.size}</span>
                                                         <span>•</span>
                                                         <span>{doc.uploadedAt}</span>
@@ -373,17 +373,17 @@ export const EmployeeRecords: React.FC = () => {
                                                 </div>
                                             </div>
                                             <div className="flex justify-end gap-2 mt-3 pt-3 border-t border-gray-100">
-                                                <button className="p-1.5 hover:bg-gray-100 rounded">
-                                                    <Eye className="w-4 h-4 text-gray-500" />
+                                                <button className="p-1.5 hover:bg-neutral-100 rounded">
+                                                    <Eye className="w-4 h-4 text-neutral-500" />
                                                 </button>
-                                                <button className="p-1.5 hover:bg-gray-100 rounded">
-                                                    <Download className="w-4 h-4 text-gray-500" />
+                                                <button className="p-1.5 hover:bg-neutral-100 rounded">
+                                                    <Download className="w-4 h-4 text-neutral-500" />
                                                 </button>
                                                 <button
                                                     onClick={() => handleDeleteDocument(doc.id)}
-                                                    className="p-1.5 hover:bg-red-50 rounded"
+                                                    className="p-1.5 hover:bg-error-50 rounded"
                                                 >
-                                                    <Trash2 className="w-4 h-4 text-red-500" />
+                                                    <Trash2 className="w-4 h-4 text-error-500" />
                                                 </button>
                                             </div>
                                         </div>
@@ -391,7 +391,7 @@ export const EmployeeRecords: React.FC = () => {
                                 </div>
 
                                 {filteredDocuments.length === 0 && (
-                                    <p className="text-center text-gray-500 py-8">No documents found</p>
+                                    <p className="text-center text-neutral-500 py-8">No documents found</p>
                                 )}
                             </div>
                         )}
@@ -403,21 +403,21 @@ export const EmployeeRecords: React.FC = () => {
                                     {workHistory.map((history, index) => (
                                         <div key={history.id} className="flex gap-4 pb-6">
                                             <div className="flex flex-col items-center">
-                                                <div className={`w-4 h-4 rounded-full ${history.status === 'current' ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                                                <div className={`w-4 h-4 rounded-full ${history.status === 'current' ? 'bg-green-500' : 'bg-neutral-300'}`}></div>
                                                 {index < workHistory.length - 1 && (
-                                                    <div className="w-0.5 flex-1 bg-gray-200 mt-2"></div>
+                                                    <div className="w-0.5 flex-1 bg-neutral-200 mt-2"></div>
                                                 )}
                                             </div>
-                                            <div className={`flex-1 border rounded-lg p-4 ${history.status === 'current' ? 'border-green-300 bg-green-50' : 'border-gray-200'}`}>
+                                            <div className={`flex-1 border rounded-lg p-4 ${history.status === 'current' ? 'border-green-300 bg-green-50' : 'border-neutral-200'}`}>
                                                 <div className="flex items-start justify-between">
                                                     <div>
-                                                        <h4 className="font-semibold text-gray-800">{history.position}</h4>
-                                                        <p className="text-sm text-gray-600">{history.department}</p>
-                                                        <p className="text-sm text-gray-500 mt-1">
+                                                        <h4 className="font-semibold text-neutral-800">{history.position}</h4>
+                                                        <p className="text-sm text-neutral-600">{history.department}</p>
+                                                        <p className="text-sm text-neutral-500 mt-1">
                                                             {history.startDate} - {history.endDate || 'Present'}
                                                         </p>
                                                         {history.notes && (
-                                                            <p className="text-sm text-gray-600 mt-2 italic">{history.notes}</p>
+                                                            <p className="text-sm text-neutral-600 mt-2 italic">{history.notes}</p>
                                                         )}
                                                     </div>
                                                     {history.status === 'current' && (
@@ -438,41 +438,41 @@ export const EmployeeRecords: React.FC = () => {
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                         <div className="bg-white rounded-xl shadow-xl max-w-lg w-full mx-4 p-6">
                             <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-xl font-bold text-gray-800">Upload Document</h3>
-                                <button onClick={() => setShowUploadModal(false)} className="p-2 hover:bg-gray-100 rounded-lg">
+                                <h3 className="text-xl font-bold text-neutral-800">Upload Document</h3>
+                                <button onClick={() => setShowUploadModal(false)} className="p-2 hover:bg-neutral-100 rounded-lg">
                                     <X className="w-5 h-5" />
                                 </button>
                             </div>
                             <form className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Staff Member</label>
-                                    <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Staff Member</label>
+                                    <select className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                                         {staffRecords.map(staff => (
                                             <option key={staff.id} value={staff.id}>{staff.name}</option>
                                         ))}
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
-                                    <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Category</label>
+                                    <select className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                                         {documentCategories.map(cat => (
                                             <option key={cat} value={cat}>{cat}</option>
                                         ))}
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">File</label>
-                                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-emerald-500 transition-colors cursor-pointer">
-                                        <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                                        <p className="text-sm text-gray-500">Click to upload or drag and drop</p>
-                                        <p className="text-xs text-gray-400 mt-1">PDF, DOC, DOCX, JPG, PNG up to 10MB</p>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">File</label>
+                                    <div className="border-2 border-dashed border-neutral-300 rounded-lg p-8 text-center hover:border-emerald-500 transition-colors cursor-pointer">
+                                        <Upload className="w-8 h-8 text-neutral-400 mx-auto mb-2" />
+                                        <p className="text-sm text-neutral-500">Click to upload or drag and drop</p>
+                                        <p className="text-xs text-neutral-400 mt-1">PDF, DOC, DOCX, JPG, PNG up to 10MB</p>
                                     </div>
                                 </div>
                                 <div className="flex justify-end gap-3 pt-4">
-                                    <button type="button" onClick={() => setShowUploadModal(false)} className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                                    <button type="button" onClick={() => setShowUploadModal(false)} className="px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50">
                                         Cancel
                                     </button>
-                                    <button type="submit" className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:opacity-90">
+                                    <button type="submit" className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:opacity-90">
                                         Upload
                                     </button>
                                 </div>

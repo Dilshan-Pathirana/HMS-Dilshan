@@ -215,12 +215,12 @@ export const PharmacistDispensing: React.FC = () => {
     };
 
     return (
-        <div className="ml-0 md:ml-64 pt-24 min-h-screen bg-gray-50">
+        <div className="ml-0 md:ml-64 pt-24 min-h-screen bg-neutral-50">
             <div className="p-6">
                 {/* Header */}
                 <div className="mb-6">
-                    <h1 className="text-2xl font-bold text-gray-900">Medicine Dispensing</h1>
-                    <p className="text-gray-600">Dispense medicines against prescriptions</p>
+                    <h1 className="text-2xl font-bold text-neutral-900">Medicine Dispensing</h1>
+                    <p className="text-neutral-600">Dispense medicines against prescriptions</p>
                 </div>
 
                 {/* Stats Cards */}
@@ -228,8 +228,8 @@ export const PharmacistDispensing: React.FC = () => {
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-green-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Dispensed Today</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.dispensed_today}</p>
+                                <p className="text-sm text-neutral-600">Dispensed Today</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.dispensed_today}</p>
                             </div>
                             <CheckCircle className="w-10 h-10 text-green-500" />
                         </div>
@@ -237,28 +237,28 @@ export const PharmacistDispensing: React.FC = () => {
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-yellow-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Pending</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.pending}</p>
+                                <p className="text-sm text-neutral-600">Pending</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.pending}</p>
                             </div>
                             <Clock className="w-10 h-10 text-yellow-500" />
                         </div>
                     </div>
-                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-blue-500">
+                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-primary-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Partial Dispense</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.partial}</p>
+                                <p className="text-sm text-neutral-600">Partial Dispense</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.partial}</p>
                             </div>
-                            <Package className="w-10 h-10 text-blue-500" />
+                            <Package className="w-10 h-10 text-primary-500" />
                         </div>
                     </div>
-                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-red-500">
+                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-error-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Controlled Drugs</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.controlled_issued}</p>
+                                <p className="text-sm text-neutral-600">Controlled Drugs</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.controlled_issued}</p>
                             </div>
-                            <ShieldAlert className="w-10 h-10 text-red-500" />
+                            <ShieldAlert className="w-10 h-10 text-error-500" />
                         </div>
                     </div>
                 </div>
@@ -267,11 +267,11 @@ export const PharmacistDispensing: React.FC = () => {
                 <div className="bg-white rounded-lg shadow p-6 mb-6">
                     <div className="flex flex-col md:flex-row gap-4">
                         <div className="flex-1 relative">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
                             <input
                                 type="text"
                                 placeholder="Enter Prescription Number or Patient ID..."
-                                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                 value={prescriptionSearch}
                                 onChange={(e) => setPrescriptionSearch(e.target.value)}
                                 onKeyPress={(e) => e.key === 'Enter' && searchPrescription()}
@@ -279,7 +279,7 @@ export const PharmacistDispensing: React.FC = () => {
                         </div>
                         <button
                             onClick={searchPrescription}
-                            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+                            className="px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors flex items-center gap-2"
                         >
                             <Search className="w-5 h-5" />
                             Search
@@ -289,7 +289,7 @@ export const PharmacistDispensing: React.FC = () => {
                             className={`px-6 py-3 rounded-lg transition-colors flex items-center gap-2 ${
                                 barcodeMode 
                                     ? 'bg-green-600 text-white' 
-                                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                    : 'bg-neutral-200 text-neutral-700 hover:bg-neutral-300'
                             }`}
                         >
                             <Barcode className="w-5 h-5" />
@@ -300,16 +300,16 @@ export const PharmacistDispensing: React.FC = () => {
 
                 {/* Drug Interaction Alert */}
                 {showInteractionAlert && (
-                    <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                    <div className="bg-error-50 border border-red-200 rounded-lg p-4 mb-6">
                         <div className="flex items-start gap-3">
-                            <AlertTriangle className="w-6 h-6 text-red-600 flex-shrink-0 mt-0.5" />
+                            <AlertTriangle className="w-6 h-6 text-error-600 flex-shrink-0 mt-0.5" />
                             <div className="flex-1">
                                 <h3 className="font-semibold text-red-800">Drug Interaction / Allergy Alert</h3>
                                 <p className="text-red-700">{interactionMessage}</p>
                             </div>
                             <button
                                 onClick={() => setShowInteractionAlert(false)}
-                                className="text-red-600 hover:text-red-800"
+                                className="text-error-600 hover:text-red-800"
                             >
                                 <X className="w-5 h-5" />
                             </button>
@@ -321,13 +321,13 @@ export const PharmacistDispensing: React.FC = () => {
                 {currentPrescription ? (
                     <div className="bg-white rounded-lg shadow">
                         {/* Prescription Header */}
-                        <div className="p-6 border-b border-gray-200">
+                        <div className="p-6 border-b border-neutral-200">
                             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                                 <div>
-                                    <h2 className="text-xl font-bold text-gray-900">
+                                    <h2 className="text-xl font-bold text-neutral-900">
                                         {currentPrescription.prescription_number}
                                     </h2>
-                                    <div className="flex items-center gap-4 mt-2 text-gray-600">
+                                    <div className="flex items-center gap-4 mt-2 text-neutral-600">
                                         <span className="flex items-center gap-1">
                                             <User className="w-4 h-4" />
                                             {currentPrescription.patient_name} ({currentPrescription.patient_id})
@@ -347,7 +347,7 @@ export const PharmacistDispensing: React.FC = () => {
                                 </div>
                                 <button
                                     onClick={() => setCurrentPrescription(null)}
-                                    className="text-gray-400 hover:text-gray-600"
+                                    className="text-neutral-400 hover:text-neutral-600"
                                 >
                                     <X className="w-6 h-6" />
                                 </button>
@@ -355,9 +355,9 @@ export const PharmacistDispensing: React.FC = () => {
 
                             {currentPrescription.allergies && currentPrescription.allergies.length > 0 && (
                                 <div className="mt-4 flex items-center gap-2">
-                                    <span className="text-sm font-medium text-red-600">Known Allergies:</span>
+                                    <span className="text-sm font-medium text-error-600">Known Allergies:</span>
                                     {currentPrescription.allergies.map((allergy, idx) => (
-                                        <span key={idx} className="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">
+                                        <span key={idx} className="px-2 py-1 bg-error-100 text-red-800 text-xs rounded-full">
                                             {allergy}
                                         </span>
                                     ))}
@@ -368,17 +368,17 @@ export const PharmacistDispensing: React.FC = () => {
                         {/* Items Table */}
                         <div className="overflow-x-auto">
                             <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-gray-50">
+                                <thead className="bg-neutral-50">
                                     <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Medicine</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Dosage</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Batch</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Expiry</th>
-                                        <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Prescribed</th>
-                                        <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Available</th>
-                                        <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Dispense</th>
-                                        <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Amount</th>
-                                        <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Action</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Medicine</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Dosage</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Batch</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Expiry</th>
+                                        <th className="px-6 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Prescribed</th>
+                                        <th className="px-6 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Available</th>
+                                        <th className="px-6 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Dispense</th>
+                                        <th className="px-6 py-3 text-right text-xs font-medium text-neutral-500 uppercase">Amount</th>
+                                        <th className="px-6 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
@@ -388,23 +388,23 @@ export const PharmacistDispensing: React.FC = () => {
                                                 <div className="flex items-center gap-2">
                                                     {item.is_controlled && (
                                                         <span title="Controlled Drug">
-                                                            <ShieldAlert className="w-4 h-4 text-red-500" />
+                                                            <ShieldAlert className="w-4 h-4 text-error-500" />
                                                         </span>
                                                     )}
                                                     <div>
-                                                        <p className="font-medium text-gray-900">{item.medicine_name}</p>
-                                                        <p className="text-sm text-gray-500">{item.generic_name}</p>
+                                                        <p className="font-medium text-neutral-900">{item.medicine_name}</p>
+                                                        <p className="text-sm text-neutral-500">{item.generic_name}</p>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-600">
+                                            <td className="px-6 py-4 text-sm text-neutral-600">
                                                 {item.frequency} x {item.duration}
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-600">{item.batch_number}</td>
+                                            <td className="px-6 py-4 text-sm text-neutral-600">{item.batch_number}</td>
                                             <td className="px-6 py-4 text-sm">
                                                 <span className={new Date(item.expiry_date) < new Date(Date.now() + 90 * 24 * 60 * 60 * 1000) 
                                                     ? 'text-orange-600 font-medium' 
-                                                    : 'text-gray-600'
+                                                    : 'text-neutral-600'
                                                 }>
                                                     {item.expiry_date}
                                                 </span>
@@ -412,7 +412,7 @@ export const PharmacistDispensing: React.FC = () => {
                                             <td className="px-6 py-4 text-center font-medium">{item.quantity_prescribed}</td>
                                             <td className="px-6 py-4 text-center">
                                                 <span className={item.quantity_available < item.quantity_prescribed 
-                                                    ? 'text-red-600 font-medium' 
+                                                    ? 'text-error-600 font-medium' 
                                                     : 'text-green-600'
                                                 }>
                                                     {item.quantity_available}
@@ -422,7 +422,7 @@ export const PharmacistDispensing: React.FC = () => {
                                                 <div className="flex items-center justify-center gap-2">
                                                     <button
                                                         onClick={() => updateQuantity(item.id, -1)}
-                                                        className="p-1 rounded bg-gray-200 hover:bg-gray-300"
+                                                        className="p-1 rounded bg-neutral-200 hover:bg-neutral-300"
                                                         disabled={item.is_dispensed}
                                                     >
                                                         <Minus className="w-4 h-4" />
@@ -432,7 +432,7 @@ export const PharmacistDispensing: React.FC = () => {
                                                     </span>
                                                     <button
                                                         onClick={() => updateQuantity(item.id, 1)}
-                                                        className="p-1 rounded bg-gray-200 hover:bg-gray-300"
+                                                        className="p-1 rounded bg-neutral-200 hover:bg-neutral-300"
                                                         disabled={item.is_dispensed}
                                                     >
                                                         <Plus className="w-4 h-4" />
@@ -448,7 +448,7 @@ export const PharmacistDispensing: React.FC = () => {
                                                     className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
                                                         item.is_dispensed
                                                             ? 'bg-green-600 text-white'
-                                                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                                            : 'bg-neutral-200 text-neutral-700 hover:bg-neutral-300'
                                                     }`}
                                                 >
                                                     {item.is_dispensed ? '✓ Dispensed' : 'Mark Done'}
@@ -461,24 +461,24 @@ export const PharmacistDispensing: React.FC = () => {
                         </div>
 
                         {/* Footer with Total and Actions */}
-                        <div className="p-6 border-t border-gray-200 bg-gray-50">
+                        <div className="p-6 border-t border-neutral-200 bg-neutral-50">
                             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                                 <div className="flex items-center gap-6">
                                     <div className="text-lg">
-                                        <span className="text-gray-600">Total Items: </span>
+                                        <span className="text-neutral-600">Total Items: </span>
                                         <span className="font-bold">{currentPrescription.items.length}</span>
                                     </div>
                                     <div className="text-lg">
-                                        <span className="text-gray-600">Total Amount: </span>
+                                        <span className="text-neutral-600">Total Amount: </span>
                                         <span className="font-bold text-green-600">LKR {calculateTotal().toFixed(2)}</span>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 flex items-center gap-2">
+                                    <button className="px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-100 flex items-center gap-2">
                                         <Printer className="w-4 h-4" />
                                         Print Label
                                     </button>
-                                    <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 flex items-center gap-2">
+                                    <button className="px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-100 flex items-center gap-2">
                                         <Save className="w-4 h-4" />
                                         Save Partial
                                     </button>
@@ -496,8 +496,8 @@ export const PharmacistDispensing: React.FC = () => {
                 ) : (
                     <div className="bg-white rounded-lg shadow p-12 text-center">
                         <Pill className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                        <h3 className="text-xl font-medium text-gray-600 mb-2">No Prescription Selected</h3>
-                        <p className="text-gray-500">
+                        <h3 className="text-xl font-medium text-neutral-600 mb-2">No Prescription Selected</h3>
+                        <p className="text-neutral-500">
                             Search for a prescription by number or patient ID to start dispensing
                         </p>
                     </div>

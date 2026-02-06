@@ -62,11 +62,11 @@ const AllDoctorRelatedAppointments = () => {
 
     return (
         <div className="m-5">
-            <h1 className="text-2xl font-bold text-left mb-5 text-gray-700 dark:text-white">
+            <h1 className="text-2xl font-bold text-left mb-5 text-neutral-700 dark:text-white">
                 Doctor Schedules
             </h1>
 
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <div className="bg-white dark:bg-neutral-800 rounded-lg shadow p-6">
                 <DoctorAllAppointmentFilter
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
@@ -80,7 +80,7 @@ const AllDoctorRelatedAppointments = () => {
 
                 {isLoading ? (
                     <div className="flex justify-center items-center h-64">
-                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-500"></div>
                     </div>
                 ) : (
                     <div className="overflow-x-auto">

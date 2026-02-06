@@ -34,19 +34,19 @@ export const MedicalAssistantDashboard: React.FC = () => {
     }, []);
 
     const StatCard = ({ title, value, icon, color }: { title: string; value: number; icon: React.ReactNode; color: string; }) => (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
             <div className={`p-3 rounded-lg bg-gradient-to-br ${color} w-fit mb-4`}>{icon}</div>
-            <h3 className="text-gray-600 text-sm font-medium mb-1">{title}</h3>
-            <p className="text-3xl font-bold text-gray-800">{value}</p>
+            <h3 className="text-neutral-600 text-sm font-medium mb-1">{title}</h3>
+            <p className="text-3xl font-bold text-neutral-800">{value}</p>
         </div>
     );
 
     return (
         <DashboardLayout userName={userName} userRole="Medical Assistant" profileImage={profileImage} sidebarContent={<SidebarMenu items={MedicalAssistantMenuItems} />}>
             <div className="space-y-6">
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                     <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">Hello, {userName}!</h1>
-                    <p className="text-gray-600 mt-1">Patient support and clinical assistance.</p>
+                    <p className="text-neutral-600 mt-1">Patient support and clinical assistance.</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <StatCard title="Patients Assisted" value={stats.patientsAssisted} icon={<Users className="w-6 h-6 text-white" />} color="from-emerald-500 to-emerald-600" />
@@ -55,49 +55,49 @@ export const MedicalAssistantDashboard: React.FC = () => {
                     <StatCard title="Pending Tasks" value={stats.pendingTasks} icon={<FileText className="w-6 h-6 text-white" />} color="from-orange-500 to-orange-600" />
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">Patient Queue</h2>
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                        <h2 className="text-lg font-semibold text-neutral-800 mb-4">Patient Queue</h2>
                         <div className="space-y-3">
                             <div className="flex items-center gap-3 p-3 bg-emerald-50 rounded-lg">
                                 <div className="flex-shrink-0 w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-semibold">JD</div>
                                 <div className="flex-1">
-                                    <p className="font-medium text-gray-800">John Doe</p>
-                                    <p className="text-xs text-gray-500">Vitals pending - Room 101</p>
+                                    <p className="font-medium text-neutral-800">John Doe</p>
+                                    <p className="text-xs text-neutral-500">Vitals pending - Room 101</p>
                                 </div>
                                 <span className="px-2 py-1 bg-emerald-600 text-white text-xs rounded">Next</span>
                             </div>
                             <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
-                                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold">JS</div>
+                                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary-500 text-white flex items-center justify-center font-semibold">JS</div>
                                 <div className="flex-1">
-                                    <p className="font-medium text-gray-800">Jane Smith</p>
-                                    <p className="text-xs text-gray-500">Lab sample collection - Room 102</p>
+                                    <p className="font-medium text-neutral-800">Jane Smith</p>
+                                    <p className="text-xs text-neutral-500">Lab sample collection - Room 102</p>
                                 </div>
-                                <span className="px-2 py-1 bg-blue-600 text-white text-xs rounded">Waiting</span>
+                                <span className="px-2 py-1 bg-primary-500 text-white text-xs rounded">Waiting</span>
                             </div>
                             <div className="flex items-center gap-3 p-3 bg-purple-50 rounded-lg">
                                 <div className="flex-shrink-0 w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center font-semibold">BJ</div>
                                 <div className="flex-1">
-                                    <p className="font-medium text-gray-800">Bob Johnson</p>
-                                    <p className="text-xs text-gray-500">Pre-exam preparation - Room 103</p>
+                                    <p className="font-medium text-neutral-800">Bob Johnson</p>
+                                    <p className="text-xs text-neutral-500">Pre-exam preparation - Room 103</p>
                                 </div>
                                 <span className="px-2 py-1 bg-purple-600 text-white text-xs rounded">Waiting</span>
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h2>
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                        <h2 className="text-lg font-semibold text-neutral-800 mb-4">Quick Actions</h2>
                         <div className="space-y-3">
                             <button className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-lg hover:from-emerald-100 hover:to-blue-100 transition-all text-left">
                                 <Activity className="w-5 h-5 text-emerald-600" />
-                                <div><p className="font-medium text-gray-800">Record Vital Signs</p><p className="text-xs text-gray-500">BP, Temperature, Pulse, etc.</p></div>
+                                <div><p className="font-medium text-neutral-800">Record Vital Signs</p><p className="text-xs text-neutral-500">BP, Temperature, Pulse, etc.</p></div>
                             </button>
                             <button className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-lg hover:from-emerald-100 hover:to-blue-100 transition-all text-left">
-                                <ClipboardList className="w-5 h-5 text-blue-600" />
-                                <div><p className="font-medium text-gray-800">Collect Lab Sample</p><p className="text-xs text-gray-500">Register specimen</p></div>
+                                <ClipboardList className="w-5 h-5 text-primary-500" />
+                                <div><p className="font-medium text-neutral-800">Collect Lab Sample</p><p className="text-xs text-neutral-500">Register specimen</p></div>
                             </button>
                             <button className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-lg hover:from-emerald-100 hover:to-blue-100 transition-all text-left">
                                 <Stethoscope className="w-5 h-5 text-purple-600" />
-                                <div><p className="font-medium text-gray-800">Prepare Exam Room</p><p className="text-xs text-gray-500">Set up for next patient</p></div>
+                                <div><p className="font-medium text-neutral-800">Prepare Exam Room</p><p className="text-xs text-neutral-500">Set up for next patient</p></div>
                             </button>
                         </div>
                     </div>

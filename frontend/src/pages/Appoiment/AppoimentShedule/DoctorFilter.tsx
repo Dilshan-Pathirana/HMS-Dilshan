@@ -100,10 +100,10 @@ const DoctorFilter: React.FC<FilterProps> = ({ onApplyFilter }) => {
     };
 
     return (
-        <div className="flex items-center gap-6 p-6 bg-gray-100 shadow-md rounded-lg">
+        <div className="flex items-center gap-6 p-6 bg-neutral-100 shadow-md rounded-lg">
             <div className="flex flex-col w-full max-w-sm">
-                <label className="text-sm font-medium text-gray-700 mb-2 flex items-center">
-                    <FaUserMd className="mr-2 text-gray-500" /> DoctorSchedule
+                <label className="text-sm font-medium text-neutral-700 mb-2 flex items-center">
+                    <FaUserMd className="mr-2 text-neutral-500" /> DoctorSchedule
                 </label>
                 <MultiSelect
                     options={doctorUsersDropDownOptions}
@@ -112,13 +112,13 @@ const DoctorFilter: React.FC<FilterProps> = ({ onApplyFilter }) => {
                         setSelectedDoctors(selected.slice(-1));
                     }}
                     labelledBy="Select DoctorSchedule"
-                    className="border border-gray-300 rounded-md shadow-sm p-2"
+                    className="border border-neutral-300 rounded-md shadow-sm p-2"
                 />
             </div>
 
             <div className="flex flex-col w-full max-w-sm">
-                <label className="text-sm font-medium text-gray-700 mb-2 flex items-center">
-                    <FaHospital className="mr-2 text-gray-500" /> Specialization
+                <label className="text-sm font-medium text-neutral-700 mb-2 flex items-center">
+                    <FaHospital className="mr-2 text-neutral-500" /> Specialization
                 </label>
                 <MultiSelect
                     options={specializationOptions}
@@ -127,13 +127,13 @@ const DoctorFilter: React.FC<FilterProps> = ({ onApplyFilter }) => {
                         setSelectedSpecializations(selected.slice(-1))
                     }
                     labelledBy="Select Specialization"
-                    className="border border-gray-300 rounded-md shadow-sm p-2"
+                    className="border border-neutral-300 rounded-md shadow-sm p-2"
                 />
             </div>
 
             <div className="flex flex-col w-full max-w-sm">
-                <label className="text-sm font-medium text-gray-700 mb-2 flex items-center">
-                    <FaHospital className="mr-2 text-gray-500" />{" "}
+                <label className="text-sm font-medium text-neutral-700 mb-2 flex items-center">
+                    <FaHospital className="mr-2 text-neutral-500" />{" "}
                     Hospital/Branch
                 </label>
                 <MultiSelect
@@ -143,12 +143,12 @@ const DoctorFilter: React.FC<FilterProps> = ({ onApplyFilter }) => {
                         setSelectedBranches(selected.slice(-1))
                     }
                     labelledBy="Select Branch"
-                    className="border border-gray-300 rounded-md shadow-sm p-2"
+                    className="border border-neutral-300 rounded-md shadow-sm p-2"
                 />
             </div>
             <div className="flex flex-col w-full max-w-sm">
-                <label className="text-sm font-medium text-gray-700 mb-2 flex items-center">
-                    <FaCalendarAlt className="mr-2 text-gray-500" /> Appointment
+                <label className="text-sm font-medium text-neutral-700 mb-2 flex items-center">
+                    <FaCalendarAlt className="mr-2 text-neutral-500" /> Appointment
                     Date
                 </label>
                 <DatePicker
@@ -160,12 +160,12 @@ const DoctorFilter: React.FC<FilterProps> = ({ onApplyFilter }) => {
                     maxDate={
                         new Date(new Date().setDate(new Date().getDate() + 30))
                     }
-                    className="border border-gray-300 rounded-md shadow-sm p-2 w-full"
+                    className="border border-neutral-300 rounded-md shadow-sm p-2 w-full"
                 />
             </div>
             <button
                 onClick={handleApplyFilter}
-                className="flex items-center justify-center mt-7 bg-blue-600 text-white py-2 px-6 rounded-md shadow hover:bg-blue-700"
+                className="flex items-center justify-center mt-7 bg-primary-500 text-white py-2 px-6 rounded-md shadow hover:bg-primary-600"
             >
                 <FaSearch className="mr-2" />
                 Search

@@ -132,7 +132,7 @@ const AddSalaryModal: React.FC<AddSalaryModalProps> = ({
                     <div className="grid grid-cols-2 gap-4 mb-4">
                         {/* User and Branch Fields */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Select User
                             </label>
                             <select
@@ -140,7 +140,7 @@ const AddSalaryModal: React.FC<AddSalaryModalProps> = ({
                                 onChange={(e) =>
                                     setSelectedUser(e.target.value)
                                 }
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                             >
                                 <option value="">Select User</option>
                                 {users.map((user) => (
@@ -151,31 +151,31 @@ const AddSalaryModal: React.FC<AddSalaryModalProps> = ({
                             </select>
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Branch Name
                             </label>
                             <input
                                 type="text"
                                 value={selectedBranch}
                                 readOnly
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 focus:outline-none"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md bg-neutral-100 focus:outline-none"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Basic Salary
                             </label>
                             <input
                                 type="number"
                                 value={basicSalary}
                                 onChange={(e) => setBasicSalary(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                                 placeholder="Enter basic salary"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Allocation Amount
                             </label>
                             <input
@@ -184,31 +184,31 @@ const AddSalaryModal: React.FC<AddSalaryModalProps> = ({
                                 onChange={(e) =>
                                     setAllocationAmount(e.target.value)
                                 }
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                                 placeholder="Enter allocation amount"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Rate per Hour
                             </label>
                             <input
                                 type="number"
                                 value={rateForHour}
                                 onChange={(e) => setRateForHour(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                                 placeholder="Enter rate per hour"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Maximum Hours
                             </label>
                             <input
                                 type="number"
                                 value={maxHours}
                                 onChange={(e) => setMaxHours(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                                 placeholder="Enter maximum hours"
                             />
                         </div>
@@ -218,7 +218,7 @@ const AddSalaryModal: React.FC<AddSalaryModalProps> = ({
                         <button
                             type="button"
                             onClick={() => setShowBankDetails(!showBankDetails)}
-                            className="text-blue-600 hover:underline"
+                            className="text-primary-500 hover:underline"
                         >
                             {showBankDetails
                                 ? "Hide Bank Details"
@@ -241,20 +241,20 @@ const AddSalaryModal: React.FC<AddSalaryModalProps> = ({
                     </div>
 
                     {error && (
-                        <p className="text-red-500 text-sm mb-4">{error}</p>
+                        <p className="text-error-500 text-sm mb-4">{error}</p>
                     )}
 
                     <div className="flex justify-end">
                         <button
                             type="button"
                             onClick={closeModal}
-                            className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 mr-2"
+                            className="px-4 py-2 bg-neutral-300 text-neutral-700 rounded-md hover:bg-gray-400 mr-2"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 text-white"
+                            className="px-4 py-2 bg-primary-500 rounded-lg hover:bg-primary-600 text-white"
                         >
                             Add Salary
                         </button>

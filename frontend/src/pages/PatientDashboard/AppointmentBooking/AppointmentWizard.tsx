@@ -479,7 +479,7 @@ const AppointmentWizard: React.FC = () => {
               className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
                 currentStep >= item.step
                   ? 'bg-indigo-600 text-white'
-                  : 'bg-gray-200 text-gray-400'
+                  : 'bg-neutral-200 text-neutral-400'
               } ${currentStep === item.step ? 'ring-4 ring-indigo-200' : ''}`}
             >
               {bookingConfirmed && item.step === 4 ? (
@@ -490,7 +490,7 @@ const AppointmentWizard: React.FC = () => {
             </div>
             <span
               className={`mt-2 text-sm font-medium ${
-                currentStep >= item.step ? 'text-indigo-600' : 'text-gray-400'
+                currentStep >= item.step ? 'text-indigo-600' : 'text-neutral-400'
               }`}
             >
               {item.label}
@@ -499,7 +499,7 @@ const AppointmentWizard: React.FC = () => {
           {index < 3 && (
             <div
               className={`flex-1 h-1 mx-2 rounded ${
-                currentStep > item.step ? 'bg-indigo-600' : 'bg-gray-200'
+                currentStep > item.step ? 'bg-indigo-600' : 'bg-neutral-200'
               }`}
             />
           )}
@@ -513,8 +513,8 @@ const AppointmentWizard: React.FC = () => {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">Book an Appointment</h1>
-          <p className="text-gray-600 mt-2">Find a doctor and schedule your visit in 4 easy steps</p>
+          <h1 className="text-3xl font-bold text-neutral-800">Book an Appointment</h1>
+          <p className="text-neutral-600 mt-2">Find a doctor and schedule your visit in 4 easy steps</p>
         </div>
 
         {/* Step Indicator */}
@@ -522,13 +522,13 @@ const AppointmentWizard: React.FC = () => {
 
         {/* Error Display */}
         {error && (
-          <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4 flex items-start">
-            <FaExclamationTriangle className="text-red-500 mr-3 mt-0.5 flex-shrink-0" />
+          <div className="mb-6 bg-error-50 border border-red-200 rounded-lg p-4 flex items-start">
+            <FaExclamationTriangle className="text-error-500 mr-3 mt-0.5 flex-shrink-0" />
             <div>
               <p className="text-red-800">{error}</p>
               <button
                 onClick={() => setError(null)}
-                className="text-red-600 underline text-sm mt-1"
+                className="text-error-600 underline text-sm mt-1"
               >
                 Dismiss
               </button>
@@ -541,17 +541,17 @@ const AppointmentWizard: React.FC = () => {
           {/* Step 1: Doctor Selection */}
           {currentStep === 1 && (
             <div>
-              <h2 className="text-xl font-semibold text-gray-800 mb-6">Find Your Doctor</h2>
+              <h2 className="text-xl font-semibold text-neutral-800 mb-6">Find Your Doctor</h2>
 
               {/* Search Filters */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 {/* Doctor Name Search */}
                 <div className="relative">
-                  <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
                   <input
                     type="text"
                     placeholder="Search by doctor name..."
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                     value={searchFilters.doctorName}
                     onChange={(e) =>
                       setSearchFilters((prev) => ({ ...prev, doctorName: e.target.value }))
@@ -561,9 +561,9 @@ const AppointmentWizard: React.FC = () => {
 
                 {/* City Filter */}
                 <div className="relative">
-                  <FaMapMarkerAlt className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <FaMapMarkerAlt className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
                   <select
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-white"
+                    className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-white"
                     value={searchFilters.city}
                     onChange={(e) =>
                       setSearchFilters((prev) => ({ ...prev, city: e.target.value }))
@@ -580,9 +580,9 @@ const AppointmentWizard: React.FC = () => {
 
                 {/* Specialization Filter */}
                 <div className="relative">
-                  <FaStethoscope className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <FaStethoscope className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
                   <select
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-white"
+                    className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-white"
                     value={searchFilters.specialization}
                     onChange={(e) =>
                       setSearchFilters((prev) => ({ ...prev, specialization: e.target.value }))
@@ -620,14 +620,14 @@ const AppointmentWizard: React.FC = () => {
               {/* Doctor Results */}
               {doctors.length > 0 && (
                 <div className="mt-8">
-                  <h3 className="text-lg font-medium text-gray-700 mb-4">
+                  <h3 className="text-lg font-medium text-neutral-700 mb-4">
                     Found {doctors.length} doctor{doctors.length !== 1 ? 's' : ''}
                   </h3>
                   <div className="grid gap-4">
                     {doctors.map((doctor) => (
                       <div
                         key={doctor.doctor_id}
-                        className="border border-gray-200 rounded-xl p-4 hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer"
+                        className="border border-neutral-200 rounded-xl p-4 hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer"
                         onClick={() => handleSelectDoctor(doctor)}
                       >
                         <div className="flex items-start">
@@ -643,33 +643,33 @@ const AppointmentWizard: React.FC = () => {
                             )}
                           </div>
                           <div className="ml-4 flex-1">
-                            <h4 className="font-semibold text-gray-800 text-lg">
+                            <h4 className="font-semibold text-neutral-800 text-lg">
                               Dr. {doctor.full_name}
                             </h4>
                             <p className="text-indigo-600 text-sm">
                               {doctor.specialization || 'General Practitioner'}
                             </p>
                             {doctor.qualification && (
-                              <p className="text-gray-500 text-xs mt-1">{doctor.qualification}</p>
+                              <p className="text-neutral-500 text-xs mt-1">{doctor.qualification}</p>
                             )}
                             <div className="flex flex-wrap gap-2 mt-2">
                               {doctor.schedules.slice(0, 3).map((schedule) => (
                                 <span
                                   key={schedule.schedule_id}
-                                  className="inline-flex items-center px-2 py-1 bg-gray-100 rounded-full text-xs text-gray-600"
+                                  className="inline-flex items-center px-2 py-1 bg-neutral-100 rounded-full text-xs text-neutral-600"
                                 >
                                   <FaHospital className="mr-1" />
                                   {schedule.branch_name}
                                 </span>
                               ))}
                               {doctor.schedules.length > 3 && (
-                                <span className="text-xs text-gray-500">
+                                <span className="text-xs text-neutral-500">
                                   +{doctor.schedules.length - 3} more
                                 </span>
                               )}
                             </div>
                           </div>
-                          <FaArrowRight className="text-gray-400 ml-4" />
+                          <FaArrowRight className="text-neutral-400 ml-4" />
                         </div>
                       </div>
                     ))}
@@ -690,8 +690,8 @@ const AppointmentWizard: React.FC = () => {
                 Back to Doctor Search
               </button>
 
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">Select Branch & Date</h2>
-              <p className="text-gray-600 mb-6">
+              <h2 className="text-xl font-semibold text-neutral-800 mb-2">Select Branch & Date</h2>
+              <p className="text-neutral-600 mb-6">
                 Choose where and when you'd like to see Dr. {selectedDoctor.full_name}
               </p>
 
@@ -701,7 +701,7 @@ const AppointmentWizard: React.FC = () => {
                   <FaUser className="text-indigo-600" />
                 </div>
                 <div className="ml-4">
-                  <h4 className="font-semibold text-gray-800">Dr. {selectedDoctor.full_name}</h4>
+                  <h4 className="font-semibold text-neutral-800">Dr. {selectedDoctor.full_name}</h4>
                   <p className="text-sm text-indigo-600">
                     {selectedDoctor.specialization || 'General Practitioner'}
                   </p>
@@ -710,7 +710,7 @@ const AppointmentWizard: React.FC = () => {
 
               {/* Branch Selection */}
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-neutral-700 mb-2">
                   Select Branch
                 </label>
                 <div className="grid gap-3">
@@ -725,16 +725,16 @@ const AppointmentWizard: React.FC = () => {
                         className={`border rounded-lg p-4 cursor-pointer transition-all ${
                           selectedBranch === schedule.branch_id
                             ? 'border-indigo-500 bg-indigo-50 ring-2 ring-indigo-200'
-                            : 'border-gray-200 hover:border-indigo-300'
+                            : 'border-neutral-200 hover:border-indigo-300'
                         }`}
                         onClick={() => handleBranchSelect(schedule.branch_id)}
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center">
-                            <FaHospital className="text-gray-400 mr-3" />
+                            <FaHospital className="text-neutral-400 mr-3" />
                             <div>
-                              <p className="font-medium text-gray-800">{schedule.branch_name}</p>
-                              <p className="text-sm text-gray-500">
+                              <p className="font-medium text-neutral-800">{schedule.branch_name}</p>
+                              <p className="text-sm text-neutral-500">
                                 Available on {schedule.schedule_day}s • {schedule.start_time} -{' '}
                                 {schedule.end_time}
                               </p>
@@ -752,7 +752,7 @@ const AppointmentWizard: React.FC = () => {
               {/* Date Selection */}
               {selectedSchedule && (
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-neutral-700 mb-2">
                     Select Date
                   </label>
                   <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4 flex items-start">
@@ -769,7 +769,7 @@ const AppointmentWizard: React.FC = () => {
                         className={`p-3 rounded-lg text-center transition-all ${
                           selectedDate === dateInfo.date
                             ? 'bg-indigo-600 text-white'
-                            : 'bg-gray-100 hover:bg-indigo-100 text-gray-700'
+                            : 'bg-neutral-100 hover:bg-indigo-100 text-neutral-700'
                         }`}
                         onClick={() => handleDateSelect(dateInfo.date)}
                       >
@@ -784,7 +784,7 @@ const AppointmentWizard: React.FC = () => {
               {availabilityData && (
                 <div className="mt-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-medium text-gray-700">Available Slots</h3>
+                    <h3 className="text-lg font-medium text-neutral-700">Available Slots</h3>
                     <div className="flex items-center space-x-4 text-sm">
                       <span className="flex items-center">
                         <span className="w-3 h-3 rounded-full bg-green-500 mr-1"></span>
@@ -795,7 +795,7 @@ const AppointmentWizard: React.FC = () => {
                         Selected ({selectedSlots.length}/{MAX_SLOTS})
                       </span>
                       <span className="flex items-center">
-                        <span className="w-3 h-3 rounded-full bg-gray-300 mr-1"></span>
+                        <span className="w-3 h-3 rounded-full bg-neutral-300 mr-1"></span>
                         Booked ({availabilityData.summary.booked})
                       </span>
                     </div>
@@ -810,10 +810,10 @@ const AppointmentWizard: React.FC = () => {
                     </p>
                   </div>
 
-                  <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="bg-neutral-50 rounded-lg p-4">
                     <div className="flex items-center justify-between mb-4">
                       <div>
-                        <p className="text-sm text-gray-500">Session Time</p>
+                        <p className="text-sm text-neutral-500">Session Time</p>
                         <p className="font-medium">
                           {availabilityData.session.start_time} - {availabilityData.session.end_time}
                         </p>
@@ -821,7 +821,7 @@ const AppointmentWizard: React.FC = () => {
                       <div
                         className={`px-3 py-1 rounded-full text-sm font-medium ${
                           availabilityData.summary.available === 0
-                            ? 'bg-red-100 text-red-700'
+                            ? 'bg-error-100 text-red-700'
                             : availabilityData.summary.available <= 3
                             ? 'bg-yellow-100 text-yellow-700'
                             : 'bg-green-100 text-green-700'
@@ -851,7 +851,7 @@ const AppointmentWizard: React.FC = () => {
                                 ? 'bg-indigo-600 text-white border-2 border-indigo-700 ring-2 ring-indigo-300'
                                 : slot.is_available && !isMaxReached
                                 ? 'bg-white border-2 border-green-200 hover:border-green-500 hover:shadow cursor-pointer'
-                                : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                                : 'bg-neutral-200 text-neutral-400 cursor-not-allowed'
                             }`}
                           >
                             <p className="font-bold text-lg">#{slot.slot_number}</p>
@@ -862,7 +862,7 @@ const AppointmentWizard: React.FC = () => {
                       })}
                     </div>
 
-                    <p className="mt-4 text-xs text-gray-500 flex items-center">
+                    <p className="mt-4 text-xs text-neutral-500 flex items-center">
                       <FaInfoCircle className="mr-1" />
                       {availabilityData.disclaimer}
                     </p>
@@ -921,29 +921,29 @@ const AppointmentWizard: React.FC = () => {
                 Back to Date Selection
               </button>
 
-              <h2 className="text-xl font-semibold text-gray-800 mb-6">Confirm Your Selection</h2>
+              <h2 className="text-xl font-semibold text-neutral-800 mb-6">Confirm Your Selection</h2>
 
               {/* Appointment Summary */}
               <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-6 mb-6">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Appointment Details</h3>
+                <h3 className="text-lg font-semibold text-neutral-800 mb-4">Appointment Details</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <span className="text-sm text-gray-500">Doctor</span>
-                    <p className="font-medium text-gray-800">Dr. {selectedDoctor.full_name}</p>
+                    <span className="text-sm text-neutral-500">Doctor</span>
+                    <p className="font-medium text-neutral-800">Dr. {selectedDoctor.full_name}</p>
                   </div>
                   <div>
-                    <span className="text-sm text-gray-500">Specialization</span>
-                    <p className="font-medium text-gray-800">
+                    <span className="text-sm text-neutral-500">Specialization</span>
+                    <p className="font-medium text-neutral-800">
                       {selectedDoctor.specialization || 'General'}
                     </p>
                   </div>
                   <div>
-                    <span className="text-sm text-gray-500">Branch</span>
-                    <p className="font-medium text-gray-800">{selectedSchedule?.branch_name}</p>
+                    <span className="text-sm text-neutral-500">Branch</span>
+                    <p className="font-medium text-neutral-800">{selectedSchedule?.branch_name}</p>
                   </div>
                   <div>
-                    <span className="text-sm text-gray-500">Date</span>
-                    <p className="font-medium text-gray-800">
+                    <span className="text-sm text-neutral-500">Date</span>
+                    <p className="font-medium text-neutral-800">
                       {new Date(selectedDate).toLocaleDateString('en-US', {
                         weekday: 'long',
                         year: 'numeric',
@@ -956,7 +956,7 @@ const AppointmentWizard: React.FC = () => {
 
                 {/* Selected Slots Display */}
                 <div className="mt-4 pt-4 border-t border-indigo-200">
-                  <span className="text-sm text-gray-500">Selected Token{selectedSlots.length > 1 ? 's' : ''} ({selectedSlots.length})</span>
+                  <span className="text-sm text-neutral-500">Selected Token{selectedSlots.length > 1 ? 's' : ''} ({selectedSlots.length})</span>
                   <div className="flex flex-wrap gap-3 mt-2">
                     {selectedSlots.map((slot) => (
                       <div 
@@ -964,7 +964,7 @@ const AppointmentWizard: React.FC = () => {
                         className="bg-white rounded-lg p-3 border border-indigo-200 text-center min-w-[100px]"
                       >
                         <p className="font-bold text-2xl text-indigo-600">#{slot.slot_number}</p>
-                        <p className="text-xs text-gray-600">
+                        <p className="text-xs text-neutral-600">
                           {slot.estimated_time} - {slot.estimated_end_time}
                         </p>
                       </div>
@@ -973,7 +973,7 @@ const AppointmentWizard: React.FC = () => {
                 </div>
 
                 <div className="mt-4 pt-4 border-t border-indigo-200">
-                  <p className="text-xs text-gray-500 flex items-center">
+                  <p className="text-xs text-neutral-500 flex items-center">
                     <FaInfoCircle className="mr-1" />
                     Estimated times are approximate and may vary based on actual consultation duration.
                   </p>
@@ -982,11 +982,11 @@ const AppointmentWizard: React.FC = () => {
 
               {/* Appointment Type */}
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-neutral-700 mb-2">
                   Appointment Type
                 </label>
                 <select
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full p-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                   value={appointmentType}
                   onChange={(e) => setAppointmentType(e.target.value)}
                 >
@@ -999,11 +999,11 @@ const AppointmentWizard: React.FC = () => {
 
               {/* Notes */}
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-neutral-700 mb-2">
                   Notes for Doctor (Optional)
                 </label>
                 <textarea
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full p-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                   rows={3}
                   placeholder="Describe your symptoms or reason for visit..."
                   value={notes}
@@ -1032,26 +1032,26 @@ const AppointmentWizard: React.FC = () => {
                 Back to Details
               </button>
 
-              <h2 className="text-xl font-semibold text-gray-800 mb-6">Payment Method</h2>
+              <h2 className="text-xl font-semibold text-neutral-800 mb-6">Payment Method</h2>
 
               {/* Payment Fee Info */}
               <div className="bg-blue-50 rounded-xl p-5 mb-6 border border-blue-200">
                 <div className="flex items-start gap-3">
-                  <FaCreditCard className="text-blue-600 mt-1 flex-shrink-0" />
+                  <FaCreditCard className="text-primary-500 mt-1 flex-shrink-0" />
                   <div className="flex-1">
-                    <h3 className="font-medium text-gray-800">Appointment Booking Fee</h3>
+                    <h3 className="font-medium text-neutral-800">Appointment Booking Fee</h3>
                     <div className="mt-2 space-y-1">
-                      <div className="flex justify-between text-sm text-gray-600">
+                      <div className="flex justify-between text-sm text-neutral-600">
                         <span>Per slot fee:</span>
                         <span>Rs. {bookingFeePerSlot.toFixed(2)}</span>
                       </div>
-                      <div className="flex justify-between text-sm text-gray-600">
+                      <div className="flex justify-between text-sm text-neutral-600">
                         <span>Number of slots:</span>
                         <span>× {selectedSlots.length}</span>
                       </div>
                       <div className="flex justify-between pt-2 border-t border-blue-200">
-                        <span className="font-medium text-gray-800">Total Amount:</span>
-                        <span className="font-bold text-xl text-blue-600">
+                        <span className="font-medium text-neutral-800">Total Amount:</span>
+                        <span className="font-bold text-xl text-primary-500">
                           Rs. {(selectedSlots.length * bookingFeePerSlot).toFixed(2)}
                         </span>
                       </div>
@@ -1068,14 +1068,14 @@ const AppointmentWizard: React.FC = () => {
                     className={`border rounded-lg p-4 cursor-pointer transition-all ${
                       paymentMethod === 'cash'
                         ? 'border-indigo-500 bg-indigo-50 ring-2 ring-indigo-200'
-                        : 'border-gray-200 hover:border-indigo-300'
+                        : 'border-neutral-200 hover:border-indigo-300'
                     }`}
                     onClick={() => setPaymentMethod('cash')}
                   >
                     <div className="flex items-center">
                       <div
                         className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${
-                          paymentMethod === 'cash' ? 'border-indigo-600' : 'border-gray-300'
+                          paymentMethod === 'cash' ? 'border-indigo-600' : 'border-neutral-300'
                         }`}
                       >
                         {paymentMethod === 'cash' && (
@@ -1084,8 +1084,8 @@ const AppointmentWizard: React.FC = () => {
                       </div>
                       <FaMoneyBillWave className="text-green-600 mr-3 text-xl" />
                       <div>
-                        <p className="font-medium text-gray-800">Pay at Clinic</p>
-                        <p className="text-sm text-gray-500">Patient pays cash when they arrive</p>
+                        <p className="font-medium text-neutral-800">Pay at Clinic</p>
+                        <p className="text-sm text-neutral-500">Patient pays cash when they arrive</p>
                       </div>
                     </div>
                   </div>
@@ -1096,26 +1096,26 @@ const AppointmentWizard: React.FC = () => {
                   className={`border rounded-lg p-4 cursor-pointer transition-all ${
                     paymentMethod === 'payhere'
                       ? 'border-indigo-500 bg-indigo-50 ring-2 ring-indigo-200'
-                      : 'border-gray-200 hover:border-indigo-300'
+                      : 'border-neutral-200 hover:border-indigo-300'
                   }`}
                   onClick={() => setPaymentMethod('payhere')}
                 >
                   <div className="flex items-center">
                     <div
                       className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${
-                        paymentMethod === 'payhere' ? 'border-indigo-600' : 'border-gray-300'
+                        paymentMethod === 'payhere' ? 'border-indigo-600' : 'border-neutral-300'
                       }`}
                     >
                       {paymentMethod === 'payhere' && (
                         <div className="w-3 h-3 rounded-full bg-indigo-600"></div>
                       )}
                     </div>
-                    <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-blue-500 rounded-lg flex items-center justify-center mr-3">
+                    <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-primary-500 rounded-lg flex items-center justify-center mr-3">
                       <FaLock className="text-white text-sm" />
                     </div>
                     <div>
-                      <p className="font-medium text-gray-800">Pay with PayHere</p>
-                      <p className="text-sm text-gray-500">Secure online payment (Cards, Bank Transfer, eZ Cash)</p>
+                      <p className="font-medium text-neutral-800">Pay with PayHere</p>
+                      <p className="text-sm text-neutral-500">Secure online payment (Cards, Bank Transfer, eZ Cash)</p>
                     </div>
                   </div>
                 </div>
@@ -1145,9 +1145,9 @@ const AppointmentWizard: React.FC = () => {
                     id="termsAccepted"
                     checked={termsAccepted}
                     onChange={(e) => setTermsAccepted(e.target.checked)}
-                    className="mt-1 w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 cursor-pointer"
+                    className="mt-1 w-5 h-5 text-indigo-600 border-neutral-300 rounded focus:ring-indigo-500 cursor-pointer"
                   />
-                  <label htmlFor="termsAccepted" className="text-sm text-gray-700 cursor-pointer">
+                  <label htmlFor="termsAccepted" className="text-sm text-neutral-700 cursor-pointer">
                     I have read and agree to the{' '}
                     <button
                       type="button"
@@ -1156,7 +1156,7 @@ const AppointmentWizard: React.FC = () => {
                     >
                       Payment Terms & Conditions
                     </button>{' '}
-                    including the <span className="font-semibold text-red-600">Non-Refundable Policy</span> for appointment bookings.
+                    including the <span className="font-semibold text-error-600">Non-Refundable Policy</span> for appointment bookings.
                   </label>
                 </div>
               </div>
@@ -1190,13 +1190,13 @@ const AppointmentWizard: React.FC = () => {
               {paymentProcessing && (
                 <div className="mt-6 bg-blue-50 border border-blue-200 rounded-xl p-6 text-center">
                   <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <FaSpinner className="text-blue-600 text-2xl animate-spin" />
+                    <FaSpinner className="text-primary-500 text-2xl animate-spin" />
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-800 mb-2">Payment In Progress</h3>
-                  <p className="text-gray-600 mb-4">
+                  <h3 className="text-lg font-semibold text-neutral-800 mb-2">Payment In Progress</h3>
+                  <p className="text-neutral-600 mb-4">
                     A new window has opened for payment. Please complete your payment on PayHere.
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-neutral-500">
                     After successful payment, you will be redirected to the confirmation page.
                     <br />
                     <strong>Do not close this window.</strong>
@@ -1218,12 +1218,12 @@ const AppointmentWizard: React.FC = () => {
                 <FaCheck className="text-green-600 text-3xl" />
               </div>
 
-              <h2 className="text-2xl font-bold text-gray-800 mb-2">
+              <h2 className="text-2xl font-bold text-neutral-800 mb-2">
                 {bookingResult.bookings && bookingResult.bookings.length > 1 
                   ? `${bookingResult.bookings.length} Appointments Confirmed!` 
                   : 'Appointment Confirmed!'}
               </h2>
-              <p className="text-gray-600 mb-8">
+              <p className="text-neutral-600 mb-8">
                 Your appointment{bookingResult.bookings && bookingResult.bookings.length > 1 ? 's have' : ' has'} been successfully booked.
               </p>
 
@@ -1232,7 +1232,7 @@ const AppointmentWizard: React.FC = () => {
                 {bookingResult.bookings && bookingResult.bookings.length > 1 ? (
                   <>
                     <div className="text-center mb-4">
-                      <span className="text-sm text-gray-500">Your Token Numbers</span>
+                      <span className="text-sm text-neutral-500">Your Token Numbers</span>
                       <div className="flex flex-wrap justify-center gap-3 mt-2">
                         {bookingResult.bookings.map((booking) => (
                           <div 
@@ -1240,28 +1240,28 @@ const AppointmentWizard: React.FC = () => {
                             className="bg-white rounded-lg px-4 py-3 border border-indigo-200 text-center"
                           >
                             <p className="text-3xl font-bold text-indigo-600">#{booking.token_number}</p>
-                            <p className="text-xs text-gray-500">{booking.appointment_time}</p>
+                            <p className="text-xs text-neutral-500">{booking.appointment_time}</p>
                           </div>
                         ))}
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4 pt-4 border-t border-indigo-200">
                       <div>
-                        <span className="text-sm text-gray-500">Date</span>
-                        <p className="font-medium text-gray-800">{bookingResult.appointment_date}</p>
+                        <span className="text-sm text-neutral-500">Date</span>
+                        <p className="font-medium text-neutral-800">{bookingResult.appointment_date}</p>
                       </div>
                       <div>
-                        <span className="text-sm text-gray-500">Total Slots</span>
-                        <p className="font-medium text-gray-800">{bookingResult.bookings.length}</p>
+                        <span className="text-sm text-neutral-500">Total Slots</span>
+                        <p className="font-medium text-neutral-800">{bookingResult.bookings.length}</p>
                       </div>
                       <div>
-                        <span className="text-sm text-gray-500">Status</span>
+                        <span className="text-sm text-neutral-500">Status</span>
                         <p className="font-medium text-green-600 capitalize">
                           {bookingResult.status.replace('_', ' ')}
                         </p>
                       </div>
                       <div>
-                        <span className="text-sm text-gray-500">Total Amount</span>
+                        <span className="text-sm text-neutral-500">Total Amount</span>
                         <p className="font-medium text-indigo-600">
                           Rs. {bookingResult.total_amount?.toFixed(2) || (bookingResult.bookings.length * bookingFeePerSlot).toFixed(2)}
                         </p>
@@ -1272,27 +1272,27 @@ const AppointmentWizard: React.FC = () => {
                   /* Single booking display (backwards compatible) */
                   <>
                     <div className="text-center mb-4">
-                      <span className="text-sm text-gray-500">Your Token Number</span>
+                      <span className="text-sm text-neutral-500">Your Token Number</span>
                       <p className="text-5xl font-bold text-indigo-600">#{bookingResult.token_number}</p>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <span className="text-sm text-gray-500">Date</span>
-                        <p className="font-medium text-gray-800">{bookingResult.appointment_date}</p>
+                        <span className="text-sm text-neutral-500">Date</span>
+                        <p className="font-medium text-neutral-800">{bookingResult.appointment_date}</p>
                       </div>
                       <div>
-                        <span className="text-sm text-gray-500">Time</span>
-                        <p className="font-medium text-gray-800">{bookingResult.appointment_time}</p>
+                        <span className="text-sm text-neutral-500">Time</span>
+                        <p className="font-medium text-neutral-800">{bookingResult.appointment_time}</p>
                       </div>
                       <div>
-                        <span className="text-sm text-gray-500">Status</span>
+                        <span className="text-sm text-neutral-500">Status</span>
                         <p className="font-medium text-green-600 capitalize">
                           {bookingResult.status.replace('_', ' ')}
                         </p>
                       </div>
                       <div>
-                        <span className="text-sm text-gray-500">Booking ID</span>
-                        <p className="font-medium text-gray-800 text-xs">{bookingResult.id.slice(0, 8)}...</p>
+                        <span className="text-sm text-neutral-500">Booking ID</span>
+                        <p className="font-medium text-neutral-800 text-xs">{bookingResult.id.slice(0, 8)}...</p>
                       </div>
                     </div>
                   </>
@@ -1307,7 +1307,7 @@ const AppointmentWizard: React.FC = () => {
                   Book Another Appointment
                 </button>
                 <button
-                  className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="px-6 py-3 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors"
                   onClick={() => navigate('/patient-dashboard/my-appointments')}
                 >
                   View My Appointments
@@ -1331,7 +1331,7 @@ const AppointmentWizard: React.FC = () => {
             {/* Modal Body */}
             <div className="p-6 overflow-y-auto max-h-[60vh]">
               {/* Non-Refundable Policy */}
-              <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+              <div className="bg-error-50 border-l-4 border-error-500 p-4 mb-6">
                 <h3 className="text-lg font-bold text-red-800 flex items-center">
                   <FaInfoCircle className="mr-2" />
                   Non-Refundable Policy
@@ -1349,9 +1349,9 @@ const AppointmentWizard: React.FC = () => {
               </div>
 
               {/* General Terms */}
-              <div className="space-y-4 text-gray-700 text-sm">
+              <div className="space-y-4 text-neutral-700 text-sm">
                 <div>
-                  <h4 className="font-semibold text-gray-800 mb-2">1. Booking Confirmation</h4>
+                  <h4 className="font-semibold text-neutral-800 mb-2">1. Booking Confirmation</h4>
                   <p>
                     Your appointment is confirmed only after successful payment processing. You will receive a 
                     confirmation with your token number and estimated consultation time.
@@ -1359,7 +1359,7 @@ const AppointmentWizard: React.FC = () => {
                 </div>
 
                 <div>
-                  <h4 className="font-semibold text-gray-800 mb-2">2. Appointment Timing</h4>
+                  <h4 className="font-semibold text-neutral-800 mb-2">2. Appointment Timing</h4>
                   <p>
                     The estimated time provided is approximate and may vary based on the actual consultation duration 
                     of previous patients. Please arrive at least 15 minutes before your estimated time.
@@ -1367,7 +1367,7 @@ const AppointmentWizard: React.FC = () => {
                 </div>
 
                 <div>
-                  <h4 className="font-semibold text-gray-800 mb-2">3. Rescheduling Policy</h4>
+                  <h4 className="font-semibold text-neutral-800 mb-2">3. Rescheduling Policy</h4>
                   <p>
                     Rescheduling requests must be made at least 24 hours before the appointment time. Rescheduling 
                     is subject to doctor availability and may require an additional fee.
@@ -1375,7 +1375,7 @@ const AppointmentWizard: React.FC = () => {
                 </div>
 
                 <div>
-                  <h4 className="font-semibold text-gray-800 mb-2">4. Doctor Unavailability</h4>
+                  <h4 className="font-semibold text-neutral-800 mb-2">4. Doctor Unavailability</h4>
                   <p>
                     In the rare event that the doctor is unavailable due to emergency or unforeseen circumstances, 
                     you will be offered a rescheduled appointment or a credit for future bookings.
@@ -1383,7 +1383,7 @@ const AppointmentWizard: React.FC = () => {
                 </div>
 
                 <div>
-                  <h4 className="font-semibold text-gray-800 mb-2">5. Consultation Fees</h4>
+                  <h4 className="font-semibold text-neutral-800 mb-2">5. Consultation Fees</h4>
                   <p>
                     The booking fee covers the appointment slot reservation only. The doctor's consultation fee 
                     and any additional charges for treatments, medications, or investigations are payable separately.
@@ -1391,7 +1391,7 @@ const AppointmentWizard: React.FC = () => {
                 </div>
 
                 <div>
-                  <h4 className="font-semibold text-gray-800 mb-2">6. Payment Security</h4>
+                  <h4 className="font-semibold text-neutral-800 mb-2">6. Payment Security</h4>
                   <p>
                     All payments are processed through PayHere, a secure payment gateway. Your payment information 
                     is encrypted and never stored on our servers.
@@ -1399,7 +1399,7 @@ const AppointmentWizard: React.FC = () => {
                 </div>
 
                 <div>
-                  <h4 className="font-semibold text-gray-800 mb-2">7. Medical Disclaimer</h4>
+                  <h4 className="font-semibold text-neutral-800 mb-2">7. Medical Disclaimer</h4>
                   <p>
                     This booking system is for appointment scheduling only. It does not constitute medical advice. 
                     In case of medical emergencies, please call emergency services immediately.
@@ -1417,9 +1417,9 @@ const AppointmentWizard: React.FC = () => {
             </div>
 
             {/* Modal Footer */}
-            <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end gap-3">
+            <div className="px-6 py-4 bg-neutral-50 border-t border-neutral-200 flex justify-end gap-3">
               <button
-                className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+                className="px-6 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-100 transition-colors"
                 onClick={() => setShowTermsModal(false)}
               >
                 Close

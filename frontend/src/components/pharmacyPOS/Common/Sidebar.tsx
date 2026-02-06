@@ -25,7 +25,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen }) => {
             <div className="flex items-center justify-center h-16 pb-16 pt-5">
                 <Link
                     to="/"
-                    className="text-2xl font-semibold text-blue-600 mt-28 py-10 pb-24 hover:opacity-80 transition-opacity"
+                    className="text-2xl font-semibold text-primary-500 mt-28 py-10 pb-24 hover:opacity-80 transition-opacity"
                 >
                     <img
                         src={CureLogo}

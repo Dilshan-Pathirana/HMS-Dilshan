@@ -52,10 +52,10 @@ const ForgotPassword: React.FC = () => {
             <NavBar />
             <section className="flex justify-center mb-32 px-4 md:px-6">
                 <div className="w-full max-w-md mt-20 pt-24 pb-12">
-                    <h2 className="text-3xl font-semibold text-gray-800 mb-4">
+                    <h2 className="text-3xl font-semibold text-neutral-800 mb-4">
                         Forgot your password?
                     </h2>
-                    <p className="text-gray-600 mb-6">
+                    <p className="text-neutral-600 mb-6">
                         Enter your phone number and we'll send you a new
                         password into the that number.
                     </p>
@@ -63,7 +63,7 @@ const ForgotPassword: React.FC = () => {
                         <div>
                             <label
                                 htmlFor="phone"
-                                className="block text-sm font-medium text-gray-700 mb-1"
+                                className="block text-sm font-medium text-neutral-700 mb-1"
                             >
                                 Phone Number
                             </label>
@@ -73,18 +73,18 @@ const ForgotPassword: React.FC = () => {
                                 name="phone"
                                 onChange={handleInputFieldChange}
                                 required
-                                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-4 py-2 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
                                 placeholder="07XXXXXXXX"
                             />
                             {error && (
-                                <p className="text-red-500 text-sm mt-1">
+                                <p className="text-error-500 text-sm mt-1">
                                     {error}
                                 </p>
                             )}
                         </div>
                         <button
                             type="submit"
-                            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300"
+                            className="w-full bg-primary-500 text-white py-2 px-4 rounded-md hover:bg-primary-600 transition duration-300"
                         >
                             Request New Password
                         </button>

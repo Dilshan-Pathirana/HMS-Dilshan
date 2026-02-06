@@ -254,32 +254,32 @@ export const PurchaseRequest: React.FC = () => {
     };
 
     const getStockStatusColor = (current: number, reorder: number) => {
-        if (current === 0) return 'text-red-600 bg-red-50';
+        if (current === 0) return 'text-error-600 bg-error-50';
         if (current <= reorder) return 'text-orange-600 bg-orange-50';
         return 'text-green-600 bg-green-50';
     };
 
     const getPriorityColor = (p: string) => {
-        if (p === 'Emergency') return 'bg-red-500';
+        if (p === 'Emergency') return 'bg-error-500';
         if (p === 'Urgent') return 'bg-orange-500';
-        return 'bg-blue-500';
+        return 'bg-primary-500';
     };
 
     return (
-        <div className="ml-0 md:ml-64 pt-24 min-h-screen bg-gray-50 p-6">
+        <div className="ml-0 md:ml-64 pt-24 min-h-screen bg-neutral-50 p-6">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
                     <div className="flex items-center justify-between mb-4">
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-900">Create Purchase Request</h1>
-                            <p className="text-sm text-gray-600">Request medicines and supplies for your pharmacy</p>
+                            <h1 className="text-2xl font-bold text-neutral-900">Create Purchase Request</h1>
+                            <p className="text-sm text-neutral-600">Request medicines and supplies for your pharmacy</p>
                         </div>
                         <div className="flex items-center gap-3">
                             <select
                                 value={priority}
                                 onChange={(e) => setPriority(e.target.value as any)}
-                                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                             >
                                 <option value="Normal">Normal Priority</option>
                                 <option value="Urgent">Urgent</option>
@@ -333,38 +333,38 @@ export const PurchaseRequest: React.FC = () => {
                         <div className="lg:col-span-1">
                             <div className="bg-white rounded-lg shadow-sm p-4">
                                 <div className="flex items-center justify-between mb-4">
-                                    <h2 className="font-semibold text-gray-900">Reorder Suggestions</h2>
+                                    <h2 className="font-semibold text-neutral-900">Reorder Suggestions</h2>
                                     <button
                                         onClick={() => setShowSuggestions(false)}
-                                        className="text-sm text-gray-500 hover:text-gray-700"
+                                        className="text-sm text-neutral-500 hover:text-neutral-700"
                                     >
                                         Hide
                                     </button>
                                 </div>
                                 <div className="space-y-2 max-h-[600px] overflow-y-auto">
                                     {suggestedItems.map((item: any) => (
-                                        <div key={item.id} className="border border-gray-200 rounded-lg p-3 hover:border-blue-300 transition-colors">
+                                        <div key={item.id} className="border border-neutral-200 rounded-lg p-3 hover:border-blue-300 transition-colors">
                                             <div className="flex items-start justify-between mb-2">
                                                 <div className="flex-1">
-                                                    <p className="font-medium text-gray-900 text-sm">{item.item_name}</p>
+                                                    <p className="font-medium text-neutral-900 text-sm">{item.item_name}</p>
                                                     <div className="flex items-center gap-2 mt-1">
                                                         <span className={`px-2 py-0.5 rounded text-xs font-medium ${getStockStatusColor(item.current_stock, item.reorder_level)}`}>
                                                             Stock: {item.current_stock}
                                                         </span>
-                                                        <span className="text-xs text-gray-500">
+                                                        <span className="text-xs text-neutral-500">
                                                             Reorder: {item.reorder_level}
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <button
                                                     onClick={() => addItemToPR(item, item.suggested_quantity)}
-                                                    className="p-1 text-blue-600 hover:bg-blue-50 rounded"
+                                                    className="p-1 text-primary-500 hover:bg-blue-50 rounded"
                                                     title="Add to PR"
                                                 >
                                                     <Plus className="w-5 h-5" />
                                                 </button>
                                             </div>
-                                            <div className="text-xs text-gray-600 space-y-1">
+                                            <div className="text-xs text-neutral-600 space-y-1">
                                                 <p>Monthly Usage: {item.monthly_consumption} {item.unit}</p>
                                                 <p className="font-medium text-green-600">Suggested Qty: {item.suggested_quantity} {item.unit}</p>
                                                 {item.last_supplier && (
@@ -382,11 +382,11 @@ export const PurchaseRequest: React.FC = () => {
                     <div className={showSuggestions ? 'lg:col-span-2' : 'lg:col-span-3'}>
                         <div className="bg-white rounded-lg shadow-sm p-6">
                             <div className="flex items-center justify-between mb-4">
-                                <h2 className="font-semibold text-gray-900">Purchase Request Items</h2>
+                                <h2 className="font-semibold text-neutral-900">Purchase Request Items</h2>
                                 {!showSuggestions && suggestedItems.length > 0 && (
                                     <button
                                         onClick={() => setShowSuggestions(true)}
-                                        className="text-sm text-blue-600 hover:text-blue-700"
+                                        className="text-sm text-primary-500 hover:text-blue-700"
                                     >
                                         Show Suggestions ({suggestedItems.length})
                                     </button>
@@ -396,46 +396,46 @@ export const PurchaseRequest: React.FC = () => {
                             {prItems.length === 0 ? (
                                 <div className="text-center py-12">
                                     <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                                    <p className="text-gray-500 mb-2">No items added yet</p>
-                                    <p className="text-sm text-gray-400">Add items from suggestions or create manually</p>
+                                    <p className="text-neutral-500 mb-2">No items added yet</p>
+                                    <p className="text-sm text-neutral-400">Add items from suggestions or create manually</p>
                                 </div>
                             ) : (
                                 <div className="space-y-4">
                                     {prItems.map((item, index) => (
-                                        <div key={index} className="border border-gray-200 rounded-lg p-4">
+                                        <div key={index} className="border border-neutral-200 rounded-lg p-4">
                                             <div className="grid grid-cols-12 gap-4">
                                                 <div className="col-span-3">
-                                                    <label className="block text-xs font-medium text-gray-700 mb-1">Item</label>
-                                                    <p className="text-sm font-medium text-gray-900">{item.item_name}</p>
-                                                    <p className="text-xs text-gray-500">Current: {item.current_stock} {item.unit}</p>
+                                                    <label className="block text-xs font-medium text-neutral-700 mb-1">Item</label>
+                                                    <p className="text-sm font-medium text-neutral-900">{item.item_name}</p>
+                                                    <p className="text-xs text-neutral-500">Current: {item.current_stock} {item.unit}</p>
                                                 </div>
                                                 <div className="col-span-2">
-                                                    <label className="block text-xs font-medium text-gray-700 mb-1">Quantity*</label>
+                                                    <label className="block text-xs font-medium text-neutral-700 mb-1">Quantity*</label>
                                                     <input
                                                         type="number"
                                                         value={item.requested_quantity}
                                                         onChange={(e) => updatePRItem(index, 'requested_quantity', parseInt(e.target.value))}
-                                                        className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+                                                        className="w-full px-2 py-1.5 text-sm border border-neutral-300 rounded focus:ring-2 focus:ring-primary-500"
                                                         min="1"
                                                     />
                                                 </div>
                                                 <div className="col-span-2">
-                                                    <label className="block text-xs font-medium text-gray-700 mb-1">Est. Price</label>
+                                                    <label className="block text-xs font-medium text-neutral-700 mb-1">Est. Price</label>
                                                     <input
                                                         type="number"
                                                         value={item.estimated_price}
                                                         onChange={(e) => updatePRItem(index, 'estimated_price', parseFloat(e.target.value))}
-                                                        className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+                                                        className="w-full px-2 py-1.5 text-sm border border-neutral-300 rounded focus:ring-2 focus:ring-primary-500"
                                                         min="0"
                                                         step="0.01"
                                                     />
                                                 </div>
                                                 <div className="col-span-3">
-                                                    <label className="block text-xs font-medium text-gray-700 mb-1">Supplier*</label>
+                                                    <label className="block text-xs font-medium text-neutral-700 mb-1">Supplier*</label>
                                                     <select
                                                         value={item.supplier_id}
                                                         onChange={(e) => updatePRItem(index, 'supplier_id', e.target.value)}
-                                                        className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+                                                        className="w-full px-2 py-1.5 text-sm border border-neutral-300 rounded focus:ring-2 focus:ring-primary-500"
                                                     >
                                                         <option value="">Select Supplier</option>
                                                         {suppliers.map(s => (
@@ -446,24 +446,24 @@ export const PurchaseRequest: React.FC = () => {
                                                 <div className="col-span-1 flex items-end">
                                                     <button
                                                         onClick={() => removeItemFromPR(index)}
-                                                        className="p-2 text-red-600 hover:bg-red-50 rounded"
+                                                        className="p-2 text-error-600 hover:bg-error-50 rounded"
                                                         title="Remove item"
                                                     >
                                                         <Trash2 className="w-4 h-4" />
                                                     </button>
                                                 </div>
                                                 <div className="col-span-11">
-                                                    <label className="block text-xs font-medium text-gray-700 mb-1">Remarks</label>
+                                                    <label className="block text-xs font-medium text-neutral-700 mb-1">Remarks</label>
                                                     <input
                                                         type="text"
                                                         value={item.remarks}
                                                         onChange={(e) => updatePRItem(index, 'remarks', e.target.value)}
-                                                        className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+                                                        className="w-full px-2 py-1.5 text-sm border border-neutral-300 rounded focus:ring-2 focus:ring-primary-500"
                                                         placeholder="Optional notes for this item..."
                                                     />
                                                 </div>
                                                 <div className="col-span-1 flex items-center justify-end">
-                                                    <p className="text-sm font-medium text-gray-900">
+                                                    <p className="text-sm font-medium text-neutral-900">
                                                         LKR {(item.requested_quantity * item.estimated_price).toLocaleString('en-LK', { minimumFractionDigits: 2 })}
                                                     </p>
                                                 </div>
@@ -473,12 +473,12 @@ export const PurchaseRequest: React.FC = () => {
 
                                     {/* General Remarks */}
                                     <div className="border-t pt-4">
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">General Remarks / Justification</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">General Remarks / Justification</label>
                                         <textarea
                                             value={generalRemarks}
                                             onChange={(e) => setGeneralRemarks(e.target.value)}
                                             rows={3}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             placeholder="Add any additional notes for the purchase request..."
                                         />
                                     </div>
@@ -486,10 +486,10 @@ export const PurchaseRequest: React.FC = () => {
                                     {/* Total */}
                                     <div className="border-t pt-4 flex items-center justify-between">
                                         <div>
-                                            <p className="text-sm text-gray-600">Estimated Total Amount</p>
-                                            <p className="text-xs text-gray-500">{prItems.length} items</p>
+                                            <p className="text-sm text-neutral-600">Estimated Total Amount</p>
+                                            <p className="text-xs text-neutral-500">{prItems.length} items</p>
                                         </div>
-                                        <p className="text-2xl font-bold text-gray-900">
+                                        <p className="text-2xl font-bold text-neutral-900">
                                             LKR {calculateTotal().toLocaleString('en-LK', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                         </p>
                                     </div>
@@ -499,7 +499,7 @@ export const PurchaseRequest: React.FC = () => {
                                         <button
                                             onClick={saveDraft}
                                             disabled={loading}
-                                            className="flex items-center gap-2 px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50"
+                                            className="flex items-center gap-2 px-6 py-2.5 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 disabled:opacity-50"
                                         >
                                             <Save className="w-4 h-4" />
                                             Save as Draft
@@ -507,7 +507,7 @@ export const PurchaseRequest: React.FC = () => {
                                         <button
                                             onClick={submitForApproval}
                                             disabled={loading}
-                                            className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                                            className="flex items-center gap-2 px-6 py-2.5 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50"
                                         >
                                             <Send className="w-4 h-4" />
                                             Submit for Approval

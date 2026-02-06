@@ -36,7 +36,7 @@ const SalesShoppingCartTable: React.FC<ShoppingCartTableProps> = ({
                                         )
                                     }
                                     disabled={item.quantity === 1}
-                                    className="px-2 bg-gray-200 rounded disabled:cursor-not-allowed"
+                                    className="px-2 bg-neutral-200 rounded disabled:cursor-not-allowed"
                                 >
                                     -
                                 </button>
@@ -68,7 +68,7 @@ const SalesShoppingCartTable: React.FC<ShoppingCartTableProps> = ({
                                         maximumReachedProduct,
                                         isReachedMaximumStock,
                                     )}
-                                    className="px-2 bg-gray-200 rounded disabled:cursor-not-allowed"
+                                    className="px-2 bg-neutral-200 rounded disabled:cursor-not-allowed"
                                 >
                                     +
                                 </button>
@@ -90,7 +90,7 @@ const SalesShoppingCartTable: React.FC<ShoppingCartTableProps> = ({
                             <button
                                 onClick={() => handleRemoveFromCart(item.id)}
                             >
-                                <Trash2 className="h-4 w-4 text-red-500" />
+                                <Trash2 className="h-4 w-4 text-error-500" />
                             </button>
                         </td>
                     </tr>

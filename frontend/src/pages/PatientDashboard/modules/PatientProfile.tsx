@@ -189,8 +189,8 @@ const PatientProfile: React.FC = () => {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-800">My Profile</h1>
-                    <p className="text-gray-500">Manage your personal information</p>
+                    <h1 className="text-2xl font-bold text-neutral-800">My Profile</h1>
+                    <p className="text-neutral-500">Manage your personal information</p>
                 </div>
                 {!isEditing ? (
                     <button
@@ -204,7 +204,7 @@ const PatientProfile: React.FC = () => {
                     <div className="flex gap-2">
                         <button
                             onClick={handleCancelEdit}
-                            className="flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                            className="flex items-center gap-2 px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors"
                         >
                             <X className="w-5 h-5" />
                             Cancel
@@ -212,7 +212,7 @@ const PatientProfile: React.FC = () => {
                         <button
                             onClick={handleSaveProfile}
                             disabled={loading}
-                            className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors disabled:bg-gray-300"
+                            className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors disabled:bg-neutral-300"
                         >
                             <Save className="w-5 h-5" />
                             {loading ? 'Saving...' : 'Save Changes'}
@@ -229,8 +229,8 @@ const PatientProfile: React.FC = () => {
                 </div>
             )}
             {saveError && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center gap-3">
-                    <AlertCircle className="w-5 h-5 text-red-600" />
+                <div className="bg-error-50 border border-red-200 rounded-lg p-4 flex items-center gap-3">
+                    <AlertCircle className="w-5 h-5 text-error-600" />
                     <span className="text-red-700">{saveError}</span>
                 </div>
             )}
@@ -269,18 +269,18 @@ const PatientProfile: React.FC = () => {
 
                 <div className="pt-16 pb-6 px-8">
                     <div className="flex flex-wrap items-center gap-4 mb-6">
-                        <h2 className="text-2xl font-bold text-gray-800">
+                        <h2 className="text-2xl font-bold text-neutral-800">
                             {profile.first_name} {profile.last_name}
                         </h2>
                         {profile.date_of_birth && (
-                            <span className="text-gray-500">{calculateAge(profile.date_of_birth)}</span>
+                            <span className="text-neutral-500">{calculateAge(profile.date_of_birth)}</span>
                         )}
                     </div>
 
                     {/* Quick Info Pills */}
                     <div className="flex flex-wrap gap-3 mb-8">
                         {profile.blood_type && (
-                            <div className="flex items-center gap-2 px-3 py-1.5 bg-red-50 text-red-700 rounded-full text-sm">
+                            <div className="flex items-center gap-2 px-3 py-1.5 bg-error-50 text-red-700 rounded-full text-sm">
                                 <Droplet className="w-4 h-4" />
                                 Blood Type: {profile.blood_type}
                             </div>
@@ -297,7 +297,7 @@ const PatientProfile: React.FC = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* First Name */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 <User className="w-4 h-4 inline mr-2" />
                                 First Name
                             </label>
@@ -306,16 +306,16 @@ const PatientProfile: React.FC = () => {
                                     type="text"
                                     value={editedProfile.first_name}
                                     onChange={(e) => setEditedProfile({ ...editedProfile, first_name: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                 />
                             ) : (
-                                <p className="text-gray-800 py-2">{profile.first_name || '-'}</p>
+                                <p className="text-neutral-800 py-2">{profile.first_name || '-'}</p>
                             )}
                         </div>
 
                         {/* Last Name */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 <User className="w-4 h-4 inline mr-2" />
                                 Last Name
                             </label>
@@ -324,16 +324,16 @@ const PatientProfile: React.FC = () => {
                                     type="text"
                                     value={editedProfile.last_name}
                                     onChange={(e) => setEditedProfile({ ...editedProfile, last_name: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                 />
                             ) : (
-                                <p className="text-gray-800 py-2">{profile.last_name || '-'}</p>
+                                <p className="text-neutral-800 py-2">{profile.last_name || '-'}</p>
                             )}
                         </div>
 
                         {/* Email */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 <Mail className="w-4 h-4 inline mr-2" />
                                 Email Address
                             </label>
@@ -342,16 +342,16 @@ const PatientProfile: React.FC = () => {
                                     type="email"
                                     value={editedProfile.email}
                                     onChange={(e) => setEditedProfile({ ...editedProfile, email: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                 />
                             ) : (
-                                <p className="text-gray-800 py-2">{profile.email || '-'}</p>
+                                <p className="text-neutral-800 py-2">{profile.email || '-'}</p>
                             )}
                         </div>
 
                         {/* Phone */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 <Phone className="w-4 h-4 inline mr-2" />
                                 Phone Number
                             </label>
@@ -360,16 +360,16 @@ const PatientProfile: React.FC = () => {
                                     type="tel"
                                     value={editedProfile.phone}
                                     onChange={(e) => setEditedProfile({ ...editedProfile, phone: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                 />
                             ) : (
-                                <p className="text-gray-800 py-2">{profile.phone || '-'}</p>
+                                <p className="text-neutral-800 py-2">{profile.phone || '-'}</p>
                             )}
                         </div>
 
                         {/* Date of Birth */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 <Calendar className="w-4 h-4 inline mr-2" />
                                 Date of Birth
                             </label>
@@ -379,10 +379,10 @@ const PatientProfile: React.FC = () => {
                                     value={editedProfile.date_of_birth}
                                     onChange={(e) => setEditedProfile({ ...editedProfile, date_of_birth: e.target.value })}
                                     max={new Date().toISOString().split('T')[0]}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                 />
                             ) : (
-                                <p className="text-gray-800 py-2">
+                                <p className="text-neutral-800 py-2">
                                     {profile.date_of_birth 
                                         ? new Date(profile.date_of_birth).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
                                         : '-'
@@ -393,14 +393,14 @@ const PatientProfile: React.FC = () => {
 
                         {/* Gender */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Gender
                             </label>
                             {isEditing ? (
                                 <select
                                     value={editedProfile.gender}
                                     onChange={(e) => setEditedProfile({ ...editedProfile, gender: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                 >
                                     <option value="">Select gender</option>
                                     <option value="male">Male</option>
@@ -408,7 +408,7 @@ const PatientProfile: React.FC = () => {
                                     <option value="other">Other</option>
                                 </select>
                             ) : (
-                                <p className="text-gray-800 py-2">
+                                <p className="text-neutral-800 py-2">
                                     {profile.gender ? profile.gender.charAt(0).toUpperCase() + profile.gender.slice(1) : '-'}
                                 </p>
                             )}
@@ -416,7 +416,7 @@ const PatientProfile: React.FC = () => {
 
                         {/* Blood Type */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 <Droplet className="w-4 h-4 inline mr-2" />
                                 Blood Type
                             </label>
@@ -424,7 +424,7 @@ const PatientProfile: React.FC = () => {
                                 <select
                                     value={editedProfile.blood_type}
                                     onChange={(e) => setEditedProfile({ ...editedProfile, blood_type: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                 >
                                     <option value="">Select blood type</option>
                                     {BLOOD_TYPES.map((type) => (
@@ -432,13 +432,13 @@ const PatientProfile: React.FC = () => {
                                     ))}
                                 </select>
                             ) : (
-                                <p className="text-gray-800 py-2">{profile.blood_type || '-'}</p>
+                                <p className="text-neutral-800 py-2">{profile.blood_type || '-'}</p>
                             )}
                         </div>
 
                         {/* City */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 <MapPin className="w-4 h-4 inline mr-2" />
                                 City
                             </label>
@@ -447,16 +447,16 @@ const PatientProfile: React.FC = () => {
                                     type="text"
                                     value={editedProfile.city}
                                     onChange={(e) => setEditedProfile({ ...editedProfile, city: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                 />
                             ) : (
-                                <p className="text-gray-800 py-2">{profile.city || '-'}</p>
+                                <p className="text-neutral-800 py-2">{profile.city || '-'}</p>
                             )}
                         </div>
 
                         {/* Address - Full Width */}
                         <div className="md:col-span-2">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 <MapPin className="w-4 h-4 inline mr-2" />
                                 Address
                             </label>
@@ -465,10 +465,10 @@ const PatientProfile: React.FC = () => {
                                     value={editedProfile.address}
                                     onChange={(e) => setEditedProfile({ ...editedProfile, address: e.target.value })}
                                     rows={2}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none"
                                 />
                             ) : (
-                                <p className="text-gray-800 py-2">{profile.address || '-'}</p>
+                                <p className="text-neutral-800 py-2">{profile.address || '-'}</p>
                             )}
                         </div>
                     </div>
@@ -477,13 +477,13 @@ const PatientProfile: React.FC = () => {
 
             {/* Emergency Contact Card */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                    <Heart className="w-5 h-5 text-red-500" />
+                <h3 className="text-lg font-semibold text-neutral-800 mb-4 flex items-center gap-2">
+                    <Heart className="w-5 h-5 text-error-500" />
                     Emergency Contact
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
                             Contact Name
                         </label>
                         {isEditing ? (
@@ -492,14 +492,14 @@ const PatientProfile: React.FC = () => {
                                 value={editedProfile.emergency_contact_name}
                                 onChange={(e) => setEditedProfile({ ...editedProfile, emergency_contact_name: e.target.value })}
                                 placeholder="Emergency contact's name"
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                             />
                         ) : (
-                            <p className="text-gray-800 py-2">{profile.emergency_contact_name || '-'}</p>
+                            <p className="text-neutral-800 py-2">{profile.emergency_contact_name || '-'}</p>
                         )}
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
                             Contact Phone
                         </label>
                         {isEditing ? (
@@ -508,10 +508,10 @@ const PatientProfile: React.FC = () => {
                                 value={editedProfile.emergency_contact_phone}
                                 onChange={(e) => setEditedProfile({ ...editedProfile, emergency_contact_phone: e.target.value })}
                                 placeholder="Emergency contact's phone"
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                             />
                         ) : (
-                            <p className="text-gray-800 py-2">{profile.emergency_contact_phone || '-'}</p>
+                            <p className="text-neutral-800 py-2">{profile.emergency_contact_phone || '-'}</p>
                         )}
                     </div>
                 </div>
@@ -519,18 +519,18 @@ const PatientProfile: React.FC = () => {
 
             {/* Security Card */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                    <Shield className="w-5 h-5 text-blue-500" />
+                <h3 className="text-lg font-semibold text-neutral-800 mb-4 flex items-center gap-2">
+                    <Shield className="w-5 h-5 text-primary-500" />
                     Account Security
                 </h3>
                 <div className="flex items-center justify-between">
                     <div>
-                        <p className="font-medium text-gray-700">Password</p>
-                        <p className="text-sm text-gray-500">Last changed: Unknown</p>
+                        <p className="font-medium text-neutral-700">Password</p>
+                        <p className="text-sm text-neutral-500">Last changed: Unknown</p>
                     </div>
                     <button
                         onClick={() => setShowPasswordModal(true)}
-                        className="flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                        className="flex items-center gap-2 px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors"
                     >
                         <Lock className="w-5 h-5" />
                         Change Password
@@ -544,16 +544,16 @@ const PatientProfile: React.FC = () => {
                     <div className="bg-white rounded-2xl shadow-xl max-w-md w-full">
                         <div className="p-6 border-b border-gray-100">
                             <div className="flex items-center justify-between">
-                                <h2 className="text-xl font-bold text-gray-800">Change Password</h2>
+                                <h2 className="text-xl font-bold text-neutral-800">Change Password</h2>
                                 <button
                                     onClick={() => {
                                         setShowPasswordModal(false);
                                         setPasswordData({ current_password: '', new_password: '', confirm_password: '' });
                                         setPasswordError('');
                                     }}
-                                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                    className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                                 >
-                                    <X className="w-5 h-5 text-gray-500" />
+                                    <X className="w-5 h-5 text-neutral-500" />
                                 </button>
                             </div>
                         </div>
@@ -562,13 +562,13 @@ const PatientProfile: React.FC = () => {
                             {passwordSuccess ? (
                                 <div className="text-center py-8">
                                     <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                                    <h3 className="text-lg font-medium text-gray-800">Password Changed!</h3>
-                                    <p className="text-gray-500">Your password has been updated successfully.</p>
+                                    <h3 className="text-lg font-medium text-neutral-800">Password Changed!</h3>
+                                    <p className="text-neutral-500">Your password has been updated successfully.</p>
                                 </div>
                             ) : (
                                 <>
                                     {passwordError && (
-                                        <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-center gap-2 text-red-700 text-sm">
+                                        <div className="bg-error-50 border border-red-200 rounded-lg p-3 flex items-center gap-2 text-red-700 text-sm">
                                             <AlertCircle className="w-4 h-4" />
                                             {passwordError}
                                         </div>
@@ -576,7 +576,7 @@ const PatientProfile: React.FC = () => {
 
                                     {/* Current Password */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">
                                             Current Password
                                         </label>
                                         <div className="relative">
@@ -584,12 +584,12 @@ const PatientProfile: React.FC = () => {
                                                 type={showCurrentPassword ? 'text' : 'password'}
                                                 value={passwordData.current_password}
                                                 onChange={(e) => setPasswordData({ ...passwordData, current_password: e.target.value })}
-                                                className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                                className="w-full px-4 py-2 pr-10 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                             />
                                             <button
                                                 type="button"
                                                 onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                                className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
                                             >
                                                 {showCurrentPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                                             </button>
@@ -598,7 +598,7 @@ const PatientProfile: React.FC = () => {
 
                                     {/* New Password */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">
                                             New Password
                                         </label>
                                         <div className="relative">
@@ -606,29 +606,29 @@ const PatientProfile: React.FC = () => {
                                                 type={showNewPassword ? 'text' : 'password'}
                                                 value={passwordData.new_password}
                                                 onChange={(e) => setPasswordData({ ...passwordData, new_password: e.target.value })}
-                                                className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                                className="w-full px-4 py-2 pr-10 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                             />
                                             <button
                                                 type="button"
                                                 onClick={() => setShowNewPassword(!showNewPassword)}
-                                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                                className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
                                             >
                                                 {showNewPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                                             </button>
                                         </div>
-                                        <p className="text-xs text-gray-500 mt-1">Must be at least 8 characters</p>
+                                        <p className="text-xs text-neutral-500 mt-1">Must be at least 8 characters</p>
                                     </div>
 
                                     {/* Confirm Password */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">
                                             Confirm New Password
                                         </label>
                                         <input
                                             type="password"
                                             value={passwordData.confirm_password}
                                             onChange={(e) => setPasswordData({ ...passwordData, confirm_password: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                         />
                                     </div>
                                 </>
@@ -643,7 +643,7 @@ const PatientProfile: React.FC = () => {
                                         setPasswordData({ current_password: '', new_password: '', confirm_password: '' });
                                         setPasswordError('');
                                     }}
-                                    className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                                    className="flex-1 px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors"
                                 >
                                     Cancel
                                 </button>

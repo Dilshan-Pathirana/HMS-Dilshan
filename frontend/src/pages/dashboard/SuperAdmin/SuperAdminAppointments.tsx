@@ -717,11 +717,11 @@ const SuperAdminAppointments: React.FC = () => {
             in_progress: 'bg-indigo-100 text-indigo-800',
             in_session: 'bg-indigo-100 text-indigo-800',
             completed: 'bg-green-100 text-green-800',
-            cancelled: 'bg-red-100 text-red-800',
+            cancelled: 'bg-error-100 text-red-800',
             rescheduled: 'bg-amber-100 text-amber-800',
-            no_show: 'bg-gray-100 text-gray-800'
+            no_show: 'bg-neutral-100 text-neutral-800'
         };
-        return colors[status] || 'bg-gray-100 text-gray-800';
+        return colors[status] || 'bg-neutral-100 text-neutral-800';
     };
 
     const getPaymentStatusColor = (status: string) => {
@@ -730,9 +730,9 @@ const SuperAdminAppointments: React.FC = () => {
             paid: 'bg-green-100 text-green-800',
             waived: 'bg-blue-100 text-blue-800',
             refunded: 'bg-purple-100 text-purple-800',
-            failed: 'bg-red-100 text-red-800'
+            failed: 'bg-error-100 text-red-800'
         };
-        return colors[status] || 'bg-gray-100 text-gray-800';
+        return colors[status] || 'bg-neutral-100 text-neutral-800';
     };
 
     const formatDate = (dateStr: string) => {
@@ -780,8 +780,8 @@ const SuperAdminAppointments: React.FC = () => {
                 {/* Header */}
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-800">Appointment Management</h1>
-                        <p className="text-gray-600 mt-1">Monitor and manage appointments across all branches</p>
+                        <h1 className="text-2xl font-bold text-neutral-800">Appointment Management</h1>
+                        <p className="text-neutral-600 mt-1">Monitor and manage appointments across all branches</p>
                     </div>
                     <button
                         onClick={() => {
@@ -799,14 +799,14 @@ const SuperAdminAppointments: React.FC = () => {
 
                 {/* Message */}
                 {message && (
-                    <div className={`p-4 rounded-lg ${message.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                    <div className={`p-4 rounded-lg ${message.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-error-100 text-red-800'}`}>
                         {message.text}
                         <button onClick={() => setMessage(null)} className="float-right">&times;</button>
                     </div>
                 )}
 
                 {/* Tabs */}
-                <div className="border-b border-gray-200">
+                <div className="border-b border-neutral-200">
                     <nav className="flex space-x-8">
                         {tabs.map((tab) => (
                             <button
@@ -818,7 +818,7 @@ const SuperAdminAppointments: React.FC = () => {
                                 className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm ${
                                     activeTab === tab.id
                                         ? 'border-emerald-500 text-emerald-600'
-                                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                                        : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'
                                 }`}
                             >
                                 {tab.icon}
@@ -830,14 +830,14 @@ const SuperAdminAppointments: React.FC = () => {
 
                 {/* Time-based Sub-tabs + Create Button */}
                 {activeTab === 'appointments' && (
-                    <div className="flex flex-wrap items-center justify-between gap-4 bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="flex flex-wrap items-center justify-between gap-4 bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center gap-2">
                             <button
                                 onClick={() => { setAppointmentView('today'); setCurrentPage(1); }}
                                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                                     appointmentView === 'today'
                                         ? 'bg-emerald-600 text-white'
-                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
                                 }`}
                             >
                                 <span className="flex items-center gap-2">
@@ -849,8 +849,8 @@ const SuperAdminAppointments: React.FC = () => {
                                 onClick={() => { setAppointmentView('upcoming'); setCurrentPage(1); }}
                                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                                     appointmentView === 'upcoming'
-                                        ? 'bg-blue-600 text-white'
-                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        ? 'bg-primary-500 text-white'
+                                        : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
                                 }`}
                             >
                                 <span className="flex items-center gap-2">
@@ -863,7 +863,7 @@ const SuperAdminAppointments: React.FC = () => {
                                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                                     appointmentView === 'past'
                                         ? 'bg-gray-600 text-white'
-                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
                                 }`}
                             >
                                 <span className="flex items-center gap-2">
@@ -884,14 +884,14 @@ const SuperAdminAppointments: React.FC = () => {
 
                 {/* Filters Section */}
                 {activeTab === 'appointments' && (
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 space-y-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4 space-y-4">
                         {/* Row 1: Branch, Doctor, Specialization, Status */}
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                             {/* Branch Filter */}
                             <div>
-                                <label className="block text-xs font-medium text-gray-500 mb-1">Branch</label>
+                                <label className="block text-xs font-medium text-neutral-500 mb-1">Branch</label>
                                 <div className="flex items-center gap-2">
-                                    <Building2 className="w-4 h-4 text-gray-400" />
+                                    <Building2 className="w-4 h-4 text-neutral-400" />
                                     <select
                                         value={selectedBranch}
                                         onChange={(e) => {
@@ -899,7 +899,7 @@ const SuperAdminAppointments: React.FC = () => {
                                             setDoctorFilter(''); // Reset doctor when branch changes
                                             setCurrentPage(1);
                                         }}
-                                        className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+                                        className="flex-1 border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="">All Branches</option>
                                         {branches.map((branch) => (
@@ -913,16 +913,16 @@ const SuperAdminAppointments: React.FC = () => {
 
                             {/* Doctor Filter */}
                             <div>
-                                <label className="block text-xs font-medium text-gray-500 mb-1">Doctor</label>
+                                <label className="block text-xs font-medium text-neutral-500 mb-1">Doctor</label>
                                 <div className="flex items-center gap-2">
-                                    <User className="w-4 h-4 text-gray-400" />
+                                    <User className="w-4 h-4 text-neutral-400" />
                                     <select
                                         value={doctorFilter}
                                         onChange={(e) => {
                                             setDoctorFilter(e.target.value);
                                             setCurrentPage(1);
                                         }}
-                                        className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+                                        className="flex-1 border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="">All Doctors</option>
                                         {doctors.map((doc, idx) => (
@@ -936,16 +936,16 @@ const SuperAdminAppointments: React.FC = () => {
 
                             {/* Specialization Filter */}
                             <div>
-                                <label className="block text-xs font-medium text-gray-500 mb-1">Specialization</label>
+                                <label className="block text-xs font-medium text-neutral-500 mb-1">Specialization</label>
                                 <div className="flex items-center gap-2">
-                                    <Stethoscope className="w-4 h-4 text-gray-400" />
+                                    <Stethoscope className="w-4 h-4 text-neutral-400" />
                                     <select
                                         value={specializationFilter}
                                         onChange={(e) => {
                                             setSpecializationFilter(e.target.value);
                                             setCurrentPage(1);
                                         }}
-                                        className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+                                        className="flex-1 border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="">All Specializations</option>
                                         {specializations.map((spec) => (
@@ -959,16 +959,16 @@ const SuperAdminAppointments: React.FC = () => {
 
                             {/* Status Filter */}
                             <div>
-                                <label className="block text-xs font-medium text-gray-500 mb-1">Status</label>
+                                <label className="block text-xs font-medium text-neutral-500 mb-1">Status</label>
                                 <div className="flex items-center gap-2">
-                                    <Filter className="w-4 h-4 text-gray-400" />
+                                    <Filter className="w-4 h-4 text-neutral-400" />
                                     <select
                                         value={statusFilter}
                                         onChange={(e) => {
                                             setStatusFilter(e.target.value);
                                             setCurrentPage(1);
                                         }}
-                                        className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+                                        className="flex-1 border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="">All Statuses</option>
                                         <option value="pending">Pending</option>
@@ -989,7 +989,7 @@ const SuperAdminAppointments: React.FC = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                             {/* Single Date */}
                             <div>
-                                <label className="block text-xs font-medium text-gray-500 mb-1">Specific Date</label>
+                                <label className="block text-xs font-medium text-neutral-500 mb-1">Specific Date</label>
                                 <input
                                     type="date"
                                     value={dateFilter}
@@ -1002,13 +1002,13 @@ const SuperAdminAppointments: React.FC = () => {
                                         }
                                         setCurrentPage(1);
                                     }}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
                                 />
                             </div>
 
                             {/* Date Range Start */}
                             <div>
-                                <label className="block text-xs font-medium text-gray-500 mb-1">From Date</label>
+                                <label className="block text-xs font-medium text-neutral-500 mb-1">From Date</label>
                                 <input
                                     type="date"
                                     value={startDate}
@@ -1020,13 +1020,13 @@ const SuperAdminAppointments: React.FC = () => {
                                         }
                                         setCurrentPage(1);
                                     }}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
                                 />
                             </div>
 
                             {/* Date Range End */}
                             <div>
-                                <label className="block text-xs font-medium text-gray-500 mb-1">To Date</label>
+                                <label className="block text-xs font-medium text-neutral-500 mb-1">To Date</label>
                                 <input
                                     type="date"
                                     value={endDate}
@@ -1039,21 +1039,21 @@ const SuperAdminAppointments: React.FC = () => {
                                         setCurrentPage(1);
                                     }}
                                     min={startDate}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
                                 />
                             </div>
 
                             {/* Search */}
                             <div>
-                                <label className="block text-xs font-medium text-gray-500 mb-1">Search</label>
+                                <label className="block text-xs font-medium text-neutral-500 mb-1">Search</label>
                                 <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
                                     <input
                                         type="text"
                                         placeholder="Patient name or Appointment ID..."
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full pl-9 pr-3 py-2 text-sm border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                             </div>
@@ -1073,7 +1073,7 @@ const SuperAdminAppointments: React.FC = () => {
                                     setSearchQuery('');
                                     setCurrentPage(1);
                                 }}
-                                className="text-sm text-gray-500 hover:text-emerald-600 flex items-center gap-1"
+                                className="text-sm text-neutral-500 hover:text-emerald-600 flex items-center gap-1"
                             >
                                 <XCircle className="w-4 h-4" />
                                 Clear All Filters
@@ -1086,11 +1086,11 @@ const SuperAdminAppointments: React.FC = () => {
                 {activeTab !== 'appointments' && (
                     <div className="flex flex-wrap gap-4 items-center">
                         <div className="flex items-center gap-2">
-                            <Building2 className="w-5 h-5 text-gray-500" />
+                            <Building2 className="w-5 h-5 text-neutral-500" />
                             <select
                                 value={selectedBranch}
                                 onChange={(e) => setSelectedBranch(e.target.value)}
-                                className="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-emerald-500"
+                                className="border border-neutral-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-emerald-500"
                             >
                                 <option value="">All Branches</option>
                                 {branches.map((branch) => (
@@ -1112,38 +1112,38 @@ const SuperAdminAppointments: React.FC = () => {
                     <>
                         {/* Appointments Tab */}
                         {activeTab === 'appointments' && (
-                            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
                                 <div className="overflow-x-auto">
                                     <table className="w-full">
-                                        <thead className="bg-gray-50">
+                                        <thead className="bg-neutral-50">
                                             <tr>
-                                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Branch</th>
-                                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Appt ID</th>
-                                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Patient</th>
-                                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Doctor</th>
-                                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Specialization</th>
-                                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Slot #</th>
-                                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Est. Time</th>
-                                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Payment</th>
-                                                <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Branch</th>
+                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Appt ID</th>
+                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Patient</th>
+                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Doctor</th>
+                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Specialization</th>
+                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Date</th>
+                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Slot #</th>
+                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Est. Time</th>
+                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Status</th>
+                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Payment</th>
+                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200">
                                             {filteredAppointments.length === 0 ? (
                                                 <tr>
-                                                    <td colSpan={11} className="px-4 py-8 text-center text-gray-500">
+                                                    <td colSpan={11} className="px-4 py-8 text-center text-neutral-500">
                                                         No appointments found
                                                     </td>
                                                 </tr>
                                             ) : (
                                                 filteredAppointments.map((apt) => (
-                                                    <tr key={apt.id} className="hover:bg-gray-50">
+                                                    <tr key={apt.id} className="hover:bg-neutral-50">
                                                         {/* Branch Name */}
                                                         <td className="px-3 py-3">
                                                             <div className="flex items-center gap-1">
-                                                                <Building2 className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                                                                <Building2 className="w-4 h-4 text-neutral-400 flex-shrink-0" />
                                                                 <span className="text-sm font-medium truncate max-w-[120px]" title={apt.branch_name}>
                                                                     {apt.branch_name}
                                                                 </span>
@@ -1158,7 +1158,7 @@ const SuperAdminAppointments: React.FC = () => {
                                                         {/* Patient Name */}
                                                         <td className="px-3 py-3">
                                                             <div className="flex items-center gap-2">
-                                                                <User className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                                                                <User className="w-4 h-4 text-neutral-400 flex-shrink-0" />
                                                                 <span className="font-medium text-sm truncate max-w-[120px]" title={apt.patient_name || 'Unknown'}>
                                                                     {apt.patient_name || 'Unknown'}
                                                                 </span>
@@ -1173,8 +1173,8 @@ const SuperAdminAppointments: React.FC = () => {
                                                         {/* Specialization */}
                                                         <td className="px-3 py-3">
                                                             <div className="flex items-center gap-1">
-                                                                <Stethoscope className="w-3 h-3 text-gray-400 flex-shrink-0" />
-                                                                <span className="text-xs text-gray-600 truncate max-w-[100px]" title={(apt as any).specialization || 'General'}>
+                                                                <Stethoscope className="w-3 h-3 text-neutral-400 flex-shrink-0" />
+                                                                <span className="text-xs text-neutral-600 truncate max-w-[100px]" title={(apt as any).specialization || 'General'}>
                                                                     {(apt as any).specialization || 'General'}
                                                                 </span>
                                                             </div>
@@ -1182,20 +1182,20 @@ const SuperAdminAppointments: React.FC = () => {
                                                         {/* Date */}
                                                         <td className="px-3 py-3">
                                                             <div className="flex items-center gap-1">
-                                                                <Calendar className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                                                                <Calendar className="w-4 h-4 text-neutral-400 flex-shrink-0" />
                                                                 <span className="text-sm">{formatDate(apt.appointment_date)}</span>
                                                             </div>
                                                         </td>
                                                         {/* Slot Number */}
                                                         <td className="px-3 py-3 text-center">
-                                                            <span className="inline-flex items-center justify-center w-7 h-7 text-xs font-bold bg-gray-100 text-gray-700 rounded-full">
+                                                            <span className="inline-flex items-center justify-center w-7 h-7 text-xs font-bold bg-neutral-100 text-neutral-700 rounded-full">
                                                                 {(apt as any).slot_number || '-'}
                                                             </span>
                                                         </td>
                                                         {/* Estimated Time */}
                                                         <td className="px-3 py-3">
                                                             <div className="flex items-center gap-1">
-                                                                <Clock className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                                                                <Clock className="w-4 h-4 text-neutral-400 flex-shrink-0" />
                                                                 <span className="text-sm">{apt.appointment_time}</span>
                                                             </div>
                                                         </td>
@@ -1208,7 +1208,7 @@ const SuperAdminAppointments: React.FC = () => {
                                                         {/* Payment Status */}
                                                         <td className="px-3 py-3">
                                                             <div className="flex items-center gap-1">
-                                                                <DollarSign className="w-3 h-3 text-gray-400 flex-shrink-0" />
+                                                                <DollarSign className="w-3 h-3 text-neutral-400 flex-shrink-0" />
                                                                 <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${getPaymentStatusColor(apt.payment_status)}`}>
                                                                     {apt.payment_status}
                                                                 </span>
@@ -1222,7 +1222,7 @@ const SuperAdminAppointments: React.FC = () => {
                                                                         setSelectedAppointment(apt);
                                                                         setShowDetailsModal(true);
                                                                     }}
-                                                                    className="p-1.5 text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg"
+                                                                    className="p-1.5 text-neutral-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg"
                                                                     title="View Details"
                                                                 >
                                                                     <Eye className="w-4 h-4" />
@@ -1231,14 +1231,14 @@ const SuperAdminAppointments: React.FC = () => {
                                                                     <>
                                                                         <button
                                                                             onClick={() => openEditModal(apt)}
-                                                                            className="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg"
+                                                                            className="p-1.5 text-neutral-500 hover:text-primary-500 hover:bg-blue-50 rounded-lg"
                                                                             title="Edit/Reschedule"
                                                                         >
                                                                             <Edit className="w-4 h-4" />
                                                                         </button>
                                                                         <button
                                                                             onClick={() => openCancelModal(apt)}
-                                                                            className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg"
+                                                                            className="p-1.5 text-neutral-500 hover:text-error-600 hover:bg-error-50 rounded-lg"
                                                                             title="Cancel Appointment"
                                                                         >
                                                                             <Trash2 className="w-4 h-4" />
@@ -1256,22 +1256,22 @@ const SuperAdminAppointments: React.FC = () => {
 
                                 {/* Pagination */}
                                 {totalPages > 1 && (
-                                    <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200">
-                                        <p className="text-sm text-gray-500">
+                                    <div className="flex items-center justify-between px-4 py-3 border-t border-neutral-200">
+                                        <p className="text-sm text-neutral-500">
                                             Page {currentPage} of {totalPages}
                                         </p>
                                         <div className="flex gap-2">
                                             <button
                                                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                                                 disabled={currentPage === 1}
-                                                className="px-3 py-1 border border-gray-300 rounded-lg disabled:opacity-50"
+                                                className="px-3 py-1 border border-neutral-300 rounded-lg disabled:opacity-50"
                                             >
                                                 <ChevronLeft className="w-5 h-5" />
                                             </button>
                                             <button
                                                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                                                 disabled={currentPage === totalPages}
-                                                className="px-3 py-1 border border-gray-300 rounded-lg disabled:opacity-50"
+                                                className="px-3 py-1 border border-neutral-300 rounded-lg disabled:opacity-50"
                                             >
                                                 <ChevronRight className="w-5 h-5" />
                                             </button>
@@ -1286,32 +1286,32 @@ const SuperAdminAppointments: React.FC = () => {
                             <div className="space-y-6">
                                 {/* Summary Cards */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                                         <div className="flex items-center justify-between">
                                             <div>
-                                                <p className="text-sm text-gray-500">Total Appointments</p>
-                                                <p className="text-3xl font-bold text-gray-800">{statistics.total}</p>
+                                                <p className="text-sm text-neutral-500">Total Appointments</p>
+                                                <p className="text-3xl font-bold text-neutral-800">{statistics.total}</p>
                                             </div>
                                             <div className="p-3 rounded-lg bg-emerald-100">
                                                 <Calendar className="w-6 h-6 text-emerald-600" />
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                                         <div className="flex items-center justify-between">
                                             <div>
-                                                <p className="text-sm text-gray-500">Today's Appointments</p>
-                                                <p className="text-3xl font-bold text-blue-600">{statistics.today}</p>
+                                                <p className="text-sm text-neutral-500">Today's Appointments</p>
+                                                <p className="text-3xl font-bold text-primary-500">{statistics.today}</p>
                                             </div>
                                             <div className="p-3 rounded-lg bg-blue-100">
-                                                <Clock className="w-6 h-6 text-blue-600" />
+                                                <Clock className="w-6 h-6 text-primary-500" />
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                                         <div className="flex items-center justify-between">
                                             <div>
-                                                <p className="text-sm text-gray-500">Completed</p>
+                                                <p className="text-sm text-neutral-500">Completed</p>
                                                 <p className="text-3xl font-bold text-green-600">{statistics.completed}</p>
                                             </div>
                                             <div className="p-3 rounded-lg bg-green-100">
@@ -1319,39 +1319,39 @@ const SuperAdminAppointments: React.FC = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                                         <div className="flex items-center justify-between">
                                             <div>
-                                                <p className="text-sm text-gray-500">Cancelled / No Show</p>
-                                                <p className="text-3xl font-bold text-red-600">
+                                                <p className="text-sm text-neutral-500">Cancelled / No Show</p>
+                                                <p className="text-3xl font-bold text-error-600">
                                                     {statistics.cancelled + statistics.no_show}
                                                 </p>
                                             </div>
-                                            <div className="p-3 rounded-lg bg-red-100">
-                                                <XCircle className="w-6 h-6 text-red-600" />
+                                            <div className="p-3 rounded-lg bg-error-100">
+                                                <XCircle className="w-6 h-6 text-error-600" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* By Branch */}
-                                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Appointments by Branch</h3>
+                                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                                    <h3 className="text-lg font-semibold text-neutral-800 mb-4">Appointments by Branch</h3>
                                     <div className="space-y-3">
                                         {statistics.by_branch?.map((item, idx) => (
                                             <div key={idx} className="flex items-center justify-between">
                                                 <div className="flex items-center gap-2">
-                                                    <Building2 className="w-5 h-5 text-gray-400" />
+                                                    <Building2 className="w-5 h-5 text-neutral-400" />
                                                     <span className="font-medium">{item.branch_name}</span>
                                                 </div>
                                                 <div className="flex items-center gap-2">
-                                                    <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                                    <div className="w-32 h-2 bg-neutral-200 rounded-full overflow-hidden">
                                                         <div
                                                             className="h-full bg-emerald-500 rounded-full"
                                                             style={{ width: `${(item.count / statistics.total) * 100}%` }}
                                                         />
                                                     </div>
-                                                    <span className="text-sm text-gray-600 w-12 text-right">{item.count}</span>
+                                                    <span className="text-sm text-neutral-600 w-12 text-right">{item.count}</span>
                                                 </div>
                                             </div>
                                         ))}
@@ -1359,15 +1359,15 @@ const SuperAdminAppointments: React.FC = () => {
                                 </div>
 
                                 {/* By Status */}
-                                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Appointments by Status</h3>
+                                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                                    <h3 className="text-lg font-semibold text-neutral-800 mb-4">Appointments by Status</h3>
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                         {statistics.by_status?.map((item, idx) => (
-                                            <div key={idx} className="text-center p-4 bg-gray-50 rounded-lg">
+                                            <div key={idx} className="text-center p-4 bg-neutral-50 rounded-lg">
                                                 <p className={`inline-block px-2 py-1 text-xs font-medium rounded-full mb-2 ${getStatusColor(item.status)}`}>
                                                     {item.status.replace('_', ' ')}
                                                 </p>
-                                                <p className="text-2xl font-bold text-gray-800">{item.count}</p>
+                                                <p className="text-2xl font-bold text-neutral-800">{item.count}</p>
                                             </div>
                                         ))}
                                     </div>
@@ -1377,29 +1377,29 @@ const SuperAdminAppointments: React.FC = () => {
 
                         {/* Branch Settings Tab */}
                         {activeTab === 'branch-settings' && (
-                            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
                                 <table className="w-full">
-                                    <thead className="bg-gray-50">
+                                    <thead className="bg-neutral-50">
                                         <tr>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Branch</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Advance Days</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Min Lead Time</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Slot Duration</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Booking Fee</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Branch</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Advance Days</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Min Lead Time</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Slot Duration</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Booking Fee</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Status</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200">
                                         {branchSettings.length === 0 ? (
                                             <tr>
-                                                <td colSpan={7} className="px-4 py-8 text-center text-gray-500">
+                                                <td colSpan={7} className="px-4 py-8 text-center text-neutral-500">
                                                     No branch settings configured
                                                 </td>
                                             </tr>
                                         ) : (
                                             branchSettings.map((setting) => (
-                                                <tr key={setting.branch_id} className="hover:bg-gray-50">
+                                                <tr key={setting.branch_id} className="hover:bg-neutral-50">
                                                     <td className="px-4 py-3 font-medium">{setting.branch_name}</td>
                                                     <td className="px-4 py-3">{setting.settings.max_advance_booking_days} days</td>
                                                     <td className="px-4 py-3">{setting.settings.min_advance_booking_hours} hours</td>
@@ -1418,7 +1418,7 @@ const SuperAdminAppointments: React.FC = () => {
                                                                 setEditingBranchSettings(setting);
                                                                 setShowSettingsModal(true);
                                                             }}
-                                                            className="p-2 text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg"
+                                                            className="p-2 text-neutral-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg"
                                                         >
                                                             <Settings className="w-4 h-4" />
                                                         </button>
@@ -1433,34 +1433,34 @@ const SuperAdminAppointments: React.FC = () => {
 
                         {/* Audit Logs Tab - STEP 12 */}
                         {activeTab === 'audit-logs' && (
-                            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
                                 <table className="w-full">
-                                    <thead className="bg-gray-50">
+                                    <thead className="bg-neutral-50">
                                         <tr>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Timestamp</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Super Admin</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Branch</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Appointment ID</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status Change</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Details</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Timestamp</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Super Admin</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Branch</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Appointment ID</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Action</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Status Change</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Details</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200">
                                         {auditLogs.length === 0 ? (
                                             <tr>
-                                                <td colSpan={7} className="px-4 py-8 text-center text-gray-500">
+                                                <td colSpan={7} className="px-4 py-8 text-center text-neutral-500">
                                                     No audit logs found
                                                 </td>
                                             </tr>
                                         ) : (
                                             auditLogs.map((log) => (
-                                                <tr key={log.id} className="hover:bg-gray-50">
+                                                <tr key={log.id} className="hover:bg-neutral-50">
                                                     {/* Timestamp */}
                                                     <td className="px-4 py-3 text-sm whitespace-nowrap">
                                                         <div>
                                                             <span>{new Date(log.created_at).toLocaleDateString()}</span>
-                                                            <p className="text-xs text-gray-500">{new Date(log.created_at).toLocaleTimeString()}</p>
+                                                            <p className="text-xs text-neutral-500">{new Date(log.created_at).toLocaleTimeString()}</p>
                                                         </div>
                                                     </td>
                                                     {/* Super Admin ID/Name */}
@@ -1476,7 +1476,7 @@ const SuperAdminAppointments: React.FC = () => {
                                                     </td>
                                                     {/* Appointment ID */}
                                                     <td className="px-4 py-3">
-                                                        <span className="font-mono text-xs bg-gray-100 px-2 py-1 rounded">
+                                                        <span className="font-mono text-xs bg-neutral-100 px-2 py-1 rounded">
                                                             #{log.appointment_id?.toString().slice(-8) || '-'}
                                                         </span>
                                                     </td>
@@ -1484,10 +1484,10 @@ const SuperAdminAppointments: React.FC = () => {
                                                     <td className="px-4 py-3">
                                                         <span className={`px-2 py-1 text-xs font-medium rounded ${
                                                             log.action === 'created' ? 'bg-green-100 text-green-800' :
-                                                            log.action === 'cancelled' ? 'bg-red-100 text-red-800' :
+                                                            log.action === 'cancelled' ? 'bg-error-100 text-red-800' :
                                                             log.action === 'rescheduled' ? 'bg-blue-100 text-blue-800' :
                                                             log.action === 'status_changed' ? 'bg-yellow-100 text-yellow-800' :
-                                                            'bg-gray-100 text-gray-800'
+                                                            'bg-neutral-100 text-neutral-800'
                                                         }`}>
                                                             {log.action_label || log.action?.replace(/_/g, ' ')}
                                                         </span>
@@ -1496,18 +1496,18 @@ const SuperAdminAppointments: React.FC = () => {
                                                     <td className="px-4 py-3 text-sm">
                                                         {log.previous_status && log.new_status ? (
                                                             <span className="flex items-center gap-1">
-                                                                <span className="text-gray-500">{log.previous_status}</span>
-                                                                <span className="text-gray-400">→</span>
+                                                                <span className="text-neutral-500">{log.previous_status}</span>
+                                                                <span className="text-neutral-400">→</span>
                                                                 <span className="font-medium">{log.new_status}</span>
                                                             </span>
                                                         ) : log.new_status ? (
                                                             <span className="font-medium">{log.new_status}</span>
                                                         ) : (
-                                                            <span className="text-gray-400">-</span>
+                                                            <span className="text-neutral-400">-</span>
                                                         )}
                                                     </td>
                                                     {/* Details/Reason */}
-                                                    <td className="px-4 py-3 text-sm text-gray-500 max-w-xs">
+                                                    <td className="px-4 py-3 text-sm text-neutral-500 max-w-xs">
                                                         <div className="truncate" title={log.reason || ''}>
                                                             {log.reason || '-'}
                                                         </div>
@@ -1520,22 +1520,22 @@ const SuperAdminAppointments: React.FC = () => {
 
                                 {/* Pagination */}
                                 {totalPages > 1 && (
-                                    <div className="flex items-center justify-between px-4 py-3 border-t border-gray-200">
-                                        <p className="text-sm text-gray-500">
+                                    <div className="flex items-center justify-between px-4 py-3 border-t border-neutral-200">
+                                        <p className="text-sm text-neutral-500">
                                             Page {currentPage} of {totalPages}
                                         </p>
                                         <div className="flex gap-2">
                                             <button
                                                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                                                 disabled={currentPage === 1}
-                                                className="px-3 py-1 border border-gray-300 rounded-lg disabled:opacity-50"
+                                                className="px-3 py-1 border border-neutral-300 rounded-lg disabled:opacity-50"
                                             >
                                                 <ChevronLeft className="w-5 h-5" />
                                             </button>
                                             <button
                                                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                                                 disabled={currentPage === totalPages}
-                                                className="px-3 py-1 border border-gray-300 rounded-lg disabled:opacity-50"
+                                                className="px-3 py-1 border border-neutral-300 rounded-lg disabled:opacity-50"
                                             >
                                                 <ChevronRight className="w-5 h-5" />
                                             </button>
@@ -1552,11 +1552,11 @@ const SuperAdminAppointments: React.FC = () => {
             {showDetailsModal && selectedAppointment && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl shadow-xl w-full max-w-lg mx-4">
-                        <div className="flex items-center justify-between p-4 border-b border-gray-200">
-                            <h3 className="text-lg font-semibold text-gray-800">Appointment Details</h3>
+                        <div className="flex items-center justify-between p-4 border-b border-neutral-200">
+                            <h3 className="text-lg font-semibold text-neutral-800">Appointment Details</h3>
                             <button
                                 onClick={() => setShowDetailsModal(false)}
-                                className="p-2 text-gray-500 hover:bg-gray-100 rounded-lg"
+                                className="p-2 text-neutral-500 hover:bg-neutral-100 rounded-lg"
                             >
                                 &times;
                             </button>
@@ -1564,41 +1564,41 @@ const SuperAdminAppointments: React.FC = () => {
                         <div className="p-4 space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <p className="text-sm text-gray-500">Reference</p>
+                                    <p className="text-sm text-neutral-500">Reference</p>
                                     <p className="font-mono font-medium">#{selectedAppointment.id}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Status</p>
+                                    <p className="text-sm text-neutral-500">Status</p>
                                     <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(selectedAppointment.status)}`}>
                                         {selectedAppointment.status.replace('_', ' ')}
                                     </span>
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Patient</p>
+                                    <p className="text-sm text-neutral-500">Patient</p>
                                     <p className="font-medium">{selectedAppointment.patient_name}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Doctor</p>
+                                    <p className="text-sm text-neutral-500">Doctor</p>
                                     <p className="font-medium">{selectedAppointment.doctor_name}</p>
-                                    <p className="text-xs text-gray-500">{selectedAppointment.appointment_type}</p>
+                                    <p className="text-xs text-neutral-500">{selectedAppointment.appointment_type}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Branch</p>
+                                    <p className="text-sm text-neutral-500">Branch</p>
                                     <p className="font-medium">{selectedAppointment.branch_name}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Date & Time</p>
+                                    <p className="text-sm text-neutral-500">Date & Time</p>
                                     <p className="font-medium">
                                         {formatDate(selectedAppointment.appointment_date)} at{' '}
                                         {formatTime(selectedAppointment.appointment_time)}
                                     </p>
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Booking Type</p>
+                                    <p className="text-sm text-neutral-500">Booking Type</p>
                                     <p className="font-medium capitalize">{selectedAppointment.booking_type || 'online'}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Payment Status</p>
+                                    <p className="text-sm text-neutral-500">Payment Status</p>
                                     <span className={`px-2 py-1 text-xs font-medium rounded-full ${
                                         selectedAppointment.payment_status === 'paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
                                     }`}>
@@ -1608,15 +1608,15 @@ const SuperAdminAppointments: React.FC = () => {
                             </div>
                             {selectedAppointment.notes && (
                                 <div>
-                                    <p className="text-sm text-gray-500">Notes</p>
-                                    <p className="text-gray-700">{selectedAppointment.notes}</p>
+                                    <p className="text-sm text-neutral-500">Notes</p>
+                                    <p className="text-neutral-700">{selectedAppointment.notes}</p>
                                 </div>
                             )}
                         </div>
-                        <div className="flex justify-end p-4 border-t border-gray-200">
+                        <div className="flex justify-end p-4 border-t border-neutral-200">
                             <button
                                 onClick={() => setShowDetailsModal(false)}
-                                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
+                                className="px-4 py-2 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200"
                             >
                                 Close
                             </button>
@@ -1629,13 +1629,13 @@ const SuperAdminAppointments: React.FC = () => {
             {showSettingsModal && editingBranchSettings && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl shadow-xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
-                        <div className="flex items-center justify-between p-4 border-b border-gray-200">
-                            <h3 className="text-lg font-semibold text-gray-800">
+                        <div className="flex items-center justify-between p-4 border-b border-neutral-200">
+                            <h3 className="text-lg font-semibold text-neutral-800">
                                 Edit Settings - {editingBranchSettings.branch_name}
                             </h3>
                             <button
                                 onClick={() => setShowSettingsModal(false)}
-                                className="p-2 text-gray-500 hover:bg-gray-100 rounded-lg"
+                                className="p-2 text-neutral-500 hover:bg-neutral-100 rounded-lg"
                             >
                                 &times;
                             </button>
@@ -1643,7 +1643,7 @@ const SuperAdminAppointments: React.FC = () => {
                         <div className="p-4 space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Advance Booking Days
                                     </label>
                                     <input
@@ -1656,11 +1656,11 @@ const SuperAdminAppointments: React.FC = () => {
                                                 max_advance_booking_days: parseInt(e.target.value)
                                             }
                                         })}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                                        className="w-full border border-neutral-300 rounded-lg px-3 py-2"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Min Lead Time (hours)
                                     </label>
                                     <input
@@ -1673,11 +1673,11 @@ const SuperAdminAppointments: React.FC = () => {
                                                 min_advance_booking_hours: parseInt(e.target.value)
                                             }
                                         })}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                                        className="w-full border border-neutral-300 rounded-lg px-3 py-2"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Time Per Patient (min)
                                     </label>
                                     <input
@@ -1690,11 +1690,11 @@ const SuperAdminAppointments: React.FC = () => {
                                                 default_time_per_patient: parseInt(e.target.value)
                                             }
                                         })}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                                        className="w-full border border-neutral-300 rounded-lg px-3 py-2"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Booking Fee (Rs.)
                                     </label>
                                     <input
@@ -1707,11 +1707,11 @@ const SuperAdminAppointments: React.FC = () => {
                                                 default_booking_fee: parseFloat(e.target.value)
                                             }
                                         })}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                                        className="w-full border border-neutral-300 rounded-lg px-3 py-2"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Max Patients Per Session
                                     </label>
                                     <input
@@ -1724,11 +1724,11 @@ const SuperAdminAppointments: React.FC = () => {
                                                 default_max_patients_per_session: parseInt(e.target.value)
                                             }
                                         })}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                                        className="w-full border border-neutral-300 rounded-lg px-3 py-2"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Cancellation Hours
                                     </label>
                                     <input
@@ -1741,7 +1741,7 @@ const SuperAdminAppointments: React.FC = () => {
                                                 cancellation_advance_hours: parseInt(e.target.value)
                                             }
                                         })}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                                        className="w-full border border-neutral-300 rounded-lg px-3 py-2"
                                     />
                                 </div>
                             </div>
@@ -1757,9 +1757,9 @@ const SuperAdminAppointments: React.FC = () => {
                                                 allow_walk_in: e.target.checked
                                             }
                                         })}
-                                        className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                                        className="rounded border-neutral-300 text-emerald-600 focus:ring-emerald-500"
                                     />
-                                    <span className="text-sm text-gray-700">Allow Walk-in</span>
+                                    <span className="text-sm text-neutral-700">Allow Walk-in</span>
                                 </label>
                                 <label className="flex items-center gap-2">
                                     <input
@@ -1772,9 +1772,9 @@ const SuperAdminAppointments: React.FC = () => {
                                                 allow_patient_cancellation: e.target.checked
                                             }
                                         })}
-                                        className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                                        className="rounded border-neutral-300 text-emerald-600 focus:ring-emerald-500"
                                     />
-                                    <span className="text-sm text-gray-700">Allow Cancellation</span>
+                                    <span className="text-sm text-neutral-700">Allow Cancellation</span>
                                 </label>
                                 <label className="flex items-center gap-2">
                                     <input
@@ -1787,16 +1787,16 @@ const SuperAdminAppointments: React.FC = () => {
                                                 allow_reschedule: e.target.checked
                                             }
                                         })}
-                                        className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                                        className="rounded border-neutral-300 text-emerald-600 focus:ring-emerald-500"
                                     />
-                                    <span className="text-sm text-gray-700">Allow Rescheduling</span>
+                                    <span className="text-sm text-neutral-700">Allow Rescheduling</span>
                                 </label>
                             </div>
                         </div>
-                        <div className="flex justify-end gap-2 p-4 border-t border-gray-200">
+                        <div className="flex justify-end gap-2 p-4 border-t border-neutral-200">
                             <button
                                 onClick={() => setShowSettingsModal(false)}
-                                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
+                                className="px-4 py-2 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200"
                             >
                                 Cancel
                             </button>
@@ -1815,28 +1815,28 @@ const SuperAdminAppointments: React.FC = () => {
             {showEditModal && editingAppointment && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl shadow-xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
-                        <div className="flex items-center justify-between p-4 border-b border-gray-200">
-                            <h3 className="text-lg font-semibold text-gray-800">
+                        <div className="flex items-center justify-between p-4 border-b border-neutral-200">
+                            <h3 className="text-lg font-semibold text-neutral-800">
                                 Edit Appointment - #{editingAppointment.token_number || editingAppointment.id}
                             </h3>
                             <button
                                 onClick={closeEditModal}
-                                className="p-2 text-gray-500 hover:bg-gray-100 rounded-lg"
+                                className="p-2 text-neutral-500 hover:bg-neutral-100 rounded-lg"
                             >
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
                         <div className="p-4 space-y-4">
                             {/* Current info display */}
-                            <div className="bg-gray-50 rounded-lg p-3">
-                                <p className="text-sm text-gray-600">
+                            <div className="bg-neutral-50 rounded-lg p-3">
+                                <p className="text-sm text-neutral-600">
                                     <strong>Patient:</strong> {editingAppointment.patient_name}<br/>
                                     <strong>Current:</strong> {editingAppointment.doctor_name} on {formatDate(editingAppointment.appointment_date)}
                                 </p>
                             </div>
 
                             {editError && (
-                                <div className="bg-red-50 text-red-700 p-3 rounded-lg flex items-center gap-2">
+                                <div className="bg-error-50 text-red-700 p-3 rounded-lg flex items-center gap-2">
                                     <AlertTriangle className="w-4 h-4" />
                                     {editError}
                                 </div>
@@ -1844,11 +1844,11 @@ const SuperAdminAppointments: React.FC = () => {
 
                             {/* Branch */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Branch</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Branch</label>
                                 <select
                                     value={editForm.branchId}
                                     onChange={(e) => handleEditFormChange('branchId', e.target.value)}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500"
                                 >
                                     {branches.map((b) => (
                                         <option key={b.id} value={b.id}>{b.name}</option>
@@ -1858,11 +1858,11 @@ const SuperAdminAppointments: React.FC = () => {
 
                             {/* Doctor */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Doctor</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Doctor</label>
                                 <select
                                     value={editForm.doctorId}
                                     onChange={(e) => handleEditFormChange('doctorId', e.target.value)}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500"
                                 >
                                     <option value="">Select Doctor</option>
                                     {doctors.map((doc, idx) => (
@@ -1875,25 +1875,25 @@ const SuperAdminAppointments: React.FC = () => {
 
                             {/* Date */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">New Date</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">New Date</label>
                                 <input
                                     type="date"
                                     value={editForm.date}
                                     min={new Date().toISOString().split('T')[0]}
                                     onChange={(e) => handleEditFormChange('date', e.target.value)}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500"
                                 />
                             </div>
 
                             {/* Slot Selection */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Available Slots</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Available Slots</label>
                                 {loadingSlots ? (
                                     <div className="flex items-center justify-center py-4">
                                         <RefreshCw className="w-5 h-5 text-emerald-500 animate-spin" />
                                     </div>
                                 ) : availableSlots.length === 0 ? (
-                                    <p className="text-sm text-gray-500 py-2">No slots available for selected doctor/date</p>
+                                    <p className="text-sm text-neutral-500 py-2">No slots available for selected doctor/date</p>
                                 ) : (
                                     <div className="grid grid-cols-5 gap-2 max-h-40 overflow-y-auto">
                                         {availableSlots.map((slot) => (
@@ -1905,8 +1905,8 @@ const SuperAdminAppointments: React.FC = () => {
                                                     editForm.slotNumber === slot.slot_number
                                                         ? 'bg-emerald-600 text-white border-emerald-600'
                                                         : slot.is_available
-                                                            ? 'bg-white text-gray-700 border-gray-300 hover:border-emerald-500'
-                                                            : 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
+                                                            ? 'bg-white text-neutral-700 border-neutral-300 hover:border-emerald-500'
+                                                            : 'bg-neutral-100 text-neutral-400 border-neutral-200 cursor-not-allowed'
                                                 }`}
                                             >
                                                 #{slot.slot_number}
@@ -1917,17 +1917,17 @@ const SuperAdminAppointments: React.FC = () => {
                                 )}
                             </div>
                         </div>
-                        <div className="flex justify-end gap-2 p-4 border-t border-gray-200">
+                        <div className="flex justify-end gap-2 p-4 border-t border-neutral-200">
                             <button
                                 onClick={closeEditModal}
-                                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
+                                className="px-4 py-2 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleSaveEdit}
                                 disabled={savingEdit || !editForm.slotNumber}
-                                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
+                                className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 flex items-center gap-2"
                             >
                                 {savingEdit ? (
                                     <RefreshCw className="w-4 h-4 animate-spin" />
@@ -1945,22 +1945,22 @@ const SuperAdminAppointments: React.FC = () => {
             {showCancelModal && cancellingAppointment && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl shadow-xl w-full max-w-md mx-4">
-                        <div className="flex items-center justify-between p-4 border-b border-gray-200">
-                            <h3 className="text-lg font-semibold text-red-600 flex items-center gap-2">
+                        <div className="flex items-center justify-between p-4 border-b border-neutral-200">
+                            <h3 className="text-lg font-semibold text-error-600 flex items-center gap-2">
                                 <AlertTriangle className="w-5 h-5" />
                                 Cancel Appointment
                             </h3>
                             <button
                                 onClick={closeCancelModal}
-                                className="p-2 text-gray-500 hover:bg-gray-100 rounded-lg"
+                                className="p-2 text-neutral-500 hover:bg-neutral-100 rounded-lg"
                             >
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
                         <div className="p-4 space-y-4">
                             {/* Appointment info display */}
-                            <div className="bg-gray-50 rounded-lg p-3">
-                                <p className="text-sm text-gray-600">
+                            <div className="bg-neutral-50 rounded-lg p-3">
+                                <p className="text-sm text-neutral-600">
                                     <strong>Token:</strong> #{cancellingAppointment.token_number || cancellingAppointment.id}<br/>
                                     <strong>Patient:</strong> {cancellingAppointment.patient_name}<br/>
                                     <strong>Doctor:</strong> {cancellingAppointment.doctor_name}<br/>
@@ -1969,7 +1969,7 @@ const SuperAdminAppointments: React.FC = () => {
                             </div>
 
                             {cancelError && (
-                                <div className="bg-red-50 text-red-700 p-3 rounded-lg flex items-center gap-2">
+                                <div className="bg-error-50 text-red-700 p-3 rounded-lg flex items-center gap-2">
                                     <AlertTriangle className="w-4 h-4" />
                                     {cancelError}
                                 </div>
@@ -1977,7 +1977,7 @@ const SuperAdminAppointments: React.FC = () => {
 
                             {/* Cancellation Type */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Cancellation Type</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">Cancellation Type</label>
                                 <div className="space-y-2">
                                     <label className="flex items-center gap-2">
                                         <input
@@ -1985,9 +1985,9 @@ const SuperAdminAppointments: React.FC = () => {
                                             value="normal"
                                             checked={cancellationType === 'normal'}
                                             onChange={(e) => setCancellationType(e.target.value as CancellationType)}
-                                            className="text-red-600 focus:ring-red-500"
+                                            className="text-error-600 focus:ring-red-500"
                                         />
-                                        <span className="text-sm text-gray-700">Normal Cancellation</span>
+                                        <span className="text-sm text-neutral-700">Normal Cancellation</span>
                                     </label>
                                     <label className="flex items-center gap-2">
                                         <input
@@ -1995,31 +1995,31 @@ const SuperAdminAppointments: React.FC = () => {
                                             value="doctor_request"
                                             checked={cancellationType === 'doctor_request'}
                                             onChange={(e) => setCancellationType(e.target.value as CancellationType)}
-                                            className="text-red-600 focus:ring-red-500"
+                                            className="text-error-600 focus:ring-red-500"
                                         />
-                                        <span className="text-sm text-gray-700">Doctor Requested (will notify patient)</span>
+                                        <span className="text-sm text-neutral-700">Doctor Requested (will notify patient)</span>
                                     </label>
                                 </div>
                             </div>
 
                             {/* Reason */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Cancellation Reason <span className="text-red-500">*</span>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">
+                                    Cancellation Reason <span className="text-error-500">*</span>
                                 </label>
                                 <textarea
                                     value={cancelReason}
                                     onChange={(e) => setCancelReason(e.target.value)}
                                     placeholder="Enter the reason for cancellation..."
                                     rows={3}
-                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500"
+                                    className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500"
                                 />
                             </div>
                         </div>
-                        <div className="flex justify-end gap-2 p-4 border-t border-gray-200">
+                        <div className="flex justify-end gap-2 p-4 border-t border-neutral-200">
                             <button
                                 onClick={closeCancelModal}
-                                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
+                                className="px-4 py-2 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200"
                             >
                                 Keep Appointment
                             </button>
@@ -2044,14 +2044,14 @@ const SuperAdminAppointments: React.FC = () => {
             {showBookingModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl mx-4 max-h-[95vh] overflow-y-auto">
-                        <div className="flex items-center justify-between p-4 border-b border-gray-200 sticky top-0 bg-white z-10">
-                            <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                        <div className="flex items-center justify-between p-4 border-b border-neutral-200 sticky top-0 bg-white z-10">
+                            <h3 className="text-lg font-semibold text-neutral-800 flex items-center gap-2">
                                 <Plus className="w-5 h-5 text-emerald-600" />
                                 Create New Appointment
                             </h3>
                             <button
                                 onClick={closeBookingModal}
-                                className="p-2 text-gray-500 hover:bg-gray-100 rounded-lg"
+                                className="p-2 text-neutral-500 hover:bg-neutral-100 rounded-lg"
                             >
                                 <X className="w-5 h-5" />
                             </button>
@@ -2065,7 +2065,7 @@ const SuperAdminAppointments: React.FC = () => {
                             )}
 
                             {bookingError && (
-                                <div className="bg-red-50 text-red-700 p-3 rounded-lg flex items-center gap-2">
+                                <div className="bg-error-50 text-red-700 p-3 rounded-lg flex items-center gap-2">
                                     <AlertTriangle className="w-4 h-4" />
                                     {bookingError}
                                 </div>
@@ -2074,13 +2074,13 @@ const SuperAdminAppointments: React.FC = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {/* Branch Selection */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Branch <span className="text-red-500">*</span>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
+                                        Branch <span className="text-error-500">*</span>
                                     </label>
                                     <select
                                         value={bookingForm.branchId}
                                         onChange={(e) => handleBookingFormChange('branchId', e.target.value)}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="">Select Branch</option>
                                         {branches.map((b) => (
@@ -2091,11 +2091,11 @@ const SuperAdminAppointments: React.FC = () => {
 
                                 {/* Booking Type */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Booking Type</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Booking Type</label>
                                     <select
                                         value={bookingForm.bookingType}
                                         onChange={(e) => handleBookingFormChange('bookingType', e.target.value)}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="walk_in">Walk-in</option>
                                         <option value="phone">Phone</option>
@@ -2105,9 +2105,9 @@ const SuperAdminAppointments: React.FC = () => {
                             </div>
 
                             {/* Patient Selection */}
-                            <div className="border border-gray-200 rounded-lg p-4">
+                            <div className="border border-neutral-200 rounded-lg p-4">
                                 <div className="flex items-center justify-between mb-3">
-                                    <label className="text-sm font-medium text-gray-700">Patient</label>
+                                    <label className="text-sm font-medium text-neutral-700">Patient</label>
                                     <button
                                         onClick={() => {
                                             setShowNewPatientForm(!showNewPatientForm);
@@ -2126,29 +2126,29 @@ const SuperAdminAppointments: React.FC = () => {
                                 {!showNewPatientForm ? (
                                     <div className="space-y-2">
                                         <div className="relative">
-                                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
                                             <input
                                                 type="text"
                                                 value={patientSearchQuery}
                                                 onChange={(e) => handlePatientSearch(e.target.value)}
                                                 placeholder="Search by name, phone, or NIC..."
-                                                className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                                className="w-full pl-9 pr-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             />
                                             {searchingPatients && (
                                                 <RefreshCw className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-emerald-500 animate-spin" />
                                             )}
                                         </div>
                                         {patientSearchResults.length > 0 && (
-                                            <div className="border border-gray-200 rounded-lg max-h-40 overflow-y-auto">
+                                            <div className="border border-neutral-200 rounded-lg max-h-40 overflow-y-auto">
                                                 {patientSearchResults.map((patient) => (
                                                     <button
                                                         key={patient.id}
                                                         onClick={() => selectPatient(patient)}
-                                                        className="w-full px-3 py-2 text-left hover:bg-gray-50 flex items-center justify-between border-b border-gray-100 last:border-b-0"
+                                                        className="w-full px-3 py-2 text-left hover:bg-neutral-50 flex items-center justify-between border-b border-gray-100 last:border-b-0"
                                                     >
                                                         <div>
                                                             <p className="font-medium text-sm">{patient.name}</p>
-                                                            <p className="text-xs text-gray-500">
+                                                            <p className="text-xs text-neutral-500">
                                                                 <Phone className="w-3 h-3 inline mr-1" />
                                                                 {patient.phone}
                                                                 {patient.nic && ` • ${patient.nic}`}
@@ -2177,41 +2177,41 @@ const SuperAdminAppointments: React.FC = () => {
                                     <div className="space-y-3">
                                         <div className="grid grid-cols-2 gap-3">
                                             <div>
-                                                <label className="block text-xs text-gray-500 mb-1">Full Name *</label>
+                                                <label className="block text-xs text-neutral-500 mb-1">Full Name *</label>
                                                 <input
                                                     type="text"
                                                     value={newPatientData.full_name}
                                                     onChange={(e) => setNewPatientData(prev => ({ ...prev, full_name: e.target.value }))}
-                                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+                                                    className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-xs text-gray-500 mb-1">Mobile *</label>
+                                                <label className="block text-xs text-neutral-500 mb-1">Mobile *</label>
                                                 <input
                                                     type="text"
                                                     value={newPatientData.mobile_number}
                                                     onChange={(e) => setNewPatientData(prev => ({ ...prev, mobile_number: e.target.value }))}
                                                     placeholder="07XXXXXXXX"
-                                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+                                                    className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
                                                 />
                                             </div>
                                         </div>
                                         <div className="grid grid-cols-2 gap-3">
                                             <div>
-                                                <label className="block text-xs text-gray-500 mb-1">NIC</label>
+                                                <label className="block text-xs text-neutral-500 mb-1">NIC</label>
                                                 <input
                                                     type="text"
                                                     value={newPatientData.nic}
                                                     onChange={(e) => setNewPatientData(prev => ({ ...prev, nic: e.target.value }))}
-                                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+                                                    className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-xs text-gray-500 mb-1">Gender</label>
+                                                <label className="block text-xs text-neutral-500 mb-1">Gender</label>
                                                 <select
                                                     value={newPatientData.gender}
                                                     onChange={(e) => setNewPatientData(prev => ({ ...prev, gender: e.target.value as 'male' | 'female' | 'other' }))}
-                                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+                                                    className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
                                                 >
                                                     <option value="male">Male</option>
                                                     <option value="female">Female</option>
@@ -2220,12 +2220,12 @@ const SuperAdminAppointments: React.FC = () => {
                                             </div>
                                         </div>
                                         <div>
-                                            <label className="block text-xs text-gray-500 mb-1">Date of Birth</label>
+                                            <label className="block text-xs text-neutral-500 mb-1">Date of Birth</label>
                                             <input
                                                 type="date"
                                                 value={newPatientData.date_of_birth}
                                                 onChange={(e) => setNewPatientData(prev => ({ ...prev, date_of_birth: e.target.value }))}
-                                                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+                                                className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
                                             />
                                         </div>
                                         <label className="flex items-center gap-2">
@@ -2233,9 +2233,9 @@ const SuperAdminAppointments: React.FC = () => {
                                                 type="checkbox"
                                                 checked={newPatientData.send_sms}
                                                 onChange={(e) => setNewPatientData(prev => ({ ...prev, send_sms: e.target.checked }))}
-                                                className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                                                className="rounded border-neutral-300 text-emerald-600 focus:ring-emerald-500"
                                             />
-                                            <span className="text-sm text-gray-700">Send confirmation SMS</span>
+                                            <span className="text-sm text-neutral-700">Send confirmation SMS</span>
                                         </label>
                                     </div>
                                 )}
@@ -2244,13 +2244,13 @@ const SuperAdminAppointments: React.FC = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {/* Doctor */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Doctor <span className="text-red-500">*</span>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
+                                        Doctor <span className="text-error-500">*</span>
                                     </label>
                                     <select
                                         value={bookingForm.doctorId}
                                         onChange={(e) => handleBookingFormChange('doctorId', e.target.value)}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500"
                                         disabled={!bookingForm.branchId}
                                     >
                                         <option value="">{bookingForm.branchId ? 'Select Doctor' : 'Select Branch First'}</option>
@@ -2264,36 +2264,36 @@ const SuperAdminAppointments: React.FC = () => {
 
                                 {/* Date */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Date <span className="text-red-500">*</span>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
+                                        Date <span className="text-error-500">*</span>
                                     </label>
                                     <input
                                         type="date"
                                         value={bookingForm.date}
                                         min={new Date().toISOString().split('T')[0]}
                                         onChange={(e) => handleBookingFormChange('date', e.target.value)}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                             </div>
 
                             {/* Slot Selection */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Available Slots <span className="text-red-500">*</span>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">
+                                    Available Slots <span className="text-error-500">*</span>
                                 </label>
                                 {loadingSlots ? (
                                     <div className="flex items-center justify-center py-4">
                                         <RefreshCw className="w-5 h-5 text-emerald-500 animate-spin" />
                                     </div>
                                 ) : bookingSlots.length === 0 ? (
-                                    <p className="text-sm text-gray-500 py-2">
+                                    <p className="text-sm text-neutral-500 py-2">
                                         {bookingForm.doctorId && bookingForm.date
                                             ? 'No slots available for selected doctor/date'
                                             : 'Select doctor and date to see available slots'}
                                     </p>
                                 ) : (
-                                    <div className="grid grid-cols-6 gap-2 max-h-48 overflow-y-auto border border-gray-200 rounded-lg p-3">
+                                    <div className="grid grid-cols-6 gap-2 max-h-48 overflow-y-auto border border-neutral-200 rounded-lg p-3">
                                         {bookingSlots.map((slot) => (
                                             <button
                                                 key={slot.slot_number}
@@ -2303,8 +2303,8 @@ const SuperAdminAppointments: React.FC = () => {
                                                     bookingForm.slotNumber === slot.slot_number
                                                         ? 'bg-emerald-600 text-white border-emerald-600'
                                                         : slot.is_available
-                                                            ? 'bg-white text-gray-700 border-gray-300 hover:border-emerald-500'
-                                                            : 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
+                                                            ? 'bg-white text-neutral-700 border-neutral-300 hover:border-emerald-500'
+                                                            : 'bg-neutral-100 text-neutral-400 border-neutral-200 cursor-not-allowed'
                                                 }`}
                                             >
                                                 #{slot.slot_number}
@@ -2318,11 +2318,11 @@ const SuperAdminAppointments: React.FC = () => {
                             <div className="grid grid-cols-2 gap-4">
                                 {/* Payment Status */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Payment Status</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Payment Status</label>
                                     <select
                                         value={bookingForm.paymentStatus}
                                         onChange={(e) => handleBookingFormChange('paymentStatus', e.target.value)}
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="pending">Pending</option>
                                         <option value="paid">Paid</option>
@@ -2331,21 +2331,21 @@ const SuperAdminAppointments: React.FC = () => {
 
                                 {/* Notes */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Notes</label>
                                     <input
                                         type="text"
                                         value={bookingForm.notes}
                                         onChange={(e) => handleBookingFormChange('notes', e.target.value)}
                                         placeholder="Optional notes..."
-                                        className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full border border-neutral-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                             </div>
                         </div>
-                        <div className="flex justify-end gap-2 p-4 border-t border-gray-200 sticky bottom-0 bg-white">
+                        <div className="flex justify-end gap-2 p-4 border-t border-neutral-200 sticky bottom-0 bg-white">
                             <button
                                 onClick={closeBookingModal}
-                                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
+                                className="px-4 py-2 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200"
                             >
                                 Cancel
                             </button>

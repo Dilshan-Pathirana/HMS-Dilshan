@@ -187,11 +187,11 @@ const DoctorAppointments: React.FC = () => {
       case 'completed':
         return 'bg-green-100 text-green-800';
       case 'cancelled':
-        return 'bg-red-100 text-red-800';
+        return 'bg-error-100 text-red-800';
       case 'no_show':
         return 'bg-orange-100 text-orange-800';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-neutral-100 text-neutral-800';
     }
   };
 
@@ -200,30 +200,30 @@ const DoctorAppointments: React.FC = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 bg-neutral-50 min-h-screen">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Appointment Management</h1>
-        <p className="text-gray-600">Manage your patient appointments</p>
+        <h1 className="text-2xl font-bold text-neutral-800">Appointment Management</h1>
+        <p className="text-neutral-600">Manage your patient appointments</p>
       </div>
 
       {/* Queue Summary Cards */}
       {activeTab === 'queue' && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <div className="bg-white rounded-xl p-4 shadow-sm">
-            <p className="text-sm text-gray-500">Today's Total</p>
+            <p className="text-sm text-neutral-500">Today's Total</p>
             <p className="text-2xl font-bold text-indigo-600">{queueSummary.total}</p>
           </div>
           <div className="bg-white rounded-xl p-4 shadow-sm">
-            <p className="text-sm text-gray-500">Waiting</p>
+            <p className="text-sm text-neutral-500">Waiting</p>
             <p className="text-2xl font-bold text-yellow-600">{queueSummary.waiting}</p>
           </div>
           <div className="bg-white rounded-xl p-4 shadow-sm">
-            <p className="text-sm text-gray-500">Completed</p>
+            <p className="text-sm text-neutral-500">Completed</p>
             <p className="text-2xl font-bold text-green-600">{queueSummary.completed}</p>
           </div>
           <div className="bg-white rounded-xl p-4 shadow-sm">
-            <p className="text-sm text-gray-500">Current Token</p>
+            <p className="text-sm text-neutral-500">Current Token</p>
             <p className="text-2xl font-bold text-purple-600">#{queueSummary.current_token}</p>
           </div>
         </div>
@@ -235,7 +235,7 @@ const DoctorAppointments: React.FC = () => {
           className={`px-4 py-2 rounded-lg font-medium transition-colors ${
             activeTab === 'queue'
               ? 'bg-indigo-600 text-white'
-              : 'bg-white text-gray-600 hover:bg-gray-100'
+              : 'bg-white text-neutral-600 hover:bg-neutral-100'
           }`}
           onClick={() => setActiveTab('queue')}
         >
@@ -246,7 +246,7 @@ const DoctorAppointments: React.FC = () => {
           className={`px-4 py-2 rounded-lg font-medium transition-colors ${
             activeTab === 'all'
               ? 'bg-indigo-600 text-white'
-              : 'bg-white text-gray-600 hover:bg-gray-100'
+              : 'bg-white text-neutral-600 hover:bg-neutral-100'
           }`}
           onClick={() => setActiveTab('all')}
         >
@@ -257,7 +257,7 @@ const DoctorAppointments: React.FC = () => {
           className={`px-4 py-2 rounded-lg font-medium transition-colors ${
             activeTab === 'stats'
               ? 'bg-indigo-600 text-white'
-              : 'bg-white text-gray-600 hover:bg-gray-100'
+              : 'bg-white text-neutral-600 hover:bg-neutral-100'
           }`}
           onClick={() => setActiveTab('stats')}
         >
@@ -268,9 +268,9 @@ const DoctorAppointments: React.FC = () => {
 
       {/* Error */}
       {error && (
-        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 flex justify-between items-center">
+        <div className="mb-4 p-4 bg-error-50 border border-red-200 rounded-lg text-red-700 flex justify-between items-center">
           <span>{error}</span>
-          <button onClick={() => setError(null)} className="text-red-500 hover:text-red-700">
+          <button onClick={() => setError(null)} className="text-error-500 hover:text-red-700">
             <FaTimes />
           </button>
         </div>
@@ -280,7 +280,7 @@ const DoctorAppointments: React.FC = () => {
       {activeTab === 'queue' && (
         <div className="bg-white rounded-xl shadow-lg overflow-hidden">
           <div className="flex justify-between items-center p-4 border-b">
-            <h2 className="font-semibold text-gray-800">Patient Queue</h2>
+            <h2 className="font-semibold text-neutral-800">Patient Queue</h2>
             <button
               className="text-indigo-600 hover:text-indigo-800 flex items-center"
               onClick={loadQueue}
@@ -300,8 +300,8 @@ const DoctorAppointments: React.FC = () => {
                     <span className="text-xl font-bold text-purple-700">#{currentPatient.token_number}</span>
                   </div>
                   <div>
-                    <p className="font-semibold text-gray-800">{currentPatient.patient_name || 'Patient'}</p>
-                    <p className="text-sm text-gray-600">{currentPatient.appointment_time}</p>
+                    <p className="font-semibold text-neutral-800">{currentPatient.patient_name || 'Patient'}</p>
+                    <p className="text-sm text-neutral-600">{currentPatient.appointment_time}</p>
                   </div>
                 </div>
                 <div className="flex items-center">
@@ -326,7 +326,7 @@ const DoctorAppointments: React.FC = () => {
               <div className="animate-spin w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full mx-auto"></div>
             </div>
           ) : queue.length === 0 ? (
-            <div className="p-8 text-center text-gray-500">
+            <div className="p-8 text-center text-neutral-500">
               <FaClock className="text-4xl mx-auto mb-2 text-gray-300" />
               <p>No patients in queue</p>
             </div>
@@ -335,15 +335,15 @@ const DoctorAppointments: React.FC = () => {
               {queue
                 .filter((apt) => apt.id !== currentPatient?.id)
                 .map((appointment) => (
-                <div key={appointment.id} className="p-4 hover:bg-gray-50 transition-colors">
+                <div key={appointment.id} className="p-4 hover:bg-neutral-50 transition-colors">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
                       <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center mr-3">
                         <span className="font-bold text-indigo-600">#{appointment.token_number}</span>
                       </div>
                       <div>
-                        <p className="font-medium text-gray-800">{appointment.patient_name || 'Patient'}</p>
-                        <div className="flex items-center text-sm text-gray-500">
+                        <p className="font-medium text-neutral-800">{appointment.patient_name || 'Patient'}</p>
+                        <div className="flex items-center text-sm text-neutral-500">
                           <FaClock className="mr-1" />
                           {appointment.appointment_time}
                           <span className={`ml-2 px-2 py-0.5 rounded-full text-xs ${getStatusColor(appointment.status)}`}>
@@ -357,7 +357,7 @@ const DoctorAppointments: React.FC = () => {
                       {appointment.status === 'confirmed' && (
                         <>
                           <button
-                            className="px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm flex items-center"
+                            className="px-3 py-1.5 bg-primary-500 text-white rounded-lg hover:bg-primary-600 text-sm flex items-center"
                             onClick={() => handleCheckIn(appointment.id)}
                             disabled={actionLoading === appointment.id}
                           >
@@ -400,17 +400,17 @@ const DoctorAppointments: React.FC = () => {
           {/* Filters */}
           <div className="p-4 border-b flex flex-wrap gap-3 items-center">
             <div className="flex items-center">
-              <FaFilter className="text-gray-400 mr-2" />
-              <span className="text-sm font-medium text-gray-600">Filters:</span>
+              <FaFilter className="text-neutral-400 mr-2" />
+              <span className="text-sm font-medium text-neutral-600">Filters:</span>
             </div>
             <input
               type="date"
-              className="px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500"
+              className="px-3 py-1.5 border border-neutral-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500"
               value={filterDate}
               onChange={(e) => setFilterDate(e.target.value)}
             />
             <select
-              className="px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500"
+              className="px-3 py-1.5 border border-neutral-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500"
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
             >
@@ -435,36 +435,36 @@ const DoctorAppointments: React.FC = () => {
               <div className="animate-spin w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full mx-auto"></div>
             </div>
           ) : appointments.length === 0 ? (
-            <div className="p-8 text-center text-gray-500">
+            <div className="p-8 text-center text-neutral-500">
               <FaCalendarAlt className="text-4xl mx-auto mb-2 text-gray-300" />
               <p>No appointments found</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gray-50">
+                <thead className="bg-neutral-50">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Token</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Patient</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Time</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                    <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Token</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Patient</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Date</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Time</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Type</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Status</th>
+                    <th className="px-4 py-3 text-right text-xs font-medium text-neutral-500 uppercase">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {appointments.map((appointment) => (
-                    <tr key={appointment.id} className="hover:bg-gray-50">
+                    <tr key={appointment.id} className="hover:bg-neutral-50">
                       <td className="px-4 py-3 font-bold text-indigo-600">#{appointment.token_number}</td>
                       <td className="px-4 py-3">
                         <div className="flex items-center">
-                          <FaUser className="text-gray-400 mr-2" />
+                          <FaUser className="text-neutral-400 mr-2" />
                           <span>{appointment.patient_name || 'Patient'}</span>
                         </div>
                       </td>
-                      <td className="px-4 py-3 text-sm text-gray-600">{appointment.appointment_date}</td>
-                      <td className="px-4 py-3 text-sm text-gray-600">{appointment.appointment_time}</td>
+                      <td className="px-4 py-3 text-sm text-neutral-600">{appointment.appointment_date}</td>
+                      <td className="px-4 py-3 text-sm text-neutral-600">{appointment.appointment_time}</td>
                       <td className="px-4 py-3 text-sm capitalize">{appointment.appointment_type?.replace('_', ' ')}</td>
                       <td className="px-4 py-3">
                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(appointment.status)}`}>
@@ -496,23 +496,23 @@ const DoctorAppointments: React.FC = () => {
             <>
               {/* Today Stats */}
               <div className="bg-white rounded-xl shadow-lg p-6">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Today's Overview</h3>
+                <h3 className="text-lg font-semibold text-neutral-800 mb-4">Today's Overview</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="text-center p-4 bg-indigo-50 rounded-lg">
                     <p className="text-2xl font-bold text-indigo-600">{statistics.today.total}</p>
-                    <p className="text-sm text-gray-600">Total</p>
+                    <p className="text-sm text-neutral-600">Total</p>
                   </div>
                   <div className="text-center p-4 bg-blue-50 rounded-lg">
-                    <p className="text-2xl font-bold text-blue-600">{statistics.today.confirmed}</p>
-                    <p className="text-sm text-gray-600">Confirmed</p>
+                    <p className="text-2xl font-bold text-primary-500">{statistics.today.confirmed}</p>
+                    <p className="text-sm text-neutral-600">Confirmed</p>
                   </div>
                   <div className="text-center p-4 bg-green-50 rounded-lg">
                     <p className="text-2xl font-bold text-green-600">{statistics.today.completed}</p>
-                    <p className="text-sm text-gray-600">Completed</p>
+                    <p className="text-sm text-neutral-600">Completed</p>
                   </div>
-                  <div className="text-center p-4 bg-red-50 rounded-lg">
-                    <p className="text-2xl font-bold text-red-600">{statistics.today.cancelled}</p>
-                    <p className="text-sm text-gray-600">Cancelled</p>
+                  <div className="text-center p-4 bg-error-50 rounded-lg">
+                    <p className="text-2xl font-bold text-error-600">{statistics.today.cancelled}</p>
+                    <p className="text-sm text-neutral-600">Cancelled</p>
                   </div>
                 </div>
               </div>
@@ -520,26 +520,26 @@ const DoctorAppointments: React.FC = () => {
               {/* This Month Stats */}
               {statistics.this_month && (
                 <div className="bg-white rounded-xl shadow-lg p-6">
-                  <h3 className="text-lg font-semibold text-gray-800 mb-4">This Month</h3>
+                  <h3 className="text-lg font-semibold text-neutral-800 mb-4">This Month</h3>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    <div className="text-center p-4 bg-gray-50 rounded-lg">
-                      <p className="text-2xl font-bold text-gray-800">{statistics.this_month.total}</p>
-                      <p className="text-sm text-gray-600">Total Appointments</p>
+                    <div className="text-center p-4 bg-neutral-50 rounded-lg">
+                      <p className="text-2xl font-bold text-neutral-800">{statistics.this_month.total}</p>
+                      <p className="text-sm text-neutral-600">Total Appointments</p>
                     </div>
-                    <div className="text-center p-4 bg-gray-50 rounded-lg">
+                    <div className="text-center p-4 bg-neutral-50 rounded-lg">
                       <p className="text-2xl font-bold text-green-600">{statistics.this_month.completed}</p>
-                      <p className="text-sm text-gray-600">Completed</p>
+                      <p className="text-sm text-neutral-600">Completed</p>
                     </div>
-                    <div className="text-center p-4 bg-gray-50 rounded-lg">
-                      <p className="text-2xl font-bold text-red-600">{statistics.this_month.cancelled}</p>
-                      <p className="text-sm text-gray-600">Cancelled</p>
+                    <div className="text-center p-4 bg-neutral-50 rounded-lg">
+                      <p className="text-2xl font-bold text-error-600">{statistics.this_month.cancelled}</p>
+                      <p className="text-sm text-neutral-600">Cancelled</p>
                     </div>
                   </div>
                 </div>
               )}
             </>
           ) : (
-            <div className="p-8 text-center text-gray-500">
+            <div className="p-8 text-center text-neutral-500">
               <FaChartBar className="text-4xl mx-auto mb-2 text-gray-300" />
               <p>No statistics available</p>
             </div>

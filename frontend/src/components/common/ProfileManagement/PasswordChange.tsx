@@ -98,35 +98,35 @@ export const PasswordChange: React.FC<PasswordChangeProps> = ({ userId, onSucces
     };
 
     return (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-6">
             <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 bg-gradient-to-br from-emerald-100 to-blue-100 rounded-lg">
                     <Lock className="w-6 h-6 text-emerald-600" />
                 </div>
                 <div>
-                    <h3 className="text-lg font-semibold text-gray-800">Change Password</h3>
-                    <p className="text-sm text-gray-500">Update your account password</p>
+                    <h3 className="text-lg font-semibold text-neutral-800">Change Password</h3>
+                    <p className="text-sm text-neutral-500">Update your account password</p>
                 </div>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Current Password */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Current Password <span className="text-red-500">*</span>
+                    <label className="block text-sm font-medium text-neutral-700 mb-2">
+                        Current Password <span className="text-error-500">*</span>
                     </label>
                     <div className="relative">
                         <input
                             type={showPasswords.current ? 'text' : 'password'}
                             value={formData.current_password}
                             onChange={(e) => setFormData({ ...formData, current_password: e.target.value })}
-                            className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                            className="w-full px-4 py-2 pr-10 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
                             placeholder="Enter current password"
                         />
                         <button
                             type="button"
                             onClick={() => togglePasswordVisibility('current')}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
                         >
                             {showPasswords.current ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                         </button>
@@ -135,47 +135,47 @@ export const PasswordChange: React.FC<PasswordChangeProps> = ({ userId, onSucces
 
                 {/* New Password */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                        New Password <span className="text-red-500">*</span>
+                    <label className="block text-sm font-medium text-neutral-700 mb-2">
+                        New Password <span className="text-error-500">*</span>
                     </label>
                     <div className="relative">
                         <input
                             type={showPasswords.new ? 'text' : 'password'}
                             value={formData.new_password}
                             onChange={(e) => setFormData({ ...formData, new_password: e.target.value })}
-                            className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                            className="w-full px-4 py-2 pr-10 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
                             placeholder="Enter new password"
                         />
                         <button
                             type="button"
                             onClick={() => togglePasswordVisibility('new')}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
                         >
                             {showPasswords.new ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                         </button>
                     </div>
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-neutral-500 mt-1">
                         Min 8 characters, include uppercase, lowercase, and number
                     </p>
                 </div>
 
                 {/* Confirm Password */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Confirm New Password <span className="text-red-500">*</span>
+                    <label className="block text-sm font-medium text-neutral-700 mb-2">
+                        Confirm New Password <span className="text-error-500">*</span>
                     </label>
                     <div className="relative">
                         <input
                             type={showPasswords.confirm ? 'text' : 'password'}
                             value={formData.confirm_password}
                             onChange={(e) => setFormData({ ...formData, confirm_password: e.target.value })}
-                            className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                            className="w-full px-4 py-2 pr-10 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
                             placeholder="Confirm new password"
                         />
                         <button
                             type="button"
                             onClick={() => togglePasswordVisibility('confirm')}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
                         >
                             {showPasswords.confirm ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                         </button>
@@ -183,7 +183,7 @@ export const PasswordChange: React.FC<PasswordChangeProps> = ({ userId, onSucces
                 </div>
 
                 {error && (
-                    <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                    <div className="bg-error-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
                         {error}
                     </div>
                 )}
@@ -198,7 +198,7 @@ export const PasswordChange: React.FC<PasswordChangeProps> = ({ userId, onSucces
                 <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-gradient-to-r from-emerald-500 to-blue-500 text-white py-2 px-4 rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                    className="w-full bg-gradient-to-r from-emerald-500 to-primary-500 text-white py-2 px-4 rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-medium"
                 >
                     {loading ? 'Updating...' : 'Update Password'}
                 </button>

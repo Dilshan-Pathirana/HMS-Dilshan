@@ -1,4 +1,4 @@
-ï»¿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from "../../../utils/api/axios";
 import { Store, Eye, Edit, Trash2, MapPin, Phone, Mail, User, Plus } from 'lucide-react';
 
@@ -28,36 +28,36 @@ const PharmacyViewModal: React.FC<PharmacyViewModalProps> = ({ pharmacy, onClose
       <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-              <Store className="w-6 h-6 text-blue-600" />
+            <h2 className="text-2xl font-bold text-neutral-900 flex items-center gap-2">
+              <Store className="w-6 h-6 text-primary-500" />
               Pharmacy Details
             </h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 text-2xl"
+              className="text-neutral-400 hover:text-neutral-600 text-2xl"
             >
-              Ã—
+              ×
             </button>
           </div>
 
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-500 mb-1">
+                <label className="block text-sm font-medium text-neutral-500 mb-1">
                   Pharmacy Name
                 </label>
-                <p className="text-lg font-semibold text-gray-900">{pharmacy.name}</p>
+                <p className="text-lg font-semibold text-neutral-900">{pharmacy.name}</p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-500 mb-1">
+                <label className="block text-sm font-medium text-neutral-500 mb-1">
                   Status
                 </label>
                 <span
                   className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${
                     pharmacy.status === 'active'
                       ? 'bg-green-100 text-green-800'
-                      : 'bg-red-100 text-red-800'
+                      : 'bg-error-100 text-red-800'
                   }`}
                 >
                   {pharmacy.status}
@@ -65,51 +65,51 @@ const PharmacyViewModal: React.FC<PharmacyViewModalProps> = ({ pharmacy, onClose
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-500 mb-1 flex items-center gap-2">
+                <label className="block text-sm font-medium text-neutral-500 mb-1 flex items-center gap-2">
                   <MapPin className="w-4 h-4" />
                   Location
                 </label>
-                <p className="text-gray-900">{pharmacy.location}</p>
+                <p className="text-neutral-900">{pharmacy.location}</p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-500 mb-1 flex items-center gap-2">
+                <label className="block text-sm font-medium text-neutral-500 mb-1 flex items-center gap-2">
                   <User className="w-4 h-4" />
                   Manager
                 </label>
-                <p className="text-gray-900">{pharmacy.manager_name}</p>
+                <p className="text-neutral-900">{pharmacy.manager_name}</p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-500 mb-1 flex items-center gap-2">
+                <label className="block text-sm font-medium text-neutral-500 mb-1 flex items-center gap-2">
                   <Phone className="w-4 h-4" />
                   Contact Number
                 </label>
-                <p className="text-gray-900">{pharmacy.contact_number}</p>
+                <p className="text-neutral-900">{pharmacy.contact_number}</p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-500 mb-1 flex items-center gap-2">
+                <label className="block text-sm font-medium text-neutral-500 mb-1 flex items-center gap-2">
                   <Mail className="w-4 h-4" />
                   Email
                 </label>
-                <p className="text-gray-900">{pharmacy.email}</p>
+                <p className="text-neutral-900">{pharmacy.email}</p>
               </div>
 
               {pharmacy.branch && (
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-500 mb-1">
+                  <label className="block text-sm font-medium text-neutral-500 mb-1">
                     Branch
                   </label>
-                  <p className="text-gray-900">{pharmacy.branch.center_name}</p>
+                  <p className="text-neutral-900">{pharmacy.branch.center_name}</p>
                 </div>
               )}
 
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-500 mb-1">
+                <label className="block text-sm font-medium text-neutral-500 mb-1">
                   Created Date
                 </label>
-                <p className="text-gray-900">
+                <p className="text-neutral-900">
                   {new Date(pharmacy.created_at).toLocaleString()}
                 </p>
               </div>
@@ -119,7 +119,7 @@ const PharmacyViewModal: React.FC<PharmacyViewModalProps> = ({ pharmacy, onClose
           <div className="mt-6 flex justify-end">
             <button
               onClick={onClose}
-              className="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300"
+              className="px-6 py-2 bg-neutral-200 text-neutral-800 rounded-lg hover:bg-neutral-300"
             >
               Close
             </button>
@@ -174,17 +174,17 @@ const PharmacyEditModal: React.FC<PharmacyEditModalProps> = ({ pharmacy, onClose
       <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Edit Pharmacy</h2>
+            <h2 className="text-2xl font-bold text-neutral-900">Edit Pharmacy</h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 text-2xl"
+              className="text-neutral-400 hover:text-neutral-600 text-2xl"
             >
-              Ã—
+              ×
             </button>
           </div>
 
           {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+            <div className="mb-4 p-3 bg-error-50 border border-red-200 rounded-lg">
               <p className="text-red-800">{error}</p>
             </div>
           )}
@@ -192,7 +192,7 @@ const PharmacyEditModal: React.FC<PharmacyEditModalProps> = ({ pharmacy, onClose
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-neutral-700 mb-1">
                   Pharmacy Name *
                 </label>
                 <input
@@ -200,12 +200,12 @@ const PharmacyEditModal: React.FC<PharmacyEditModalProps> = ({ pharmacy, onClose
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-neutral-700 mb-1">
                   Location *
                 </label>
                 <input
@@ -213,12 +213,12 @@ const PharmacyEditModal: React.FC<PharmacyEditModalProps> = ({ pharmacy, onClose
                   required
                   value={formData.location}
                   onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-neutral-700 mb-1">
                   Manager Name *
                 </label>
                 <input
@@ -226,12 +226,12 @@ const PharmacyEditModal: React.FC<PharmacyEditModalProps> = ({ pharmacy, onClose
                   required
                   value={formData.manager_name}
                   onChange={(e) => setFormData({ ...formData, manager_name: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-neutral-700 mb-1">
                   Contact Number *
                 </label>
                 <input
@@ -239,12 +239,12 @@ const PharmacyEditModal: React.FC<PharmacyEditModalProps> = ({ pharmacy, onClose
                   required
                   value={formData.contact_number}
                   onChange={(e) => setFormData({ ...formData, contact_number: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-neutral-700 mb-1">
                   Email *
                 </label>
                 <input
@@ -252,12 +252,12 @@ const PharmacyEditModal: React.FC<PharmacyEditModalProps> = ({ pharmacy, onClose
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-neutral-700 mb-1">
                   Status
                 </label>
                 <select
@@ -265,7 +265,7 @@ const PharmacyEditModal: React.FC<PharmacyEditModalProps> = ({ pharmacy, onClose
                   onChange={(e) =>
                     setFormData({ ...formData, status: e.target.value as 'active' | 'inactive' })
                   }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 >
                   <option value="active">Active</option>
                   <option value="inactive">Inactive</option>
@@ -278,14 +278,14 @@ const PharmacyEditModal: React.FC<PharmacyEditModalProps> = ({ pharmacy, onClose
                 type="button"
                 onClick={onClose}
                 disabled={loading}
-                className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                className="px-6 py-2 border border-neutral-300 rounded-lg text-neutral-700 hover:bg-neutral-50 disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                className="px-6 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50"
               >
                 {loading ? 'Updating...' : 'Update Pharmacy'}
               </button>
@@ -365,17 +365,17 @@ const PharmacyCreateModal: React.FC<PharmacyCreateModalProps> = ({ onClose, onUp
       <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Create New Pharmacy</h2>
+            <h2 className="text-2xl font-bold text-neutral-900">Create New Pharmacy</h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 text-2xl"
+              className="text-neutral-400 hover:text-neutral-600 text-2xl"
             >
-              Ã—
+              ×
             </button>
           </div>
 
           {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+            <div className="mb-4 p-3 bg-error-50 border border-red-200 rounded-lg">
               <p className="text-red-800">{error}</p>
             </div>
           )}
@@ -383,7 +383,7 @@ const PharmacyCreateModal: React.FC<PharmacyCreateModalProps> = ({ onClose, onUp
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-neutral-700 mb-1">
                   Pharmacy Name *
                 </label>
                 <input
@@ -391,12 +391,12 @@ const PharmacyCreateModal: React.FC<PharmacyCreateModalProps> = ({ onClose, onUp
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-neutral-700 mb-1">
                   Pharmacy Code *
                 </label>
                 <input
@@ -404,20 +404,20 @@ const PharmacyCreateModal: React.FC<PharmacyCreateModalProps> = ({ onClose, onUp
                   required
                   value={formData.pharmacy_code}
                   onChange={(e) => setFormData({ ...formData, pharmacy_code: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   placeholder="e.g., PHR001"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-neutral-700 mb-1">
                   Branch *
                 </label>
                 <select
                   required
                   value={formData.branch_id}
                   onChange={(e) => setFormData({ ...formData, branch_id: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 >
                   <option value="">Select Branch</option>
                   {branches.map((branch) => (
@@ -429,7 +429,7 @@ const PharmacyCreateModal: React.FC<PharmacyCreateModalProps> = ({ onClose, onUp
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-neutral-700 mb-1">
                   Location *
                 </label>
                 <input
@@ -437,12 +437,12 @@ const PharmacyCreateModal: React.FC<PharmacyCreateModalProps> = ({ onClose, onUp
                   required
                   value={formData.location}
                   onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-neutral-700 mb-1">
                   Manager Name *
                 </label>
                 <input
@@ -450,12 +450,12 @@ const PharmacyCreateModal: React.FC<PharmacyCreateModalProps> = ({ onClose, onUp
                   required
                   value={formData.manager_name}
                   onChange={(e) => setFormData({ ...formData, manager_name: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-neutral-700 mb-1">
                   Contact Number *
                 </label>
                 <input
@@ -463,12 +463,12 @@ const PharmacyCreateModal: React.FC<PharmacyCreateModalProps> = ({ onClose, onUp
                   required
                   value={formData.contact_number}
                   onChange={(e) => setFormData({ ...formData, contact_number: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-neutral-700 mb-1">
                   Email *
                 </label>
                 <input
@@ -476,12 +476,12 @@ const PharmacyCreateModal: React.FC<PharmacyCreateModalProps> = ({ onClose, onUp
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-neutral-700 mb-1">
                   Status
                 </label>
                 <select
@@ -489,7 +489,7 @@ const PharmacyCreateModal: React.FC<PharmacyCreateModalProps> = ({ onClose, onUp
                   onChange={(e) =>
                     setFormData({ ...formData, status: e.target.value as 'active' | 'inactive' })
                   }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 >
                   <option value="active">Active</option>
                   <option value="inactive">Inactive</option>
@@ -502,14 +502,14 @@ const PharmacyCreateModal: React.FC<PharmacyCreateModalProps> = ({ onClose, onUp
                 type="button"
                 onClick={onClose}
                 disabled={loading}
-                className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                className="px-6 py-2 border border-neutral-300 rounded-lg text-neutral-700 hover:bg-neutral-50 disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                className="px-6 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50"
               >
                 {loading ? 'Creating...' : 'Create Pharmacy'}
               </button>
@@ -592,7 +592,7 @@ const PharmacyManagement: React.FC = () => {
     return (
       <div className="p-4">
         <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
         </div>
       </div>
     );
@@ -604,18 +604,18 @@ const PharmacyManagement: React.FC = () => {
         <div className="flex justify-between items-center">
           <div>
             <div className="flex items-center gap-3 mb-1">
-              <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-              <span className="text-sm font-medium text-blue-600 uppercase tracking-wide">Pharmacy Management</span>
+              <div className="w-3 h-3 bg-primary-500 rounded-full animate-pulse"></div>
+              <span className="text-sm font-medium text-primary-500 uppercase tracking-wide">Pharmacy Management</span>
             </div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent flex items-center gap-3">
-              <Store className="w-8 h-8 text-blue-600" />
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary-500 to-indigo-600 bg-clip-text text-transparent flex items-center gap-3">
+              <Store className="w-8 h-8 text-primary-500" />
               All Pharmacies
             </h1>
-            <p className="text-gray-500 mt-1">Manage all pharmacies across branches</p>
+            <p className="text-neutral-500 mt-1">Manage all pharmacies across branches</p>
           </div>
           <button
             onClick={() => setShowCreateModal(true)}
-            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl font-medium"
+            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl font-medium"
           >
             <Plus className="w-5 h-5" />
             Add New Pharmacy
@@ -627,21 +627,21 @@ const PharmacyManagement: React.FC = () => {
       <div className="bg-white rounded-lg shadow p-4 mb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Search</label>
+            <label className="block text-sm font-medium text-neutral-700 mb-2">Search</label>
             <input
               type="text"
               placeholder="Search by name, location, or manager..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
+            <label className="block text-sm font-medium text-neutral-700 mb-2">Status</label>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as 'all' | 'active' | 'inactive')}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
               <option value="all">All Status</option>
               <option value="active">Active</option>
@@ -653,7 +653,7 @@ const PharmacyManagement: React.FC = () => {
 
       {/* Error Alert */}
       {error && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+        <div className="mb-6 p-4 bg-error-50 border border-red-200 rounded-lg">
           <p className="text-red-800">{error}</p>
         </div>
       )}
@@ -661,18 +661,18 @@ const PharmacyManagement: React.FC = () => {
       {/* Summary Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <div className="bg-white p-4 rounded-lg shadow">
-          <div className="text-sm text-gray-600">Total Pharmacies</div>
-          <div className="text-2xl font-bold text-gray-900">{pharmacies.length}</div>
+          <div className="text-sm text-neutral-600">Total Pharmacies</div>
+          <div className="text-2xl font-bold text-neutral-900">{pharmacies.length}</div>
         </div>
         <div className="bg-white p-4 rounded-lg shadow">
-          <div className="text-sm text-gray-600">Active</div>
+          <div className="text-sm text-neutral-600">Active</div>
           <div className="text-2xl font-bold text-green-600">
             {pharmacies.filter((p) => p.status === 'active').length}
           </div>
         </div>
         <div className="bg-white p-4 rounded-lg shadow">
-          <div className="text-sm text-gray-600">Inactive</div>
-          <div className="text-2xl font-bold text-red-600">
+          <div className="text-sm text-neutral-600">Inactive</div>
+          <div className="text-2xl font-bold text-error-600">
             {pharmacies.filter((p) => p.status === 'inactive').length}
           </div>
         </div>
@@ -682,9 +682,9 @@ const PharmacyManagement: React.FC = () => {
       <div className="bg-white rounded-lg shadow overflow-hidden">
         {filteredPharmacies.length === 0 ? (
           <div className="p-12 text-center">
-            <Store className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No pharmacies found</h3>
-            <p className="text-gray-600">
+            <Store className="w-16 h-16 mx-auto text-neutral-400 mb-4" />
+            <h3 className="text-lg font-medium text-neutral-900 mb-2">No pharmacies found</h3>
+            <p className="text-neutral-600">
               {searchTerm || statusFilter !== 'all'
                 ? 'Try adjusting your filters'
                 : 'No pharmacies have been created yet'}
@@ -693,47 +693,47 @@ const PharmacyManagement: React.FC = () => {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="bg-neutral-50 border-b border-neutral-200">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     Pharmacy Name
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     Location
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     Manager
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     Contact
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredPharmacies.map((pharmacy) => (
-                  <tr key={pharmacy.id} className="hover:bg-gray-50">
+                  <tr key={pharmacy.id} className="hover:bg-neutral-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
-                        <Store className="w-5 h-5 text-blue-600 mr-2" />
+                        <Store className="w-5 h-5 text-primary-500 mr-2" />
                         <div>
-                          <div className="font-medium text-gray-900">{pharmacy.name}</div>
-                          <div className="text-sm text-gray-500">{pharmacy.email}</div>
+                          <div className="font-medium text-neutral-900">{pharmacy.name}</div>
+                          <div className="text-sm text-neutral-500">{pharmacy.email}</div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700">
                       {pharmacy.location}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700">
                       {pharmacy.manager_name}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700">
                       {pharmacy.contact_number}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -741,7 +741,7 @@ const PharmacyManagement: React.FC = () => {
                         className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                           pharmacy.status === 'active'
                             ? 'bg-green-100 text-green-800'
-                            : 'bg-red-100 text-red-800'
+                            : 'bg-error-100 text-red-800'
                         }`}
                       >
                         {pharmacy.status}
@@ -751,7 +751,7 @@ const PharmacyManagement: React.FC = () => {
                       <div className="flex items-center gap-3">
                         <button
                           onClick={() => setViewPharmacy(pharmacy)}
-                          className="text-blue-600 hover:text-blue-900"
+                          className="text-primary-500 hover:text-blue-900"
                           title="View Details"
                         >
                           <Eye className="w-5 h-5" />
@@ -765,7 +765,7 @@ const PharmacyManagement: React.FC = () => {
                         </button>
                         <button
                           onClick={() => handleDelete(pharmacy.id)}
-                          className="text-red-600 hover:text-red-900"
+                          className="text-error-600 hover:text-red-900"
                           title="Delete"
                         >
                           <Trash2 className="w-5 h-5" />

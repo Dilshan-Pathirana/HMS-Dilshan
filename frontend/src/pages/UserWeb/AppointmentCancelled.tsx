@@ -20,10 +20,10 @@ const AppointmentCancelled: React.FC = () => {
                 <div className="mb-6">
                     <FaTimes className="text-yellow-500 w-16 h-16 mx-auto" />
                 </div>
-                <h1 className="text-2xl font-bold text-gray-800 mb-4">
+                <h1 className="text-2xl font-bold text-neutral-800 mb-4">
                     Payment Cancelled
                 </h1>
-                <p className="text-gray-600 mb-6">
+                <p className="text-neutral-600 mb-6">
                     Your payment was cancelled and no charges were made. Your appointment has not been booked.
                 </p>
                 
@@ -42,14 +42,14 @@ const AppointmentCancelled: React.FC = () => {
                 <div className="space-y-3">
                     <button
                         onClick={handleBookAgain}
-                        className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 flex items-center justify-center space-x-2"
+                        className="w-full bg-gradient-to-r from-primary-500 to-blue-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 flex items-center justify-center space-x-2"
                     >
                         <FaCalendarAlt className="w-4 h-4" />
                         <span>Book Appointment Again</span>
                     </button>
                     <button
                         onClick={handleGoHome}
-                        className="w-full bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 py-3 px-4 rounded-lg font-semibold hover:from-gray-200 hover:to-gray-300 transition-all duration-300 flex items-center justify-center space-x-2"
+                        className="w-full bg-gradient-to-r from-gray-100 to-gray-200 text-neutral-800 py-3 px-4 rounded-lg font-semibold hover:from-gray-200 hover:to-gray-300 transition-all duration-300 flex items-center justify-center space-x-2"
                     >
                         <FaHome className="w-4 h-4" />
                         <span>Back to Home</span>

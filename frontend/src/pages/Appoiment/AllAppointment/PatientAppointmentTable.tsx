@@ -130,8 +130,8 @@ const PatientAppointmentTable: React.FC<PatientAppointmentTableProps> = ({
                         />
                     </div>
                     {paginatedAppointments.length > 0 ? (
-                        <table className="min-w-full divide-y divide-gray-200 border border-gray-200 mt-4">
-                            <thead className="bg-gray-50">
+                        <table className="min-w-full divide-y divide-gray-200 border border-neutral-200 mt-4">
+                            <thead className="bg-neutral-50">
                                 <tr>
                                     {[
                                         "Patient Name",
@@ -143,7 +143,7 @@ const PatientAppointmentTable: React.FC<PatientAppointmentTableProps> = ({
                                     ].map((header) => (
                                         <th
                                             key={header}
-                                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                            className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider"
                                         >
                                             {header}
                                         </th>
@@ -154,29 +154,29 @@ const PatientAppointmentTable: React.FC<PatientAppointmentTableProps> = ({
                                 {paginatedAppointments.map((appointment) => (
                                     <tr
                                         key={appointment.id}
-                                        className="hover:bg-gray-50 cursor-pointer"
+                                        className="hover:bg-neutral-50 cursor-pointer"
                                     >
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                             {appointment.patient_first_name}{" "}
                                             {appointment.patient_last_name}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                             {appointment.doctor_first_name}{" "}
                                             {appointment.doctor_last_name}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                             {appointment.center_name || "-"}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                             {appointment.date}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                             {appointment.slot}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                             <div className="flex items-center space-x-2">
                                                 <FiEye
-                                                    className="text-blue-500 cursor-pointer hover:text-blue-700"
+                                                    className="text-primary-500 cursor-pointer hover:text-blue-700"
                                                     onClick={() =>
                                                         setSelectedAppointment(
                                                             appointment,
@@ -184,7 +184,7 @@ const PatientAppointmentTable: React.FC<PatientAppointmentTableProps> = ({
                                                     }
                                                 />
                                                 <FiXCircle
-                                                    className="text-red-500 cursor-pointer hover:text-red-700"
+                                                    className="text-error-500 cursor-pointer hover:text-red-700"
                                                     onClick={() =>
                                                         handleCancelAppointment(
                                                             appointment.id,
@@ -198,7 +198,7 @@ const PatientAppointmentTable: React.FC<PatientAppointmentTableProps> = ({
                             </tbody>
                         </table>
                     ) : (
-                        <div className="text-center py-4 text-gray-600">
+                        <div className="text-center py-4 text-neutral-600">
                             No patient appointments found.
                         </div>
                     )}

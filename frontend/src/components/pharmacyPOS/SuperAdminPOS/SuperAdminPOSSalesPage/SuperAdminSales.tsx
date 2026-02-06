@@ -250,14 +250,14 @@ export default function SuperAdminSalesPage() {
     };
 
     return (
-        <div className="flex flex-col min-h-screen bg-gray-100">
+        <div className="flex flex-col min-h-screen bg-neutral-100">
             <SalesHeader
                 patientsDetails={patientsDetails}
                 customerDetails={customerDetails}
                 setCustomerDetails={setCustomerDetails}
                 setIsReachedMaximumStock={setIsReachedMaximumStock}
             />
-            <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+            <main className="flex-1 overflow-x-hidden overflow-y-auto bg-neutral-100 p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="bg-white p-4 rounded-lg shadow">
                         <h2 className="text-lg font-medium mb-4">
@@ -271,7 +271,7 @@ export default function SuperAdminSalesPage() {
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 className="w-full px-10 py-2 border rounded-lg"
                             />
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-500" />
                         </div>
                         <SalesProductGrid
                             filteredProducts={useProductFilter(

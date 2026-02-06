@@ -108,12 +108,12 @@ const StaffSalaryTable = ({
                                 placeholder="Search by User Name..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="border border-gray-300 rounded pl-3 pr-4 py-2 w-full"
+                                className="border border-neutral-300 rounded pl-3 pr-4 py-2 w-full"
                             />
                         </div>
                     </div>
-                    <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
-                        <thead className="bg-gray-50">
+                    <table className="min-w-full divide-y divide-gray-200 border border-neutral-200">
+                        <thead className="bg-neutral-50">
                             <tr>
                                 {[
                                     "First Name",
@@ -124,7 +124,7 @@ const StaffSalaryTable = ({
                                 ].map((header) => (
                                     <th
                                         key={header}
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider"
                                     >
                                         {header}
                                     </th>
@@ -135,24 +135,24 @@ const StaffSalaryTable = ({
                             {paginatedSalaries.map((salary) => (
                                 <tr
                                     key={salary.id}
-                                    className="hover:bg-gray-50 cursor-pointer"
+                                    className="hover:bg-neutral-50 cursor-pointer"
                                 >
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         {salary.user_first_name}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         {salary.user_last_name}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         {salary.branch_center_name}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         {salary.basic_salary_amount}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         <div className="flex items-center space-x-2">
                                             <FiEye
-                                                className="text-blue-500 cursor-pointer hover:text-blue-700"
+                                                className="text-primary-500 cursor-pointer hover:text-blue-700"
                                                 onClick={() =>
                                                     openViewModal(salary)
                                                 }
@@ -164,7 +164,7 @@ const StaffSalaryTable = ({
                                                 }
                                             />
                                             <FiTrash
-                                                className="text-red-500 cursor-pointer hover:text-red-700"
+                                                className="text-error-500 cursor-pointer hover:text-red-700"
                                                 onClick={() =>
                                                     handleDelete(salary.id)
                                                 }

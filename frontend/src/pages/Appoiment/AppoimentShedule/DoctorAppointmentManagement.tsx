@@ -78,7 +78,7 @@ const DoctorAppointmentManagement: React.FC = () => {
 
                     <div className="mt-8">
                         {doctorSchedules.length === 0 ? (
-                            <div className="text-center text-gray-500 mt-10">
+                            <div className="text-center text-neutral-500 mt-10">
                                 No doctor schedules found. Please try adjusting
                                 your search criteria.
                             </div>
@@ -94,13 +94,13 @@ const DoctorAppointmentManagement: React.FC = () => {
                                         <div className="flex items-center space-x-5 flex-grow">
                                             <div className="relative">
                                                 <div className="w-16 h-16 bg-gradient-to-br from-blue-100 via-blue-50 to-white rounded-2xl flex items-center justify-center flex-shrink-0 shadow-md group-hover:shadow-lg transition-all duration-300 border border-blue-100">
-                                                    <FaUserMd className="text-blue-600 w-9 h-9 group-hover:scale-110 transition-transform duration-300" />
+                                                    <FaUserMd className="text-primary-500 w-9 h-9 group-hover:scale-110 transition-transform duration-300" />
                                                 </div>
                                                 <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-white shadow-sm"></div>
                                             </div>
 
                                             <div className="text-left flex-grow">
-                                                <h3 className="text-lg font-bold text-gray-900 mb-1 group-hover:text-blue-700 transition-colors duration-300">
+                                                <h3 className="text-lg font-bold text-neutral-900 mb-1 group-hover:text-blue-700 transition-colors duration-300">
                                                     Dr.{" "}
                                                     {schedule.user_first_name}{" "}
                                                     {schedule.user_last_name}
@@ -135,7 +135,7 @@ const DoctorAppointmentManagement: React.FC = () => {
                                                         })()}
                                                     </div>
                                                 )}
-                                                <p className="text-sm text-gray-600 font-medium mb-1 flex items-center">
+                                                <p className="text-sm text-neutral-600 font-medium mb-1 flex items-center">
                                                     <span className="w-2 h-2 bg-blue-400 rounded-full mr-2 flex-shrink-0"></span>
                                                     {(() => {
                                                         const {
@@ -163,7 +163,7 @@ const DoctorAppointmentManagement: React.FC = () => {
                                                         );
                                                     })()}
                                                 </p>
-                                                <p className="text-sm text-gray-500 flex items-center">
+                                                <p className="text-sm text-neutral-500 flex items-center">
                                                     <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
                                                     {schedule.schedule_day} at{" "}
                                                     {formatTimeTo12Hour(
@@ -175,7 +175,7 @@ const DoctorAppointmentManagement: React.FC = () => {
 
                                         <div className="ml-auto">
                                             <button
-                                                className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 hover:from-blue-700 hover:via-blue-800 hover:to-blue-900 text-white text-sm font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2 group/btn border border-blue-500 hover:border-blue-400"
+                                                className="relative overflow-hidden bg-gradient-to-r from-primary-500 via-blue-700 to-blue-800 hover:from-blue-700 hover:via-blue-800 hover:to-blue-900 text-white text-sm font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2 group/btn border border-primary-500 hover:border-blue-400"
                                                 onClick={() =>
                                                     handleChannelClick(schedule)
                                                 }

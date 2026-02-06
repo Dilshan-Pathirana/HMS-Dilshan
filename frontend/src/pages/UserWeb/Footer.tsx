@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
     return (
-        <footer className="bg-blue-600 text-white mt-9 py-6 px-4 md:px-12">
+        <footer className="bg-primary-500 text-neutral-100 mt-9 py-6 px-4 md:px-12">
             <div className="flex flex-col md:flex-row justify-between items-center">
                 <div className="text-center md:text-left mb-4 md:mb-0">
                     <Link to="/" className="hover:opacity-80 transition-opacity">
@@ -17,7 +17,7 @@ const Footer = () => {
                 <div className="flex justify-center md:justify-end space-x-4">
                     <a
                         href="https://web.facebook.com/people/Cure-Health-Care/100072487485990/"
-                        className="text-white text-2xl"
+                        className="text-neutral-100 text-2xl"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -25,7 +25,7 @@ const Footer = () => {
                     </a>
                     <a
                         href="mailto:info@cure.lk"
-                        className="text-white text-2xl"
+                        className="text-neutral-100 text-2xl"
                         target="_blank"
                         rel="noopener noreferrer"
                     >

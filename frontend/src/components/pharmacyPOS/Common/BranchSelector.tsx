@@ -34,7 +34,7 @@ const BranchSelector: React.FC<BranchSelectorProps> = ({
         return (
             <div className={`${className}`}>
                 {showLabel && (
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                         <Building2 className="w-4 h-4 inline-block mr-1" />
                         Select Branch
                     </label>
@@ -46,9 +46,9 @@ const BranchSelector: React.FC<BranchSelectorProps> = ({
                         setSelectedBranch(branch || null);
                     }}
                     disabled={isLoadingBranches}
-                    className={`border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                    className={`border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 ${
                         compact ? "px-2 py-1 text-sm" : "px-3 py-2"
-                    } ${isLoadingBranches ? "bg-gray-100" : "bg-white"} w-full`}
+                    } ${isLoadingBranches ? "bg-neutral-100" : "bg-white"} w-full`}
                 >
                     <option value="">-- Select Branch --</option>
                     {branches.map(branch => (
@@ -58,7 +58,7 @@ const BranchSelector: React.FC<BranchSelectorProps> = ({
                     ))}
                 </select>
                 {selectedBranch && !compact && (
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-neutral-500 mt-1">
                         {selectedBranch.address}, {selectedBranch.city}
                     </p>
                 )}
@@ -70,21 +70,21 @@ const BranchSelector: React.FC<BranchSelectorProps> = ({
     return (
         <div className={`${className}`}>
             {showLabel && (
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-neutral-700 mb-1">
                     <Building2 className="w-4 h-4 inline-block mr-1" />
                     Your Branch
                 </label>
             )}
-            <div className={`flex items-center border rounded-lg bg-gray-50 ${
+            <div className={`flex items-center border rounded-lg bg-neutral-50 ${
                 compact ? "px-2 py-1" : "px-3 py-2"
             }`}>
-                <Lock className="w-4 h-4 text-gray-400 mr-2" />
-                <span className={`text-gray-700 font-medium ${compact ? "text-sm" : ""}`}>
+                <Lock className="w-4 h-4 text-neutral-400 mr-2" />
+                <span className={`text-neutral-700 font-medium ${compact ? "text-sm" : ""}`}>
                     {selectedBranch?.name || userBranchName || "No Branch Assigned"}
                 </span>
             </div>
             {!compact && (
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-neutral-500 mt-1">
                     Branch is automatically assigned based on your account
                 </p>
             )}

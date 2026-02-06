@@ -216,39 +216,39 @@ const CreatePostPage: React.FC = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gray-50">
+            <div className="min-h-screen bg-neutral-50">
                 <div className="flex justify-center items-center py-20">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-neutral-50">
             <div className="p-6 max-w-4xl mx-auto">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
                         <Link
                             to="/doctor-dashboard/posts"
-                            className="flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors"
+                            className="flex items-center gap-2 text-neutral-600 hover:text-primary-500 transition-colors"
                         >
                             <FaArrowLeft /> Back
                         </Link>
-                        <h1 className="text-2xl font-bold text-gray-800">
+                        <h1 className="text-2xl font-bold text-neutral-800">
                             {isEditing ? 'Edit Post' : 'Create New Post'}
                         </h1>
                     </div>
-                    <div className="flex items-center gap-4 text-sm text-gray-500">
-                        <FaBookMedical className="text-blue-600" />
+                    <div className="flex items-center gap-4 text-sm text-neutral-500">
+                        <FaBookMedical className="text-primary-500" />
                         <span>Medical Insights</span>
                     </div>
                 </div>
 
                 {/* Alerts */}
                 {error && (
-                    <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+                    <div className="bg-error-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
                         {error}
                     </div>
                 )}
@@ -261,7 +261,7 @@ const CreatePostPage: React.FC = () => {
                 <div className="bg-white rounded-xl shadow-lg overflow-hidden">
                     {/* Category Selection */}
                     <div className="p-6 border-b">
-                        <label className="block text-sm font-medium text-gray-700 mb-3">
+                        <label className="block text-sm font-medium text-neutral-700 mb-3">
                             Post Category *
                         </label>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -272,17 +272,17 @@ const CreatePostPage: React.FC = () => {
                                     onClick={() => setFormData(prev => ({ ...prev, category: cat.key as any }))}
                                     className={`p-4 rounded-lg border-2 transition-all text-left ${
                                         formData.category === cat.key
-                                            ? 'border-blue-500 bg-blue-50'
-                                            : 'border-gray-200 hover:border-gray-300'
+                                            ? 'border-primary-500 bg-blue-50'
+                                            : 'border-neutral-200 hover:border-neutral-300'
                                     }`}
                                 >
                                     <div className={`text-2xl mb-2 ${
-                                        formData.category === cat.key ? 'text-blue-600' : 'text-gray-400'
+                                        formData.category === cat.key ? 'text-primary-500' : 'text-neutral-400'
                                     }`}>
                                         {cat.icon}
                                     </div>
-                                    <div className="font-medium text-gray-800">{cat.label}</div>
-                                    <div className="text-xs text-gray-500 mt-1">{cat.description}</div>
+                                    <div className="font-medium text-neutral-800">{cat.label}</div>
+                                    <div className="text-xs text-neutral-500 mt-1">{cat.description}</div>
                                 </button>
                             ))}
                         </div>
@@ -292,7 +292,7 @@ const CreatePostPage: React.FC = () => {
                     <div className="p-6 space-y-6">
                         {/* Title */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Title *
                             </label>
                             <input
@@ -301,13 +301,13 @@ const CreatePostPage: React.FC = () => {
                                 value={formData.title}
                                 onChange={handleInputChange}
                                 placeholder="Enter a descriptive title for your post"
-                                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                             />
                         </div>
 
                         {/* Short Description */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Short Description *
                             </label>
                             <textarea
@@ -317,16 +317,16 @@ const CreatePostPage: React.FC = () => {
                                 placeholder="A brief summary that will appear on the post card (max 200 characters)"
                                 rows={2}
                                 maxLength={200}
-                                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 resize-none"
                             />
-                            <p className="text-xs text-gray-500 mt-1">
+                            <p className="text-xs text-neutral-500 mt-1">
                                 {formData.short_description.length}/200 characters
                             </p>
                         </div>
 
                         {/* Content */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Full Content *
                             </label>
                             <textarea
@@ -341,9 +341,9 @@ const CreatePostPage: React.FC = () => {
 - Bullet points
 1. Numbered lists"
                                 rows={15}
-                                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm"
+                                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 font-mono text-sm"
                             />
-                            <p className="text-xs text-gray-500 mt-1">
+                            <p className="text-xs text-neutral-500 mt-1">
                                 Supports basic markdown formatting
                             </p>
                         </div>
@@ -351,7 +351,7 @@ const CreatePostPage: React.FC = () => {
                         {/* Video URL (for video vlogs) */}
                         {formData.category === 'video_vlog' && (
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     <FaVideo className="inline mr-2" />
                                     Video URL *
                                 </label>
@@ -361,9 +361,9 @@ const CreatePostPage: React.FC = () => {
                                     value={formData.video_url}
                                     onChange={handleInputChange}
                                     placeholder="https://www.youtube.com/watch?v=..."
-                                    className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                                 />
-                                <p className="text-xs text-gray-500 mt-1">
+                                <p className="text-xs text-neutral-500 mt-1">
                                     YouTube or Vimeo links are supported
                                 </p>
                             </div>
@@ -371,7 +371,7 @@ const CreatePostPage: React.FC = () => {
 
                         {/* Thumbnail Upload */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 <FaImage className="inline mr-2" />
                                 Thumbnail Image
                             </label>
@@ -386,12 +386,12 @@ const CreatePostPage: React.FC = () => {
                                     />
                                     <label
                                         htmlFor="thumbnail-upload"
-                                        className="flex items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+                                        className="flex items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer hover:bg-neutral-50 transition-colors"
                                     >
                                         <div className="text-center">
-                                            <FaImage className="text-3xl text-gray-400 mx-auto mb-2" />
-                                            <p className="text-sm text-gray-500">Click to upload thumbnail</p>
-                                            <p className="text-xs text-gray-400">PNG, JPG up to 5MB</p>
+                                            <FaImage className="text-3xl text-neutral-400 mx-auto mb-2" />
+                                            <p className="text-sm text-neutral-500">Click to upload thumbnail</p>
+                                            <p className="text-xs text-neutral-400">PNG, JPG up to 5MB</p>
                                         </div>
                                     </label>
                                 </div>
@@ -405,7 +405,7 @@ const CreatePostPage: React.FC = () => {
                                         <button
                                             type="button"
                                             onClick={() => { setThumbnailFile(null); setThumbnailPreview(null); }}
-                                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1"
+                                            className="absolute -top-2 -right-2 bg-error-500 text-white rounded-full p-1"
                                         >
                                             <FaTrash size={12} />
                                         </button>
@@ -417,7 +417,7 @@ const CreatePostPage: React.FC = () => {
                         {/* PDF Upload (for research articles) */}
                         {formData.category === 'research_article' && (
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     <FaFilePdf className="inline mr-2" />
                                     PDF Document
                                 </label>
@@ -431,19 +431,19 @@ const CreatePostPage: React.FC = () => {
                                     />
                                     <label
                                         htmlFor="pdf-upload"
-                                        className="flex items-center gap-2 px-4 py-2 border rounded-lg cursor-pointer hover:bg-gray-50"
+                                        className="flex items-center gap-2 px-4 py-2 border rounded-lg cursor-pointer hover:bg-neutral-50"
                                     >
-                                        <FaFilePdf className="text-red-500" />
+                                        <FaFilePdf className="text-error-500" />
                                         <span>Choose PDF</span>
                                     </label>
                                     {pdfFileName && (
-                                        <div className="flex items-center gap-2 text-sm text-gray-600">
-                                            <FaFilePdf className="text-red-500" />
+                                        <div className="flex items-center gap-2 text-sm text-neutral-600">
+                                            <FaFilePdf className="text-error-500" />
                                             <span>{pdfFileName}</span>
                                             <button
                                                 type="button"
                                                 onClick={() => { setPdfFile(null); setPdfFileName(null); }}
-                                                className="text-red-500 hover:text-red-700"
+                                                className="text-error-500 hover:text-red-700"
                                             >
                                                 <FaTrash size={12} />
                                             </button>
@@ -455,7 +455,7 @@ const CreatePostPage: React.FC = () => {
 
                         {/* Visibility */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-3">
+                            <label className="block text-sm font-medium text-neutral-700 mb-3">
                                 Visibility
                             </label>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -466,17 +466,17 @@ const CreatePostPage: React.FC = () => {
                                         onClick={() => setFormData(prev => ({ ...prev, visibility: opt.key as any }))}
                                         className={`p-4 rounded-lg border-2 transition-all text-left ${
                                             formData.visibility === opt.key
-                                                ? 'border-blue-500 bg-blue-50'
-                                                : 'border-gray-200 hover:border-gray-300'
+                                                ? 'border-primary-500 bg-blue-50'
+                                                : 'border-neutral-200 hover:border-neutral-300'
                                         }`}
                                     >
                                         <div className={`text-xl mb-2 ${
-                                            formData.visibility === opt.key ? 'text-blue-600' : 'text-gray-400'
+                                            formData.visibility === opt.key ? 'text-primary-500' : 'text-neutral-400'
                                         }`}>
                                             {opt.icon}
                                         </div>
-                                        <div className="font-medium text-gray-800">{opt.label}</div>
-                                        <div className="text-xs text-gray-500">{opt.description}</div>
+                                        <div className="font-medium text-neutral-800">{opt.label}</div>
+                                        <div className="text-xs text-neutral-500">{opt.description}</div>
                                     </button>
                                 ))}
                             </div>
@@ -484,14 +484,14 @@ const CreatePostPage: React.FC = () => {
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="p-6 bg-gray-50 border-t flex flex-wrap items-center justify-between gap-4">
+                    <div className="p-6 bg-neutral-50 border-t flex flex-wrap items-center justify-between gap-4">
                         <div>
                             {isEditing && (
                                 <button
                                     type="button"
                                     onClick={handleDelete}
                                     disabled={saving}
-                                    className="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+                                    className="flex items-center gap-2 px-4 py-2 text-error-600 hover:bg-error-50 rounded-lg transition-colors disabled:opacity-50"
                                 >
                                     <FaTrash /> Delete Post
                                 </button>
@@ -502,7 +502,7 @@ const CreatePostPage: React.FC = () => {
                                 type="button"
                                 onClick={() => handleSubmit('draft')}
                                 disabled={saving}
-                                className="flex items-center gap-2 px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors disabled:opacity-50"
+                                className="flex items-center gap-2 px-6 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-100 transition-colors disabled:opacity-50"
                             >
                                 <FaEyeSlash /> Save as Draft
                             </button>
@@ -510,7 +510,7 @@ const CreatePostPage: React.FC = () => {
                                 type="button"
                                 onClick={() => handleSubmit('published')}
                                 disabled={saving}
-                                className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+                                className="flex items-center gap-2 px-6 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50"
                             >
                                 {saving ? (
                                     <>

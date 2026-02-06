@@ -36,7 +36,7 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="first_name"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         First Name
                     </label>
@@ -46,13 +46,13 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                         name="first_name"
                         value={userDetails?.first_name || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
                 <div>
                     <label
                         htmlFor="last_name"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Last Name
                     </label>
@@ -62,7 +62,7 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                         name="last_name"
                         value={userDetails?.last_name || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
             </div>
@@ -71,7 +71,7 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="cashiers_email"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Email
                     </label>
@@ -81,13 +81,13 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                         name="cashiers_email"
                         value={userDetails?.cashiers_email || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
                 <div>
                     <label
                         htmlFor="cashiers_branch_id"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Branch
                     </label>
@@ -107,7 +107,7 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="cashiers_date_of_birth"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Date of Birth
                     </label>
@@ -117,13 +117,13 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                         name="cashiers_date_of_birth"
                         value={userDetails?.cashiers_date_of_birth || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
                 <div>
                     <label
                         htmlFor="cashiers_gender"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Gender
                     </label>
@@ -132,7 +132,7 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                         name="cashiers_gender"
                         value={userDetails?.cashiers_gender || ""}
                         onChange={handleSelectChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                     >
                         <option value="">Select Gender</option>
                         <option value="male">Male</option>
@@ -146,7 +146,7 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="cashiers_nic_number"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         NIC Number
                     </label>
@@ -156,13 +156,13 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                         name="cashiers_nic_number"
                         value={userDetails?.cashiers_nic_number || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
                 <div>
                     <label
                         htmlFor="cashiers_contact_number_mobile"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Mobile Number
                     </label>
@@ -174,7 +174,7 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                             userDetails?.cashiers_contact_number_mobile || ""
                         }
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
             </div>
@@ -183,7 +183,7 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="cashiers_contact_number_landline"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Landline Number
                     </label>
@@ -195,13 +195,13 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                             userDetails?.cashiers_contact_number_landline || ""
                         }
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
                 <div>
                     <label
                         htmlFor="cashiers_emergency_contact_info"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Emergency Contact
                     </label>
@@ -213,7 +213,7 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                             userDetails?.cashiers_emergency_contact_info || ""
                         }
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
             </div>
@@ -221,7 +221,7 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
             <div className="mb-4">
                 <label
                     htmlFor="cashiers_home_address"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-neutral-700"
                 >
                     Home Address
                 </label>
@@ -231,7 +231,7 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                     name="cashiers_home_address"
                     value={userDetails?.cashiers_home_address || ""}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                 />
             </div>
 
@@ -239,7 +239,7 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="cashiers_employee_id"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Employee ID
                     </label>
@@ -249,14 +249,14 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                         name="cashiers_employee_id"
                         value={userDetails?.cashiers_employee_id || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                         readOnly
                     />
                 </div>
                 <div>
                     <label
                         htmlFor="cashiers_joining_date"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Joining Date
                     </label>
@@ -266,7 +266,7 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                         name="cashiers_joining_date"
                         value={userDetails?.cashiers_joining_date || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
             </div>
@@ -275,7 +275,7 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="cashiers_qualifications"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Qualifications
                     </label>
@@ -285,13 +285,13 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                         name="cashiers_qualifications"
                         value={userDetails?.cashiers_qualifications || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
                 <div>
                     <label
                         htmlFor="cashiers_contract_type"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Contract Type
                     </label>
@@ -300,7 +300,7 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                         name="cashiers_contract_type"
                         value={userDetails?.cashiers_contract_type || ""}
                         onChange={handleSelectChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                     >
                         <option value="">Select Contract Type</option>
                         <option value="full-time">Full-time</option>
@@ -316,7 +316,7 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="cashiers_years_of_experience"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Years of Experience
                     </label>
@@ -326,13 +326,13 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                         name="cashiers_years_of_experience"
                         value={userDetails?.cashiers_years_of_experience || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
                 <div>
                     <label
                         htmlFor="cashiers_contract_duration"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Contract Duration (years)
                     </label>
@@ -342,7 +342,7 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                         name="cashiers_contract_duration"
                         value={userDetails?.cashiers_contract_duration || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
             </div>
@@ -350,7 +350,7 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
             <div className="mb-4">
                 <label
                     htmlFor="cashiers_compensation_package"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-neutral-700"
                 >
                     Compensation Package
                 </label>
@@ -360,7 +360,7 @@ export const CashierEditForm: React.FC<CashierEditFormProps> = ({
                     name="cashiers_compensation_package"
                     value={userDetails?.cashiers_compensation_package || ""}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                 />
             </div>
         </div>

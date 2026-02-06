@@ -10,7 +10,7 @@ const DoctorQuestionFormFields: React.FC<DoctorQuestionFormFieldsProps> = ({
             <div>
                 <label
                     htmlFor="question"
-                    className="block text-gray-700 font-bold mb-2"
+                    className="block text-neutral-700 font-bold mb-2"
                 >
                     Question
                 </label>
@@ -20,7 +20,7 @@ const DoctorQuestionFormFields: React.FC<DoctorQuestionFormFieldsProps> = ({
                     value={formData.question}
                     onChange={onChange}
                     rows={3}
-                    className="w-full p-2 border border-gray-300 rounded"
+                    className="w-full p-2 border border-neutral-300 rounded"
                     required
                 />
                 {errors.question && (
@@ -31,7 +31,7 @@ const DoctorQuestionFormFields: React.FC<DoctorQuestionFormFieldsProps> = ({
             <div>
                 <label
                     htmlFor="description"
-                    className="block text-gray-700 font-bold mb-2"
+                    className="block text-neutral-700 font-bold mb-2"
                 >
                     Description
                 </label>
@@ -41,7 +41,7 @@ const DoctorQuestionFormFields: React.FC<DoctorQuestionFormFieldsProps> = ({
                     value={formData.description}
                     onChange={onChange}
                     rows={4}
-                    className="w-full p-2 border border-gray-300 rounded"
+                    className="w-full p-2 border border-neutral-300 rounded"
                 />
                 {errors.description && (
                     <p className="text-red-700">{errors.description[0]}</p>
@@ -52,7 +52,7 @@ const DoctorQuestionFormFields: React.FC<DoctorQuestionFormFieldsProps> = ({
                 <div>
                     <label
                         htmlFor="order"
-                        className="block text-gray-700 font-bold mb-2"
+                        className="block text-neutral-700 font-bold mb-2"
                     >
                         Order
                     </label>
@@ -62,7 +62,7 @@ const DoctorQuestionFormFields: React.FC<DoctorQuestionFormFieldsProps> = ({
                         name="order"
                         value={formData.order}
                         onChange={onChange}
-                        className="w-full p-2 border border-gray-300 rounded"
+                        className="w-full p-2 border border-neutral-300 rounded"
                         min="1"
                     />
                     {errors.order && (
@@ -73,7 +73,7 @@ const DoctorQuestionFormFields: React.FC<DoctorQuestionFormFieldsProps> = ({
                 <div>
                     <label
                         htmlFor="status"
-                        className="block text-gray-700 font-bold mb-2"
+                        className="block text-neutral-700 font-bold mb-2"
                     >
                         Status
                     </label>
@@ -82,7 +82,7 @@ const DoctorQuestionFormFields: React.FC<DoctorQuestionFormFieldsProps> = ({
                         name="status"
                         value={formData.status}
                         onChange={onChange}
-                        className="w-full p-2 border border-gray-300 rounded"
+                        className="w-full p-2 border border-neutral-300 rounded"
                     >
                         <option value="">Select Status</option>
                         <option value="1">Active</option>

@@ -138,9 +138,9 @@ const ConsultationQueue: React.FC<ConsultationQueueProps> = ({ onStartConsultati
             case 'In Consultation':
                 return 'bg-green-100 text-green-700';
             case 'Completed':
-                return 'bg-gray-100 text-gray-700';
+                return 'bg-neutral-100 text-neutral-700';
             default:
-                return 'bg-gray-100 text-gray-700';
+                return 'bg-neutral-100 text-neutral-700';
         }
     };
 
@@ -161,7 +161,7 @@ const ConsultationQueue: React.FC<ConsultationQueueProps> = ({ onStartConsultati
     if (loading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+                <Loader2 className="w-8 h-8 animate-spin text-primary-500" />
             </div>
         );
     }
@@ -171,13 +171,13 @@ const ConsultationQueue: React.FC<ConsultationQueueProps> = ({ onStartConsultati
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-800">Consultation Queue</h1>
-                    <p className="text-gray-500">Manage patient consultations</p>
+                    <h1 className="text-2xl font-bold text-neutral-800">Consultation Queue</h1>
+                    <p className="text-neutral-500">Manage patient consultations</p>
                 </div>
                 <button
                     onClick={handleRefresh}
                     disabled={refreshing}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-neutral-300 rounded-lg hover:bg-neutral-50 disabled:opacity-50"
                 >
                     <RefreshCw className={`w-5 h-5 ${refreshing ? 'animate-spin' : ''}`} />
                     Refresh
@@ -190,11 +190,11 @@ const ConsultationQueue: React.FC<ConsultationQueueProps> = ({ onStartConsultati
                     <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                         <div className="flex items-center gap-3">
                             <div className="p-2 bg-blue-100 rounded-lg">
-                                <Users className="w-5 h-5 text-blue-600" />
+                                <Users className="w-5 h-5 text-primary-500" />
                             </div>
                             <div>
-                                <p className="text-2xl font-bold text-gray-800">{stats.total}</p>
-                                <p className="text-sm text-gray-500">Total</p>
+                                <p className="text-2xl font-bold text-neutral-800">{stats.total}</p>
+                                <p className="text-sm text-neutral-500">Total</p>
                             </div>
                         </div>
                     </div>
@@ -204,8 +204,8 @@ const ConsultationQueue: React.FC<ConsultationQueueProps> = ({ onStartConsultati
                                 <Clock className="w-5 h-5 text-amber-600" />
                             </div>
                             <div>
-                                <p className="text-2xl font-bold text-gray-800">{stats.waiting}</p>
-                                <p className="text-sm text-gray-500">Waiting</p>
+                                <p className="text-2xl font-bold text-neutral-800">{stats.waiting}</p>
+                                <p className="text-sm text-neutral-500">Waiting</p>
                             </div>
                         </div>
                     </div>
@@ -215,19 +215,19 @@ const ConsultationQueue: React.FC<ConsultationQueueProps> = ({ onStartConsultati
                                 <Stethoscope className="w-5 h-5 text-green-600" />
                             </div>
                             <div>
-                                <p className="text-2xl font-bold text-gray-800">{stats.in_consultation}</p>
-                                <p className="text-sm text-gray-500">In Session</p>
+                                <p className="text-2xl font-bold text-neutral-800">{stats.in_consultation}</p>
+                                <p className="text-sm text-neutral-500">In Session</p>
                             </div>
                         </div>
                     </div>
                     <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-gray-100 rounded-lg">
-                                <CheckCircle className="w-5 h-5 text-gray-600" />
+                            <div className="p-2 bg-neutral-100 rounded-lg">
+                                <CheckCircle className="w-5 h-5 text-neutral-600" />
                             </div>
                             <div>
-                                <p className="text-2xl font-bold text-gray-800">{stats.completed}</p>
-                                <p className="text-sm text-gray-500">Completed</p>
+                                <p className="text-2xl font-bold text-neutral-800">{stats.completed}</p>
+                                <p className="text-sm text-neutral-500">Completed</p>
                             </div>
                         </div>
                     </div>
@@ -236,14 +236,14 @@ const ConsultationQueue: React.FC<ConsultationQueueProps> = ({ onStartConsultati
 
             {/* Tabs */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-                <div className="border-b border-gray-200">
+                <div className="border-b border-neutral-200">
                     <div className="flex">
                         <button
                             onClick={() => setActiveTab('today')}
                             className={`flex-1 py-4 px-6 text-center font-medium transition-colors ${
                                 activeTab === 'today'
-                                    ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50/50'
-                                    : 'text-gray-500 hover:text-gray-700'
+                                    ? 'text-primary-500 border-b-2 border-primary-500 bg-blue-50/50'
+                                    : 'text-neutral-500 hover:text-neutral-700'
                             }`}
                         >
                             <div className="flex items-center justify-center gap-2">
@@ -255,8 +255,8 @@ const ConsultationQueue: React.FC<ConsultationQueueProps> = ({ onStartConsultati
                             onClick={() => setActiveTab('future')}
                             className={`flex-1 py-4 px-6 text-center font-medium transition-colors ${
                                 activeTab === 'future'
-                                    ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50/50'
-                                    : 'text-gray-500 hover:text-gray-700'
+                                    ? 'text-primary-500 border-b-2 border-primary-500 bg-blue-50/50'
+                                    : 'text-neutral-500 hover:text-neutral-700'
                             }`}
                         >
                             <div className="flex items-center justify-center gap-2">
@@ -269,15 +269,15 @@ const ConsultationQueue: React.FC<ConsultationQueueProps> = ({ onStartConsultati
 
                 {/* Date Picker for Future */}
                 {activeTab === 'future' && (
-                    <div className="p-4 border-b border-gray-200 bg-gray-50">
+                    <div className="p-4 border-b border-neutral-200 bg-neutral-50">
                         <div className="flex items-center gap-4">
-                            <label className="text-sm font-medium text-gray-700">Select Date:</label>
+                            <label className="text-sm font-medium text-neutral-700">Select Date:</label>
                             <input
                                 type="date"
                                 value={selectedDate}
                                 onChange={(e) => setSelectedDate(e.target.value)}
                                 min={minFutureDate}
-                                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                             />
                         </div>
                     </div>
@@ -285,8 +285,8 @@ const ConsultationQueue: React.FC<ConsultationQueueProps> = ({ onStartConsultati
 
                 {/* Error State */}
                 {error && (
-                    <div className="p-4 m-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-3">
-                        <AlertCircle className="w-5 h-5 text-red-500" />
+                    <div className="p-4 m-4 bg-error-50 border border-red-200 rounded-lg flex items-center gap-3">
+                        <AlertCircle className="w-5 h-5 text-error-500" />
                         <p className="text-red-700">{error}</p>
                     </div>
                 )}
@@ -296,8 +296,8 @@ const ConsultationQueue: React.FC<ConsultationQueueProps> = ({ onStartConsultati
                     {queue.length === 0 ? (
                         <div className="p-12 text-center">
                             <Users className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                            <h3 className="text-lg font-medium text-gray-800 mb-2">No patients in queue</h3>
-                            <p className="text-gray-500">
+                            <h3 className="text-lg font-medium text-neutral-800 mb-2">No patients in queue</h3>
+                            <p className="text-neutral-500">
                                 {activeTab === 'today'
                                     ? 'Patients will appear here as they check in'
                                     : 'No appointments scheduled for this date'}
@@ -307,26 +307,26 @@ const ConsultationQueue: React.FC<ConsultationQueueProps> = ({ onStartConsultati
                         queue.map((patient) => (
                             <div
                                 key={patient.id}
-                                className="p-4 hover:bg-gray-50 transition-colors"
+                                className="p-4 hover:bg-neutral-50 transition-colors"
                             >
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-4">
                                         {/* Token Number */}
-                                        <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-lg">
+                                        <div className="w-12 h-12 bg-primary-500 rounded-xl flex items-center justify-center text-white font-bold text-lg">
                                             {patient.token_number || patient.slot_number}
                                         </div>
                                         
                                         {/* Patient Info */}
                                         <div>
                                             <div className="flex items-center gap-2">
-                                                <h3 className="font-semibold text-gray-800">
+                                                <h3 className="font-semibold text-neutral-800">
                                                     {patient.patient_name}
                                                 </h3>
                                                 <span className={`px-2 py-0.5 text-xs rounded-full ${getStatusColor(patient.display_status)}`}>
                                                     {patient.display_status}
                                                 </span>
                                             </div>
-                                            <div className="flex items-center gap-4 text-sm text-gray-500 mt-1">
+                                            <div className="flex items-center gap-4 text-sm text-neutral-500 mt-1">
                                                 {patient.age && (
                                                     <span className="flex items-center gap-1">
                                                         <User className="w-3.5 h-3.5" />
@@ -343,7 +343,7 @@ const ConsultationQueue: React.FC<ConsultationQueueProps> = ({ onStartConsultati
                                                 </span>
                                             </div>
                                             {patient.notes && (
-                                                <p className="text-sm text-gray-500 mt-1 italic">
+                                                <p className="text-sm text-neutral-500 mt-1 italic">
                                                     Note: {patient.notes}
                                                 </p>
                                             )}
@@ -354,7 +354,7 @@ const ConsultationQueue: React.FC<ConsultationQueueProps> = ({ onStartConsultati
                                     <div className="flex items-center gap-2">
                                         <button
                                             onClick={() => handleViewPatient(patient.patient_id)}
-                                            className="px-3 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+                                            className="px-3 py-2 text-sm text-neutral-600 hover:text-neutral-800 hover:bg-neutral-100 rounded-lg transition-colors"
                                         >
                                             View History
                                         </button>
@@ -368,14 +368,14 @@ const ConsultationQueue: React.FC<ConsultationQueueProps> = ({ onStartConsultati
                                                 Continue
                                             </button>
                                         ) : patient.display_status === 'Completed' ? (
-                                            <span className="px-4 py-2 text-sm text-gray-500">
+                                            <span className="px-4 py-2 text-sm text-neutral-500">
                                                 Consultation Complete
                                             </span>
                                         ) : (
                                             <button
                                                 onClick={() => handleStartConsultation(patient)}
                                                 disabled={startingConsultation === patient.id}
-                                                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+                                                className="inline-flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50"
                                             >
                                                 {startingConsultation === patient.id ? (
                                                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -386,7 +386,7 @@ const ConsultationQueue: React.FC<ConsultationQueueProps> = ({ onStartConsultati
                                             </button>
                                         )}
                                         
-                                        <ChevronRight className="w-5 h-5 text-gray-400" />
+                                        <ChevronRight className="w-5 h-5 text-neutral-400" />
                                     </div>
                                 </div>
                             </div>

@@ -634,28 +634,28 @@ const SuperAdminPOSPage = () => {
     };
 
     return (
-        <div className="p-6 bg-gray-50 min-h-screen">
+        <div className="p-6 bg-neutral-50 min-h-screen">
             {/* Header */}
             <div className="mb-6">
-                <h1 className="text-2xl font-bold text-gray-800 flex items-center">
-                    <ShoppingCart className="w-8 h-8 mr-3 text-blue-600" />
+                <h1 className="text-2xl font-bold text-neutral-800 flex items-center">
+                    <ShoppingCart className="w-8 h-8 mr-3 text-primary-500" />
                     Super Admin Point of Sale
                 </h1>
-                <p className="text-gray-600 mt-1">Create transactions on behalf of any branch</p>
+                <p className="text-neutral-600 mt-1">Create transactions on behalf of any branch</p>
             </div>
 
             {/* Branch Selection - Uses shared BranchContext */}
             <div className="bg-white rounded-xl shadow-sm p-4 mb-6">
                 <div className="flex items-center mb-4">
-                    <Building2 className="w-5 h-5 text-blue-600 mr-2" />
+                    <Building2 className="w-5 h-5 text-primary-500 mr-2" />
                     <h2 className="text-lg font-semibold">Select Branch & Cashier</h2>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <BranchSelector showLabel={true} />
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Cashier (Optional)</label>
+                        <label className="block text-sm font-medium text-neutral-700 mb-1">Cashier (Optional)</label>
                         <select
-                            className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
+                            className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary-500"
                             value={selectedCashier}
                             onChange={(e) => setSelectedCashier(e.target.value)}
                             disabled={isLoadingCashiers || !selectedBranch}
@@ -684,7 +684,7 @@ const SuperAdminPOSPage = () => {
                 <>
                     {/* Error/Success Messages */}
                     {error && (
-                        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center text-red-700">
+                        <div className="mb-4 p-3 bg-error-50 border border-red-200 rounded-lg flex items-center text-red-700">
                             <AlertCircle className="w-5 h-5 mr-2" />
                             {error}
                         </div>
@@ -707,7 +707,7 @@ const SuperAdminPOSPage = () => {
                                         {lowStockWarning.map((item, idx) => (
                                             <p key={idx} className="text-sm text-amber-700">
                                                 <span className="font-medium">{item.name}</span> ({item.code}) -
-                                                Only <span className="font-bold text-red-600">{item.current_stock}</span> units left
+                                                Only <span className="font-bold text-error-600">{item.current_stock}</span> units left
                                                 (Reorder level: {item.reorder_level})
                                             </p>
                                         ))}
@@ -732,7 +732,7 @@ const SuperAdminPOSPage = () => {
                         <div className="lg:col-span-2 space-y-6">
                             {/* Transaction Type */}
                             <div className="bg-white rounded-xl shadow-sm p-4">
-                                <h3 className="text-md font-semibold text-gray-800 mb-3">Transaction Type</h3>
+                                <h3 className="text-md font-semibold text-neutral-800 mb-3">Transaction Type</h3>
                                 <div className="flex space-x-2">
                                     {["OPD", "PHARMACY", "LAB", "OTHER"].map(type => (
                                         <button
@@ -740,8 +740,8 @@ const SuperAdminPOSPage = () => {
                                             onClick={() => setTransactionType(type)}
                                             className={`px-4 py-2 rounded-lg font-medium transition-all ${
                                                 transactionType === type
-                                                    ? "bg-blue-600 text-white"
-                                                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                                                    ? "bg-primary-500 text-white"
+                                                    : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
                                             }`}
                                         >
                                             {type}
@@ -753,8 +753,8 @@ const SuperAdminPOSPage = () => {
                             {/* Patient Selection */}
                             <div className="bg-white rounded-xl shadow-sm p-4">
                                 <div className="flex items-center justify-between mb-3">
-                                    <h3 className="text-md font-semibold text-gray-800 flex items-center">
-                                        <User className="w-5 h-5 mr-2 text-gray-500" />
+                                    <h3 className="text-md font-semibold text-neutral-800 flex items-center">
+                                        <User className="w-5 h-5 mr-2 text-neutral-500" />
                                         Patient Information
                                     </h3>
                                     <label className="flex items-center space-x-2">
@@ -768,15 +768,15 @@ const SuperAdminPOSPage = () => {
                                                     setPatientSearch("Walk-in Customer");
                                                 }
                                             }}
-                                            className="rounded border-gray-300"
+                                            className="rounded border-neutral-300"
                                         />
-                                        <span className="text-sm text-gray-600">Walk-in Customer</span>
+                                        <span className="text-sm text-neutral-600">Walk-in Customer</span>
                                     </label>
                                 </div>
                                 {!isWalkIn && (
                                     <div className="relative">
                                         <div className="flex items-center border rounded-lg px-3 py-2">
-                                            <Search className="w-5 h-5 text-gray-400 mr-2" />
+                                            <Search className="w-5 h-5 text-neutral-400 mr-2" />
                                             <input
                                                 type="text"
                                                 value={patientSearch}
@@ -803,10 +803,10 @@ const SuperAdminPOSPage = () => {
                                                             setPatientSearch(`${patient.first_name} ${patient.last_name}`);
                                                             setShowPatientDropdown(false);
                                                         }}
-                                                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                                        className="px-4 py-2 hover:bg-neutral-100 cursor-pointer"
                                                     >
                                                         <p className="font-medium">{patient.first_name} {patient.last_name}</p>
-                                                        <p className="text-sm text-gray-500">{patient.phone} • {patient.email}</p>
+                                                        <p className="text-sm text-neutral-500">{patient.phone} • {patient.email}</p>
                                                     </div>
                                                 ))}
                                             </div>
@@ -814,7 +814,7 @@ const SuperAdminPOSPage = () => {
                                     </div>
                                 )}
                                 {patientInfo.id && (
-                                    <div className="mt-3 p-3 bg-gray-50 rounded-lg">
+                                    <div className="mt-3 p-3 bg-neutral-50 rounded-lg">
                                         <p className="text-sm"><strong>Name:</strong> {patientInfo.name}</p>
                                         <p className="text-sm"><strong>Phone:</strong> {patientInfo.phone || "N/A"}</p>
                                     </div>
@@ -822,8 +822,8 @@ const SuperAdminPOSPage = () => {
                             </div>
 
                             {/* Purchased Items - Same as Cashier Module */}
-                            <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-                                <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+                                <h2 className="text-lg font-semibold text-neutral-800 mb-4 flex items-center gap-2">
                                     <div className="p-2 bg-gradient-to-br from-emerald-500 to-blue-600 rounded-lg">
                                         <ShoppingCart className="h-4 w-4 text-white" />
                                     </div>
@@ -835,18 +835,18 @@ const SuperAdminPOSPage = () => {
                                     {/* Product Search */}
                                     <div className="col-span-12 md:col-span-5 relative">
                                         <div className="relative">
-                                            <Search className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+                                            <Search className="absolute left-3 top-3.5 h-5 w-5 text-neutral-400" />
                                             <input
                                                 type="text"
                                                 value={productSearch}
                                                 onChange={(e) => setProductSearch(e.target.value)}
                                                 onFocus={() => productSearch.length >= 2 && setShowProductDropdown(true)}
-                                                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                                                className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                                                 placeholder="Search and select product..."
                                             />
                                         </div>
                                         {showProductDropdown && products.length > 0 && (
-                                            <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                            <div className="absolute z-10 w-full mt-1 bg-white border border-neutral-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                                                 {products.map((product) => (
                                                     <button
                                                         key={product.id}
@@ -856,12 +856,12 @@ const SuperAdminPOSPage = () => {
                                                     >
                                                         <div className="flex justify-between items-start">
                                                             <div>
-                                                                <div className="font-medium text-gray-900">{product.item_name}</div>
-                                                                <div className="text-sm text-gray-500">{product.item_code}</div>
+                                                                <div className="font-medium text-neutral-900">{product.item_name}</div>
+                                                                <div className="text-sm text-neutral-500">{product.item_code}</div>
                                                             </div>
                                                             <div className="text-right">
                                                                 <div className="font-medium text-emerald-600">Rs. {product.selling_price}</div>
-                                                                <div className="text-xs text-gray-500">Stock: {product.stock}</div>
+                                                                <div className="text-xs text-neutral-500">Stock: {product.stock}</div>
                                                             </div>
                                                         </div>
                                                     </button>
@@ -877,7 +877,7 @@ const SuperAdminPOSPage = () => {
                                             min="1"
                                             value={currentService.quantity}
                                             onChange={(e) => setCurrentService({ ...currentService, quantity: e.target.value })}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Qty"
                                         />
                                     </div>
@@ -890,7 +890,7 @@ const SuperAdminPOSPage = () => {
                                                 step="0.01"
                                                 value={currentService.amount}
                                                 readOnly={true}
-                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
+                                                className="w-full px-4 py-3 border border-neutral-300 rounded-lg bg-neutral-100 cursor-not-allowed"
                                                 placeholder="Select product"
                                             />
                                             {isProductFromDB && (
@@ -915,37 +915,37 @@ const SuperAdminPOSPage = () => {
 
                                 {/* Purchased Items List */}
                                 {serviceItems.length > 0 ? (
-                                    <div className="border border-gray-200 rounded-xl overflow-hidden">
+                                    <div className="border border-neutral-200 rounded-xl overflow-hidden">
                                         <table className="w-full">
                                             <thead className="bg-gradient-to-r from-emerald-50 to-blue-50">
                                                 <tr>
-                                                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Item</th>
-                                                    <th className="px-4 py-3 text-center text-sm font-medium text-gray-700">Qty</th>
-                                                    <th className="px-4 py-3 text-right text-sm font-medium text-gray-700">Price</th>
-                                                    <th className="px-4 py-3 text-right text-sm font-medium text-gray-700">Total</th>
+                                                    <th className="px-4 py-3 text-left text-sm font-medium text-neutral-700">Item</th>
+                                                    <th className="px-4 py-3 text-center text-sm font-medium text-neutral-700">Qty</th>
+                                                    <th className="px-4 py-3 text-right text-sm font-medium text-neutral-700">Price</th>
+                                                    <th className="px-4 py-3 text-right text-sm font-medium text-neutral-700">Total</th>
                                                     <th className="px-4 py-3 w-16"></th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-gray-200">
                                                 {serviceItems.map((item) => (
-                                                    <tr key={item.id} className="hover:bg-gray-50">
-                                                        <td className="px-4 py-3 text-sm text-gray-900">
+                                                    <tr key={item.id} className="hover:bg-neutral-50">
+                                                        <td className="px-4 py-3 text-sm text-neutral-900">
                                                             {item.service}
                                                             {item.stock !== undefined && (
-                                                                <span className="ml-2 text-xs text-gray-500">
+                                                                <span className="ml-2 text-xs text-neutral-500">
                                                                     (Stock: {item.stock})
                                                                 </span>
                                                             )}
                                                         </td>
-                                                        <td className="px-4 py-3 text-sm text-gray-700 text-center">
+                                                        <td className="px-4 py-3 text-sm text-neutral-700 text-center">
                                                             <div className="flex items-center justify-center gap-2">
                                                                 <button
                                                                     type="button"
                                                                     onClick={() => handleUpdateQuantity(item.id, -1)}
                                                                     disabled={(item.quantity || 1) <= 1}
-                                                                    className="w-7 h-7 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                                                                    className="w-7 h-7 flex items-center justify-center rounded-full bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 disabled:cursor-not-allowed transition"
                                                                 >
-                                                                    <Minus className="h-3.5 w-3.5 text-gray-600" />
+                                                                    <Minus className="h-3.5 w-3.5 text-neutral-600" />
                                                                 </button>
                                                                 <span className="w-8 text-center font-semibold">
                                                                     {item.quantity || 1}
@@ -960,17 +960,17 @@ const SuperAdminPOSPage = () => {
                                                                 </button>
                                                             </div>
                                                         </td>
-                                                        <td className="px-4 py-3 text-sm text-gray-700 text-right">
+                                                        <td className="px-4 py-3 text-sm text-neutral-700 text-right">
                                                             Rs. {((item.unitPrice || item.amount / (item.quantity || 1))).toLocaleString()}
                                                         </td>
-                                                        <td className="px-4 py-3 text-sm text-gray-900 text-right font-medium">
+                                                        <td className="px-4 py-3 text-sm text-neutral-900 text-right font-medium">
                                                             Rs. {item.amount.toLocaleString()}
                                                         </td>
                                                         <td className="px-4 py-3 text-right">
                                                             <button
                                                                 type="button"
                                                                 onClick={() => handleRemoveItem(item.id)}
-                                                                className="text-red-600 hover:text-red-800 transition"
+                                                                className="text-error-600 hover:text-red-800 transition"
                                                             >
                                                                 <Trash2 className="h-4 w-4" />
                                                             </button>
@@ -981,16 +981,16 @@ const SuperAdminPOSPage = () => {
                                         </table>
                                     </div>
                                 ) : (
-                                    <div className="text-center py-8 text-gray-500 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
-                                        <ShoppingCart className="h-12 w-12 mx-auto mb-2 text-gray-400" />
+                                    <div className="text-center py-8 text-neutral-500 bg-neutral-50 rounded-xl border-2 border-dashed border-neutral-200">
+                                        <ShoppingCart className="h-12 w-12 mx-auto mb-2 text-neutral-400" />
                                         <p>No items added yet</p>
                                     </div>
                                 )}
 
                                 {/* Available Inventory List - Same as Cashier Module */}
-                                <div className="mt-6 pt-6 border-t border-gray-200">
+                                <div className="mt-6 pt-6 border-t border-neutral-200">
                                     <div className="flex items-center justify-between mb-4">
-                                        <h3 className="text-md font-semibold text-gray-700 flex items-center gap-2">
+                                        <h3 className="text-md font-semibold text-neutral-700 flex items-center gap-2">
                                             <Package className="h-5 w-5 text-emerald-600" />
                                             Available Inventory
                                         </h3>
@@ -1008,7 +1008,7 @@ const SuperAdminPOSPage = () => {
                                     {isLoadingInventory ? (
                                         <div className="text-center py-6">
                                             <RefreshCw className="h-8 w-8 mx-auto animate-spin text-emerald-500" />
-                                            <p className="text-sm text-gray-500 mt-2">Loading inventory...</p>
+                                            <p className="text-sm text-neutral-500 mt-2">Loading inventory...</p>
                                         </div>
                                     ) : inventoryItems.length > 0 ? (
                                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-64 overflow-y-auto">
@@ -1017,21 +1017,21 @@ const SuperAdminPOSPage = () => {
                                                     key={item.id}
                                                     type="button"
                                                     onClick={() => quickAddProduct(item)}
-                                                    className="p-3 bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-lg hover:border-emerald-400 hover:shadow-md transition-all text-left group"
+                                                    className="p-3 bg-gradient-to-br from-gray-50 to-white border border-neutral-200 rounded-lg hover:border-emerald-400 hover:shadow-md transition-all text-left group"
                                                 >
                                                     <div className="flex justify-between items-start">
                                                         <div className="flex-1 min-w-0">
-                                                            <p className="font-medium text-gray-900 truncate group-hover:text-emerald-700">
+                                                            <p className="font-medium text-neutral-900 truncate group-hover:text-emerald-700">
                                                                 {item.item_name}
                                                             </p>
-                                                            <p className="text-xs text-gray-500">{item.item_code}</p>
+                                                            <p className="text-xs text-neutral-500">{item.item_code}</p>
                                                         </div>
                                                         <div className="text-right ml-2">
                                                             <p className="font-semibold text-emerald-600">
                                                                 Rs. {item.selling_price?.toLocaleString() || '0'}
                                                             </p>
-                                                            <p className="text-xs text-gray-500">
-                                                                Stock: <span className={item.stock < 10 ? 'text-red-500 font-medium' : 'text-green-600'}>{item.stock}</span>
+                                                            <p className="text-xs text-neutral-500">
+                                                                Stock: <span className={item.stock < 10 ? 'text-error-500 font-medium' : 'text-green-600'}>{item.stock}</span>
                                                             </p>
                                                         </div>
                                                     </div>
@@ -1042,8 +1042,8 @@ const SuperAdminPOSPage = () => {
                                             ))}
                                         </div>
                                     ) : (
-                                        <div className="text-center py-6 text-gray-500 bg-gray-50 rounded-lg">
-                                            <Package className="h-8 w-8 mx-auto mb-2 text-gray-400" />
+                                        <div className="text-center py-6 text-neutral-500 bg-neutral-50 rounded-lg">
+                                            <Package className="h-8 w-8 mx-auto mb-2 text-neutral-400" />
                                             <p className="text-sm">No inventory items available</p>
                                         </div>
                                     )}
@@ -1055,15 +1055,15 @@ const SuperAdminPOSPage = () => {
                         <div className="space-y-6">
                             {/* Payment Totals Section */}
                             <div className="bg-white rounded-xl shadow-sm p-4">
-                                <h3 className="text-md font-semibold text-gray-800 mb-3 flex items-center">
-                                    <DollarSign className="w-5 h-5 mr-2 text-gray-500" />
+                                <h3 className="text-md font-semibold text-neutral-800 mb-3 flex items-center">
+                                    <DollarSign className="w-5 h-5 mr-2 text-neutral-500" />
                                     Order Summary
                                 </h3>
 
                                 {/* Enhanced Totals with Discounts */}
                                 <div className="border-t mt-4 pt-4 space-y-2">
                                     <div className="flex justify-between text-sm">
-                                        <span className="text-gray-600">Subtotal:</span>
+                                        <span className="text-neutral-600">Subtotal:</span>
                                         <span>Rs. {calculateSubtotal().toLocaleString()}</span>
                                     </div>
 
@@ -1080,7 +1080,7 @@ const SuperAdminPOSPage = () => {
                                                 Bill Discount ({billDiscount.name})
                                                 <button
                                                     onClick={removeBillDiscount}
-                                                    className="ml-1 text-red-500 hover:text-red-700"
+                                                    className="ml-1 text-error-500 hover:text-red-700"
                                                 >
                                                     <X className="w-3 h-3" />
                                                 </button>
@@ -1091,7 +1091,7 @@ const SuperAdminPOSPage = () => {
 
                                     <div className="flex justify-between text-lg font-bold pt-2 border-t">
                                         <span>Total:</span>
-                                        <span className="text-blue-600">Rs. {calculateTotal().toLocaleString()}</span>
+                                        <span className="text-primary-500">Rs. {calculateTotal().toLocaleString()}</span>
                                     </div>
 
                                     {/* Add Discount Button */}
@@ -1110,7 +1110,7 @@ const SuperAdminPOSPage = () => {
 
                             {/* Payment */}
                             <div className="bg-white rounded-xl shadow-sm p-4">
-                                <h3 className="text-md font-semibold text-gray-800 mb-3">Payment Method</h3>
+                                <h3 className="text-md font-semibold text-neutral-800 mb-3">Payment Method</h3>
                                 <div className="grid grid-cols-2 gap-2 mb-4">
                                     {[
                                         { value: "CASH", icon: <DollarSign className="w-4 h-4" />, label: "Cash" },
@@ -1123,8 +1123,8 @@ const SuperAdminPOSPage = () => {
                                             onClick={() => setPaymentMethod(method.value)}
                                             className={`flex items-center justify-center space-x-2 px-3 py-2 rounded-lg border transition-all ${
                                                 paymentMethod === method.value
-                                                    ? "bg-blue-600 text-white border-blue-600"
-                                                    : "bg-white text-gray-700 border-gray-200 hover:border-blue-300"
+                                                    ? "bg-primary-500 text-white border-primary-500"
+                                                    : "bg-white text-neutral-700 border-neutral-200 hover:border-blue-300"
                                             }`}
                                         >
                                             {method.icon}
@@ -1136,7 +1136,7 @@ const SuperAdminPOSPage = () => {
                                 {paymentMethod === "CASH" && (
                                     <div className="space-y-3">
                                         <div>
-                                            <label className="text-sm text-gray-600">Received Amount</label>
+                                            <label className="text-sm text-neutral-600">Received Amount</label>
                                             <input
                                                 type="number"
                                                 value={paidAmount}
@@ -1146,8 +1146,8 @@ const SuperAdminPOSPage = () => {
                                             />
                                         </div>
                                         {parseFloat(paidAmount) > 0 && (
-                                            <div className={`p-3 rounded-lg ${calculateChange() >= 0 ? "bg-green-50" : "bg-red-50"}`}>
-                                                <p className={`text-lg font-bold ${calculateChange() >= 0 ? "text-green-600" : "text-red-600"}`}>
+                                            <div className={`p-3 rounded-lg ${calculateChange() >= 0 ? "bg-green-50" : "bg-error-50"}`}>
+                                                <p className={`text-lg font-bold ${calculateChange() >= 0 ? "text-green-600" : "text-error-600"}`}>
                                                     Change: Rs. {calculateChange().toLocaleString()}
                                                 </p>
                                             </div>
@@ -1156,7 +1156,7 @@ const SuperAdminPOSPage = () => {
                                 )}
 
                                 <div className="mt-4">
-                                    <label className="text-sm text-gray-600">Remarks (Optional)</label>
+                                    <label className="text-sm text-neutral-600">Remarks (Optional)</label>
                                     <textarea
                                         value={remarks}
                                         onChange={(e) => setRemarks(e.target.value)}
@@ -1173,8 +1173,8 @@ const SuperAdminPOSPage = () => {
                                 disabled={isSubmitting || serviceItems.length === 0}
                                 className={`w-full py-4 rounded-xl font-semibold text-lg flex items-center justify-center space-x-2 transition-all ${
                                     isSubmitting || serviceItems.length === 0
-                                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                        : "bg-blue-600 text-white hover:bg-blue-700"
+                                        ? "bg-neutral-300 text-neutral-500 cursor-not-allowed"
+                                        : "bg-primary-500 text-white hover:bg-primary-600"
                                 }`}
                             >
                                 {isSubmitting ? (
@@ -1197,8 +1197,8 @@ const SuperAdminPOSPage = () => {
             {!selectedBranch && (
                 <div className="text-center py-12 bg-white rounded-xl shadow-sm">
                     <Building2 className="w-16 h-16 mx-auto text-gray-300 mb-4" />
-                    <h3 className="text-xl font-semibold text-gray-600 mb-2">Select a Branch to Continue</h3>
-                    <p className="text-gray-500">Choose a branch from the dropdown above to start creating transactions</p>
+                    <h3 className="text-xl font-semibold text-neutral-600 mb-2">Select a Branch to Continue</h3>
+                    <p className="text-neutral-500">Choose a branch from the dropdown above to start creating transactions</p>
                 </div>
             )}
 
@@ -1221,8 +1221,8 @@ const SuperAdminPOSPage = () => {
                             <div key={idx} className="border rounded-lg p-3 hover:bg-green-50 transition-colors">
                                 <div className="flex items-start justify-between">
                                     <div>
-                                        <p className="font-medium text-gray-800">{offer.name}</p>
-                                        <p className="text-sm text-gray-500">
+                                        <p className="font-medium text-neutral-800">{offer.name}</p>
+                                        <p className="text-sm text-neutral-500">
                                             {offer.type === 'percentage' ? `${offer.value}% off` : `Rs. ${offer.value} off`}
                                         </p>
                                         <span className={`text-xs px-2 py-0.5 rounded-full ${
@@ -1253,7 +1253,7 @@ const SuperAdminPOSPage = () => {
                     className="fixed right-4 bottom-4 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 z-40 flex items-center"
                 >
                     <Gift className="w-6 h-6" />
-                    <span className="ml-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
+                    <span className="ml-2 bg-error-500 text-white text-xs px-2 py-0.5 rounded-full">
                         {activeOffers.length}
                     </span>
                 </button>
@@ -1274,7 +1274,7 @@ const SuperAdminPOSPage = () => {
                                     setSelectedItemForDiscount(null);
                                     setManualDiscountValue("");
                                 }}
-                                className="text-gray-400 hover:text-gray-600"
+                                className="text-neutral-400 hover:text-neutral-600"
                             >
                                 <X className="w-5 h-5" />
                             </button>
@@ -1282,7 +1282,7 @@ const SuperAdminPOSPage = () => {
 
                         {/* Quick Discount Presets */}
                         <div className="mb-4">
-                            <p className="text-sm text-gray-600 mb-2">Quick Discounts:</p>
+                            <p className="text-sm text-neutral-600 mb-2">Quick Discounts:</p>
                             <div className="grid grid-cols-4 gap-2">
                                 {[5, 10, 15, 20].map(percent => (
                                     <button
@@ -1304,7 +1304,7 @@ const SuperAdminPOSPage = () => {
 
                         {/* Manual Discount Entry */}
                         <div className="border-t pt-4">
-                            <p className="text-sm text-gray-600 mb-2">Custom Discount:</p>
+                            <p className="text-sm text-neutral-600 mb-2">Custom Discount:</p>
                             <div className="flex items-center space-x-2">
                                 <select
                                     value={manualDiscountType}
@@ -1334,7 +1334,7 @@ const SuperAdminPOSPage = () => {
                                         }
                                     }}
                                     disabled={!manualDiscountValue || parseFloat(manualDiscountValue) <= 0}
-                                    className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 disabled:bg-gray-300"
+                                    className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 disabled:bg-neutral-300"
                                 >
                                     Apply
                                 </button>
@@ -1346,7 +1346,7 @@ const SuperAdminPOSPage = () => {
                             selectedItemForDiscount ? o.scope === 'item' : o.scope === 'bill'
                         ).length > 0 && (
                             <div className="border-t mt-4 pt-4">
-                                <p className="text-sm text-gray-600 mb-2 flex items-center">
+                                <p className="text-sm text-neutral-600 mb-2 flex items-center">
                                     <Gift className="w-4 h-4 mr-1 text-green-600" />
                                     Available Offers:
                                 </p>
@@ -1361,7 +1361,7 @@ const SuperAdminPOSPage = () => {
                                             >
                                                 <div>
                                                     <p className="text-sm font-medium">{offer.name}</p>
-                                                    <p className="text-xs text-gray-500">
+                                                    <p className="text-xs text-neutral-500">
                                                         {offer.type === 'percentage' ? `${offer.value}%` : `Rs.${offer.value}`} off
                                                     </p>
                                                 </div>

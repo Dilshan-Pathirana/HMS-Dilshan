@@ -214,22 +214,22 @@ const AvailableSlots: React.FC<AvailableSlotsProps> = ({
 
     return (
         <div className="mb-6">
-            <h4 className="flex items-center text-lg font-semibold m-2 text-gray-800">
-                <LocationIcon className="w-5 h-5 mr-2 text-blue-500" />
+            <h4 className="flex items-center text-lg font-semibold m-2 text-neutral-800">
+                <LocationIcon className="w-5 h-5 mr-2 text-primary-500" />
                 Doctor's Other Availability
             </h4>
 
             {error && (
-                <div className="mx-2 mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
-                    <p className="text-red-600 text-sm">{error}</p>
+                <div className="mx-2 mb-4 p-3 bg-error-50 border border-red-200 rounded-md">
+                    <p className="text-error-600 text-sm">{error}</p>
                 </div>
             )}
 
-            <div className="overflow-y-auto max-h-60 border border-gray-300 rounded-md p-4">
+            <div className="overflow-y-auto max-h-60 border border-neutral-300 rounded-md p-4">
                 {scheduleItems.length > 0 ? (
                     scheduleItems
                 ) : (
-                    <div className="text-center py-8 text-gray-500">
+                    <div className="text-center py-8 text-neutral-500">
                         <LocationIcon className="w-12 h-12 mx-auto mb-2 text-gray-300" />
                         <p>No other branch schedules available</p>
                     </div>

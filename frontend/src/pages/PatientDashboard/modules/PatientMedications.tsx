@@ -119,8 +119,8 @@ const PatientMedications: React.FC = () => {
         switch (status) {
             case 'active': return 'bg-green-100 text-green-700';
             case 'completed': return 'bg-blue-100 text-blue-700';
-            case 'discontinued': return 'bg-red-100 text-red-700';
-            default: return 'bg-gray-100 text-gray-700';
+            case 'discontinued': return 'bg-error-100 text-red-700';
+            default: return 'bg-neutral-100 text-neutral-700';
         }
     };
 
@@ -144,8 +144,8 @@ const PatientMedications: React.FC = () => {
         <div className="space-y-6">
             {/* Header */}
             <div>
-                <h1 className="text-2xl font-bold text-gray-800">My Medications</h1>
-                <p className="text-gray-500">Track your prescribed medications and dosages</p>
+                <h1 className="text-2xl font-bold text-neutral-800">My Medications</h1>
+                <p className="text-neutral-500">Track your prescribed medications and dosages</p>
             </div>
 
             {/* Stats Cards */}
@@ -153,7 +153,7 @@ const PatientMedications: React.FC = () => {
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-gray-500">Active Medications</p>
+                            <p className="text-sm text-neutral-500">Active Medications</p>
                             <p className="text-3xl font-bold text-green-600">{activeMeds.length}</p>
                         </div>
                         <div className="p-3 bg-green-50 rounded-xl text-green-600">
@@ -164,10 +164,10 @@ const PatientMedications: React.FC = () => {
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-gray-500">Completed Courses</p>
-                            <p className="text-3xl font-bold text-blue-600">{completedMeds.length}</p>
+                            <p className="text-sm text-neutral-500">Completed Courses</p>
+                            <p className="text-3xl font-bold text-primary-500">{completedMeds.length}</p>
                         </div>
-                        <div className="p-3 bg-blue-50 rounded-xl text-blue-600">
+                        <div className="p-3 bg-blue-50 rounded-xl text-primary-500">
                             <CheckCircle className="w-8 h-8" />
                         </div>
                     </div>
@@ -175,7 +175,7 @@ const PatientMedications: React.FC = () => {
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-gray-500">Total Prescriptions</p>
+                            <p className="text-sm text-neutral-500">Total Prescriptions</p>
                             <p className="text-3xl font-bold text-purple-600">{medications.length}</p>
                         </div>
                         <div className="p-3 bg-purple-50 rounded-xl text-purple-600">
@@ -190,13 +190,13 @@ const PatientMedications: React.FC = () => {
                 <div className="flex flex-col md:flex-row gap-4">
                     {/* Search */}
                     <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                         <input
                             type="text"
                             placeholder="Search medications..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                            className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                         />
                     </div>
 
@@ -213,7 +213,7 @@ const PatientMedications: React.FC = () => {
                                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                                     filter === tab.key
                                         ? 'bg-emerald-600 text-white'
-                                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                        : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
                                 }`}
                             >
                                 {tab.label}
@@ -227,8 +227,8 @@ const PatientMedications: React.FC = () => {
             {filteredMedications.length === 0 ? (
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
                     <Pill className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-800 mb-2">No medications found</h3>
-                    <p className="text-gray-500">Your prescribed medications will appear here</p>
+                    <h3 className="text-lg font-medium text-neutral-800 mb-2">No medications found</h3>
+                    <p className="text-neutral-500">Your prescribed medications will appear here</p>
                 </div>
             ) : (
                 <div className="space-y-4">
@@ -237,7 +237,7 @@ const PatientMedications: React.FC = () => {
                             <div className="flex flex-col md:flex-row md:items-start gap-4">
                                 {/* Medication Icon */}
                                 <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${
-                                    med.status === 'active' ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-500'
+                                    med.status === 'active' ? 'bg-green-100 text-green-600' : 'bg-neutral-100 text-neutral-500'
                                 }`}>
                                     <Pill className="w-7 h-7" />
                                 </div>
@@ -246,7 +246,7 @@ const PatientMedications: React.FC = () => {
                                 <div className="flex-1">
                                     <div className="flex items-start justify-between mb-2">
                                         <div>
-                                            <h3 className="font-semibold text-gray-800 text-lg">{med.name}</h3>
+                                            <h3 className="font-semibold text-neutral-800 text-lg">{med.name}</h3>
                                             <p className="text-emerald-600 font-medium">{med.dosage}</p>
                                         </div>
                                         <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(med.status)}`}>
@@ -257,29 +257,29 @@ const PatientMedications: React.FC = () => {
 
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
                                         <div>
-                                            <p className="text-xs text-gray-400 uppercase tracking-wide">Frequency</p>
-                                            <p className="text-sm font-medium text-gray-700 flex items-center gap-1">
-                                                <Clock className="w-4 h-4 text-gray-400" />
+                                            <p className="text-xs text-neutral-400 uppercase tracking-wide">Frequency</p>
+                                            <p className="text-sm font-medium text-neutral-700 flex items-center gap-1">
+                                                <Clock className="w-4 h-4 text-neutral-400" />
                                                 {med.frequency}
                                             </p>
                                         </div>
                                         <div>
-                                            <p className="text-xs text-gray-400 uppercase tracking-wide">Duration</p>
-                                            <p className="text-sm font-medium text-gray-700 flex items-center gap-1">
-                                                <Calendar className="w-4 h-4 text-gray-400" />
+                                            <p className="text-xs text-neutral-400 uppercase tracking-wide">Duration</p>
+                                            <p className="text-sm font-medium text-neutral-700 flex items-center gap-1">
+                                                <Calendar className="w-4 h-4 text-neutral-400" />
                                                 {med.duration}
                                             </p>
                                         </div>
                                         <div>
-                                            <p className="text-xs text-gray-400 uppercase tracking-wide">Start Date</p>
-                                            <p className="text-sm font-medium text-gray-700">
+                                            <p className="text-xs text-neutral-400 uppercase tracking-wide">Start Date</p>
+                                            <p className="text-sm font-medium text-neutral-700">
                                                 {new Date(med.start_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                             </p>
                                         </div>
                                         <div>
-                                            <p className="text-xs text-gray-400 uppercase tracking-wide">Prescribed By</p>
-                                            <p className="text-sm font-medium text-gray-700 flex items-center gap-1">
-                                                <User className="w-4 h-4 text-gray-400" />
+                                            <p className="text-xs text-neutral-400 uppercase tracking-wide">Prescribed By</p>
+                                            <p className="text-sm font-medium text-neutral-700 flex items-center gap-1">
+                                                <User className="w-4 h-4 text-neutral-400" />
                                                 {med.prescribed_by}
                                             </p>
                                         </div>
@@ -287,7 +287,7 @@ const PatientMedications: React.FC = () => {
 
                                     {med.instructions && (
                                         <div className="mt-4 p-3 bg-blue-50 rounded-lg flex items-start gap-2">
-                                            <Info className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                                            <Info className="w-5 h-5 text-primary-500 flex-shrink-0 mt-0.5" />
                                             <div>
                                                 <p className="text-sm font-medium text-blue-800">Instructions</p>
                                                 <p className="text-sm text-blue-700">{med.instructions}</p>
@@ -296,8 +296,8 @@ const PatientMedications: React.FC = () => {
                                     )}
 
                                     {med.status === 'active' && med.refills_remaining !== undefined && (
-                                        <div className="mt-4 flex items-center gap-2 text-sm text-gray-500">
-                                            <span className="px-2 py-1 bg-gray-100 rounded-full">
+                                        <div className="mt-4 flex items-center gap-2 text-sm text-neutral-500">
+                                            <span className="px-2 py-1 bg-neutral-100 rounded-full">
                                                 {med.refills_remaining} refills remaining
                                             </span>
                                         </div>

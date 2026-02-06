@@ -130,11 +130,11 @@ const QuestionsModal: React.FC<IQuestionsModalProps> = ({
             <div className="relative top-4 mx-auto p-5 border w-11/12 lg:w-4/5 xl:w-3/4 shadow-lg rounded-lg bg-white max-h-[90vh] overflow-y-auto">
                 <div className="flex items-center justify-between mb-6">
                     <div>
-                        <h3 className="text-xl font-bold text-gray-900">
+                        <h3 className="text-xl font-bold text-neutral-900">
                             Session Questions & Answers
                         </h3>
                         {selectedSession && (
-                            <p className="text-gray-600 mt-1">
+                            <p className="text-neutral-600 mt-1">
                                 Patient: {selectedSession.patient_first_name}{" "}
                                 {selectedSession.patient_last_name} •{" "}
                                 {selectedSession.branch_center_name}
@@ -151,7 +151,7 @@ const QuestionsModal: React.FC<IQuestionsModalProps> = ({
                     </div>
                     <button
                         onClick={handleClose}
-                        className="text-gray-400 hover:text-gray-600 text-2xl"
+                        className="text-neutral-400 hover:text-neutral-600 text-2xl"
                     >
                         <FiX />
                     </button>
@@ -160,7 +160,7 @@ const QuestionsModal: React.FC<IQuestionsModalProps> = ({
                 {loadingQuestions ? (
                     <div className="flex justify-center items-center py-12">
                         <Spinner isLoading={true} />
-                        <span className="ml-3 text-gray-600">
+                        <span className="ml-3 text-neutral-600">
                             Loading questions...
                         </span>
                     </div>
@@ -199,7 +199,7 @@ const QuestionsModal: React.FC<IQuestionsModalProps> = ({
                 )}
 
                 <div className="mt-6 flex justify-between items-center">
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-neutral-600">
                         {hasAnsweredQuestions && (
                             <span>
                                 {current_session?.selected_answers.length}{" "}
@@ -217,7 +217,7 @@ const QuestionsModal: React.FC<IQuestionsModalProps> = ({
                     <div className="flex space-x-3">
                         <button
                             onClick={handleClose}
-                            className="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors duration-200"
+                            className="px-6 py-2 bg-neutral-300 text-neutral-700 rounded-lg hover:bg-gray-400 transition-colors duration-200"
                         >
                             Cancel
                         </button>
@@ -232,8 +232,8 @@ const QuestionsModal: React.FC<IQuestionsModalProps> = ({
                             className={`px-6 py-2 rounded-lg transition-colors duration-200 flex items-center ${
                                 hasAnsweredQuestions &&
                                 !current_session?.is_saved
-                                    ? "bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500"
-                                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                    ? "bg-primary-500 text-white hover:bg-primary-600 focus:ring-2 focus:ring-primary-500"
+                                    : "bg-neutral-300 text-neutral-500 cursor-not-allowed"
                             }`}
                         >
                             {is_saving ? (

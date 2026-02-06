@@ -143,21 +143,21 @@ const PriceOverrideRequests = () => {
     if (isLoading && requests.length === 0) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
             </div>
         );
     }
 
     return (
-        <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
+        <div className="p-6 space-y-6 bg-neutral-50 min-h-screen">
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                    <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2">
                         <DollarSign className="w-7 h-7 text-orange-500" />
                         Price Override Requests
                     </h1>
-                    <p className="text-gray-600 mt-1">
+                    <p className="text-neutral-600 mt-1">
                         Review and approve/deny price override requests from cashiers
                     </p>
                 </div>
@@ -165,7 +165,7 @@ const PriceOverrideRequests = () => {
                     <select
                         value={filterStatus}
                         onChange={(e) => setFilterStatus(e.target.value)}
-                        className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        className="px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     >
                         <option value="pending">Pending</option>
                         <option value="approved">Approved</option>
@@ -174,10 +174,10 @@ const PriceOverrideRequests = () => {
                     </select>
                     <button
                         onClick={fetchRequests}
-                        className="p-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                        className="p-2 bg-white border border-neutral-300 rounded-lg hover:bg-neutral-50 transition-colors"
                         title="Refresh"
                     >
-                        <RefreshCw className="w-5 h-5 text-gray-600" />
+                        <RefreshCw className="w-5 h-5 text-neutral-600" />
                     </button>
                 </div>
             </div>
@@ -190,7 +190,7 @@ const PriceOverrideRequests = () => {
                             <Clock className="w-5 h-5 text-orange-600" />
                         </div>
                         <div>
-                            <p className="text-sm text-gray-500">Pending</p>
+                            <p className="text-sm text-neutral-500">Pending</p>
                             <p className="text-xl font-bold text-orange-600">
                                 {requests.filter(r => r.status === "pending").length}
                             </p>
@@ -203,7 +203,7 @@ const PriceOverrideRequests = () => {
                             <Check className="w-5 h-5 text-green-600" />
                         </div>
                         <div>
-                            <p className="text-sm text-gray-500">Approved Today</p>
+                            <p className="text-sm text-neutral-500">Approved Today</p>
                             <p className="text-xl font-bold text-green-600">
                                 {requests.filter(r => r.status === "approved").length}
                             </p>
@@ -212,12 +212,12 @@ const PriceOverrideRequests = () => {
                 </div>
                 <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                     <div className="flex items-center gap-3">
-                        <div className="p-2 bg-red-100 rounded-lg">
-                            <X className="w-5 h-5 text-red-600" />
+                        <div className="p-2 bg-error-100 rounded-lg">
+                            <X className="w-5 h-5 text-error-600" />
                         </div>
                         <div>
-                            <p className="text-sm text-gray-500">Denied Today</p>
-                            <p className="text-xl font-bold text-red-600">
+                            <p className="text-sm text-neutral-500">Denied Today</p>
+                            <p className="text-xl font-bold text-error-600">
                                 {requests.filter(r => r.status === "denied").length}
                             </p>
                         </div>
@@ -225,12 +225,12 @@ const PriceOverrideRequests = () => {
                 </div>
                 <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                     <div className="flex items-center gap-3">
-                        <div className="p-2 bg-gray-100 rounded-lg">
-                            <AlertTriangle className="w-5 h-5 text-gray-600" />
+                        <div className="p-2 bg-neutral-100 rounded-lg">
+                            <AlertTriangle className="w-5 h-5 text-neutral-600" />
                         </div>
                         <div>
-                            <p className="text-sm text-gray-500">Expired</p>
-                            <p className="text-xl font-bold text-gray-600">
+                            <p className="text-sm text-neutral-500">Expired</p>
+                            <p className="text-xl font-bold text-neutral-600">
                                 {requests.filter(r => r.status === "expired").length}
                             </p>
                         </div>
@@ -243,8 +243,8 @@ const PriceOverrideRequests = () => {
                 {filteredRequests.length === 0 ? (
                     <div className="bg-white rounded-xl p-12 text-center">
                         <Check className="w-16 h-16 mx-auto text-green-300 mb-4" />
-                        <h3 className="text-xl font-semibold text-gray-900">No Pending Requests</h3>
-                        <p className="text-gray-500 mt-2">All price override requests have been processed</p>
+                        <h3 className="text-xl font-semibold text-neutral-900">No Pending Requests</h3>
+                        <p className="text-neutral-500 mt-2">All price override requests have been processed</p>
                     </div>
                 ) : (
                     filteredRequests.map((request) => {
@@ -265,41 +265,41 @@ const PriceOverrideRequests = () => {
                                             <div className={`p-2 rounded-lg ${
                                                 isPending ? "bg-orange-100" : 
                                                 request.status === "approved" ? "bg-green-100" :
-                                                "bg-red-100"
+                                                "bg-error-100"
                                             }`}>
                                                 <Package className={`w-5 h-5 ${
                                                     isPending ? "text-orange-600" : 
                                                     request.status === "approved" ? "text-green-600" :
-                                                    "text-red-600"
+                                                    "text-error-600"
                                                 }`} />
                                             </div>
                                             <div>
-                                                <h3 className="font-semibold text-gray-900">
+                                                <h3 className="font-semibold text-neutral-900">
                                                     {request.product?.item_name || "Unknown Product"}
                                                 </h3>
-                                                <p className="text-sm text-gray-500">
+                                                <p className="text-sm text-neutral-500">
                                                     Code: {request.product?.item_code} | Qty: {request.quantity}
                                                 </p>
                                             </div>
                                         </div>
 
                                         {/* Price Comparison */}
-                                        <div className="flex items-center gap-4 bg-gray-50 p-3 rounded-lg">
+                                        <div className="flex items-center gap-4 bg-neutral-50 p-3 rounded-lg">
                                             <div>
-                                                <p className="text-xs text-gray-500">Original Price</p>
-                                                <p className="font-semibold text-gray-900">
+                                                <p className="text-xs text-neutral-500">Original Price</p>
+                                                <p className="font-semibold text-neutral-900">
                                                     Rs. {request.original_price.toLocaleString()}
                                                 </p>
                                             </div>
-                                            <div className="text-2xl text-gray-400">→</div>
+                                            <div className="text-2xl text-neutral-400">→</div>
                                             <div>
-                                                <p className="text-xs text-gray-500">Requested Price</p>
-                                                <p className="font-semibold text-red-600">
+                                                <p className="text-xs text-neutral-500">Requested Price</p>
+                                                <p className="font-semibold text-error-600">
                                                     Rs. {request.requested_price.toLocaleString()}
                                                 </p>
                                             </div>
                                             <div className="ml-auto">
-                                                <span className="px-2 py-1 bg-red-100 text-red-700 text-sm font-medium rounded-full">
+                                                <span className="px-2 py-1 bg-error-100 text-red-700 text-sm font-medium rounded-full">
                                                     -{reduction.percentage}% (Rs. {reduction.amount.toLocaleString()})
                                                 </span>
                                             </div>
@@ -313,7 +313,7 @@ const PriceOverrideRequests = () => {
                                         </div>
 
                                         {/* Meta Info */}
-                                        <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
+                                        <div className="flex flex-wrap items-center gap-4 text-sm text-neutral-500">
                                             <div className="flex items-center gap-1">
                                                 <User className="w-4 h-4" />
                                                 <span>
@@ -327,7 +327,7 @@ const PriceOverrideRequests = () => {
                                             {isPending && (
                                                 <div className={`flex items-center gap-1 ${
                                                     new Date(request.expires_at) < new Date() 
-                                                        ? "text-red-600" 
+                                                        ? "text-error-600" 
                                                         : "text-orange-600"
                                                 }`}>
                                                     <Clock className="w-4 h-4" />
@@ -369,8 +369,8 @@ const PriceOverrideRequests = () => {
                                             request.status === "approved" 
                                                 ? "bg-green-100 text-green-700" 
                                                 : request.status === "denied"
-                                                ? "bg-red-100 text-red-700"
-                                                : "bg-gray-100 text-gray-700"
+                                                ? "bg-error-100 text-red-700"
+                                                : "bg-neutral-100 text-neutral-700"
                                         }`}>
                                             {request.status.charAt(0).toUpperCase() + request.status.slice(1)}
                                         </div>
@@ -386,8 +386,8 @@ const PriceOverrideRequests = () => {
             {showApproveModal && selectedRequest && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-xl max-w-md w-full">
-                        <div className="p-6 border-b border-gray-200">
-                            <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                        <div className="p-6 border-b border-neutral-200">
+                            <h2 className="text-xl font-bold text-neutral-900 flex items-center gap-2">
                                 <Check className="w-6 h-6 text-green-600" />
                                 Approve Price Override
                             </h2>
@@ -403,13 +403,13 @@ const PriceOverrideRequests = () => {
                                 </p>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">
                                     Notes (optional)
                                 </label>
                                 <textarea
                                     value={notes}
                                     onChange={(e) => setNotes(e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
                                     rows={3}
                                     placeholder="Add any notes about this approval..."
                                 />
@@ -421,7 +421,7 @@ const PriceOverrideRequests = () => {
                                         setSelectedRequest(null);
                                         setNotes("");
                                     }}
-                                    className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                                    className="flex-1 px-4 py-2 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200 transition-colors"
                                 >
                                     Cancel
                                 </button>
@@ -441,27 +441,27 @@ const PriceOverrideRequests = () => {
             {showDenyModal && selectedRequest && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-xl max-w-md w-full">
-                        <div className="p-6 border-b border-gray-200">
-                            <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                                <X className="w-6 h-6 text-red-600" />
+                        <div className="p-6 border-b border-neutral-200">
+                            <h2 className="text-xl font-bold text-neutral-900 flex items-center gap-2">
+                                <X className="w-6 h-6 text-error-600" />
                                 Deny Price Override
                             </h2>
                         </div>
                         <div className="p-6 space-y-4">
-                            <div className="bg-red-50 p-4 rounded-lg border border-red-100">
+                            <div className="bg-error-50 p-4 rounded-lg border border-red-100">
                                 <p className="text-sm text-red-800">
                                     You are denying the price override request for{" "}
                                     <strong>{selectedRequest.product?.item_name}</strong>
                                 </p>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">
                                     Reason for Denial *
                                 </label>
                                 <textarea
                                     value={rejectionReason}
                                     onChange={(e) => setRejectionReason(e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-error-500"
                                     rows={3}
                                     placeholder="Explain why this request is being denied..."
                                     required
@@ -474,7 +474,7 @@ const PriceOverrideRequests = () => {
                                         setSelectedRequest(null);
                                         setRejectionReason("");
                                     }}
-                                    className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                                    className="flex-1 px-4 py-2 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200 transition-colors"
                                 >
                                     Cancel
                                 </button>

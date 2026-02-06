@@ -79,7 +79,7 @@ export const StaffReports: React.FC = () => {
     const SidebarMenu = () => (
         <nav className="py-4">
             <div className="px-4 mb-4">
-                <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Navigation</h2>
+                <h2 className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Navigation</h2>
             </div>
             <ul className="space-y-1 px-2">
                 {BranchAdminMenuItems.map((item, index) => (
@@ -88,8 +88,8 @@ export const StaffReports: React.FC = () => {
                             onClick={() => navigate(item.path)}
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                                 item.path === '/branch-admin/hrm'
-                                    ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-md'
-                                    : 'text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
+                                    ? 'bg-gradient-to-r from-emerald-500 to-primary-500 text-white shadow-md'
+                                    : 'text-neutral-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
                             }`}
                         >
                             <span className="flex-shrink-0">{item.icon}</span>
@@ -126,20 +126,20 @@ export const StaffReports: React.FC = () => {
                     <div className="flex items-center gap-4">
                         <button 
                             onClick={() => navigate('/branch-admin/hrm')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ChevronLeft className="w-5 h-5 text-gray-600" />
+                            <ChevronLeft className="w-5 h-5 text-neutral-600" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">Reporting & Analytics</h1>
-                            <p className="text-gray-500">Generate reports and view staff analytics</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">Reporting & Analytics</h1>
+                            <p className="text-neutral-500">Generate reports and view staff analytics</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
                         <select
                             value={selectedPeriod}
                             onChange={(e) => setSelectedPeriod(e.target.value)}
-                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                            className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                         >
                             <option value="week">This Week</option>
                             <option value="month">This Month</option>
@@ -151,24 +151,24 @@ export const StaffReports: React.FC = () => {
 
                 {/* Quick Stats */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Total Staff</p>
-                                <p className="text-2xl font-bold text-gray-800">54</p>
+                                <p className="text-sm text-neutral-500">Total Staff</p>
+                                <p className="text-2xl font-bold text-neutral-800">54</p>
                                 <p className="text-xs text-green-600 flex items-center mt-1">
                                     <TrendingUp className="w-3 h-3 mr-1" /> +2 from last month
                                 </p>
                             </div>
                             <div className="p-3 bg-blue-100 rounded-lg">
-                                <Users className="w-6 h-6 text-blue-600" />
+                                <Users className="w-6 h-6 text-primary-500" />
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Avg Attendance</p>
+                                <p className="text-sm text-neutral-500">Avg Attendance</p>
                                 <p className="text-2xl font-bold text-emerald-600">95%</p>
                                 <p className="text-xs text-green-600 flex items-center mt-1">
                                     <TrendingUp className="w-3 h-3 mr-1" /> +1% from last month
@@ -179,12 +179,12 @@ export const StaffReports: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Turnover Rate</p>
+                                <p className="text-sm text-neutral-500">Turnover Rate</p>
                                 <p className="text-2xl font-bold text-orange-600">6.8%</p>
-                                <p className="text-xs text-red-600 flex items-center mt-1">
+                                <p className="text-xs text-error-600 flex items-center mt-1">
                                     <TrendingDown className="w-3 h-3 mr-1" /> -0.5% from last month
                                 </p>
                             </div>
@@ -193,10 +193,10 @@ export const StaffReports: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Avg Performance</p>
+                                <p className="text-sm text-neutral-500">Avg Performance</p>
                                 <p className="text-2xl font-bold text-purple-600">4.4/5</p>
                                 <p className="text-xs text-green-600 flex items-center mt-1">
                                     <TrendingUp className="w-3 h-3 mr-1" /> +0.2 from last quarter
@@ -210,8 +210,8 @@ export const StaffReports: React.FC = () => {
                 </div>
 
                 {/* Tabs */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-                    <div className="border-b border-gray-200">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200">
+                    <div className="border-b border-neutral-200">
                         <div className="flex overflow-x-auto">
                             {tabs.map(tab => (
                                 <button
@@ -220,7 +220,7 @@ export const StaffReports: React.FC = () => {
                                     className={`flex items-center gap-2 px-6 py-4 font-medium text-sm whitespace-nowrap border-b-2 transition-colors ${
                                         activeTab === tab.id
                                             ? 'border-emerald-500 text-emerald-600'
-                                            : 'border-transparent text-gray-500 hover:text-gray-700'
+                                            : 'border-transparent text-neutral-500 hover:text-neutral-700'
                                     }`}
                                 >
                                     {tab.icon}
@@ -238,7 +238,7 @@ export const StaffReports: React.FC = () => {
                                     <select
                                         value={filterCategory}
                                         onChange={(e) => setFilterCategory(e.target.value)}
-                                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="all">All Categories</option>
                                         {categories.map(cat => (
@@ -249,19 +249,19 @@ export const StaffReports: React.FC = () => {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                     {filteredTemplates.map(template => (
-                                        <div key={template.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                                        <div key={template.id} className="border border-neutral-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                                             <div className="flex items-start justify-between mb-2">
                                                 <div className="p-2 bg-blue-100 rounded-lg">
-                                                    <FileText className="w-5 h-5 text-blue-600" />
+                                                    <FileText className="w-5 h-5 text-primary-500" />
                                                 </div>
-                                                <span className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs">
+                                                <span className="px-2 py-0.5 bg-neutral-100 text-neutral-600 rounded text-xs">
                                                     {template.frequency}
                                                 </span>
                                             </div>
-                                            <h4 className="font-semibold text-gray-800">{template.name}</h4>
-                                            <p className="text-sm text-gray-500 mt-1">{template.description}</p>
+                                            <h4 className="font-semibold text-neutral-800">{template.name}</h4>
+                                            <p className="text-sm text-neutral-500 mt-1">{template.description}</p>
                                             <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-                                                <span className="text-xs text-gray-400">Last: {template.lastGenerated}</span>
+                                                <span className="text-xs text-neutral-400">Last: {template.lastGenerated}</span>
                                                 <button className="flex items-center gap-1 px-3 py-1.5 bg-emerald-500 text-white rounded text-sm hover:bg-emerald-600">
                                                     <Download className="w-4 h-4" /> Generate
                                                 </button>
@@ -276,16 +276,16 @@ export const StaffReports: React.FC = () => {
                         {activeTab === 'analytics' && (
                             <div className="space-y-6">
                                 {/* Headcount Trend Chart */}
-                                <div className="border border-gray-200 rounded-lg p-4">
-                                    <h4 className="font-semibold text-gray-800 mb-4">Headcount Trend (6 Months)</h4>
+                                <div className="border border-neutral-200 rounded-lg p-4">
+                                    <h4 className="font-semibold text-neutral-800 mb-4">Headcount Trend (6 Months)</h4>
                                     <div className="h-48 flex items-end justify-around gap-4">
                                         {monthlyTrends.map((data, index) => (
                                             <div key={index} className="flex flex-col items-center">
                                                 <div 
-                                                    className="w-12 bg-gradient-to-t from-emerald-500 to-blue-500 rounded-t"
+                                                    className="w-12 bg-gradient-to-t from-emerald-500 to-primary-500 rounded-t"
                                                     style={{ height: `${(data.headcount / maxHeadcount) * 150}px` }}
                                                 ></div>
-                                                <span className="text-xs text-gray-500 mt-2">{data.month}</span>
+                                                <span className="text-xs text-neutral-500 mt-2">{data.month}</span>
                                                 <span className="text-xs font-medium">{data.headcount}</span>
                                             </div>
                                         ))}
@@ -293,29 +293,29 @@ export const StaffReports: React.FC = () => {
                                 </div>
 
                                 {/* Department Metrics */}
-                                <div className="border border-gray-200 rounded-lg p-4">
-                                    <h4 className="font-semibold text-gray-800 mb-4">Department Performance Metrics</h4>
+                                <div className="border border-neutral-200 rounded-lg p-4">
+                                    <h4 className="font-semibold text-neutral-800 mb-4">Department Performance Metrics</h4>
                                     <div className="overflow-x-auto">
                                         <table className="w-full">
-                                            <thead className="bg-gray-50">
+                                            <thead className="bg-neutral-50">
                                                 <tr>
-                                                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Department</th>
-                                                    <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Headcount</th>
-                                                    <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Attendance</th>
-                                                    <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Turnover</th>
-                                                    <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Performance</th>
+                                                    <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Department</th>
+                                                    <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Headcount</th>
+                                                    <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Attendance</th>
+                                                    <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Turnover</th>
+                                                    <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Performance</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-gray-200">
                                                 {mockDepartmentMetrics.map((metric, index) => (
-                                                    <tr key={index} className="hover:bg-gray-50">
-                                                        <td className="px-4 py-3 font-medium text-gray-800">{metric.department}</td>
+                                                    <tr key={index} className="hover:bg-neutral-50">
+                                                        <td className="px-4 py-3 font-medium text-neutral-800">{metric.department}</td>
                                                         <td className="px-4 py-3 text-center">{metric.headcount}</td>
                                                         <td className="px-4 py-3 text-center">
                                                             <span className={`px-2 py-1 rounded text-sm font-medium ${
                                                                 metric.attendanceRate >= 95 ? 'bg-green-100 text-green-700' :
                                                                 metric.attendanceRate >= 90 ? 'bg-yellow-100 text-yellow-700' :
-                                                                'bg-red-100 text-red-700'
+                                                                'bg-error-100 text-red-700'
                                                             }`}>
                                                                 {metric.attendanceRate}%
                                                             </span>
@@ -324,7 +324,7 @@ export const StaffReports: React.FC = () => {
                                                             <span className={`px-2 py-1 rounded text-sm font-medium ${
                                                                 metric.turnoverRate <= 5 ? 'bg-green-100 text-green-700' :
                                                                 metric.turnoverRate <= 10 ? 'bg-yellow-100 text-yellow-700' :
-                                                                'bg-red-100 text-red-700'
+                                                                'bg-error-100 text-red-700'
                                                             }`}>
                                                                 {metric.turnoverRate}%
                                                             </span>
@@ -344,15 +344,15 @@ export const StaffReports: React.FC = () => {
 
                                 {/* Key Insights */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div className="border border-gray-200 rounded-lg p-4">
-                                        <h4 className="font-semibold text-gray-800 mb-3">Key Insights</h4>
+                                    <div className="border border-neutral-200 rounded-lg p-4">
+                                        <h4 className="font-semibold text-neutral-800 mb-3">Key Insights</h4>
                                         <ul className="space-y-2">
                                             <li className="flex items-start gap-2 text-sm">
                                                 <TrendingUp className="w-4 h-4 text-green-500 mt-0.5" />
                                                 <span>Headcount increased by <strong>12.5%</strong> over 6 months</span>
                                             </li>
                                             <li className="flex items-start gap-2 text-sm">
-                                                <Activity className="w-4 h-4 text-blue-500 mt-0.5" />
+                                                <Activity className="w-4 h-4 text-primary-500 mt-0.5" />
                                                 <span>Pediatrics has the highest attendance rate at <strong>98%</strong></span>
                                             </li>
                                             <li className="flex items-start gap-2 text-sm">
@@ -361,19 +361,19 @@ export const StaffReports: React.FC = () => {
                                             </li>
                                         </ul>
                                     </div>
-                                    <div className="border border-gray-200 rounded-lg p-4">
-                                        <h4 className="font-semibold text-gray-800 mb-3">Recommendations</h4>
+                                    <div className="border border-neutral-200 rounded-lg p-4">
+                                        <h4 className="font-semibold text-neutral-800 mb-3">Recommendations</h4>
                                         <ul className="space-y-2">
-                                            <li className="flex items-start gap-2 text-sm text-gray-600">
-                                                <span className="w-5 h-5 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                                            <li className="flex items-start gap-2 text-sm text-neutral-600">
+                                                <span className="w-5 h-5 bg-blue-100 text-primary-500 rounded-full flex items-center justify-center text-xs font-bold">1</span>
                                                 <span>Investigate high turnover in Emergency department</span>
                                             </li>
-                                            <li className="flex items-start gap-2 text-sm text-gray-600">
-                                                <span className="w-5 h-5 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                                            <li className="flex items-start gap-2 text-sm text-neutral-600">
+                                                <span className="w-5 h-5 bg-blue-100 text-primary-500 rounded-full flex items-center justify-center text-xs font-bold">2</span>
                                                 <span>Replicate Pediatrics' attendance strategies across departments</span>
                                             </li>
-                                            <li className="flex items-start gap-2 text-sm text-gray-600">
-                                                <span className="w-5 h-5 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                                            <li className="flex items-start gap-2 text-sm text-neutral-600">
+                                                <span className="w-5 h-5 bg-blue-100 text-primary-500 rounded-full flex items-center justify-center text-xs font-bold">3</span>
                                                 <span>Consider additional hiring for Radiology (understaffed)</span>
                                             </li>
                                         </ul>
@@ -385,12 +385,12 @@ export const StaffReports: React.FC = () => {
                         {/* Custom Reports Tab */}
                         {activeTab === 'custom' && (
                             <div className="space-y-6">
-                                <div className="border border-gray-200 rounded-lg p-6">
-                                    <h4 className="font-semibold text-gray-800 mb-4">Build Custom Report</h4>
+                                <div className="border border-neutral-200 rounded-lg p-6">
+                                    <h4 className="font-semibold text-neutral-800 mb-4">Build Custom Report</h4>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Report Type</label>
-                                            <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Report Type</label>
+                                            <select className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                                                 <option>Staff List</option>
                                                 <option>Attendance Report</option>
                                                 <option>Leave Summary</option>
@@ -399,8 +399,8 @@ export const StaffReports: React.FC = () => {
                                             </select>
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
-                                            <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Department</label>
+                                            <select className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                                                 <option>All Departments</option>
                                                 <option>Cardiology</option>
                                                 <option>Emergency</option>
@@ -410,16 +410,16 @@ export const StaffReports: React.FC = () => {
                                             </select>
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Date Range</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Date Range</label>
                                             <div className="flex gap-2">
-                                                <input type="date" className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                                                <input type="date" className="flex-1 px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
                                                 <span className="py-2">to</span>
-                                                <input type="date" className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
+                                                <input type="date" className="flex-1 px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500" />
                                             </div>
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Output Format</label>
-                                            <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Output Format</label>
+                                            <select className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
                                                 <option>PDF</option>
                                                 <option>Excel (XLSX)</option>
                                                 <option>CSV</option>
@@ -427,18 +427,18 @@ export const StaffReports: React.FC = () => {
                                         </div>
                                     </div>
                                     <div className="mt-4">
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Include Columns</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Include Columns</label>
                                         <div className="flex flex-wrap gap-2">
                                             {['Name', 'Department', 'Position', 'Hire Date', 'Attendance', 'Leave Balance', 'Performance Score'].map(col => (
-                                                <label key={col} className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200">
+                                                <label key={col} className="flex items-center gap-2 px-3 py-1.5 bg-neutral-100 rounded-lg cursor-pointer hover:bg-neutral-200">
                                                     <input type="checkbox" defaultChecked className="rounded text-emerald-500" />
                                                     <span className="text-sm">{col}</span>
                                                 </label>
                                             ))}
                                         </div>
                                     </div>
-                                    <div className="flex justify-end mt-6 pt-4 border-t border-gray-200">
-                                        <button className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:opacity-90">
+                                    <div className="flex justify-end mt-6 pt-4 border-t border-neutral-200">
+                                        <button className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:opacity-90">
                                             <Download className="w-4 h-4" />
                                             Generate Report
                                         </button>
@@ -446,24 +446,24 @@ export const StaffReports: React.FC = () => {
                                 </div>
 
                                 {/* Recent Custom Reports */}
-                                <div className="border border-gray-200 rounded-lg p-4">
-                                    <h4 className="font-semibold text-gray-800 mb-3">Recent Custom Reports</h4>
+                                <div className="border border-neutral-200 rounded-lg p-4">
+                                    <h4 className="font-semibold text-neutral-800 mb-3">Recent Custom Reports</h4>
                                     <div className="space-y-2">
                                         {[
                                             { name: 'Staff_Attendance_Dec2025.pdf', date: '2025-12-18', size: '245 KB' },
                                             { name: 'Leave_Balance_Q4_2025.xlsx', date: '2025-12-15', size: '156 KB' },
                                             { name: 'Emergency_Performance_Nov2025.pdf', date: '2025-12-10', size: '312 KB' },
                                         ].map((report, index) => (
-                                            <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                            <div key={index} className="flex items-center justify-between p-3 bg-neutral-50 rounded-lg">
                                                 <div className="flex items-center gap-3">
-                                                    <FileText className="w-5 h-5 text-blue-500" />
+                                                    <FileText className="w-5 h-5 text-primary-500" />
                                                     <div>
-                                                        <p className="font-medium text-sm text-gray-800">{report.name}</p>
-                                                        <p className="text-xs text-gray-500">{report.date} • {report.size}</p>
+                                                        <p className="font-medium text-sm text-neutral-800">{report.name}</p>
+                                                        <p className="text-xs text-neutral-500">{report.date} • {report.size}</p>
                                                     </div>
                                                 </div>
-                                                <button className="p-2 hover:bg-gray-200 rounded-lg">
-                                                    <Download className="w-4 h-4 text-gray-600" />
+                                                <button className="p-2 hover:bg-neutral-200 rounded-lg">
+                                                    <Download className="w-4 h-4 text-neutral-600" />
                                                 </button>
                                             </div>
                                         ))}

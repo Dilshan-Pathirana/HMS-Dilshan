@@ -52,7 +52,7 @@ const PurchasingDetailsModal: React.FC<PurchasingModalProps> = ({
                     <InvoicePDF purchasing={purchasing} />
                     <button
                         onClick={onClose}
-                        className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                        className="px-4 py-2 bg-error-500 text-white rounded hover:bg-red-600"
                     >
                         Close
                     </button>

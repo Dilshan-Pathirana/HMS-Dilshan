@@ -54,30 +54,30 @@ const PatientAppointmentsDetails = () => {
     );
 
     return (
-        <div className="w-full md:w-3/4 h-full p-6 bg-gray-100">
-            <h2 className="text-xl font-medium text-gray-800 pb-2 border-b border-indigo-200">
+        <div className="w-full md:w-3/4 h-full p-6 bg-neutral-100">
+            <h2 className="text-xl font-medium text-neutral-800 pb-2 border-b border-indigo-200">
                 Upcoming Appointments
             </h2>
 
             <div className="relative mb-3 mt-2">
                 <input
                     type="text"
-                    className="w-full py-2 px-3 pl-9 text-sm border border-gray-200 rounded-md focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                    className="w-full py-2 px-3 pl-9 text-sm border border-neutral-200 rounded-md focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
                     placeholder="Search by doctor or specialization..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <FaSearch className="absolute left-3 top-2.5 text-gray-400 text-sm" />
+                <FaSearch className="absolute left-3 top-2.5 text-neutral-400 text-sm" />
             </div>
 
             {loading ? (
-                <p className="text-center text-gray-600">
+                <p className="text-center text-neutral-600">
                     Loading appointments...
                 </p>
             ) : error ? (
-                <p className="text-center text-red-500">{error}</p>
+                <p className="text-center text-error-500">{error}</p>
             ) : filteredAppointments.length === 0 ? (
-                <p className="text-center text-gray-600">
+                <p className="text-center text-neutral-600">
                     No upcoming appointments.
                 </p>
             ) : (
@@ -91,7 +91,7 @@ const PatientAppointmentsDetails = () => {
 
             {visibleAppointments < filteredAppointments.length && (
                 <button
-                    className="mt-4 w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700"
+                    className="mt-4 w-full bg-primary-500 text-white p-2 rounded-md hover:bg-primary-600"
                     onClick={() => setVisibleAppointments((prev) => prev + 5)}
                 >
                     Load More

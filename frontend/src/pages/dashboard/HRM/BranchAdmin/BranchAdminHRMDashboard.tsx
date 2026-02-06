@@ -15,18 +15,16 @@ import {
     Briefcase,
     CreditCard,
     Loader2,
-    Menu,
-    X,
-    LogOut,
-    User,
-    Bell,
     UserCheck,
-    ClipboardList,
     AlertCircle,
-    TrendingUp,
     History,
-    Mail
+    Mail,
+    User
 } from 'lucide-react';
+import { DashboardLayout } from '../../../../components/common/Layout/DashboardLayout';
+import { SidebarMenu } from '../../../../components/common/Layout/SidebarMenu';
+import { PageHeader } from '../../../../components/ui/PageHeader';
+import { StatCard } from '../../../../components/ui/StatCard';
 
 interface BranchHRMStats {
     totalStaff: number;
@@ -211,7 +209,7 @@ const BranchAdminHRMDashboard: React.FC = () => {
         }
     ];
 
-    const sidebarItems = [
+    const branchHRMMenuItems = [
         { label: 'Dashboard', path: '/branch-admin/hrm', icon: <Briefcase className="w-5 h-5" /> },
         { label: 'Staff', path: '/branch-admin/hrm/staff', icon: <Users className="w-5 h-5" /> },
         { label: 'Scheduling', path: '/branch-admin/hrm/scheduling', icon: <CalendarDays className="w-5 h-5" /> },
@@ -230,303 +228,187 @@ const BranchAdminHRMDashboard: React.FC = () => {
         { id: 3, name: 'Cashier Tom Wilson', type: 'Casual Leave', dates: 'Jan 20', days: 1, status: 'pending' },
     ];
 
-    const QuickStatCard = ({ title, value, icon, color, trend, trendUp, isLoading }: {
-        title: string;
-        value: string | number;
-        icon: React.ReactNode;
-        color: string;
-        trend?: string;
-        trendUp?: boolean;
-        isLoading?: boolean;
-    }) => (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
-            <div className="flex items-center justify-between">
-                <div>
-                    <p className="text-sm text-gray-500">{title}</p>
-                    {isLoading ? (
-                        <Loader2 className="w-6 h-6 animate-spin text-gray-400 mt-2" />
-                    ) : (
-                        <p className="text-2xl font-bold text-gray-800 mt-1">{value}</p>
-                    )}
-                    {trend && !isLoading && (
-                        <p className={`text-xs mt-1 flex items-center gap-1 ${trendUp ? 'text-emerald-600' : 'text-red-600'}`}>
-                            <TrendingUp className={`w-3 h-3 ${!trendUp && 'rotate-180'}`} />
-                            {trend}
-                        </p>
-                    )}
-                </div>
-                <div className={`p-3 rounded-xl bg-gradient-to-br ${color}`}>
-                    {icon}
-                </div>
-            </div>
-        </div>
-    );
+    const userInfo = JSON.parse(localStorage.getItem('user') || '{}');
+    const userName = `${userInfo.first_name || ''} ${userInfo.last_name || ''}`;
+    const userRole = 'Branch Admin';
 
     return (
-        <div className="flex h-screen bg-gray-50">
-            {/* Sidebar */}
-            <aside className={`${isSidebarOpen ? 'w-64' : 'w-20'} bg-white border-r border-gray-200 transition-all duration-300 flex flex-col`}>
-                <div className="p-4 border-b border-gray-200">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-blue-500 rounded-xl flex items-center justify-center">
-                            <Briefcase className="w-6 h-6 text-white" />
+        <DashboardLayout
+            userName={userName}
+            userRole={userRole}
+            profileImage={userInfo.profile_picture || ''}
+            sidebarContent={<SidebarMenu items={branchHRMMenuItems} />}
+        >
+            <div className="space-y-6">
+                {/* Page Header */}
+                <PageHeader
+                    title="HRM Dashboard"
+                    description={`Human Resource Management - ${branchName}`}
+                    actions={
+                        <div className="flex items-center gap-2 px-3 py-1.5 bg-white border border-neutral-200 rounded-lg shadow-sm">
+                            <Briefcase className="w-4 h-4 text-emerald-600" />
+                            <span className="text-sm font-medium text-neutral-700">Branch Mode</span>
                         </div>
-                        {isSidebarOpen && (
-                            <div>
-                                <h1 className="font-bold text-gray-800">HRM Module</h1>
-                                <p className="text-xs text-gray-500">{branchName}</p>
-                            </div>
-                        )}
-                    </div>
+                    }
+                />
+
+                {/* Quick Stats */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <StatCard
+                        title="Total Staff"
+                        value={stats.totalStaff}
+                        icon={Users}
+                    />
+                    <StatCard
+                        title="On Duty Today"
+                        value={stats.onDutyToday}
+                        icon={UserCheck}
+                    />
+                    <StatCard
+                        title="On Leave Today"
+                        value={stats.onLeaveToday}
+                        icon={Calendar}
+                    />
+                    <StatCard
+                        title="Monthly Payroll"
+                        value={`LKR ${stats.monthlyPayroll.toLocaleString()}`}
+                        icon={DollarSign}
+                    />
                 </div>
 
-                <nav className="flex-1 py-4">
-                    <ul className="space-y-1 px-2">
-                        {sidebarItems.map((item, index) => (
-                            <li key={index}>
-                                <button
-                                    onClick={() => navigate(item.path)}
-                                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                                        window.location.pathname === item.path
-                                            ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-md'
-                                            : 'text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
-                                    }`}
-                                >
-                                    {item.icon}
-                                    {isSidebarOpen && <span className="font-medium">{item.label}</span>}
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                </nav>
-
-                <div className="p-4 border-t border-gray-200">
-                    <button
-                        onClick={() => navigate('/branch-admin/dashboard')}
-                        className="w-full flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-all"
-                    >
-                        <LogOut className="w-5 h-5" />
-                        {isSidebarOpen && <span>Back to Dashboard</span>}
-                    </button>
-                </div>
-            </aside>
-
-            {/* Main Content */}
-            <main className="flex-1 overflow-auto">
-                {/* Top Navbar */}
-                <header className="bg-white border-b border-gray-200 px-6 py-4">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                            <button
-                                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                                className="p-2 hover:bg-gray-100 rounded-lg"
+                {/* HRM Modules Navigation */}
+                <div>
+                    <h2 className="text-lg font-semibold text-neutral-800 mb-4">HRM Modules</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {hrmModules.map((module) => (
+                            <div
+                                key={module.id}
+                                onClick={() => navigate(module.path)}
+                                className="group bg-white rounded-xl border border-neutral-200 p-6 hover:shadow-lg hover:border-emerald-500/30 transition-all cursor-pointer"
                             >
-                                {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-                            </button>
-                            <div>
-                                <h1 className="text-xl font-bold text-gray-800">HRM Dashboard</h1>
-                                <p className="text-sm text-gray-500">Human Resource Management - {branchName}</p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-4">
-                            <button className="p-2 hover:bg-gray-100 rounded-lg relative">
-                                <Bell className="w-5 h-5 text-gray-600" />
-                                {stats.pendingLeaveRequests > 0 && (
-                                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
-                                        {stats.pendingLeaveRequests}
-                                    </span>
-                                )}
-                            </button>
-                            <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-blue-500 rounded-full flex items-center justify-center">
-                                    <User className="w-4 h-4 text-white" />
-                                </div>
-                                <span className="text-sm font-medium text-gray-700">Branch Admin</span>
-                            </div>
-                        </div>
-                    </div>
-                </header>
-
-                <div className="p-6 space-y-6">
-                    {/* Quick Stats */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <QuickStatCard
-                            title="Total Staff"
-                            value={stats.totalStaff}
-                            icon={<Users className="w-6 h-6 text-white" />}
-                            color="from-blue-500 to-blue-600"
-                            isLoading={isLoading}
-                        />
-                        <QuickStatCard
-                            title="On Duty Today"
-                            value={stats.onDutyToday}
-                            icon={<UserCheck className="w-6 h-6 text-white" />}
-                            color="from-emerald-500 to-emerald-600"
-                            isLoading={isLoading}
-                        />
-                        <QuickStatCard
-                            title="On Leave Today"
-                            value={stats.onLeaveToday}
-                            icon={<Calendar className="w-6 h-6 text-white" />}
-                            color="from-orange-500 to-orange-600"
-                            isLoading={isLoading}
-                        />
-                        <QuickStatCard
-                            title="Monthly Payroll"
-                            value={`LKR ${stats.monthlyPayroll.toLocaleString()}`}
-                            icon={<DollarSign className="w-6 h-6 text-white" />}
-                            color="from-purple-500 to-purple-600"
-                            isLoading={isLoading}
-                        />
-                    </div>
-
-                    {/* HRM Modules Grid */}
-                    <div>
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">HRM Modules</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {hrmModules.map((module) => (
-                                <div
-                                    key={module.id}
-                                    onClick={() => navigate(module.path)}
-                                    className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg hover:border-emerald-300 transition-all cursor-pointer group"
-                                >
-                                    <div className="flex items-start gap-4">
-                                        <div className={`p-3 rounded-xl bg-gradient-to-br ${module.color} text-white group-hover:scale-110 transition-transform`}>
-                                            {module.icon}
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="font-semibold text-gray-800 group-hover:text-emerald-600 transition-colors">
-                                                {module.title}
-                                            </h3>
-                                            <p className="text-sm text-gray-500 mt-1">{module.description}</p>
-                                            <div className="mt-3 flex items-center justify-between">
-                                                <span className="text-sm font-medium text-gray-700">
-                                                    {module.stats.label}: <span className="text-emerald-600">{module.stats.value}</span>
-                                                </span>
-                                                <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-emerald-500 group-hover:translate-x-1 transition-all" />
-                                            </div>
+                                <div className="flex items-start gap-4">
+                                    <div className={`p-3 rounded-lg bg-gradient-to-br ${module.color} text-white group-hover:scale-110 transition-transform shadow-sm`}>
+                                        {module.icon}
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="font-semibold text-neutral-800 group-hover:text-emerald-600 transition-colors">
+                                            {module.title}
+                                        </h3>
+                                        <p className="text-sm text-neutral-500 mt-1 line-clamp-2">{module.description}</p>
+                                        <div className="mt-4 flex items-center justify-between pt-4 border-t border-neutral-100">
+                                            <span className="text-xs font-semibold uppercase tracking-wider text-neutral-500">
+                                                {module.stats.label}
+                                            </span>
+                                            <span className="text-sm font-bold text-neutral-700 group-hover:text-emerald-600 transition-colors">
+                                                {module.stats.value}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
-                            ))}
-                        </div>
+                            </div>
+                        ))}
                     </div>
+                </div>
 
+                {/* Pending Leave & Attendance Grid */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Pending Leave Requests */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <div className="flex items-center justify-between mb-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                        <div className="flex items-center justify-between mb-6">
                             <div className="flex items-center gap-3">
-                                <div className="p-2 bg-orange-100 rounded-lg">
+                                <div className="p-2 bg-orange-50 rounded-lg">
                                     <Calendar className="w-5 h-5 text-orange-600" />
                                 </div>
-                                <h2 className="text-lg font-semibold text-gray-800">Pending Leave Requests</h2>
+                                <h2 className="text-lg font-semibold text-neutral-800">Pending Leave Requests</h2>
                             </div>
-                            <button 
+                            <button
                                 onClick={() => navigate('/branch-admin/hrm/leave-approvals')}
-                                className="text-sm text-emerald-600 hover:text-emerald-700 font-medium"
+                                className="text-sm text-emerald-600 hover:text-emerald-700 font-medium hover:underline"
                             >
                                 View All
                             </button>
                         </div>
-                        <div className="space-y-3">
+                        <div className="space-y-4">
                             {pendingLeaveRequests.map((request) => (
-                                <div key={request.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                <div key={request.id} className="flex items-center justify-between p-4 bg-neutral-50 rounded-lg border border-neutral-100">
                                     <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                                            <User className="w-5 h-5 text-gray-600" />
+                                        <div className="w-10 h-10 bg-white border border-neutral-200 rounded-full flex items-center justify-center text-neutral-500">
+                                            <User className="w-5 h-5" />
                                         </div>
                                         <div>
-                                            <p className="font-medium text-gray-800">{request.name}</p>
-                                            <p className="text-sm text-gray-500">{request.type} • {request.dates} ({request.days} day{request.days > 1 ? 's' : ''})</p>
+                                            <p className="font-medium text-neutral-800">{request.name}</p>
+                                            <p className="text-sm text-neutral-500">{request.type} • {request.dates}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <button className="p-2 bg-emerald-100 text-emerald-600 rounded-lg hover:bg-emerald-200 transition-colors">
+                                        <button className="p-2 bg-emerald-50 text-emerald-600 rounded-lg hover:bg-emerald-100 transition-colors">
                                             <CheckCircle className="w-5 h-5" />
                                         </button>
-                                        <button className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors">
+                                        <button className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors">
                                             <XCircle className="w-5 h-5" />
                                         </button>
                                     </div>
                                 </div>
                             ))}
                             {pendingLeaveRequests.length === 0 && (
-                                <div className="text-center py-8 text-gray-500">
-                                    <Calendar className="w-12 h-12 mx-auto mb-2 text-gray-300" />
+                                <div className="text-center py-12 text-neutral-400 bg-neutral-50 rounded-lg border border-neutral-100 border-dashed">
+                                    <Calendar className="w-12 h-12 mx-auto mb-3 opacity-50" />
                                     <p>No pending leave requests</p>
                                 </div>
                             )}
                         </div>
                     </div>
 
-                    {/* Today's Attendance Overview */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="p-2 bg-emerald-100 rounded-lg">
-                                    <UserCheck className="w-5 h-5 text-emerald-600" />
-                                </div>
-                                <h3 className="font-semibold text-gray-800">Attendance Today</h3>
+                    {/* Attendance Overview */}
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="p-2 bg-emerald-50 rounded-lg">
+                                <UserCheck className="w-5 h-5 text-emerald-600" />
                             </div>
-                            <div className="space-y-4">
-                                <div className="flex justify-between items-center">
-                                    <span className="text-gray-600">Present</span>
-                                    <span className="font-semibold text-emerald-600">{stats.onDutyToday}</span>
-                                </div>
-                                <div className="flex justify-between items-center">
-                                    <span className="text-gray-600">On Leave</span>
-                                    <span className="font-semibold text-orange-600">{stats.onLeaveToday}</span>
-                                </div>
-                                <div className="flex justify-between items-center">
-                                    <span className="text-gray-600">Absent</span>
-                                    <span className="font-semibold text-red-600">{Math.max(0, stats.totalStaff - stats.onDutyToday - stats.onLeaveToday)}</span>
-                                </div>
-                                <div className="pt-3 border-t">
-                                    <div className="w-full bg-gray-200 rounded-full h-2">
-                                        <div 
-                                            className="bg-emerald-500 h-2 rounded-full" 
-                                            style={{ width: `${stats.totalStaff > 0 ? (stats.onDutyToday / stats.totalStaff) * 100 : 0}%` }}
-                                        ></div>
-                                    </div>
-                                    <p className="text-sm text-gray-500 mt-2">
-                                        {stats.totalStaff > 0 ? Math.round((stats.onDutyToday / stats.totalStaff) * 100) : 0}% attendance rate
-                                    </p>
-                                </div>
-                            </div>
+                            <h3 className="text-lg font-semibold text-neutral-800">Attendance Today</h3>
                         </div>
+                        <div className="space-y-6">
+                            <div className="grid grid-cols-3 gap-4">
+                                <div className="text-center p-4 bg-emerald-50 rounded-xl border border-emerald-100">
+                                    <span className="block text-2xl font-bold text-emerald-700">{stats.onDutyToday}</span>
+                                    <span className="text-xs font-medium text-emerald-600 uppercase tracking-wide">Present</span>
+                                </div>
+                                <div className="text-center p-4 bg-orange-50 rounded-xl border border-orange-100">
+                                    <span className="block text-2xl font-bold text-orange-700">{stats.onLeaveToday}</span>
+                                    <span className="text-xs font-medium text-orange-600 uppercase tracking-wide">On Leave</span>
+                                </div>
+                                <div className="text-center p-4 bg-red-50 rounded-xl border border-red-100">
+                                    <span className="block text-2xl font-bold text-red-700">{Math.max(0, stats.totalStaff - stats.onDutyToday - stats.onLeaveToday)}</span>
+                                    <span className="text-xs font-medium text-red-600 uppercase tracking-wide">Absent</span>
+                                </div>
+                            </div>
 
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="p-2 bg-purple-100 rounded-lg">
-                                    <Clock className="w-5 h-5 text-purple-600" />
+                            <div className="pt-4 border-t border-neutral-100">
+                                <div className="flex justify-between items-center mb-2">
+                                    <span className="text-sm font-medium text-neutral-700">Attendance Rate</span>
+                                    <span className="text-sm font-bold text-emerald-600">
+                                        {stats.totalStaff > 0 ? Math.round((stats.onDutyToday / stats.totalStaff) * 100) : 0}%
+                                    </span>
                                 </div>
-                                <h3 className="font-semibold text-gray-800">Overtime This Month</h3>
+                                <div className="w-full bg-neutral-100 rounded-full h-3 overflow-hidden">
+                                    <div
+                                        className="bg-emerald-500 h-full rounded-full transition-all duration-500"
+                                        style={{ width: `${stats.totalStaff > 0 ? (stats.onDutyToday / stats.totalStaff) * 100 : 0}%` }}
+                                    ></div>
+                                </div>
                             </div>
-                            <div className="space-y-4">
-                                <div className="flex justify-between items-center">
-                                    <span className="text-gray-600">Total OT Hours</span>
-                                    <span className="font-semibold text-gray-800">156 hrs</span>
-                                </div>
-                                <div className="flex justify-between items-center">
-                                    <span className="text-gray-600">OT Cost</span>
-                                    <span className="font-semibold text-purple-600">LKR {stats.overtimeCost.toLocaleString()}</span>
-                                </div>
-                                <div className="flex justify-between items-center">
-                                    <span className="text-gray-600">Pending Approvals</span>
-                                    <span className="font-semibold text-orange-600">{stats.pendingOvertimeApprovals}</span>
-                                </div>
-                                <button 
-                                    onClick={() => navigate('/branch-admin/hrm/overtime')}
-                                    className="w-full mt-2 py-2 text-sm text-emerald-600 border border-emerald-200 rounded-lg hover:bg-emerald-50 transition-colors"
-                                >
-                                    Review Overtime
-                                </button>
-                            </div>
+
+                            <button
+                                onClick={() => navigate('/branch-admin/hrm/attendance')}
+                                className="w-full py-2.5 text-sm font-medium text-neutral-600 bg-neutral-50 hover:bg-neutral-100 hover:text-neutral-900 rounded-lg border border-neutral-200 transition-all border-dashed"
+                            >
+                                View Detailed Attendance
+                            </button>
                         </div>
                     </div>
                 </div>
-            </main>
-        </div>
+            </div>
+        </DashboardLayout>
     );
 };
 

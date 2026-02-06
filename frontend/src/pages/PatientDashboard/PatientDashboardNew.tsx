@@ -113,7 +113,7 @@ const PatientDashboardNew: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex">
+        <div className="min-h-screen bg-neutral-50 flex">
             {/* Mobile Menu Overlay */}
             {mobileMenuOpen && (
                 <div 
@@ -200,7 +200,7 @@ const PatientDashboardNew: React.FC = () => {
                                 <>
                                     <span className="flex-1">{item.label}</span>
                                     {item.badge !== undefined && item.badge > 0 && (
-                                        <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
+                                        <span className="bg-error-500 text-white text-xs px-2 py-0.5 rounded-full">
                                             {item.badge}
                                         </span>
                                     )}
@@ -219,7 +219,7 @@ const PatientDashboardNew: React.FC = () => {
                     </button>
                     <button 
                         onClick={handleSignOut}
-                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-300 hover:bg-red-500/20 hover:text-red-200 transition-all"
+                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-300 hover:bg-error-500/20 hover:text-red-200 transition-all"
                     >
                         <LogOut className="w-5 h-5" />
                         {sidebarOpen && <span>Sign Out</span>}
@@ -230,19 +230,19 @@ const PatientDashboardNew: React.FC = () => {
             {/* Main Content */}
             <main className="flex-1 flex flex-col min-h-screen">
                 {/* Top Header */}
-                <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between sticky top-0 z-30">
+                <header className="bg-white border-b border-neutral-200 px-4 py-3 flex items-center justify-between sticky top-0 z-30">
                     <div className="flex items-center gap-4">
                         <button 
                             onClick={() => setMobileMenuOpen(true)}
-                            className="p-2 hover:bg-gray-100 rounded-lg lg:hidden"
+                            className="p-2 hover:bg-neutral-100 rounded-lg lg:hidden"
                         >
                             <Menu className="w-5 h-5" />
                         </button>
                         <div>
-                            <h2 className="text-lg font-semibold text-gray-800">
+                            <h2 className="text-lg font-semibold text-neutral-800">
                                 Welcome back, {userDetails?.firstName || 'Patient'}!
                             </h2>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-neutral-500">
                                 {new Date().toLocaleDateString('en-US', { 
                                     weekday: 'long', 
                                     year: 'numeric', 
@@ -256,23 +256,23 @@ const PatientDashboardNew: React.FC = () => {
                     <div className="flex items-center gap-3">
                         <NavLink 
                             to="notifications"
-                            className="relative p-2 hover:bg-gray-100 rounded-lg"
+                            className="relative p-2 hover:bg-neutral-100 rounded-lg"
                         >
-                            <Bell className="w-5 h-5 text-gray-600" />
+                            <Bell className="w-5 h-5 text-neutral-600" />
                             {notificationCount > 0 && (
-                                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                                <span className="absolute -top-1 -right-1 bg-error-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
                                     {notificationCount > 9 ? '9+' : notificationCount}
                                 </span>
                             )}
                         </NavLink>
                         <NavLink 
                             to="profile"
-                            className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-lg"
+                            className="flex items-center gap-2 px-3 py-2 hover:bg-neutral-100 rounded-lg"
                         >
                             <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 font-medium">
                                 {userDetails?.firstName?.charAt(0) || 'P'}
                             </div>
-                            <span className="hidden md:block text-sm font-medium text-gray-700">
+                            <span className="hidden md:block text-sm font-medium text-neutral-700">
                                 {userDetails?.firstName}
                             </span>
                         </NavLink>
@@ -295,7 +295,7 @@ const PatientDashboardNew: React.FC = () => {
                 </div>
 
                 {/* Footer */}
-                <footer className="bg-white border-t border-gray-200 px-4 py-3 text-center text-sm text-gray-500">
+                <footer className="bg-white border-t border-neutral-200 px-4 py-3 text-center text-sm text-neutral-500">
                     © 2025 Cure.lk - Patient Portal. All rights reserved.
                 </footer>
             </main>

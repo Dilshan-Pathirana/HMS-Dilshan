@@ -161,14 +161,14 @@ const SuperAdminMainDashboard: React.FC = () => {
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
             <div className="flex items-start justify-between">
                 <div className="flex-1">
-                    <p className="text-gray-500 text-sm font-medium mb-1">{title}</p>
-                    <h3 className="text-2xl font-bold text-gray-800">{typeof value === 'number' ? value.toLocaleString() : value}</h3>
-                    {subtitle && <p className="text-xs text-gray-400 mt-1">{subtitle}</p>}
+                    <p className="text-neutral-500 text-sm font-medium mb-1">{title}</p>
+                    <h3 className="text-2xl font-bold text-neutral-800">{typeof value === 'number' ? value.toLocaleString() : value}</h3>
+                    {subtitle && <p className="text-xs text-neutral-400 mt-1">{subtitle}</p>}
                     {trend && (
-                        <div className={`flex items-center gap-1 mt-2 text-xs ${trend.positive ? 'text-emerald-600' : 'text-red-500'}`}>
+                        <div className={`flex items-center gap-1 mt-2 text-xs ${trend.positive ? 'text-emerald-600' : 'text-error-500'}`}>
                             {trend.positive ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
                             <span className="font-semibold">{trend.value}%</span>
-                            <span className="text-gray-400">vs last month</span>
+                            <span className="text-neutral-400">vs last month</span>
                         </div>
                     )}
                 </div>
@@ -234,13 +234,13 @@ const SuperAdminMainDashboard: React.FC = () => {
                     <div className={`p-2 rounded-lg bg-gradient-to-br ${statusColors[status]} text-white`}>
                         {icon}
                     </div>
-                    <span className="text-gray-600 text-sm font-medium">{title}</span>
+                    <span className="text-neutral-600 text-sm font-medium">{title}</span>
                 </div>
                 <div className="flex items-baseline gap-1">
-                    <span className="text-3xl font-bold text-gray-800">{value}</span>
-                    <span className="text-gray-500 text-sm">{unit}</span>
+                    <span className="text-3xl font-bold text-neutral-800">{value}</span>
+                    <span className="text-neutral-500 text-sm">{unit}</span>
                 </div>
-                <div className="mt-2 h-2 bg-gray-100 rounded-full overflow-hidden">
+                <div className="mt-2 h-2 bg-neutral-100 rounded-full overflow-hidden">
                     <div 
                         className={`h-full bg-gradient-to-r ${statusColors[status]} rounded-full transition-all duration-500`}
                         style={{ width: `${Math.min(value, 100)}%` }}
@@ -262,12 +262,12 @@ const SuperAdminMainDashboard: React.FC = () => {
                                     Welcome back, {userName}!
                                 </span>
                             </h1>
-                            <p className="text-gray-500 mt-2">Here's what's happening across your hospital network today.</p>
+                            <p className="text-neutral-500 mt-2">Here's what's happening across your hospital network today.</p>
                         </div>
                         <div className="flex items-center gap-4">
                             <div className="text-right">
-                                <p className="text-sm text-gray-500">Today's Date</p>
-                                <p className="text-lg font-semibold text-gray-700">
+                                <p className="text-sm text-neutral-500">Today's Date</p>
+                                <p className="text-lg font-semibold text-neutral-700">
                                     {new Date().toLocaleDateString('en-US', { 
                                         weekday: 'long', 
                                         month: 'long', 
@@ -276,7 +276,7 @@ const SuperAdminMainDashboard: React.FC = () => {
                                     })}
                                 </p>
                             </div>
-                            <div className="p-3 bg-gradient-to-br from-teal-500 to-blue-500 rounded-xl">
+                            <div className="p-3 bg-gradient-to-br from-teal-500 to-primary-500 rounded-xl">
                                 <Calendar className="w-6 h-6 text-white" />
                             </div>
                         </div>
@@ -328,10 +328,10 @@ const SuperAdminMainDashboard: React.FC = () => {
                         {/* Financial Overview */}
                         <div className="mb-8">
                             <div className="flex items-center gap-3 mb-4">
-                                <div className="p-2 bg-gradient-to-br from-teal-500 to-blue-500 rounded-lg">
+                                <div className="p-2 bg-gradient-to-br from-teal-500 to-primary-500 rounded-lg">
                                     <Wallet className="w-5 h-5 text-white" />
                                 </div>
-                                <h2 className="text-xl font-bold text-gray-800">Financial Overview</h2>
+                                <h2 className="text-xl font-bold text-neutral-800">Financial Overview</h2>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
                                 <FinancialCard
@@ -381,10 +381,10 @@ const SuperAdminMainDashboard: React.FC = () => {
                         {/* Management Performance Metrics */}
                         <div className="mb-8">
                             <div className="flex items-center gap-3 mb-4">
-                                <div className="p-2 bg-gradient-to-br from-teal-500 to-blue-500 rounded-lg">
+                                <div className="p-2 bg-gradient-to-br from-teal-500 to-primary-500 rounded-lg">
                                     <PieChart className="w-5 h-5 text-white" />
                                 </div>
-                                <h2 className="text-xl font-bold text-gray-800">Management Performance</h2>
+                                <h2 className="text-xl font-bold text-neutral-800">Management Performance</h2>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
                                 <MetricCard
@@ -440,7 +440,7 @@ const SuperAdminMainDashboard: React.FC = () => {
                                     <div className="p-2 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-lg">
                                         <Users className="w-5 h-5 text-white" />
                                     </div>
-                                    <h2 className="text-lg font-bold text-gray-800">Staff Distribution</h2>
+                                    <h2 className="text-lg font-bold text-neutral-800">Staff Distribution</h2>
                                 </div>
                                 <div className="space-y-4">
                                     <div className="flex items-center justify-between p-4 bg-gradient-to-r from-teal-50 to-cyan-50 rounded-xl border border-teal-100">
@@ -449,8 +449,8 @@ const SuperAdminMainDashboard: React.FC = () => {
                                                 <Stethoscope className="w-5 h-5 text-white" />
                                             </div>
                                             <div>
-                                                <p className="font-semibold text-gray-800">Doctors</p>
-                                                <p className="text-sm text-gray-500">Medical professionals</p>
+                                                <p className="font-semibold text-neutral-800">Doctors</p>
+                                                <p className="text-sm text-neutral-500">Medical professionals</p>
                                             </div>
                                         </div>
                                         <span className="text-2xl font-bold text-teal-600">{stats.totalDoctors}</span>
@@ -461,23 +461,23 @@ const SuperAdminMainDashboard: React.FC = () => {
                                                 <Heart className="w-5 h-5 text-white" />
                                             </div>
                                             <div>
-                                                <p className="font-semibold text-gray-800">Nurses</p>
-                                                <p className="text-sm text-gray-500">Nursing staff</p>
+                                                <p className="font-semibold text-neutral-800">Nurses</p>
+                                                <p className="text-sm text-neutral-500">Nursing staff</p>
                                             </div>
                                         </div>
                                         <span className="text-2xl font-bold text-cyan-600">{stats.totalNurses}</span>
                                     </div>
                                     <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
                                         <div className="flex items-center gap-3">
-                                            <div className="p-2 bg-blue-500 rounded-lg">
+                                            <div className="p-2 bg-primary-500 rounded-lg">
                                                 <Pill className="w-5 h-5 text-white" />
                                             </div>
                                             <div>
-                                                <p className="font-semibold text-gray-800">Pharmacists</p>
-                                                <p className="text-sm text-gray-500">Pharmacy staff</p>
+                                                <p className="font-semibold text-neutral-800">Pharmacists</p>
+                                                <p className="text-sm text-neutral-500">Pharmacy staff</p>
                                             </div>
                                         </div>
-                                        <span className="text-2xl font-bold text-blue-600">12</span>
+                                        <span className="text-2xl font-bold text-primary-500">12</span>
                                     </div>
                                     <div className="flex items-center justify-between p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-100">
                                         <div className="flex items-center gap-3">
@@ -485,8 +485,8 @@ const SuperAdminMainDashboard: React.FC = () => {
                                                 <Users className="w-5 h-5 text-white" />
                                             </div>
                                             <div>
-                                                <p className="font-semibold text-gray-800">Support Staff</p>
-                                                <p className="text-sm text-gray-500">Administrative & IT</p>
+                                                <p className="font-semibold text-neutral-800">Support Staff</p>
+                                                <p className="text-sm text-neutral-500">Administrative & IT</p>
                                             </div>
                                         </div>
                                         <span className="text-2xl font-bold text-indigo-600">{stats.activeStaff - stats.totalDoctors - stats.totalNurses - 12}</span>
@@ -497,10 +497,10 @@ const SuperAdminMainDashboard: React.FC = () => {
                             {/* Quick Actions */}
                             <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
                                 <div className="flex items-center gap-3 mb-6">
-                                    <div className="p-2 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-lg">
+                                    <div className="p-2 bg-gradient-to-br from-cyan-500 to-primary-500 rounded-lg">
                                         <Target className="w-5 h-5 text-white" />
                                     </div>
-                                    <h2 className="text-lg font-bold text-gray-800">Quick Actions</h2>
+                                    <h2 className="text-lg font-bold text-neutral-800">Quick Actions</h2>
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <button 
@@ -510,8 +510,8 @@ const SuperAdminMainDashboard: React.FC = () => {
                                         <div className="p-2 bg-teal-500 rounded-lg w-fit mb-3 group-hover:scale-110 transition-transform">
                                             <UserPlus className="w-5 h-5 text-white" />
                                         </div>
-                                        <p className="font-semibold text-gray-800">Add New User</p>
-                                        <p className="text-xs text-gray-500 mt-1">Create staff account</p>
+                                        <p className="font-semibold text-neutral-800">Add New User</p>
+                                        <p className="text-xs text-neutral-500 mt-1">Create staff account</p>
                                     </button>
                                     <button 
                                         onClick={() => navigate('/dashboard/branch/management')}
@@ -520,18 +520,18 @@ const SuperAdminMainDashboard: React.FC = () => {
                                         <div className="p-2 bg-cyan-500 rounded-lg w-fit mb-3 group-hover:scale-110 transition-transform">
                                             <Building2 className="w-5 h-5 text-white" />
                                         </div>
-                                        <p className="font-semibold text-gray-800">Manage Branches</p>
-                                        <p className="text-xs text-gray-500 mt-1">View all branches</p>
+                                        <p className="font-semibold text-neutral-800">Manage Branches</p>
+                                        <p className="text-xs text-neutral-500 mt-1">View all branches</p>
                                     </button>
                                     <button 
                                         onClick={() => navigate('/super-admin/staff/scheduling')}
                                         className="p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border-2 border-blue-200 hover:border-blue-400 hover:shadow-md transition-all duration-300 text-left group"
                                     >
-                                        <div className="p-2 bg-blue-500 rounded-lg w-fit mb-3 group-hover:scale-110 transition-transform">
+                                        <div className="p-2 bg-primary-500 rounded-lg w-fit mb-3 group-hover:scale-110 transition-transform">
                                             <ClipboardList className="w-5 h-5 text-white" />
                                         </div>
-                                        <p className="font-semibold text-gray-800">Staff Scheduling</p>
-                                        <p className="text-xs text-gray-500 mt-1">Manage shifts</p>
+                                        <p className="font-semibold text-neutral-800">Staff Scheduling</p>
+                                        <p className="text-xs text-neutral-500 mt-1">Manage shifts</p>
                                     </button>
                                     <button 
                                         onClick={() => navigate('/dashboard/all/appointment')}
@@ -540,8 +540,8 @@ const SuperAdminMainDashboard: React.FC = () => {
                                         <div className="p-2 bg-indigo-500 rounded-lg w-fit mb-3 group-hover:scale-110 transition-transform">
                                             <Calendar className="w-5 h-5 text-white" />
                                         </div>
-                                        <p className="font-semibold text-gray-800">Appointments</p>
-                                        <p className="text-xs text-gray-500 mt-1">View all appointments</p>
+                                        <p className="font-semibold text-neutral-800">Appointments</p>
+                                        <p className="text-xs text-neutral-500 mt-1">View all appointments</p>
                                     </button>
                                 </div>
                             </div>
@@ -555,34 +555,34 @@ const SuperAdminMainDashboard: React.FC = () => {
                                     <div className="p-2 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-lg">
                                         <Activity className="w-5 h-5 text-white" />
                                     </div>
-                                    <h2 className="text-lg font-bold text-gray-800">System Status</h2>
+                                    <h2 className="text-lg font-bold text-neutral-800">System Status</h2>
                                 </div>
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between p-4 bg-emerald-50 rounded-xl">
                                         <div className="flex items-center gap-3">
                                             <CheckCircle className="w-5 h-5 text-emerald-600" />
-                                            <span className="font-medium text-gray-700">Database Server</span>
+                                            <span className="font-medium text-neutral-700">Database Server</span>
                                         </div>
                                         <span className="px-3 py-1 bg-emerald-100 text-emerald-700 text-sm font-semibold rounded-full">Online</span>
                                     </div>
                                     <div className="flex items-center justify-between p-4 bg-emerald-50 rounded-xl">
                                         <div className="flex items-center gap-3">
                                             <CheckCircle className="w-5 h-5 text-emerald-600" />
-                                            <span className="font-medium text-gray-700">API Services</span>
+                                            <span className="font-medium text-neutral-700">API Services</span>
                                         </div>
                                         <span className="px-3 py-1 bg-emerald-100 text-emerald-700 text-sm font-semibold rounded-full">Running</span>
                                     </div>
                                     <div className="flex items-center justify-between p-4 bg-emerald-50 rounded-xl">
                                         <div className="flex items-center gap-3">
                                             <CheckCircle className="w-5 h-5 text-emerald-600" />
-                                            <span className="font-medium text-gray-700">Backup System</span>
+                                            <span className="font-medium text-neutral-700">Backup System</span>
                                         </div>
                                         <span className="px-3 py-1 bg-emerald-100 text-emerald-700 text-sm font-semibold rounded-full">Active</span>
                                     </div>
                                     <div className="flex items-center justify-between p-4 bg-amber-50 rounded-xl">
                                         <div className="flex items-center gap-3">
                                             <AlertCircle className="w-5 h-5 text-amber-600" />
-                                            <span className="font-medium text-gray-700">Storage Usage</span>
+                                            <span className="font-medium text-neutral-700">Storage Usage</span>
                                         </div>
                                         <span className="px-3 py-1 bg-amber-100 text-amber-700 text-sm font-semibold rounded-full">72% Used</span>
                                     </div>
@@ -595,48 +595,48 @@ const SuperAdminMainDashboard: React.FC = () => {
                                     <div className="p-2 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg">
                                         <Clock className="w-5 h-5 text-white" />
                                     </div>
-                                    <h2 className="text-lg font-bold text-gray-800">Recent Activity</h2>
+                                    <h2 className="text-lg font-bold text-neutral-800">Recent Activity</h2>
                                 </div>
                                 <div className="space-y-4">
-                                    <div className="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-xl transition-colors">
+                                    <div className="flex items-start gap-3 p-3 hover:bg-neutral-50 rounded-xl transition-colors">
                                         <div className="p-2 bg-teal-100 rounded-lg">
                                             <UserPlus className="w-4 h-4 text-teal-600" />
                                         </div>
                                         <div className="flex-1">
-                                            <p className="text-sm font-medium text-gray-800">New staff member added</p>
-                                            <p className="text-xs text-gray-500">Dr. Sarah Johnson joined Branch A</p>
+                                            <p className="text-sm font-medium text-neutral-800">New staff member added</p>
+                                            <p className="text-xs text-neutral-500">Dr. Sarah Johnson joined Branch A</p>
                                         </div>
-                                        <span className="text-xs text-gray-400">2h ago</span>
+                                        <span className="text-xs text-neutral-400">2h ago</span>
                                     </div>
-                                    <div className="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-xl transition-colors">
+                                    <div className="flex items-start gap-3 p-3 hover:bg-neutral-50 rounded-xl transition-colors">
                                         <div className="p-2 bg-cyan-100 rounded-lg">
                                             <Calendar className="w-4 h-4 text-cyan-600" />
                                         </div>
                                         <div className="flex-1">
-                                            <p className="text-sm font-medium text-gray-800">Schedule updated</p>
-                                            <p className="text-xs text-gray-500">Weekly shifts for Branch B modified</p>
+                                            <p className="text-sm font-medium text-neutral-800">Schedule updated</p>
+                                            <p className="text-xs text-neutral-500">Weekly shifts for Branch B modified</p>
                                         </div>
-                                        <span className="text-xs text-gray-400">4h ago</span>
+                                        <span className="text-xs text-neutral-400">4h ago</span>
                                     </div>
-                                    <div className="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-xl transition-colors">
+                                    <div className="flex items-start gap-3 p-3 hover:bg-neutral-50 rounded-xl transition-colors">
                                         <div className="p-2 bg-blue-100 rounded-lg">
-                                            <Award className="w-4 h-4 text-blue-600" />
+                                            <Award className="w-4 h-4 text-primary-500" />
                                         </div>
                                         <div className="flex-1">
-                                            <p className="text-sm font-medium text-gray-800">Performance milestone</p>
-                                            <p className="text-xs text-gray-500">Patient satisfaction reached 95%</p>
+                                            <p className="text-sm font-medium text-neutral-800">Performance milestone</p>
+                                            <p className="text-xs text-neutral-500">Patient satisfaction reached 95%</p>
                                         </div>
-                                        <span className="text-xs text-gray-400">1d ago</span>
+                                        <span className="text-xs text-neutral-400">1d ago</span>
                                     </div>
-                                    <div className="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-xl transition-colors">
+                                    <div className="flex items-start gap-3 p-3 hover:bg-neutral-50 rounded-xl transition-colors">
                                         <div className="p-2 bg-emerald-100 rounded-lg">
                                             <DollarSign className="w-4 h-4 text-emerald-600" />
                                         </div>
                                         <div className="flex-1">
-                                            <p className="text-sm font-medium text-gray-800">Payment received</p>
-                                            <p className="text-xs text-gray-500">Insurance claim $12,500 processed</p>
+                                            <p className="text-sm font-medium text-neutral-800">Payment received</p>
+                                            <p className="text-xs text-neutral-500">Insurance claim $12,500 processed</p>
                                         </div>
-                                        <span className="text-xs text-gray-400">1d ago</span>
+                                        <span className="text-xs text-neutral-400">1d ago</span>
                                     </div>
                                 </div>
                             </div>

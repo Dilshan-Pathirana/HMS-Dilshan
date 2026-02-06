@@ -7,7 +7,7 @@ const PatientDetailsShowTable: React.FC<IPatientDetailsShowTableProps> = ({
     const getStatusBadge = (status: number) => {
         if (status === 0) {
             return (
-                <span className="inline-block bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                <span className="inline-block bg-error-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
                     Cancelled
                 </span>
             );
@@ -19,7 +19,7 @@ const PatientDetailsShowTable: React.FC<IPatientDetailsShowTableProps> = ({
             );
         } else {
             return (
-                <span className="inline-block bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                <span className="inline-block bg-neutral-100 text-neutral-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
                     Unknown
                 </span>
             );
@@ -28,19 +28,19 @@ const PatientDetailsShowTable: React.FC<IPatientDetailsShowTableProps> = ({
 
     return (
         <div className="overflow-x-auto ml-4">
-            <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm">
-                <thead className="bg-gray-100">
+            <table className="min-w-full bg-white border border-neutral-200 rounded-lg shadow-sm">
+                <thead className="bg-neutral-100">
                     <tr>
-                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-700">
+                        <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700">
                             Patient Name
                         </th>
-                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-700">
+                        <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700">
                             Phone
                         </th>
-                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-700">
+                        <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700">
                             Patient Selected Slot
                         </th>
-                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-700">
+                        <th className="px-4 py-2 text-left text-xs font-medium text-neutral-700">
                             Status
                         </th>
                     </tr>
@@ -49,21 +49,21 @@ const PatientDetailsShowTable: React.FC<IPatientDetailsShowTableProps> = ({
                     {appointmentWithGrouped.map((appointment, index) => (
                         <tr
                             key={`${appointment.patient_selected_slot}-${index}`}
-                            className="hover:bg-gray-50"
+                            className="hover:bg-neutral-50"
                         >
-                            <td className="px-4 py-2 text-sm text-gray-700">
+                            <td className="px-4 py-2 text-sm text-neutral-700">
                                 {appointment.patient_first_name}{" "}
                                 {appointment.patient_last_name}
                             </td>
-                            <td className="px-4 py-2 text-sm text-gray-700">
+                            <td className="px-4 py-2 text-sm text-neutral-700">
                                 {appointment.patient_phone}
                             </td>
-                            <td className="px-4 py-2 text-sm text-gray-600">
+                            <td className="px-4 py-2 text-sm text-neutral-600">
                                 <span className="inline-block bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
                                     {appointment.patient_selected_slot}
                                 </span>
                             </td>
-                            <td className="px-4 py-2 text-sm text-gray-600">
+                            <td className="px-4 py-2 text-sm text-neutral-600">
                                 {getStatusBadge(appointment.status)}
                             </td>
                         </tr>

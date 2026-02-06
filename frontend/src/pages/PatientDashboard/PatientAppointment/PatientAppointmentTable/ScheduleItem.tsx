@@ -52,7 +52,7 @@ const ScheduleItem: React.FC<EnhancedScheduleItemProps> = ({
             className={`mb-3 p-3 rounded-lg border transition-all ${
                 isCurrentBranchSelected
                     ? "bg-blue-50 border-blue-200 shadow-sm"
-                    : "bg-white border-gray-200 hover:border-blue-200 hover:shadow-sm"
+                    : "bg-white border-neutral-200 hover:border-blue-200 hover:shadow-sm"
             }`}
         >
             <div className="flex justify-between items-start">
@@ -68,7 +68,7 @@ const ScheduleItem: React.FC<EnhancedScheduleItemProps> = ({
                             className={`w-5 h-5 ${
                                 isCurrentBranchSelected
                                     ? "text-blue-700"
-                                    : "text-blue-600"
+                                    : "text-primary-500"
                             }`}
                         />
                     </div>
@@ -77,19 +77,19 @@ const ScheduleItem: React.FC<EnhancedScheduleItemProps> = ({
                             className={`font-medium ${
                                 isCurrentBranchSelected
                                     ? "text-blue-800"
-                                    : "text-gray-700"
+                                    : "text-neutral-700"
                             }`}
                         >
                             {schedule.schedule_day}s at {schedule.start_time}
                         </p>
                         {schedule.branch && (
                             <div className="flex items-center mt-1">
-                                <BranchIcon className="w-4 h-4 mr-1 text-blue-500" />
+                                <BranchIcon className="w-4 h-4 mr-1 text-primary-500" />
                                 <span
                                     className={`text-sm font-semibold ${
                                         isCurrentBranchSelected
                                             ? "text-blue-700"
-                                            : "text-blue-600"
+                                            : "text-primary-500"
                                     }`}
                                 >
                                     {schedule.branch.center_name}
@@ -110,8 +110,8 @@ const ScheduleItem: React.FC<EnhancedScheduleItemProps> = ({
                         minDate={today}
                         maxDate={oneMonthLater}
                         disabled={isDisabled}
-                        className={`border border-gray-300 rounded-md shadow-sm p-2 w-full sm:w-auto ${
-                            isDisabled ? "bg-gray-100 cursor-not-allowed" : ""
+                        className={`border border-neutral-300 rounded-md shadow-sm p-2 w-full sm:w-auto ${
+                            isDisabled ? "bg-neutral-100 cursor-not-allowed" : ""
                         }`}
                         filterDate={(date) =>
                             filterScheduleDays(date, schedule.schedule_day)
@@ -135,11 +135,11 @@ const ScheduleItem: React.FC<EnhancedScheduleItemProps> = ({
                         disabled={isButtonDisabled}
                         className={`px-3 py-1.5 text-sm font-bold rounded transition-colors min-w-[120px] ${
                             isLoading
-                                ? "bg-blue-100 text-blue-600 cursor-wait"
+                                ? "bg-blue-100 text-primary-500 cursor-wait"
                                 : isButtonDisabled
-                                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                  ? "bg-neutral-100 text-neutral-400 cursor-not-allowed"
                                   : selectedDateLocal
-                                    ? "bg-blue-50 text-blue-600 hover:bg-blue-100"
+                                    ? "bg-blue-50 text-primary-500 hover:bg-blue-100"
                                     : "bg-blue-50 text-blue-300 cursor-not-allowed"
                         }`}
                         title={getButtonTitle()}
@@ -147,7 +147,7 @@ const ScheduleItem: React.FC<EnhancedScheduleItemProps> = ({
                         {isLoading && (
                             <span className="inline-flex items-center">
                                 <svg
-                                    className="animate-spin -ml-1 mr-2 h-3 w-3 text-blue-600"
+                                    className="animate-spin -ml-1 mr-2 h-3 w-3 text-primary-500"
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
                                     viewBox="0 0 24 24"

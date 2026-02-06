@@ -225,8 +225,8 @@ const CashierTransactionList = () => {
         switch (status) {
             case 'APPROVED': return <CheckCircle className="w-4 h-4 text-green-600" />;
             case 'SUBMITTED': return <Clock className="w-4 h-4 text-yellow-600" />;
-            case 'REJECTED': return <XCircle className="w-4 h-4 text-red-600" />;
-            default: return <AlertCircle className="w-4 h-4 text-gray-400" />;
+            case 'REJECTED': return <XCircle className="w-4 h-4 text-error-600" />;
+            default: return <AlertCircle className="w-4 h-4 text-neutral-400" />;
         }
     };
 
@@ -335,8 +335,8 @@ const CashierTransactionList = () => {
         switch (status) {
             case 'APPROVED': return 'bg-green-100 text-green-700';
             case 'SUBMITTED': return 'bg-yellow-100 text-yellow-700';
-            case 'REJECTED': return 'bg-red-100 text-red-700';
-            default: return 'bg-gray-100 text-gray-700';
+            case 'REJECTED': return 'bg-error-100 text-red-700';
+            default: return 'bg-neutral-100 text-neutral-700';
         }
     };
 
@@ -372,7 +372,7 @@ const CashierTransactionList = () => {
     ].filter(d => d.value > 0) : [];
 
     return (
-        <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
+        <div className="p-6 space-y-6 bg-neutral-50 min-h-screen">
             {/* Header */}
             <div className="bg-gradient-to-r from-emerald-500 to-blue-600 rounded-xl shadow-lg p-6 text-white">
                 <div className="flex items-center justify-between flex-wrap gap-4">
@@ -415,7 +415,7 @@ const CashierTransactionList = () => {
             </div>
 
             {/* Tab Navigation */}
-            <div className="bg-white rounded-xl shadow-md border border-gray-200 p-4">
+            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-4">
                 <div className="flex items-center gap-2 flex-wrap">
                     {[
                         { id: 'transactions', label: 'Today\'s Transactions', icon: <Receipt className="w-4 h-4" /> },
@@ -428,7 +428,7 @@ const CashierTransactionList = () => {
                             className={`flex items-center gap-2 px-5 py-3 rounded-lg text-sm font-medium transition ${
                                 activeTab === tab.id
                                     ? "bg-gradient-to-r from-emerald-500 to-blue-600 text-white shadow-md"
-                                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                                    : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
                             }`}
                         >
                             {tab.icon}
@@ -442,27 +442,27 @@ const CashierTransactionList = () => {
             {activeTab === "transactions" && (
                 <>
                     {/* Filters */}
-                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+                    <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             {/* Search */}
                             <div className="relative">
-                                <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                                <Search className="absolute left-3 top-3 h-5 w-5 text-neutral-400" />
                                 <input
                                     type="text"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                     placeholder="Search by invoice, receipt, or patient name..."
-                                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                 />
                             </div>
 
                             {/* Transaction Type Filter */}
                             <div className="relative">
-                                <ListFilter className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                                <ListFilter className="absolute left-3 top-3 h-5 w-5 text-neutral-400" />
                                 <select
                                     value={filterType}
                                     onChange={(e) => setFilterType(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                 >
                                     <option value="ALL">All Types</option>
                                     <option value="OPD">OPD</option>
@@ -474,11 +474,11 @@ const CashierTransactionList = () => {
 
                             {/* Payment Method Filter */}
                             <div className="relative">
-                                <ListFilter className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                                <ListFilter className="absolute left-3 top-3 h-5 w-5 text-neutral-400" />
                                 <select
                                     value={filterPayment}
                                     onChange={(e) => setFilterPayment(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                 >
                                     <option value="ALL">All Payment Methods</option>
                                     <option value="CASH">Cash</option>
@@ -491,9 +491,9 @@ const CashierTransactionList = () => {
                     </div>
 
                     {/* Transactions Table */}
-                    <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
-                        <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-                            <h2 className="text-lg font-semibold text-gray-800">
+                    <div className="bg-white rounded-xl shadow-md border border-neutral-200 overflow-hidden">
+                        <div className="p-6 border-b border-neutral-200 flex items-center justify-between">
+                            <h2 className="text-lg font-semibold text-neutral-800">
                                 Today's Transactions ({filteredTransactions.length})
                             </h2>
                         </div>
@@ -507,26 +507,26 @@ const CashierTransactionList = () => {
                                 <table className="w-full">
                                     <thead className="bg-gradient-to-r from-emerald-50 to-blue-50">
                                         <tr>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">Invoice</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">Type</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase">Patient</th>
-                                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-700 uppercase">Amount</th>
-                                            <th className="px-6 py-3 text-center text-xs font-medium text-gray-700 uppercase">Payment</th>
-                                            <th className="px-6 py-3 text-center text-xs font-medium text-gray-700 uppercase">Status</th>
-                                            <th className="px-6 py-3 text-center text-xs font-medium text-gray-700 uppercase">Time</th>
-                                            <th className="px-6 py-3 text-center text-xs font-medium text-gray-700 uppercase">Actions</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-neutral-700 uppercase">Invoice</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-neutral-700 uppercase">Type</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-neutral-700 uppercase">Patient</th>
+                                            <th className="px-6 py-3 text-right text-xs font-medium text-neutral-700 uppercase">Amount</th>
+                                            <th className="px-6 py-3 text-center text-xs font-medium text-neutral-700 uppercase">Payment</th>
+                                            <th className="px-6 py-3 text-center text-xs font-medium text-neutral-700 uppercase">Status</th>
+                                            <th className="px-6 py-3 text-center text-xs font-medium text-neutral-700 uppercase">Time</th>
+                                            <th className="px-6 py-3 text-center text-xs font-medium text-neutral-700 uppercase">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200">
                                         {filteredTransactions.map((transaction) => {
                                             const PaymentIcon = getPaymentIcon(transaction.payment_method);
                                             return (
-                                                <tr key={transaction.id} className="hover:bg-gray-50">
+                                                <tr key={transaction.id} className="hover:bg-neutral-50">
                                                     <td className="px-6 py-4">
-                                                        <div className="text-sm font-medium text-gray-900">
+                                                        <div className="text-sm font-medium text-neutral-900">
                                                             {transaction.invoice_number}
                                                         </div>
-                                                        <div className="text-xs text-gray-500">
+                                                        <div className="text-xs text-neutral-500">
                                                             {transaction.receipt_number}
                                                         </div>
                                                     </td>
@@ -535,23 +535,23 @@ const CashierTransactionList = () => {
                                                             {transaction.transaction_type}
                                                         </span>
                                                     </td>
-                                                    <td className="px-6 py-4 text-sm text-gray-900">
+                                                    <td className="px-6 py-4 text-sm text-neutral-900">
                                                         {transaction.patient_name}
                                                     </td>
                                                     <td className="px-6 py-4 text-right">
-                                                        <div className="text-sm font-semibold text-gray-900">
+                                                        <div className="text-sm font-semibold text-neutral-900">
                                                             Rs. {transaction.total_amount.toLocaleString()}
                                                         </div>
-                                                        <div className="text-xs text-gray-500">
+                                                        <div className="text-xs text-neutral-500">
                                                             Paid: Rs. {transaction.paid_amount.toLocaleString()}
                                                         </div>
                                                     </td>
                                                     <td className="px-6 py-4 text-center">
                                                         <div className="flex items-center justify-center gap-1">
                                                             <div className="p-1 bg-gradient-to-br from-gray-100 to-gray-200 rounded">
-                                                                <PaymentIcon className="h-3 w-3 text-gray-600" />
+                                                                <PaymentIcon className="h-3 w-3 text-neutral-600" />
                                                             </div>
-                                                            <span className="text-sm text-gray-700">
+                                                            <span className="text-sm text-neutral-700">
                                                                 {transaction.payment_method}
                                                             </span>
                                                         </div>
@@ -561,14 +561,14 @@ const CashierTransactionList = () => {
                                                             {transaction.payment_status}
                                                         </span>
                                                     </td>
-                                                    <td className="px-6 py-4 text-sm text-gray-500 text-center">
+                                                    <td className="px-6 py-4 text-sm text-neutral-500 text-center">
                                                         {new Date(transaction.created_at).toLocaleTimeString()}
                                                     </td>
                                                     <td className="px-6 py-4 text-center">
                                                         <div className="flex items-center justify-center gap-2">
                                                             <button
                                                                 onClick={() => viewTransactionDetails(transaction)}
-                                                                className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition"
+                                                                className="p-1.5 text-primary-500 hover:bg-blue-50 rounded-lg transition"
                                                                 title="View Details"
                                                             >
                                                                 <Receipt className="h-4 w-4" />
@@ -591,9 +591,9 @@ const CashierTransactionList = () => {
                         ) : (
                             <div className="text-center py-12">
                                 <div className="p-4 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full w-fit mx-auto mb-4">
-                                    <FileText className="h-8 w-8 text-gray-500" />
+                                    <FileText className="h-8 w-8 text-neutral-500" />
                                 </div>
-                                <p className="text-gray-500">
+                                <p className="text-neutral-500">
                                     {searchTerm || filterType !== "ALL" || filterPayment !== "ALL"
                                         ? "No transactions match your filters"
                                         : "No transactions for today"}
@@ -608,26 +608,26 @@ const CashierTransactionList = () => {
             {activeTab === "reports" && (
                 <>
                     {/* Date Filter */}
-                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+                    <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
                         <div className="flex flex-wrap items-center gap-4">
                             <div className="flex items-center gap-2">
-                                <Filter className="h-5 w-5 text-gray-400" />
-                                <span className="text-sm font-medium text-gray-700">Date Range:</span>
+                                <Filter className="h-5 w-5 text-neutral-400" />
+                                <span className="text-sm font-medium text-neutral-700">Date Range:</span>
                             </div>
                             <div className="flex items-center gap-2">
-                                <Calendar className="h-4 w-4 text-gray-400" />
+                                <Calendar className="h-4 w-4 text-neutral-400" />
                                 <input
                                     type="date"
                                     value={dateFrom}
                                     onChange={(e) => setDateFrom(e.target.value)}
-                                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
+                                    className="px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
                                 />
-                                <span className="text-gray-500">to</span>
+                                <span className="text-neutral-500">to</span>
                                 <input
                                     type="date"
                                     value={dateTo}
                                     onChange={(e) => setDateTo(e.target.value)}
-                                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
+                                    className="px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
                                 />
                             </div>
                             <button
@@ -648,56 +648,56 @@ const CashierTransactionList = () => {
                         <>
                             {/* Summary Stats */}
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                                <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+                                <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
                                     <div className="flex items-center gap-4">
                                         <div className="p-3 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg">
                                             <DollarSign className="h-6 w-6 text-white" />
                                         </div>
                                         <div>
-                                            <p className="text-sm text-gray-600">Total Sales</p>
-                                            <p className="text-2xl font-bold text-gray-800">
+                                            <p className="text-sm text-neutral-600">Total Sales</p>
+                                            <p className="text-2xl font-bold text-neutral-800">
                                                 Rs. {reportData.summary.total_sales.toLocaleString()}
                                             </p>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+                                <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
                                     <div className="flex items-center gap-4">
                                         <div className="p-3 bg-gradient-to-br from-emerald-500 to-green-600 rounded-lg">
                                             <FileText className="h-6 w-6 text-white" />
                                         </div>
                                         <div>
-                                            <p className="text-sm text-gray-600">Total Transactions</p>
-                                            <p className="text-2xl font-bold text-gray-800">
+                                            <p className="text-sm text-neutral-600">Total Transactions</p>
+                                            <p className="text-2xl font-bold text-neutral-800">
                                                 {reportData.summary.total_transactions}
                                             </p>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+                                <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
                                     <div className="flex items-center gap-4">
                                         <div className="p-3 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg">
                                             <TrendingUp className="h-6 w-6 text-white" />
                                         </div>
                                         <div>
-                                            <p className="text-sm text-gray-600">Avg Daily Sales</p>
-                                            <p className="text-2xl font-bold text-gray-800">
+                                            <p className="text-sm text-neutral-600">Avg Daily Sales</p>
+                                            <p className="text-2xl font-bold text-neutral-800">
                                                 Rs. {reportData.summary.average_daily_sales.toLocaleString()}
                                             </p>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+                                <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
                                     <div className="flex items-center gap-4">
                                         <div className="p-3 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg">
                                             <Clock className="h-6 w-6 text-white" />
                                         </div>
                                         <div>
-                                            <p className="text-sm text-gray-600">Report Period</p>
-                                            <p className="text-lg font-bold text-gray-800">
+                                            <p className="text-sm text-neutral-600">Report Period</p>
+                                            <p className="text-lg font-bold text-neutral-800">
                                                 {reportData.period.days} Days
                                             </p>
                                         </div>
@@ -706,8 +706,8 @@ const CashierTransactionList = () => {
                             </div>
 
                             {/* Sales Trend Chart */}
-                            <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-                                <h2 className="text-lg font-semibold text-gray-800 mb-4">Sales Trend</h2>
+                            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+                                <h2 className="text-lg font-semibold text-neutral-800 mb-4">Sales Trend</h2>
                                 <div className="h-80">
                                     <SafeResponsiveContainer width="100%" height="100%">
                                         <SafeAreaChart data={reportData.daily_data}>
@@ -752,8 +752,8 @@ const CashierTransactionList = () => {
                             {/* Payment Breakdown */}
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                 {/* Pie Chart */}
-                                <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-                                    <h2 className="text-lg font-semibold text-gray-800 mb-4">Payment Methods</h2>
+                                <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+                                    <h2 className="text-lg font-semibold text-neutral-800 mb-4">Payment Methods</h2>
                                     <div className="h-64">
                                         <SafeResponsiveContainer width="100%" height="100%">
                                             <SafePieChart>
@@ -780,15 +780,15 @@ const CashierTransactionList = () => {
                                 </div>
 
                                 {/* Payment Method Cards */}
-                                <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-                                    <h2 className="text-lg font-semibold text-gray-800 mb-4">Payment Breakdown</h2>
+                                <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+                                    <h2 className="text-lg font-semibold text-neutral-800 mb-4">Payment Breakdown</h2>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200">
                                             <div className="flex items-center gap-3 mb-2">
                                                 <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg">
                                                     <Banknote className="h-5 w-5 text-white" />
                                                 </div>
-                                                <span className="font-medium text-gray-700">Cash</span>
+                                                <span className="font-medium text-neutral-700">Cash</span>
                                             </div>
                                             <p className="text-xl font-bold text-green-700">
                                                 Rs. {reportData.payment_totals.cash.toLocaleString()}
@@ -800,7 +800,7 @@ const CashierTransactionList = () => {
                                                 <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg">
                                                     <CreditCard className="h-5 w-5 text-white" />
                                                 </div>
-                                                <span className="font-medium text-gray-700">Card</span>
+                                                <span className="font-medium text-neutral-700">Card</span>
                                             </div>
                                             <p className="text-xl font-bold text-blue-700">
                                                 Rs. {reportData.payment_totals.card.toLocaleString()}
@@ -812,7 +812,7 @@ const CashierTransactionList = () => {
                                                 <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg">
                                                     <Smartphone className="h-5 w-5 text-white" />
                                                 </div>
-                                                <span className="font-medium text-gray-700">Online</span>
+                                                <span className="font-medium text-neutral-700">Online</span>
                                             </div>
                                             <p className="text-xl font-bold text-purple-700">
                                                 Rs. {reportData.payment_totals.online.toLocaleString()}
@@ -824,7 +824,7 @@ const CashierTransactionList = () => {
                                                 <div className="p-2 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg">
                                                     <QrCode className="h-5 w-5 text-white" />
                                                 </div>
-                                                <span className="font-medium text-gray-700">QR Code</span>
+                                                <span className="font-medium text-neutral-700">QR Code</span>
                                             </div>
                                             <p className="text-xl font-bold text-orange-700">
                                                 Rs. {reportData.payment_totals.qr.toLocaleString()}
@@ -835,8 +835,8 @@ const CashierTransactionList = () => {
                             </div>
 
                             {/* Daily Transactions Bar Chart */}
-                            <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-                                <h2 className="text-lg font-semibold text-gray-800 mb-4">Daily Transactions</h2>
+                            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+                                <h2 className="text-lg font-semibold text-neutral-800 mb-4">Daily Transactions</h2>
                                 <div className="h-64">
                                     <SafeResponsiveContainer width="100%" height="100%">
                                         <SafeBarChart data={reportData.daily_data}>
@@ -862,9 +862,9 @@ const CashierTransactionList = () => {
                             </div>
 
                             {/* Daily Data Table */}
-                            <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
-                                <div className="p-6 border-b border-gray-200">
-                                    <h2 className="text-lg font-semibold text-gray-800">Daily Breakdown</h2>
+                            <div className="bg-white rounded-xl shadow-md border border-neutral-200 overflow-hidden">
+                                <div className="p-6 border-b border-neutral-200">
+                                    <h2 className="text-lg font-semibold text-neutral-800">Daily Breakdown</h2>
                                 </div>
                                 <div className="overflow-x-auto">
                                     <table className="w-full">
@@ -881,54 +881,54 @@ const CashierTransactionList = () => {
                                         </thead>
                                         <tbody className="divide-y divide-gray-200">
                                             {reportData.daily_data.slice().reverse().map((day) => (
-                                                <tr key={day.date} className="hover:bg-gray-50">
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                                <tr key={day.date} className="hover:bg-neutral-50">
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-neutral-900">
                                                         {new Date(day.date).toLocaleDateString('en-US', {
                                                             weekday: 'short',
                                                             month: 'short',
                                                             day: 'numeric'
                                                         })}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-center">
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-600 text-center">
                                                         {day.transactions}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-right">
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-600 text-right">
                                                         Rs. {day.cash.toLocaleString()}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-right">
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-600 text-right">
                                                         Rs. {day.card.toLocaleString()}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-right">
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-600 text-right">
                                                         Rs. {day.online.toLocaleString()}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-right">
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-600 text-right">
                                                         Rs. {day.qr.toLocaleString()}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 text-right">
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-neutral-900 text-right">
                                                         Rs. {day.total_sales.toLocaleString()}
                                                     </td>
                                                 </tr>
                                             ))}
                                         </tbody>
                                         <tfoot>
-                                            <tr className="bg-gray-50 font-semibold">
-                                                <td className="px-6 py-4 text-sm text-gray-900">Total</td>
-                                                <td className="px-6 py-4 text-sm text-gray-900 text-center">
+                                            <tr className="bg-neutral-50 font-semibold">
+                                                <td className="px-6 py-4 text-sm text-neutral-900">Total</td>
+                                                <td className="px-6 py-4 text-sm text-neutral-900 text-center">
                                                     {reportData.summary.total_transactions}
                                                 </td>
-                                                <td className="px-6 py-4 text-sm text-gray-900 text-right">
+                                                <td className="px-6 py-4 text-sm text-neutral-900 text-right">
                                                     Rs. {reportData.payment_totals.cash.toLocaleString()}
                                                 </td>
-                                                <td className="px-6 py-4 text-sm text-gray-900 text-right">
+                                                <td className="px-6 py-4 text-sm text-neutral-900 text-right">
                                                     Rs. {reportData.payment_totals.card.toLocaleString()}
                                                 </td>
-                                                <td className="px-6 py-4 text-sm text-gray-900 text-right">
+                                                <td className="px-6 py-4 text-sm text-neutral-900 text-right">
                                                     Rs. {reportData.payment_totals.online.toLocaleString()}
                                                 </td>
-                                                <td className="px-6 py-4 text-sm text-gray-900 text-right">
+                                                <td className="px-6 py-4 text-sm text-neutral-900 text-right">
                                                     Rs. {reportData.payment_totals.qr.toLocaleString()}
                                                 </td>
-                                                <td className="px-6 py-4 text-sm text-gray-900 text-right">
+                                                <td className="px-6 py-4 text-sm text-neutral-900 text-right">
                                                     Rs. {reportData.summary.total_sales.toLocaleString()}
                                                 </td>
                                             </tr>
@@ -945,26 +945,26 @@ const CashierTransactionList = () => {
             {activeTab === "eod" && (
                 <>
                     {/* Date Filter */}
-                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
+                    <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
                         <div className="flex flex-wrap items-center gap-4">
                             <div className="flex items-center gap-2">
-                                <Filter className="h-5 w-5 text-gray-400" />
-                                <span className="text-sm font-medium text-gray-700">Date Range:</span>
+                                <Filter className="h-5 w-5 text-neutral-400" />
+                                <span className="text-sm font-medium text-neutral-700">Date Range:</span>
                             </div>
                             <div className="flex items-center gap-2">
-                                <Calendar className="h-4 w-4 text-gray-400" />
+                                <Calendar className="h-4 w-4 text-neutral-400" />
                                 <input
                                     type="date"
                                     value={dateFrom}
                                     onChange={(e) => setDateFrom(e.target.value)}
-                                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
+                                    className="px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
                                 />
-                                <span className="text-gray-500">to</span>
+                                <span className="text-neutral-500">to</span>
                                 <input
                                     type="date"
                                     value={dateTo}
                                     onChange={(e) => setDateTo(e.target.value)}
-                                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
+                                    className="px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm"
                                 />
                             </div>
                             <button
@@ -984,8 +984,8 @@ const CashierTransactionList = () => {
                     ) : reportData && (
                         <>
                             {/* EOD Summary Chart */}
-                            <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-                                <h2 className="text-lg font-semibold text-gray-800 mb-4">EOD Sales History</h2>
+                            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+                                <h2 className="text-lg font-semibold text-neutral-800 mb-4">EOD Sales History</h2>
                                 <div className="h-80">
                                     <SafeResponsiveContainer width="100%" height="100%">
                                         <SafeLineChart data={reportData.eod_history.slice().reverse()}>
@@ -1017,8 +1017,8 @@ const CashierTransactionList = () => {
 
                             {/* Variance Chart */}
                             {reportData.eod_history.length > 0 && (
-                                <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-                                    <h2 className="text-lg font-semibold text-gray-800 mb-4">Cash Variance History</h2>
+                                <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+                                    <h2 className="text-lg font-semibold text-neutral-800 mb-4">Cash Variance History</h2>
                                     <div className="h-64">
                                         <SafeResponsiveContainer width="100%" height="100%">
                                             <SafeBarChart data={reportData.eod_history.slice().reverse()}>
@@ -1051,9 +1051,9 @@ const CashierTransactionList = () => {
                             )}
 
                             {/* EOD History Table */}
-                            <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
-                                <div className="p-6 border-b border-gray-200">
-                                    <h2 className="text-lg font-semibold text-gray-800">EOD History Details</h2>
+                            <div className="bg-white rounded-xl shadow-md border border-neutral-200 overflow-hidden">
+                                <div className="p-6 border-b border-neutral-200">
+                                    <h2 className="text-lg font-semibold text-neutral-800">EOD History Details</h2>
                                 </div>
                                 <div className="overflow-x-auto">
                                     <table className="w-full">
@@ -1072,7 +1072,7 @@ const CashierTransactionList = () => {
                                         <tbody className="divide-y divide-gray-200">
                                             {reportData.eod_history.length === 0 ? (
                                                 <tr>
-                                                    <td colSpan={8} className="px-6 py-12 text-center text-gray-500">
+                                                    <td colSpan={8} className="px-6 py-12 text-center text-neutral-500">
                                                         <History className="w-12 h-12 mx-auto mb-4 text-gray-300" />
                                                         <p className="text-lg font-medium">No EOD history found</p>
                                                         <p className="text-sm">EOD records will appear here after submission</p>
@@ -1080,8 +1080,8 @@ const CashierTransactionList = () => {
                                                 </tr>
                                             ) : (
                                                 reportData.eod_history.map((eod) => (
-                                                    <tr key={eod.id} className="hover:bg-gray-50">
-                                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                                    <tr key={eod.id} className="hover:bg-neutral-50">
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-neutral-900">
                                                             {eod.display_date}
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-center">
@@ -1090,26 +1090,26 @@ const CashierTransactionList = () => {
                                                                 {eod.status}
                                                             </span>
                                                         </td>
-                                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 text-right">
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-neutral-900 text-right">
                                                             Rs. {eod.total_sales.toLocaleString()}
                                                         </td>
-                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-center">
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-600 text-center">
                                                             {eod.total_transactions}
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-right">
                                                             <span className="text-green-600">+{eod.cash_in_total.toLocaleString()}</span>
-                                                            <span className="text-gray-400 mx-1">/</span>
-                                                            <span className="text-red-600">-{eod.cash_out_total.toLocaleString()}</span>
+                                                            <span className="text-neutral-400 mx-1">/</span>
+                                                            <span className="text-error-600">-{eod.cash_out_total.toLocaleString()}</span>
                                                         </td>
-                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-right">
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-600 text-right">
                                                             Rs. {eod.expected_balance.toLocaleString()}
                                                         </td>
-                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-right">
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-600 text-right">
                                                             Rs. {eod.actual_balance.toLocaleString()}
                                                         </td>
                                                         <td className={`px-6 py-4 whitespace-nowrap text-sm font-medium text-right ${
                                                             eod.variance === 0 ? 'text-green-600' :
-                                                            Math.abs(eod.variance) < 100 ? 'text-yellow-600' : 'text-red-600'
+                                                            Math.abs(eod.variance) < 100 ? 'text-yellow-600' : 'text-error-600'
                                                         }`}>
                                                             Rs. {eod.variance.toLocaleString()}
                                                         </td>
@@ -1130,13 +1130,13 @@ const CashierTransactionList = () => {
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl shadow-2xl p-6 max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto">
                         <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                            <h3 className="text-xl font-bold text-neutral-900 flex items-center gap-2">
                                 <Receipt className="h-5 w-5 text-emerald-600" />
                                 Transaction Details
                             </h3>
                             <button
                                 onClick={() => setShowReceiptModal(false)}
-                                className="text-gray-400 hover:text-gray-600"
+                                className="text-neutral-400 hover:text-neutral-600"
                             >
                                 ✕
                             </button>
@@ -1147,12 +1147,12 @@ const CashierTransactionList = () => {
                             <div className="bg-gradient-to-r from-emerald-50 to-blue-50 p-4 rounded-lg">
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <p className="text-xs text-gray-500">Invoice #</p>
-                                        <p className="font-semibold text-gray-900">{selectedTransaction.invoice_number}</p>
+                                        <p className="text-xs text-neutral-500">Invoice #</p>
+                                        <p className="font-semibold text-neutral-900">{selectedTransaction.invoice_number}</p>
                                     </div>
                                     <div>
-                                        <p className="text-xs text-gray-500">Receipt #</p>
-                                        <p className="font-semibold text-gray-900">{selectedTransaction.receipt_number}</p>
+                                        <p className="text-xs text-neutral-500">Receipt #</p>
+                                        <p className="font-semibold text-neutral-900">{selectedTransaction.receipt_number}</p>
                                     </div>
                                 </div>
                             </div>
@@ -1160,22 +1160,22 @@ const CashierTransactionList = () => {
                             {/* Customer Info */}
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <p className="text-xs text-gray-500">Patient</p>
-                                    <p className="font-medium text-gray-900">{selectedTransaction.patient_name}</p>
+                                    <p className="text-xs text-neutral-500">Patient</p>
+                                    <p className="font-medium text-neutral-900">{selectedTransaction.patient_name}</p>
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500">Phone</p>
-                                    <p className="font-medium text-gray-900">{selectedTransaction.patient_phone || 'N/A'}</p>
+                                    <p className="text-xs text-neutral-500">Phone</p>
+                                    <p className="font-medium text-neutral-900">{selectedTransaction.patient_phone || 'N/A'}</p>
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500">Type</p>
+                                    <p className="text-xs text-neutral-500">Type</p>
                                     <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded">
                                         {selectedTransaction.transaction_type}
                                     </span>
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500">Date & Time</p>
-                                    <p className="font-medium text-gray-900">
+                                    <p className="text-xs text-neutral-500">Date & Time</p>
+                                    <p className="font-medium text-neutral-900">
                                         {new Date(selectedTransaction.created_at).toLocaleString()}
                                     </p>
                                 </div>
@@ -1183,21 +1183,21 @@ const CashierTransactionList = () => {
 
                             {/* Items */}
                             <div>
-                                <p className="text-sm font-semibold text-gray-700 mb-2">Items</p>
-                                <div className="border border-gray-200 rounded-lg overflow-hidden">
+                                <p className="text-sm font-semibold text-neutral-700 mb-2">Items</p>
+                                <div className="border border-neutral-200 rounded-lg overflow-hidden">
                                     <table className="w-full text-sm">
-                                        <thead className="bg-gray-50">
+                                        <thead className="bg-neutral-50">
                                             <tr>
-                                                <th className="px-3 py-2 text-left text-xs font-medium text-gray-600">Item</th>
-                                                <th className="px-3 py-2 text-center text-xs font-medium text-gray-600">Qty</th>
-                                                <th className="px-3 py-2 text-right text-xs font-medium text-gray-600">Amount</th>
+                                                <th className="px-3 py-2 text-left text-xs font-medium text-neutral-600">Item</th>
+                                                <th className="px-3 py-2 text-center text-xs font-medium text-neutral-600">Qty</th>
+                                                <th className="px-3 py-2 text-right text-xs font-medium text-neutral-600">Amount</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-100">
                                             {parseServiceDetails(selectedTransaction.service_details).map((item, idx) => (
                                                 <tr key={idx}>
-                                                    <td className="px-3 py-2 text-gray-900">{item.service}</td>
-                                                    <td className="px-3 py-2 text-center text-gray-600">{item.quantity || 1}</td>
+                                                    <td className="px-3 py-2 text-neutral-900">{item.service}</td>
+                                                    <td className="px-3 py-2 text-center text-neutral-600">{item.quantity || 1}</td>
                                                     <td className="px-3 py-2 text-right font-medium">Rs. {item.amount.toLocaleString()}</td>
                                                 </tr>
                                             ))}
@@ -1207,27 +1207,27 @@ const CashierTransactionList = () => {
                             </div>
 
                             {/* Payment Summary */}
-                            <div className="bg-gray-50 p-4 rounded-lg space-y-2">
+                            <div className="bg-neutral-50 p-4 rounded-lg space-y-2">
                                 <div className="flex justify-between text-sm">
-                                    <span className="text-gray-600">Total Amount</span>
+                                    <span className="text-neutral-600">Total Amount</span>
                                     <span className="font-bold text-lg">Rs. {selectedTransaction.total_amount.toLocaleString()}</span>
                                 </div>
                                 <div className="flex justify-between text-sm">
-                                    <span className="text-gray-600">Paid Amount</span>
+                                    <span className="text-neutral-600">Paid Amount</span>
                                     <span className="font-medium text-emerald-600">Rs. {selectedTransaction.paid_amount.toLocaleString()}</span>
                                 </div>
                                 {selectedTransaction.balance_amount > 0 && (
                                     <div className="flex justify-between text-sm">
-                                        <span className="text-gray-600">Balance Due</span>
+                                        <span className="text-neutral-600">Balance Due</span>
                                         <span className="font-medium text-amber-600">Rs. {selectedTransaction.balance_amount.toLocaleString()}</span>
                                     </div>
                                 )}
-                                <div className="flex justify-between text-sm pt-2 border-t border-gray-200">
-                                    <span className="text-gray-600">Payment Method</span>
+                                <div className="flex justify-between text-sm pt-2 border-t border-neutral-200">
+                                    <span className="text-neutral-600">Payment Method</span>
                                     <span className="font-medium">{selectedTransaction.payment_method}</span>
                                 </div>
                                 <div className="flex justify-between text-sm">
-                                    <span className="text-gray-600">Status</span>
+                                    <span className="text-neutral-600">Status</span>
                                     <span className={`px-2 py-0.5 text-xs font-medium rounded ${getStatusBadge(selectedTransaction.payment_status)}`}>
                                         {selectedTransaction.payment_status}
                                     </span>
@@ -1236,8 +1236,8 @@ const CashierTransactionList = () => {
 
                             {selectedTransaction.remarks && (
                                 <div>
-                                    <p className="text-xs text-gray-500">Remarks</p>
-                                    <p className="text-sm text-gray-700">{selectedTransaction.remarks}</p>
+                                    <p className="text-xs text-neutral-500">Remarks</p>
+                                    <p className="text-sm text-neutral-700">{selectedTransaction.remarks}</p>
                                 </div>
                             )}
                         </div>
@@ -1254,7 +1254,7 @@ const CashierTransactionList = () => {
                             </button>
                             <button
                                 onClick={() => setShowReceiptModal(false)}
-                                className="flex-1 bg-gray-100 text-gray-700 py-3 rounded-lg hover:bg-gray-200 transition"
+                                className="flex-1 bg-neutral-100 text-neutral-700 py-3 rounded-lg hover:bg-neutral-200 transition"
                             >
                                 Close
                             </button>

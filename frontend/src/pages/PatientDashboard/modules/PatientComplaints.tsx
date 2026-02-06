@@ -365,8 +365,8 @@ const PatientComplaints: React.FC = () => {
             case 'pending': return 'bg-yellow-100 text-yellow-700';
             case 'in-review': return 'bg-blue-100 text-blue-700';
             case 'resolved': return 'bg-green-100 text-green-700';
-            case 'closed': return 'bg-gray-100 text-gray-700';
-            default: return 'bg-gray-100 text-gray-700';
+            case 'closed': return 'bg-neutral-100 text-neutral-700';
+            default: return 'bg-neutral-100 text-neutral-700';
         }
     };
 
@@ -383,7 +383,7 @@ const PatientComplaints: React.FC = () => {
         switch (experience) {
             case 'positive': return <Smile className="w-6 h-6 text-green-500" />;
             case 'neutral': return <Meh className="w-6 h-6 text-yellow-500" />;
-            case 'negative': return <Frown className="w-6 h-6 text-red-500" />;
+            case 'negative': return <Frown className="w-6 h-6 text-error-500" />;
             default: return null;
         }
     };
@@ -407,8 +407,8 @@ const PatientComplaints: React.FC = () => {
         <div className="space-y-6">
             {/* Header */}
             <div>
-                <h1 className="text-2xl font-bold text-gray-800">Complaints & Feedback</h1>
-                <p className="text-gray-500">Share your concerns or rate your experience</p>
+                <h1 className="text-2xl font-bold text-neutral-800">Complaints & Feedback</h1>
+                <p className="text-neutral-500">Share your concerns or rate your experience</p>
             </div>
 
             {/* New Responses Notification Banner */}
@@ -444,10 +444,10 @@ const PatientComplaints: React.FC = () => {
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-gray-500">Total Complaints</p>
-                            <p className="text-3xl font-bold text-gray-800">{complaints.length}</p>
+                            <p className="text-sm text-neutral-500">Total Complaints</p>
+                            <p className="text-3xl font-bold text-neutral-800">{complaints.length}</p>
                         </div>
-                        <div className="p-3 bg-gray-50 rounded-xl text-gray-600">
+                        <div className="p-3 bg-neutral-50 rounded-xl text-neutral-600">
                             <MessageSquare className="w-8 h-8" />
                         </div>
                     </div>
@@ -455,7 +455,7 @@ const PatientComplaints: React.FC = () => {
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-gray-500">Pending</p>
+                            <p className="text-sm text-neutral-500">Pending</p>
                             <p className="text-3xl font-bold text-yellow-600">{pendingCount}</p>
                         </div>
                         <div className="p-3 bg-yellow-50 rounded-xl text-yellow-600">
@@ -466,7 +466,7 @@ const PatientComplaints: React.FC = () => {
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-gray-500">Resolved</p>
+                            <p className="text-sm text-neutral-500">Resolved</p>
                             <p className="text-3xl font-bold text-green-600">{resolvedCount}</p>
                         </div>
                         <div className="p-3 bg-green-50 rounded-xl text-green-600">
@@ -478,13 +478,13 @@ const PatientComplaints: React.FC = () => {
                 <div className={`rounded-xl shadow-sm border p-5 ${newResponsesCount > 0 ? 'bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-200' : 'bg-white border-gray-100'}`}>
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-gray-500">New Responses</p>
-                            <p className={`text-3xl font-bold ${newResponsesCount > 0 ? 'text-emerald-600' : 'text-gray-400'}`}>{newResponsesCount}</p>
+                            <p className="text-sm text-neutral-500">New Responses</p>
+                            <p className={`text-3xl font-bold ${newResponsesCount > 0 ? 'text-emerald-600' : 'text-neutral-400'}`}>{newResponsesCount}</p>
                         </div>
-                        <div className={`p-3 rounded-xl relative ${newResponsesCount > 0 ? 'bg-emerald-100 text-emerald-600' : 'bg-gray-50 text-gray-400'}`}>
+                        <div className={`p-3 rounded-xl relative ${newResponsesCount > 0 ? 'bg-emerald-100 text-emerald-600' : 'bg-neutral-50 text-neutral-400'}`}>
                             <Bell className="w-8 h-8" />
                             {newResponsesCount > 0 && (
-                                <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-ping"></span>
+                                <span className="absolute -top-1 -right-1 w-4 h-4 bg-error-500 rounded-full animate-ping"></span>
                             )}
                         </div>
                     </div>
@@ -492,10 +492,10 @@ const PatientComplaints: React.FC = () => {
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-gray-500">Feedback Given</p>
-                            <p className="text-3xl font-bold text-blue-600">{feedbacks.length}</p>
+                            <p className="text-sm text-neutral-500">Feedback Given</p>
+                            <p className="text-3xl font-bold text-primary-500">{feedbacks.length}</p>
                         </div>
-                        <div className="p-3 bg-blue-50 rounded-xl text-blue-600">
+                        <div className="p-3 bg-blue-50 rounded-xl text-primary-500">
                             <Star className="w-8 h-8" />
                         </div>
                     </div>
@@ -510,7 +510,7 @@ const PatientComplaints: React.FC = () => {
                         className={`flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2 ${
                             activeTab === 'complaints'
                                 ? 'bg-emerald-600 text-white'
-                                : 'text-gray-600 hover:bg-gray-100'
+                                : 'text-neutral-600 hover:bg-neutral-100'
                         }`}
                     >
                         <MessageSquare className="w-5 h-5" />
@@ -521,7 +521,7 @@ const PatientComplaints: React.FC = () => {
                         className={`flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2 ${
                             activeTab === 'feedback'
                                 ? 'bg-emerald-600 text-white'
-                                : 'text-gray-600 hover:bg-gray-100'
+                                : 'text-neutral-600 hover:bg-neutral-100'
                         }`}
                     >
                         <Star className="w-5 h-5" />
@@ -536,11 +536,11 @@ const PatientComplaints: React.FC = () => {
                     {/* Actions Bar */}
                     <div className="flex flex-col sm:flex-row gap-4 justify-between">
                         <div className="flex items-center gap-2">
-                            <Filter className="w-5 h-5 text-gray-400" />
+                            <Filter className="w-5 h-5 text-neutral-400" />
                             <select
                                 value={filterStatus}
                                 onChange={(e) => setFilterStatus(e.target.value)}
-                                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                className="px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                             >
                                 <option value="all">All Status</option>
                                 <option value="pending">Pending</option>
@@ -562,8 +562,8 @@ const PatientComplaints: React.FC = () => {
                     {filteredComplaints.length === 0 ? (
                         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
                             <MessageSquare className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                            <h3 className="text-lg font-medium text-gray-800 mb-2">No complaints found</h3>
-                            <p className="text-gray-500 mb-4">Submit a complaint or concern and we'll address it promptly</p>
+                            <h3 className="text-lg font-medium text-neutral-800 mb-2">No complaints found</h3>
+                            <p className="text-neutral-500 mb-4">Submit a complaint or concern and we'll address it promptly</p>
                             <button
                                 onClick={() => setShowNewComplaint(true)}
                                 className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
@@ -577,7 +577,7 @@ const PatientComplaints: React.FC = () => {
                             {filteredComplaints.map((complaint) => (
                                 <div key={complaint.id} className={`bg-white rounded-xl shadow-sm border overflow-hidden transition-all ${hasNewResponse(complaint) ? 'border-emerald-300 ring-2 ring-emerald-100' : 'border-gray-100'}`}>
                                     <div 
-                                        className="p-5 cursor-pointer hover:bg-gray-50 transition-colors"
+                                        className="p-5 cursor-pointer hover:bg-neutral-50 transition-colors"
                                         onClick={() => {
                                             const isExpanding = expandedId !== complaint.id;
                                             setExpandedId(isExpanding ? complaint.id : null);
@@ -595,7 +595,7 @@ const PatientComplaints: React.FC = () => {
                                                     </span>
                                                     <div>
                                                         <div className="flex items-center gap-2">
-                                                            <h3 className="font-semibold text-gray-800">{complaint.subject}</h3>
+                                                            <h3 className="font-semibold text-neutral-800">{complaint.subject}</h3>
                                                             {hasNewResponse(complaint) && (
                                                                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-500 text-white animate-pulse">
                                                                     <Bell className="w-3 h-3" />
@@ -603,7 +603,7 @@ const PatientComplaints: React.FC = () => {
                                                                 </span>
                                                             )}
                                                         </div>
-                                                        <div className="flex flex-wrap items-center gap-3 mt-1 text-sm text-gray-500">
+                                                        <div className="flex flex-wrap items-center gap-3 mt-1 text-sm text-neutral-500">
                                                             <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${getStatusColor(complaint.status)}`}>
                                                                 {getStatusIcon(complaint.status)}
                                                                 {complaint.status.charAt(0).toUpperCase() + complaint.status.slice(1).replace('-', ' ')}
@@ -627,9 +627,9 @@ const PatientComplaints: React.FC = () => {
                                                 </div>
                                             </div>
                                             {expandedId === complaint.id ? (
-                                                <ChevronUp className="w-5 h-5 text-gray-400" />
+                                                <ChevronUp className="w-5 h-5 text-neutral-400" />
                                             ) : (
-                                                <ChevronDown className="w-5 h-5 text-gray-400" />
+                                                <ChevronDown className="w-5 h-5 text-neutral-400" />
                                             )}
                                         </div>
                                     </div>
@@ -637,8 +637,8 @@ const PatientComplaints: React.FC = () => {
                                     {/* Expanded Details */}
                                     {expandedId === complaint.id && (
                                         <div className="px-5 pb-5 border-t border-gray-100">
-                                            <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-                                                <p className="text-sm text-gray-700">{complaint.description}</p>
+                                            <div className="mt-4 p-4 bg-neutral-50 rounded-lg">
+                                                <p className="text-sm text-neutral-700">{complaint.description}</p>
                                             </div>
 
                                             {complaint.response && (
@@ -686,8 +686,8 @@ const PatientComplaints: React.FC = () => {
                     {feedbacks.length === 0 ? (
                         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
                             <Star className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                            <h3 className="text-lg font-medium text-gray-800 mb-2">No feedback given yet</h3>
-                            <p className="text-gray-500 mb-4">Share your experience to help us improve our services</p>
+                            <h3 className="text-lg font-medium text-neutral-800 mb-2">No feedback given yet</h3>
+                            <p className="text-neutral-500 mb-4">Share your experience to help us improve our services</p>
                             <button
                                 onClick={() => setShowNewFeedback(true)}
                                 className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
@@ -708,10 +708,10 @@ const PatientComplaints: React.FC = () => {
                                             <div className="flex items-start justify-between">
                                                 <div>
                                                     {feedback.doctor_name && (
-                                                        <h3 className="font-semibold text-gray-800">{feedback.doctor_name}</h3>
+                                                        <h3 className="font-semibold text-neutral-800">{feedback.doctor_name}</h3>
                                                     )}
                                                     {feedback.branch_name && (
-                                                        <p className="text-sm text-gray-500 flex items-center gap-1">
+                                                        <p className="text-sm text-neutral-500 flex items-center gap-1">
                                                             <Building2 className="w-4 h-4" />
                                                             {feedback.branch_name}
                                                         </p>
@@ -731,9 +731,9 @@ const PatientComplaints: React.FC = () => {
                                                 </div>
                                             </div>
                                             {feedback.comment && (
-                                                <p className="mt-3 text-sm text-gray-600">{feedback.comment}</p>
+                                                <p className="mt-3 text-sm text-neutral-600">{feedback.comment}</p>
                                             )}
-                                            <p className="mt-3 text-xs text-gray-400">
+                                            <p className="mt-3 text-xs text-neutral-400">
                                                 {new Date(feedback.created_at).toLocaleDateString('en-US', { 
                                                     month: 'long', 
                                                     day: 'numeric', 
@@ -755,12 +755,12 @@ const PatientComplaints: React.FC = () => {
                     <div className="bg-white rounded-2xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
                         <div className="p-6 border-b border-gray-100">
                             <div className="flex items-center justify-between">
-                                <h2 className="text-xl font-bold text-gray-800">Submit a Complaint</h2>
+                                <h2 className="text-xl font-bold text-neutral-800">Submit a Complaint</h2>
                                 <button
                                     onClick={() => setShowNewComplaint(false)}
-                                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                    className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                                 >
-                                    <X className="w-5 h-5 text-gray-500" />
+                                    <X className="w-5 h-5 text-neutral-500" />
                                 </button>
                             </div>
                         </div>
@@ -768,7 +768,7 @@ const PatientComplaints: React.FC = () => {
                         <div className="p-6 space-y-5">
                             {/* Type Selection */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Category *
                                 </label>
                                 <div className="grid grid-cols-2 gap-3">
@@ -779,12 +779,12 @@ const PatientComplaints: React.FC = () => {
                                             className={`p-3 rounded-xl border-2 transition-colors flex items-center gap-2 ${
                                                 newComplaint.type === type.value
                                                     ? 'border-emerald-500 bg-emerald-50'
-                                                    : 'border-gray-200 hover:border-gray-300'
+                                                    : 'border-neutral-200 hover:border-neutral-300'
                                             }`}
                                         >
                                             <span className="text-xl">{type.icon}</span>
                                             <span className={`text-sm font-medium ${
-                                                newComplaint.type === type.value ? 'text-emerald-700' : 'text-gray-600'
+                                                newComplaint.type === type.value ? 'text-emerald-700' : 'text-neutral-600'
                                             }`}>{type.label}</span>
                                         </button>
                                     ))}
@@ -793,7 +793,7 @@ const PatientComplaints: React.FC = () => {
 
                             {/* Subject */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Subject *
                                 </label>
                                 <input
@@ -801,13 +801,13 @@ const PatientComplaints: React.FC = () => {
                                     value={newComplaint.subject}
                                     onChange={(e) => setNewComplaint({ ...newComplaint, subject: e.target.value })}
                                     placeholder="Brief summary of your concern..."
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                 />
                             </div>
 
                             {/* Description */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Description *
                                 </label>
                                 <textarea
@@ -815,19 +815,19 @@ const PatientComplaints: React.FC = () => {
                                     onChange={(e) => setNewComplaint({ ...newComplaint, description: e.target.value })}
                                     placeholder="Please describe your concern in detail..."
                                     rows={4}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none"
                                 />
                             </div>
 
                             {/* Branch (required) */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Medical Center *
                                 </label>
                                 <select
                                     value={newComplaint.branch}
                                     onChange={(e) => setNewComplaint({ ...newComplaint, branch: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                     required
                                 >
                                     <option value="">Select a medical center</option>
@@ -843,14 +843,14 @@ const PatientComplaints: React.FC = () => {
                         <div className="p-6 border-t border-gray-100 flex gap-3">
                             <button
                                 onClick={() => setShowNewComplaint(false)}
-                                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                                className="flex-1 px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleSubmitComplaint}
                                 disabled={!newComplaint.subject || !newComplaint.description || !newComplaint.branch}
-                                className="flex-1 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                className="flex-1 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors disabled:bg-neutral-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                             >
                                 <Send className="w-5 h-5" />
                                 Submit
@@ -866,12 +866,12 @@ const PatientComplaints: React.FC = () => {
                     <div className="bg-white rounded-2xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
                         <div className="p-6 border-b border-gray-100">
                             <div className="flex items-center justify-between">
-                                <h2 className="text-xl font-bold text-gray-800">Give Feedback</h2>
+                                <h2 className="text-xl font-bold text-neutral-800">Give Feedback</h2>
                                 <button
                                     onClick={() => setShowNewFeedback(false)}
-                                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                    className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                                 >
-                                    <X className="w-5 h-5 text-gray-500" />
+                                    <X className="w-5 h-5 text-neutral-500" />
                                 </button>
                             </div>
                         </div>
@@ -879,7 +879,7 @@ const PatientComplaints: React.FC = () => {
                         <div className="p-6 space-y-5">
                             {/* Rating */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-3">
+                                <label className="block text-sm font-medium text-neutral-700 mb-3">
                                     Rate your experience *
                                 </label>
                                 <div className="flex justify-center gap-2">
@@ -887,7 +887,7 @@ const PatientComplaints: React.FC = () => {
                                         <button
                                             key={star}
                                             onClick={() => setNewFeedback({ ...newFeedback, rating: star })}
-                                            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                                            className="p-2 hover:bg-neutral-100 rounded-full transition-colors"
                                         >
                                             <Star
                                                 className={`w-10 h-10 ${
@@ -903,7 +903,7 @@ const PatientComplaints: React.FC = () => {
 
                             {/* Experience */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-3">
+                                <label className="block text-sm font-medium text-neutral-700 mb-3">
                                     How was your experience? *
                                 </label>
                                 <div className="grid grid-cols-3 gap-3">
@@ -918,15 +918,15 @@ const PatientComplaints: React.FC = () => {
                                             className={`p-4 rounded-xl border-2 transition-colors flex flex-col items-center gap-2 ${
                                                 newFeedback.experience === exp.key
                                                     ? `border-${exp.color}-500 bg-${exp.color}-50`
-                                                    : 'border-gray-200 hover:border-gray-300'
+                                                    : 'border-neutral-200 hover:border-neutral-300'
                                             }`}
                                         >
                                             <exp.icon className={`w-8 h-8 ${
                                                 newFeedback.experience === exp.key 
                                                     ? `text-${exp.color}-500` 
-                                                    : 'text-gray-400'
+                                                    : 'text-neutral-400'
                                             }`} />
-                                            <span className="text-sm font-medium text-gray-600">{exp.label}</span>
+                                            <span className="text-sm font-medium text-neutral-600">{exp.label}</span>
                                         </button>
                                     ))}
                                 </div>
@@ -934,13 +934,13 @@ const PatientComplaints: React.FC = () => {
 
                             {/* Doctor (optional) */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Doctor (optional)
                                 </label>
                                 <select
                                     value={newFeedback.doctor}
                                     onChange={(e) => setNewFeedback({ ...newFeedback, doctor: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
                                 >
                                     <option value="">Select a doctor (optional)</option>
                                     {doctors.map((doctor) => (
@@ -953,7 +953,7 @@ const PatientComplaints: React.FC = () => {
 
                             {/* Comment */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Comments (optional)
                                 </label>
                                 <textarea
@@ -961,7 +961,7 @@ const PatientComplaints: React.FC = () => {
                                     onChange={(e) => setNewFeedback({ ...newFeedback, comment: e.target.value })}
                                     placeholder="Tell us more about your experience..."
                                     rows={3}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none"
                                 />
                             </div>
                         </div>
@@ -969,14 +969,14 @@ const PatientComplaints: React.FC = () => {
                         <div className="p-6 border-t border-gray-100 flex gap-3">
                             <button
                                 onClick={() => setShowNewFeedback(false)}
-                                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                                className="flex-1 px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleSubmitFeedback}
                                 disabled={!newFeedback.rating || !newFeedback.experience}
-                                className="flex-1 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                className="flex-1 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors disabled:bg-neutral-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                             >
                                 <Send className="w-5 h-5" />
                                 Submit

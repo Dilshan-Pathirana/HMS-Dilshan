@@ -125,7 +125,7 @@ const GetDoctorQuestions: React.FC<IGetDoctorQuestionsProps> = ({
     const getStatusBadge = (status: string | number | null | undefined) => {
         const statusClasses = {
             active: "bg-green-100 text-green-800",
-            inactive: "bg-red-100 text-red-800",
+            inactive: "bg-error-100 text-red-800",
             pending: "bg-yellow-100 text-yellow-800",
         };
 
@@ -148,7 +148,7 @@ const GetDoctorQuestions: React.FC<IGetDoctorQuestionsProps> = ({
 
         const className =
             statusClasses[statusString as keyof typeof statusClasses] ||
-            "bg-gray-100 text-gray-800";
+            "bg-neutral-100 text-neutral-800";
 
         return (
             <span
@@ -163,7 +163,7 @@ const GetDoctorQuestions: React.FC<IGetDoctorQuestionsProps> = ({
         return (
             <div className="p-4 mt-20 ml-[20rem] mr-[30px]">
                 <div className="bg-white shadow rounded-lg p-4">
-                    <div className="text-center py-8 text-red-500">
+                    <div className="text-center py-8 text-error-500">
                         Please log in to view your questions.
                     </div>
                 </div>
@@ -174,7 +174,7 @@ const GetDoctorQuestions: React.FC<IGetDoctorQuestionsProps> = ({
     return (
         <div className="p-4">
             <div className="mb-6">
-                <h2 className="text-lg font-semibold text-gray-900 mb-4">
+                <h2 className="text-lg font-semibold text-neutral-900 mb-4">
                     My Questions
                 </h2>
                 <div className="mb-4">
@@ -184,7 +184,7 @@ const GetDoctorQuestions: React.FC<IGetDoctorQuestionsProps> = ({
                             placeholder="Search by Question or Description..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="border border-gray-300 rounded pl-3 pr-4 py-2 w-full"
+                            className="border border-neutral-300 rounded pl-3 pr-4 py-2 w-full"
                         />
                     </div>
                 </div>
@@ -196,8 +196,8 @@ const GetDoctorQuestions: React.FC<IGetDoctorQuestionsProps> = ({
                 <>
                     {filteredQuestions.length > 0 ? (
                         <>
-                            <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
-                                <thead className="bg-gray-50">
+                            <table className="min-w-full divide-y divide-gray-200 border border-neutral-200">
+                                <thead className="bg-neutral-50">
                                     <tr>
                                         {[
                                             "Question",
@@ -208,7 +208,7 @@ const GetDoctorQuestions: React.FC<IGetDoctorQuestionsProps> = ({
                                         ].map((header) => (
                                             <th
                                                 key={header}
-                                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                                className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider"
                                             >
                                                 {header}
                                             </th>
@@ -219,9 +219,9 @@ const GetDoctorQuestions: React.FC<IGetDoctorQuestionsProps> = ({
                                     {paginatedQuestions.map((question) => (
                                         <tr
                                             key={question.id}
-                                            className="hover:bg-gray-50"
+                                            className="hover:bg-neutral-50"
                                         >
-                                            <td className="px-6 py-4 text-sm text-gray-900">
+                                            <td className="px-6 py-4 text-sm text-neutral-900">
                                                 <div className="max-w-xs">
                                                     <div
                                                         className="truncate"
@@ -233,7 +233,7 @@ const GetDoctorQuestions: React.FC<IGetDoctorQuestionsProps> = ({
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900">
+                                            <td className="px-6 py-4 text-sm text-neutral-900">
                                                 <div className="max-w-xs">
                                                     <div
                                                         className="truncate"
@@ -245,18 +245,18 @@ const GetDoctorQuestions: React.FC<IGetDoctorQuestionsProps> = ({
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                                 {question.order}
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                                 {getStatusBadge(
                                                     question.status,
                                                 )}
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                                 <div className="flex items-center space-x-3">
                                                     <FiEye
-                                                        className="text-blue-500 cursor-pointer hover:text-blue-700 text-lg"
+                                                        className="text-primary-500 cursor-pointer hover:text-blue-700 text-lg"
                                                         onClick={() =>
                                                             openViewModal(
                                                                 question,
@@ -283,7 +283,7 @@ const GetDoctorQuestions: React.FC<IGetDoctorQuestionsProps> = ({
                                                         title="Manage Answers"
                                                     />
                                                     <FiTrash
-                                                        className="text-red-500 cursor-pointer hover:text-red-700 text-lg"
+                                                        className="text-error-500 cursor-pointer hover:text-red-700 text-lg"
                                                         onClick={() =>
                                                             handleDelete(
                                                                 question.id,
@@ -307,7 +307,7 @@ const GetDoctorQuestions: React.FC<IGetDoctorQuestionsProps> = ({
                             </div>
                         </>
                     ) : (
-                        <div className="text-center py-8 text-gray-500">
+                        <div className="text-center py-8 text-neutral-500">
                             {searchTerm
                                 ? "No questions found matching your search criteria."
                                 : "You have no questions yet."}

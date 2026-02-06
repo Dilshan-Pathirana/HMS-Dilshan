@@ -117,7 +117,7 @@ const GetAllQuestions = ({
     const getStatusBadge = (status: string | number | null | undefined) => {
         const statusClasses = {
             active: "bg-green-100 text-green-800",
-            inactive: "bg-red-100 text-red-800",
+            inactive: "bg-error-100 text-red-800",
             pending: "bg-yellow-100 text-yellow-800",
         };
 
@@ -140,7 +140,7 @@ const GetAllQuestions = ({
 
         const className =
             statusClasses[statusString as keyof typeof statusClasses] ||
-            "bg-gray-100 text-gray-800";
+            "bg-neutral-100 text-neutral-800";
 
         return (
             <span
@@ -166,12 +166,12 @@ const GetAllQuestions = ({
                                     onChange={(e) =>
                                         setSearchTerm(e.target.value)
                                     }
-                                    className="border border-gray-300 rounded pl-3 pr-4 py-2 w-full"
+                                    className="border border-neutral-300 rounded pl-3 pr-4 py-2 w-full"
                                 />
                             </div>
                         </div>
-                        <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
-                            <thead className="bg-gray-50">
+                        <table className="min-w-full divide-y divide-gray-200 border border-neutral-200">
+                            <thead className="bg-neutral-50">
                                 <tr>
                                     {[
                                         "Doctor Name",
@@ -183,7 +183,7 @@ const GetAllQuestions = ({
                                     ].map((header) => (
                                         <th
                                             key={header}
-                                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                            className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider"
                                         >
                                             {header}
                                         </th>
@@ -194,28 +194,28 @@ const GetAllQuestions = ({
                                 {paginatedQuestions.map((question) => (
                                     <tr
                                         key={question.id}
-                                        className="hover:bg-gray-50 cursor-pointer"
+                                        className="hover:bg-neutral-50 cursor-pointer"
                                     >
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                             Dr. {question.doctor_first_name}{" "}
                                             {question.doctor_last_name}
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-900 max-w-xs truncate">
+                                        <td className="px-6 py-4 text-sm text-neutral-900 max-w-xs truncate">
                                             {question.question}
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-900 max-w-xs truncate">
+                                        <td className="px-6 py-4 text-sm text-neutral-900 max-w-xs truncate">
                                             {question.description}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                             {question.order}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                             {getStatusBadge(question.status)}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                             <div className="flex items-center space-x-3">
                                                 <FiEye
-                                                    className="text-blue-500 cursor-pointer hover:text-blue-700 text-lg"
+                                                    className="text-primary-500 cursor-pointer hover:text-blue-700 text-lg"
                                                     onClick={() =>
                                                         openViewModal(question)
                                                     }
@@ -238,7 +238,7 @@ const GetAllQuestions = ({
                                                     title="Manage Answers"
                                                 />
                                                 <FiTrash
-                                                    className="text-red-500 cursor-pointer hover:text-red-700 text-lg"
+                                                    className="text-error-500 cursor-pointer hover:text-red-700 text-lg"
                                                     onClick={() =>
                                                         handleDelete(
                                                             question.id,
@@ -254,7 +254,7 @@ const GetAllQuestions = ({
                         </table>
 
                         {filteredQuestions.length === 0 && (
-                            <div className="text-center py-8 text-gray-500">
+                            <div className="text-center py-8 text-neutral-500">
                                 No questions found matching your search
                                 criteria.
                             </div>

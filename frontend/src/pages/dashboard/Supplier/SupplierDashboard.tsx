@@ -64,14 +64,14 @@ export const SupplierDashboard: React.FC = () => {
         icon: React.ReactNode; 
         color: string;
     }) => (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between mb-4">
                 <div className={`p-3 rounded-lg bg-gradient-to-br ${color}`}>
                     {icon}
                 </div>
             </div>
-            <h3 className="text-gray-600 text-sm font-medium mb-1">{title}</h3>
-            <p className="text-3xl font-bold text-gray-800">{typeof value === 'number' ? value : value}</p>
+            <h3 className="text-neutral-600 text-sm font-medium mb-1">{title}</h3>
+            <p className="text-3xl font-bold text-neutral-800">{typeof value === 'number' ? value : value}</p>
         </div>
     );
 
@@ -84,17 +84,17 @@ export const SupplierDashboard: React.FC = () => {
         >
             <div className="space-y-6">
                 {/* Page Header */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                     <div className="flex items-center justify-between">
                         <div>
                             <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">
                                 Welcome, {userName}!
                             </h1>
-                            <p className="text-gray-600 mt-1">Manage your orders, products, and deliveries.</p>
+                            <p className="text-neutral-600 mt-1">Manage your orders, products, and deliveries.</p>
                         </div>
                         <div className="flex items-center gap-2">
                             <span className="text-2xl font-bold text-emerald-600">{stats.pendingOrders}</span>
-                            <span className="text-sm text-gray-500">Pending Orders</span>
+                            <span className="text-sm text-neutral-500">Pending Orders</span>
                         </div>
                     </div>
                 </div>
@@ -136,53 +136,53 @@ export const SupplierDashboard: React.FC = () => {
                 {/* Pending Orders & Quick Actions */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Pending Orders */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                        <h2 className="text-lg font-semibold text-neutral-800 mb-4 flex items-center gap-2">
                             <ShoppingCart className="w-5 h-5 text-orange-600" />
                             Recent Orders
                         </h2>
                         <div className="space-y-3">
                             <div className="flex items-center justify-between p-4 bg-orange-50 rounded-lg border border-orange-200">
                                 <div>
-                                    <p className="font-semibold text-gray-800">Order #ORD-2025-001</p>
-                                    <p className="text-sm text-gray-600">City Hospital - 250 items</p>
-                                    <p className="text-xs text-gray-500 mt-1">Placed 2 hours ago</p>
+                                    <p className="font-semibold text-neutral-800">Order #ORD-2025-001</p>
+                                    <p className="text-sm text-neutral-600">City Hospital - 250 items</p>
+                                    <p className="text-xs text-neutral-500 mt-1">Placed 2 hours ago</p>
                                 </div>
                                 <div className="text-right">
                                     <span className="inline-block px-3 py-1 bg-orange-600 text-white text-xs font-semibold rounded-full mb-2">
                                         Pending
                                     </span>
-                                    <p className="text-lg font-bold text-gray-800">$2,450</p>
+                                    <p className="text-lg font-bold text-neutral-800">$2,450</p>
                                 </div>
                             </div>
                             <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-200">
                                 <div>
-                                    <p className="font-semibold text-gray-800">Order #ORD-2025-002</p>
-                                    <p className="text-sm text-gray-600">General Hospital - 180 items</p>
-                                    <p className="text-xs text-gray-500 mt-1">Placed 5 hours ago</p>
+                                    <p className="font-semibold text-neutral-800">Order #ORD-2025-002</p>
+                                    <p className="text-sm text-neutral-600">General Hospital - 180 items</p>
+                                    <p className="text-xs text-neutral-500 mt-1">Placed 5 hours ago</p>
                                 </div>
                                 <div className="text-right">
-                                    <span className="inline-block px-3 py-1 bg-blue-600 text-white text-xs font-semibold rounded-full mb-2">
+                                    <span className="inline-block px-3 py-1 bg-primary-500 text-white text-xs font-semibold rounded-full mb-2">
                                         Processing
                                     </span>
-                                    <p className="text-lg font-bold text-gray-800">$1,890</p>
+                                    <p className="text-lg font-bold text-neutral-800">$1,890</p>
                                 </div>
                             </div>
                             <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-200">
                                 <div>
-                                    <p className="font-semibold text-gray-800">Order #ORD-2024-999</p>
-                                    <p className="text-sm text-gray-600">Medical Center - 120 items</p>
-                                    <p className="text-xs text-gray-500 mt-1">Completed yesterday</p>
+                                    <p className="font-semibold text-neutral-800">Order #ORD-2024-999</p>
+                                    <p className="text-sm text-neutral-600">Medical Center - 120 items</p>
+                                    <p className="text-xs text-neutral-500 mt-1">Completed yesterday</p>
                                 </div>
                                 <div className="text-right">
                                     <span className="inline-block px-3 py-1 bg-green-600 text-white text-xs font-semibold rounded-full mb-2">
                                         Delivered
                                     </span>
-                                    <p className="text-lg font-bold text-gray-800">$1,320</p>
+                                    <p className="text-lg font-bold text-neutral-800">$1,320</p>
                                 </div>
                             </div>
                         </div>
-                        <button className="w-full mt-4 px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all font-medium">
+                        <button className="w-full mt-4 px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all font-medium">
                             View All Orders
                         </button>
                     </div>
@@ -190,49 +190,49 @@ export const SupplierDashboard: React.FC = () => {
                     {/* Quick Actions & Notifications */}
                     <div className="space-y-6">
                         {/* Quick Actions */}
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                            <h2 className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h2>
+                        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                            <h2 className="text-lg font-semibold text-neutral-800 mb-4">Quick Actions</h2>
                             <div className="space-y-3">
                                 <button className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-lg hover:from-emerald-100 hover:to-blue-100 transition-all text-left">
                                     <Package className="w-5 h-5 text-emerald-600" />
                                     <div>
-                                        <p className="font-medium text-gray-800">Add New Product</p>
-                                        <p className="text-xs text-gray-500">Add item to catalog</p>
+                                        <p className="font-medium text-neutral-800">Add New Product</p>
+                                        <p className="text-xs text-neutral-500">Add item to catalog</p>
                                     </div>
                                 </button>
                                 <button className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-lg hover:from-emerald-100 hover:to-blue-100 transition-all text-left">
-                                    <ShoppingCart className="w-5 h-5 text-blue-600" />
+                                    <ShoppingCart className="w-5 h-5 text-primary-500" />
                                     <div>
-                                        <p className="font-medium text-gray-800">View Orders</p>
-                                        <p className="text-xs text-gray-500">Manage all orders</p>
+                                        <p className="font-medium text-neutral-800">View Orders</p>
+                                        <p className="text-xs text-neutral-500">Manage all orders</p>
                                     </div>
                                 </button>
                                 <button className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-lg hover:from-emerald-100 hover:to-blue-100 transition-all text-left">
                                     <TrendingUp className="w-5 h-5 text-purple-600" />
                                     <div>
-                                        <p className="font-medium text-gray-800">View Reports</p>
-                                        <p className="text-xs text-gray-500">Sales & performance</p>
+                                        <p className="font-medium text-neutral-800">View Reports</p>
+                                        <p className="text-xs text-neutral-500">Sales & performance</p>
                                     </div>
                                 </button>
                             </div>
                         </div>
 
                         {/* Notifications */}
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                            <h2 className="text-lg font-semibold text-gray-800 mb-4">Notifications</h2>
+                        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                            <h2 className="text-lg font-semibold text-neutral-800 mb-4">Notifications</h2>
                             <div className="space-y-3">
                                 <div className="flex items-start gap-3 p-3 bg-emerald-50 rounded-lg border border-emerald-200">
                                     <CheckCircle className="w-5 h-5 text-emerald-600 mt-0.5" />
                                     <div>
-                                        <p className="text-sm font-medium text-gray-800">Order #ORD-2024-999 delivered</p>
-                                        <p className="text-xs text-gray-500">2 hours ago</p>
+                                        <p className="text-sm font-medium text-neutral-800">Order #ORD-2024-999 delivered</p>
+                                        <p className="text-xs text-neutral-500">2 hours ago</p>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-3 p-3 bg-orange-50 rounded-lg border border-orange-200">
                                     <AlertCircle className="w-5 h-5 text-orange-600 mt-0.5" />
                                     <div>
-                                        <p className="text-sm font-medium text-gray-800">New order received</p>
-                                        <p className="text-xs text-gray-500">5 hours ago</p>
+                                        <p className="text-sm font-medium text-neutral-800">New order received</p>
+                                        <p className="text-xs text-neutral-500">5 hours ago</p>
                                     </div>
                                 </div>
                             </div>

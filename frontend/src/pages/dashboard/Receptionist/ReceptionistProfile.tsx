@@ -116,15 +116,15 @@ const ReceptionistProfile: React.FC = () => {
     return (
         <div className="space-y-6">
             {/* Header */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                 <div className="flex items-center gap-4">
-                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-400 to-blue-500 flex items-center justify-center text-white text-3xl font-bold">
+                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-400 to-primary-500 flex items-center justify-center text-white text-3xl font-bold">
                         {profile?.name?.charAt(0).toUpperCase() || 'R'}
                     </div>
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-800">{profile?.name || 'Receptionist'}</h1>
-                        <p className="text-gray-500">Receptionist • {profile?.branch || 'Branch'}</p>
-                        <p className="text-sm text-gray-400">Employee ID: {profile?.employee_id || '-'}</p>
+                        <h1 className="text-2xl font-bold text-neutral-800">{profile?.name || 'Receptionist'}</h1>
+                        <p className="text-neutral-500">Receptionist • {profile?.branch || 'Branch'}</p>
+                        <p className="text-sm text-neutral-400">Employee ID: {profile?.employee_id || '-'}</p>
                     </div>
                 </div>
             </div>
@@ -134,7 +134,7 @@ const ReceptionistProfile: React.FC = () => {
                 <div className={`p-4 rounded-lg flex items-center gap-3 ${
                     message.type === 'success' 
                         ? 'bg-green-50 text-green-800 border border-green-200'
-                        : 'bg-red-50 text-red-800 border border-red-200'
+                        : 'bg-error-50 text-red-800 border border-red-200'
                 }`}>
                     {message.type === 'success' ? <Check className="w-5 h-5" /> : <AlertCircle className="w-5 h-5" />}
                     {message.text}
@@ -142,9 +142,9 @@ const ReceptionistProfile: React.FC = () => {
             )}
 
             {/* Profile Information */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200">
                 <div className="p-6 border-b flex items-center justify-between">
-                    <h2 className="text-lg font-semibold text-gray-800">Profile Information</h2>
+                    <h2 className="text-lg font-semibold text-neutral-800">Profile Information</h2>
                     {!editing ? (
                         <button
                             onClick={() => setEditing(true)}
@@ -162,7 +162,7 @@ const ReceptionistProfile: React.FC = () => {
                                     address: profile?.address || '',
                                 });
                             }}
-                            className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                            className="flex items-center gap-2 px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg"
                         >
                             <X className="w-4 h-4" />
                             Cancel
@@ -173,41 +173,41 @@ const ReceptionistProfile: React.FC = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-4">
                             <div className="flex items-center gap-3">
-                                <div className="p-2 bg-gray-100 rounded-lg">
-                                    <User className="w-5 h-5 text-gray-600" />
+                                <div className="p-2 bg-neutral-100 rounded-lg">
+                                    <User className="w-5 h-5 text-neutral-600" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Full Name</p>
-                                    <p className="font-medium text-gray-800">{profile?.name || '-'}</p>
+                                    <p className="text-sm text-neutral-500">Full Name</p>
+                                    <p className="font-medium text-neutral-800">{profile?.name || '-'}</p>
                                 </div>
                             </div>
 
                             <div className="flex items-center gap-3">
-                                <div className="p-2 bg-gray-100 rounded-lg">
-                                    <Mail className="w-5 h-5 text-gray-600" />
+                                <div className="p-2 bg-neutral-100 rounded-lg">
+                                    <Mail className="w-5 h-5 text-neutral-600" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Email</p>
-                                    <p className="font-medium text-gray-800">{profile?.email || '-'}</p>
+                                    <p className="text-sm text-neutral-500">Email</p>
+                                    <p className="font-medium text-neutral-800">{profile?.email || '-'}</p>
                                 </div>
                             </div>
 
                             <div className="flex items-center gap-3">
-                                <div className="p-2 bg-gray-100 rounded-lg">
-                                    <Phone className="w-5 h-5 text-gray-600" />
+                                <div className="p-2 bg-neutral-100 rounded-lg">
+                                    <Phone className="w-5 h-5 text-neutral-600" />
                                 </div>
                                 <div className="flex-1">
-                                    <p className="text-sm text-gray-500">Phone Number</p>
+                                    <p className="text-sm text-neutral-500">Phone Number</p>
                                     {editing ? (
                                         <input
                                             type="tel"
                                             value={editData.phone}
                                             onChange={(e) => setEditData(prev => ({ ...prev, phone: e.target.value }))}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Enter phone number"
                                         />
                                     ) : (
-                                        <p className="font-medium text-gray-800">{profile?.phone || '-'}</p>
+                                        <p className="font-medium text-neutral-800">{profile?.phone || '-'}</p>
                                     )}
                                 </div>
                             </div>
@@ -215,43 +215,43 @@ const ReceptionistProfile: React.FC = () => {
 
                         <div className="space-y-4">
                             <div className="flex items-center gap-3">
-                                <div className="p-2 bg-gray-100 rounded-lg">
-                                    <Building2 className="w-5 h-5 text-gray-600" />
+                                <div className="p-2 bg-neutral-100 rounded-lg">
+                                    <Building2 className="w-5 h-5 text-neutral-600" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Branch</p>
-                                    <p className="font-medium text-gray-800">{profile?.branch || '-'}</p>
+                                    <p className="text-sm text-neutral-500">Branch</p>
+                                    <p className="font-medium text-neutral-800">{profile?.branch || '-'}</p>
                                 </div>
                             </div>
 
                             <div className="flex items-center gap-3">
-                                <div className="p-2 bg-gray-100 rounded-lg">
-                                    <Calendar className="w-5 h-5 text-gray-600" />
+                                <div className="p-2 bg-neutral-100 rounded-lg">
+                                    <Calendar className="w-5 h-5 text-neutral-600" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Joined Date</p>
-                                    <p className="font-medium text-gray-800">
+                                    <p className="text-sm text-neutral-500">Joined Date</p>
+                                    <p className="font-medium text-neutral-800">
                                         {profile?.joined_date ? new Date(profile.joined_date).toLocaleDateString() : '-'}
                                     </p>
                                 </div>
                             </div>
 
                             <div className="flex items-start gap-3">
-                                <div className="p-2 bg-gray-100 rounded-lg">
-                                    <MapPin className="w-5 h-5 text-gray-600" />
+                                <div className="p-2 bg-neutral-100 rounded-lg">
+                                    <MapPin className="w-5 h-5 text-neutral-600" />
                                 </div>
                                 <div className="flex-1">
-                                    <p className="text-sm text-gray-500">Address</p>
+                                    <p className="text-sm text-neutral-500">Address</p>
                                     {editing ? (
                                         <textarea
                                             value={editData.address}
                                             onChange={(e) => setEditData(prev => ({ ...prev, address: e.target.value }))}
                                             rows={2}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Enter address"
                                         />
                                     ) : (
-                                        <p className="font-medium text-gray-800">{profile?.address || '-'}</p>
+                                        <p className="font-medium text-neutral-800">{profile?.address || '-'}</p>
                                     )}
                                 </div>
                             </div>
@@ -263,7 +263,7 @@ const ReceptionistProfile: React.FC = () => {
                             <button
                                 onClick={handleUpdateProfile}
                                 disabled={saving}
-                                className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 disabled:opacity-50"
+                                className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 disabled:opacity-50"
                             >
                                 <Save className="w-4 h-4" />
                                 {saving ? 'Saving...' : 'Save Changes'}
@@ -274,15 +274,15 @@ const ReceptionistProfile: React.FC = () => {
             </div>
 
             {/* Change Password */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200">
                 <div className="p-6 border-b flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="p-2 bg-gray-100 rounded-lg">
-                            <Lock className="w-5 h-5 text-gray-600" />
+                        <div className="p-2 bg-neutral-100 rounded-lg">
+                            <Lock className="w-5 h-5 text-neutral-600" />
                         </div>
                         <div>
-                            <h2 className="text-lg font-semibold text-gray-800">Password & Security</h2>
-                            <p className="text-sm text-gray-500">Manage your account password</p>
+                            <h2 className="text-lg font-semibold text-neutral-800">Password & Security</h2>
+                            <p className="text-sm text-neutral-500">Manage your account password</p>
                         </div>
                     </div>
                     {!changingPassword && (
@@ -299,19 +299,19 @@ const ReceptionistProfile: React.FC = () => {
                 {changingPassword && (
                     <div className="p-6 space-y-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Current Password</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">Current Password</label>
                             <div className="relative">
                                 <input
                                     type={showCurrentPassword ? 'text' : 'password'}
                                     value={passwordData.current_password}
                                     onChange={(e) => setPasswordData(prev => ({ ...prev, current_password: e.target.value }))}
-                                    className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-4 py-3 pr-12 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     placeholder="Enter current password"
                                 />
                                 <button
                                     type="button"
                                     onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-neutral-500"
                                 >
                                     {showCurrentPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                                 </button>
@@ -320,31 +320,31 @@ const ReceptionistProfile: React.FC = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">New Password</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">New Password</label>
                                 <div className="relative">
                                     <input
                                         type={showNewPassword ? 'text' : 'password'}
                                         value={passwordData.new_password}
                                         onChange={(e) => setPasswordData(prev => ({ ...prev, new_password: e.target.value }))}
-                                        className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-3 pr-12 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                         placeholder="Enter new password"
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowNewPassword(!showNewPassword)}
-                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-neutral-500"
                                     >
                                         {showNewPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                                     </button>
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Confirm New Password</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">Confirm New Password</label>
                                 <input
                                     type="password"
                                     value={passwordData.new_password_confirmation}
                                     onChange={(e) => setPasswordData(prev => ({ ...prev, new_password_confirmation: e.target.value }))}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     placeholder="Confirm new password"
                                 />
                             </div>
@@ -360,7 +360,7 @@ const ReceptionistProfile: React.FC = () => {
                                         new_password_confirmation: '',
                                     });
                                 }}
-                                className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                                className="px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50"
                             >
                                 Cancel
                             </button>
