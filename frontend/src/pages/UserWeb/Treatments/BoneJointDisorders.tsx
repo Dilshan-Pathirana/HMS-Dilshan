@@ -9,28 +9,28 @@ const BoneJointDisorders = () => {
         <>
             <NavBar />
 
-            <div className="flex justify-end p-4 mt-20 bg-gray-100">
+            <div className="flex justify-end p-4 mt-20 bg-neutral-100">
                 <button
-                    className={`px-4 py-2 rounded-md mx-1 ${language === "en" ? "bg-blue-600 text-white" : "bg-white text-black border"}`}
+                    className={`px-4 py-2 rounded-md mx-1 ${language === "en" ? "bg-primary-500 text-white" : "bg-white text-black border"}`}
                     onClick={() => setLanguage("en")}
                 >
                     English
                 </button>
                 <button
-                    className={`px-4 py-2 rounded-md mx-1 ${language === "si" ? "bg-blue-600 text-white" : "bg-white text-black border"}`}
+                    className={`px-4 py-2 rounded-md mx-1 ${language === "si" ? "bg-primary-500 text-white" : "bg-white text-black border"}`}
                     onClick={() => setLanguage("si")}
                 >
                    සිංහල
                 </button>
                 <button
-                    className={`px-4 py-2 rounded-md mx-1 ${language === "ta" ? "bg-blue-600 text-white" : "bg-white text-black border"}`}
+                    className={`px-4 py-2 rounded-md mx-1 ${language === "ta" ? "bg-primary-500 text-white" : "bg-white text-black border"}`}
                     onClick={() => setLanguage("ta")}
                 >
                     தமிழ்
                 </button>
             </div>
 
-            <section className="bg-blue-600 text-white mt-10 py-20 px-4">
+            <section className="bg-primary-500 text-white mt-10 py-20 px-4">
                 <div className="max-w-6xl mx-auto">
                     <h1 className="text-4xl font-bold mb-4">
                         {language === "en"
@@ -48,7 +48,7 @@ const BoneJointDisorders = () => {
                         <h2 className="text-2xl font-semibold mb-4">
                             Understanding Bone & Joint Disorders
                         </h2>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-neutral-600 mb-6">
                             Bone and joint disorders affect millions worldwide,
                             causing pain, stiffness, and reduced mobility. These
                             conditions can be due to aging, lifestyle habits,
@@ -58,7 +58,7 @@ const BoneJointDisorders = () => {
                         <h3 className="text-xl font-semibold mb-4">
                             Common Causes of Bone & Joint Problems
                         </h3>
-                        <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                        <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                             <li>🔹 Osteoarthritis & Rheumatoid Arthritis</li>
                             <li>🔹 Osteoporosis</li>
                             <li>🔹 Gout</li>
@@ -74,7 +74,7 @@ const BoneJointDisorders = () => {
                         <h2 className="text-2xl font-semibold mb-4">
                             අස්ථි සහ සන්ධි රෝග පිළිබඳව
                         </h2>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-neutral-600 mb-6">
                             අස්ථි සහ සන්ධි රෝග ලොව පුරා මිලියන ගණනක් මිනිසුන්ට
                             බලපායි. වයස්වැඩිවීම, අනතුරු, හෝමෝන ගැටළු, ආහාරය, හෝ
                             අන්තිම පරිසර බලපෑම් නිසා මෙම ගැටළු මතු විය හැක.
@@ -82,7 +82,7 @@ const BoneJointDisorders = () => {
                         <h3 className="text-xl font-semibold mb-4">
                             අස්ථි සහ සන්ධි ගැටළු සඳහා හේතු
                         </h3>
-                        <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                        <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                             <li>🔹 අස්ථි හා සන්ධි ප්‍රතිශක්ති ගැටළු</li>
                             <li>🔹 අස්ථි සුළණු වීම</li>
                             <li>🔹 ගවුට් රෝගය</li>
@@ -98,7 +98,7 @@ const BoneJointDisorders = () => {
                         <h2 className="text-2xl font-semibold mb-4">
                             எலும்பு மற்றும் மூட்டு நோய்கள் – அறிமுகம்
                         </h2>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-neutral-600 mb-6">
                             எலும்பு மற்றும் மூட்டு பிரச்சினைகள் வலி, கடினமான
                             இயக்கம், மற்றும் வீக்கத்தை ஏற்படுத்தும். இது வயது,
                             பான்மைகள், உடல் பராமரிப்பு தவறுகள், மற்றும் மருத்துவ
@@ -107,7 +107,7 @@ const BoneJointDisorders = () => {
                         <h3 className="text-xl font-semibold mb-4">
                             எலும்பு மற்றும் மூட்டு பிரச்சினைகளுக்கான காரணங்கள்
                         </h3>
-                        <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                        <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                             <li>
                                 🔹 ஆஸ்டியோ ஆர்த்ரைடிஸ் & ருமாட்டாய்ட்
                                 ஆர்த்ரைடிஸ்
@@ -126,7 +126,7 @@ const BoneJointDisorders = () => {
                         href="https://www.cure.lk"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold inline-block"
+                        className="bg-primary-500 text-white px-6 py-3 rounded-lg font-semibold inline-block"
                     >
                         📞 Book an Appointment Today at www.cure.lk
                     </a>

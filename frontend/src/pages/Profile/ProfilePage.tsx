@@ -83,7 +83,7 @@ export const ProfilePage: React.FC = () => {
             <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-blue-50 to-white">
                 <div className="text-center">
                     <div className="w-16 h-16 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                    <p className="text-gray-600">Loading profile...</p>
+                    <p className="text-neutral-600">Loading profile...</p>
                 </div>
             </div>
         );
@@ -93,7 +93,7 @@ export const ProfilePage: React.FC = () => {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-blue-50 to-white">
                 <div className="text-center">
-                    <p className="text-red-600">Error loading profile. Please try again.</p>
+                    <p className="text-error-600">Error loading profile. Please try again.</p>
                 </div>
             </div>
         );
@@ -112,19 +112,19 @@ export const ProfilePage: React.FC = () => {
         >
             <div className="max-w-6xl mx-auto space-y-6">
                 {/* Page Header */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                     <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">
                         My Profile
                     </h1>
-                    <p className="text-gray-600 mt-1">Manage your account settings and preferences</p>
+                    <p className="text-neutral-600 mt-1">Manage your account settings and preferences</p>
                 </div>
 
                 {/* Profile Content */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* Left Column - Profile Picture */}
                     <div className="lg:col-span-1">
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                            <h3 className="text-lg font-semibold text-gray-800 mb-4">Profile Picture</h3>
+                        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                            <h3 className="text-lg font-semibold text-neutral-800 mb-4">Profile Picture</h3>
                             <ProfilePictureUpload
                                 currentImage={userInfo.profile_picture}
                                 userId={userInfo.id}
@@ -135,29 +135,29 @@ export const ProfilePage: React.FC = () => {
                         </div>
 
                         {/* User Info Card */}
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mt-6">
-                            <h3 className="text-lg font-semibold text-gray-800 mb-4">Account Info</h3>
+                        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 mt-6">
+                            <h3 className="text-lg font-semibold text-neutral-800 mb-4">Account Info</h3>
                             <div className="space-y-3">
                                 <div>
-                                    <p className="text-xs text-gray-500">User ID</p>
-                                    <p className="text-sm font-medium text-gray-800">{userInfo.id}</p>
+                                    <p className="text-xs text-neutral-500">User ID</p>
+                                    <p className="text-sm font-medium text-neutral-800">{userInfo.id}</p>
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500">Role</p>
-                                    <span className="inline-block px-3 py-1 bg-gradient-to-r from-emerald-500 to-blue-500 text-white text-xs font-semibold rounded-full">
+                                    <p className="text-xs text-neutral-500">Role</p>
+                                    <span className="inline-block px-3 py-1 bg-gradient-to-r from-emerald-500 to-primary-500 text-white text-xs font-semibold rounded-full">
                                         {roleName}
                                     </span>
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500">Username</p>
-                                    <p className="text-sm font-medium text-gray-800">{userInfo.username || 'N/A'}</p>
+                                    <p className="text-xs text-neutral-500">Username</p>
+                                    <p className="text-sm font-medium text-neutral-800">{userInfo.username || 'N/A'}</p>
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-500">Status</p>
+                                    <p className="text-xs text-neutral-500">Status</p>
                                     <span className={`inline-block px-3 py-1 text-xs font-semibold rounded-full ${
                                         userInfo.is_active
                                             ? 'bg-green-100 text-green-700'
-                                            : 'bg-red-100 text-red-700'
+                                            : 'bg-error-100 text-red-700'
                                     }`}>
                                         {userInfo.is_active ? 'Active' : 'Inactive'}
                                     </span>

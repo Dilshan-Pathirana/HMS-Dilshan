@@ -268,7 +268,7 @@ export const ChangeSlotsection: React.FC<ChangeSlotsectionProps> = ({
     const bookedSlotNumbers = bookedSlots.map(Number);
 
     return (
-        <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-md">
+        <div className="p-4 bg-white border border-neutral-200 rounded-lg shadow-md">
             {toast?.visible && (
                 <Toast
                     message={toast.message}
@@ -277,8 +277,8 @@ export const ChangeSlotsection: React.FC<ChangeSlotsectionProps> = ({
                 />
             )}
 
-            <h3 className="flex items-center font-medium mb-6 text-gray-800">
-                <FaCalendarAlt className="w-5 h-5 mr-2 text-blue-500" />
+            <h3 className="flex items-center font-medium mb-6 text-neutral-800">
+                <FaCalendarAlt className="w-5 h-5 mr-2 text-primary-500" />
                 Select a new time slot
             </h3>
 
@@ -288,13 +288,13 @@ export const ChangeSlotsection: React.FC<ChangeSlotsectionProps> = ({
                 />
 
                 {showAllBranches && (
-                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-4">
                         <div className="flex items-center mb-4">
-                            <FaMapMarkerAlt className="text-blue-500 mr-2" />
-                            <h4 className="text-lg font-semibold text-gray-800">
+                            <FaMapMarkerAlt className="text-primary-500 mr-2" />
+                            <h4 className="text-lg font-semibold text-neutral-800">
                                 Available Branches & Schedules
                                 {isLoadingSchedules && (
-                                    <span className="ml-2 text-sm text-blue-600">
+                                    <span className="ml-2 text-sm text-primary-500">
                                         Loading...
                                     </span>
                                 )}
@@ -315,8 +315,8 @@ export const ChangeSlotsection: React.FC<ChangeSlotsectionProps> = ({
                                             key={schedule.id}
                                             className={`border rounded-lg p-4 cursor-pointer transition-all ${
                                                 isSelected
-                                                    ? "border-blue-500 bg-blue-50 shadow-md"
-                                                    : "border-gray-200 hover:border-blue-300 bg-white"
+                                                    ? "border-primary-500 bg-blue-50 shadow-md"
+                                                    : "border-neutral-200 hover:border-blue-300 bg-white"
                                             }`}
                                             onClick={() =>
                                                 handleScheduleSelect(schedule)
@@ -335,12 +335,12 @@ export const ChangeSlotsection: React.FC<ChangeSlotsectionProps> = ({
                                                             className={`w-4 h-4 ${
                                                                 isCurrentBranch
                                                                     ? "text-green-600"
-                                                                    : "text-blue-600"
+                                                                    : "text-primary-500"
                                                             }`}
                                                         />
                                                     </div>
                                                     <div>
-                                                        <h5 className="font-semibold text-gray-800 flex items-center">
+                                                        <h5 className="font-semibold text-neutral-800 flex items-center">
                                                             {schedule.branch_center_name ||
                                                                 "Unknown Branch"}
                                                             {isCurrentBranch && (
@@ -350,7 +350,7 @@ export const ChangeSlotsection: React.FC<ChangeSlotsectionProps> = ({
                                                                 </span>
                                                             )}
                                                         </h5>
-                                                        <div className="flex items-center space-x-4 text-sm text-gray-600 mt-1">
+                                                        <div className="flex items-center space-x-4 text-sm text-neutral-600 mt-1">
                                                             <span className="flex items-center">
                                                                 <FaCalendarAlt className="w-3 h-3 mr-1" />
                                                                 {
@@ -377,8 +377,8 @@ export const ChangeSlotsection: React.FC<ChangeSlotsectionProps> = ({
                                                 <div
                                                     className={`px-3 py-1 rounded-full text-xs font-medium ${
                                                         isSelected
-                                                            ? "bg-blue-600 text-white"
-                                                            : "bg-gray-200 text-gray-600"
+                                                            ? "bg-primary-500 text-white"
+                                                            : "bg-neutral-200 text-neutral-600"
                                                     }`}
                                                 >
                                                     {isSelected
@@ -392,7 +392,7 @@ export const ChangeSlotsection: React.FC<ChangeSlotsectionProps> = ({
                             </div>
                         ) : (
                             !isLoadingSchedules && (
-                                <p className="text-gray-500 text-center py-4">
+                                <p className="text-neutral-500 text-center py-4">
                                     No schedules found for this doctor
                                 </p>
                             )
@@ -400,7 +400,7 @@ export const ChangeSlotsection: React.FC<ChangeSlotsectionProps> = ({
 
                         {selectedSchedule && (
                             <div className="border-t pt-4">
-                                <h5 className="font-medium text-gray-700 mb-3">
+                                <h5 className="font-medium text-neutral-700 mb-3">
                                     Select Date for{" "}
                                     {selectedSchedule.branch_center_name ||
                                         "Selected Branch"}
@@ -413,7 +413,7 @@ export const ChangeSlotsection: React.FC<ChangeSlotsectionProps> = ({
                                         dateFormat="yyyy/MM/dd"
                                         minDate={getToday()}
                                         maxDate={getOneMonthLater()}
-                                        className="border border-gray-300 rounded-md px-3 py-2"
+                                        className="border border-neutral-300 rounded-md px-3 py-2"
                                         filterDate={(date) => {
                                             const isPastDate =
                                                 date < getToday();
@@ -438,12 +438,12 @@ export const ChangeSlotsection: React.FC<ChangeSlotsectionProps> = ({
                                         }}
                                     />
                                     {isLoadingSlots && (
-                                        <span className="text-blue-600 text-sm">
+                                        <span className="text-primary-500 text-sm">
                                             Checking availability...
                                         </span>
                                     )}
                                 </div>
-                                <p className="text-sm text-gray-600 mt-2">
+                                <p className="text-sm text-neutral-600 mt-2">
                                     Available on:{" "}
                                     <span className="font-semibold">
                                         {selectedSchedule.schedule_day}s
@@ -454,7 +454,7 @@ export const ChangeSlotsection: React.FC<ChangeSlotsectionProps> = ({
 
                         {availableSlots.length > 0 && (
                             <div className="border-t pt-4 mt-4">
-                                <h5 className="font-medium text-gray-700 mb-3">
+                                <h5 className="font-medium text-neutral-700 mb-3">
                                     Available Slots
                                 </h5>
                                 <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3">
@@ -499,10 +499,10 @@ export const ChangeSlotsection: React.FC<ChangeSlotsectionProps> = ({
                                                         isOriginalSlot
                                                             ? "bg-blue-200 text-blue-800 border-2 border-blue-400"
                                                             : isBooked
-                                                              ? "bg-yellow-100 text-gray-500 cursor-not-allowed"
+                                                              ? "bg-yellow-100 text-neutral-500 cursor-not-allowed"
                                                               : isSelected
                                                                 ? "bg-red-600 text-white"
-                                                                : "bg-white border border-gray-300 hover:bg-blue-50 hover:border-blue-400"
+                                                                : "bg-white border border-neutral-300 hover:bg-blue-50 hover:border-blue-400"
                                                     }`}
                                                     disabled={
                                                         isBooked &&
@@ -513,12 +513,12 @@ export const ChangeSlotsection: React.FC<ChangeSlotsectionProps> = ({
                                                         <FaUserMd
                                                             className={`text-lg mb-1 ${
                                                                 isOriginalSlot
-                                                                    ? "text-blue-600"
+                                                                    ? "text-primary-500"
                                                                     : isBooked
-                                                                      ? "text-gray-400"
+                                                                      ? "text-neutral-400"
                                                                       : isSelected
                                                                         ? "text-white"
-                                                                        : "text-blue-500"
+                                                                        : "text-primary-500"
                                                             }`}
                                                         />
                                                         <span>#{slot}</span>
@@ -533,7 +533,7 @@ export const ChangeSlotsection: React.FC<ChangeSlotsectionProps> = ({
 
                         {error && (
                             <div className="border-t pt-4 mt-4">
-                                <p className="text-red-600 text-sm bg-red-50 p-3 rounded">
+                                <p className="text-error-600 text-sm bg-error-50 p-3 rounded">
                                     {error}
                                 </p>
                             </div>

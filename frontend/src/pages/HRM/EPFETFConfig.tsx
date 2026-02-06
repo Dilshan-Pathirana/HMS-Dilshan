@@ -296,33 +296,33 @@ const EPFETFConfig: React.FC = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <div className="text-gray-500">Loading configuration...</div>
+            <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
+                <div className="text-neutral-500">Loading configuration...</div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-neutral-50 p-6">
             <div className="max-w-5xl mx-auto">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => navigate('/super-admin/hrm')}
-                            className="p-2 hover:bg-gray-200 rounded-lg"
+                            className="p-2 hover:bg-neutral-200 rounded-lg"
                         >
                             <ArrowLeft className="w-5 h-5" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">EPF / ETF Configuration</h1>
-                            <p className="text-gray-500">Configure Sri Lanka statutory contribution rates</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">EPF / ETF Configuration</h1>
+                            <p className="text-neutral-500">Configure Sri Lanka statutory contribution rates</p>
                         </div>
                     </div>
                     <div className="flex gap-2">
                         <button
                             onClick={fetchHistory}
-                            className="flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                            className="flex items-center gap-2 px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50"
                         >
                             <History className="w-4 h-4" />
                             Rate History
@@ -338,16 +338,16 @@ const EPFETFConfig: React.FC = () => {
                 </div>
 
                 {/* Branch Selector */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-6">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4 mb-6">
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
-                            <Building2 className="w-5 h-5 text-blue-600" />
-                            <span className="font-medium text-gray-700">Branch:</span>
+                            <Building2 className="w-5 h-5 text-primary-500" />
+                            <span className="font-medium text-neutral-700">Branch:</span>
                         </div>
                         <select
                             value={selectedBranch}
                             onChange={(e) => setSelectedBranch(e.target.value)}
-                            className="flex-1 max-w-xs px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="flex-1 max-w-xs px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                         >
                             <option value="global">🌐 Global (All Branches)</option>
                             {branches.map((branch) => (
@@ -356,7 +356,7 @@ const EPFETFConfig: React.FC = () => {
                                 </option>
                             ))}
                         </select>
-                        <div className="text-sm text-gray-500">
+                        <div className="text-sm text-neutral-500">
                             {selectedBranch === 'global' 
                                 ? 'Editing global configuration (applies to all branches without specific config)'
                                 : 'Editing branch-specific configuration'}
@@ -366,7 +366,7 @@ const EPFETFConfig: React.FC = () => {
 
                 {/* Alerts */}
                 {error && (
-                    <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-700">
+                    <div className="mb-4 p-4 bg-error-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-700">
                         <AlertCircle className="w-5 h-5" />
                         {error}
                         <button onClick={() => setError(null)} className="ml-auto">
@@ -388,7 +388,7 @@ const EPFETFConfig: React.FC = () => {
                 {/* Info Banner */}
                 <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
                     <div className="flex items-start gap-3">
-                        <Info className="w-5 h-5 text-blue-600 mt-0.5" />
+                        <Info className="w-5 h-5 text-primary-500 mt-0.5" />
                         <div>
                             <h3 className="font-semibold text-blue-800">Sri Lanka Statutory Rates</h3>
                             <p className="text-sm text-blue-700 mt-1">
@@ -401,17 +401,17 @@ const EPFETFConfig: React.FC = () => {
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* EPF Configuration */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="p-2 bg-blue-100 rounded-lg">
-                                <Shield className="w-5 h-5 text-blue-600" />
+                                <Shield className="w-5 h-5 text-primary-500" />
                             </div>
-                            <h2 className="text-lg font-semibold text-gray-800">EPF</h2>
+                            <h2 className="text-lg font-semibold text-neutral-800">EPF</h2>
                         </div>
 
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Employee Rate (%)
                                 </label>
                                 <input
@@ -421,13 +421,13 @@ const EPFETFConfig: React.FC = () => {
                                     step="0.01"
                                     min="0"
                                     max="100"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                 />
-                                <p className="text-xs text-gray-500 mt-1">Deducted from employee salary</p>
+                                <p className="text-xs text-neutral-500 mt-1">Deducted from employee salary</p>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Employer Rate (%)
                                 </label>
                                 <input
@@ -437,13 +437,13 @@ const EPFETFConfig: React.FC = () => {
                                     step="0.01"
                                     min="0"
                                     max="100"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                 />
-                                <p className="text-xs text-gray-500 mt-1">Paid by hospital</p>
+                                <p className="text-xs text-neutral-500 mt-1">Paid by hospital</p>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     EPF Registration No.
                                 </label>
                                 <input
@@ -451,24 +451,24 @@ const EPFETFConfig: React.FC = () => {
                                     value={config.epf_registration_number}
                                     onChange={(e) => setConfig({ ...config, epf_registration_number: e.target.value })}
                                     placeholder="EPF/2024/001234"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                 />
                             </div>
                         </div>
                     </div>
 
                     {/* ETF Configuration */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="p-2 bg-emerald-100 rounded-lg">
                                 <Shield className="w-5 h-5 text-emerald-600" />
                             </div>
-                            <h2 className="text-lg font-semibold text-gray-800">ETF</h2>
+                            <h2 className="text-lg font-semibold text-neutral-800">ETF</h2>
                         </div>
 
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Employer Rate (%)
                                 </label>
                                 <input
@@ -478,13 +478,13 @@ const EPFETFConfig: React.FC = () => {
                                     step="0.01"
                                     min="0"
                                     max="100"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                 />
-                                <p className="text-xs text-gray-500 mt-1">Employer only contribution</p>
+                                <p className="text-xs text-neutral-500 mt-1">Employer only contribution</p>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     ETF Registration No.
                                 </label>
                                 <input
@@ -492,7 +492,7 @@ const EPFETFConfig: React.FC = () => {
                                     value={config.etf_registration_number}
                                     onChange={(e) => setConfig({ ...config, etf_registration_number: e.target.value })}
                                     placeholder="ETF/2024/005678"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                 />
                             </div>
 
@@ -505,17 +505,17 @@ const EPFETFConfig: React.FC = () => {
                     </div>
 
                     {/* Live Calculator */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="p-2 bg-purple-100 rounded-lg">
                                 <Calculator className="w-5 h-5 text-purple-600" />
                             </div>
-                            <h2 className="text-lg font-semibold text-gray-800">Calculator</h2>
+                            <h2 className="text-lg font-semibold text-neutral-800">Calculator</h2>
                         </div>
 
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Basic Salary (LKR)
                                 </label>
                                 <input
@@ -523,30 +523,30 @@ const EPFETFConfig: React.FC = () => {
                                     value={calculatorSalary}
                                     onChange={(e) => setCalculatorSalary(e.target.value)}
                                     min="0"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                                 />
                             </div>
 
                             {calculation && (
-                                <div className="space-y-2 pt-2 border-t border-gray-200">
+                                <div className="space-y-2 pt-2 border-t border-neutral-200">
                                     <div className="flex justify-between text-sm">
-                                        <span className="text-gray-600">EPF (Employee {config.epf_employee_rate}%)</span>
-                                        <span className="font-medium text-red-600">-{formatCurrency(calculation.epf_employee)}</span>
+                                        <span className="text-neutral-600">EPF (Employee {config.epf_employee_rate}%)</span>
+                                        <span className="font-medium text-error-600">-{formatCurrency(calculation.epf_employee)}</span>
                                     </div>
                                     <div className="flex justify-between text-sm">
-                                        <span className="text-gray-600">EPF (Employer {config.epf_employer_rate}%)</span>
-                                        <span className="font-medium text-blue-600">{formatCurrency(calculation.epf_employer)}</span>
+                                        <span className="text-neutral-600">EPF (Employer {config.epf_employer_rate}%)</span>
+                                        <span className="font-medium text-primary-500">{formatCurrency(calculation.epf_employer)}</span>
                                     </div>
                                     <div className="flex justify-between text-sm">
-                                        <span className="text-gray-600">ETF (Employer {config.etf_employer_rate}%)</span>
+                                        <span className="text-neutral-600">ETF (Employer {config.etf_employer_rate}%)</span>
                                         <span className="font-medium text-emerald-600">{formatCurrency(calculation.etf_employer)}</span>
                                     </div>
-                                    <div className="flex justify-between text-sm pt-2 border-t border-gray-200">
-                                        <span className="text-gray-700 font-medium">Net After EPF</span>
-                                        <span className="font-bold text-gray-800">{formatCurrency(calculation.net_salary_after_epf)}</span>
+                                    <div className="flex justify-between text-sm pt-2 border-t border-neutral-200">
+                                        <span className="text-neutral-700 font-medium">Net After EPF</span>
+                                        <span className="font-bold text-neutral-800">{formatCurrency(calculation.net_salary_after_epf)}</span>
                                     </div>
                                     <div className="flex justify-between text-sm">
-                                        <span className="text-gray-700 font-medium">Total Employer Cost</span>
+                                        <span className="text-neutral-700 font-medium">Total Employer Cost</span>
                                         <span className="font-bold text-purple-700">{formatCurrency(calculation.total_employer_contribution)}</span>
                                     </div>
                                 </div>
@@ -558,17 +558,17 @@ const EPFETFConfig: React.FC = () => {
                 {/* Company Details & General Settings */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
                     {/* Company Details */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                         <div className="flex items-center gap-3 mb-6">
-                            <div className="p-2 bg-gray-100 rounded-lg">
-                                <Building className="w-5 h-5 text-gray-600" />
+                            <div className="p-2 bg-neutral-100 rounded-lg">
+                                <Building className="w-5 h-5 text-neutral-600" />
                             </div>
-                            <h2 className="text-lg font-semibold text-gray-800">Company Details</h2>
+                            <h2 className="text-lg font-semibold text-neutral-800">Company Details</h2>
                         </div>
 
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Company Name
                                 </label>
                                 <input
@@ -576,11 +576,11 @@ const EPFETFConfig: React.FC = () => {
                                     value={config.company_name}
                                     onChange={(e) => setConfig({ ...config, company_name: e.target.value })}
                                     placeholder="Cure Hospital Network"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Address
                                 </label>
                                 <input
@@ -588,11 +588,11 @@ const EPFETFConfig: React.FC = () => {
                                     value={config.company_address}
                                     onChange={(e) => setConfig({ ...config, company_address: e.target.value })}
                                     placeholder="Colombo, Sri Lanka"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Contact Number
                                 </label>
                                 <input
@@ -600,43 +600,43 @@ const EPFETFConfig: React.FC = () => {
                                     value={config.company_contact}
                                     onChange={(e) => setConfig({ ...config, company_contact: e.target.value })}
                                     placeholder="+94 11 234 5678"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                 />
                             </div>
                         </div>
                     </div>
 
                     {/* General Settings */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-6">General Settings</h2>
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                        <h2 className="text-lg font-semibold text-neutral-800 mb-6">General Settings</h2>
 
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Effective From Date
                                 </label>
                                 <input
                                     type="date"
                                     value={config.effective_from}
                                     onChange={(e) => setConfig({ ...config, effective_from: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Monthly Payment Due Date
                                 </label>
                                 <select
                                     value={config.payment_due_date}
                                     onChange={(e) => setConfig({ ...config, payment_due_date: Number(e.target.value) })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                 >
                                     {[...Array(28)].map((_, i) => (
                                         <option key={i + 1} value={i + 1}>{i + 1}th of each month</option>
                                     ))}
                                 </select>
-                                <p className="text-xs text-gray-500 mt-1">Deadline for submitting EPF/ETF</p>
+                                <p className="text-xs text-neutral-500 mt-1">Deadline for submitting EPF/ETF</p>
                             </div>
 
                             <label className="flex items-center gap-3 cursor-pointer mt-4">
@@ -646,13 +646,13 @@ const EPFETFConfig: React.FC = () => {
                                     onChange={(e) => setConfig({ ...config, auto_calculate: e.target.checked })}
                                     className="w-5 h-5 text-emerald-500 rounded focus:ring-emerald-500"
                                 />
-                                <span className="text-gray-700">
+                                <span className="text-neutral-700">
                                     Auto-calculate EPF/ETF during payroll
                                 </span>
                             </label>
 
                             <div className="pt-4">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Change Reason (for audit)
                                 </label>
                                 <input
@@ -660,7 +660,7 @@ const EPFETFConfig: React.FC = () => {
                                     value={changeReason}
                                     onChange={(e) => setChangeReason(e.target.value)}
                                     placeholder="e.g., Annual rate revision"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                 />
                             </div>
                         </div>
@@ -684,29 +684,29 @@ const EPFETFConfig: React.FC = () => {
             {showHistoryModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" style={{ zIndex: 9999 }}>
                     <div className="bg-white rounded-xl shadow-xl max-w-3xl w-full max-h-[80vh] overflow-hidden">
-                        <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-                            <h2 className="text-xl font-semibold text-gray-800">Rate Change History</h2>
+                        <div className="sticky top-0 bg-white border-b border-neutral-200 px-6 py-4 flex items-center justify-between">
+                            <h2 className="text-xl font-semibold text-neutral-800">Rate Change History</h2>
                             <button
                                 onClick={() => setShowHistoryModal(false)}
-                                className="p-2 hover:bg-gray-100 rounded-lg"
+                                className="p-2 hover:bg-neutral-100 rounded-lg"
                             >
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
                         <div className="p-6 overflow-y-auto max-h-[60vh]">
                             {history.length === 0 ? (
-                                <p className="text-gray-500 text-center py-8">No rate changes recorded yet.</p>
+                                <p className="text-neutral-500 text-center py-8">No rate changes recorded yet.</p>
                             ) : (
                                 <div className="space-y-4">
                                     {history.map((item) => (
-                                        <div key={item.id} className="border border-gray-200 rounded-lg p-4">
+                                        <div key={item.id} className="border border-neutral-200 rounded-lg p-4">
                                             <div className="flex justify-between items-start mb-3">
                                                 <div>
-                                                    <p className="text-sm text-gray-500">
+                                                    <p className="text-sm text-neutral-500">
                                                         {new Date(item.created_at).toLocaleDateString()} at {new Date(item.created_at).toLocaleTimeString()}
                                                     </p>
                                                     {item.changed_by && (
-                                                        <p className="text-xs text-gray-400">
+                                                        <p className="text-xs text-neutral-400">
                                                             By: {item.changed_by.first_name} {item.changed_by.last_name}
                                                         </p>
                                                     )}
@@ -717,26 +717,26 @@ const EPFETFConfig: React.FC = () => {
                                             </div>
                                             <div className="grid grid-cols-3 gap-4 text-sm">
                                                 <div>
-                                                    <p className="text-gray-500">EPF Employee</p>
+                                                    <p className="text-neutral-500">EPF Employee</p>
                                                     <p className="font-medium">
                                                         {item.old_epf_employee_rate}% → {item.new_epf_employee_rate}%
                                                     </p>
                                                 </div>
                                                 <div>
-                                                    <p className="text-gray-500">EPF Employer</p>
+                                                    <p className="text-neutral-500">EPF Employer</p>
                                                     <p className="font-medium">
                                                         {item.old_epf_employer_rate}% → {item.new_epf_employer_rate}%
                                                     </p>
                                                 </div>
                                                 <div>
-                                                    <p className="text-gray-500">ETF Employer</p>
+                                                    <p className="text-neutral-500">ETF Employer</p>
                                                     <p className="font-medium">
                                                         {item.old_etf_employer_rate}% → {item.new_etf_employer_rate}%
                                                     </p>
                                                 </div>
                                             </div>
                                             {item.change_reason && (
-                                                <p className="mt-2 text-sm text-gray-600 italic">
+                                                <p className="mt-2 text-sm text-neutral-600 italic">
                                                     Reason: {item.change_reason}
                                                 </p>
                                             )}

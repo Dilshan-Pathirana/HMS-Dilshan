@@ -14,7 +14,7 @@ const NotRegisterCustomerDetailsSection: React.FC<
                 isShowCustomerAddFields ? "mt-0 mb-2 border p-2" : "hidden"
             }
         >
-            <p className="text-sm text-gray-600 mb-3">Customer Name:</p>
+            <p className="text-sm text-neutral-600 mb-3">Customer Name:</p>
             <input
                 type="text"
                 value={customerDetails.customer_name || ""}
@@ -23,7 +23,7 @@ const NotRegisterCustomerDetailsSection: React.FC<
                 className="w-full px-3 py-2 border rounded-lg text-base mb-3"
                 placeholder="Customer Name"
             />
-            <p className="text-sm text-gray-600 mb-3">
+            <p className="text-sm text-neutral-600 mb-3">
                 Customer Contact Number:
             </p>
             <input

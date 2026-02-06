@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from "../../../../utils/api/axios";
 import { Search, Filter, Users, Building2, MapPin, Globe, Package, ChevronLeft, ChevronRight, Eye, Edit, Trash2, UserPlus, Copy, X } from 'lucide-react';
 import SupplierDetailsModal from './SupplierDetailsModal';
@@ -297,8 +297,8 @@ const AllPharmaciesSupplierList: React.FC = () => {
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
                 className={`px-3 py-2 rounded-lg ${currentPage === 1
-                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                    : 'bg-white text-gray-700 hover:bg-blue-50 border border-gray-300'
+                    ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed'
+                    : 'bg-white text-neutral-700 hover:bg-blue-50 border border-neutral-300'
                     }`}
             >
                 <ChevronLeft className="w-5 h-5" />
@@ -310,14 +310,14 @@ const AllPharmaciesSupplierList: React.FC = () => {
                 <button
                     key={1}
                     onClick={() => handlePageChange(1)}
-                    className="px-4 py-2 rounded-lg bg-white text-gray-700 hover:bg-blue-50 border border-gray-300"
+                    className="px-4 py-2 rounded-lg bg-white text-neutral-700 hover:bg-blue-50 border border-neutral-300"
                 >
                     1
                 </button>
             );
             if (startPage > 2) {
                 pages.push(
-                    <span key="ellipsis1" className="px-2 py-2 text-gray-500">
+                    <span key="ellipsis1" className="px-2 py-2 text-neutral-500">
                         ...
                     </span>
                 );
@@ -330,8 +330,8 @@ const AllPharmaciesSupplierList: React.FC = () => {
                     key={i}
                     onClick={() => handlePageChange(i)}
                     className={`px-4 py-2 rounded-lg ${i === currentPage
-                        ? 'bg-blue-600 text-white font-semibold'
-                        : 'bg-white text-gray-700 hover:bg-blue-50 border border-gray-300'
+                        ? 'bg-primary-500 text-white font-semibold'
+                        : 'bg-white text-neutral-700 hover:bg-blue-50 border border-neutral-300'
                         }`}
                 >
                     {i}
@@ -342,7 +342,7 @@ const AllPharmaciesSupplierList: React.FC = () => {
         if (endPage < pagination.last_page) {
             if (endPage < pagination.last_page - 1) {
                 pages.push(
-                    <span key="ellipsis2" className="px-2 py-2 text-gray-500">
+                    <span key="ellipsis2" className="px-2 py-2 text-neutral-500">
                         ...
                     </span>
                 );
@@ -351,7 +351,7 @@ const AllPharmaciesSupplierList: React.FC = () => {
                 <button
                     key={pagination.last_page}
                     onClick={() => handlePageChange(pagination.last_page)}
-                    className="px-4 py-2 rounded-lg bg-white text-gray-700 hover:bg-blue-50 border border-gray-300"
+                    className="px-4 py-2 rounded-lg bg-white text-neutral-700 hover:bg-blue-50 border border-neutral-300"
                 >
                     {pagination.last_page}
                 </button>
@@ -364,8 +364,8 @@ const AllPharmaciesSupplierList: React.FC = () => {
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === pagination.last_page}
                 className={`px-3 py-2 rounded-lg ${currentPage === pagination.last_page
-                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                    : 'bg-white text-gray-700 hover:bg-blue-50 border border-gray-300'
+                    ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed'
+                    : 'bg-white text-neutral-700 hover:bg-blue-50 border border-neutral-300'
                     }`}
             >
                 <ChevronRight className="w-5 h-5" />
@@ -382,8 +382,8 @@ const AllPharmaciesSupplierList: React.FC = () => {
                 <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
                     <div className="flex items-center justify-between mb-4">
                         <div>
-                            <h1 className="text-3xl font-bold text-gray-800">All Suppliers</h1>
-                            <p className="text-gray-600 mt-1">View and manage suppliers across all pharmacies</p>
+                            <h1 className="text-3xl font-bold text-neutral-800">All Suppliers</h1>
+                            <p className="text-neutral-600 mt-1">View and manage suppliers across all pharmacies</p>
                         </div>
                         <div className="flex items-center gap-2 px-4 py-2 bg-purple-100 rounded-lg">
                             <Users className="w-5 h-5 text-purple-600" />
@@ -395,14 +395,14 @@ const AllPharmaciesSupplierList: React.FC = () => {
 
                     {/* Search Bar */}
                     <div className="relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
                         <input
                             type="text"
                             placeholder="Search by supplier name, contact person, or email..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             onKeyPress={(e) => e.key === 'Enter' && fetchSuppliers(1)}
-                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                         />
                     </div>
                 </div>
@@ -410,21 +410,21 @@ const AllPharmaciesSupplierList: React.FC = () => {
                 {/* Filters */}
                 <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
                     <div className="flex items-center gap-2 mb-4">
-                        <Filter className="w-5 h-5 text-gray-600" />
-                        <h3 className="text-lg font-semibold text-gray-800">Filters</h3>
+                        <Filter className="w-5 h-5 text-neutral-600" />
+                        <h3 className="text-lg font-semibold text-neutral-800">Filters</h3>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
                         {/* Pharmacy Filter */}
                         <div>
-                            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                            <label className="flex items-center gap-2 text-sm font-medium text-neutral-700 mb-2">
                                 <Building2 className="w-4 h-4" />
                                 Pharmacy
                             </label>
                             <select
                                 value={selectedPharmacy}
                                 onChange={(e) => setSelectedPharmacy(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 bg-white"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-purple-500 bg-white"
                             >
                                 <option value="all">All Pharmacies</option>
                                 {pharmacies.map((pharmacy) => (
@@ -437,14 +437,14 @@ const AllPharmaciesSupplierList: React.FC = () => {
 
                         {/* Country Filter */}
                         <div>
-                            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                            <label className="flex items-center gap-2 text-sm font-medium text-neutral-700 mb-2">
                                 <Globe className="w-4 h-4" />
                                 Country
                             </label>
                             <select
                                 value={selectedCountry}
                                 onChange={(e) => setSelectedCountry(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 bg-white"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-purple-500 bg-white"
                             >
                                 <option value="all">All Countries</option>
                                 {countries.map((country) => (
@@ -457,14 +457,14 @@ const AllPharmaciesSupplierList: React.FC = () => {
 
                         {/* City Filter */}
                         <div>
-                            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                            <label className="flex items-center gap-2 text-sm font-medium text-neutral-700 mb-2">
                                 <MapPin className="w-4 h-4" />
                                 City
                             </label>
                             <select
                                 value={selectedCity}
                                 onChange={(e) => setSelectedCity(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 bg-white"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-purple-500 bg-white"
                             >
                                 <option value="all">All Cities</option>
                                 {cities.map((city) => (
@@ -477,14 +477,14 @@ const AllPharmaciesSupplierList: React.FC = () => {
 
                         {/* Supplier Type Filter */}
                         <div>
-                            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                            <label className="flex items-center gap-2 text-sm font-medium text-neutral-700 mb-2">
                                 <Users className="w-4 h-4" />
                                 Type
                             </label>
                             <select
                                 value={selectedType}
                                 onChange={(e) => setSelectedType(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 bg-white"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-purple-500 bg-white"
                             >
                                 <option value="all">All Types</option>
                                 {types.map((type) => (
@@ -497,14 +497,14 @@ const AllPharmaciesSupplierList: React.FC = () => {
 
                         {/* Product Type Filter */}
                         <div>
-                            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+                            <label className="flex items-center gap-2 text-sm font-medium text-neutral-700 mb-2">
                                 <Package className="w-4 h-4" />
                                 Product Type
                             </label>
                             <select
                                 value={selectedProductType}
                                 onChange={(e) => setSelectedProductType(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 bg-white"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-purple-500 bg-white"
                             >
                                 <option value="all">All Products</option>
                                 {productTypes.map((product) => (
@@ -537,7 +537,7 @@ const AllPharmaciesSupplierList: React.FC = () => {
                             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
                         </div>
                     ) : suppliers.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center py-12 text-gray-500">
+                        <div className="flex flex-col items-center justify-center py-12 text-neutral-500">
                             <Users className="w-12 h-12 mb-4" />
                             <p className="text-lg font-medium">No suppliers found</p>
                             <p className="text-sm">Try adjusting your filters or search criteria</p>
@@ -545,58 +545,58 @@ const AllPharmaciesSupplierList: React.FC = () => {
                     ) : (
                         <div className="overflow-x-auto">
                             <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-gray-50">
+                                <thead className="bg-neutral-50">
                                     <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Pharmacy
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Supplier Name
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Contact Person
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Phone
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Location
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Type
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Products
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Actions
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
                                     {suppliers.map((supplier) => (
-                                        <tr key={supplier.id} className="hover:bg-gray-50 transition-colors">
+                                        <tr key={supplier.id} className="hover:bg-neutral-50 transition-colors">
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="flex items-center">
-                                                    <Building2 className="w-4 h-4 text-gray-400 mr-2" />
-                                                    <span className="text-sm font-medium text-gray-900">
+                                                    <Building2 className="w-4 h-4 text-neutral-400 mr-2" />
+                                                    <span className="text-sm font-medium text-neutral-900">
                                                         {supplier.pharmacy_name}
                                                     </span>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4">
-                                                <div className="text-sm font-medium text-gray-900">
+                                                <div className="text-sm font-medium text-neutral-900">
                                                     {supplier.supplier_name}
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4">
-                                                <div className="text-sm text-gray-500">{supplier.contact_person || 'N/A'}</div>
+                                                <div className="text-sm text-neutral-500">{supplier.contact_person || 'N/A'}</div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="text-sm text-gray-900">{supplier.contact_number || 'N/A'}</div>
+                                                <div className="text-sm text-neutral-900">{supplier.contact_number || 'N/A'}</div>
                                             </td>
                                             <td className="px-6 py-4">
-                                                <div className="text-sm text-gray-900">
+                                                <div className="text-sm text-neutral-900">
                                                     {supplier.supplier_city && supplier.supplier_country
                                                         ? `${supplier.supplier_city}, ${supplier.supplier_country}`
                                                         : supplier.supplier_city || supplier.supplier_country || 'N/A'}
@@ -608,7 +608,7 @@ const AllPharmaciesSupplierList: React.FC = () => {
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4">
-                                                <div className="text-sm text-gray-500 max-w-xs truncate">
+                                                <div className="text-sm text-neutral-500 max-w-xs truncate">
                                                     {supplier.products_supplied || 'N/A'}
                                                 </div>
                                             </td>
@@ -616,7 +616,7 @@ const AllPharmaciesSupplierList: React.FC = () => {
                                                 <div className="flex items-center gap-2">
                                                     <button
                                                         onClick={() => handleViewDetails(supplier.id)}
-                                                        className="text-blue-600 hover:text-blue-900"
+                                                        className="text-primary-500 hover:text-blue-900"
                                                         title="View Details"
                                                     >
                                                         <Eye className="w-5 h-5" />
@@ -639,7 +639,7 @@ const AllPharmaciesSupplierList: React.FC = () => {
                                                     )}
                                                     <button
                                                         onClick={() => handleDelete(supplier.id)}
-                                                        className="text-red-600 hover:text-red-900"
+                                                        className="text-error-600 hover:text-red-900"
                                                         title="Delete"
                                                     >
                                                         <Trash2 className="w-5 h-5" />
@@ -655,9 +655,9 @@ const AllPharmaciesSupplierList: React.FC = () => {
 
                     {/* Pagination */}
                     {!loading && pagination && pagination.last_page > 1 && (
-                        <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                        <div className="px-6 py-4 bg-neutral-50 border-t border-neutral-200">
                             <div className="flex items-center justify-between">
-                                <div className="text-sm text-gray-700">
+                                <div className="text-sm text-neutral-700">
                                     Showing <span className="font-medium">{pagination.from}</span> to{' '}
                                     <span className="font-medium">{pagination.to}</span> of{' '}
                                     <span className="font-medium">{pagination.total}</span> results
@@ -711,17 +711,17 @@ const AllPharmaciesSupplierList: React.FC = () => {
                         <div className="p-6">
                             <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
                                 <p className="text-green-800 font-medium text-center">
-                                    ✓ User account successfully created for {credentials.supplier_name}
+                                    ? User account successfully created for {credentials.supplier_name}
                                 </p>
                             </div>
 
                             <div className="space-y-4">
-                                <div className="bg-gray-50 p-4 rounded-lg">
-                                    <label className="block text-sm font-medium text-gray-600 mb-1">
+                                <div className="bg-neutral-50 p-4 rounded-lg">
+                                    <label className="block text-sm font-medium text-neutral-600 mb-1">
                                         Username
                                     </label>
                                     <div className="flex items-center justify-between bg-white p-3 rounded border">
-                                        <span className="font-mono font-semibold text-gray-900">
+                                        <span className="font-mono font-semibold text-neutral-900">
                                             {credentials.username}
                                         </span>
                                         <button
@@ -734,12 +734,12 @@ const AllPharmaciesSupplierList: React.FC = () => {
                                     </div>
                                 </div>
 
-                                <div className="bg-gray-50 p-4 rounded-lg">
-                                    <label className="block text-sm font-medium text-gray-600 mb-1">
+                                <div className="bg-neutral-50 p-4 rounded-lg">
+                                    <label className="block text-sm font-medium text-neutral-600 mb-1">
                                         Password
                                     </label>
                                     <div className="flex items-center justify-between bg-white p-3 rounded border">
-                                        <span className="font-mono font-semibold text-gray-900">
+                                        <span className="font-mono font-semibold text-neutral-900">
                                             {credentials.password}
                                         </span>
                                         <button
@@ -752,12 +752,12 @@ const AllPharmaciesSupplierList: React.FC = () => {
                                     </div>
                                 </div>
 
-                                <div className="bg-gray-50 p-4 rounded-lg">
-                                    <label className="block text-sm font-medium text-gray-600 mb-1">
+                                <div className="bg-neutral-50 p-4 rounded-lg">
+                                    <label className="block text-sm font-medium text-neutral-600 mb-1">
                                         Email
                                     </label>
                                     <div className="flex items-center justify-between bg-white p-3 rounded border">
-                                        <span className="text-gray-900">
+                                        <span className="text-neutral-900">
                                             {credentials.email}
                                         </span>
                                         <button

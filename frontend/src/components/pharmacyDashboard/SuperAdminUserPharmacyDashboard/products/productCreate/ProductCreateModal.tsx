@@ -107,7 +107,7 @@ const ProductCreateModal: React.FC<ProductCreateModalProps> = ({
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-3xl relative max-h-[80vh] overflow-y-auto">
                 <button
-                    className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+                    className="absolute top-4 right-4 text-neutral-500 hover:text-neutral-700"
                     onClick={onClose}
                 >
                     <AiOutlineClose size={24} />
@@ -119,7 +119,7 @@ const ProductCreateModal: React.FC<ProductCreateModalProps> = ({
                 <div className="py-4">
                     <div
                         style={{ width: `${(currentStep / 4) * 100}%` }}
-                        className="bg-blue-500 h-2 rounded"
+                        className="bg-primary-500 h-2 rounded"
                     ></div>
                 </div>
                 {renderFormStep()}

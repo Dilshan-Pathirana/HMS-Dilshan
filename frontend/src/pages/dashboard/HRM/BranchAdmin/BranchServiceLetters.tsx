@@ -182,7 +182,7 @@ const BranchServiceLetters: React.FC = () => {
                 );
             case 'rejected':
                 return (
-                    <span className="inline-flex items-center gap-1 px-2 py-1 bg-red-100 text-red-700 text-xs font-medium rounded-full">
+                    <span className="inline-flex items-center gap-1 px-2 py-1 bg-error-100 text-red-700 text-xs font-medium rounded-full">
                         <XCircle className="w-3 h-3" />
                         Rejected
                     </span>
@@ -196,7 +196,7 @@ const BranchServiceLetters: React.FC = () => {
                 );
             default:
                 return (
-                    <span className="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded-full">
+                    <span className="inline-flex items-center gap-1 px-2 py-1 bg-neutral-100 text-neutral-700 text-xs font-medium rounded-full">
                         {status}
                     </span>
                 );
@@ -216,10 +216,10 @@ const BranchServiceLetters: React.FC = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+            <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
                 <div className="text-center">
                     <Loader2 className="w-12 h-12 animate-spin text-indigo-500 mx-auto mb-4" />
-                    <p className="text-gray-600">Loading letter requests...</p>
+                    <p className="text-neutral-600">Loading letter requests...</p>
                 </div>
             </div>
         );
@@ -228,24 +228,24 @@ const BranchServiceLetters: React.FC = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-indigo-50/30 p-6">
             {/* Header */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 mb-6">
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => navigate('/branch-admin/hrm')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ArrowLeft className="w-5 h-5 text-gray-600" />
+                            <ArrowLeft className="w-5 h-5 text-neutral-600" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">Service Letter Requests</h1>
-                            <p className="text-gray-600 text-sm mt-1">
+                            <h1 className="text-2xl font-bold text-neutral-800">Service Letter Requests</h1>
+                            <p className="text-neutral-600 text-sm mt-1">
                                 Review and process letter requests from staff
                             </p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
-                        <span className="text-sm text-gray-500">
+                        <span className="text-sm text-neutral-500">
                             {requests.filter(r => r.status === 'pending').length} pending
                         </span>
                     </div>
@@ -265,7 +265,7 @@ const BranchServiceLetters: React.FC = () => {
                             className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
                                 statusFilter === filter.value
                                     ? 'bg-indigo-500 text-white'
-                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                    : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
                             }`}
                         >
                             {filter.icon}
@@ -276,12 +276,12 @@ const BranchServiceLetters: React.FC = () => {
             </div>
 
             {/* Requests List */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
                 {filteredRequests.length === 0 ? (
                     <div className="p-12 text-center">
                         <FileText className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-                        <p className="text-lg text-gray-500 mb-2">No letter requests found</p>
-                        <p className="text-sm text-gray-400">
+                        <p className="text-lg text-neutral-500 mb-2">No letter requests found</p>
+                        <p className="text-sm text-neutral-400">
                             {statusFilter === 'pending' 
                                 ? 'No pending requests to process' 
                                 : 'No requests match your filter'}
@@ -290,39 +290,39 @@ const BranchServiceLetters: React.FC = () => {
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full">
-                            <thead className="bg-gray-50 border-b border-gray-200">
+                            <thead className="bg-neutral-50 border-b border-neutral-200">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">
                                         Reference
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">
                                         Employee
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">
                                         Letter Type
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">
                                         Purpose
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">
                                         Required By
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">
                                         Status
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-500 uppercase tracking-wider">
                                         Actions
                                     </th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
                                 {filteredRequests.map(request => (
-                                    <tr key={request.id} className="hover:bg-gray-50">
+                                    <tr key={request.id} className="hover:bg-neutral-50">
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <span className="text-sm font-medium text-indigo-600">
                                                 {request.reference_number}
                                             </span>
-                                            <p className="text-xs text-gray-400 mt-1">
+                                            <p className="text-xs text-neutral-400 mt-1">
                                                 {formatDate(request.created_at)}
                                             </p>
                                         </td>
@@ -332,28 +332,28 @@ const BranchServiceLetters: React.FC = () => {
                                                     <User className="w-4 h-4 text-white" />
                                                 </div>
                                                 <div>
-                                                    <p className="text-sm font-medium text-gray-900">
+                                                    <p className="text-sm font-medium text-neutral-900">
                                                         {request.first_name} {request.last_name}
                                                     </p>
-                                                    <p className="text-xs text-gray-500">{request.designation}</p>
+                                                    <p className="text-xs text-neutral-500">{request.designation}</p>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className="text-sm text-gray-700">{request.template_name || request.letter_type}</span>
+                                            <span className="text-sm text-neutral-700">{request.template_name || request.letter_type}</span>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <p className="text-sm text-gray-600 max-w-xs truncate" title={request.purpose}>
+                                            <p className="text-sm text-neutral-600 max-w-xs truncate" title={request.purpose}>
                                                 {request.purpose}
                                             </p>
                                             {request.addressed_to && (
-                                                <p className="text-xs text-gray-400 mt-1">
+                                                <p className="text-xs text-neutral-400 mt-1">
                                                     To: {request.addressed_to}
                                                 </p>
                                             )}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className="text-sm text-gray-600">
+                                            <span className="text-sm text-neutral-600">
                                                 {formatDate(request.required_by)}
                                             </span>
                                         </td>
@@ -365,7 +365,7 @@ const BranchServiceLetters: React.FC = () => {
                                                 <div className="flex items-center gap-2">
                                                     <button
                                                         onClick={() => openPreviewModal(request)}
-                                                        className="p-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition-colors"
+                                                        className="p-2 bg-blue-100 text-primary-500 rounded-lg hover:bg-blue-200 transition-colors"
                                                         title="Preview & Edit Letter"
                                                         disabled={isLoadingPreview}
                                                     >
@@ -384,7 +384,7 @@ const BranchServiceLetters: React.FC = () => {
                                                     </button>
                                                     <button
                                                         onClick={() => openProcessModal(request, 'reject')}
-                                                        className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors"
+                                                        className="p-2 bg-error-100 text-error-600 rounded-lg hover:bg-red-200 transition-colors"
                                                         title="Reject"
                                                     >
                                                         <X className="w-4 h-4" />
@@ -401,7 +401,7 @@ const BranchServiceLetters: React.FC = () => {
                                                     </button>
                                                     <button
                                                         onClick={() => openPreviewModal(request)}
-                                                        className="p-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition-colors"
+                                                        className="p-2 bg-blue-100 text-primary-500 rounded-lg hover:bg-blue-200 transition-colors"
                                                         title="Print"
                                                     >
                                                         <Printer className="w-4 h-4" />
@@ -412,13 +412,13 @@ const BranchServiceLetters: React.FC = () => {
                                                     onClick={() => {
                                                         setSelectedRequest(request);
                                                     }}
-                                                    className="text-xs text-gray-500 hover:text-gray-700"
+                                                    className="text-xs text-neutral-500 hover:text-neutral-700"
                                                     title={request.rejection_reason || 'No reason provided'}
                                                 >
                                                     View Reason
                                                 </button>
                                             ) : (
-                                                <span className="text-xs text-gray-400">Processed</span>
+                                                <span className="text-xs text-neutral-400">Processed</span>
                                             )}
                                         </td>
                                     </tr>
@@ -433,22 +433,22 @@ const BranchServiceLetters: React.FC = () => {
             {showProcessModal && selectedRequest && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-xl shadow-xl max-w-lg w-full">
-                        <div className="p-6 border-b border-gray-200">
+                        <div className="p-6 border-b border-neutral-200">
                             <div className="flex items-center gap-3">
                                 {processAction === 'approve' ? (
                                     <div className="p-2 bg-green-100 rounded-lg">
                                         <CheckCircle className="w-6 h-6 text-green-600" />
                                     </div>
                                 ) : (
-                                    <div className="p-2 bg-red-100 rounded-lg">
-                                        <XCircle className="w-6 h-6 text-red-600" />
+                                    <div className="p-2 bg-error-100 rounded-lg">
+                                        <XCircle className="w-6 h-6 text-error-600" />
                                     </div>
                                 )}
                                 <div>
-                                    <h2 className="text-xl font-bold text-gray-800">
+                                    <h2 className="text-xl font-bold text-neutral-800">
                                         {processAction === 'approve' ? 'Approve & Generate Letter' : 'Reject Request'}
                                     </h2>
-                                    <p className="text-sm text-gray-500">
+                                    <p className="text-sm text-neutral-500">
                                         {selectedRequest.reference_number}
                                     </p>
                                 </div>
@@ -456,47 +456,47 @@ const BranchServiceLetters: React.FC = () => {
                         </div>
                         <div className="p-6">
                             {/* Request Details */}
-                            <div className="bg-gray-50 rounded-lg p-4 mb-6">
+                            <div className="bg-neutral-50 rounded-lg p-4 mb-6">
                                 <div className="grid grid-cols-2 gap-4 text-sm">
                                     <div>
-                                        <span className="text-gray-500">Employee:</span>
-                                        <p className="font-medium text-gray-800">
+                                        <span className="text-neutral-500">Employee:</span>
+                                        <p className="font-medium text-neutral-800">
                                             {selectedRequest.first_name} {selectedRequest.last_name}
                                         </p>
                                     </div>
                                     <div>
-                                        <span className="text-gray-500">Letter Type:</span>
-                                        <p className="font-medium text-gray-800">{selectedRequest.template_name}</p>
+                                        <span className="text-neutral-500">Letter Type:</span>
+                                        <p className="font-medium text-neutral-800">{selectedRequest.template_name}</p>
                                     </div>
                                     <div className="col-span-2">
-                                        <span className="text-gray-500">Purpose:</span>
-                                        <p className="font-medium text-gray-800">{selectedRequest.purpose}</p>
+                                        <span className="text-neutral-500">Purpose:</span>
+                                        <p className="font-medium text-neutral-800">{selectedRequest.purpose}</p>
                                     </div>
                                 </div>
                             </div>
 
                             {processAction === 'reject' ? (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                                         Reason for Rejection *
                                     </label>
                                     <textarea
                                         value={rejectionReason}
                                         onChange={(e) => setRejectionReason(e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                                        className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-error-500"
                                         rows={3}
                                         placeholder="Explain why this request is being rejected..."
                                     />
                                 </div>
                             ) : (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                                         Admin Remarks (Optional)
                                     </label>
                                     <textarea
                                         value={adminRemarks}
                                         onChange={(e) => setAdminRemarks(e.target.value)}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                        className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
                                         rows={3}
                                         placeholder="Any additional remarks..."
                                     />
@@ -509,7 +509,7 @@ const BranchServiceLetters: React.FC = () => {
                                 </div>
                             )}
                         </div>
-                        <div className="p-6 border-t border-gray-200 flex justify-end gap-3">
+                        <div className="p-6 border-t border-neutral-200 flex justify-end gap-3">
                             <button
                                 onClick={() => {
                                     setShowProcessModal(false);
@@ -517,7 +517,7 @@ const BranchServiceLetters: React.FC = () => {
                                     setRejectionReason('');
                                     setAdminRemarks('');
                                 }}
-                                className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                                className="px-4 py-2 text-neutral-700 bg-neutral-100 rounded-lg hover:bg-neutral-200 transition-colors"
                             >
                                 Cancel
                             </button>
@@ -527,7 +527,7 @@ const BranchServiceLetters: React.FC = () => {
                                 className={`px-6 py-2 rounded-lg flex items-center gap-2 transition-colors ${
                                     processAction === 'approve'
                                         ? 'bg-green-500 text-white hover:bg-green-600'
-                                        : 'bg-red-500 text-white hover:bg-red-600'
+                                        : 'bg-error-500 text-white hover:bg-red-600'
                                 } disabled:opacity-50`}
                             >
                                 {isProcessing ? (

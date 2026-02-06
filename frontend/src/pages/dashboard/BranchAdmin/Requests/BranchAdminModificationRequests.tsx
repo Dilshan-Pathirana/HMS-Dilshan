@@ -96,8 +96,8 @@ export const BranchAdminModificationRequests: React.FC = () => {
 
     const requestTypeColors: Record<string, string> = {
         // Doctor request types
-        'block_date': 'bg-red-100 text-red-700',
-        'block_schedule': 'bg-red-100 text-red-700',
+        'block_date': 'bg-error-100 text-red-700',
+        'block_schedule': 'bg-error-100 text-red-700',
         'delay_start': 'bg-orange-100 text-orange-700',
         'limit_appointments': 'bg-amber-100 text-amber-700',
         'early_end': 'bg-purple-100 text-purple-700',
@@ -122,7 +122,7 @@ export const BranchAdminModificationRequests: React.FC = () => {
             case 'cancel_block':
                 return <RotateCcw className="w-6 h-6 text-purple-600" />;
             default:
-                return <CalendarX className="w-6 h-6 text-gray-600" />;
+                return <CalendarX className="w-6 h-6 text-neutral-600" />;
         }
     };
 
@@ -253,7 +253,7 @@ export const BranchAdminModificationRequests: React.FC = () => {
     const SidebarMenu = () => (
         <nav className="py-4">
             <div className="px-4 mb-4">
-                <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Navigation</h2>
+                <h2 className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Navigation</h2>
             </div>
             <ul className="space-y-1 px-2">
                 {BranchAdminMenuItems.map((item, index) => (
@@ -263,7 +263,7 @@ export const BranchAdminModificationRequests: React.FC = () => {
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                                 item.path.includes('/requests') 
                                     ? 'bg-gradient-to-r from-emerald-50 to-blue-50 text-emerald-700'
-                                    : 'text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
+                                    : 'text-neutral-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
                             }`}
                         >
                             <span className="flex-shrink-0">{item.icon}</span>
@@ -290,13 +290,13 @@ export const BranchAdminModificationRequests: React.FC = () => {
                 <div className="flex items-center gap-4">
                     <button 
                         onClick={() => navigate('/branch-admin/requests')}
-                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                        className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                     >
-                        <ChevronLeft className="w-5 h-5 text-gray-500" />
+                        <ChevronLeft className="w-5 h-5 text-neutral-500" />
                     </button>
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-800">Schedule Modification Requests</h1>
-                        <p className="text-gray-500">Review and manage doctor and employee schedule modification requests</p>
+                        <h1 className="text-2xl font-bold text-neutral-800">Schedule Modification Requests</h1>
+                        <p className="text-neutral-500">Review and manage doctor and employee schedule modification requests</p>
                     </div>
                 </div>
 
@@ -316,11 +316,11 @@ export const BranchAdminModificationRequests: React.FC = () => {
                             className={`p-4 rounded-xl border transition-all ${
                                 activeTab === stat.tab
                                     ? `bg-${stat.color}-50 border-${stat.color}-200 ring-2 ring-${stat.color}-500`
-                                    : 'bg-white border-gray-100 hover:bg-gray-50'
+                                    : 'bg-white border-gray-100 hover:bg-neutral-50'
                             }`}
                         >
-                            <p className="text-2xl font-bold text-gray-800">{stat.value}</p>
-                            <p className="text-sm text-gray-500">{stat.label}</p>
+                            <p className="text-2xl font-bold text-neutral-800">{stat.value}</p>
+                            <p className="text-sm text-neutral-500">{stat.label}</p>
                         </button>
                     ))}
                 </div>
@@ -328,7 +328,7 @@ export const BranchAdminModificationRequests: React.FC = () => {
                 {/* Requests List */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100">
                     <div className="p-5 border-b border-gray-100">
-                        <h2 className="text-lg font-semibold text-gray-800">
+                        <h2 className="text-lg font-semibold text-neutral-800">
                             {activeTab === 'all' 
                                 ? 'All Requests' 
                                 : activeTab === 'cancellations'
@@ -341,14 +341,14 @@ export const BranchAdminModificationRequests: React.FC = () => {
 
                     {loading ? (
                         <div className="p-8 text-center">
-                            <Loader2 className="w-8 h-8 animate-spin text-blue-500 mx-auto" />
-                            <p className="text-gray-500 mt-2">Loading requests...</p>
+                            <Loader2 className="w-8 h-8 animate-spin text-primary-500 mx-auto" />
+                            <p className="text-neutral-500 mt-2">Loading requests...</p>
                         </div>
                     ) : filteredRequests.length === 0 ? (
                         <div className="p-12 text-center">
                             <CalendarClock className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                            <h3 className="text-lg font-medium text-gray-800 mb-2">No requests found</h3>
-                            <p className="text-gray-500">
+                            <h3 className="text-lg font-medium text-neutral-800 mb-2">No requests found</h3>
+                            <p className="text-neutral-500">
                                 {activeTab === 'pending' 
                                     ? 'No pending modification requests at this time' 
                                     : activeTab === 'cancellations'
@@ -362,7 +362,7 @@ export const BranchAdminModificationRequests: React.FC = () => {
                     ) : (
                         <div className="divide-y divide-gray-100">
                             {filteredRequests.map((request) => (
-                                <div key={request.id} className="p-5 hover:bg-gray-50 transition-colors">
+                                <div key={request.id} className="p-5 hover:bg-neutral-50 transition-colors">
                                     <div className="flex items-start justify-between">
                                         <div className="flex items-start gap-4">
                                             <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
@@ -370,19 +370,19 @@ export const BranchAdminModificationRequests: React.FC = () => {
                                                     ? 'bg-indigo-100' 
                                                     : request.request_type === 'cancel_block' 
                                                     ? 'bg-purple-100' 
-                                                    : 'bg-gray-100'
+                                                    : 'bg-neutral-100'
                                             }`}>
                                                 {request.source === 'employee' ? (
                                                     getRequestIcon(request.request_type)
                                                 ) : request.request_type === 'cancel_block' ? (
                                                     <RotateCcw className="w-6 h-6 text-purple-600" />
                                                 ) : (
-                                                    <CalendarX className="w-6 h-6 text-gray-600" />
+                                                    <CalendarX className="w-6 h-6 text-neutral-600" />
                                                 )}
                                             </div>
                                             <div className="flex-1">
                                                 <div className="flex items-center gap-3 mb-1">
-                                                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${requestTypeColors[request.request_type] || 'bg-gray-100 text-gray-700'}`}>
+                                                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${requestTypeColors[request.request_type] || 'bg-neutral-100 text-neutral-700'}`}>
                                                         {requestTypeLabels[request.request_type] || request.request_type}
                                                     </span>
                                                     {request.source === 'employee' && (
@@ -395,7 +395,7 @@ export const BranchAdminModificationRequests: React.FC = () => {
                                                             ? 'bg-amber-100 text-amber-700' 
                                                             : request.status === 'approved'
                                                             ? 'bg-green-100 text-green-700'
-                                                            : 'bg-red-100 text-red-700'
+                                                            : 'bg-error-100 text-red-700'
                                                     }`}>
                                                         {request.status.charAt(0).toUpperCase() + request.status.slice(1)}
                                                     </span>
@@ -430,55 +430,55 @@ export const BranchAdminModificationRequests: React.FC = () => {
                                                     </div>
                                                 )}
                                                 
-                                                <div className="flex items-center gap-2 text-gray-800 font-medium">
+                                                <div className="flex items-center gap-2 text-neutral-800 font-medium">
                                                     {request.source === 'employee' ? (
-                                                        <Users className="w-4 h-4 text-gray-400" />
+                                                        <Users className="w-4 h-4 text-neutral-400" />
                                                     ) : (
-                                                        <User className="w-4 h-4 text-gray-400" />
+                                                        <User className="w-4 h-4 text-neutral-400" />
                                                     )}
                                                     {request.user_name || request.doctor_name}
                                                 </div>
-                                                <p className="text-sm text-gray-500">{request.user_email || request.doctor_email}</p>
+                                                <p className="text-sm text-neutral-500">{request.user_email || request.doctor_email}</p>
                                                 
                                                 <div className="mt-3 grid grid-cols-2 gap-4 text-sm">
                                                     {request.source === 'employee' ? (
                                                         <>
                                                             <div>
-                                                                <span className="text-gray-500">Original Date:</span>
-                                                                <span className="ml-2 text-gray-800">{formatDate(request.original_shift_date || request.start_date)}</span>
+                                                                <span className="text-neutral-500">Original Date:</span>
+                                                                <span className="ml-2 text-neutral-800">{formatDate(request.original_shift_date || request.start_date)}</span>
                                                             </div>
                                                             {request.original_shift_type && (
                                                                 <div>
-                                                                    <span className="text-gray-500">Original Shift:</span>
-                                                                    <span className="ml-2 text-gray-800">{request.original_shift_type}</span>
+                                                                    <span className="text-neutral-500">Original Shift:</span>
+                                                                    <span className="ml-2 text-neutral-800">{request.original_shift_type}</span>
                                                                 </div>
                                                             )}
                                                             {request.requested_shift_date && (
                                                                 <div>
-                                                                    <span className="text-gray-500">Requested Date:</span>
-                                                                    <span className="ml-2 text-gray-800">{formatDate(request.requested_shift_date)}</span>
+                                                                    <span className="text-neutral-500">Requested Date:</span>
+                                                                    <span className="ml-2 text-neutral-800">{formatDate(request.requested_shift_date)}</span>
                                                                 </div>
                                                             )}
                                                             {request.requested_shift_type && (
                                                                 <div>
-                                                                    <span className="text-gray-500">Requested Shift:</span>
-                                                                    <span className="ml-2 text-gray-800">{request.requested_shift_type}</span>
+                                                                    <span className="text-neutral-500">Requested Shift:</span>
+                                                                    <span className="ml-2 text-neutral-800">{request.requested_shift_type}</span>
                                                                 </div>
                                                             )}
                                                         </>
                                                     ) : (
                                                         <>
                                                             <div>
-                                                                <span className="text-gray-500">Date:</span>
-                                                                <span className="ml-2 text-gray-800">{formatDate(request.start_date)}</span>
+                                                                <span className="text-neutral-500">Date:</span>
+                                                                <span className="ml-2 text-neutral-800">{formatDate(request.start_date)}</span>
                                                                 {request.end_date && request.end_date !== request.start_date && (
-                                                                    <span className="text-gray-800"> to {formatDate(request.end_date)}</span>
+                                                                    <span className="text-neutral-800"> to {formatDate(request.end_date)}</span>
                                                                 )}
                                                             </div>
                                                             {request.schedule_day && (
                                                                 <div>
-                                                                    <span className="text-gray-500">Schedule:</span>
-                                                                    <span className="ml-2 text-gray-800">
+                                                                    <span className="text-neutral-500">Schedule:</span>
+                                                                    <span className="ml-2 text-neutral-800">
                                                                         {request.schedule_day} ({formatTime(request.schedule_start_time)} - {formatTime(request.schedule_end_time)})
                                                                     </span>
                                                                 </div>
@@ -487,35 +487,35 @@ export const BranchAdminModificationRequests: React.FC = () => {
                                                     )}
                                                     {request.new_start_time && (
                                                         <div>
-                                                            <span className="text-gray-500">New Start:</span>
-                                                            <span className="ml-2 text-gray-800">{formatTime(request.new_start_time)}</span>
+                                                            <span className="text-neutral-500">New Start:</span>
+                                                            <span className="ml-2 text-neutral-800">{formatTime(request.new_start_time)}</span>
                                                         </div>
                                                     )}
                                                     {request.new_end_time && (
                                                         <div>
-                                                            <span className="text-gray-500">New End:</span>
-                                                            <span className="ml-2 text-gray-800">{formatTime(request.new_end_time)}</span>
+                                                            <span className="text-neutral-500">New End:</span>
+                                                            <span className="ml-2 text-neutral-800">{formatTime(request.new_end_time)}</span>
                                                         </div>
                                                     )}
                                                     {request.new_max_patients && (
                                                         <div>
-                                                            <span className="text-gray-500">Max Patients:</span>
-                                                            <span className="ml-2 text-gray-800">{request.new_max_patients}</span>
+                                                            <span className="text-neutral-500">Max Patients:</span>
+                                                            <span className="ml-2 text-neutral-800">{request.new_max_patients}</span>
                                                         </div>
                                                     )}
                                                 </div>
                                                 
-                                                <div className="mt-3 p-3 bg-gray-50 rounded-lg">
+                                                <div className="mt-3 p-3 bg-neutral-50 rounded-lg">
                                                     <div className="flex items-start gap-2">
-                                                        <MessageSquare className="w-4 h-4 text-gray-400 mt-0.5" />
+                                                        <MessageSquare className="w-4 h-4 text-neutral-400 mt-0.5" />
                                                         <div>
-                                                            <span className="text-xs text-gray-500 uppercase">Reason</span>
-                                                            <p className="text-sm text-gray-700">{request.reason}</p>
+                                                            <span className="text-xs text-neutral-500 uppercase">Reason</span>
+                                                            <p className="text-sm text-neutral-700">{request.reason}</p>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <p className="text-xs text-gray-400 mt-2">
+                                                <p className="text-xs text-neutral-400 mt-2">
                                                     Submitted: {formatDate(request.created_at)}
                                                 </p>
                                             </div>
@@ -556,16 +556,16 @@ export const BranchAdminModificationRequests: React.FC = () => {
                 {showRejectModal && selectedRequest && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                         <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-md mx-4">
-                            <h3 className="text-lg font-semibold text-gray-800 mb-4">Reject Request</h3>
-                            <p className="text-gray-600 mb-4">
+                            <h3 className="text-lg font-semibold text-neutral-800 mb-4">Reject Request</h3>
+                            <p className="text-neutral-600 mb-4">
                                 Are you sure you want to reject this {requestTypeLabels[selectedRequest.request_type] || selectedRequest.request_type} request from {selectedRequest.user_name || selectedRequest.doctor_name}?
                             </p>
                             <div className="mb-4">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Reason (optional)</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">Reason (optional)</label>
                                 <textarea
                                     value={rejectReason}
                                     onChange={(e) => setRejectReason(e.target.value)}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-error-500"
                                     rows={3}
                                     placeholder="Provide a reason for rejection..."
                                 />
@@ -573,7 +573,7 @@ export const BranchAdminModificationRequests: React.FC = () => {
                             <div className="flex gap-3">
                                 <button
                                     onClick={() => { setShowRejectModal(false); setRejectReason(''); setSelectedRequest(null); }}
-                                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                                    className="flex-1 px-4 py-2 border border-neutral-300 rounded-lg text-neutral-700 hover:bg-neutral-50"
                                 >
                                     Cancel
                                 </button>

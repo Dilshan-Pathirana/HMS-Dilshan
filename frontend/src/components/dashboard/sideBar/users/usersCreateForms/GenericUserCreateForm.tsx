@@ -261,128 +261,128 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
             className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-white rounded-lg shadow-md"
         >
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    First Name <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    First Name <span className="text-error-500">*</span>
                 </label>
                 <input
                     type="text"
                     name="first_name"
                     value={formData.first_name}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                     required
                 />
                 {errors.first_name && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <p className="text-error-500 text-sm mt-1">
                         {errors.first_name[0]}
                     </p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    Last Name <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    Last Name <span className="text-error-500">*</span>
                 </label>
                 <input
                     type="text"
                     name="last_name"
                     value={formData.last_name}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                     required
                 />
                 {errors.last_name && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <p className="text-error-500 text-sm mt-1">
                         {errors.last_name[0]}
                     </p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    Email <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    Email <span className="text-error-500">*</span>
                 </label>
                 <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                     required
                 />
                 {errors.email && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <p className="text-error-500 text-sm mt-1">
                         {errors.email[0]}
                     </p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    Phone <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    Phone <span className="text-error-500">*</span>
                 </label>
                 <input
                     type="text"
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                     required
                 />
                 {errors.phone && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <p className="text-error-500 text-sm mt-1">
                         {errors.phone[0]}
                     </p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    NIC <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    NIC <span className="text-error-500">*</span>
                 </label>
                 <input
                     type="text"
                     name="nic"
                     value={formData.nic}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                     required
                 />
                 {errors.nic && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <p className="text-error-500 text-sm mt-1">
                         {errors.nic[0]}
                     </p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    Date of Birth <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    Date of Birth <span className="text-error-500">*</span>
                 </label>
                 <input
                     type="date"
                     name="date_of_birth"
                     value={formData.date_of_birth}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                     required
                 />
                 {errors.date_of_birth && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <p className="text-error-500 text-sm mt-1">
                         {errors.date_of_birth[0]}
                     </p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    Gender <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    Gender <span className="text-error-500">*</span>
                 </label>
                 <select
                     name="gender"
                     value={formData.gender}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                     required
                 >
                     <option value="">Select Gender</option>
@@ -391,18 +391,18 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
                     <option value="Other">Other</option>
                 </select>
                 {errors.gender && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <p className="text-error-500 text-sm mt-1">
                         {errors.gender[0]}
                     </p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    Branch <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    Branch <span className="text-error-500">*</span>
                 </label>
                 {isBranchAdmin ? (
-                    <div className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm bg-gray-100">
+                    <div className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm bg-neutral-100">
                         {userBranchName}
                         <input type="hidden" name="branch_id" value={userBranchId} />
                     </div>
@@ -417,34 +417,34 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
                     />
                 )}
                 {errors.branch_id && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <p className="text-error-500 text-sm mt-1">
                         {errors.branch_id[0]}
                     </p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    Joining Date <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    Joining Date <span className="text-error-500">*</span>
                 </label>
                 <input
                     type="date"
                     name="joining_date"
                     value={formData.joining_date}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                     required
                 />
                 {errors.joining_date && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <p className="text-error-500 text-sm mt-1">
                         {errors.joining_date[0]}
                     </p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    Basic Salary <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    Basic Salary <span className="text-error-500">*</span>
                 </label>
                 <input
                     type="number"
@@ -453,19 +453,19 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
                     onChange={handleInputChange}
                     min="0"
                     step="0.01"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                     required
                 />
                 {errors.basic_salary && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <p className="text-error-500 text-sm mt-1">
                         {errors.basic_salary[0]}
                     </p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    Password <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    Password <span className="text-error-500">*</span>
                 </label>
                 <div className="relative">
                     <input
@@ -474,27 +474,27 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
                         value={formData.password}
                         onChange={handleInputChange}
                         placeholder="Enter login password (min 6 characters)"
-                        className={`mt-1 p-2 block w-full border rounded-md shadow-sm pr-10 ${errors.password ? 'border-red-500' : 'border-gray-300'}`}
+                        className={`mt-1 p-2 block w-full border rounded-md shadow-sm pr-10 ${errors.password ? 'border-error-500' : 'border-neutral-300'}`}
                         required
                     />
                     <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-neutral-500 hover:text-neutral-700"
                     >
                         {showPassword ? '🙈' : '👁️'}
                     </button>
                 </div>
                 {errors.password && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <p className="text-error-500 text-sm mt-1">
                         {errors.password[0]}
                     </p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
-                    Confirm Password <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-neutral-700">
+                    Confirm Password <span className="text-error-500">*</span>
                 </label>
                 <div className="relative">
                     <input
@@ -503,26 +503,26 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
                         value={formData.confirm_password}
                         onChange={handleInputChange}
                         placeholder="Confirm password"
-                        className={`mt-1 p-2 block w-full border rounded-md shadow-sm pr-10 ${errors.confirm_password ? 'border-red-500' : 'border-gray-300'}`}
+                        className={`mt-1 p-2 block w-full border rounded-md shadow-sm pr-10 ${errors.confirm_password ? 'border-error-500' : 'border-neutral-300'}`}
                         required
                     />
                     <button
                         type="button"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-neutral-500 hover:text-neutral-700"
                     >
                         {showConfirmPassword ? '🙈' : '👁️'}
                     </button>
                 </div>
                 {errors.confirm_password && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <p className="text-error-500 text-sm mt-1">
                         {errors.confirm_password[0]}
                     </p>
                 )}
             </div>
 
             <div className="col-span-1 md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Address
                 </label>
                 <textarea
@@ -530,17 +530,17 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
                     value={formData.address}
                     onChange={handleInputChange}
                     rows={3}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
                 {errors.address && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <p className="text-error-500 text-sm mt-1">
                         {errors.address[0]}
                     </p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     Recent Photo
                 </label>
                 <input
@@ -548,7 +548,7 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
                     name="photo"
                     onChange={handleFileChange}
                     accept="image/*"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
                 {recentPhotoPreview && (
                     <img
@@ -558,14 +558,14 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
                     />
                 )}
                 {errors.photo && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <p className="text-error-500 text-sm mt-1">
                         {errors.photo[0]}
                     </p>
                 )}
             </div>
 
             <div className="col-span-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-neutral-700">
                     NIC Photo
                 </label>
                 <input
@@ -573,7 +573,7 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
                     name="nic_photo"
                     onChange={handleFileChange}
                     accept="image/*"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
                 {nicPhotoPreview && (
                     <img
@@ -583,7 +583,7 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
                     />
                 )}
                 {errors.nic_photo && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <p className="text-error-500 text-sm mt-1">
                         {errors.nic_photo[0]}
                     </p>
                 )}
@@ -592,7 +592,7 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
             <div className="col-span-1 md:col-span-2">
                 <button
                     type="submit"
-                    className="w-full bg-blue-600 text-white p-2 rounded-md shadow-sm hover:bg-blue-700"
+                    className="w-full bg-primary-500 text-white p-2 rounded-md shadow-sm hover:bg-primary-600"
                 >
                     Create {userType}
                 </button>

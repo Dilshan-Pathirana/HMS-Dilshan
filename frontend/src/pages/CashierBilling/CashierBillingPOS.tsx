@@ -667,7 +667,7 @@ const CashierBillingPOS = () => {
 
     if (isEodLocked) {
         return (
-            <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
+            <div className="p-6 space-y-6 bg-neutral-50 min-h-screen">
                 <div className="max-w-2xl mx-auto">
                     <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6">
                         <div className="flex items-center mb-4">
@@ -696,7 +696,7 @@ const CashierBillingPOS = () => {
     const balance = calculateBalance();
 
     return (
-        <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
+        <div className="p-6 space-y-6 bg-neutral-50 min-h-screen">
             {/* Header */}
             <div className="bg-gradient-to-r from-emerald-500 to-blue-600 rounded-xl shadow-lg p-6 text-white">
                 <div className="flex items-center justify-between">
@@ -729,8 +729,8 @@ const CashierBillingPOS = () => {
 
             {/* Alerts */}
             {error && (
-                <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-center gap-3">
-                    <AlertCircle className="h-5 w-5 text-red-500" />
+                <div className="bg-error-50 border border-red-200 rounded-xl p-4 flex items-center gap-3">
+                    <AlertCircle className="h-5 w-5 text-error-500" />
                     <p className="text-sm text-red-700">{error}</p>
                 </div>
             )}
@@ -752,7 +752,7 @@ const CashierBillingPOS = () => {
                                 {lowStockWarning.map((item, idx) => (
                                     <p key={idx} className="text-sm text-amber-700">
                                         <span className="font-medium">{item.name}</span> ({item.code}) - 
-                                        Only <span className="font-bold text-red-600">{item.current_stock}</span> units left 
+                                        Only <span className="font-bold text-error-600">{item.current_stock}</span> units left 
                                         (Reorder level: {item.reorder_level})
                                     </p>
                                 ))}
@@ -776,8 +776,8 @@ const CashierBillingPOS = () => {
                 {/* Left Column - Transaction Details */}
                 <div className="lg:col-span-2 space-y-6">
                     {/* Transaction Type */}
-                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">Transaction Type</h2>
+                    <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+                        <h2 className="text-lg font-semibold text-neutral-800 mb-4">Transaction Type</h2>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                             {["OPD", "LAB", "PHARMACY", "SERVICE"].map((type) => (
                                 <button
@@ -787,7 +787,7 @@ const CashierBillingPOS = () => {
                                     className={`p-4 rounded-lg border-2 transition ${
                                         transactionType === type
                                             ? "border-emerald-500 bg-gradient-to-br from-emerald-50 to-blue-50 text-emerald-700"
-                                            : "border-gray-200 hover:border-gray-300"
+                                            : "border-neutral-200 hover:border-neutral-300"
                                     }`}
                                 >
                                     <span className="font-medium">{type}</span>
@@ -797,8 +797,8 @@ const CashierBillingPOS = () => {
                     </div>
 
                     {/* Patient Information */}
-                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+                        <h2 className="text-lg font-semibold text-neutral-800 mb-4 flex items-center gap-2">
                             <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg">
                                 <User className="h-4 w-4 text-white" />
                             </div>
@@ -813,7 +813,7 @@ const CashierBillingPOS = () => {
                                 className={`flex-1 px-4 py-2 rounded-lg border-2 transition ${
                                     !isWalkIn
                                         ? "border-emerald-500 bg-gradient-to-br from-emerald-50 to-blue-50 text-emerald-700"
-                                        : "border-gray-200 hover:border-gray-300"
+                                        : "border-neutral-200 hover:border-neutral-300"
                                 }`}
                             >
                                 Registered Patient
@@ -824,7 +824,7 @@ const CashierBillingPOS = () => {
                                 className={`flex-1 px-4 py-2 rounded-lg border-2 transition ${
                                     isWalkIn
                                         ? "border-emerald-500 bg-gradient-to-br from-emerald-50 to-blue-50 text-emerald-700"
-                                        : "border-gray-200 hover:border-gray-300"
+                                        : "border-neutral-200 hover:border-neutral-300"
                                 }`}
                             >
                                 Walk-in Customer
@@ -834,13 +834,13 @@ const CashierBillingPOS = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {/* Patient Search/Name */}
                             <div className="relative">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     {isWalkIn ? "Customer Name (Optional)" : "Patient Name"}
                                 </label>
                                 {!isWalkIn ? (
                                     <>
                                         <div className="relative">
-                                            <Search className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+                                            <Search className="absolute left-3 top-3.5 h-5 w-5 text-neutral-400" />
                                             <input
                                                 type="text"
                                                 value={patientSearch}
@@ -849,12 +849,12 @@ const CashierBillingPOS = () => {
                                                     setPatientInfo({ ...patientInfo, name: e.target.value });
                                                 }}
                                                 onFocus={() => patientSearch.length >= 2 && setShowPatientDropdown(true)}
-                                                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                                                className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                                                 placeholder="Search patient name..."
                                             />
                                         </div>
                                         {showPatientDropdown && patients.length > 0 && (
-                                            <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                            <div className="absolute z-10 w-full mt-1 bg-white border border-neutral-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                                                 {patients.map((patient, index) => (
                                                     <button
                                                         key={`${patient.id}-${index}`}
@@ -862,10 +862,10 @@ const CashierBillingPOS = () => {
                                                         onClick={() => selectPatient(patient)}
                                                         className="w-full px-4 py-3 text-left hover:bg-emerald-50 border-b border-gray-100 last:border-b-0"
                                                     >
-                                                        <div className="font-medium text-gray-900">
+                                                        <div className="font-medium text-neutral-900">
                                                             {patient.first_name} {patient.last_name}
                                                         </div>
-                                                        <div className="text-sm text-gray-500">
+                                                        <div className="text-sm text-neutral-500">
                                                             {patient.phone} {patient.email && `• ${patient.email}`}
                                                         </div>
                                                     </button>
@@ -878,7 +878,7 @@ const CashierBillingPOS = () => {
                                         type="text"
                                         value={patientInfo.name}
                                         onChange={(e) => setPatientInfo({ ...patientInfo, name: e.target.value })}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                                        className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                                         placeholder="Enter name (optional)"
                                     />
                                 )}
@@ -886,30 +886,30 @@ const CashierBillingPOS = () => {
 
                             {/* Phone Number */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Phone Number (Optional)
                                 </label>
                                 <div className="relative">
-                                    <Phone className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+                                    <Phone className="absolute left-3 top-3.5 h-5 w-5 text-neutral-400" />
                                     <input
                                         type="tel"
                                         value={patientInfo.phone}
                                         onChange={(e) => setPatientInfo({ ...patientInfo, phone: e.target.value })}
-                                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                                        className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                                         placeholder="07XXXXXXXX (optional)"
                                         disabled={!isWalkIn && patientInfo.id !== undefined}
                                     />
                                 </div>
                                 {!isWalkIn && patientInfo.id && (
-                                    <p className="text-xs text-gray-500 mt-1">Phone from patient record</p>
+                                    <p className="text-xs text-neutral-500 mt-1">Phone from patient record</p>
                                 )}
                             </div>
                         </div>
                     </div>
 
                     {/* Purchased Items */}
-                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+                        <h2 className="text-lg font-semibold text-neutral-800 mb-4 flex items-center gap-2">
                             <div className="p-2 bg-gradient-to-br from-emerald-500 to-blue-600 rounded-lg">
                                 <ShoppingCart className="h-4 w-4 text-white" />
                             </div>
@@ -921,7 +921,7 @@ const CashierBillingPOS = () => {
                             {/* Product Search - Must select from database */}
                             <div className="col-span-12 md:col-span-5 relative">
                                 <div className="relative">
-                                    <Search className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+                                    <Search className="absolute left-3 top-3.5 h-5 w-5 text-neutral-400" />
                                     <input
                                         type="text"
                                         value={productSearch}
@@ -935,12 +935,12 @@ const CashierBillingPOS = () => {
                                             }
                                         }}
                                         onFocus={() => productSearch.length >= 2 && setShowProductDropdown(true)}
-                                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                                        className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                                         placeholder="Search and select product..."
                                     />
                                 </div>
                                 {showProductDropdown && products.length > 0 && (
-                                    <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                    <div className="absolute z-10 w-full mt-1 bg-white border border-neutral-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                                         {products.map((product, index) => (
                                             <button
                                                 key={`${product.id}-${index}`}
@@ -950,12 +950,12 @@ const CashierBillingPOS = () => {
                                             >
                                                 <div className="flex justify-between items-start">
                                                     <div>
-                                                        <div className="font-medium text-gray-900">{product.item_name}</div>
-                                                        <div className="text-sm text-gray-500">{product.item_code}</div>
+                                                        <div className="font-medium text-neutral-900">{product.item_name}</div>
+                                                        <div className="text-sm text-neutral-500">{product.item_code}</div>
                                                     </div>
                                                     <div className="text-right">
                                                         <div className="font-medium text-emerald-600">Rs. {product.selling_price}</div>
-                                                        <div className="text-xs text-gray-500">Stock: {product.stock}</div>
+                                                        <div className="text-xs text-neutral-500">Stock: {product.stock}</div>
                                                     </div>
                                                 </div>
                                             </button>
@@ -971,7 +971,7 @@ const CashierBillingPOS = () => {
                                     min="1"
                                     value={currentService.quantity}
                                     onChange={(e) => setCurrentService({ ...currentService, quantity: e.target.value })}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     placeholder="Qty"
                                 />
                             </div>
@@ -984,7 +984,7 @@ const CashierBillingPOS = () => {
                                         step="0.01"
                                         value={currentService.amount}
                                         readOnly={true}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
+                                        className="w-full px-4 py-3 border border-neutral-300 rounded-lg bg-neutral-100 cursor-not-allowed"
                                         placeholder="Select product"
                                     />
                                     {isProductFromDB && (
@@ -1009,37 +1009,37 @@ const CashierBillingPOS = () => {
 
                         {/* Purchased Items List */}
                         {serviceItems.length > 0 ? (
-                            <div className="border border-gray-200 rounded-xl overflow-hidden">
+                            <div className="border border-neutral-200 rounded-xl overflow-hidden">
                                 <table className="w-full">
                                     <thead className="bg-gradient-to-r from-emerald-50 to-blue-50">
                                         <tr>
-                                            <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Item</th>
-                                            <th className="px-4 py-3 text-center text-sm font-medium text-gray-700">Qty</th>
-                                            <th className="px-4 py-3 text-right text-sm font-medium text-gray-700">Price</th>
-                                            <th className="px-4 py-3 text-right text-sm font-medium text-gray-700">Total</th>
+                                            <th className="px-4 py-3 text-left text-sm font-medium text-neutral-700">Item</th>
+                                            <th className="px-4 py-3 text-center text-sm font-medium text-neutral-700">Qty</th>
+                                            <th className="px-4 py-3 text-right text-sm font-medium text-neutral-700">Price</th>
+                                            <th className="px-4 py-3 text-right text-sm font-medium text-neutral-700">Total</th>
                                             <th className="px-4 py-3 w-16"></th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200">
                                         {serviceItems.map((item) => (
-                                            <tr key={item.id} className="hover:bg-gray-50">
-                                                <td className="px-4 py-3 text-sm text-gray-900">
+                                            <tr key={item.id} className="hover:bg-neutral-50">
+                                                <td className="px-4 py-3 text-sm text-neutral-900">
                                                     {item.service}
                                                     {item.stock !== undefined && (
-                                                        <span className="ml-2 text-xs text-gray-500">
+                                                        <span className="ml-2 text-xs text-neutral-500">
                                                             (Stock: {item.stock})
                                                         </span>
                                                     )}
                                                 </td>
-                                                <td className="px-4 py-3 text-sm text-gray-700 text-center">
+                                                <td className="px-4 py-3 text-sm text-neutral-700 text-center">
                                                     <div className="flex items-center justify-center gap-2">
                                                         <button
                                                             type="button"
                                                             onClick={() => updateItemQuantity(item.id, -1)}
                                                             disabled={(item.quantity || 1) <= 1}
-                                                            className="w-7 h-7 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                                                            className="w-7 h-7 flex items-center justify-center rounded-full bg-neutral-100 hover:bg-neutral-200 disabled:opacity-40 disabled:cursor-not-allowed transition"
                                                         >
-                                                            <Minus className="h-3.5 w-3.5 text-gray-600" />
+                                                            <Minus className="h-3.5 w-3.5 text-neutral-600" />
                                                         </button>
                                                         <span className="w-8 text-center font-semibold">
                                                             {item.quantity || 1}
@@ -1054,17 +1054,17 @@ const CashierBillingPOS = () => {
                                                         </button>
                                                     </div>
                                                 </td>
-                                                <td className="px-4 py-3 text-sm text-gray-700 text-right">
+                                                <td className="px-4 py-3 text-sm text-neutral-700 text-right">
                                                     Rs. {(item.amount / (item.quantity || 1)).toLocaleString()}
                                                 </td>
-                                                <td className="px-4 py-3 text-sm text-gray-900 text-right font-medium">
+                                                <td className="px-4 py-3 text-sm text-neutral-900 text-right font-medium">
                                                     Rs. {item.amount.toLocaleString()}
                                                 </td>
                                                 <td className="px-4 py-3 text-right">
                                                     <button
                                                         type="button"
                                                         onClick={() => removeServiceItem(item.id)}
-                                                        className="text-red-600 hover:text-red-800 transition"
+                                                        className="text-error-600 hover:text-red-800 transition"
                                                     >
                                                         <Trash2 className="h-4 w-4" />
                                                     </button>
@@ -1075,16 +1075,16 @@ const CashierBillingPOS = () => {
                                 </table>
                             </div>
                         ) : (
-                            <div className="text-center py-8 text-gray-500 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
-                                <ShoppingCart className="h-12 w-12 mx-auto mb-2 text-gray-400" />
+                            <div className="text-center py-8 text-neutral-500 bg-neutral-50 rounded-xl border-2 border-dashed border-neutral-200">
+                                <ShoppingCart className="h-12 w-12 mx-auto mb-2 text-neutral-400" />
                                 <p>No items added yet</p>
                             </div>
                         )}
 
                         {/* Available Inventory List */}
-                        <div className="mt-6 pt-6 border-t border-gray-200">
+                        <div className="mt-6 pt-6 border-t border-neutral-200">
                             <div className="flex items-center justify-between mb-4">
-                                <h3 className="text-md font-semibold text-gray-700 flex items-center gap-2">
+                                <h3 className="text-md font-semibold text-neutral-700 flex items-center gap-2">
                                     <Package className="h-5 w-5 text-emerald-600" />
                                     Available Inventory
                                 </h3>
@@ -1102,7 +1102,7 @@ const CashierBillingPOS = () => {
                             {isLoadingInventory ? (
                                 <div className="text-center py-6">
                                     <RefreshCw className="h-8 w-8 mx-auto animate-spin text-emerald-500" />
-                                    <p className="text-sm text-gray-500 mt-2">Loading inventory...</p>
+                                    <p className="text-sm text-neutral-500 mt-2">Loading inventory...</p>
                                 </div>
                             ) : inventoryItems.length > 0 ? (
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-64 overflow-y-auto">
@@ -1111,21 +1111,21 @@ const CashierBillingPOS = () => {
                                             key={`${item.id}-${index}`}
                                             type="button"
                                             onClick={() => quickAddProduct(item)}
-                                            className="p-3 bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-lg hover:border-emerald-400 hover:shadow-md transition-all text-left group"
+                                            className="p-3 bg-gradient-to-br from-gray-50 to-white border border-neutral-200 rounded-lg hover:border-emerald-400 hover:shadow-md transition-all text-left group"
                                         >
                                             <div className="flex justify-between items-start">
                                                 <div className="flex-1 min-w-0">
-                                                    <p className="font-medium text-gray-900 truncate group-hover:text-emerald-700">
+                                                    <p className="font-medium text-neutral-900 truncate group-hover:text-emerald-700">
                                                         {item.item_name}
                                                     </p>
-                                                    <p className="text-xs text-gray-500">{item.item_code}</p>
+                                                    <p className="text-xs text-neutral-500">{item.item_code}</p>
                                                 </div>
                                                 <div className="text-right ml-2">
                                                     <p className="font-semibold text-emerald-600">
                                                         Rs. {item.selling_price?.toLocaleString() || '0'}
                                                     </p>
-                                                    <p className="text-xs text-gray-500">
-                                                        Stock: <span className={item.stock < 10 ? 'text-red-500 font-medium' : 'text-green-600'}>{item.stock}</span>
+                                                    <p className="text-xs text-neutral-500">
+                                                        Stock: <span className={item.stock < 10 ? 'text-error-500 font-medium' : 'text-green-600'}>{item.stock}</span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -1136,8 +1136,8 @@ const CashierBillingPOS = () => {
                                     ))}
                                 </div>
                             ) : (
-                                <div className="text-center py-6 text-gray-500 bg-gray-50 rounded-lg">
-                                    <Package className="h-8 w-8 mx-auto mb-2 text-gray-400" />
+                                <div className="text-center py-6 text-neutral-500 bg-neutral-50 rounded-lg">
+                                    <Package className="h-8 w-8 mx-auto mb-2 text-neutral-400" />
                                     <p className="text-sm">No inventory items available</p>
                                 </div>
                             )}
@@ -1145,15 +1145,15 @@ const CashierBillingPOS = () => {
                     </div>
 
                     {/* Remarks */}
-                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
                             Remarks (Optional)
                         </label>
                         <textarea
                             value={remarks}
                             onChange={(e) => setRemarks(e.target.value)}
                             rows={3}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                            className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                             placeholder="Add any additional notes..."
                         />
                     </div>
@@ -1162,19 +1162,19 @@ const CashierBillingPOS = () => {
                 {/* Right Column - Payment & Summary */}
                 <div className="space-y-6">
                     {/* Payment Summary */}
-                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 sticky top-6">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">Payment Summary</h2>
+                    <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6 sticky top-6">
+                        <h2 className="text-lg font-semibold text-neutral-800 mb-4">Payment Summary</h2>
                         
                         <div className="space-y-3 mb-6 p-4 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-xl">
                             <div className="flex justify-between text-sm">
-                                <span className="text-gray-600">Total Amount:</span>
-                                <span className="font-bold text-2xl text-gray-800">Rs. {total.toLocaleString()}</span>
+                                <span className="text-neutral-600">Total Amount:</span>
+                                <span className="font-bold text-2xl text-neutral-800">Rs. {total.toLocaleString()}</span>
                             </div>
                         </div>
 
                         {/* Payment Method */}
                         <div className="mb-6">
-                            <label className="block text-sm font-medium text-gray-700 mb-3">
+                            <label className="block text-sm font-medium text-neutral-700 mb-3">
                                 Payment Method *
                             </label>
                             <div className="grid grid-cols-2 gap-2">
@@ -1191,11 +1191,11 @@ const CashierBillingPOS = () => {
                                         className={`p-3 rounded-lg border-2 transition flex flex-col items-center gap-1 ${
                                             paymentMethod === method.value
                                                 ? "border-emerald-500 bg-gradient-to-br from-emerald-50 to-blue-50"
-                                                : "border-gray-200 hover:border-gray-300"
+                                                : "border-neutral-200 hover:border-neutral-300"
                                         }`}
                                     >
-                                        <div className={`p-2 rounded-lg ${paymentMethod === method.value ? `bg-gradient-to-br ${method.color}` : 'bg-gray-100'}`}>
-                                            <method.icon className={`h-5 w-5 ${paymentMethod === method.value ? 'text-white' : 'text-gray-600'}`} />
+                                        <div className={`p-2 rounded-lg ${paymentMethod === method.value ? `bg-gradient-to-br ${method.color}` : 'bg-neutral-100'}`}>
+                                            <method.icon className={`h-5 w-5 ${paymentMethod === method.value ? 'text-white' : 'text-neutral-600'}`} />
                                         </div>
                                         <span className="text-xs font-medium">{method.label}</span>
                                     </button>
@@ -1205,7 +1205,7 @@ const CashierBillingPOS = () => {
 
                         {/* Paid Amount */}
                         <div className="mb-6">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Paid Amount *
                             </label>
                             <input
@@ -1213,7 +1213,7 @@ const CashierBillingPOS = () => {
                                 step="0.01"
                                 value={paidAmount}
                                 onChange={(e) => setPaidAmount(e.target.value)}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-lg font-semibold"
+                                className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-lg font-semibold"
                                 placeholder="0.00"
                                 required
                             />
@@ -1262,7 +1262,7 @@ const CashierBillingPOS = () => {
                                         navigate("/pos/pos");
                                     }
                                 }}
-                                className="w-full bg-gray-100 text-gray-700 py-3 rounded-lg hover:bg-gray-200 transition border border-gray-200"
+                                className="w-full bg-neutral-100 text-neutral-700 py-3 rounded-lg hover:bg-neutral-200 transition border border-neutral-200"
                             >
                                 Cancel
                             </button>
@@ -1280,14 +1280,14 @@ const CashierBillingPOS = () => {
                                 <AlertCircle className="h-8 w-8 text-yellow-600" />
                             </div>
                         </div>
-                        <h3 className="text-xl font-bold text-center text-gray-900 mb-2">Cancel Transaction?</h3>
-                        <p className="text-center text-gray-600 mb-6">
+                        <h3 className="text-xl font-bold text-center text-neutral-900 mb-2">Cancel Transaction?</h3>
+                        <p className="text-center text-neutral-600 mb-6">
                             You have {serviceItems.length} item{serviceItems.length !== 1 ? 's' : ''} in the cart. Are you sure you want to cancel and clear the cart?
                         </p>
                         <div className="flex gap-3">
                             <button
                                 onClick={() => setShowCancelConfirm(false)}
-                                className="flex-1 bg-gray-100 text-gray-700 py-3 px-4 rounded-lg hover:bg-gray-200 transition font-medium"
+                                className="flex-1 bg-neutral-100 text-neutral-700 py-3 px-4 rounded-lg hover:bg-neutral-200 transition font-medium"
                             >
                                 Keep Cart
                             </button>
@@ -1303,7 +1303,7 @@ const CashierBillingPOS = () => {
                                     setShowCancelConfirm(false);
                                     navigate("/pos/pos");
                                 }}
-                                className="flex-1 bg-red-500 text-white py-3 px-4 rounded-lg hover:bg-red-600 transition font-medium"
+                                className="flex-1 bg-error-500 text-white py-3 px-4 rounded-lg hover:bg-red-600 transition font-medium"
                             >
                                 Yes, Cancel
                             </button>

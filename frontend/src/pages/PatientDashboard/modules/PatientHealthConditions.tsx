@@ -188,8 +188,8 @@ const PatientHealthConditions: React.FC = () => {
         switch (severity) {
             case 'mild': return 'bg-green-100 text-green-700';
             case 'moderate': return 'bg-yellow-100 text-yellow-700';
-            case 'severe': return 'bg-red-100 text-red-700';
-            default: return 'bg-gray-100 text-gray-700';
+            case 'severe': return 'bg-error-100 text-red-700';
+            default: return 'bg-neutral-100 text-neutral-700';
         }
     };
 
@@ -203,9 +203,9 @@ const PatientHealthConditions: React.FC = () => {
 
     const getTypeColor = (type: string) => {
         switch (type) {
-            case 'chronic': return 'bg-red-100 text-red-600';
+            case 'chronic': return 'bg-error-100 text-error-600';
             case 'allergy': return 'bg-orange-100 text-orange-600';
-            default: return 'bg-blue-100 text-blue-600';
+            default: return 'bg-blue-100 text-primary-500';
         }
     };
 
@@ -222,8 +222,8 @@ const PatientHealthConditions: React.FC = () => {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-800">Health Conditions</h1>
-                    <p className="text-gray-500">Manage your chronic illnesses and allergies</p>
+                    <h1 className="text-2xl font-bold text-neutral-800">Health Conditions</h1>
+                    <p className="text-neutral-500">Manage your chronic illnesses and allergies</p>
                 </div>
                 <button
                     onClick={() => setShowAddModal(true)}
@@ -239,10 +239,10 @@ const PatientHealthConditions: React.FC = () => {
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-gray-500">Chronic Conditions</p>
-                            <p className="text-3xl font-bold text-red-600">{chronicCount}</p>
+                            <p className="text-sm text-neutral-500">Chronic Conditions</p>
+                            <p className="text-3xl font-bold text-error-600">{chronicCount}</p>
                         </div>
-                        <div className="p-3 bg-red-50 rounded-xl text-red-600">
+                        <div className="p-3 bg-error-50 rounded-xl text-error-600">
                             <Heart className="w-8 h-8" />
                         </div>
                     </div>
@@ -250,7 +250,7 @@ const PatientHealthConditions: React.FC = () => {
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-gray-500">Known Allergies</p>
+                            <p className="text-sm text-neutral-500">Known Allergies</p>
                             <p className="text-3xl font-bold text-orange-600">{allergyCount}</p>
                         </div>
                         <div className="p-3 bg-orange-50 rounded-xl text-orange-600">
@@ -261,10 +261,10 @@ const PatientHealthConditions: React.FC = () => {
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-gray-500">Other Conditions</p>
-                            <p className="text-3xl font-bold text-blue-600">{otherCount}</p>
+                            <p className="text-sm text-neutral-500">Other Conditions</p>
+                            <p className="text-3xl font-bold text-primary-500">{otherCount}</p>
                         </div>
-                        <div className="p-3 bg-blue-50 rounded-xl text-blue-600">
+                        <div className="p-3 bg-blue-50 rounded-xl text-primary-500">
                             <Activity className="w-8 h-8" />
                         </div>
                     </div>
@@ -286,12 +286,12 @@ const PatientHealthConditions: React.FC = () => {
                             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
                                 activeTab === tab.key
                                     ? 'bg-emerald-600 text-white'
-                                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                    : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
                             }`}
                         >
                             {tab.label}
                             <span className={`px-2 py-0.5 rounded-full text-xs ${
-                                activeTab === tab.key ? 'bg-white/20' : 'bg-gray-200'
+                                activeTab === tab.key ? 'bg-white/20' : 'bg-neutral-200'
                             }`}>
                                 {tab.count}
                             </span>
@@ -304,8 +304,8 @@ const PatientHealthConditions: React.FC = () => {
             {filteredConditions.length === 0 ? (
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
                     <Heart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-800 mb-2">No conditions recorded</h3>
-                    <p className="text-gray-500 mb-4">Add your health conditions to help your healthcare providers</p>
+                    <h3 className="text-lg font-medium text-neutral-800 mb-2">No conditions recorded</h3>
+                    <p className="text-neutral-500 mb-4">Add your health conditions to help your healthcare providers</p>
                     <button
                         onClick={() => setShowAddModal(true)}
                         className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
@@ -319,7 +319,7 @@ const PatientHealthConditions: React.FC = () => {
                     {filteredConditions.map((condition) => (
                         <div key={condition.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                             <div 
-                                className="p-5 cursor-pointer hover:bg-gray-50 transition-colors"
+                                className="p-5 cursor-pointer hover:bg-neutral-50 transition-colors"
                                 onClick={() => setExpandedId(expandedId === condition.id ? null : condition.id)}
                             >
                                 <div className="flex items-center justify-between">
@@ -329,14 +329,14 @@ const PatientHealthConditions: React.FC = () => {
                                         </div>
                                         <div>
                                             <div className="flex items-center gap-2">
-                                                <h3 className="font-semibold text-gray-800">{condition.name}</h3>
+                                                <h3 className="font-semibold text-neutral-800">{condition.name}</h3>
                                                 {condition.self_reported && (
-                                                    <span className="px-2 py-0.5 bg-gray-100 text-gray-500 text-xs rounded-full">
+                                                    <span className="px-2 py-0.5 bg-neutral-100 text-neutral-500 text-xs rounded-full">
                                                         Self-reported
                                                     </span>
                                                 )}
                                             </div>
-                                            <div className="flex items-center gap-3 mt-1 text-sm text-gray-500">
+                                            <div className="flex items-center gap-3 mt-1 text-sm text-neutral-500">
                                                 <span className="capitalize">{condition.type}</span>
                                                 {condition.severity && (
                                                     <>
@@ -356,15 +356,15 @@ const PatientHealthConditions: React.FC = () => {
                                                     e.stopPropagation();
                                                     handleDeleteCondition(condition.id);
                                                 }}
-                                                className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                className="p-2 text-neutral-400 hover:text-error-600 hover:bg-error-50 rounded-lg transition-colors"
                                             >
                                                 <Trash2 className="w-5 h-5" />
                                             </button>
                                         )}
                                         {expandedId === condition.id ? (
-                                            <ChevronUp className="w-5 h-5 text-gray-400" />
+                                            <ChevronUp className="w-5 h-5 text-neutral-400" />
                                         ) : (
-                                            <ChevronDown className="w-5 h-5 text-gray-400" />
+                                            <ChevronDown className="w-5 h-5 text-neutral-400" />
                                         )}
                                     </div>
                                 </div>
@@ -376,9 +376,9 @@ const PatientHealthConditions: React.FC = () => {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                                         {condition.diagnosed_date && (
                                             <div className="flex items-center gap-2 text-sm">
-                                                <Calendar className="w-4 h-4 text-gray-400" />
-                                                <span className="text-gray-500">Diagnosed:</span>
-                                                <span className="text-gray-700">
+                                                <Calendar className="w-4 h-4 text-neutral-400" />
+                                                <span className="text-neutral-500">Diagnosed:</span>
+                                                <span className="text-neutral-700">
                                                     {new Date(condition.diagnosed_date).toLocaleDateString('en-US', { 
                                                         month: 'long', 
                                                         day: 'numeric', 
@@ -389,16 +389,16 @@ const PatientHealthConditions: React.FC = () => {
                                         )}
                                         {condition.diagnosed_by && (
                                             <div className="flex items-center gap-2 text-sm">
-                                                <User className="w-4 h-4 text-gray-400" />
-                                                <span className="text-gray-500">Diagnosed by:</span>
-                                                <span className="text-gray-700">{condition.diagnosed_by}</span>
+                                                <User className="w-4 h-4 text-neutral-400" />
+                                                <span className="text-neutral-500">Diagnosed by:</span>
+                                                <span className="text-neutral-700">{condition.diagnosed_by}</span>
                                             </div>
                                         )}
                                     </div>
                                     {condition.notes && (
-                                        <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-                                            <p className="text-sm text-gray-600">
-                                                <span className="font-medium text-gray-700">Notes: </span>
+                                        <div className="mt-4 p-3 bg-neutral-50 rounded-lg">
+                                            <p className="text-sm text-neutral-600">
+                                                <span className="font-medium text-neutral-700">Notes: </span>
                                                 {condition.notes}
                                             </p>
                                         </div>
@@ -413,7 +413,7 @@ const PatientHealthConditions: React.FC = () => {
             {/* Important Note */}
             <div className="bg-blue-50 border border-blue-200 rounded-xl p-5">
                 <div className="flex items-start gap-3">
-                    <Info className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <Info className="w-5 h-5 text-primary-500 flex-shrink-0 mt-0.5" />
                     <div>
                         <h4 className="font-medium text-blue-800">Keep Your Records Updated</h4>
                         <p className="mt-1 text-sm text-blue-700">
@@ -430,12 +430,12 @@ const PatientHealthConditions: React.FC = () => {
                     <div className="bg-white rounded-2xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
                         <div className="p-6 border-b border-gray-100">
                             <div className="flex items-center justify-between">
-                                <h2 className="text-xl font-bold text-gray-800">Add Health Condition</h2>
+                                <h2 className="text-xl font-bold text-neutral-800">Add Health Condition</h2>
                                 <button
                                     onClick={() => setShowAddModal(false)}
-                                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                    className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                                 >
-                                    <X className="w-5 h-5 text-gray-500" />
+                                    <X className="w-5 h-5 text-neutral-500" />
                                 </button>
                             </div>
                         </div>
@@ -443,7 +443,7 @@ const PatientHealthConditions: React.FC = () => {
                         <div className="p-6 space-y-5">
                             {/* Type Selection */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Condition Type *
                                 </label>
                                 <div className="grid grid-cols-3 gap-3">
@@ -458,14 +458,14 @@ const PatientHealthConditions: React.FC = () => {
                                             className={`p-3 rounded-xl border-2 transition-colors flex flex-col items-center gap-2 ${
                                                 newCondition.type === type.key
                                                     ? 'border-emerald-500 bg-emerald-50'
-                                                    : 'border-gray-200 hover:border-gray-300'
+                                                    : 'border-neutral-200 hover:border-neutral-300'
                                             }`}
                                         >
                                             <type.icon className={`w-6 h-6 ${
-                                                newCondition.type === type.key ? 'text-emerald-600' : 'text-gray-400'
+                                                newCondition.type === type.key ? 'text-emerald-600' : 'text-neutral-400'
                                             }`} />
                                             <span className={`text-sm font-medium ${
-                                                newCondition.type === type.key ? 'text-emerald-700' : 'text-gray-600'
+                                                newCondition.type === type.key ? 'text-emerald-700' : 'text-neutral-600'
                                             }`}>{type.label}</span>
                                         </button>
                                     ))}
@@ -474,14 +474,14 @@ const PatientHealthConditions: React.FC = () => {
 
                             {/* Condition Name */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     {newCondition.type === 'allergy' ? 'Allergy *' : 'Condition Name *'}
                                 </label>
                                 {newCondition.type === 'allergy' ? (
                                     <select
                                         value={newCondition.name}
                                         onChange={(e) => setNewCondition({ ...newCondition, name: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                     >
                                         <option value="">Select an allergy...</option>
                                         {ALLERGY_OPTIONS.map((allergy) => (
@@ -492,7 +492,7 @@ const PatientHealthConditions: React.FC = () => {
                                     <select
                                         value={newCondition.name}
                                         onChange={(e) => setNewCondition({ ...newCondition, name: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                     >
                                         <option value="">Select a condition...</option>
                                         {CHRONIC_CONDITIONS.map((condition) => (
@@ -505,14 +505,14 @@ const PatientHealthConditions: React.FC = () => {
                                         value={newCondition.name}
                                         onChange={(e) => setNewCondition({ ...newCondition, name: e.target.value })}
                                         placeholder="Enter condition name..."
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                     />
                                 )}
                             </div>
 
                             {/* Severity */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Severity
                                 </label>
                                 <div className="grid grid-cols-3 gap-3">
@@ -523,7 +523,7 @@ const PatientHealthConditions: React.FC = () => {
                                             className={`py-2 px-4 rounded-lg border-2 text-sm font-medium transition-colors ${
                                                 newCondition.severity === severity
                                                     ? getSeverityColor(severity) + ' border-current'
-                                                    : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                                                    : 'border-neutral-200 text-neutral-600 hover:border-neutral-300'
                                             }`}
                                         >
                                             {severity.charAt(0).toUpperCase() + severity.slice(1)}
@@ -535,7 +535,7 @@ const PatientHealthConditions: React.FC = () => {
                             {/* Diagnosed Date (for chronic conditions) */}
                             {newCondition.type === 'chronic' && (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                                         Diagnosed Date (optional)
                                     </label>
                                     <input
@@ -543,14 +543,14 @@ const PatientHealthConditions: React.FC = () => {
                                         value={newCondition.diagnosed_date}
                                         onChange={(e) => setNewCondition({ ...newCondition, diagnosed_date: e.target.value })}
                                         max={new Date().toISOString().split('T')[0]}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                     />
                                 </div>
                             )}
 
                             {/* Notes */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Additional Notes (optional)
                                 </label>
                                 <textarea
@@ -558,7 +558,7 @@ const PatientHealthConditions: React.FC = () => {
                                     onChange={(e) => setNewCondition({ ...newCondition, notes: e.target.value })}
                                     placeholder="Any additional information about this condition..."
                                     rows={3}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none"
                                 />
                             </div>
                         </div>
@@ -566,14 +566,14 @@ const PatientHealthConditions: React.FC = () => {
                         <div className="p-6 border-t border-gray-100 flex gap-3">
                             <button
                                 onClick={() => setShowAddModal(false)}
-                                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                                className="flex-1 px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleAddCondition}
                                 disabled={!newCondition.name}
-                                className="flex-1 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                className="flex-1 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors disabled:bg-neutral-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                             >
                                 <Check className="w-5 h-5" />
                                 Add Condition

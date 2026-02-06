@@ -89,8 +89,8 @@ export const ComplianceLegal: React.FC = () => {
         switch (status) {
             case 'valid': case 'passed': return 'bg-green-100 text-green-700';
             case 'expiring': case 'pending': return 'bg-yellow-100 text-yellow-700';
-            case 'expired': case 'failed': return 'bg-red-100 text-red-700';
-            default: return 'bg-gray-100 text-gray-700';
+            case 'expired': case 'failed': return 'bg-error-100 text-red-700';
+            default: return 'bg-neutral-100 text-neutral-700';
         }
     };
 
@@ -100,14 +100,14 @@ export const ComplianceLegal: React.FC = () => {
             case 'data': return 'bg-purple-100 text-purple-700';
             case 'system': return 'bg-orange-100 text-orange-700';
             case 'compliance': return 'bg-green-100 text-green-700';
-            default: return 'bg-gray-100 text-gray-700';
+            default: return 'bg-neutral-100 text-neutral-700';
         }
     };
 
     const SidebarMenu = () => (
         <nav className="py-4">
             <div className="px-4 mb-4">
-                <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Navigation</h2>
+                <h2 className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Navigation</h2>
             </div>
             <ul className="space-y-1 px-2">
                 {BranchAdminMenuItems.map((item, index) => (
@@ -116,8 +116,8 @@ export const ComplianceLegal: React.FC = () => {
                             onClick={() => navigate(item.path)}
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                                 item.path === '/branch-admin/hrm'
-                                    ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-md'
-                                    : 'text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
+                                    ? 'bg-gradient-to-r from-emerald-500 to-primary-500 text-white shadow-md'
+                                    : 'text-neutral-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
                             }`}
                         >
                             <span className="flex-shrink-0">{item.icon}</span>
@@ -151,16 +151,16 @@ export const ComplianceLegal: React.FC = () => {
                     <div className="flex items-center gap-4">
                         <button 
                             onClick={() => navigate('/branch-admin/hrm')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ChevronLeft className="w-5 h-5 text-gray-600" />
+                            <ChevronLeft className="w-5 h-5 text-neutral-600" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">Compliance & Legal</h1>
-                            <p className="text-gray-500">Manage licenses, audit trails, and regulatory compliance</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">Compliance & Legal</h1>
+                            <p className="text-neutral-500">Manage licenses, audit trails, and regulatory compliance</p>
                         </div>
                     </div>
-                    <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                    <button className="flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50">
                         <Download className="w-4 h-4" />
                         Export Report
                     </button>
@@ -168,10 +168,10 @@ export const ComplianceLegal: React.FC = () => {
 
                 {/* Quick Stats */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Valid Licenses</p>
+                                <p className="text-sm text-neutral-500">Valid Licenses</p>
                                 <p className="text-2xl font-bold text-green-600">{licenses.filter(l => l.status === 'valid').length}</p>
                             </div>
                             <div className="p-3 bg-green-100 rounded-lg">
@@ -179,10 +179,10 @@ export const ComplianceLegal: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Expiring Soon</p>
+                                <p className="text-sm text-neutral-500">Expiring Soon</p>
                                 <p className="text-2xl font-bold text-yellow-600">{licenses.filter(l => l.status === 'expiring').length}</p>
                             </div>
                             <div className="p-3 bg-yellow-100 rounded-lg">
@@ -190,10 +190,10 @@ export const ComplianceLegal: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Compliance Score</p>
+                                <p className="text-sm text-neutral-500">Compliance Score</p>
                                 <p className="text-2xl font-bold text-emerald-600">94%</p>
                             </div>
                             <div className="p-3 bg-emerald-100 rounded-lg">
@@ -201,22 +201,22 @@ export const ComplianceLegal: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Audit Events (Today)</p>
-                                <p className="text-2xl font-bold text-blue-600">{auditLogs.length}</p>
+                                <p className="text-sm text-neutral-500">Audit Events (Today)</p>
+                                <p className="text-2xl font-bold text-primary-500">{auditLogs.length}</p>
                             </div>
                             <div className="p-3 bg-blue-100 rounded-lg">
-                                <History className="w-6 h-6 text-blue-600" />
+                                <History className="w-6 h-6 text-primary-500" />
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Tabs */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-                    <div className="border-b border-gray-200">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200">
+                    <div className="border-b border-neutral-200">
                         <div className="flex overflow-x-auto">
                             {tabs.map(tab => (
                                 <button
@@ -225,13 +225,13 @@ export const ComplianceLegal: React.FC = () => {
                                     className={`flex items-center gap-2 px-6 py-4 font-medium text-sm whitespace-nowrap border-b-2 transition-colors ${
                                         activeTab === tab.id
                                             ? 'border-emerald-500 text-emerald-600'
-                                            : 'border-transparent text-gray-500 hover:text-gray-700'
+                                            : 'border-transparent text-neutral-500 hover:text-neutral-700'
                                     }`}
                                 >
                                     {tab.icon}
                                     {tab.label}
                                     {tab.count !== undefined && tab.count > 0 && (
-                                        <span className="ml-1 px-2 py-0.5 bg-red-500 text-white text-xs rounded-full">{tab.count}</span>
+                                        <span className="ml-1 px-2 py-0.5 bg-error-500 text-white text-xs rounded-full">{tab.count}</span>
                                     )}
                                 </button>
                             ))}
@@ -244,16 +244,16 @@ export const ComplianceLegal: React.FC = () => {
                             <div className="space-y-4">
                                 <div className="flex flex-col md:flex-row gap-4">
                                     <div className="flex-1 relative">
-                                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                                         <input
                                             type="text"
                                             placeholder="Search licenses..."
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
-                                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                         />
                                     </div>
-                                    <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:opacity-90">
+                                    <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:opacity-90">
                                         <Plus className="w-4 h-4" />
                                         Add License
                                     </button>
@@ -261,31 +261,31 @@ export const ComplianceLegal: React.FC = () => {
 
                                 <div className="overflow-x-auto">
                                     <table className="w-full">
-                                        <thead className="bg-gray-50">
+                                        <thead className="bg-neutral-50">
                                             <tr>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Staff</th>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">License Type</th>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">License #</th>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Expiry</th>
-                                                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Status</th>
-                                                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Actions</th>
+                                                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Staff</th>
+                                                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">License Type</th>
+                                                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">License #</th>
+                                                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Expiry</th>
+                                                <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Status</th>
+                                                <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200">
                                             {licenses.map(license => (
-                                                <tr key={license.id} className={`hover:bg-gray-50 ${license.status === 'expired' ? 'bg-red-50' : ''}`}>
-                                                    <td className="px-4 py-3 font-medium text-gray-800">{license.staffName}</td>
-                                                    <td className="px-4 py-3 text-gray-600">{license.licenseType}</td>
-                                                    <td className="px-4 py-3 text-gray-600">{license.licenseNumber}</td>
-                                                    <td className="px-4 py-3 text-gray-600">{license.expiryDate}</td>
+                                                <tr key={license.id} className={`hover:bg-neutral-50 ${license.status === 'expired' ? 'bg-error-50' : ''}`}>
+                                                    <td className="px-4 py-3 font-medium text-neutral-800">{license.staffName}</td>
+                                                    <td className="px-4 py-3 text-neutral-600">{license.licenseType}</td>
+                                                    <td className="px-4 py-3 text-neutral-600">{license.licenseNumber}</td>
+                                                    <td className="px-4 py-3 text-neutral-600">{license.expiryDate}</td>
                                                     <td className="px-4 py-3 text-center">
                                                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusStyle(license.status)}`}>
                                                             {license.status.charAt(0).toUpperCase() + license.status.slice(1)}
                                                         </span>
                                                     </td>
                                                     <td className="px-4 py-3 text-center">
-                                                        <button className="p-1.5 hover:bg-gray-100 rounded">
-                                                            <Eye className="w-4 h-4 text-gray-500" />
+                                                        <button className="p-1.5 hover:bg-neutral-100 rounded">
+                                                            <Eye className="w-4 h-4 text-neutral-500" />
                                                         </button>
                                                     </td>
                                                 </tr>
@@ -303,7 +303,7 @@ export const ComplianceLegal: React.FC = () => {
                                     <select
                                         value={filterCategory}
                                         onChange={(e) => setFilterCategory(e.target.value)}
-                                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="all">All Categories</option>
                                         <option value="access">Access</option>
@@ -315,27 +315,27 @@ export const ComplianceLegal: React.FC = () => {
 
                                 <div className="space-y-3">
                                     {auditLogs.filter(log => filterCategory === 'all' || log.category === filterCategory).map(log => (
-                                        <div key={log.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                                        <div key={log.id} className="border border-neutral-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                                             <div className="flex items-start justify-between">
                                                 <div className="flex items-start gap-3">
-                                                    <div className="p-2 bg-gray-100 rounded-lg mt-1">
-                                                        <History className="w-4 h-4 text-gray-600" />
+                                                    <div className="p-2 bg-neutral-100 rounded-lg mt-1">
+                                                        <History className="w-4 h-4 text-neutral-600" />
                                                     </div>
                                                     <div>
                                                         <div className="flex items-center gap-2">
-                                                            <h4 className="font-medium text-gray-800">{log.action}</h4>
+                                                            <h4 className="font-medium text-neutral-800">{log.action}</h4>
                                                             <span className={`px-2 py-0.5 rounded text-xs ${getCategoryStyle(log.category)}`}>
                                                                 {log.category}
                                                             </span>
                                                         </div>
-                                                        <p className="text-sm text-gray-600 mt-1">{log.details}</p>
-                                                        <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                                                        <p className="text-sm text-neutral-600 mt-1">{log.details}</p>
+                                                        <div className="flex items-center gap-4 mt-2 text-xs text-neutral-500">
                                                             <span>By: {log.performedBy}</span>
                                                             {log.targetUser !== '-' && <span>Target: {log.targetUser}</span>}
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <span className="text-xs text-gray-400">{log.timestamp}</span>
+                                                <span className="text-xs text-neutral-400">{log.timestamp}</span>
                                             </div>
                                         </div>
                                     ))}
@@ -348,22 +348,22 @@ export const ComplianceLegal: React.FC = () => {
                             <div className="space-y-4">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {complianceChecks.map(check => (
-                                        <div key={check.id} className={`border rounded-lg p-4 ${check.status === 'failed' ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}>
+                                        <div key={check.id} className={`border rounded-lg p-4 ${check.status === 'failed' ? 'border-red-300 bg-error-50' : 'border-neutral-200'}`}>
                                             <div className="flex items-start justify-between mb-3">
                                                 <div>
-                                                    <h4 className="font-semibold text-gray-800">{check.checkName}</h4>
-                                                    <p className="text-sm text-gray-500">{check.category}</p>
+                                                    <h4 className="font-semibold text-neutral-800">{check.checkName}</h4>
+                                                    <p className="text-sm text-neutral-500">{check.category}</p>
                                                 </div>
                                                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusStyle(check.status)}`}>
                                                     {check.status.charAt(0).toUpperCase() + check.status.slice(1)}
                                                 </span>
                                             </div>
-                                            <div className="flex justify-between text-sm text-gray-600">
+                                            <div className="flex justify-between text-sm text-neutral-600">
                                                 <span>Last Check: {check.lastCheck}</span>
                                                 <span>Next Due: {check.nextDue}</span>
                                             </div>
                                             {check.status === 'pending' && (
-                                                <button className="mt-3 w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm">
+                                                <button className="mt-3 w-full px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-500 text-sm">
                                                     Run Check
                                                 </button>
                                             )}

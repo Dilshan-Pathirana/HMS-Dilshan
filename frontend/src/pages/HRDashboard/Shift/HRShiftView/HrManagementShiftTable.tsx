@@ -92,13 +92,13 @@ const HrManagementShiftTable: React.FC<{ userRole: number }> = ({
                                 placeholder="Search by name or branch..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="border border-gray-300 rounded pl-4 pr-4 py-2 w-full"
+                                className="border border-neutral-300 rounded pl-4 pr-4 py-2 w-full"
                             />
                         </div>
                     </div>
 
-                    <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
-                        <thead className="bg-gray-50">
+                    <table className="min-w-full divide-y divide-gray-200 border border-neutral-200">
+                        <thead className="bg-neutral-50">
                             <tr>
                                 {[
                                     "First Name",
@@ -112,7 +112,7 @@ const HrManagementShiftTable: React.FC<{ userRole: number }> = ({
                                 ].map((header) => (
                                     <th
                                         key={header}
-                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                        className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider"
                                     >
                                         {header}
                                     </th>
@@ -123,19 +123,19 @@ const HrManagementShiftTable: React.FC<{ userRole: number }> = ({
                         <tbody className="bg-white divide-y divide-gray-200">
                             {paginatedShifts.map((shift) => (
                                 <tr key={shift.id}>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         {shift.user_first_name}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         {shift.user_last_name}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         {shift.branch_center_name}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         {shift.shift_type}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         {typeof shift.days_of_week === "string"
                                             ? JSON.parse(shift.days_of_week)
                                                   .map(
@@ -145,13 +145,13 @@ const HrManagementShiftTable: React.FC<{ userRole: number }> = ({
                                                   .join(", ")
                                             : "N/A"}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         {shift.start_time}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         {shift.end_time}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         {shift.notes || "N/A"}
                                     </td>
                                 </tr>

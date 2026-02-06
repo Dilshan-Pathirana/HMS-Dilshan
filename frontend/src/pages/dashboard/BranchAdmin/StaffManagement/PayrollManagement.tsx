@@ -97,7 +97,7 @@ export const PayrollManagement: React.FC = () => {
             case 'paid': return 'bg-green-100 text-green-700';
             case 'processed': return 'bg-blue-100 text-blue-700';
             case 'pending': return 'bg-yellow-100 text-yellow-700';
-            default: return 'bg-gray-100 text-gray-700';
+            default: return 'bg-neutral-100 text-neutral-700';
         }
     };
 
@@ -108,7 +108,7 @@ export const PayrollManagement: React.FC = () => {
     const SidebarMenu = () => (
         <nav className="py-4">
             <div className="px-4 mb-4">
-                <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Navigation</h2>
+                <h2 className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Navigation</h2>
             </div>
             <ul className="space-y-1 px-2">
                 {BranchAdminMenuItems.map((item, index) => (
@@ -117,8 +117,8 @@ export const PayrollManagement: React.FC = () => {
                             onClick={() => navigate(item.path)}
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                                 item.path === '/branch-admin/hrm'
-                                    ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-md'
-                                    : 'text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
+                                    ? 'bg-gradient-to-r from-emerald-500 to-primary-500 text-white shadow-md'
+                                    : 'text-neutral-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
                             }`}
                         >
                             <span className="flex-shrink-0">{item.icon}</span>
@@ -152,13 +152,13 @@ export const PayrollManagement: React.FC = () => {
                     <div className="flex items-center gap-4">
                         <button 
                             onClick={() => navigate('/branch-admin/hrm')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ChevronLeft className="w-5 h-5 text-gray-600" />
+                            <ChevronLeft className="w-5 h-5 text-neutral-600" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">Payroll & Compensation</h1>
-                            <p className="text-gray-500">Manage salary processing, reports, and benefits</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">Payroll & Compensation</h1>
+                            <p className="text-neutral-500">Manage salary processing, reports, and benefits</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
@@ -166,9 +166,9 @@ export const PayrollManagement: React.FC = () => {
                             type="month"
                             value={selectedMonth}
                             onChange={(e) => setSelectedMonth(e.target.value)}
-                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                            className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                         />
-                        <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                        <button className="flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50">
                             <Download className="w-4 h-4" />
                             Export
                         </button>
@@ -177,43 +177,43 @@ export const PayrollManagement: React.FC = () => {
 
                 {/* Quick Stats */}
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Total Payroll</p>
-                                <p className="text-xl font-bold text-gray-800">{formatCurrency(mockSummary.totalPayroll)}</p>
+                                <p className="text-sm text-neutral-500">Total Payroll</p>
+                                <p className="text-xl font-bold text-neutral-800">{formatCurrency(mockSummary.totalPayroll)}</p>
                             </div>
                             <div className="p-3 bg-emerald-100 rounded-lg">
                                 <DollarSign className="w-6 h-6 text-emerald-600" />
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Overtime Pay</p>
-                                <p className="text-xl font-bold text-blue-600">{formatCurrency(mockSummary.totalOvertime)}</p>
+                                <p className="text-sm text-neutral-500">Overtime Pay</p>
+                                <p className="text-xl font-bold text-primary-500">{formatCurrency(mockSummary.totalOvertime)}</p>
                             </div>
                             <div className="p-3 bg-blue-100 rounded-lg">
-                                <Clock className="w-6 h-6 text-blue-600" />
+                                <Clock className="w-6 h-6 text-primary-500" />
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Deductions</p>
-                                <p className="text-xl font-bold text-red-600">{formatCurrency(mockSummary.totalDeductions)}</p>
+                                <p className="text-sm text-neutral-500">Deductions</p>
+                                <p className="text-xl font-bold text-error-600">{formatCurrency(mockSummary.totalDeductions)}</p>
                             </div>
-                            <div className="p-3 bg-red-100 rounded-lg">
-                                <Calculator className="w-6 h-6 text-red-600" />
+                            <div className="p-3 bg-error-100 rounded-lg">
+                                <Calculator className="w-6 h-6 text-error-600" />
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Pending</p>
+                                <p className="text-sm text-neutral-500">Pending</p>
                                 <p className="text-xl font-bold text-orange-600">{mockSummary.pendingPayments}</p>
                             </div>
                             <div className="p-3 bg-orange-100 rounded-lg">
@@ -221,10 +221,10 @@ export const PayrollManagement: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Processed</p>
+                                <p className="text-sm text-neutral-500">Processed</p>
                                 <p className="text-xl font-bold text-green-600">{mockSummary.processedCount}</p>
                             </div>
                             <div className="p-3 bg-green-100 rounded-lg">
@@ -235,8 +235,8 @@ export const PayrollManagement: React.FC = () => {
                 </div>
 
                 {/* Tabs */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-                    <div className="border-b border-gray-200">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200">
+                    <div className="border-b border-neutral-200">
                         <div className="flex overflow-x-auto">
                             {tabs.map(tab => (
                                 <button
@@ -245,7 +245,7 @@ export const PayrollManagement: React.FC = () => {
                                     className={`flex items-center gap-2 px-6 py-4 font-medium text-sm whitespace-nowrap border-b-2 transition-colors ${
                                         activeTab === tab.id
                                             ? 'border-emerald-500 text-emerald-600'
-                                            : 'border-transparent text-gray-500 hover:text-gray-700'
+                                            : 'border-transparent text-neutral-500 hover:text-neutral-700'
                                     }`}
                                 >
                                     {tab.icon}
@@ -262,19 +262,19 @@ export const PayrollManagement: React.FC = () => {
                                 {/* Filters */}
                                 <div className="flex flex-col md:flex-row gap-4">
                                     <div className="flex-1 relative">
-                                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                                         <input
                                             type="text"
                                             placeholder="Search by staff name..."
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
-                                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                         />
                                     </div>
                                     <select
                                         value={filterDepartment}
                                         onChange={(e) => setFilterDepartment(e.target.value)}
-                                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="all">All Departments</option>
                                         {departments.map(dept => (
@@ -284,7 +284,7 @@ export const PayrollManagement: React.FC = () => {
                                     <select
                                         value={filterStatus}
                                         onChange={(e) => setFilterStatus(e.target.value)}
-                                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="all">All Status</option>
                                         <option value="pending">Pending</option>
@@ -296,32 +296,32 @@ export const PayrollManagement: React.FC = () => {
                                 {/* Payroll Table */}
                                 <div className="overflow-x-auto">
                                     <table className="w-full">
-                                        <thead className="bg-gray-50">
+                                        <thead className="bg-neutral-50">
                                             <tr>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Staff</th>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Role</th>
-                                                <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Base Salary</th>
-                                                <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Overtime</th>
-                                                <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Deductions</th>
-                                                <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Net Pay</th>
-                                                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Status</th>
-                                                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Actions</th>
+                                                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Staff</th>
+                                                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Role</th>
+                                                <th className="px-4 py-3 text-right text-xs font-semibold text-neutral-600 uppercase">Base Salary</th>
+                                                <th className="px-4 py-3 text-right text-xs font-semibold text-neutral-600 uppercase">Overtime</th>
+                                                <th className="px-4 py-3 text-right text-xs font-semibold text-neutral-600 uppercase">Deductions</th>
+                                                <th className="px-4 py-3 text-right text-xs font-semibold text-neutral-600 uppercase">Net Pay</th>
+                                                <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Status</th>
+                                                <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200">
                                             {filteredRecords.map(record => (
-                                                <tr key={record.id} className="hover:bg-gray-50">
+                                                <tr key={record.id} className="hover:bg-neutral-50">
                                                     <td className="px-4 py-3">
                                                         <div>
-                                                            <p className="font-medium text-gray-800">{record.staffName}</p>
-                                                            <p className="text-sm text-gray-500">{record.department}</p>
+                                                            <p className="font-medium text-neutral-800">{record.staffName}</p>
+                                                            <p className="text-sm text-neutral-500">{record.department}</p>
                                                         </div>
                                                     </td>
-                                                    <td className="px-4 py-3 text-gray-600">{record.role}</td>
+                                                    <td className="px-4 py-3 text-neutral-600">{record.role}</td>
                                                     <td className="px-4 py-3 text-right font-medium">{formatCurrency(record.baseSalary)}</td>
-                                                    <td className="px-4 py-3 text-right text-blue-600">+{formatCurrency(record.overtime)}</td>
-                                                    <td className="px-4 py-3 text-right text-red-600">-{formatCurrency(record.deductions)}</td>
-                                                    <td className="px-4 py-3 text-right font-bold text-gray-800">{formatCurrency(record.netPay)}</td>
+                                                    <td className="px-4 py-3 text-right text-primary-500">+{formatCurrency(record.overtime)}</td>
+                                                    <td className="px-4 py-3 text-right text-error-600">-{formatCurrency(record.deductions)}</td>
+                                                    <td className="px-4 py-3 text-right font-bold text-neutral-800">{formatCurrency(record.netPay)}</td>
                                                     <td className="px-4 py-3 text-center">
                                                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusStyle(record.status)}`}>
                                                             {record.status.charAt(0).toUpperCase() + record.status.slice(1)}
@@ -331,7 +331,7 @@ export const PayrollManagement: React.FC = () => {
                                                         {record.status === 'pending' && (
                                                             <button 
                                                                 onClick={() => handleProcessPayroll(record.id)}
-                                                                className="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600"
+                                                                className="px-3 py-1 bg-primary-500 text-white rounded text-sm hover:bg-primary-500"
                                                             >
                                                                 Process
                                                             </button>
@@ -357,39 +357,39 @@ export const PayrollManagement: React.FC = () => {
                         {activeTab === 'reports' && (
                             <div className="space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer">
+                                    <div className="border border-neutral-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer">
                                         <div className="flex items-center gap-3 mb-2">
                                             <div className="p-2 bg-blue-100 rounded-lg">
-                                                <FileText className="w-5 h-5 text-blue-600" />
+                                                <FileText className="w-5 h-5 text-primary-500" />
                                             </div>
-                                            <h4 className="font-semibold text-gray-800">Monthly Payroll Summary</h4>
+                                            <h4 className="font-semibold text-neutral-800">Monthly Payroll Summary</h4>
                                         </div>
-                                        <p className="text-sm text-gray-500 mb-3">Overview of all payroll transactions for the month</p>
-                                        <button className="flex items-center gap-2 text-sm text-blue-600 hover:underline">
+                                        <p className="text-sm text-neutral-500 mb-3">Overview of all payroll transactions for the month</p>
+                                        <button className="flex items-center gap-2 text-sm text-primary-500 hover:underline">
                                             <Download className="w-4 h-4" /> Download Report
                                         </button>
                                     </div>
-                                    <div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer">
+                                    <div className="border border-neutral-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer">
                                         <div className="flex items-center gap-3 mb-2">
                                             <div className="p-2 bg-green-100 rounded-lg">
                                                 <TrendingUp className="w-5 h-5 text-green-600" />
                                             </div>
-                                            <h4 className="font-semibold text-gray-800">Department Breakdown</h4>
+                                            <h4 className="font-semibold text-neutral-800">Department Breakdown</h4>
                                         </div>
-                                        <p className="text-sm text-gray-500 mb-3">Payroll costs by department</p>
-                                        <button className="flex items-center gap-2 text-sm text-blue-600 hover:underline">
+                                        <p className="text-sm text-neutral-500 mb-3">Payroll costs by department</p>
+                                        <button className="flex items-center gap-2 text-sm text-primary-500 hover:underline">
                                             <Download className="w-4 h-4" /> Download Report
                                         </button>
                                     </div>
-                                    <div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer">
+                                    <div className="border border-neutral-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer">
                                         <div className="flex items-center gap-3 mb-2">
                                             <div className="p-2 bg-purple-100 rounded-lg">
                                                 <Calculator className="w-5 h-5 text-purple-600" />
                                             </div>
-                                            <h4 className="font-semibold text-gray-800">Tax Report</h4>
+                                            <h4 className="font-semibold text-neutral-800">Tax Report</h4>
                                         </div>
-                                        <p className="text-sm text-gray-500 mb-3">Tax deductions and contributions</p>
-                                        <button className="flex items-center gap-2 text-sm text-blue-600 hover:underline">
+                                        <p className="text-sm text-neutral-500 mb-3">Tax deductions and contributions</p>
+                                        <button className="flex items-center gap-2 text-sm text-primary-500 hover:underline">
                                             <Download className="w-4 h-4" /> Download Report
                                         </button>
                                     </div>
@@ -401,45 +401,45 @@ export const PayrollManagement: React.FC = () => {
                         {activeTab === 'benefits' && (
                             <div className="space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="border border-gray-200 rounded-lg p-4">
-                                        <h4 className="font-semibold text-gray-800 mb-4">Tax Deductions Summary</h4>
+                                    <div className="border border-neutral-200 rounded-lg p-4">
+                                        <h4 className="font-semibold text-neutral-800 mb-4">Tax Deductions Summary</h4>
                                         <div className="space-y-3">
                                             <div className="flex justify-between items-center">
-                                                <span className="text-gray-600">Income Tax</span>
+                                                <span className="text-neutral-600">Income Tax</span>
                                                 <span className="font-medium">{formatCurrency(12500)}</span>
                                             </div>
                                             <div className="flex justify-between items-center">
-                                                <span className="text-gray-600">Social Security</span>
+                                                <span className="text-neutral-600">Social Security</span>
                                                 <span className="font-medium">{formatCurrency(5500)}</span>
                                             </div>
                                             <div className="flex justify-between items-center">
-                                                <span className="text-gray-600">Medicare</span>
+                                                <span className="text-neutral-600">Medicare</span>
                                                 <span className="font-medium">{formatCurrency(2500)}</span>
                                             </div>
                                             <div className="border-t pt-3 flex justify-between items-center">
-                                                <span className="font-semibold text-gray-800">Total Taxes</span>
-                                                <span className="font-bold text-gray-800">{formatCurrency(20500)}</span>
+                                                <span className="font-semibold text-neutral-800">Total Taxes</span>
+                                                <span className="font-bold text-neutral-800">{formatCurrency(20500)}</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="border border-gray-200 rounded-lg p-4">
-                                        <h4 className="font-semibold text-gray-800 mb-4">Benefits Contributions</h4>
+                                    <div className="border border-neutral-200 rounded-lg p-4">
+                                        <h4 className="font-semibold text-neutral-800 mb-4">Benefits Contributions</h4>
                                         <div className="space-y-3">
                                             <div className="flex justify-between items-center">
-                                                <span className="text-gray-600">Health Insurance</span>
+                                                <span className="text-neutral-600">Health Insurance</span>
                                                 <span className="font-medium">{formatCurrency(8500)}</span>
                                             </div>
                                             <div className="flex justify-between items-center">
-                                                <span className="text-gray-600">Dental Insurance</span>
+                                                <span className="text-neutral-600">Dental Insurance</span>
                                                 <span className="font-medium">{formatCurrency(1500)}</span>
                                             </div>
                                             <div className="flex justify-between items-center">
-                                                <span className="text-gray-600">401(k) Matching</span>
+                                                <span className="text-neutral-600">401(k) Matching</span>
                                                 <span className="font-medium">{formatCurrency(4500)}</span>
                                             </div>
                                             <div className="border-t pt-3 flex justify-between items-center">
-                                                <span className="font-semibold text-gray-800">Total Benefits</span>
-                                                <span className="font-bold text-gray-800">{formatCurrency(14500)}</span>
+                                                <span className="font-semibold text-neutral-800">Total Benefits</span>
+                                                <span className="font-bold text-neutral-800">{formatCurrency(14500)}</span>
                                             </div>
                                         </div>
                                     </div>

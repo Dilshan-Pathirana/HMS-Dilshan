@@ -208,7 +208,7 @@ export function AccessDenied({
 }): React.ReactElement {
     return (
         <div className="flex flex-col items-center justify-center p-8 text-center">
-            <div className="w-16 h-16 mb-4 text-red-500">
+            <div className="w-16 h-16 mb-4 text-error-500">
                 <svg 
                     xmlns="http://www.w3.org/2000/svg" 
                     fill="none" 
@@ -223,16 +223,16 @@ export function AccessDenied({
                     />
                 </svg>
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <h3 className="text-lg font-semibold text-neutral-900 mb-2">
                 Access Denied
             </h3>
-            <p className="text-gray-600 mb-4">
+            <p className="text-neutral-600 mb-4">
                 {message}
             </p>
             {showBackButton && (
                 <button
                     onClick={() => window.history.back()}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
                 >
                     Go Back
                 </button>

@@ -123,7 +123,7 @@ const PharmacistPendingConsultations: React.FC = () => {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+                <Loader2 className="w-8 h-8 animate-spin text-primary-500" />
             </div>
         );
     }
@@ -133,13 +133,13 @@ const PharmacistPendingConsultations: React.FC = () => {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-xl font-bold text-gray-800">Prescription Dispensing</h2>
-                    <p className="text-gray-500">Issue medicines for paid consultations</p>
+                    <h2 className="text-xl font-bold text-neutral-800">Prescription Dispensing</h2>
+                    <p className="text-neutral-500">Issue medicines for paid consultations</p>
                 </div>
                 <button
                     onClick={handleRefresh}
                     disabled={refreshing}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-neutral-300 rounded-lg hover:bg-neutral-50 disabled:opacity-50"
                 >
                     <RefreshCw className={`w-5 h-5 ${refreshing ? 'animate-spin' : ''}`} />
                     Refresh
@@ -148,8 +148,8 @@ const PharmacistPendingConsultations: React.FC = () => {
 
             {/* Error State */}
             {error && (
-                <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-center gap-3">
-                    <AlertCircle className="w-5 h-5 text-red-500" />
+                <div className="bg-error-50 border border-red-200 rounded-xl p-4 flex items-center gap-3">
+                    <AlertCircle className="w-5 h-5 text-error-500" />
                     <p className="text-red-700">{error}</p>
                 </div>
             )}
@@ -171,8 +171,8 @@ const PharmacistPendingConsultations: React.FC = () => {
             {consultations.length === 0 ? (
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
                     <CheckCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-800 mb-2">All caught up!</h3>
-                    <p className="text-gray-500">No prescriptions pending dispensing</p>
+                    <h3 className="text-lg font-medium text-neutral-800 mb-2">All caught up!</h3>
+                    <p className="text-neutral-500">No prescriptions pending dispensing</p>
                 </div>
             ) : (
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
@@ -180,7 +180,7 @@ const PharmacistPendingConsultations: React.FC = () => {
                         {consultations.map((consultation) => (
                             <div
                                 key={consultation.id}
-                                className="p-4 hover:bg-gray-50 transition-colors"
+                                className="p-4 hover:bg-neutral-50 transition-colors"
                             >
                                 <div className="flex items-start justify-between">
                                     <div className="flex items-start gap-4">
@@ -188,10 +188,10 @@ const PharmacistPendingConsultations: React.FC = () => {
                                             <User className="w-6 h-6 text-green-600" />
                                         </div>
                                         <div>
-                                            <h3 className="font-semibold text-gray-800">
+                                            <h3 className="font-semibold text-neutral-800">
                                                 {consultation.patient_name}
                                             </h3>
-                                            <p className="text-sm text-gray-500">
+                                            <p className="text-sm text-neutral-500">
                                                 Dr. {consultation.doctor_name}
                                             </p>
                                             <div className="flex items-center gap-4 mt-2 text-sm">
@@ -204,13 +204,13 @@ const PharmacistPendingConsultations: React.FC = () => {
                                             {/* Prescription Summary */}
                                             <div className="mt-3 space-y-1">
                                                 {consultation.prescriptions.slice(0, 3).map((p, i) => (
-                                                    <p key={i} className="text-sm text-gray-700 flex items-center gap-2">
+                                                    <p key={i} className="text-sm text-neutral-700 flex items-center gap-2">
                                                         <Package className="w-3.5 h-3.5 text-green-500" />
                                                         {p.medicine_name} {p.potency} - {p.dosage}, {p.frequency}
                                                     </p>
                                                 ))}
                                                 {consultation.prescriptions.length > 3 && (
-                                                    <p className="text-sm text-gray-500">
+                                                    <p className="text-sm text-neutral-500">
                                                         +{consultation.prescriptions.length - 3} more medicines
                                                     </p>
                                                 )}
@@ -242,19 +242,19 @@ const PharmacistPendingConsultations: React.FC = () => {
             {selectedConsultation && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-                        <div className="p-6 border-b border-gray-200 sticky top-0 bg-white">
-                            <h3 className="text-lg font-bold text-gray-800">Issue Medicines</h3>
-                            <p className="text-sm text-gray-500">Review and dispense prescription</p>
+                        <div className="p-6 border-b border-neutral-200 sticky top-0 bg-white">
+                            <h3 className="text-lg font-bold text-neutral-800">Issue Medicines</h3>
+                            <p className="text-sm text-neutral-500">Review and dispense prescription</p>
                         </div>
                         
                         <div className="p-6 space-y-4">
                             {/* Patient Info */}
-                            <div className="bg-gray-50 rounded-xl p-4">
+                            <div className="bg-neutral-50 rounded-xl p-4">
                                 <div className="flex items-center gap-3 mb-2">
-                                    <User className="w-5 h-5 text-gray-500" />
-                                    <span className="font-semibold text-gray-800">{selectedConsultation.patient_name}</span>
+                                    <User className="w-5 h-5 text-neutral-500" />
+                                    <span className="font-semibold text-neutral-800">{selectedConsultation.patient_name}</span>
                                 </div>
-                                <p className="text-sm text-gray-500">Dr. {selectedConsultation.doctor_name}</p>
+                                <p className="text-sm text-neutral-500">Dr. {selectedConsultation.doctor_name}</p>
                             </div>
 
                             {/* Diagnoses */}
@@ -285,17 +285,17 @@ const PharmacistPendingConsultations: React.FC = () => {
                                 <div className="space-y-3">
                                     {selectedConsultation.prescriptions.map((p, i) => (
                                         <div key={i} className="bg-white rounded-lg p-3 border border-green-200">
-                                            <p className="font-semibold text-gray-800">
+                                            <p className="font-semibold text-neutral-800">
                                                 {p.medicine_name} {p.potency}
                                             </p>
-                                            <div className="grid grid-cols-2 gap-2 mt-2 text-sm text-gray-600">
+                                            <div className="grid grid-cols-2 gap-2 mt-2 text-sm text-neutral-600">
                                                 <span>Dosage: {p.dosage}</span>
                                                 <span>Frequency: {p.frequency}</span>
                                                 <span>Duration: {p.duration}</span>
                                                 <span className="font-medium text-green-700">Qty: {p.quantity}</span>
                                             </div>
                                             {p.instructions && (
-                                                <p className="mt-2 text-sm text-gray-500 italic">
+                                                <p className="mt-2 text-sm text-neutral-500 italic">
                                                     Note: {p.instructions}
                                                 </p>
                                             )}
@@ -306,14 +306,14 @@ const PharmacistPendingConsultations: React.FC = () => {
 
                             {/* Dispensing Note */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Dispensing Note (Optional)
                                 </label>
                                 <textarea
                                     value={dispensingNote}
                                     onChange={(e) => setDispensingNote(e.target.value)}
                                     placeholder="Add any notes about dispensing..."
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 min-h-[60px] resize-none"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 min-h-[60px] resize-none"
                                 />
                             </div>
 
@@ -326,13 +326,13 @@ const PharmacistPendingConsultations: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="p-6 border-t border-gray-200 flex items-center justify-end gap-3 sticky bottom-0 bg-white">
+                        <div className="p-6 border-t border-neutral-200 flex items-center justify-end gap-3 sticky bottom-0 bg-white">
                             <button
                                 onClick={() => {
                                     setSelectedConsultation(null);
                                     setDispensingNote('');
                                 }}
-                                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                                className="px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg"
                             >
                                 Cancel
                             </button>

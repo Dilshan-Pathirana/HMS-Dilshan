@@ -9,8 +9,8 @@ const StaffSalaryTable: React.FC<StaffSalaryTableProps> = ({
     handleStatusUpdate,
 }) => {
     return (
-        <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
-            <thead className="bg-gray-50">
+        <table className="min-w-full divide-y divide-gray-200 border border-neutral-200">
+            <thead className="bg-neutral-50">
                 <tr>
                     {[
                         "First Name",
@@ -23,7 +23,7 @@ const StaffSalaryTable: React.FC<StaffSalaryTableProps> = ({
                     ].map((header) => (
                         <th
                             key={header}
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider"
                         >
                             {header}
                         </th>
@@ -34,7 +34,7 @@ const StaffSalaryTable: React.FC<StaffSalaryTableProps> = ({
                 {paginatedData.map((salaryPay) => (
                     <tr
                         key={salaryPay.id}
-                        className="hover:bg-gray-50 cursor-pointer"
+                        className="hover:bg-neutral-50 cursor-pointer"
                     >
                         <td className="px-6 py-4 text-sm">
                             {salaryPay.user_first_name}
@@ -53,7 +53,7 @@ const StaffSalaryTable: React.FC<StaffSalaryTableProps> = ({
                             className={`px-6 py-4 text-sm font-semibold ${
                                 salaryPay.status === "paid"
                                     ? "text-green-600"
-                                    : "text-red-600"
+                                    : "text-error-600"
                             }`}
                         >
                             {salaryPay.status}
@@ -61,7 +61,7 @@ const StaffSalaryTable: React.FC<StaffSalaryTableProps> = ({
                         <td className="px-6 py-4 text-sm">
                             <div className="flex space-x-2">
                                 <FiEye
-                                    className="text-blue-500 cursor-pointer"
+                                    className="text-primary-500 cursor-pointer"
                                     onClick={() => handleView(salaryPay)}
                                 />
                                 {salaryPay.status === "unpaid" ? (
@@ -79,7 +79,7 @@ const StaffSalaryTable: React.FC<StaffSalaryTableProps> = ({
                                 ) : (
                                     <>
                                         <FiPrinter
-                                            className="text-gray-500 cursor-pointer"
+                                            className="text-neutral-500 cursor-pointer"
                                             title="Print Salary Slip"
                                             size={20}
                                             onClick={() =>
@@ -87,7 +87,7 @@ const StaffSalaryTable: React.FC<StaffSalaryTableProps> = ({
                                             }
                                         />
                                         <FiXCircle
-                                            className="text-red-500 cursor-pointer"
+                                            className="text-error-500 cursor-pointer"
                                             title="Mark as Unpaid"
                                             size={20}
                                             onClick={() =>

@@ -93,14 +93,14 @@ export const ContactInfoEdit: React.FC<ContactInfoEditProps> = ({
     };
 
     return (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-6">
             <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 bg-gradient-to-br from-emerald-100 to-blue-100 rounded-lg">
                     <User className="w-6 h-6 text-emerald-600" />
                 </div>
                 <div>
-                    <h3 className="text-lg font-semibold text-gray-800">Contact Information</h3>
-                    <p className="text-sm text-gray-500">Update your personal details</p>
+                    <h3 className="text-lg font-semibold text-neutral-800">Contact Information</h3>
+                    <p className="text-sm text-neutral-500">Update your personal details</p>
                 </div>
             </div>
 
@@ -108,28 +108,28 @@ export const ContactInfoEdit: React.FC<ContactInfoEditProps> = ({
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* First Name */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            First Name <span className="text-red-500">*</span>
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
+                            First Name <span className="text-error-500">*</span>
                         </label>
                         <input
                             type="text"
                             value={formData.first_name}
                             onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
                             placeholder="Enter first name"
                         />
                     </div>
 
                     {/* Last Name */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Last Name <span className="text-red-500">*</span>
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
+                            Last Name <span className="text-error-500">*</span>
                         </label>
                         <input
                             type="text"
                             value={formData.last_name}
                             onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
                             placeholder="Enter last name"
                         />
                     </div>
@@ -137,51 +137,51 @@ export const ContactInfoEdit: React.FC<ContactInfoEditProps> = ({
 
                 {/* Email */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
-                        <Mail className="w-4 h-4 text-gray-500" />
+                    <label className="block text-sm font-medium text-neutral-700 mb-2 flex items-center gap-2">
+                        <Mail className="w-4 h-4 text-neutral-500" />
                         Email Address
                     </label>
                     <input
                         type="email"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
                         placeholder="Enter email address"
                     />
                 </div>
 
                 {/* Phone */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
-                        <Phone className="w-4 h-4 text-gray-500" />
+                    <label className="block text-sm font-medium text-neutral-700 mb-2 flex items-center gap-2">
+                        <Phone className="w-4 h-4 text-neutral-500" />
                         Phone Number
                     </label>
                     <input
                         type="tel"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
                         placeholder="Enter phone number"
                     />
                 </div>
 
                 {/* Address */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-gray-500" />
+                    <label className="block text-sm font-medium text-neutral-700 mb-2 flex items-center gap-2">
+                        <MapPin className="w-4 h-4 text-neutral-500" />
                         Address
                     </label>
                     <textarea
                         value={formData.address}
                         onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                         rows={3}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all resize-none"
+                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all resize-none"
                         placeholder="Enter your address"
                     />
                 </div>
 
                 {error && (
-                    <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                    <div className="bg-error-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
                         {error}
                     </div>
                 )}
@@ -196,7 +196,7 @@ export const ContactInfoEdit: React.FC<ContactInfoEditProps> = ({
                 <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-gradient-to-r from-emerald-500 to-blue-500 text-white py-2 px-4 rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                    className="w-full bg-gradient-to-r from-emerald-500 to-primary-500 text-white py-2 px-4 rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-medium"
                 >
                     {loading ? 'Updating...' : 'Save Changes'}
                 </button>

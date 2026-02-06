@@ -153,12 +153,12 @@ const CreateEmployeeOT: React.FC<{
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-2 gap-4 mb-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Select User
                             </label>
                             <select
                                 onChange={handleUserChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                             >
                                 <option value="">Select a user</option>
                                 {users.map((user) => (
@@ -169,20 +169,20 @@ const CreateEmployeeOT: React.FC<{
                             </select>
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Branch
                             </label>
                             <input
                                 type="text"
                                 value={selectedUser?.center_name || ""}
                                 readOnly
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 focus:outline-none"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md bg-neutral-100 focus:outline-none"
                             />
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4 mb-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Date
                             </label>
                             <input
@@ -201,62 +201,62 @@ const CreateEmployeeOT: React.FC<{
                                         .split("T")[0]
                                 }
                                 max={new Date().toISOString().split("T")[0]}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Hours Worked
                             </label>
                             <input
                                 type="number"
                                 value={hoursWorked ?? ""}
                                 onChange={handleHoursWorkedChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                                 min="0"
                             />
                         </div>
                     </div>
                     {errorMessage && (
-                        <div className="text-red-500 text-sm mb-4">
+                        <div className="text-error-500 text-sm mb-4">
                             {errorMessage}
                         </div>
                     )}
                     <div className="grid grid-cols-2 gap-4 mb-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 OT Per Hour
                             </label>
                             <input
                                 type="number"
                                 value={otRate ?? ""}
                                 readOnly
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 focus:outline-none"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md bg-neutral-100 focus:outline-none"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Total OT Amount
                             </label>
                             <input
                                 type="text"
                                 value={totalOtAmount.toFixed(2)}
                                 readOnly
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 focus:outline-none"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md bg-neutral-100 focus:outline-none"
                             />
                         </div>
                     </div>
                     <div className="flex justify-end">
                         <button
                             type="button"
-                            className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 mr-2"
+                            className="px-4 py-2 bg-neutral-300 text-neutral-700 rounded-md hover:bg-gray-400 mr-2"
                             onClick={closeModal}
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 text-white"
+                            className="px-4 py-2 bg-primary-500 rounded-lg hover:bg-primary-600 text-white"
                             disabled={!!errorMessage}
                         >
                             Add Overtime

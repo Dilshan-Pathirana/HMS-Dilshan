@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from "../../utils/api/axios";
 import { Plus, Edit, Trash2, ArrowLeft, Package, AlertCircle } from 'lucide-react';
@@ -309,24 +309,24 @@ const BranchPharmacies: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-neutral-50 p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6">
           <div className="flex items-center gap-3 mb-4">
             <button
               onClick={() => navigate(`/branch/${id}`)}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Pharmacies</h1>
+              <h1 className="text-3xl font-bold text-neutral-900">Pharmacies</h1>
             </div>
           </div>
           
           {/* Branch Name Card */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow-lg p-6 mb-4">
+          <div className="bg-gradient-to-r from-primary-500 to-blue-700 rounded-lg shadow-lg p-6 mb-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="bg-white/20 p-3 rounded-lg">
@@ -339,7 +339,7 @@ const BranchPharmacies: React.FC = () => {
               </div>
               <button
                 onClick={openPharmacySelectionModal}
-                className="flex items-center gap-2 px-6 py-3 bg-white text-blue-600 rounded-lg hover:bg-blue-50 transition-colors font-semibold shadow-md"
+                className="flex items-center gap-2 px-6 py-3 bg-white text-primary-500 rounded-lg hover:bg-blue-50 transition-colors font-semibold shadow-md"
               >
                 <Plus className="w-5 h-5" />
                 Add Pharmacy
@@ -350,8 +350,8 @@ const BranchPharmacies: React.FC = () => {
 
         {/* Error Alert */}
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-3">
-            <AlertCircle className="w-5 h-5 text-red-600" />
+          <div className="mb-6 p-4 bg-error-50 border border-red-200 rounded-lg flex items-center gap-3">
+            <AlertCircle className="w-5 h-5 text-error-600" />
             <p className="text-red-800">{error}</p>
           </div>
         )}
@@ -360,12 +360,12 @@ const BranchPharmacies: React.FC = () => {
         <div className="bg-white rounded-lg shadow overflow-hidden">
           {pharmacies.length === 0 ? (
             <div className="p-12 text-center">
-              <Package className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No pharmacies yet</h3>
-              <p className="text-gray-600 mb-4">Get started by adding your first pharmacy</p>
+              <Package className="w-16 h-16 mx-auto text-neutral-400 mb-4" />
+              <h3 className="text-lg font-medium text-neutral-900 mb-2">No pharmacies yet</h3>
+              <p className="text-neutral-600 mb-4">Get started by adding your first pharmacy</p>
               <button
                 onClick={() => setShowModal(true)}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
               >
                 <Plus className="w-5 h-5" />
                 Add Pharmacy
@@ -373,42 +373,42 @@ const BranchPharmacies: React.FC = () => {
             </div>
           ) : (
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="bg-neutral-50 border-b border-neutral-200">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     Pharmacy Name
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     Location
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     Manager
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     Contact
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {pharmacies.map((pharmacy) => (
-                  <tr key={pharmacy.id} className="hover:bg-gray-50">
+                  <tr key={pharmacy.id} className="hover:bg-neutral-50">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="font-medium text-gray-900">{pharmacy.name}</div>
-                      <div className="text-sm text-gray-500">{pharmacy.email}</div>
+                      <div className="font-medium text-neutral-900">{pharmacy.name}</div>
+                      <div className="text-sm text-neutral-500">{pharmacy.email}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700">
                       {pharmacy.location}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700">
                       {pharmacy.manager_name}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700">
                       {pharmacy.contact_number}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -416,7 +416,7 @@ const BranchPharmacies: React.FC = () => {
                         className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                           pharmacy.status === 'active'
                             ? 'bg-green-100 text-green-800'
-                            : 'bg-red-100 text-red-800'
+                            : 'bg-error-100 text-red-800'
                         }`}
                       >
                         {pharmacy.status}
@@ -426,13 +426,13 @@ const BranchPharmacies: React.FC = () => {
                       <div className="flex items-center gap-3">
                         <button
                           onClick={() => openEditModal(pharmacy)}
-                          className="text-blue-600 hover:text-blue-900"
+                          className="text-primary-500 hover:text-blue-900"
                         >
                           <Edit className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => handleDelete(pharmacy.id)}
-                          className="text-red-600 hover:text-red-900"
+                          className="text-error-600 hover:text-red-900"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -451,7 +451,7 @@ const BranchPharmacies: React.FC = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">
+              <h2 className="text-xl font-bold text-neutral-900 mb-6">
                 {showSelectionMode ? 'Select Pharmacy to Add' : editingPharmacy ? 'Edit Pharmacy' : 'Add New Pharmacy'}
               </h2>
               {showSelectionMode ? (
@@ -463,7 +463,7 @@ const BranchPharmacies: React.FC = () => {
                       placeholder="Search pharmacies..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     />
                   </div>
 
@@ -478,37 +478,37 @@ const BranchPharmacies: React.FC = () => {
                       .map((pharmacy) => (
                         <div
                           key={pharmacy.id}
-                          className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors"
+                          className="border border-neutral-200 rounded-lg p-4 hover:bg-neutral-50 transition-colors"
                         >
                           <div className="flex items-start justify-between">
                             <div className="flex-1">
                               <div className="flex items-center gap-3">
-                                <Package className="w-5 h-5 text-blue-600" />
+                                <Package className="w-5 h-5 text-primary-500" />
                                 <div>
-                                  <h3 className="font-semibold text-gray-900">{pharmacy.name}</h3>
-                                  <p className="text-sm text-gray-500">{pharmacy.pharmacy_code}</p>
+                                  <h3 className="font-semibold text-neutral-900">{pharmacy.name}</h3>
+                                  <p className="text-sm text-neutral-500">{pharmacy.pharmacy_code}</p>
                                 </div>
                               </div>
                               <div className="mt-2 grid grid-cols-2 gap-2 text-sm">
                                 <div>
-                                  <span className="text-gray-600">Location: </span>
-                                  <span className="text-gray-900">{pharmacy.location}</span>
+                                  <span className="text-neutral-600">Location: </span>
+                                  <span className="text-neutral-900">{pharmacy.location}</span>
                                 </div>
                                 <div>
-                                  <span className="text-gray-600">Contact: </span>
-                                  <span className="text-gray-900">{pharmacy.contact_number}</span>
+                                  <span className="text-neutral-600">Contact: </span>
+                                  <span className="text-neutral-900">{pharmacy.contact_number}</span>
                                 </div>
                                 <div>
-                                  <span className="text-gray-600">Email: </span>
-                                  <span className="text-gray-900">{pharmacy.email}</span>
+                                  <span className="text-neutral-600">Email: </span>
+                                  <span className="text-neutral-900">{pharmacy.email}</span>
                                 </div>
                                 <div>
-                                  <span className="text-gray-600">Manager: </span>
-                                  <span className="text-gray-900">{pharmacy.manager_name}</span>
+                                  <span className="text-neutral-600">Manager: </span>
+                                  <span className="text-neutral-900">{pharmacy.manager_name}</span>
                                 </div>
                                 {pharmacy.branch && (
                                   <div className="col-span-2">
-                                    <span className="text-gray-600">Current Branch: </span>
+                                    <span className="text-neutral-600">Current Branch: </span>
                                     <span className="text-orange-600 font-medium">{pharmacy.branch.center_name}</span>
                                   </div>
                                 )}
@@ -516,7 +516,7 @@ const BranchPharmacies: React.FC = () => {
                             </div>
                             <button
                               onClick={() => handleAddExistingPharmacy(pharmacy)}
-                              className="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+                              className="ml-4 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors flex items-center gap-2"
                             >
                               <Plus className="w-4 h-4" />
                               Add
@@ -529,7 +529,7 @@ const BranchPharmacies: React.FC = () => {
                       pharmacy.pharmacy_code?.toLowerCase().includes(searchQuery.toLowerCase()) ||
                       pharmacy.email.toLowerCase().includes(searchQuery.toLowerCase())
                     ).length === 0 && (
-                      <div className="text-center py-8 text-gray-500">
+                      <div className="text-center py-8 text-neutral-500">
                         <Package className="w-12 h-12 mx-auto mb-2 text-gray-300" />
                         <p>No pharmacies available to add</p>
                       </div>
@@ -543,7 +543,7 @@ const BranchPharmacies: React.FC = () => {
                         setShowModal(false);
                         resetForm();
                       }}
-                      className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                      className="px-4 py-2 text-neutral-700 border border-neutral-300 rounded-lg hover:bg-neutral-50 transition-colors"
                     >
                       Close
                     </button>
@@ -553,7 +553,7 @@ const BranchPharmacies: React.FC = () => {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                       Pharmacy Name *
                     </label>
                     <input
@@ -561,11 +561,11 @@ const BranchPharmacies: React.FC = () => {
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                       Pharmacy Code *
                     </label>
                     <input
@@ -573,12 +573,12 @@ const BranchPharmacies: React.FC = () => {
                       required
                       value={formData.pharmacy_code}
                       onChange={(e) => setFormData({ ...formData, pharmacy_code: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                       placeholder="e.g., PHR001"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                       Location *
                     </label>
                     <input
@@ -586,11 +586,11 @@ const BranchPharmacies: React.FC = () => {
                       required
                       value={formData.location}
                       onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                       Manager Name *
                     </label>
                     <input
@@ -598,11 +598,11 @@ const BranchPharmacies: React.FC = () => {
                       required
                       value={formData.manager_name}
                       onChange={(e) => setFormData({ ...formData, manager_name: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                       Contact Number *
                     </label>
                     <input
@@ -610,11 +610,11 @@ const BranchPharmacies: React.FC = () => {
                       required
                       value={formData.contact_number}
                       onChange={(e) => setFormData({ ...formData, contact_number: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                       Email *
                     </label>
                     <input
@@ -622,17 +622,17 @@ const BranchPharmacies: React.FC = () => {
                       required
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                       Status
                     </label>
                     <select
                       value={formData.status}
                       onChange={(e) => setFormData({ ...formData, status: e.target.value as 'active' | 'inactive' })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     >
                       <option value="active">Active</option>
                       <option value="inactive">Inactive</option>
@@ -646,13 +646,13 @@ const BranchPharmacies: React.FC = () => {
                       setShowModal(false);
                       resetForm();
                     }}
-                    className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                    className="px-4 py-2 border border-neutral-300 rounded-lg text-neutral-700 hover:bg-neutral-50"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                    className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                   >
                     {editingPharmacy ? 'Update' : 'Create'}
                   </button>
@@ -673,27 +673,27 @@ const BranchPharmacies: React.FC = () => {
                 <div className="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center">
                   <AlertCircle className="w-6 h-6 text-orange-600" />
                 </div>
-                <h2 className="text-xl font-bold text-gray-900">
+                <h2 className="text-xl font-bold text-neutral-900">
                   Pharmacy Already Assigned
                 </h2>
               </div>
               
               <div className="mb-6">
-                <p className="text-gray-700 mb-4">
+                <p className="text-neutral-700 mb-4">
                   A pharmacy with code <strong>"{formData.pharmacy_code}"</strong> or similar details is already assigned to:
                 </p>
-                <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-                  <p className="text-sm font-medium text-gray-600">Current Branch:</p>
-                  <p className="text-lg font-semibold text-gray-900">
+                <div className="p-4 bg-neutral-50 rounded-lg border border-neutral-200">
+                  <p className="text-sm font-medium text-neutral-600">Current Branch:</p>
+                  <p className="text-lg font-semibold text-neutral-900">
                     {conflictData.existing_branch?.center_name}
                   </p>
                 </div>
-                <p className="text-gray-700 mt-4">
+                <p className="text-neutral-700 mt-4">
                   Do you want to <strong>reassign</strong> this pharmacy to <strong>"{branchName}"</strong>?
                 </p>
                 <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
                   <p className="text-sm text-yellow-800">
-                    ⚠️ This will remove the pharmacy from the current branch and assign it to this branch.
+                    ?? This will remove the pharmacy from the current branch and assign it to this branch.
                   </p>
                 </div>
               </div>
@@ -705,7 +705,7 @@ const BranchPharmacies: React.FC = () => {
                     setShowConflictDialog(false);
                     setConflictData(null);
                   }}
-                  className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                  className="px-4 py-2 border border-neutral-300 rounded-lg text-neutral-700 hover:bg-neutral-50"
                 >
                   Cancel
                 </button>

@@ -289,7 +289,7 @@ const HRMReports: React.FC = () => {
     });
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-neutral-50">
             {/* Header */}
             <div className="bg-white shadow-sm border-b sticky top-0 z-10">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -297,20 +297,20 @@ const HRMReports: React.FC = () => {
                         <div className="flex items-center space-x-4">
                             <button
                                 onClick={() => navigate('/super-admin/hrm')}
-                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                             >
                                 <ArrowLeft className="w-5 h-5" />
                             </button>
                             <div>
-                                <h1 className="text-2xl font-bold text-gray-900">HR Analytics & Reports</h1>
-                                <p className="text-sm text-gray-500">Comprehensive HR insights and export capabilities</p>
+                                <h1 className="text-2xl font-bold text-neutral-900">HR Analytics & Reports</h1>
+                                <p className="text-sm text-neutral-500">Comprehensive HR insights and export capabilities</p>
                             </div>
                         </div>
                         <div className="flex items-center space-x-3">
                             <button
                                 onClick={fetchAllData}
                                 disabled={isLoading}
-                                className="flex items-center px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                                className="flex items-center px-4 py-2 text-neutral-700 bg-neutral-100 rounded-lg hover:bg-neutral-200 transition-colors"
                             >
                                 <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
                                 Refresh
@@ -325,11 +325,11 @@ const HRMReports: React.FC = () => {
                 <div className="bg-white rounded-xl shadow-sm border p-4">
                     <div className="flex flex-wrap items-center gap-4">
                         <div className="flex items-center gap-2">
-                            <Building2 className="w-5 h-5 text-gray-400" />
+                            <Building2 className="w-5 h-5 text-neutral-400" />
                             <select
                                 value={selectedBranch}
                                 onChange={(e) => setSelectedBranch(e.target.value)}
-                                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                             >
                                 <option value="">All Branches</option>
                                 {branches.map(branch => (
@@ -340,11 +340,11 @@ const HRMReports: React.FC = () => {
                             </select>
                         </div>
                         <div className="flex items-center gap-2">
-                            <Calendar className="w-5 h-5 text-gray-400" />
+                            <Calendar className="w-5 h-5 text-neutral-400" />
                             <select
                                 value={selectedYear}
                                 onChange={(e) => setSelectedYear(e.target.value)}
-                                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                             >
                                 {years.map(year => (
                                     <option key={year} value={year}>{year}</option>
@@ -352,11 +352,11 @@ const HRMReports: React.FC = () => {
                             </select>
                         </div>
                         <div className="flex items-center gap-2">
-                            <Clock className="w-5 h-5 text-gray-400" />
+                            <Clock className="w-5 h-5 text-neutral-400" />
                             <select
                                 value={selectedMonth}
                                 onChange={(e) => setSelectedMonth(e.target.value)}
-                                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                             >
                                 {months.map(month => (
                                     <option key={month.value} value={month.value}>{month.label}</option>
@@ -376,8 +376,8 @@ const HRMReports: React.FC = () => {
                             onClick={() => setActiveTab(tab.id)}
                             className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
                                 activeTab === tab.id
-                                    ? 'bg-blue-600 text-white'
-                                    : 'text-gray-600 hover:bg-gray-100'
+                                    ? 'bg-primary-500 text-white'
+                                    : 'text-neutral-600 hover:bg-neutral-100'
                             }`}
                         >
                             <tab.icon className="w-4 h-4 mr-2" />
@@ -390,8 +390,8 @@ const HRMReports: React.FC = () => {
             {/* Error */}
             {error && (
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-                    <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center">
-                        <AlertCircle className="w-5 h-5 text-red-500 mr-3" />
+                    <div className="bg-error-50 border border-red-200 rounded-lg p-4 flex items-center">
+                        <AlertCircle className="w-5 h-5 text-error-500 mr-3" />
                         <span className="text-red-700">{error}</span>
                     </div>
                 </div>
@@ -401,7 +401,7 @@ const HRMReports: React.FC = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6" ref={reportRef}>
                 {isLoading ? (
                     <div className="flex items-center justify-center h-64">
-                        <Loader2 className="w-12 h-12 text-blue-500 animate-spin" />
+                        <Loader2 className="w-12 h-12 text-primary-500 animate-spin" />
                     </div>
                 ) : (
                     <>
@@ -455,22 +455,22 @@ const HRMReports: React.FC = () => {
                                 {/* Pending Actions Breakdown */}
                                 {dashboardData?.pending_actions && (
                                     <div className="bg-white rounded-xl shadow-sm border p-6">
-                                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Pending Actions</h3>
+                                        <h3 className="text-lg font-semibold text-neutral-900 mb-4">Pending Actions</h3>
                                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                             <div className="p-4 bg-yellow-50 rounded-lg">
                                                 <p className="text-yellow-600 text-sm">Leave Requests</p>
                                                 <p className="text-2xl font-bold text-yellow-700">{dashboardData.pending_actions.leave_requests}</p>
                                             </div>
                                             <div className="p-4 bg-blue-50 rounded-lg">
-                                                <p className="text-blue-600 text-sm">Salary Increments</p>
+                                                <p className="text-primary-500 text-sm">Salary Increments</p>
                                                 <p className="text-2xl font-bold text-blue-700">{dashboardData.pending_actions.salary_increments}</p>
                                             </div>
                                             <div className="p-4 bg-purple-50 rounded-lg">
                                                 <p className="text-purple-600 text-sm">Letter Requests</p>
                                                 <p className="text-2xl font-bold text-purple-700">{dashboardData.pending_actions.letter_requests}</p>
                                             </div>
-                                            <div className="p-4 bg-red-50 rounded-lg">
-                                                <p className="text-red-600 text-sm">Open Complaints</p>
+                                            <div className="p-4 bg-error-50 rounded-lg">
+                                                <p className="text-error-600 text-sm">Open Complaints</p>
                                                 <p className="text-2xl font-bold text-red-700">{dashboardData.pending_actions.open_complaints}</p>
                                             </div>
                                         </div>
@@ -482,10 +482,10 @@ const HRMReports: React.FC = () => {
                                     {/* Workforce by Role */}
                                     <div className="bg-white rounded-xl shadow-sm border p-6">
                                         <div className="flex items-center justify-between mb-4">
-                                            <h3 className="text-lg font-semibold text-gray-900">Staff by Role</h3>
+                                            <h3 className="text-lg font-semibold text-neutral-900">Staff by Role</h3>
                                             <button
                                                 onClick={exportWorkforceReport}
-                                                className="text-blue-600 hover:bg-blue-50 px-3 py-1 rounded-lg text-sm flex items-center"
+                                                className="text-primary-500 hover:bg-blue-50 px-3 py-1 rounded-lg text-sm flex items-center"
                                             >
                                                 <Download className="w-4 h-4 mr-1" /> Export
                                             </button>
@@ -493,15 +493,15 @@ const HRMReports: React.FC = () => {
                                         <div className="space-y-3">
                                             {workforceData?.by_role?.slice(0, 6).map((item, index) => (
                                                 <div key={index} className="flex items-center justify-between">
-                                                    <span className="text-gray-600">{formatRole(item.role)}</span>
+                                                    <span className="text-neutral-600">{formatRole(item.role)}</span>
                                                     <div className="flex items-center gap-3">
-                                                        <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                                        <div className="w-24 h-2 bg-neutral-200 rounded-full overflow-hidden">
                                                             <div
-                                                                className="h-full bg-blue-500 rounded-full"
+                                                                className="h-full bg-primary-500 rounded-full"
                                                                 style={{ width: `${(item.count / (workforceData?.total_staff || 1)) * 100}%` }}
                                                             />
                                                         </div>
-                                                        <span className="text-gray-900 font-medium w-8 text-right">{item.count}</span>
+                                                        <span className="text-neutral-900 font-medium w-8 text-right">{item.count}</span>
                                                     </div>
                                                 </div>
                                             ))}
@@ -511,20 +511,20 @@ const HRMReports: React.FC = () => {
                                     {/* Payroll by Branch */}
                                     <div className="bg-white rounded-xl shadow-sm border p-6">
                                         <div className="flex items-center justify-between mb-4">
-                                            <h3 className="text-lg font-semibold text-gray-900">Payroll by Branch</h3>
+                                            <h3 className="text-lg font-semibold text-neutral-900">Payroll by Branch</h3>
                                             <button
                                                 onClick={exportPayrollReport}
-                                                className="text-blue-600 hover:bg-blue-50 px-3 py-1 rounded-lg text-sm flex items-center"
+                                                className="text-primary-500 hover:bg-blue-50 px-3 py-1 rounded-lg text-sm flex items-center"
                                             >
                                                 <Download className="w-4 h-4 mr-1" /> Export
                                             </button>
                                         </div>
                                         <div className="space-y-3">
                                             {payrollData?.by_branch?.map((item, index) => (
-                                                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                                <div key={index} className="flex items-center justify-between p-3 bg-neutral-50 rounded-lg">
                                                     <div>
-                                                        <p className="font-medium text-gray-900">{item.branch_name}</p>
-                                                        <p className="text-sm text-gray-500">{item.staff_count} staff</p>
+                                                        <p className="font-medium text-neutral-900">{item.branch_name}</p>
+                                                        <p className="text-sm text-neutral-500">{item.staff_count} staff</p>
                                                     </div>
                                                     <p className="font-semibold text-emerald-600">{formatCurrency(item.total_salary)}</p>
                                                 </div>
@@ -540,19 +540,19 @@ const HRMReports: React.FC = () => {
                             <div className="space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                                     <div className="bg-white rounded-xl shadow-sm border p-5">
-                                        <p className="text-gray-500 text-sm">Total Employees</p>
-                                        <p className="text-3xl font-bold text-gray-900 mt-1">{workforceData.total_staff}</p>
+                                        <p className="text-neutral-500 text-sm">Total Employees</p>
+                                        <p className="text-3xl font-bold text-neutral-900 mt-1">{workforceData.total_staff}</p>
                                     </div>
                                     <div className="bg-white rounded-xl shadow-sm border p-5">
-                                        <p className="text-gray-500 text-sm">New Hires (This Month)</p>
+                                        <p className="text-neutral-500 text-sm">New Hires (This Month)</p>
                                         <p className="text-3xl font-bold text-green-600 mt-1">{workforceData.new_hires_this_month}</p>
                                     </div>
                                     <div className="bg-white rounded-xl shadow-sm border p-5">
-                                        <p className="text-gray-500 text-sm">EPF Coverage</p>
-                                        <p className="text-3xl font-bold text-blue-600 mt-1">{workforceData.epf_coverage?.percentage}%</p>
+                                        <p className="text-neutral-500 text-sm">EPF Coverage</p>
+                                        <p className="text-3xl font-bold text-primary-500 mt-1">{workforceData.epf_coverage?.percentage}%</p>
                                     </div>
                                     <div className="bg-white rounded-xl shadow-sm border p-5">
-                                        <p className="text-gray-500 text-sm">5+ Years Service</p>
+                                        <p className="text-neutral-500 text-sm">5+ Years Service</p>
                                         <p className="text-3xl font-bold text-purple-600 mt-1">{workforceData.tenure_distribution?.more_than_5_years || 0}</p>
                                     </div>
                                 </div>
@@ -561,15 +561,15 @@ const HRMReports: React.FC = () => {
                                     {/* By Role */}
                                     <div className="bg-white rounded-xl shadow-sm border p-6">
                                         <div className="flex items-center justify-between mb-4">
-                                            <h3 className="text-lg font-semibold text-gray-900">Headcount by Role</h3>
-                                            <button onClick={exportWorkforceReport} className="text-blue-600 hover:bg-blue-50 px-3 py-1 rounded-lg text-sm flex items-center">
+                                            <h3 className="text-lg font-semibold text-neutral-900">Headcount by Role</h3>
+                                            <button onClick={exportWorkforceReport} className="text-primary-500 hover:bg-blue-50 px-3 py-1 rounded-lg text-sm flex items-center">
                                                 <Download className="w-4 h-4 mr-1" /> Export
                                             </button>
                                         </div>
                                         <div className="space-y-2">
                                             {workforceData.by_role?.map((item, idx) => (
                                                 <div key={idx} className="flex items-center justify-between py-2 border-b last:border-0">
-                                                    <span className="text-gray-700">{formatRole(item.role)}</span>
+                                                    <span className="text-neutral-700">{formatRole(item.role)}</span>
                                                     <span className="font-medium">{item.count}</span>
                                                 </div>
                                             ))}
@@ -578,20 +578,20 @@ const HRMReports: React.FC = () => {
 
                                     {/* Tenure Distribution */}
                                     <div className="bg-white rounded-xl shadow-sm border p-6">
-                                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Tenure Distribution</h3>
+                                        <h3 className="text-lg font-semibold text-neutral-900 mb-4">Tenure Distribution</h3>
                                         <div className="space-y-4">
                                             {[
-                                                { label: '< 1 Year', value: workforceData.tenure_distribution?.less_than_1_year || 0, color: 'bg-blue-500' },
+                                                { label: '< 1 Year', value: workforceData.tenure_distribution?.less_than_1_year || 0, color: 'bg-primary-500' },
                                                 { label: '1-3 Years', value: workforceData.tenure_distribution?.['1_to_3_years'] || 0, color: 'bg-green-500' },
                                                 { label: '3-5 Years', value: workforceData.tenure_distribution?.['3_to_5_years'] || 0, color: 'bg-yellow-500' },
                                                 { label: '5+ Years', value: workforceData.tenure_distribution?.more_than_5_years || 0, color: 'bg-purple-500' }
                                             ].map((item, idx) => (
                                                 <div key={idx}>
                                                     <div className="flex justify-between mb-1">
-                                                        <span className="text-gray-600">{item.label}</span>
+                                                        <span className="text-neutral-600">{item.label}</span>
                                                         <span className="font-medium">{item.value}</span>
                                                     </div>
-                                                    <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+                                                    <div className="w-full h-3 bg-neutral-200 rounded-full overflow-hidden">
                                                         <div
                                                             className={`h-full ${item.color} rounded-full`}
                                                             style={{ width: `${(item.value / (workforceData.total_staff || 1)) * 100}%` }}
@@ -604,11 +604,11 @@ const HRMReports: React.FC = () => {
 
                                     {/* By Branch */}
                                     <div className="bg-white rounded-xl shadow-sm border p-6">
-                                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Headcount by Branch</h3>
+                                        <h3 className="text-lg font-semibold text-neutral-900 mb-4">Headcount by Branch</h3>
                                         <div className="space-y-2">
                                             {workforceData.by_branch?.map((item, idx) => (
                                                 <div key={idx} className="flex items-center justify-between py-2 border-b last:border-0">
-                                                    <span className="text-gray-700">{item.branch_name}</span>
+                                                    <span className="text-neutral-700">{item.branch_name}</span>
                                                     <span className="font-medium">{item.count}</span>
                                                 </div>
                                             ))}
@@ -617,11 +617,11 @@ const HRMReports: React.FC = () => {
 
                                     {/* By Employment Type */}
                                     <div className="bg-white rounded-xl shadow-sm border p-6">
-                                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Employment Type</h3>
+                                        <h3 className="text-lg font-semibold text-neutral-900 mb-4">Employment Type</h3>
                                         <div className="space-y-2">
                                             {workforceData.by_employment_type?.map((item, idx) => (
                                                 <div key={idx} className="flex items-center justify-between py-2 border-b last:border-0">
-                                                    <span className="text-gray-700">{formatRole(item.employment_type || 'Not Specified')}</span>
+                                                    <span className="text-neutral-700">{formatRole(item.employment_type || 'Not Specified')}</span>
                                                     <span className="font-medium">{item.count}</span>
                                                 </div>
                                             ))}
@@ -636,19 +636,19 @@ const HRMReports: React.FC = () => {
                             <div className="space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                                     <div className="bg-white rounded-xl shadow-sm border p-5">
-                                        <p className="text-gray-500 text-sm">Total Monthly Payroll</p>
-                                        <p className="text-2xl font-bold text-gray-900 mt-1">{formatCurrency(payrollData.total_monthly_payroll)}</p>
+                                        <p className="text-neutral-500 text-sm">Total Monthly Payroll</p>
+                                        <p className="text-2xl font-bold text-neutral-900 mt-1">{formatCurrency(payrollData.total_monthly_payroll)}</p>
                                     </div>
                                     <div className="bg-white rounded-xl shadow-sm border p-5">
-                                        <p className="text-gray-500 text-sm">EPF (Employee 8%)</p>
-                                        <p className="text-2xl font-bold text-blue-600 mt-1">{formatCurrency(payrollData.statutory_contributions?.epf_employee || 0)}</p>
+                                        <p className="text-neutral-500 text-sm">EPF (Employee 8%)</p>
+                                        <p className="text-2xl font-bold text-primary-500 mt-1">{formatCurrency(payrollData.statutory_contributions?.epf_employee || 0)}</p>
                                     </div>
                                     <div className="bg-white rounded-xl shadow-sm border p-5">
-                                        <p className="text-gray-500 text-sm">EPF (Employer 12%)</p>
+                                        <p className="text-neutral-500 text-sm">EPF (Employer 12%)</p>
                                         <p className="text-2xl font-bold text-purple-600 mt-1">{formatCurrency(payrollData.statutory_contributions?.epf_employer || 0)}</p>
                                     </div>
                                     <div className="bg-white rounded-xl shadow-sm border p-5">
-                                        <p className="text-gray-500 text-sm">ETF (Employer 3%)</p>
+                                        <p className="text-neutral-500 text-sm">ETF (Employer 3%)</p>
                                         <p className="text-2xl font-bold text-green-600 mt-1">{formatCurrency(payrollData.statutory_contributions?.etf_employer || 0)}</p>
                                     </div>
                                 </div>
@@ -656,22 +656,22 @@ const HRMReports: React.FC = () => {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     {/* Salary Distribution */}
                                     <div className="bg-white rounded-xl shadow-sm border p-6">
-                                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Salary Distribution</h3>
+                                        <h3 className="text-lg font-semibold text-neutral-900 mb-4">Salary Distribution</h3>
                                         <div className="space-y-4">
                                             {[
-                                                { label: 'Below Rs. 50K', value: payrollData.salary_distribution?.below_50k || 0, color: 'bg-red-500' },
+                                                { label: 'Below Rs. 50K', value: payrollData.salary_distribution?.below_50k || 0, color: 'bg-error-500' },
                                                 { label: 'Rs. 50K - 100K', value: payrollData.salary_distribution?.['50k_to_100k'] || 0, color: 'bg-yellow-500' },
-                                                { label: 'Rs. 100K - 150K', value: payrollData.salary_distribution?.['100k_to_150k'] || 0, color: 'bg-blue-500' },
+                                                { label: 'Rs. 100K - 150K', value: payrollData.salary_distribution?.['100k_to_150k'] || 0, color: 'bg-primary-500' },
                                                 { label: 'Above Rs. 150K', value: payrollData.salary_distribution?.above_150k || 0, color: 'bg-green-500' }
                                             ].map((item, idx) => {
                                                 const total = Object.values(payrollData.salary_distribution || {}).reduce((a, b) => a + b, 0);
                                                 return (
                                                     <div key={idx}>
                                                         <div className="flex justify-between mb-1">
-                                                            <span className="text-gray-600">{item.label}</span>
+                                                            <span className="text-neutral-600">{item.label}</span>
                                                             <span className="font-medium">{item.value} staff</span>
                                                         </div>
-                                                        <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+                                                        <div className="w-full h-3 bg-neutral-200 rounded-full overflow-hidden">
                                                             <div
                                                                 className={`h-full ${item.color} rounded-full`}
                                                                 style={{ width: `${(item.value / (total || 1)) * 100}%` }}
@@ -686,14 +686,14 @@ const HRMReports: React.FC = () => {
                                     {/* Average Salary by Role */}
                                     <div className="bg-white rounded-xl shadow-sm border p-6">
                                         <div className="flex items-center justify-between mb-4">
-                                            <h3 className="text-lg font-semibold text-gray-900">Average Salary by Role</h3>
+                                            <h3 className="text-lg font-semibold text-neutral-900">Average Salary by Role</h3>
                                         </div>
                                         <div className="space-y-2 max-h-64 overflow-y-auto">
                                             {payrollData.avg_salary_by_role?.sort((a, b) => b.avg_salary - a.avg_salary).map((item, idx) => (
                                                 <div key={idx} className="flex items-center justify-between py-2 border-b last:border-0">
                                                     <div>
-                                                        <span className="text-gray-700">{formatRole(item.role)}</span>
-                                                        <span className="text-gray-400 text-sm ml-2">({item.count})</span>
+                                                        <span className="text-neutral-700">{formatRole(item.role)}</span>
+                                                        <span className="text-neutral-400 text-sm ml-2">({item.count})</span>
                                                     </div>
                                                     <span className="font-medium text-green-600">{formatCurrency(Math.round(item.avg_salary))}</span>
                                                 </div>
@@ -704,19 +704,19 @@ const HRMReports: React.FC = () => {
                                     {/* By Branch */}
                                     <div className="bg-white rounded-xl shadow-sm border p-6 md:col-span-2">
                                         <div className="flex items-center justify-between mb-4">
-                                            <h3 className="text-lg font-semibold text-gray-900">Payroll by Branch</h3>
-                                            <button onClick={exportPayrollReport} className="text-blue-600 hover:bg-blue-50 px-3 py-1 rounded-lg text-sm flex items-center">
+                                            <h3 className="text-lg font-semibold text-neutral-900">Payroll by Branch</h3>
+                                            <button onClick={exportPayrollReport} className="text-primary-500 hover:bg-blue-50 px-3 py-1 rounded-lg text-sm flex items-center">
                                                 <Download className="w-4 h-4 mr-1" /> Export CSV
                                             </button>
                                         </div>
                                         <div className="overflow-x-auto">
                                             <table className="w-full">
                                                 <thead>
-                                                    <tr className="bg-gray-50">
-                                                        <th className="text-left py-3 px-4 text-gray-600 font-medium">Branch</th>
-                                                        <th className="text-right py-3 px-4 text-gray-600 font-medium">Staff Count</th>
-                                                        <th className="text-right py-3 px-4 text-gray-600 font-medium">Total Salary</th>
-                                                        <th className="text-right py-3 px-4 text-gray-600 font-medium">Avg Salary</th>
+                                                    <tr className="bg-neutral-50">
+                                                        <th className="text-left py-3 px-4 text-neutral-600 font-medium">Branch</th>
+                                                        <th className="text-right py-3 px-4 text-neutral-600 font-medium">Staff Count</th>
+                                                        <th className="text-right py-3 px-4 text-neutral-600 font-medium">Total Salary</th>
+                                                        <th className="text-right py-3 px-4 text-neutral-600 font-medium">Avg Salary</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -749,38 +749,38 @@ const HRMReports: React.FC = () => {
                                     <>
                                         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                                             <div className="bg-white rounded-xl shadow-sm border p-5">
-                                                <p className="text-gray-500 text-sm">Average Work Hours</p>
-                                                <p className="text-3xl font-bold text-gray-900 mt-1">{attendanceData.average_work_hours}h</p>
+                                                <p className="text-neutral-500 text-sm">Average Work Hours</p>
+                                                <p className="text-3xl font-bold text-neutral-900 mt-1">{attendanceData.average_work_hours}h</p>
                                             </div>
                                             <div className="bg-white rounded-xl shadow-sm border p-5">
-                                                <p className="text-gray-500 text-sm">Late Arrivals</p>
+                                                <p className="text-neutral-500 text-sm">Late Arrivals</p>
                                                 <p className="text-3xl font-bold text-orange-600 mt-1">{attendanceData.late_arrivals}</p>
                                             </div>
                                             <div className="bg-white rounded-xl shadow-sm border p-5">
-                                                <p className="text-gray-500 text-sm">Total OT Hours</p>
-                                                <p className="text-3xl font-bold text-blue-600 mt-1">{attendanceData.total_overtime_hours}h</p>
+                                                <p className="text-neutral-500 text-sm">Total OT Hours</p>
+                                                <p className="text-3xl font-bold text-primary-500 mt-1">{attendanceData.total_overtime_hours}h</p>
                                             </div>
                                             <div className="bg-white rounded-xl shadow-sm border p-5">
-                                                <p className="text-gray-500 text-sm">Month</p>
-                                                <p className="text-2xl font-bold text-gray-900 mt-1">{attendanceData.month}</p>
+                                                <p className="text-neutral-500 text-sm">Month</p>
+                                                <p className="text-2xl font-bold text-neutral-900 mt-1">{attendanceData.month}</p>
                                             </div>
                                         </div>
 
                                         <div className="bg-white rounded-xl shadow-sm border p-6">
-                                            <h3 className="text-lg font-semibold text-gray-900 mb-4">Attendance Summary</h3>
+                                            <h3 className="text-lg font-semibold text-neutral-900 mb-4">Attendance Summary</h3>
                                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                                 {attendanceData.summary?.map((item, idx) => (
-                                                    <div key={idx} className="p-4 bg-gray-50 rounded-lg text-center">
-                                                        <p className="text-gray-600 capitalize">{item.status}</p>
-                                                        <p className="text-2xl font-bold text-gray-900">{item.count}</p>
+                                                    <div key={idx} className="p-4 bg-neutral-50 rounded-lg text-center">
+                                                        <p className="text-neutral-600 capitalize">{item.status}</p>
+                                                        <p className="text-2xl font-bold text-neutral-900">{item.count}</p>
                                                     </div>
                                                 ))}
                                             </div>
                                         </div>
                                     </>
                                 ) : (
-                                    <div className="bg-gray-50 rounded-xl p-6 text-center">
-                                        <p className="text-gray-500">No attendance data available</p>
+                                    <div className="bg-neutral-50 rounded-xl p-6 text-center">
+                                        <p className="text-neutral-500">No attendance data available</p>
                                     </div>
                                 )}
                             </div>
@@ -791,20 +791,20 @@ const HRMReports: React.FC = () => {
                             <div className="space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                                     <div className="bg-white rounded-xl shadow-sm border p-5">
-                                        <p className="text-gray-500 text-sm">Pending Requests</p>
+                                        <p className="text-neutral-500 text-sm">Pending Requests</p>
                                         <p className="text-3xl font-bold text-yellow-600 mt-1">{leaveData.pending_count}</p>
                                     </div>
                                     <div className="bg-white rounded-xl shadow-sm border p-5">
-                                        <p className="text-gray-500 text-sm">Approval Rate</p>
+                                        <p className="text-neutral-500 text-sm">Approval Rate</p>
                                         <p className="text-3xl font-bold text-green-600 mt-1">{leaveData.approval_rate}%</p>
                                     </div>
                                     <div className="bg-white rounded-xl shadow-sm border p-5">
-                                        <p className="text-gray-500 text-sm">Avg Processing Time</p>
-                                        <p className="text-3xl font-bold text-blue-600 mt-1">{leaveData.avg_processing_days} days</p>
+                                        <p className="text-neutral-500 text-sm">Avg Processing Time</p>
+                                        <p className="text-3xl font-bold text-primary-500 mt-1">{leaveData.avg_processing_days} days</p>
                                     </div>
                                     <div className="bg-white rounded-xl shadow-sm border p-5">
-                                        <p className="text-gray-500 text-sm">Year</p>
-                                        <p className="text-3xl font-bold text-gray-900 mt-1">{leaveData.year}</p>
+                                        <p className="text-neutral-500 text-sm">Year</p>
+                                        <p className="text-3xl font-bold text-neutral-900 mt-1">{leaveData.year}</p>
                                     </div>
                                 </div>
 
@@ -812,18 +812,18 @@ const HRMReports: React.FC = () => {
                                     {/* Leave by Type */}
                                     <div className="bg-white rounded-xl shadow-sm border p-6">
                                         <div className="flex items-center justify-between mb-4">
-                                            <h3 className="text-lg font-semibold text-gray-900">Leave by Type</h3>
-                                            <button onClick={exportLeaveReport} className="text-blue-600 hover:bg-blue-50 px-3 py-1 rounded-lg text-sm flex items-center">
+                                            <h3 className="text-lg font-semibold text-neutral-900">Leave by Type</h3>
+                                            <button onClick={exportLeaveReport} className="text-primary-500 hover:bg-blue-50 px-3 py-1 rounded-lg text-sm flex items-center">
                                                 <Download className="w-4 h-4 mr-1" /> Export
                                             </button>
                                         </div>
                                         <div className="space-y-3">
                                             {leaveData.by_type?.map((item, idx) => (
                                                 <div key={idx} className="flex items-center justify-between py-2 border-b last:border-0">
-                                                    <span className="text-gray-700 capitalize">{item.leave_type}</span>
+                                                    <span className="text-neutral-700 capitalize">{item.leave_type}</span>
                                                     <div className="text-right">
                                                         <span className="font-medium">{item.count} requests</span>
-                                                        <span className="text-gray-400 text-sm ml-2">({item.total_days} days)</span>
+                                                        <span className="text-neutral-400 text-sm ml-2">({item.total_days} days)</span>
                                                     </div>
                                                 </div>
                                             ))}
@@ -832,19 +832,19 @@ const HRMReports: React.FC = () => {
 
                                     {/* Leave by Month */}
                                     <div className="bg-white rounded-xl shadow-sm border p-6">
-                                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Leave Requests by Month</h3>
+                                        <h3 className="text-lg font-semibold text-neutral-900 mb-4">Leave Requests by Month</h3>
                                         <div className="space-y-3">
                                             {leaveData.by_month?.map((item, idx) => (
                                                 <div key={idx} className="flex items-center justify-between">
-                                                    <span className="text-gray-600">{getMonthName(item.month)}</span>
+                                                    <span className="text-neutral-600">{getMonthName(item.month)}</span>
                                                     <div className="flex items-center gap-3">
-                                                        <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                                        <div className="w-32 h-2 bg-neutral-200 rounded-full overflow-hidden">
                                                             <div
-                                                                className="h-full bg-blue-500 rounded-full"
+                                                                className="h-full bg-primary-500 rounded-full"
                                                                 style={{ width: `${Math.min((item.count / 20) * 100, 100)}%` }}
                                                             />
                                                         </div>
-                                                        <span className="text-gray-900 font-medium w-8 text-right">{item.count}</span>
+                                                        <span className="text-neutral-900 font-medium w-8 text-right">{item.count}</span>
                                                     </div>
                                                 </div>
                                             ))}
@@ -861,43 +861,43 @@ const HRMReports: React.FC = () => {
                                     <div className="bg-white rounded-xl shadow-sm border p-5">
                                         <div className="flex items-center gap-2">
                                             <UserPlus className="w-5 h-5 text-green-500" />
-                                            <p className="text-gray-500 text-sm">New Hires</p>
+                                            <p className="text-neutral-500 text-sm">New Hires</p>
                                         </div>
                                         <p className="text-3xl font-bold text-green-600 mt-1">{turnoverData.new_hires}</p>
                                     </div>
                                     <div className="bg-white rounded-xl shadow-sm border p-5">
                                         <div className="flex items-center gap-2">
-                                            <UserMinus className="w-5 h-5 text-red-500" />
-                                            <p className="text-gray-500 text-sm">Terminations</p>
+                                            <UserMinus className="w-5 h-5 text-error-500" />
+                                            <p className="text-neutral-500 text-sm">Terminations</p>
                                         </div>
-                                        <p className="text-3xl font-bold text-red-600 mt-1">{turnoverData.terminations}</p>
+                                        <p className="text-3xl font-bold text-error-600 mt-1">{turnoverData.terminations}</p>
                                     </div>
                                     <div className="bg-white rounded-xl shadow-sm border p-5">
-                                        <p className="text-gray-500 text-sm">Current Headcount</p>
-                                        <p className="text-3xl font-bold text-gray-900 mt-1">{turnoverData.current_headcount}</p>
+                                        <p className="text-neutral-500 text-sm">Current Headcount</p>
+                                        <p className="text-3xl font-bold text-neutral-900 mt-1">{turnoverData.current_headcount}</p>
                                     </div>
                                     <div className="bg-white rounded-xl shadow-sm border p-5">
-                                        <p className="text-gray-500 text-sm">Turnover Rate</p>
-                                        <p className={`text-3xl font-bold mt-1 ${turnoverData.turnover_rate > 15 ? 'text-red-600' : 'text-green-600'}`}>
+                                        <p className="text-neutral-500 text-sm">Turnover Rate</p>
+                                        <p className={`text-3xl font-bold mt-1 ${turnoverData.turnover_rate > 15 ? 'text-error-600' : 'text-green-600'}`}>
                                             {turnoverData.turnover_rate}%
                                         </p>
                                     </div>
                                 </div>
 
                                 <div className="bg-white rounded-xl shadow-sm border p-6">
-                                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Hiring Trend ({turnoverData.year})</h3>
+                                    <h3 className="text-lg font-semibold text-neutral-900 mb-4">Hiring Trend ({turnoverData.year})</h3>
                                     <div className="space-y-3">
                                         {turnoverData.hires_by_month?.map((item, idx) => (
                                             <div key={idx} className="flex items-center justify-between">
-                                                <span className="text-gray-600">{getMonthName(item.month)}</span>
+                                                <span className="text-neutral-600">{getMonthName(item.month)}</span>
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-48 h-3 bg-gray-200 rounded-full overflow-hidden">
+                                                    <div className="w-48 h-3 bg-neutral-200 rounded-full overflow-hidden">
                                                         <div
                                                             className="h-full bg-green-500 rounded-full"
                                                             style={{ width: `${Math.min((item.count / 10) * 100, 100)}%` }}
                                                         />
                                                     </div>
-                                                    <span className="text-gray-900 font-medium w-8 text-right">{item.count}</span>
+                                                    <span className="text-neutral-900 font-medium w-8 text-right">{item.count}</span>
                                                 </div>
                                             </div>
                                         ))}

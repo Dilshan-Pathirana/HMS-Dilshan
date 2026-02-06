@@ -394,33 +394,33 @@ const LeaveTypes: React.FC = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <div className="text-gray-500">Loading leave types...</div>
+            <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
+                <div className="text-neutral-500">Loading leave types...</div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-neutral-50 p-6">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => navigate('/super-admin/hrm')}
-                            className="p-2 hover:bg-gray-200 rounded-lg"
+                            className="p-2 hover:bg-neutral-200 rounded-lg"
                         >
                             <ArrowLeft className="w-5 h-5" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">Leave Types Configuration</h1>
-                            <p className="text-gray-500">Configure leave policies as per Sri Lanka labor law</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">Leave Types Configuration</h1>
+                            <p className="text-neutral-500">Configure leave policies as per Sri Lanka labor law</p>
                         </div>
                     </div>
                     <div className="flex gap-2">
                         <button
                             onClick={() => setShowCopyModal(true)}
-                            className="flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                            className="flex items-center gap-2 px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50"
                         >
                             <Copy className="w-4 h-4" />
                             Copy to Branch
@@ -434,7 +434,7 @@ const LeaveTypes: React.FC = () => {
                         </button>
                         <button
                             onClick={handleCreate}
-                            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                            className="flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                         >
                             <Plus className="w-4 h-4" />
                             Add Leave Type
@@ -444,7 +444,7 @@ const LeaveTypes: React.FC = () => {
 
                 {/* Alerts */}
                 {error && (
-                    <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-700">
+                    <div className="mb-4 p-4 bg-error-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-700">
                         <AlertCircle className="w-5 h-5" />
                         {error}
                         <button onClick={() => setError(null)} className="ml-auto">
@@ -463,14 +463,14 @@ const LeaveTypes: React.FC = () => {
                 )}
 
                 {/* Branch Selector & Filters */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-6">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4 mb-6">
                     <div className="flex flex-wrap items-center gap-4">
                         <div className="flex items-center gap-2">
-                            <Building2 className="w-5 h-5 text-blue-600" />
+                            <Building2 className="w-5 h-5 text-primary-500" />
                             <select
                                 value={selectedBranch}
                                 onChange={(e) => setSelectedBranch(e.target.value)}
-                                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                             >
                                 <option value="all">📋 All Leave Types</option>
                                 <option value="global">🌐 Global Only</option>
@@ -483,22 +483,22 @@ const LeaveTypes: React.FC = () => {
                         </div>
 
                         <div className="flex-1 relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
                             <input
                                 type="text"
                                 placeholder="Search leave types..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                             />
                         </div>
 
                         <div className="flex items-center gap-2">
-                            <Filter className="w-4 h-4 text-gray-400" />
+                            <Filter className="w-4 h-4 text-neutral-400" />
                             <select
                                 value={filterPaid}
                                 onChange={(e) => setFilterPaid(e.target.value)}
-                                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                className="px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                             >
                                 <option value="all">All Types</option>
                                 <option value="paid">Paid Leave</option>
@@ -507,7 +507,7 @@ const LeaveTypes: React.FC = () => {
                             <select
                                 value={filterActive}
                                 onChange={(e) => setFilterActive(e.target.value)}
-                                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                className="px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                             >
                                 <option value="all">All Status</option>
                                 <option value="active">Active</option>
@@ -522,7 +522,7 @@ const LeaveTypes: React.FC = () => {
                     {filteredLeaveTypes.map((leaveType) => (
                         <div
                             key={leaveType.id}
-                            className={`bg-white rounded-xl shadow-sm border border-gray-200 p-4 ${!leaveType.is_active ? 'opacity-60' : ''}`}
+                            className={`bg-white rounded-xl shadow-sm border border-neutral-200 p-4 ${!leaveType.is_active ? 'opacity-60' : ''}`}
                         >
                             <div className="flex items-start justify-between mb-3">
                                 <div className="flex items-center gap-3">
@@ -533,20 +533,20 @@ const LeaveTypes: React.FC = () => {
                                         {getIconComponent(leaveType.icon)}
                                     </div>
                                     <div>
-                                        <h3 className="font-semibold text-gray-800">{leaveType.name}</h3>
-                                        <span className="text-xs text-gray-500 uppercase">{leaveType.code}</span>
+                                        <h3 className="font-semibold text-neutral-800">{leaveType.name}</h3>
+                                        <span className="text-xs text-neutral-500 uppercase">{leaveType.code}</span>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-1">
                                     <button
                                         onClick={() => handleEdit(leaveType)}
-                                        className="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded"
+                                        className="p-1.5 text-neutral-500 hover:text-primary-500 hover:bg-blue-50 rounded"
                                     >
                                         <Edit2 className="w-4 h-4" />
                                     </button>
                                     <button
                                         onClick={() => handleDelete(leaveType)}
-                                        className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded"
+                                        className="p-1.5 text-neutral-500 hover:text-error-600 hover:bg-error-50 rounded"
                                     >
                                         <Trash2 className="w-4 h-4" />
                                     </button>
@@ -554,21 +554,21 @@ const LeaveTypes: React.FC = () => {
                             </div>
 
                             {leaveType.description && (
-                                <p className="text-sm text-gray-500 mb-3 line-clamp-2">{leaveType.description}</p>
+                                <p className="text-sm text-neutral-500 mb-3 line-clamp-2">{leaveType.description}</p>
                             )}
 
                             <div className="grid grid-cols-2 gap-2 text-sm mb-3">
                                 <div className="flex items-center gap-1">
-                                    <Calendar className="w-4 h-4 text-gray-400" />
-                                    <span className="text-gray-600">{leaveType.default_days} days/year</span>
+                                    <Calendar className="w-4 h-4 text-neutral-400" />
+                                    <span className="text-neutral-600">{leaveType.default_days} days/year</span>
                                 </div>
                                 <div className="flex items-center gap-1">
                                     {leaveType.is_paid ? (
                                         <CheckCircle className="w-4 h-4 text-green-500" />
                                     ) : (
-                                        <XCircle className="w-4 h-4 text-red-500" />
+                                        <XCircle className="w-4 h-4 text-error-500" />
                                     )}
-                                    <span className="text-gray-600">{leaveType.is_paid ? 'Paid' : 'Unpaid'}</span>
+                                    <span className="text-neutral-600">{leaveType.is_paid ? 'Paid' : 'Unpaid'}</span>
                                 </div>
                             </div>
 
@@ -589,7 +589,7 @@ const LeaveTypes: React.FC = () => {
                                     </span>
                                 )}
                                 {leaveType.eligibility && leaveType.eligibility !== 'all' && (
-                                    <span className="px-2 py-0.5 bg-gray-100 text-gray-700 text-xs rounded capitalize">
+                                    <span className="px-2 py-0.5 bg-neutral-100 text-neutral-700 text-xs rounded capitalize">
                                         {leaveType.eligibility}
                                     </span>
                                 )}
@@ -609,10 +609,10 @@ const LeaveTypes: React.FC = () => {
                 </div>
 
                 {filteredLeaveTypes.length === 0 && (
-                    <div className="text-center py-12 bg-white rounded-xl shadow-sm border border-gray-200">
+                    <div className="text-center py-12 bg-white rounded-xl shadow-sm border border-neutral-200">
                         <Calendar className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                        <h3 className="text-lg font-medium text-gray-600 mb-2">No Leave Types Found</h3>
-                        <p className="text-gray-500 mb-4">
+                        <h3 className="text-lg font-medium text-neutral-600 mb-2">No Leave Types Found</h3>
+                        <p className="text-neutral-500 mb-4">
                             {searchQuery || filterPaid !== 'all' || filterActive !== 'all'
                                 ? 'Try adjusting your filters'
                                 : 'Click "Initialize Defaults" to create Sri Lanka standard leave types'}
@@ -620,7 +620,7 @@ const LeaveTypes: React.FC = () => {
                         {!searchQuery && filterPaid === 'all' && filterActive === 'all' && (
                             <button
                                 onClick={() => setShowInitializeModal(true)}
-                                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                                className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                             >
                                 Initialize Sri Lanka Defaults
                             </button>
@@ -632,14 +632,14 @@ const LeaveTypes: React.FC = () => {
                 {showModal && (
                     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                         <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-                            <div className="p-6 border-b border-gray-200">
+                            <div className="p-6 border-b border-neutral-200">
                                 <div className="flex items-center justify-between">
                                     <h2 className="text-xl font-semibold">
                                         {editingLeaveType ? 'Edit Leave Type' : 'Create Leave Type'}
                                     </h2>
                                     <button
                                         onClick={() => setShowModal(false)}
-                                        className="p-2 hover:bg-gray-100 rounded-lg"
+                                        className="p-2 hover:bg-neutral-100 rounded-lg"
                                     >
                                         <X className="w-5 h-5" />
                                     </button>
@@ -649,39 +649,39 @@ const LeaveTypes: React.FC = () => {
                             <div className="p-6 space-y-4">
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">
                                             Name *
                                         </label>
                                         <input
                                             type="text"
                                             value={formData.name}
                                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             placeholder="e.g., Annual Leave"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">
                                             Code *
                                         </label>
                                         <input
                                             type="text"
                                             value={formData.code}
                                             onChange={(e) => setFormData({ ...formData, code: e.target.value.toLowerCase() })}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             placeholder="e.g., annual"
                                         />
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Description
                                     </label>
                                     <textarea
                                         value={formData.description}
                                         onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                         rows={2}
                                         placeholder="Brief description of this leave type..."
                                     />
@@ -689,38 +689,38 @@ const LeaveTypes: React.FC = () => {
 
                                 <div className="grid grid-cols-3 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">
                                             Default Days/Year *
                                         </label>
                                         <input
                                             type="number"
                                             value={formData.default_days}
                                             onChange={(e) => setFormData({ ...formData, default_days: parseInt(e.target.value) || 0 })}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             min="0"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">
                                             Min Days Notice
                                         </label>
                                         <input
                                             type="number"
                                             value={formData.min_days_notice}
                                             onChange={(e) => setFormData({ ...formData, min_days_notice: parseInt(e.target.value) || 0 })}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             min="0"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">
                                             Max Consecutive Days
                                         </label>
                                         <input
                                             type="number"
                                             value={formData.max_consecutive_days || ''}
                                             onChange={(e) => setFormData({ ...formData, max_consecutive_days: e.target.value ? parseInt(e.target.value) : null })}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             min="1"
                                             placeholder="No limit"
                                         />
@@ -729,13 +729,13 @@ const LeaveTypes: React.FC = () => {
 
                                 <div className="grid grid-cols-3 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">
                                             Eligibility
                                         </label>
                                         <select
                                             value={formData.eligibility}
                                             onChange={(e) => setFormData({ ...formData, eligibility: e.target.value })}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                         >
                                             {eligibilityOptions.map(opt => (
                                                 <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -743,26 +743,26 @@ const LeaveTypes: React.FC = () => {
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">
                                             Min Service (Months)
                                         </label>
                                         <input
                                             type="number"
                                             value={formData.min_service_months}
                                             onChange={(e) => setFormData({ ...formData, min_service_months: parseInt(e.target.value) || 0 })}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             min="0"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">
                                             Sort Order
                                         </label>
                                         <input
                                             type="number"
                                             value={formData.sort_order}
                                             onChange={(e) => setFormData({ ...formData, sort_order: parseInt(e.target.value) || 0 })}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             min="0"
                                         />
                                     </div>
@@ -770,7 +770,7 @@ const LeaveTypes: React.FC = () => {
 
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">
                                             Color
                                         </label>
                                         <div className="flex items-center gap-2">
@@ -778,12 +778,12 @@ const LeaveTypes: React.FC = () => {
                                                 type="color"
                                                 value={formData.color}
                                                 onChange={(e) => setFormData({ ...formData, color: e.target.value })}
-                                                className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
+                                                className="w-10 h-10 border border-neutral-300 rounded cursor-pointer"
                                             />
                                             <select
                                                 value={formData.color}
                                                 onChange={(e) => setFormData({ ...formData, color: e.target.value })}
-                                                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="flex-1 px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             >
                                                 {colorOptions.map(opt => (
                                                     <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -792,13 +792,13 @@ const LeaveTypes: React.FC = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">
                                             Icon
                                         </label>
                                         <select
                                             value={formData.icon}
                                             onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                         >
                                             {iconOptions.map(opt => (
                                                 <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -808,26 +808,26 @@ const LeaveTypes: React.FC = () => {
                                 </div>
 
                                 {/* Carry Forward Settings */}
-                                <div className="bg-gray-50 p-4 rounded-lg space-y-3">
-                                    <h4 className="font-medium text-gray-700">Carry Forward Settings</h4>
+                                <div className="bg-neutral-50 p-4 rounded-lg space-y-3">
+                                    <h4 className="font-medium text-neutral-700">Carry Forward Settings</h4>
                                     <div className="flex items-center gap-4">
                                         <label className="flex items-center gap-2">
                                             <input
                                                 type="checkbox"
                                                 checked={formData.carry_forward}
                                                 onChange={(e) => setFormData({ ...formData, carry_forward: e.target.checked })}
-                                                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                                className="w-4 h-4 text-primary-500 border-neutral-300 rounded focus:ring-primary-500"
                                             />
-                                            <span className="text-sm text-gray-700">Allow Carry Forward</span>
+                                            <span className="text-sm text-neutral-700">Allow Carry Forward</span>
                                         </label>
                                         {formData.carry_forward && (
                                             <div className="flex items-center gap-2">
-                                                <span className="text-sm text-gray-600">Max Days:</span>
+                                                <span className="text-sm text-neutral-600">Max Days:</span>
                                                 <input
                                                     type="number"
                                                     value={formData.max_carry_forward_days}
                                                     onChange={(e) => setFormData({ ...formData, max_carry_forward_days: parseInt(e.target.value) || 0 })}
-                                                    className="w-20 px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+                                                    className="w-20 px-2 py-1 border border-neutral-300 rounded focus:ring-2 focus:ring-primary-500"
                                                     min="0"
                                                 />
                                             </div>
@@ -837,54 +837,54 @@ const LeaveTypes: React.FC = () => {
 
                                 {/* Toggle Options */}
                                 <div className="grid grid-cols-2 gap-4">
-                                    <label className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
+                                    <label className="flex items-center gap-2 p-3 bg-neutral-50 rounded-lg">
                                         <input
                                             type="checkbox"
                                             checked={formData.is_paid}
                                             onChange={(e) => setFormData({ ...formData, is_paid: e.target.checked })}
-                                            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                            className="w-4 h-4 text-primary-500 border-neutral-300 rounded focus:ring-primary-500"
                                         />
-                                        <span className="text-sm text-gray-700">Paid Leave</span>
+                                        <span className="text-sm text-neutral-700">Paid Leave</span>
                                     </label>
-                                    <label className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
+                                    <label className="flex items-center gap-2 p-3 bg-neutral-50 rounded-lg">
                                         <input
                                             type="checkbox"
                                             checked={formData.requires_approval}
                                             onChange={(e) => setFormData({ ...formData, requires_approval: e.target.checked })}
-                                            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                            className="w-4 h-4 text-primary-500 border-neutral-300 rounded focus:ring-primary-500"
                                         />
-                                        <span className="text-sm text-gray-700">Requires Approval</span>
+                                        <span className="text-sm text-neutral-700">Requires Approval</span>
                                     </label>
-                                    <label className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
+                                    <label className="flex items-center gap-2 p-3 bg-neutral-50 rounded-lg">
                                         <input
                                             type="checkbox"
                                             checked={formData.requires_document}
                                             onChange={(e) => setFormData({ ...formData, requires_document: e.target.checked })}
-                                            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                            className="w-4 h-4 text-primary-500 border-neutral-300 rounded focus:ring-primary-500"
                                         />
-                                        <span className="text-sm text-gray-700">Requires Document</span>
+                                        <span className="text-sm text-neutral-700">Requires Document</span>
                                     </label>
-                                    <label className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
+                                    <label className="flex items-center gap-2 p-3 bg-neutral-50 rounded-lg">
                                         <input
                                             type="checkbox"
                                             checked={formData.is_active}
                                             onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
-                                            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                            className="w-4 h-4 text-primary-500 border-neutral-300 rounded focus:ring-primary-500"
                                         />
-                                        <span className="text-sm text-gray-700">Active</span>
+                                        <span className="text-sm text-neutral-700">Active</span>
                                     </label>
                                 </div>
 
                                 {formData.requires_document && (
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">
                                             Document Type
                                         </label>
                                         <input
                                             type="text"
                                             value={formData.document_type}
                                             onChange={(e) => setFormData({ ...formData, document_type: e.target.value })}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             placeholder="e.g., medical_certificate"
                                         />
                                     </div>
@@ -892,14 +892,14 @@ const LeaveTypes: React.FC = () => {
 
                                 {!formData.is_paid && (
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">
                                             Deduction Rate (%)
                                         </label>
                                         <input
                                             type="number"
                                             value={formData.deduction_rate}
                                             onChange={(e) => setFormData({ ...formData, deduction_rate: parseFloat(e.target.value) || 0 })}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             min="0"
                                             max="100"
                                             step="0.01"
@@ -908,17 +908,17 @@ const LeaveTypes: React.FC = () => {
                                 )}
                             </div>
 
-                            <div className="p-6 border-t border-gray-200 flex justify-end gap-3">
+                            <div className="p-6 border-t border-neutral-200 flex justify-end gap-3">
                                 <button
                                     onClick={() => setShowModal(false)}
-                                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                                    className="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={handleSave}
                                     disabled={isSaving || !formData.name || !formData.code}
-                                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                                    className="flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50"
                                 >
                                     {isSaving ? (
                                         <>
@@ -942,15 +942,15 @@ const LeaveTypes: React.FC = () => {
                     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                         <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
                             <div className="flex items-center gap-3 mb-4">
-                                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                                    <Trash2 className="w-6 h-6 text-red-600" />
+                                <div className="w-12 h-12 bg-error-100 rounded-full flex items-center justify-center">
+                                    <Trash2 className="w-6 h-6 text-error-600" />
                                 </div>
                                 <div>
                                     <h3 className="text-lg font-semibold">Delete Leave Type</h3>
-                                    <p className="text-gray-500 text-sm">This action cannot be undone</p>
+                                    <p className="text-neutral-500 text-sm">This action cannot be undone</p>
                                 </div>
                             </div>
-                            <p className="text-gray-600 mb-6">
+                            <p className="text-neutral-600 mb-6">
                                 Are you sure you want to delete <strong>{deletingLeaveType.name}</strong>?
                             </p>
                             <div className="flex justify-end gap-3">
@@ -959,7 +959,7 @@ const LeaveTypes: React.FC = () => {
                                         setShowDeleteModal(false);
                                         setDeletingLeaveType(null);
                                     }}
-                                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                                    className="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50"
                                 >
                                     Cancel
                                 </button>
@@ -980,16 +980,16 @@ const LeaveTypes: React.FC = () => {
                         <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                                    <RefreshCw className="w-6 h-6 text-blue-600" />
+                                    <RefreshCw className="w-6 h-6 text-primary-500" />
                                 </div>
                                 <div>
                                     <h3 className="text-lg font-semibold">Initialize Sri Lanka Defaults</h3>
-                                    <p className="text-gray-500 text-sm">Create standard leave types</p>
+                                    <p className="text-neutral-500 text-sm">Create standard leave types</p>
                                 </div>
                             </div>
                             <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
                                 <div className="flex items-start gap-2">
-                                    <Info className="w-5 h-5 text-blue-600 mt-0.5" />
+                                    <Info className="w-5 h-5 text-primary-500 mt-0.5" />
                                     <div className="text-sm text-blue-700">
                                         <p className="font-medium mb-1">This will create:</p>
                                         <ul className="list-disc list-inside space-y-1">
@@ -1005,7 +1005,7 @@ const LeaveTypes: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
-                            <p className="text-gray-600 mb-6">
+                            <p className="text-neutral-600 mb-6">
                                 Leave types will be created for: <strong>
                                     {selectedBranch === 'all' || selectedBranch === 'global' 
                                         ? 'Global (All Branches)' 
@@ -1015,14 +1015,14 @@ const LeaveTypes: React.FC = () => {
                             <div className="flex justify-end gap-3">
                                 <button
                                     onClick={() => setShowInitializeModal(false)}
-                                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                                    className="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={handleInitialize}
                                     disabled={isSaving}
-                                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                                    className="flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50"
                                 >
                                     {isSaving ? (
                                         <>
@@ -1051,19 +1051,19 @@ const LeaveTypes: React.FC = () => {
                                 </div>
                                 <div>
                                     <h3 className="text-lg font-semibold">Copy Leave Types</h3>
-                                    <p className="text-gray-500 text-sm">Copy from one branch to another</p>
+                                    <p className="text-neutral-500 text-sm">Copy from one branch to another</p>
                                 </div>
                             </div>
                             
                             <div className="space-y-4 mb-6">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Source
                                     </label>
                                     <select
                                         value={copySourceBranch}
                                         onChange={(e) => setCopySourceBranch(e.target.value)}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                     >
                                         <option value="global">🌐 Global</option>
                                         {branches.map((branch) => (
@@ -1074,13 +1074,13 @@ const LeaveTypes: React.FC = () => {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Target Branch *
                                     </label>
                                     <select
                                         value={copyTargetBranch}
                                         onChange={(e) => setCopyTargetBranch(e.target.value)}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                     >
                                         <option value="">Select target branch...</option>
                                         {branches
@@ -1100,7 +1100,7 @@ const LeaveTypes: React.FC = () => {
                                         setShowCopyModal(false);
                                         setCopyTargetBranch('');
                                     }}
-                                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                                    className="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50"
                                 >
                                     Cancel
                                 </button>

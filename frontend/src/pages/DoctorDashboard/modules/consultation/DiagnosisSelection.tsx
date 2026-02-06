@@ -168,14 +168,14 @@ const DiagnosisSelection: React.FC<DiagnosisSelectionProps> = ({
         <div className="p-6 space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-xl font-bold text-gray-800">Diagnosis Selection</h2>
-                    <p className="text-gray-500">
+                    <h2 className="text-xl font-bold text-neutral-800">Diagnosis Selection</h2>
+                    <p className="text-neutral-500">
                         Select diagnoses from the master list or add new ones
                     </p>
                 </div>
                 <button
                     onClick={() => setShowAddForm(!showAddForm)}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                 >
                     <Plus className="w-4 h-4" />
                     Add New Diagnosis
@@ -185,10 +185,10 @@ const DiagnosisSelection: React.FC<DiagnosisSelectionProps> = ({
             {/* Add New Form */}
             {showAddForm && (
                 <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-                    <h3 className="font-semibold text-gray-800 mb-4">Add New Diagnosis to Master</h3>
+                    <h3 className="font-semibold text-neutral-800 mb-4">Add New Diagnosis to Master</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">
                                 Diagnosis Name *
                             </label>
                             <input
@@ -196,11 +196,11 @@ const DiagnosisSelection: React.FC<DiagnosisSelectionProps> = ({
                                 value={newDiagnosis.diagnosis_name}
                                 onChange={(e) => setNewDiagnosis(prev => ({ ...prev, diagnosis_name: e.target.value }))}
                                 placeholder="e.g., Chronic Fatigue Syndrome"
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">
                                 Diagnosis Code
                             </label>
                             <input
@@ -208,17 +208,17 @@ const DiagnosisSelection: React.FC<DiagnosisSelectionProps> = ({
                                 value={newDiagnosis.diagnosis_code}
                                 onChange={(e) => setNewDiagnosis(prev => ({ ...prev, diagnosis_code: e.target.value }))}
                                 placeholder="e.g., CFS-001"
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">
                                 Category *
                             </label>
                             <select
                                 value={newDiagnosis.category}
                                 onChange={(e) => setNewDiagnosis(prev => ({ ...prev, category: e.target.value as any }))}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                             >
                                 {CATEGORIES.map(cat => (
                                     <option key={cat.id} value={cat.id}>{cat.label}</option>
@@ -226,7 +226,7 @@ const DiagnosisSelection: React.FC<DiagnosisSelectionProps> = ({
                             </select>
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">
                                 Description
                             </label>
                             <input
@@ -234,21 +234,21 @@ const DiagnosisSelection: React.FC<DiagnosisSelectionProps> = ({
                                 value={newDiagnosis.description}
                                 onChange={(e) => setNewDiagnosis(prev => ({ ...prev, description: e.target.value }))}
                                 placeholder="Brief description..."
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                             />
                         </div>
                     </div>
                     <div className="flex items-center justify-end gap-3 mt-4">
                         <button
                             onClick={() => setShowAddForm(false)}
-                            className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                            className="px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg"
                         >
                             Cancel
                         </button>
                         <button
                             onClick={handleAddNewDiagnosis}
                             disabled={addingNew || !newDiagnosis.diagnosis_name.trim()}
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50"
                         >
                             {addingNew ? (
                                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -263,9 +263,9 @@ const DiagnosisSelection: React.FC<DiagnosisSelectionProps> = ({
 
             {/* Selected Diagnoses */}
             {diagnoses.length > 0 && (
-                <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-                    <div className="px-4 py-3 bg-gray-50 border-b border-gray-200">
-                        <h3 className="font-semibold text-gray-800">Selected Diagnoses ({diagnoses.length})</h3>
+                <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden">
+                    <div className="px-4 py-3 bg-neutral-50 border-b border-neutral-200">
+                        <h3 className="font-semibold text-neutral-800">Selected Diagnoses ({diagnoses.length})</h3>
                     </div>
                     <div className="divide-y divide-gray-100">
                         {diagnoses.map((diagnosis) => (
@@ -273,11 +273,11 @@ const DiagnosisSelection: React.FC<DiagnosisSelectionProps> = ({
                                 <div className="flex items-center gap-4">
                                     <div className={`w-2 h-2 rounded-full bg-${getTypeColor(diagnosis.diagnosis_type)}-500`} />
                                     <div>
-                                        <p className="font-medium text-gray-800">
+                                        <p className="font-medium text-neutral-800">
                                             {getDiagnosisName(diagnosis.diagnosis_id)}
                                         </p>
                                         {diagnosis.notes && (
-                                            <p className="text-sm text-gray-500">{diagnosis.notes}</p>
+                                            <p className="text-sm text-neutral-500">{diagnosis.notes}</p>
                                         )}
                                     </div>
                                 </div>
@@ -285,7 +285,7 @@ const DiagnosisSelection: React.FC<DiagnosisSelectionProps> = ({
                                     <select
                                         value={diagnosis.diagnosis_type}
                                         onChange={(e) => handleUpdateDiagnosisType(diagnosis.diagnosis_id, e.target.value as any)}
-                                        className={`px-3 py-1.5 text-sm rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500
+                                        className={`px-3 py-1.5 text-sm rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary-500
                                             ${diagnosis.diagnosis_type === 'primary' ? 'bg-blue-50 border-blue-200' : ''}
                                             ${diagnosis.diagnosis_type === 'secondary' ? 'bg-purple-50 border-purple-200' : ''}
                                             ${diagnosis.diagnosis_type === 'differential' ? 'bg-amber-50 border-amber-200' : ''}
@@ -297,7 +297,7 @@ const DiagnosisSelection: React.FC<DiagnosisSelectionProps> = ({
                                     </select>
                                     <button
                                         onClick={() => handleRemoveDiagnosis(diagnosis.diagnosis_id)}
-                                        className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
+                                        className="p-2 text-error-500 hover:bg-error-50 rounded-lg"
                                     >
                                         <Trash2 className="w-4 h-4" />
                                     </button>
@@ -322,19 +322,19 @@ const DiagnosisSelection: React.FC<DiagnosisSelectionProps> = ({
             {/* Search and Filter */}
             <div className="flex items-center gap-4">
                 <div className="flex-1 relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                     <input
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         placeholder="Search diagnoses..."
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500"
                     />
                 </div>
                 <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="px-4 py-3 border border-neutral-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500"
                 >
                     <option value="">All Categories</option>
                     {CATEGORIES.map(cat => (
@@ -344,20 +344,20 @@ const DiagnosisSelection: React.FC<DiagnosisSelectionProps> = ({
             </div>
 
             {/* Available Diagnoses List */}
-            <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-                <div className="px-4 py-3 bg-gray-50 border-b border-gray-200">
-                    <h3 className="font-semibold text-gray-800">Available Diagnoses</h3>
+            <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden">
+                <div className="px-4 py-3 bg-neutral-50 border-b border-neutral-200">
+                    <h3 className="font-semibold text-neutral-800">Available Diagnoses</h3>
                 </div>
                 
                 {loading ? (
                     <div className="flex items-center justify-center py-12">
-                        <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+                        <Loader2 className="w-6 h-6 animate-spin text-primary-500" />
                     </div>
                 ) : availableDiagnoses.length === 0 ? (
                     <div className="text-center py-12">
                         <Activity className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                        <p className="text-gray-500">No diagnoses found</p>
-                        <p className="text-sm text-gray-400">Try a different search or add a new diagnosis</p>
+                        <p className="text-neutral-500">No diagnoses found</p>
+                        <p className="text-sm text-neutral-400">Try a different search or add a new diagnosis</p>
                     </div>
                 ) : (
                     <div className="divide-y divide-gray-100 max-h-[400px] overflow-y-auto">
@@ -370,7 +370,7 @@ const DiagnosisSelection: React.FC<DiagnosisSelectionProps> = ({
                                     className={`p-4 flex items-center justify-between cursor-pointer transition-colors ${
                                         isSelected
                                             ? 'bg-green-50 cursor-not-allowed'
-                                            : 'hover:bg-gray-50'
+                                            : 'hover:bg-neutral-50'
                                     }`}
                                 >
                                     <div className="flex items-center gap-4">
@@ -378,16 +378,16 @@ const DiagnosisSelection: React.FC<DiagnosisSelectionProps> = ({
                                             {diagnosis.category}
                                         </div>
                                         <div>
-                                            <p className="font-medium text-gray-800">{diagnosis.diagnosis_name}</p>
+                                            <p className="font-medium text-neutral-800">{diagnosis.diagnosis_name}</p>
                                             {diagnosis.description && (
-                                                <p className="text-sm text-gray-500">{diagnosis.description}</p>
+                                                <p className="text-sm text-neutral-500">{diagnosis.description}</p>
                                             )}
                                         </div>
                                     </div>
                                     {isSelected ? (
                                         <Check className="w-5 h-5 text-green-500" />
                                     ) : (
-                                        <Plus className="w-5 h-5 text-gray-400" />
+                                        <Plus className="w-5 h-5 text-neutral-400" />
                                     )}
                                 </div>
                             );
@@ -400,25 +400,25 @@ const DiagnosisSelection: React.FC<DiagnosisSelectionProps> = ({
             {showSelectionModal && selectedDiagnosis && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-2xl w-full max-w-md">
-                        <div className="p-6 border-b border-gray-200">
+                        <div className="p-6 border-b border-neutral-200">
                             <div className="flex items-center justify-between">
-                                <h3 className="text-lg font-bold text-gray-800">Add Diagnosis</h3>
+                                <h3 className="text-lg font-bold text-neutral-800">Add Diagnosis</h3>
                                 <button
                                     onClick={() => setShowSelectionModal(false)}
-                                    className="p-2 hover:bg-gray-100 rounded-lg"
+                                    className="p-2 hover:bg-neutral-100 rounded-lg"
                                 >
-                                    <X className="w-5 h-5 text-gray-500" />
+                                    <X className="w-5 h-5 text-neutral-500" />
                                 </button>
                             </div>
                         </div>
                         <div className="p-6 space-y-4">
                             <div>
-                                <p className="text-sm text-gray-500">Selected Diagnosis</p>
-                                <p className="font-semibold text-gray-800 text-lg">{selectedDiagnosis.diagnosis_name}</p>
+                                <p className="text-sm text-neutral-500">Selected Diagnosis</p>
+                                <p className="font-semibold text-neutral-800 text-lg">{selectedDiagnosis.diagnosis_name}</p>
                             </div>
                             
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Diagnosis Type
                                 </label>
                                 <div className="flex gap-2">
@@ -429,7 +429,7 @@ const DiagnosisSelection: React.FC<DiagnosisSelectionProps> = ({
                                             className={`flex-1 py-2 px-3 rounded-lg border text-sm font-medium transition-colors ${
                                                 diagnosisType === type.id
                                                     ? `bg-${type.color}-100 border-${type.color}-500 text-${type.color}-700`
-                                                    : 'border-gray-300 text-gray-600 hover:bg-gray-50'
+                                                    : 'border-neutral-300 text-neutral-600 hover:bg-neutral-50'
                                             }`}
                                         >
                                             {type.label}
@@ -439,27 +439,27 @@ const DiagnosisSelection: React.FC<DiagnosisSelectionProps> = ({
                             </div>
                             
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Notes (Optional)
                                 </label>
                                 <textarea
                                     value={diagnosisNotes}
                                     onChange={(e) => setDiagnosisNotes(e.target.value)}
                                     placeholder="Add any specific notes about this diagnosis..."
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[80px] resize-none"
+                                    className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 min-h-[80px] resize-none"
                                 />
                             </div>
                         </div>
-                        <div className="p-6 border-t border-gray-200 flex items-center justify-end gap-3">
+                        <div className="p-6 border-t border-neutral-200 flex items-center justify-end gap-3">
                             <button
                                 onClick={() => setShowSelectionModal(false)}
-                                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                                className="px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleConfirmDiagnosis}
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                             >
                                 <Check className="w-4 h-4" />
                                 Add Diagnosis

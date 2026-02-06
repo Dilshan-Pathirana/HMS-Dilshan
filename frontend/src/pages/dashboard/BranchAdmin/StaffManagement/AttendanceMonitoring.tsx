@@ -114,8 +114,8 @@ export const AttendanceMonitoring: React.FC = () => {
             case 'present': return 'bg-green-100 text-green-700';
             case 'late': return 'bg-yellow-100 text-yellow-700';
             case 'early-out': return 'bg-orange-100 text-orange-700';
-            case 'absent': return 'bg-red-100 text-red-700';
-            default: return 'bg-gray-100 text-gray-700';
+            case 'absent': return 'bg-error-100 text-red-700';
+            default: return 'bg-neutral-100 text-neutral-700';
         }
     };
 
@@ -132,7 +132,7 @@ export const AttendanceMonitoring: React.FC = () => {
     const SidebarMenu = () => (
         <nav className="py-4">
             <div className="px-4 mb-4">
-                <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Navigation</h2>
+                <h2 className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Navigation</h2>
             </div>
             <ul className="space-y-1 px-2">
                 {BranchAdminMenuItems.map((item, index) => (
@@ -140,8 +140,8 @@ export const AttendanceMonitoring: React.FC = () => {
                         <button
                             onClick={() => navigate(item.path)}
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${item.path === '/branch-admin/hrm'
-                                    ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-md'
-                                    : 'text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
+                                    ? 'bg-gradient-to-r from-emerald-500 to-primary-500 text-white shadow-md'
+                                    : 'text-neutral-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
                                 }`}
                         >
                             <span className="flex-shrink-0">{item.icon}</span>
@@ -175,13 +175,13 @@ export const AttendanceMonitoring: React.FC = () => {
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => navigate('/branch-admin/hrm')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ChevronLeft className="w-5 h-5 text-gray-600" />
+                            <ChevronLeft className="w-5 h-5 text-neutral-600" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">Attendance Monitoring</h1>
-                            <p className="text-gray-500">Track staff attendance, shift coverage, and work hours</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">Attendance Monitoring</h1>
+                            <p className="text-neutral-500">Track staff attendance, shift coverage, and work hours</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
@@ -189,9 +189,9 @@ export const AttendanceMonitoring: React.FC = () => {
                             type="date"
                             value={selectedDate}
                             onChange={(e) => setSelectedDate(e.target.value)}
-                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                            className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                         />
-                        <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                        <button className="flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50">
                             <Download className="w-4 h-4" />
                             Export
                         </button>
@@ -200,21 +200,21 @@ export const AttendanceMonitoring: React.FC = () => {
 
                 {/* Quick Stats */}
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Total Staff</p>
-                                <p className="text-2xl font-bold text-gray-800">{mockDailyStats.total}</p>
+                                <p className="text-sm text-neutral-500">Total Staff</p>
+                                <p className="text-2xl font-bold text-neutral-800">{mockDailyStats.total}</p>
                             </div>
-                            <div className="p-3 bg-gray-100 rounded-lg">
-                                <Users className="w-6 h-6 text-gray-600" />
+                            <div className="p-3 bg-neutral-100 rounded-lg">
+                                <Users className="w-6 h-6 text-neutral-600" />
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Present</p>
+                                <p className="text-sm text-neutral-500">Present</p>
                                 <p className="text-2xl font-bold text-green-600">{mockDailyStats.present}</p>
                             </div>
                             <div className="p-3 bg-green-100 rounded-lg">
@@ -222,10 +222,10 @@ export const AttendanceMonitoring: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Late</p>
+                                <p className="text-sm text-neutral-500">Late</p>
                                 <p className="text-2xl font-bold text-yellow-600">{mockDailyStats.late}</p>
                             </div>
                             <div className="p-3 bg-yellow-100 rounded-lg">
@@ -233,33 +233,33 @@ export const AttendanceMonitoring: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Absent</p>
-                                <p className="text-2xl font-bold text-red-600">{mockDailyStats.absent}</p>
+                                <p className="text-sm text-neutral-500">Absent</p>
+                                <p className="text-2xl font-bold text-error-600">{mockDailyStats.absent}</p>
                             </div>
-                            <div className="p-3 bg-red-100 rounded-lg">
-                                <X className="w-6 h-6 text-red-600" />
+                            <div className="p-3 bg-error-100 rounded-lg">
+                                <X className="w-6 h-6 text-error-600" />
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">On Leave</p>
-                                <p className="text-2xl font-bold text-blue-600">{mockDailyStats.onLeave}</p>
+                                <p className="text-sm text-neutral-500">On Leave</p>
+                                <p className="text-2xl font-bold text-primary-500">{mockDailyStats.onLeave}</p>
                             </div>
                             <div className="p-3 bg-blue-100 rounded-lg">
-                                <Calendar className="w-6 h-6 text-blue-600" />
+                                <Calendar className="w-6 h-6 text-primary-500" />
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Tabs */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-                    <div className="border-b border-gray-200">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200">
+                    <div className="border-b border-neutral-200">
                         <div className="flex overflow-x-auto">
                             {tabs.map(tab => (
                                 <button
@@ -267,7 +267,7 @@ export const AttendanceMonitoring: React.FC = () => {
                                     onClick={() => setActiveTab(tab.id as any)}
                                     className={`flex items-center gap-2 px-6 py-4 font-medium text-sm whitespace-nowrap border-b-2 transition-colors ${activeTab === tab.id
                                             ? 'border-emerald-500 text-emerald-600'
-                                            : 'border-transparent text-gray-500 hover:text-gray-700'
+                                            : 'border-transparent text-neutral-500 hover:text-neutral-700'
                                         }`}
                                 >
                                     {tab.icon}
@@ -284,19 +284,19 @@ export const AttendanceMonitoring: React.FC = () => {
                                 {/* Filters */}
                                 <div className="flex flex-col md:flex-row gap-4">
                                     <div className="flex-1 relative">
-                                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                                         <input
                                             type="text"
                                             placeholder="Search by staff name..."
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
-                                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                         />
                                     </div>
                                     <select
                                         value={filterStatus}
                                         onChange={(e) => setFilterStatus(e.target.value)}
-                                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="all">All Status</option>
                                         <option value="present">Present</option>
@@ -307,7 +307,7 @@ export const AttendanceMonitoring: React.FC = () => {
                                     <select
                                         value={filterDepartment}
                                         onChange={(e) => setFilterDepartment(e.target.value)}
-                                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="all">All Departments</option>
                                         {departments.map(dept => (
@@ -319,50 +319,50 @@ export const AttendanceMonitoring: React.FC = () => {
                                 {/* Logs Table */}
                                 <div className="overflow-x-auto">
                                     <table className="w-full">
-                                        <thead className="bg-gray-50">
+                                        <thead className="bg-neutral-50">
                                             <tr>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Staff</th>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Department</th>
-                                                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Shift</th>
-                                                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Clock In</th>
-                                                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Clock Out</th>
-                                                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Hours</th>
-                                                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Status</th>
-                                                <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Actions</th>
+                                                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Staff</th>
+                                                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Department</th>
+                                                <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Shift</th>
+                                                <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Clock In</th>
+                                                <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Clock Out</th>
+                                                <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Hours</th>
+                                                <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Status</th>
+                                                <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200">
                                             {filteredLogs.map(log => (
-                                                <tr key={log.id} className="hover:bg-gray-50">
+                                                <tr key={log.id} className="hover:bg-neutral-50">
                                                     <td className="px-4 py-3">
                                                         <div className="flex items-center gap-3">
                                                             <div className="w-8 h-8 bg-gradient-to-br from-emerald-100 to-blue-100 rounded-full flex items-center justify-center">
                                                                 <User className="w-4 h-4 text-emerald-600" />
                                                             </div>
-                                                            <span className="font-medium text-gray-800">{log.staffName}</span>
+                                                            <span className="font-medium text-neutral-800">{log.staffName}</span>
                                                         </div>
                                                     </td>
-                                                    <td className="px-4 py-3 text-gray-600">{log.department}</td>
-                                                    <td className="px-4 py-3 text-gray-600">{log.shift}</td>
+                                                    <td className="px-4 py-3 text-neutral-600">{log.department}</td>
+                                                    <td className="px-4 py-3 text-neutral-600">{log.shift}</td>
                                                     <td className="px-4 py-3 text-center">
                                                         {log.clockIn ? (
                                                             <span className="font-medium">{log.clockIn}</span>
                                                         ) : (
-                                                            <span className="text-gray-400">--:--</span>
+                                                            <span className="text-neutral-400">--:--</span>
                                                         )}
                                                     </td>
                                                     <td className="px-4 py-3 text-center">
                                                         {log.clockOut ? (
                                                             <span className="font-medium">{log.clockOut}</span>
                                                         ) : (
-                                                            <span className="text-gray-400">--:--</span>
+                                                            <span className="text-neutral-400">--:--</span>
                                                         )}
                                                     </td>
                                                     <td className="px-4 py-3 text-center">
                                                         {log.hoursWorked !== null ? (
                                                             <span className="font-medium">{log.hoursWorked}h</span>
                                                         ) : (
-                                                            <span className="text-gray-400">-</span>
+                                                            <span className="text-neutral-400">-</span>
                                                         )}
                                                     </td>
                                                     <td className="px-4 py-3 text-center">
@@ -382,7 +382,7 @@ export const AttendanceMonitoring: React.FC = () => {
                                                         {log.clockIn && !log.clockOut && (
                                                             <button
                                                                 onClick={() => handleMarkAttendance(log.id, 'clockOut')}
-                                                                className="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600"
+                                                                className="px-3 py-1 bg-primary-500 text-white rounded text-sm hover:bg-primary-500"
                                                             >
                                                                 Clock Out
                                                             </button>
@@ -401,36 +401,36 @@ export const AttendanceMonitoring: React.FC = () => {
                             <div className="space-y-4">
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     {mockShiftCoverage.map((shift, index) => (
-                                        <div key={index} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                                        <div key={index} className="bg-neutral-50 rounded-lg p-4 border border-neutral-200">
                                             <div className="flex items-center justify-between mb-3">
-                                                <h4 className="font-semibold text-gray-800">{shift.shift}</h4>
+                                                <h4 className="font-semibold text-neutral-800">{shift.shift}</h4>
                                                 <span className={`px-2 py-1 rounded text-xs font-medium ${shift.coverage >= 95 ? 'bg-green-100 text-green-700' :
                                                         shift.coverage >= 80 ? 'bg-yellow-100 text-yellow-700' :
-                                                            'bg-red-100 text-red-700'
+                                                            'bg-error-100 text-red-700'
                                                     }`}>
                                                     {shift.coverage}% Coverage
                                                 </span>
                                             </div>
                                             <div className="space-y-2">
                                                 <div className="flex justify-between text-sm">
-                                                    <span className="text-gray-600">Required</span>
+                                                    <span className="text-neutral-600">Required</span>
                                                     <span className="font-medium">{shift.required}</span>
                                                 </div>
                                                 <div className="flex justify-between text-sm">
-                                                    <span className="text-gray-600">Present</span>
+                                                    <span className="text-neutral-600">Present</span>
                                                     <span className="font-medium text-green-600">{shift.present}</span>
                                                 </div>
                                                 <div className="flex justify-between text-sm">
-                                                    <span className="text-gray-600">Shortage</span>
-                                                    <span className="font-medium text-red-600">{shift.required - shift.present}</span>
+                                                    <span className="text-neutral-600">Shortage</span>
+                                                    <span className="font-medium text-error-600">{shift.required - shift.present}</span>
                                                 </div>
                                             </div>
                                             <div className="mt-4">
-                                                <div className="w-full h-3 bg-gray-200 rounded-full">
+                                                <div className="w-full h-3 bg-neutral-200 rounded-full">
                                                     <div
                                                         className={`h-full rounded-full ${shift.coverage >= 95 ? 'bg-green-500' :
                                                                 shift.coverage >= 80 ? 'bg-yellow-500' :
-                                                                    'bg-red-500'
+                                                                    'bg-error-500'
                                                             }`}
                                                         style={{ width: `${shift.coverage}%` }}
                                                     ></div>
@@ -442,7 +442,7 @@ export const AttendanceMonitoring: React.FC = () => {
 
                                 {/* Coverage Alerts */}
                                 <div className="mt-6">
-                                    <h4 className="font-semibold text-gray-800 mb-3">Coverage Alerts</h4>
+                                    <h4 className="font-semibold text-neutral-800 mb-3">Coverage Alerts</h4>
                                     <div className="space-y-2">
                                         {mockShiftCoverage.filter(s => s.coverage < 100).map((shift, index) => (
                                             <div key={index} className="flex items-center gap-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
@@ -461,28 +461,28 @@ export const AttendanceMonitoring: React.FC = () => {
                         {activeTab === 'summary' && (
                             <div className="space-y-6">
                                 {/* Attendance Chart Placeholder */}
-                                <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-                                    <h4 className="font-semibold text-gray-800 mb-4">Attendance Distribution</h4>
+                                <div className="bg-neutral-50 rounded-lg p-6 border border-neutral-200">
+                                    <h4 className="font-semibold text-neutral-800 mb-4">Attendance Distribution</h4>
                                     <div className="flex items-center justify-center h-48">
                                         <div className="flex items-end gap-4">
                                             <div className="flex flex-col items-center">
                                                 <div className="w-16 bg-green-500 rounded-t" style={{ height: '160px' }}></div>
-                                                <span className="text-xs text-gray-600 mt-2">Present</span>
+                                                <span className="text-xs text-neutral-600 mt-2">Present</span>
                                                 <span className="text-sm font-medium">{mockDailyStats.present}</span>
                                             </div>
                                             <div className="flex flex-col items-center">
                                                 <div className="w-16 bg-yellow-500 rounded-t" style={{ height: '40px' }}></div>
-                                                <span className="text-xs text-gray-600 mt-2">Late</span>
+                                                <span className="text-xs text-neutral-600 mt-2">Late</span>
                                                 <span className="text-sm font-medium">{mockDailyStats.late}</span>
                                             </div>
                                             <div className="flex flex-col items-center">
-                                                <div className="w-16 bg-red-500 rounded-t" style={{ height: '25px' }}></div>
-                                                <span className="text-xs text-gray-600 mt-2">Absent</span>
+                                                <div className="w-16 bg-error-500 rounded-t" style={{ height: '25px' }}></div>
+                                                <span className="text-xs text-neutral-600 mt-2">Absent</span>
                                                 <span className="text-sm font-medium">{mockDailyStats.absent}</span>
                                             </div>
                                             <div className="flex flex-col items-center">
-                                                <div className="w-16 bg-blue-500 rounded-t" style={{ height: '35px' }}></div>
-                                                <span className="text-xs text-gray-600 mt-2">On Leave</span>
+                                                <div className="w-16 bg-primary-500 rounded-t" style={{ height: '35px' }}></div>
+                                                <span className="text-xs text-neutral-600 mt-2">On Leave</span>
                                                 <span className="text-sm font-medium">{mockDailyStats.onLeave}</span>
                                             </div>
                                         </div>
@@ -491,48 +491,48 @@ export const AttendanceMonitoring: React.FC = () => {
 
                                 {/* Key Metrics */}
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <div className="bg-white rounded-lg p-4 border border-gray-200">
+                                    <div className="bg-white rounded-lg p-4 border border-neutral-200">
                                         <div className="flex items-center gap-3">
                                             <div className="p-3 bg-green-100 rounded-lg">
                                                 <TrendingUp className="w-6 h-6 text-green-600" />
                                             </div>
                                             <div>
-                                                <p className="text-sm text-gray-500">Attendance Rate</p>
-                                                <p className="text-xl font-bold text-gray-800">
+                                                <p className="text-sm text-neutral-500">Attendance Rate</p>
+                                                <p className="text-xl font-bold text-neutral-800">
                                                     {Math.round((mockDailyStats.present / mockDailyStats.total) * 100)}%
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="bg-white rounded-lg p-4 border border-gray-200">
+                                    <div className="bg-white rounded-lg p-4 border border-neutral-200">
                                         <div className="flex items-center gap-3">
                                             <div className="p-3 bg-yellow-100 rounded-lg">
                                                 <Clock className="w-6 h-6 text-yellow-600" />
                                             </div>
                                             <div>
-                                                <p className="text-sm text-gray-500">Punctuality Rate</p>
-                                                <p className="text-xl font-bold text-gray-800">
+                                                <p className="text-sm text-neutral-500">Punctuality Rate</p>
+                                                <p className="text-xl font-bold text-neutral-800">
                                                     {Math.round(((mockDailyStats.present - mockDailyStats.late) / mockDailyStats.present) * 100)}%
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="bg-white rounded-lg p-4 border border-gray-200">
+                                    <div className="bg-white rounded-lg p-4 border border-neutral-200">
                                         <div className="flex items-center gap-3">
                                             <div className="p-3 bg-blue-100 rounded-lg">
-                                                <TrendingDown className="w-6 h-6 text-blue-600" />
+                                                <TrendingDown className="w-6 h-6 text-primary-500" />
                                             </div>
                                             <div>
-                                                <p className="text-sm text-gray-500">Avg Hours Worked</p>
-                                                <p className="text-xl font-bold text-gray-800">8.2h</p>
+                                                <p className="text-sm text-neutral-500">Avg Hours Worked</p>
+                                                <p className="text-xl font-bold text-neutral-800">8.2h</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Department Breakdown */}
-                                <div className="bg-white rounded-lg p-4 border border-gray-200">
-                                    <h4 className="font-semibold text-gray-800 mb-4">Department Breakdown</h4>
+                                <div className="bg-white rounded-lg p-4 border border-neutral-200">
+                                    <h4 className="font-semibold text-neutral-800 mb-4">Department Breakdown</h4>
                                     <div className="space-y-3">
                                         {departments.map((dept, index) => {
                                             const deptLogs = attendanceLogs.filter(l => l.department === dept);
@@ -540,8 +540,8 @@ export const AttendanceMonitoring: React.FC = () => {
                                             const rate = Math.round((present / deptLogs.length) * 100);
                                             return (
                                                 <div key={index} className="flex items-center gap-4">
-                                                    <span className="w-24 text-sm text-gray-600">{dept}</span>
-                                                    <div className="flex-1 h-3 bg-gray-200 rounded-full">
+                                                    <span className="w-24 text-sm text-neutral-600">{dept}</span>
+                                                    <div className="flex-1 h-3 bg-neutral-200 rounded-full">
                                                         <div
                                                             className="h-full bg-emerald-500 rounded-full"
                                                             style={{ width: `${rate}%` }}

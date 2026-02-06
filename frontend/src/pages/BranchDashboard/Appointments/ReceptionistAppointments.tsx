@@ -237,13 +237,13 @@ const ReceptionistAppointments: React.FC = () => {
       case 'completed':
         return 'bg-green-100 text-green-800';
       case 'cancelled':
-        return 'bg-red-100 text-red-800';
+        return 'bg-error-100 text-red-800';
       case 'no_show':
         return 'bg-orange-100 text-orange-800';
       case 'pending_payment':
         return 'bg-amber-100 text-amber-800';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-neutral-100 text-neutral-800';
     }
   };
 
@@ -252,11 +252,11 @@ const ReceptionistAppointments: React.FC = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 bg-neutral-50 min-h-screen">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Appointment Reception</h1>
-        <p className="text-gray-600">Manage walk-ins and check-ins</p>
+        <h1 className="text-2xl font-bold text-neutral-800">Appointment Reception</h1>
+        <p className="text-neutral-600">Manage walk-ins and check-ins</p>
       </div>
 
       {/* Success/Error Messages */}
@@ -273,9 +273,9 @@ const ReceptionistAppointments: React.FC = () => {
       )}
 
       {error && (
-        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 flex justify-between items-center">
+        <div className="mb-4 p-4 bg-error-50 border border-red-200 rounded-lg text-red-700 flex justify-between items-center">
           <span>{error}</span>
-          <button onClick={() => setError(null)} className="text-red-500 hover:text-red-700">
+          <button onClick={() => setError(null)} className="text-error-500 hover:text-red-700">
             <FaTimes />
           </button>
         </div>
@@ -287,7 +287,7 @@ const ReceptionistAppointments: React.FC = () => {
           className={`px-4 py-2 rounded-lg font-medium transition-colors ${
             activeTab === 'today'
               ? 'bg-indigo-600 text-white'
-              : 'bg-white text-gray-600 hover:bg-gray-100'
+              : 'bg-white text-neutral-600 hover:bg-neutral-100'
           }`}
           onClick={() => setActiveTab('today')}
         >
@@ -298,7 +298,7 @@ const ReceptionistAppointments: React.FC = () => {
           className={`px-4 py-2 rounded-lg font-medium transition-colors ${
             activeTab === 'walk-in'
               ? 'bg-indigo-600 text-white'
-              : 'bg-white text-gray-600 hover:bg-gray-100'
+              : 'bg-white text-neutral-600 hover:bg-neutral-100'
           }`}
           onClick={() => setActiveTab('walk-in')}
         >
@@ -311,7 +311,7 @@ const ReceptionistAppointments: React.FC = () => {
       {activeTab === 'today' && (
         <div className="bg-white rounded-xl shadow-lg overflow-hidden">
           <div className="flex justify-between items-center p-4 border-b">
-            <h2 className="font-semibold text-gray-800">
+            <h2 className="font-semibold text-neutral-800">
               Today's Schedule ({appointments.length} appointments)
             </h2>
             <button
@@ -329,34 +329,34 @@ const ReceptionistAppointments: React.FC = () => {
               <div className="animate-spin w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full mx-auto"></div>
             </div>
           ) : appointments.length === 0 ? (
-            <div className="p-8 text-center text-gray-500">
+            <div className="p-8 text-center text-neutral-500">
               <FaCalendarAlt className="text-4xl mx-auto mb-2 text-gray-300" />
               <p>No appointments for today</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gray-50">
+                <thead className="bg-neutral-50">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Token</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Patient</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Doctor</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Time</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Payment</th>
-                    <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Token</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Patient</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Doctor</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Time</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Type</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Status</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Payment</th>
+                    <th className="px-4 py-3 text-right text-xs font-medium text-neutral-500 uppercase">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {appointments.map((appointment) => (
-                    <tr key={appointment.id} className="hover:bg-gray-50">
+                    <tr key={appointment.id} className="hover:bg-neutral-50">
                       <td className="px-4 py-3 font-bold text-indigo-600">#{appointment.token_number}</td>
                       <td className="px-4 py-3">
                         <div>
-                          <p className="font-medium text-gray-800">{appointment.patient_name || 'Patient'}</p>
+                          <p className="font-medium text-neutral-800">{appointment.patient_name || 'Patient'}</p>
                           {appointment.patient_phone && (
-                            <p className="text-xs text-gray-500 flex items-center">
+                            <p className="text-xs text-neutral-500 flex items-center">
                               <FaPhone className="mr-1" />
                               {appointment.patient_phone}
                             </p>
@@ -365,16 +365,16 @@ const ReceptionistAppointments: React.FC = () => {
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center">
-                          <FaUserMd className="text-gray-400 mr-2" />
+                          <FaUserMd className="text-neutral-400 mr-2" />
                           <span>{appointment.doctor_name || 'Doctor'}</span>
                         </div>
                       </td>
-                      <td className="px-4 py-3 text-sm text-gray-600">{appointment.appointment_time}</td>
+                      <td className="px-4 py-3 text-sm text-neutral-600">{appointment.appointment_time}</td>
                       <td className="px-4 py-3 text-sm capitalize">
                         {appointment.booking_type === 'walk_in' ? (
                           <span className="text-orange-600">Walk-in</span>
                         ) : (
-                          <span className="text-blue-600">Online</span>
+                          <span className="text-primary-500">Online</span>
                         )}
                       </td>
                       <td className="px-4 py-3">
@@ -395,7 +395,7 @@ const ReceptionistAppointments: React.FC = () => {
                             Record Payment
                           </button>
                         ) : (
-                          <span className="text-gray-400 text-sm">{appointment.payment_status}</span>
+                          <span className="text-neutral-400 text-sm">{appointment.payment_status}</span>
                         )}
                       </td>
                       <td className="px-4 py-3 text-right">
@@ -403,7 +403,7 @@ const ReceptionistAppointments: React.FC = () => {
                           {appointment.status === 'confirmed' && (
                             <>
                               <button
-                                className="px-2 py-1 bg-blue-600 text-white rounded text-xs hover:bg-blue-700"
+                                className="px-2 py-1 bg-primary-500 text-white rounded text-xs hover:bg-primary-600"
                                 onClick={() => handleCheckIn(appointment.id)}
                                 disabled={actionLoading === appointment.id}
                               >
@@ -441,19 +441,19 @@ const ReceptionistAppointments: React.FC = () => {
       {/* Walk-In Booking Form */}
       {activeTab === 'walk-in' && (
         <div className="bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-lg font-semibold text-gray-800 mb-4">Create Walk-In Booking</h2>
+          <h2 className="text-lg font-semibold text-neutral-800 mb-4">Create Walk-In Booking</h2>
 
           <form onSubmit={handleCreateWalkIn} className="space-y-4">
             {/* Patient Search */}
             <div className="relative">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-neutral-700 mb-1">
                 Search Existing Patient
               </label>
               <div className="relative">
-                <FaSearch className="absolute left-3 top-3 text-gray-400" />
+                <FaSearch className="absolute left-3 top-3 text-neutral-400" />
                 <input
                   type="text"
-                  className="w-full pl-10 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                  className="w-full pl-10 p-2.5 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
                   placeholder="Search by name, phone, or ID..."
                   value={patientSearch}
                   onChange={(e) => setPatientSearch(e.target.value)}
@@ -462,20 +462,20 @@ const ReceptionistAppointments: React.FC = () => {
 
               {/* Patient Search Results */}
               {showPatientResults && patients.length > 0 && (
-                <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                <div className="absolute z-10 w-full mt-1 bg-white border border-neutral-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                   {patients.map((patient) => (
                     <div
                       key={patient.id || patient.user_id}
-                      className="p-3 hover:bg-gray-50 cursor-pointer border-b last:border-b-0"
+                      className="p-3 hover:bg-neutral-50 cursor-pointer border-b last:border-b-0"
                       onClick={() => selectPatient(patient)}
                     >
                       <div className="flex items-center">
-                        <FaUser className="text-gray-400 mr-2" />
+                        <FaUser className="text-neutral-400 mr-2" />
                         <div>
-                          <p className="font-medium text-gray-800">
+                          <p className="font-medium text-neutral-800">
                             {patient.name || `${patient.first_name} ${patient.last_name}`}
                           </p>
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-neutral-500">
                             {patient.phone || patient.phone_number} | {patient.patient_id || patient.id}
                           </p>
                         </div>
@@ -487,14 +487,14 @@ const ReceptionistAppointments: React.FC = () => {
             </div>
 
             {/* Or New Patient Details */}
-            <div className="border-t border-gray-200 pt-4">
-              <p className="text-sm text-gray-500 mb-3">Or enter new patient details:</p>
+            <div className="border-t border-neutral-200 pt-4">
+              <p className="text-sm text-neutral-500 mb-3">Or enter new patient details:</p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Patient Name</label>
+                  <label className="block text-sm font-medium text-neutral-700 mb-1">Patient Name</label>
                   <input
                     type="text"
-                    className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                    className="w-full p-2.5 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
                     placeholder="Full name"
                     value={walkInForm.patient_name}
                     onChange={(e) => setWalkInForm((prev) => ({ ...prev, patient_name: e.target.value }))}
@@ -502,10 +502,10 @@ const ReceptionistAppointments: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                  <label className="block text-sm font-medium text-neutral-700 mb-1">Phone Number</label>
                   <input
                     type="tel"
-                    className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                    className="w-full p-2.5 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
                     placeholder="Phone number"
                     value={walkInForm.patient_phone}
                     onChange={(e) => setWalkInForm((prev) => ({ ...prev, patient_phone: e.target.value }))}
@@ -537,9 +537,9 @@ const ReceptionistAppointments: React.FC = () => {
 
             {/* Doctor Selection */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Doctor *</label>
+              <label className="block text-sm font-medium text-neutral-700 mb-1">Doctor *</label>
               <select
-                className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                className="w-full p-2.5 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
                 value={walkInForm.doctor_id}
                 onChange={(e) => setWalkInForm((prev) => ({ ...prev, doctor_id: e.target.value }))}
                 required
@@ -556,9 +556,9 @@ const ReceptionistAppointments: React.FC = () => {
             {/* Appointment Type */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Appointment Type</label>
+                <label className="block text-sm font-medium text-neutral-700 mb-1">Appointment Type</label>
                 <select
-                  className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                  className="w-full p-2.5 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
                   value={walkInForm.appointment_type}
                   onChange={(e) => setWalkInForm((prev) => ({ ...prev, appointment_type: e.target.value }))}
                 >
@@ -569,9 +569,9 @@ const ReceptionistAppointments: React.FC = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
+                <label className="block text-sm font-medium text-neutral-700 mb-1">Payment Method</label>
                 <select
-                  className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                  className="w-full p-2.5 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
                   value={walkInForm.payment_method}
                   onChange={(e) => setWalkInForm((prev) => ({ ...prev, payment_method: e.target.value }))}
                 >
@@ -584,9 +584,9 @@ const ReceptionistAppointments: React.FC = () => {
 
             {/* Notes */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Notes (Optional)</label>
+              <label className="block text-sm font-medium text-neutral-700 mb-1">Notes (Optional)</label>
               <textarea
-                className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                className="w-full p-2.5 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
                 rows={2}
                 placeholder="Any notes or symptoms..."
                 value={walkInForm.notes}

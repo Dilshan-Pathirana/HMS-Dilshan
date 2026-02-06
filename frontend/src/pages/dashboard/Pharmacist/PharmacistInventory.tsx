@@ -170,7 +170,7 @@ export const PharmacistInventory: React.FC = () => {
     };
 
     const getStockStatus = (item: InventoryItem) => {
-        if (item.quantity === 0) return { label: 'Out of Stock', color: 'bg-red-100 text-red-700' };
+        if (item.quantity === 0) return { label: 'Out of Stock', color: 'bg-error-100 text-red-700' };
         if (item.quantity <= item.reorder_level) return { label: 'Low Stock', color: 'bg-yellow-100 text-yellow-700' };
         return { label: 'In Stock', color: 'bg-green-100 text-green-700' };
     };
@@ -180,7 +180,7 @@ export const PharmacistInventory: React.FC = () => {
         const expiry = new Date(expiryDate);
         const daysUntilExpiry = Math.ceil((expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 
-        if (daysUntilExpiry < 0) return { label: 'Expired', color: 'bg-red-100 text-red-700' };
+        if (daysUntilExpiry < 0) return { label: 'Expired', color: 'bg-error-100 text-red-700' };
         if (daysUntilExpiry <= 30) return { label: `${daysUntilExpiry}d left`, color: 'bg-orange-100 text-orange-700' };
         if (daysUntilExpiry <= 90) return { label: `${daysUntilExpiry}d left`, color: 'bg-yellow-100 text-yellow-700' };
         return { label: 'Good', color: 'bg-green-100 text-green-700' };
@@ -223,28 +223,28 @@ export const PharmacistInventory: React.FC = () => {
     };
 
     return (
-        <div className="ml-0 md:ml-64 min-h-screen bg-gray-50 p-6 pt-24">
+        <div className="ml-0 md:ml-64 min-h-screen bg-neutral-50 p-6 pt-24">
             <div className="max-w-7xl mx-auto space-y-6">
                 {/* Header */}
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-3">
-                            <Package className="w-8 h-8 text-blue-600" />
+                        <h1 className="text-3xl font-bold text-neutral-800 flex items-center gap-3">
+                            <Package className="w-8 h-8 text-primary-500" />
                             Pharmacy Inventory
                         </h1>
-                        <p className="text-gray-600 mt-1">Manage your branch medication stock</p>
+                        <p className="text-neutral-600 mt-1">Manage your branch medication stock</p>
                     </div>
                     <div className="flex gap-3">
                         <button
                             onClick={handleRefresh}
-                            className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                            className="flex items-center gap-2 px-4 py-2 bg-white border border-neutral-300 rounded-lg hover:bg-neutral-50 transition-colors"
                         >
                             <RefreshCw className="w-5 h-5" />
                             Refresh
                         </button>
                         <button
                             onClick={() => setShowAddModal(true)}
-                            className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                            className="flex items-center gap-2 px-6 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
                         >
                             <Plus className="w-5 h-5" />
                             Add Item
@@ -254,21 +254,21 @@ export const PharmacistInventory: React.FC = () => {
 
                 {/* Stats Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                    <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500">
+                    <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-primary-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Total Items</p>
-                                <p className="text-2xl font-bold text-gray-800 mt-1">{stats.total_items}</p>
+                                <p className="text-sm text-neutral-600">Total Items</p>
+                                <p className="text-2xl font-bold text-neutral-800 mt-1">{stats.total_items}</p>
                             </div>
-                            <Package className="w-10 h-10 text-blue-500 opacity-80" />
+                            <Package className="w-10 h-10 text-primary-500 opacity-80" />
                         </div>
                     </div>
 
                     <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Total Value</p>
-                                <p className="text-2xl font-bold text-gray-800 mt-1">
+                                <p className="text-sm text-neutral-600">Total Value</p>
+                                <p className="text-2xl font-bold text-neutral-800 mt-1">
                                     LKR {stats.total_value.toLocaleString('en-LK', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                 </p>
                             </div>
@@ -279,28 +279,28 @@ export const PharmacistInventory: React.FC = () => {
                     <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-yellow-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Low Stock</p>
-                                <p className="text-2xl font-bold text-gray-800 mt-1">{stats.low_stock}</p>
+                                <p className="text-sm text-neutral-600">Low Stock</p>
+                                <p className="text-2xl font-bold text-neutral-800 mt-1">{stats.low_stock}</p>
                             </div>
                             <TrendingDown className="w-10 h-10 text-yellow-500 opacity-80" />
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-red-500">
+                    <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-error-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Out of Stock</p>
-                                <p className="text-2xl font-bold text-gray-800 mt-1">{stats.out_of_stock}</p>
+                                <p className="text-sm text-neutral-600">Out of Stock</p>
+                                <p className="text-2xl font-bold text-neutral-800 mt-1">{stats.out_of_stock}</p>
                             </div>
-                            <AlertTriangle className="w-10 h-10 text-red-500 opacity-80" />
+                            <AlertTriangle className="w-10 h-10 text-error-500 opacity-80" />
                         </div>
                     </div>
 
                     <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-orange-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Expiring Soon</p>
-                                <p className="text-2xl font-bold text-gray-800 mt-1">{stats.expiring_soon}</p>
+                                <p className="text-sm text-neutral-600">Expiring Soon</p>
+                                <p className="text-2xl font-bold text-neutral-800 mt-1">{stats.expiring_soon}</p>
                             </div>
                             <Calendar className="w-10 h-10 text-orange-500 opacity-80" />
                         </div>
@@ -309,8 +309,8 @@ export const PharmacistInventory: React.FC = () => {
                     <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Expired</p>
-                                <p className="text-2xl font-bold text-gray-800 mt-1">{stats.expired}</p>
+                                <p className="text-sm text-neutral-600">Expired</p>
+                                <p className="text-2xl font-bold text-neutral-800 mt-1">{stats.expired}</p>
                             </div>
                             <FileText className="w-10 h-10 text-purple-500 opacity-80" />
                         </div>
@@ -321,13 +321,13 @@ export const PharmacistInventory: React.FC = () => {
                 <div className="bg-white rounded-xl shadow-md p-6">
                     <div className="flex flex-col md:flex-row gap-4">
                         <div className="flex-1 relative">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400" />
                             <input
                                 type="text"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 placeholder="Search by medicine name, generic name, or batch number..."
-                                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                             />
                         </div>
                         <div className="flex gap-2">
@@ -335,8 +335,8 @@ export const PharmacistInventory: React.FC = () => {
                                 onClick={() => setFilterType('all')}
                                 className={`px-4 py-2 rounded-lg transition-colors ${
                                     filterType === 'all'
-                                        ? 'bg-blue-600 text-white'
-                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        ? 'bg-primary-500 text-white'
+                                        : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
                                 }`}
                             >
                                 All
@@ -346,7 +346,7 @@ export const PharmacistInventory: React.FC = () => {
                                 className={`px-4 py-2 rounded-lg transition-colors ${
                                     filterType === 'low_stock'
                                         ? 'bg-yellow-600 text-white'
-                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
                                 }`}
                             >
                                 Low Stock
@@ -356,7 +356,7 @@ export const PharmacistInventory: React.FC = () => {
                                 className={`px-4 py-2 rounded-lg transition-colors ${
                                     filterType === 'out_of_stock'
                                         ? 'bg-red-600 text-white'
-                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
                                 }`}
                             >
                                 Out of Stock
@@ -366,7 +366,7 @@ export const PharmacistInventory: React.FC = () => {
                                 className={`px-4 py-2 rounded-lg transition-colors ${
                                     filterType === 'expiring'
                                         ? 'bg-orange-600 text-white'
-                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
                                 }`}
                             >
                                 Expiring
@@ -376,7 +376,7 @@ export const PharmacistInventory: React.FC = () => {
                                 className={`px-4 py-2 rounded-lg transition-colors ${
                                     filterType === 'expired'
                                         ? 'bg-purple-600 text-white'
-                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
                                 }`}
                             >
                                 Expired
@@ -390,17 +390,17 @@ export const PharmacistInventory: React.FC = () => {
                     <div className="overflow-x-auto">
                         {loading ? (
                             <div className="flex items-center justify-center p-12">
-                                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
                             </div>
                         ) : filteredInventory.length === 0 ? (
                             <div className="flex flex-col items-center justify-center p-12">
                                 <Package className="w-16 h-16 text-gray-300 mb-4" />
-                                <p className="text-gray-600 text-lg font-semibold mb-2">
+                                <p className="text-neutral-600 text-lg font-semibold mb-2">
                                     {filterType !== 'all' 
                                         ? `No ${filterType.replace('_', ' ')} items found` 
                                         : 'No inventory items found'}
                                 </p>
-                                <p className="text-gray-500 text-sm mb-6">
+                                <p className="text-neutral-500 text-sm mb-6">
                                     {filterType !== 'all' 
                                         ? 'Try changing the filter or adjusting your search criteria.' 
                                         : 'Get started by adding your first inventory item or view the product catalog.'}
@@ -417,7 +417,7 @@ export const PharmacistInventory: React.FC = () => {
                                     )}
                                     <button
                                         onClick={() => window.location.href = '/pharmacy-dashboard/product-list'}
-                                        className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                                        className="flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
                                     >
                                         <Eye className="w-4 h-4" />
                                         View Products
@@ -434,27 +434,27 @@ export const PharmacistInventory: React.FC = () => {
                         ) : (
                             <>
                                 <table className="w-full">
-                                    <thead className="bg-gray-50 border-b border-gray-200">
+                                    <thead className="bg-neutral-50 border-b border-neutral-200">
                                         <tr>
-                                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <th className="px-6 py-4 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                                 Medicine
                                             </th>
-                                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <th className="px-6 py-4 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                                 Batch
                                             </th>
-                                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <th className="px-6 py-4 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                                 Quantity
                                             </th>
-                                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <th className="px-6 py-4 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                                 Unit Price
                                             </th>
-                                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <th className="px-6 py-4 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                                 Expiry Date
                                             </th>
-                                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <th className="px-6 py-4 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                                 Status
                                             </th>
-                                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <th className="px-6 py-4 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                                 Actions
                                             </th>
                                         </tr>
@@ -465,31 +465,31 @@ export const PharmacistInventory: React.FC = () => {
                                             const expiryStatus = getExpiryStatus(item.expiry_date);
 
                                             return (
-                                                <tr key={item.id} className="hover:bg-gray-50 transition-colors">
+                                                <tr key={item.id} className="hover:bg-neutral-50 transition-colors">
                                                     <td className="px-6 py-4">
                                                         <div>
-                                                            <p className="font-medium text-gray-900">{item.medicine_name}</p>
+                                                            <p className="font-medium text-neutral-900">{item.medicine_name}</p>
                                                             {item.generic_name && (
-                                                                <p className="text-sm text-gray-500">{item.generic_name}</p>
+                                                                <p className="text-sm text-neutral-500">{item.generic_name}</p>
                                                             )}
-                                                            <p className="text-xs text-gray-400">{item.unit}</p>
+                                                            <p className="text-xs text-neutral-400">{item.unit}</p>
                                                         </div>
                                                     </td>
                                                     <td className="px-6 py-4">
-                                                        <span className="text-sm text-gray-700 font-mono">{item.batch_number}</span>
+                                                        <span className="text-sm text-neutral-700 font-mono">{item.batch_number}</span>
                                                     </td>
                                                     <td className="px-6 py-4">
                                                         <div>
-                                                            <p className="font-semibold text-gray-900">{item.quantity}</p>
-                                                            <p className="text-xs text-gray-500">Reorder: {item.reorder_level}</p>
+                                                            <p className="font-semibold text-neutral-900">{item.quantity}</p>
+                                                            <p className="text-xs text-neutral-500">Reorder: {item.reorder_level}</p>
                                                         </div>
                                                     </td>
                                                     <td className="px-6 py-4">
-                                                        <span className="font-medium text-gray-900">LKR {parseFloat(item.unit_price.toString()).toLocaleString('en-LK', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                                                        <span className="font-medium text-neutral-900">LKR {parseFloat(item.unit_price.toString()).toLocaleString('en-LK', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                                                     </td>
                                                     <td className="px-6 py-4">
                                                         <div>
-                                                            <p className="text-sm text-gray-700">
+                                                            <p className="text-sm text-neutral-700">
                                                                 {new Date(item.expiry_date).toLocaleDateString()}
                                                             </p>
                                                             <span className={`inline-block px-2 py-1 text-xs rounded-full ${expiryStatus.color} mt-1`}>
@@ -506,7 +506,7 @@ export const PharmacistInventory: React.FC = () => {
                                                         <div className="flex gap-2">
                                                             <button
                                                                 onClick={() => setSelectedItem(item)}
-                                                                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                                                className="p-2 text-primary-500 hover:bg-blue-50 rounded-lg transition-colors"
                                                                 title="View Details"
                                                             >
                                                                 <Eye className="w-5 h-5" />
@@ -531,15 +531,15 @@ export const PharmacistInventory: React.FC = () => {
 
                                 {/* Pagination */}
                                 {pagination.last_page > 1 && (
-                                    <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200">
-                                        <div className="text-sm text-gray-700">
+                                    <div className="flex items-center justify-between px-6 py-4 border-t border-neutral-200">
+                                        <div className="text-sm text-neutral-700">
                                             Showing {pagination.from} to {pagination.to} of {pagination.total} results
                                         </div>
                                         <div className="flex gap-2">
                                             <button
                                                 onClick={() => handlePageChange(currentPage - 1)}
                                                 disabled={currentPage === 1}
-                                                className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                                className="px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed"
                                             >
                                                 Previous
                                             </button>
@@ -551,8 +551,8 @@ export const PharmacistInventory: React.FC = () => {
                                                         onClick={() => handlePageChange(page)}
                                                         className={`px-4 py-2 border rounded-lg ${
                                                             currentPage === page
-                                                                ? 'bg-blue-600 text-white border-blue-600'
-                                                                : 'border-gray-300 hover:bg-gray-50'
+                                                                ? 'bg-primary-500 text-white border-primary-500'
+                                                                : 'border-neutral-300 hover:bg-neutral-50'
                                                         }`}
                                                     >
                                                         {page}
@@ -562,7 +562,7 @@ export const PharmacistInventory: React.FC = () => {
                                             <button
                                                 onClick={() => handlePageChange(currentPage + 1)}
                                                 disabled={currentPage === pagination.last_page}
-                                                className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                                className="px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed"
                                             >
                                                 Next
                                             </button>
@@ -598,11 +598,11 @@ export const PharmacistInventory: React.FC = () => {
                 {selectedItem && !showAddModal && !showEditModal && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                         <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-                                <h2 className="text-2xl font-bold text-gray-800">Item Details</h2>
+                            <div className="sticky top-0 bg-white border-b border-neutral-200 px-6 py-4 flex items-center justify-between">
+                                <h2 className="text-2xl font-bold text-neutral-800">Item Details</h2>
                                 <button
                                     onClick={() => setSelectedItem(null)}
-                                    className="text-gray-400 hover:text-gray-600 transition-colors"
+                                    className="text-neutral-400 hover:text-neutral-600 transition-colors"
                                 >
                                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -616,22 +616,22 @@ export const PharmacistInventory: React.FC = () => {
                                     <h3 className="text-lg font-semibold text-blue-900 mb-3">Medicine Information</h3>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <p className="text-sm text-blue-600 font-medium">Medicine Name</p>
-                                            <p className="text-gray-900 font-semibold">{selectedItem.medicine_name}</p>
+                                            <p className="text-sm text-primary-500 font-medium">Medicine Name</p>
+                                            <p className="text-neutral-900 font-semibold">{selectedItem.medicine_name}</p>
                                         </div>
                                         {selectedItem.generic_name && (
                                             <div>
-                                                <p className="text-sm text-blue-600 font-medium">Generic Name</p>
-                                                <p className="text-gray-900">{selectedItem.generic_name}</p>
+                                                <p className="text-sm text-primary-500 font-medium">Generic Name</p>
+                                                <p className="text-neutral-900">{selectedItem.generic_name}</p>
                                             </div>
                                         )}
                                         <div>
-                                            <p className="text-sm text-blue-600 font-medium">Batch Number</p>
-                                            <p className="text-gray-900 font-mono">{selectedItem.batch_number}</p>
+                                            <p className="text-sm text-primary-500 font-medium">Batch Number</p>
+                                            <p className="text-neutral-900 font-mono">{selectedItem.batch_number}</p>
                                         </div>
                                         <div>
-                                            <p className="text-sm text-blue-600 font-medium">Unit</p>
-                                            <p className="text-gray-900">{selectedItem.unit}</p>
+                                            <p className="text-sm text-primary-500 font-medium">Unit</p>
+                                            <p className="text-neutral-900">{selectedItem.unit}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -642,11 +642,11 @@ export const PharmacistInventory: React.FC = () => {
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
                                             <p className="text-sm text-green-600 font-medium">Current Quantity</p>
-                                            <p className="text-2xl font-bold text-gray-900">{selectedItem.quantity}</p>
+                                            <p className="text-2xl font-bold text-neutral-900">{selectedItem.quantity}</p>
                                         </div>
                                         <div>
                                             <p className="text-sm text-green-600 font-medium">Reorder Level</p>
-                                            <p className="text-2xl font-bold text-gray-900">{selectedItem.reorder_level}</p>
+                                            <p className="text-2xl font-bold text-neutral-900">{selectedItem.reorder_level}</p>
                                         </div>
                                         <div>
                                             <p className="text-sm text-green-600 font-medium">Stock Status</p>
@@ -663,13 +663,13 @@ export const PharmacistInventory: React.FC = () => {
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
                                             <p className="text-sm text-purple-600 font-medium">Unit Price</p>
-                                            <p className="text-2xl font-bold text-gray-900">
+                                            <p className="text-2xl font-bold text-neutral-900">
                                                 LKR {parseFloat(selectedItem.unit_price.toString()).toLocaleString('en-LK', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                             </p>
                                         </div>
                                         <div>
                                             <p className="text-sm text-purple-600 font-medium">Total Value</p>
-                                            <p className="text-2xl font-bold text-gray-900">
+                                            <p className="text-2xl font-bold text-neutral-900">
                                                 LKR {(selectedItem.quantity * selectedItem.unit_price).toLocaleString('en-LK', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                             </p>
                                         </div>
@@ -682,7 +682,7 @@ export const PharmacistInventory: React.FC = () => {
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
                                             <p className="text-sm text-orange-600 font-medium">Expiry Date</p>
-                                            <p className="text-gray-900 font-semibold">
+                                            <p className="text-neutral-900 font-semibold">
                                                 {new Date(selectedItem.expiry_date).toLocaleDateString('en-US', { 
                                                     year: 'numeric', 
                                                     month: 'long', 
@@ -701,28 +701,28 @@ export const PharmacistInventory: React.FC = () => {
 
                                 {/* Supplier Information */}
                                 {selectedItem.supplier && (
-                                    <div className="bg-gray-50 rounded-lg p-4">
-                                        <h3 className="text-lg font-semibold text-gray-900 mb-3">Supplier Information</h3>
+                                    <div className="bg-neutral-50 rounded-lg p-4">
+                                        <h3 className="text-lg font-semibold text-neutral-900 mb-3">Supplier Information</h3>
                                         <div>
-                                            <p className="text-sm text-gray-600 font-medium">Supplier</p>
-                                            <p className="text-gray-900">{selectedItem.supplier}</p>
+                                            <p className="text-sm text-neutral-600 font-medium">Supplier</p>
+                                            <p className="text-neutral-900">{selectedItem.supplier}</p>
                                         </div>
                                     </div>
                                 )}
 
                                 {/* Action Buttons */}
-                                <div className="flex gap-3 pt-4 border-t border-gray-200">
+                                <div className="flex gap-3 pt-4 border-t border-neutral-200">
                                     <button
                                         onClick={() => {
                                             setShowEditModal(true);
                                         }}
-                                        className="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                                        className="flex-1 bg-primary-500 text-white px-6 py-3 rounded-lg hover:bg-primary-600 transition-colors font-medium"
                                     >
                                         Edit Item
                                     </button>
                                     <button
                                         onClick={() => setSelectedItem(null)}
-                                        className="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+                                        className="flex-1 bg-neutral-200 text-neutral-700 px-6 py-3 rounded-lg hover:bg-neutral-300 transition-colors font-medium"
                                     >
                                         Close
                                     </button>

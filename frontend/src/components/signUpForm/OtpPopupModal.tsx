@@ -137,7 +137,7 @@ const OtpPopupModal: React.FC<OtpPopupModalProps> = ({
             {/* Modal */}
             <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 overflow-hidden animate-in fade-in zoom-in duration-300">
                 {/* Header */}
-                <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-5">
+                <div className="bg-gradient-to-r from-primary-500 to-blue-700 px-6 py-5">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
@@ -164,16 +164,16 @@ const OtpPopupModal: React.FC<OtpPopupModalProps> = ({
                             <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <FaCheckCircle className="text-green-500 text-4xl" />
                             </div>
-                            <h3 className="text-xl font-bold text-gray-800 mb-2">Verified!</h3>
-                            <p className="text-gray-600">Your phone number has been verified successfully.</p>
+                            <h3 className="text-xl font-bold text-neutral-800 mb-2">Verified!</h3>
+                            <p className="text-neutral-600">Your phone number has been verified successfully.</p>
                         </div>
                     ) : (
                         <>
                             <div className="text-center mb-6">
-                                <p className="text-gray-600">
+                                <p className="text-neutral-600">
                                     We've sent a 6-digit verification code to
                                 </p>
-                                <p className="text-lg font-bold text-gray-800 mt-1">
+                                <p className="text-lg font-bold text-neutral-800 mt-1">
                                     {formatPhoneNumber(phoneNumber)}
                                 </p>
                             </div>
@@ -185,7 +185,7 @@ const OtpPopupModal: React.FC<OtpPopupModalProps> = ({
                                         ? 'bg-green-100 text-green-700' 
                                         : otpTimer > 0 
                                             ? 'bg-yellow-100 text-yellow-700' 
-                                            : 'bg-red-100 text-red-700'
+                                            : 'bg-error-100 text-red-700'
                                 }`}>
                                     {otpTimer > 0 
                                         ? `Code expires in ${Math.floor(otpTimer / 60)}:${(otpTimer % 60).toString().padStart(2, "0")}`
@@ -209,17 +209,17 @@ const OtpPopupModal: React.FC<OtpPopupModalProps> = ({
                                         onPaste={index === 0 ? handleOtpPaste : undefined}
                                         className={`w-12 h-14 text-center text-2xl font-bold rounded-xl border-2 transition-all ${
                                             digit 
-                                                ? "border-blue-500 bg-blue-50" 
-                                                : "border-gray-200 hover:border-gray-300"
-                                        } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
+                                                ? "border-primary-500 bg-blue-50" 
+                                                : "border-neutral-200 hover:border-neutral-300"
+                                        } focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500`}
                                     />
                                 ))}
                             </div>
 
                             {/* Error Message */}
                             {otpError && (
-                                <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
-                                    <p className="text-red-600 text-sm text-center font-medium">
+                                <div className="bg-error-50 border border-red-200 rounded-lg p-3 mb-4">
+                                    <p className="text-error-600 text-sm text-center font-medium">
                                         {otpError}
                                     </p>
                                 </div>
@@ -227,16 +227,16 @@ const OtpPopupModal: React.FC<OtpPopupModalProps> = ({
 
                             {/* Resend Option */}
                             <div className="text-center">
-                                <p className="text-gray-500 text-sm mb-2">Didn't receive the code?</p>
+                                <p className="text-neutral-500 text-sm mb-2">Didn't receive the code?</p>
                                 {otpTimer > 0 ? (
-                                    <p className="text-gray-400 text-sm">
+                                    <p className="text-neutral-400 text-sm">
                                         You can resend in {Math.floor(otpTimer / 60)}:{(otpTimer % 60).toString().padStart(2, "0")}
                                     </p>
                                 ) : (
                                     <button
                                         type="button"
                                         onClick={handleResend}
-                                        className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors font-medium text-sm"
+                                        className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-primary-500 rounded-lg hover:bg-blue-100 transition-colors font-medium text-sm"
                                     >
                                         <FaRedo className="text-xs" />
                                         Resend Code
@@ -249,7 +249,7 @@ const OtpPopupModal: React.FC<OtpPopupModalProps> = ({
 
                 {/* Footer */}
                 <div className="px-6 pb-6">
-                    <p className="text-center text-xs text-gray-400">
+                    <p className="text-center text-xs text-neutral-400">
                         By verifying, you agree to receive SMS messages from Cure Health Care
                     </p>
                 </div>

@@ -62,23 +62,23 @@ export const ITAssistantDashboard: React.FC = () => {
     };
 
     const StatCard = ({ title, value, icon, color }: { title: string; value: number; icon: React.ReactNode; color: string; }) => (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between mb-4">
                 <div className={`p-3 rounded-lg bg-gradient-to-br ${color}`}>{icon}</div>
             </div>
-            <h3 className="text-gray-600 text-sm font-medium mb-1">{title}</h3>
-            <p className="text-3xl font-bold text-gray-800">{value}</p>
+            <h3 className="text-neutral-600 text-sm font-medium mb-1">{title}</h3>
+            <p className="text-3xl font-bold text-neutral-800">{value}</p>
         </div>
     );
 
     return (
         <DashboardLayout userName={userName} userRole="IT Assistant" profileImage={profileImage} sidebarContent={<SidebarMenu items={ITAssistantMenuItems} />}>
             <div className="space-y-6">
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                     <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">
                         Welcome, {userName}!
                     </h1>
-                    <p className="text-gray-600 mt-1">System monitoring and technical support management.</p>
+                    <p className="text-neutral-600 mt-1">System monitoring and technical support management.</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -89,8 +89,8 @@ export const ITAssistantDashboard: React.FC = () => {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">System Status</h2>
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                        <h2 className="text-lg font-semibold text-neutral-800 mb-4">System Status</h2>
                         <div className="space-y-3">
                             <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
                                 <div className="flex items-center gap-2">
@@ -116,20 +116,20 @@ export const ITAssistantDashboard: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h2>
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                        <h2 className="text-lg font-semibold text-neutral-800 mb-4">Quick Actions</h2>
                         <div className="space-y-3">
                             <button className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-lg hover:from-emerald-100 hover:to-blue-100 transition-all text-left">
                                 <AlertTriangle className="w-5 h-5 text-orange-600" />
-                                <div><p className="font-medium text-gray-800">View Support Tickets</p><p className="text-xs text-gray-500">Manage user requests</p></div>
+                                <div><p className="font-medium text-neutral-800">View Support Tickets</p><p className="text-xs text-neutral-500">Manage user requests</p></div>
                             </button>
                             <button className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-lg hover:from-emerald-100 hover:to-blue-100 transition-all text-left">
-                                <Database className="w-5 h-5 text-blue-600" />
-                                <div><p className="font-medium text-gray-800">Database Backup</p><p className="text-xs text-gray-500">Run system backup</p></div>
+                                <Database className="w-5 h-5 text-primary-500" />
+                                <div><p className="font-medium text-neutral-800">Database Backup</p><p className="text-xs text-neutral-500">Run system backup</p></div>
                             </button>
                             <button className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-lg hover:from-emerald-100 hover:to-blue-100 transition-all text-left">
                                 <Settings className="w-5 h-5 text-purple-600" />
-                                <div><p className="font-medium text-gray-800">System Settings</p><p className="text-xs text-gray-500">Configure system</p></div>
+                                <div><p className="font-medium text-neutral-800">System Settings</p><p className="text-xs text-neutral-500">Configure system</p></div>
                             </button>
                         </div>
                     </div>

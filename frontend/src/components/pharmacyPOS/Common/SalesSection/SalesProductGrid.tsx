@@ -13,7 +13,7 @@ const SalesProductGrid: React.FC<ProductGridProps> = ({ filteredProducts }) => {
                 <button
                     key={product.id}
                     onClick={() => handleAddToCart(product, dispatch)}
-                    className="bg-blue-500 text-white p-3 rounded-lg flex flex-col justify-center items-start h-auto hover:bg-blue-600 transition-colors text-left"
+                    className="bg-primary-500 text-white p-3 rounded-lg flex flex-col justify-center items-start h-auto hover:bg-primary-500 transition-colors text-left"
                 >
                     <span className="font-bold text-md truncate">
                         {product.item_name}

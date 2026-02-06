@@ -31,14 +31,14 @@ const CancelModal: React.FC<CancelModalProps> = ({
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
                 <div className="flex items-center justify-between p-4 border-b">
-                    <h3 className="text-lg font-semibold text-gray-900">
+                    <h3 className="text-lg font-semibold text-neutral-900">
                         {isCancelingEntireDay
                             ? "Cancel Entire Day"
                             : "Cancel Schedule"}
                     </h3>
                     <button
                         onClick={handleClose}
-                        className="p-1 hover:bg-gray-100 rounded-full"
+                        className="p-1 hover:bg-neutral-100 rounded-full"
                         disabled={isLoading}
                     >
                         <X className="h-5 w-5" />
@@ -52,7 +52,7 @@ const CancelModal: React.FC<CancelModalProps> = ({
                             <span className="font-medium">Warning</span>
                         </div>
                         {isCancelingEntireDay ? (
-                            <p className="text-sm text-gray-600 mb-4">
+                            <p className="text-sm text-neutral-600 mb-4">
                                 You are about to cancel{" "}
                                 <strong>all appointments</strong> for{" "}
                                 <strong>
@@ -71,7 +71,7 @@ const CancelModal: React.FC<CancelModalProps> = ({
                                 )}
                             </p>
                         ) : (
-                            <p className="text-sm text-gray-600 mb-4">
+                            <p className="text-sm text-neutral-600 mb-4">
                                 You are about to cancel the schedule for{" "}
                                 <strong>
                                     {selectedDate?.toLocaleDateString()}
@@ -83,14 +83,14 @@ const CancelModal: React.FC<CancelModalProps> = ({
                     </div>
 
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
                             Reason for cancellation *
                         </label>
                         <textarea
                             value={reason}
                             onChange={(e) => setReason(e.target.value)}
                             placeholder="Please provide a reason for cancelling this schedule..."
-                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                            className="w-full p-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
                             rows={4}
                             required
                             disabled={isLoading}
@@ -98,10 +98,10 @@ const CancelModal: React.FC<CancelModalProps> = ({
                     </div>
                 </div>
 
-                <div className="flex gap-3 p-4 border-t bg-gray-50">
+                <div className="flex gap-3 p-4 border-t bg-neutral-50">
                     <button
                         onClick={handleClose}
-                        className="flex-1 px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+                        className="flex-1 px-4 py-2 text-neutral-700 bg-white border border-neutral-300 rounded-lg hover:bg-neutral-50"
                         disabled={isLoading}
                     >
                         {isCancelingEntireDay ? "Keep Day" : "Keep Schedule"}

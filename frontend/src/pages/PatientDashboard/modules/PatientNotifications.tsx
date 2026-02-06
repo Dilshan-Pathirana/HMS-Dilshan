@@ -183,12 +183,12 @@ const PatientNotifications: React.FC = () => {
 
     const getTypeColor = (type: string) => {
         switch (type) {
-            case 'appointment': return 'bg-blue-100 text-blue-600';
+            case 'appointment': return 'bg-blue-100 text-primary-500';
             case 'report': return 'bg-purple-100 text-purple-600';
             case 'medication': return 'bg-green-100 text-green-600';
             case 'reminder': return 'bg-orange-100 text-orange-600';
-            case 'alert': return 'bg-red-100 text-red-600';
-            default: return 'bg-gray-100 text-gray-600';
+            case 'alert': return 'bg-error-100 text-error-600';
+            default: return 'bg-neutral-100 text-neutral-600';
         }
     };
 
@@ -239,8 +239,8 @@ const PatientNotifications: React.FC = () => {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-800">Notifications</h1>
-                    <p className="text-gray-500">
+                    <h1 className="text-2xl font-bold text-neutral-800">Notifications</h1>
+                    <p className="text-neutral-500">
                         {unreadCount > 0 
                             ? `You have ${unreadCount} unread notification${unreadCount > 1 ? 's' : ''}`
                             : 'You\'re all caught up!'
@@ -249,10 +249,10 @@ const PatientNotifications: React.FC = () => {
                 </div>
                 <button
                     onClick={() => setShowSettings(true)}
-                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                    className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                     title="Notification Settings"
                 >
-                    <Settings className="w-6 h-6 text-gray-500" />
+                    <Settings className="w-6 h-6 text-neutral-500" />
                 </button>
             </div>
 
@@ -261,22 +261,22 @@ const PatientNotifications: React.FC = () => {
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
                     <div className="flex items-center gap-3">
                         <div className="p-2 bg-blue-50 rounded-lg">
-                            <Bell className="w-5 h-5 text-blue-600" />
+                            <Bell className="w-5 h-5 text-primary-500" />
                         </div>
                         <div>
-                            <p className="text-2xl font-bold text-gray-800">{notifications.length}</p>
-                            <p className="text-xs text-gray-500">Total</p>
+                            <p className="text-2xl font-bold text-neutral-800">{notifications.length}</p>
+                            <p className="text-xs text-neutral-500">Total</p>
                         </div>
                     </div>
                 </div>
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
                     <div className="flex items-center gap-3">
-                        <div className="p-2 bg-red-50 rounded-lg">
-                            <AlertCircle className="w-5 h-5 text-red-600" />
+                        <div className="p-2 bg-error-50 rounded-lg">
+                            <AlertCircle className="w-5 h-5 text-error-600" />
                         </div>
                         <div>
-                            <p className="text-2xl font-bold text-red-600">{unreadCount}</p>
-                            <p className="text-xs text-gray-500">Unread</p>
+                            <p className="text-2xl font-bold text-error-600">{unreadCount}</p>
+                            <p className="text-xs text-neutral-500">Unread</p>
                         </div>
                     </div>
                 </div>
@@ -289,7 +289,7 @@ const PatientNotifications: React.FC = () => {
                             <p className="text-2xl font-bold text-green-600">
                                 {notifications.filter(n => n.is_read).length}
                             </p>
-                            <p className="text-xs text-gray-500">Read</p>
+                            <p className="text-xs text-neutral-500">Read</p>
                         </div>
                     </div>
                 </div>
@@ -302,7 +302,7 @@ const PatientNotifications: React.FC = () => {
                             <p className="text-2xl font-bold text-orange-600">
                                 {notifications.filter(n => n.priority === 'high' && !n.is_read).length}
                             </p>
-                            <p className="text-xs text-gray-500">Urgent</p>
+                            <p className="text-xs text-neutral-500">Urgent</p>
                         </div>
                     </div>
                 </div>
@@ -313,7 +313,7 @@ const PatientNotifications: React.FC = () => {
                 <div className="flex flex-col md:flex-row gap-4 justify-between">
                     <div className="flex flex-wrap gap-2">
                         {/* Read/Unread Filter */}
-                        <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
+                        <div className="flex gap-1 bg-neutral-100 rounded-lg p-1">
                             {[
                                 { key: 'all', label: 'All' },
                                 { key: 'unread', label: 'Unread' },
@@ -324,8 +324,8 @@ const PatientNotifications: React.FC = () => {
                                     onClick={() => setFilter(tab.key as any)}
                                     className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
                                         filter === tab.key
-                                            ? 'bg-white text-gray-800 shadow-sm'
-                                            : 'text-gray-600 hover:text-gray-800'
+                                            ? 'bg-white text-neutral-800 shadow-sm'
+                                            : 'text-neutral-600 hover:text-neutral-800'
                                     }`}
                                 >
                                     {tab.label}
@@ -337,7 +337,7 @@ const PatientNotifications: React.FC = () => {
                         <select
                             value={typeFilter}
                             onChange={(e) => setTypeFilter(e.target.value)}
-                            className="px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                            className="px-3 py-1.5 border border-neutral-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                         >
                             <option value="all">All Types</option>
                             <option value="appointment">Appointments</option>
@@ -363,7 +363,7 @@ const PatientNotifications: React.FC = () => {
                         {notifications.some(n => n.is_read) && (
                             <button
                                 onClick={clearAllRead}
-                                className="flex items-center gap-2 px-3 py-1.5 text-sm text-gray-500 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="flex items-center gap-2 px-3 py-1.5 text-sm text-neutral-500 hover:bg-neutral-100 rounded-lg transition-colors"
                             >
                                 <Trash2 className="w-4 h-4" />
                                 Clear read
@@ -377,8 +377,8 @@ const PatientNotifications: React.FC = () => {
             {filteredNotifications.length === 0 ? (
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
                     <Bell className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-800 mb-2">No notifications</h3>
-                    <p className="text-gray-500">
+                    <h3 className="text-lg font-medium text-neutral-800 mb-2">No notifications</h3>
+                    <p className="text-neutral-500">
                         {filter === 'unread' 
                             ? 'You have no unread notifications' 
                             : 'You have no notifications yet'}
@@ -406,14 +406,14 @@ const PatientNotifications: React.FC = () => {
                                         <div className="flex-1 min-w-0">
                                             <div className="flex items-start justify-between gap-4">
                                                 <div>
-                                                    <h3 className={`font-medium ${!notification.is_read ? 'text-gray-900' : 'text-gray-700'}`}>
+                                                    <h3 className={`font-medium ${!notification.is_read ? 'text-neutral-900' : 'text-neutral-700'}`}>
                                                         {notification.title}
                                                         {!notification.is_read && (
-                                                            <span className="ml-2 inline-block w-2 h-2 bg-blue-500 rounded-full"></span>
+                                                            <span className="ml-2 inline-block w-2 h-2 bg-primary-500 rounded-full"></span>
                                                         )}
                                                     </h3>
-                                                    <p className="text-sm text-gray-600 mt-1">{notification.message}</p>
-                                                    <p className="text-xs text-gray-400 mt-2">
+                                                    <p className="text-sm text-neutral-600 mt-1">{notification.message}</p>
+                                                    <p className="text-xs text-neutral-400 mt-2">
                                                         {formatTimeAgo(notification.created_at)}
                                                     </p>
                                                 </div>
@@ -423,7 +423,7 @@ const PatientNotifications: React.FC = () => {
                                                     {!notification.is_read && (
                                                         <button
                                                             onClick={() => markAsRead(notification.id)}
-                                                            className="p-1.5 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+                                                            className="p-1.5 text-neutral-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
                                                             title="Mark as read"
                                                         >
                                                             <Check className="w-4 h-4" />
@@ -431,7 +431,7 @@ const PatientNotifications: React.FC = () => {
                                                     )}
                                                     <button
                                                         onClick={() => deleteNotification(notification.id)}
-                                                        className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                        className="p-1.5 text-neutral-400 hover:text-error-600 hover:bg-error-50 rounded-lg transition-colors"
                                                         title="Delete"
                                                     >
                                                         <Trash2 className="w-4 h-4" />
@@ -453,12 +453,12 @@ const PatientNotifications: React.FC = () => {
                     <div className="bg-white rounded-2xl shadow-xl max-w-md w-full">
                         <div className="p-6 border-b border-gray-100">
                             <div className="flex items-center justify-between">
-                                <h2 className="text-xl font-bold text-gray-800">Notification Settings</h2>
+                                <h2 className="text-xl font-bold text-neutral-800">Notification Settings</h2>
                                 <button
                                     onClick={() => setShowSettings(false)}
-                                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                    className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                                 >
-                                    <X className="w-5 h-5 text-gray-500" />
+                                    <X className="w-5 h-5 text-neutral-500" />
                                 </button>
                             </div>
                         </div>
@@ -466,7 +466,7 @@ const PatientNotifications: React.FC = () => {
                         <div className="p-6 space-y-6">
                             {/* Notification Types */}
                             <div>
-                                <h3 className="font-medium text-gray-800 mb-4">Notification Types</h3>
+                                <h3 className="font-medium text-neutral-800 mb-4">Notification Types</h3>
                                 <div className="space-y-3">
                                     {[
                                         { key: 'appointment_reminders', label: 'Appointment Reminders', desc: 'Get reminders before your appointments' },
@@ -476,8 +476,8 @@ const PatientNotifications: React.FC = () => {
                                     ].map((item) => (
                                         <div key={item.key} className="flex items-center justify-between">
                                             <div>
-                                                <p className="font-medium text-gray-700">{item.label}</p>
-                                                <p className="text-xs text-gray-500">{item.desc}</p>
+                                                <p className="font-medium text-neutral-700">{item.label}</p>
+                                                <p className="text-xs text-neutral-500">{item.desc}</p>
                                             </div>
                                             <button
                                                 onClick={() => setPreferences(prev => ({
@@ -487,7 +487,7 @@ const PatientNotifications: React.FC = () => {
                                                 className={`relative w-11 h-6 rounded-full transition-colors ${
                                                     preferences[item.key as keyof typeof preferences]
                                                         ? 'bg-emerald-500'
-                                                        : 'bg-gray-300'
+                                                        : 'bg-neutral-300'
                                                 }`}
                                             >
                                                 <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
@@ -503,14 +503,14 @@ const PatientNotifications: React.FC = () => {
 
                             {/* Delivery Methods */}
                             <div className="pt-4 border-t border-gray-100">
-                                <h3 className="font-medium text-gray-800 mb-4">Delivery Methods</h3>
+                                <h3 className="font-medium text-neutral-800 mb-4">Delivery Methods</h3>
                                 <div className="space-y-3">
                                     {[
                                         { key: 'email_notifications', label: 'Email Notifications' },
                                         { key: 'sms_notifications', label: 'SMS Notifications' }
                                     ].map((item) => (
                                         <div key={item.key} className="flex items-center justify-between">
-                                            <p className="font-medium text-gray-700">{item.label}</p>
+                                            <p className="font-medium text-neutral-700">{item.label}</p>
                                             <button
                                                 onClick={() => setPreferences(prev => ({
                                                     ...prev,
@@ -519,7 +519,7 @@ const PatientNotifications: React.FC = () => {
                                                 className={`relative w-11 h-6 rounded-full transition-colors ${
                                                     preferences[item.key as keyof typeof preferences]
                                                         ? 'bg-emerald-500'
-                                                        : 'bg-gray-300'
+                                                        : 'bg-neutral-300'
                                                 }`}
                                             >
                                                 <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${

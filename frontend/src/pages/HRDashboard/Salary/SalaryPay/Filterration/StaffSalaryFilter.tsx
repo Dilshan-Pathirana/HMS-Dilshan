@@ -55,7 +55,7 @@ const StaffSalaryFilter: React.FC<StaffSalaryFilterProps> = ({
             <div>
                 <label
                     htmlFor="user"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-neutral-700"
                 >
                     User
                 </label>
@@ -63,7 +63,7 @@ const StaffSalaryFilter: React.FC<StaffSalaryFilterProps> = ({
                     id="user"
                     value={selectedUser || ""}
                     onChange={(e) => setSelectedUser(e.target.value)}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-sm focus:ring-blue-500 focus:border-blue-500"
+                    className="mt-1 block w-full border border-neutral-300 rounded-md shadow-sm py-2 px-3 text-sm focus:ring-primary-500 focus:border-primary-500"
                 >
                     <option value="">Select User</option>
                     {users.map((user) => (
@@ -77,7 +77,7 @@ const StaffSalaryFilter: React.FC<StaffSalaryFilterProps> = ({
             <div>
                 <label
                     htmlFor="status"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-neutral-700"
                 >
                     Status
                 </label>
@@ -85,7 +85,7 @@ const StaffSalaryFilter: React.FC<StaffSalaryFilterProps> = ({
                     id="status"
                     value={status || ""}
                     onChange={(e) => setStatus(e.target.value)}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-sm focus:ring-blue-500 focus:border-blue-500"
+                    className="mt-1 block w-full border border-neutral-300 rounded-md shadow-sm py-2 px-3 text-sm focus:ring-primary-500 focus:border-primary-500"
                 >
                     <option value="">Select Status</option>
                     <option value="paid">Paid</option>
@@ -96,7 +96,7 @@ const StaffSalaryFilter: React.FC<StaffSalaryFilterProps> = ({
             <div>
                 <label
                     htmlFor="date"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-neutral-700"
                 >
                     Year & Month
                 </label>
@@ -105,14 +105,14 @@ const StaffSalaryFilter: React.FC<StaffSalaryFilterProps> = ({
                     onChange={(date) => setSelectedDate(date)}
                     dateFormat="yyyy/MM"
                     showMonthYearPicker
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-sm focus:ring-blue-500 focus:border-blue-500"
+                    className="mt-1 block w-full border border-neutral-300 rounded-md shadow-sm py-2 px-3 text-sm focus:ring-primary-500 focus:border-primary-500"
                 />
             </div>
 
             <div className="flex items-end space-x-2">
                 <button
                     onClick={handleApplyFilter}
-                    className="w-full bg-blue-600 text-sm font-medium text-white py-2 px-4 rounded-lg shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full bg-primary-500 text-sm font-medium text-white py-2 px-4 rounded-lg shadow-sm hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500"
                 >
                     Apply Filter
                 </button>

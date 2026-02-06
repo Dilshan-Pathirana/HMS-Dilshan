@@ -63,20 +63,20 @@ const NavBar = () => {
             {/* Spacer to prevent content from being hidden behind fixed navbar */}
             <div className="h-[82px]"></div>
 
-            <nav className="flex justify-between items-center px-6 py-4 bg-white border-b-2 fixed top-0 left-0 w-full z-50">
+            <nav className="flex justify-between items-center px-6 py-4 bg-white/95 backdrop-blur-md border-b-2 fixed top-0 left-0 w-full z-50">
                 <Link to="/" className="flex items-center space-x-4 hover:opacity-80 transition-opacity">
                     <img
                         src={CureLogo}
                         className="h-[50px] w-[50px] ml-2 md:ml-10"
                         alt="Cure Logo"
                     />
-                    <h1 className="text-lg font-semibold text-blue-600">
+                    <h1 className="text-lg font-semibold text-primary-500">
                         CURE-<span className="text-green-800">HEALTH CARE</span>
                     </h1>
                 </Link>
 
                 <button
-                    className="text-gray-700 focus:outline-none md:hidden"
+                    className="text-neutral-700 focus:outline-none md:hidden"
                     onClick={() => setMenuOpen(!menuOpen)}
                 >
                     {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
@@ -92,17 +92,17 @@ const NavBar = () => {
 
                 {/* Mobile Slide-out Menu */}
                 <div
-                    className={`fixed top-0 left-0 h-screen w-72 bg-white shadow-2xl transform ${menuOpen ? "translate-x-0" : "-translate-x-full"
+                    className={`fixed top-0 left-0 h-screen w-72 bg-white/95 backdrop-blur-md shadow-2xl transform ${menuOpen ? "translate-x-0" : "-translate-x-full"
                         } transition-transform duration-300 ease-in-out z-50 md:static md:h-auto md:w-auto md:flex md:space-x-6 md:shadow-none md:transform-none md:bg-transparent`}
                 >
                     {/* Mobile Menu Header */}
-                    <div className="md:hidden flex items-center justify-between p-4 border-b border-gray-200 bg-gradient-to-r from-blue-600 to-emerald-500">
+                    <div className="md:hidden flex items-center justify-between p-4 border-b border-neutral-200 bg-gradient-to-r from-primary-500 to-emerald-500">
                         <div className="flex items-center space-x-3">
                             <img src={CureLogo} className="h-10 w-10" alt="Cure Logo" />
                             <span className="text-white font-bold text-lg">CURE</span>
                         </div>
                         <button
-                            className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+                            className="p-2 rounded-full bg-white/95 backdrop-blur-md/20 hover:bg-white/95 backdrop-blur-md/30 transition-colors"
                             onClick={() => setMenuOpen(false)}
                         >
                             <FaTimes size={20} className="text-white" />
@@ -114,7 +114,7 @@ const NavBar = () => {
                         <Link
                             to="/"
                             onClick={() => setMenuOpen(false)}
-                            className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg font-medium transition-all duration-200 border-l-4 border-transparent hover:border-blue-500"
+                            className="flex items-center px-4 py-3 text-neutral-700 hover:bg-blue-50 hover:text-primary-500 rounded-lg font-medium transition-all duration-200 border-l-4 border-transparent hover:border-primary-500"
                         >
                             <span className="mr-3">🏠</span>
                             Home
@@ -122,7 +122,7 @@ const NavBar = () => {
                         <Link
                             to="/about-us"
                             onClick={() => setMenuOpen(false)}
-                            className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg font-medium transition-all duration-200 border-l-4 border-transparent hover:border-blue-500"
+                            className="flex items-center px-4 py-3 text-neutral-700 hover:bg-blue-50 hover:text-primary-500 rounded-lg font-medium transition-all duration-200 border-l-4 border-transparent hover:border-primary-500"
                         >
                             <span className="mr-3">ℹ️</span>
                             About Us
@@ -130,14 +130,14 @@ const NavBar = () => {
                         <Link
                             to="/medical-insights"
                             onClick={() => setMenuOpen(false)}
-                            className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg font-medium transition-all duration-200 border-l-4 border-transparent hover:border-blue-500"
+                            className="flex items-center px-4 py-3 text-neutral-700 hover:bg-blue-50 hover:text-primary-500 rounded-lg font-medium transition-all duration-200 border-l-4 border-transparent hover:border-primary-500"
                         >
                             <span className="mr-3">📰</span>
                             Medical Insights
                         </Link>
 
                         {/* Divider */}
-                        <div className="border-t border-gray-200 my-2"></div>
+                        <div className="border-t border-neutral-200 my-2"></div>
 
                         {/* Mobile Auth Buttons */}
                         {isAuthenticated ? (
@@ -147,7 +147,7 @@ const NavBar = () => {
                                     <Link
                                         to="/patient-dashboard/appointments/book"
                                         onClick={() => setMenuOpen(false)}
-                                        className="flex items-center px-4 py-3 text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-lg font-medium transition-all duration-200"
+                                        className="flex items-center px-4 py-3 text-neutral-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-lg font-medium transition-all duration-200"
                                     >
                                         <span className="mr-3">📅</span>
                                         Book Appointment
@@ -156,24 +156,24 @@ const NavBar = () => {
                                 <Link
                                     to={dashboardPath}
                                     onClick={() => setMenuOpen(false)}
-                                    className="flex items-center px-4 py-3 text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-lg font-medium transition-all duration-200"
+                                    className="flex items-center px-4 py-3 text-neutral-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-lg font-medium transition-all duration-200"
                                 >
                                     <span className="mr-3">📊</span>
                                     Dashboard
                                 </Link>
 
                                 {/* Divider */}
-                                <div className="border-t border-gray-200 my-2"></div>
+                                <div className="border-t border-neutral-200 my-2"></div>
 
                                 {/* User info and Logout */}
                                 {firstName && (
-                                    <div className="px-4 py-2 text-sm text-gray-500">
-                                        Logged in as <span className="font-semibold text-gray-700">{firstName}</span>
+                                    <div className="px-4 py-2 text-sm text-neutral-500">
+                                        Logged in as <span className="font-semibold text-neutral-700">{firstName}</span>
                                     </div>
                                 )}
                                 <button
                                     onClick={handleLogout}
-                                    className="flex items-center px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg font-medium transition-all duration-200 w-full"
+                                    className="flex items-center px-4 py-3 text-error-600 hover:bg-error-50 rounded-lg font-medium transition-all duration-200 w-full"
                                 >
                                     <span className="mr-3">🚪</span>
                                     Logout
@@ -204,19 +204,19 @@ const NavBar = () => {
                         <div className="hidden md:flex md:space-x-6">
                             <Link
                                 to="/"
-                                className="text-gray-700 hover:text-blue-500 font-medium"
+                                className="text-neutral-700 hover:text-primary-500 font-medium"
                             >
                                 Home
                             </Link>
                             <Link
                                 to="/about-us"
-                                className="text-gray-700 hover:text-blue-500 font-medium"
+                                className="text-neutral-700 hover:text-primary-500 font-medium"
                             >
                                 About Us
                             </Link>
                             <Link
                                 to="/medical-insights"
-                                className="text-gray-700 hover:text-blue-500 font-medium"
+                                className="text-neutral-700 hover:text-primary-500 font-medium"
                             >
                                 Medical Insights
                             </Link>
@@ -230,12 +230,12 @@ const NavBar = () => {
                             {/* Cart Icon */}
                             <Link
                                 to="/shop/cart"
-                                className="relative p-2 text-gray-600 hover:text-emerald-600 transition-colors"
+                                className="relative p-2 text-neutral-600 hover:text-emerald-600 transition-colors"
                                 title="Shopping Cart"
                             >
                                 <FaShoppingCart size={22} />
                                 {/* Cart badge - for future use */}
-                                <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
+                                <span className="absolute -top-1 -right-1 w-5 h-5 bg-error-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
                                     0
                                 </span>
                             </Link>
@@ -250,14 +250,14 @@ const NavBar = () => {
                             </Link>
                             {/* User greeting */}
                             {firstName && (
-                                <span className="text-gray-600 text-sm hidden lg:inline">
+                                <span className="text-neutral-600 text-sm hidden lg:inline">
                                     Hi, <span className="font-semibold">{firstName}</span>
                                 </span>
                             )}
                             {/* Logout Button */}
                             <button
                                 onClick={handleLogout}
-                                className="flex items-center gap-2 px-4 py-2 text-red-600 font-semibold border-2 border-red-500 rounded-lg hover:bg-red-50 transition-all duration-200"
+                                className="flex items-center gap-2 px-4 py-2 text-error-600 font-semibold border-2 border-error-500 rounded-lg hover:bg-error-50 transition-all duration-200"
                                 title="Logout"
                             >
                                 <FaSignOutAlt size={16} />
@@ -269,12 +269,12 @@ const NavBar = () => {
                             {/* Cart Icon */}
                             <Link
                                 to="/shop/cart"
-                                className="relative p-2 text-gray-600 hover:text-emerald-600 transition-colors"
+                                className="relative p-2 text-neutral-600 hover:text-emerald-600 transition-colors"
                                 title="Shopping Cart"
                             >
                                 <FaShoppingCart size={22} />
                                 {/* Cart badge - for future use */}
-                                <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
+                                <span className="absolute -top-1 -right-1 w-5 h-5 bg-error-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
                                     0
                                 </span>
                             </Link>

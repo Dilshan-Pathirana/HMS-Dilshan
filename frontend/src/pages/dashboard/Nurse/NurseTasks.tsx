@@ -87,13 +87,13 @@ const NurseTasks: React.FC = () => {
   const getPriorityBadge = (priority: string) => {
     switch (priority) {
       case 'high':
-        return 'bg-red-100 text-red-800';
+        return 'bg-error-100 text-red-800';
       case 'medium':
         return 'bg-yellow-100 text-yellow-800';
       case 'low':
         return 'bg-green-100 text-green-800';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-neutral-100 text-neutral-800';
     }
   };
 
@@ -106,7 +106,7 @@ const NurseTasks: React.FC = () => {
       case 'completed':
         return 'bg-green-100 text-green-800';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-neutral-100 text-neutral-800';
     }
   };
 
@@ -156,7 +156,7 @@ const NurseTasks: React.FC = () => {
   const highPriorityCount = tasks.filter(t => t.priority === 'high' && t.status !== 'completed').length;
 
   return (
-    <div className="p-6 space-y-6 bg-gray-50 min-h-screen sm:ml-64 mt-16">
+    <div className="p-6 space-y-6 bg-neutral-50 min-h-screen sm:ml-64 mt-16">
       {/* Header */}
       <div className="bg-gradient-to-r from-teal-600 to-cyan-600 rounded-xl shadow-lg p-8 text-white">
         <div className="flex items-center justify-between">
@@ -170,66 +170,66 @@ const NurseTasks: React.FC = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="p-3 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg">
               <Clock className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold text-gray-900">{pendingCount}</span>
+            <span className="text-2xl font-bold text-neutral-900">{pendingCount}</span>
           </div>
-          <h3 className="text-gray-600 text-sm font-medium">Pending Tasks</h3>
+          <h3 className="text-neutral-600 text-sm font-medium">Pending Tasks</h3>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="p-3 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg">
               <CheckSquare className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold text-gray-900">{inProgressCount}</span>
+            <span className="text-2xl font-bold text-neutral-900">{inProgressCount}</span>
           </div>
-          <h3 className="text-gray-600 text-sm font-medium">In Progress</h3>
+          <h3 className="text-neutral-600 text-sm font-medium">In Progress</h3>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="p-3 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg">
               <CheckSquare className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold text-gray-900">{completedCount}</span>
+            <span className="text-2xl font-bold text-neutral-900">{completedCount}</span>
           </div>
-          <h3 className="text-gray-600 text-sm font-medium">Completed Today</h3>
+          <h3 className="text-neutral-600 text-sm font-medium">Completed Today</h3>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="p-3 bg-gradient-to-br from-red-500 to-pink-500 rounded-lg">
               <AlertCircle className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold text-gray-900">{highPriorityCount}</span>
+            <span className="text-2xl font-bold text-neutral-900">{highPriorityCount}</span>
           </div>
-          <h3 className="text-gray-600 text-sm font-medium">High Priority</h3>
+          <h3 className="text-neutral-600 text-sm font-medium">High Priority</h3>
         </div>
       </div>
 
       {/* Search, Filter and Add */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
             <input
               type="text"
               placeholder="Search tasks..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             />
           </div>
           <div className="flex items-center gap-2">
-            <Filter className="w-5 h-5 text-gray-400" />
+            <Filter className="w-5 h-5 text-neutral-400" />
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
             >
               <option value="all">All Status</option>
               <option value="pending">Pending</option>
@@ -239,7 +239,7 @@ const NurseTasks: React.FC = () => {
             <select
               value={filterPriority}
               onChange={(e) => setFilterPriority(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
             >
               <option value="all">All Priority</option>
               <option value="high">High</option>
@@ -249,7 +249,7 @@ const NurseTasks: React.FC = () => {
           </div>
           <button
             onClick={() => setShowAddTaskModal(true)}
-            className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-6 py-2 rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all flex items-center gap-2"
+            className="bg-gradient-to-r from-primary-500 to-cyan-600 text-white px-6 py-2 rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all flex items-center gap-2"
           >
             <Plus className="w-5 h-5" />
             Add Task
@@ -260,7 +260,7 @@ const NurseTasks: React.FC = () => {
       {/* Tasks Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredTasks.map((task) => (
-          <div key={task.id} className="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+          <div key={task.id} className="bg-white rounded-xl shadow-sm border border-neutral-200 hover:shadow-md transition-shadow">
             <div className="p-6 space-y-4">
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-2">
@@ -275,32 +275,32 @@ const NurseTasks: React.FC = () => {
               </div>
 
               <div>
-                <h3 className="font-bold text-gray-900 text-lg mb-2">{task.title}</h3>
-                <p className="text-sm text-gray-600 mb-3">{task.description}</p>
+                <h3 className="font-bold text-neutral-900 text-lg mb-2">{task.title}</h3>
+                <p className="text-sm text-neutral-600 mb-3">{task.description}</p>
               </div>
 
               {task.patientName && (
                 <div className="bg-blue-50 rounded-lg p-3 space-y-1">
-                  <div className="text-sm font-medium text-gray-900">{task.patientName}</div>
-                  {task.bed && <div className="text-xs text-gray-600">{task.bed}</div>}
+                  <div className="text-sm font-medium text-neutral-900">{task.patientName}</div>
+                  {task.bed && <div className="text-xs text-neutral-600">{task.bed}</div>}
                 </div>
               )}
 
-              <div className="flex items-center gap-4 text-sm text-gray-600">
+              <div className="flex items-center gap-4 text-sm text-neutral-600">
                 <div className="flex items-center gap-1">
                   <Clock className="w-4 h-4" />
                   <span>{task.dueTime}</span>
                 </div>
               </div>
 
-              <div className="text-xs text-gray-500">
+              <div className="text-xs text-neutral-500">
                 Assigned by: {task.assignedBy}
               </div>
 
               {task.status !== 'completed' && (
                 <div className="flex gap-2 pt-2 border-t">
                   {task.status === 'pending' && (
-                    <button className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">
+                    <button className="flex-1 bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 text-sm">
                       Start Task
                     </button>
                   )}
@@ -320,40 +320,40 @@ const NurseTasks: React.FC = () => {
       {showAddTaskModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="bg-gradient-to-r from-blue-600 to-cyan-600 p-6 text-white">
+            <div className="bg-gradient-to-r from-primary-500 to-cyan-600 p-6 text-white">
               <h2 className="text-2xl font-bold">Add New Task</h2>
             </div>
             
             <div className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Task Title</label>
+                <label className="block text-sm font-medium text-neutral-700 mb-2">Task Title</label>
                 <input
                   type="text"
                   placeholder="Enter task title..."
                   value={newTask.title}
                   onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                <label className="block text-sm font-medium text-neutral-700 mb-2">Description</label>
                 <textarea
                   rows={3}
                   placeholder="Task description..."
                   value={newTask.description}
                   onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                  <label className="block text-sm font-medium text-neutral-700 mb-2">Category</label>
                   <select
                     value={newTask.category}
                     onChange={(e) => setNewTask({ ...newTask, category: e.target.value as any })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                   >
                     <option value="medication">Medication</option>
                     <option value="vitals">Vital Signs</option>
@@ -364,11 +364,11 @@ const NurseTasks: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Priority</label>
+                  <label className="block text-sm font-medium text-neutral-700 mb-2">Priority</label>
                   <select
                     value={newTask.priority}
                     onChange={(e) => setNewTask({ ...newTask, priority: e.target.value as any })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                   >
                     <option value="low">Low</option>
                     <option value="medium">Medium</option>
@@ -379,38 +379,38 @@ const NurseTasks: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Patient Name (Optional)</label>
+                  <label className="block text-sm font-medium text-neutral-700 mb-2">Patient Name (Optional)</label>
                   <input
                     type="text"
                     placeholder="Patient name..."
                     value={newTask.patientName}
                     onChange={(e) => setNewTask({ ...newTask, patientName: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Due Time</label>
+                  <label className="block text-sm font-medium text-neutral-700 mb-2">Due Time</label>
                   <input
                     type="time"
                     value={newTask.dueTime}
                     onChange={(e) => setNewTask({ ...newTask, dueTime: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                   />
                 </div>
               </div>
             </div>
 
-            <div className="flex justify-end gap-4 p-6 bg-gray-50 rounded-b-xl">
+            <div className="flex justify-end gap-4 p-6 bg-neutral-50 rounded-b-xl">
               <button
                 onClick={() => setShowAddTaskModal(false)}
-                className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+                className="px-6 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-100 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleAddTask}
-                className="px-6 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all"
+                className="px-6 py-2 bg-gradient-to-r from-primary-500 to-cyan-600 text-white rounded-lg hover:from-blue-700 hover:to-cyan-700 transition-all"
               >
                 Add Task
               </button>

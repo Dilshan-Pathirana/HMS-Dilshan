@@ -213,32 +213,32 @@ export const NurseProfile: React.FC = () => {
         return (
             <div className="min-h-[400px] flex items-center justify-center">
                 <div className="text-center">
-                    <Loader2 className="w-12 h-12 text-blue-600 animate-spin mx-auto mb-4" />
-                    <p className="text-gray-600">Loading profile...</p>
+                    <Loader2 className="w-12 h-12 text-primary-500 animate-spin mx-auto mb-4" />
+                    <p className="text-neutral-600">Loading profile...</p>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="p-6 space-y-6 bg-gray-50 min-h-screen sm:ml-64 mt-16">
+        <div className="p-6 space-y-6 bg-neutral-50 min-h-screen sm:ml-64 mt-16">
             <div>
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                        <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2">
                             <User className="w-7 h-7 text-teal-600" />
                             My Profile
                         </h1>
-                        <p className="text-gray-600">Manage your professional information and credentials</p>
+                        <p className="text-neutral-600">Manage your professional information and credentials</p>
                     </div>
                     <div className="flex items-center gap-2">
                         <button
                             onClick={fetchProfile}
-                            className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200"
+                            className="p-2 bg-neutral-100 rounded-lg hover:bg-neutral-200"
                             title="Refresh"
                         >
-                            <RefreshCw className="w-5 h-5 text-gray-600" />
+                            <RefreshCw className="w-5 h-5 text-neutral-600" />
                         </button>
                         {!isEditing ? (
                             <button
@@ -260,7 +260,7 @@ export const NurseProfile: React.FC = () => {
                                             emergency_contact_name: profile.emergency_contact_name || ''
                                         });
                                     }}
-                                    className="flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                                    className="flex items-center gap-2 px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50"
                                     disabled={saving}
                                 >
                                     <X className="w-4 h-4" />
@@ -280,10 +280,10 @@ export const NurseProfile: React.FC = () => {
                 </div>
 
                 {error && (
-                    <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4 flex items-center gap-3">
-                        <AlertCircle className="w-5 h-5 text-red-600" />
+                    <div className="mb-6 bg-error-50 border border-red-200 rounded-lg p-4 flex items-center gap-3">
+                        <AlertCircle className="w-5 h-5 text-error-600" />
                         <span className="text-red-800">{error}</span>
-                        <button onClick={() => setError(null)} className="ml-auto text-red-600 hover:text-red-800">
+                        <button onClick={() => setError(null)} className="ml-auto text-error-600 hover:text-red-800">
                             <X className="w-4 h-4" />
                         </button>
                     </div>
@@ -297,7 +297,7 @@ export const NurseProfile: React.FC = () => {
                 )}
 
                 {/* Profile Card */}
-                <div className="bg-gradient-to-r from-blue-600 to-cyan-600 rounded-lg shadow-lg p-6 mb-6">
+                <div className="bg-gradient-to-r from-primary-500 to-cyan-600 rounded-lg shadow-lg p-6 mb-6">
                     <div className="flex items-center gap-6 text-white">
                         <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
                             <User className="w-12 h-12 text-white" />
@@ -331,20 +331,20 @@ export const NurseProfile: React.FC = () => {
 
                 {/* Stats Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-blue-500">
+                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-primary-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Patients Served</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.patients_served}</p>
+                                <p className="text-sm text-neutral-600">Patients Served</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.patients_served}</p>
                             </div>
-                            <Users className="w-10 h-10 text-blue-500" />
+                            <Users className="w-10 h-10 text-primary-500" />
                         </div>
                     </div>
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-green-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Tasks Completed</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.tasks_completed}</p>
+                                <p className="text-sm text-neutral-600">Tasks Completed</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.tasks_completed}</p>
                             </div>
                             <Activity className="w-10 h-10 text-green-500" />
                         </div>
@@ -352,8 +352,8 @@ export const NurseProfile: React.FC = () => {
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-yellow-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Average Rating</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.avg_rating}/5.0</p>
+                                <p className="text-sm text-neutral-600">Average Rating</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.avg_rating}/5.0</p>
                             </div>
                             <Award className="w-10 h-10 text-yellow-500" />
                         </div>
@@ -361,8 +361,8 @@ export const NurseProfile: React.FC = () => {
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-purple-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Experience</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.years_experience} Years</p>
+                                <p className="text-sm text-neutral-600">Experience</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.years_experience} Years</p>
                             </div>
                             <Heart className="w-10 h-10 text-purple-500" />
                         </div>
@@ -376,8 +376,8 @@ export const NurseProfile: React.FC = () => {
                             onClick={() => setActiveTab('profile')}
                             className={`px-6 py-3 font-medium ${
                                 activeTab === 'profile'
-                                    ? 'text-blue-600 border-b-2 border-blue-600'
-                                    : 'text-gray-500 hover:text-gray-700'
+                                    ? 'text-primary-500 border-b-2 border-primary-500'
+                                    : 'text-neutral-500 hover:text-neutral-700'
                             }`}
                         >
                             Profile Information
@@ -386,8 +386,8 @@ export const NurseProfile: React.FC = () => {
                             onClick={() => setActiveTab('certifications')}
                             className={`px-6 py-3 font-medium ${
                                 activeTab === 'certifications'
-                                    ? 'text-blue-600 border-b-2 border-blue-600'
-                                    : 'text-gray-500 hover:text-gray-700'
+                                    ? 'text-primary-500 border-b-2 border-primary-500'
+                                    : 'text-neutral-500 hover:text-neutral-700'
                             }`}
                         >
                             Certifications
@@ -396,8 +396,8 @@ export const NurseProfile: React.FC = () => {
                             onClick={() => setActiveTab('schedule')}
                             className={`px-6 py-3 font-medium ${
                                 activeTab === 'schedule'
-                                    ? 'text-blue-600 border-b-2 border-blue-600'
-                                    : 'text-gray-500 hover:text-gray-700'
+                                    ? 'text-primary-500 border-b-2 border-primary-500'
+                                    : 'text-neutral-500 hover:text-neutral-700'
                             }`}
                         >
                             Schedule
@@ -406,8 +406,8 @@ export const NurseProfile: React.FC = () => {
                             onClick={() => setActiveTab('password')}
                             className={`px-6 py-3 font-medium ${
                                 activeTab === 'password'
-                                    ? 'text-blue-600 border-b-2 border-blue-600'
-                                    : 'text-gray-500 hover:text-gray-700'
+                                    ? 'text-primary-500 border-b-2 border-primary-500'
+                                    : 'text-neutral-500 hover:text-neutral-700'
                             }`}
                         >
                             <span className="flex items-center gap-2">
@@ -422,9 +422,9 @@ export const NurseProfile: React.FC = () => {
                         <div className="p-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                                    <div className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg bg-gray-50">
-                                        <User className="w-5 h-5 text-gray-400" />
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">Full Name</label>
+                                    <div className="flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg bg-neutral-50">
+                                        <User className="w-5 h-5 text-neutral-400" />
                                         <input
                                             type="text"
                                             value={profile.name}
@@ -432,12 +432,12 @@ export const NurseProfile: React.FC = () => {
                                             className="flex-1 border-none outline-none bg-transparent"
                                         />
                                     </div>
-                                    <p className="text-xs text-gray-500 mt-1">Name cannot be changed. Contact admin if needed.</p>
+                                    <p className="text-xs text-neutral-500 mt-1">Name cannot be changed. Contact admin if needed.</p>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                                    <div className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg bg-gray-50">
-                                        <Mail className="w-5 h-5 text-gray-400" />
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">Email Address</label>
+                                    <div className="flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg bg-neutral-50">
+                                        <Mail className="w-5 h-5 text-neutral-400" />
                                         <input
                                             type="email"
                                             value={profile.email}
@@ -445,12 +445,12 @@ export const NurseProfile: React.FC = () => {
                                             className="flex-1 border-none outline-none bg-transparent"
                                         />
                                     </div>
-                                    <p className="text-xs text-gray-500 mt-1">Email cannot be changed. Contact admin if needed.</p>
+                                    <p className="text-xs text-neutral-500 mt-1">Email cannot be changed. Contact admin if needed.</p>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                                    <div className={`flex items-center gap-2 px-4 py-2 border rounded-lg ${isEditing ? 'border-blue-500 bg-white' : 'border-gray-300 bg-gray-50'}`}>
-                                        <Phone className="w-5 h-5 text-gray-400" />
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">Phone Number</label>
+                                    <div className={`flex items-center gap-2 px-4 py-2 border rounded-lg ${isEditing ? 'border-primary-500 bg-white' : 'border-neutral-300 bg-neutral-50'}`}>
+                                        <Phone className="w-5 h-5 text-neutral-400" />
                                         <input
                                             type="tel"
                                             value={isEditing ? editProfile.phone : profile.phone}
@@ -459,12 +459,12 @@ export const NurseProfile: React.FC = () => {
                                             onChange={(e) => setEditProfile({ ...editProfile, phone: e.target.value })}
                                         />
                                     </div>
-                                    {isEditing && <p className="text-xs text-blue-500 mt-1">You can update your phone number</p>}
+                                    {isEditing && <p className="text-xs text-primary-500 mt-1">You can update your phone number</p>}
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Employee ID</label>
-                                    <div className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg bg-gray-50">
-                                        <Briefcase className="w-5 h-5 text-gray-400" />
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">Employee ID</label>
+                                    <div className="flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg bg-neutral-50">
+                                        <Briefcase className="w-5 h-5 text-neutral-400" />
                                         <input
                                             type="text"
                                             value={profile.employee_id}
@@ -474,9 +474,9 @@ export const NurseProfile: React.FC = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">License Number</label>
-                                    <div className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg bg-gray-50">
-                                        <Shield className="w-5 h-5 text-gray-400" />
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">License Number</label>
+                                    <div className="flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg bg-neutral-50">
+                                        <Shield className="w-5 h-5 text-neutral-400" />
                                         <input
                                             type="text"
                                             value={profile.license_number}
@@ -486,9 +486,9 @@ export const NurseProfile: React.FC = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Specialization</label>
-                                    <div className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg bg-gray-50">
-                                        <Award className="w-5 h-5 text-gray-400" />
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">Specialization</label>
+                                    <div className="flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg bg-neutral-50">
+                                        <Award className="w-5 h-5 text-neutral-400" />
                                         <input
                                             type="text"
                                             value={profile.specialization}
@@ -498,9 +498,9 @@ export const NurseProfile: React.FC = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Department</label>
-                                    <div className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg bg-gray-50">
-                                        <MapPin className="w-5 h-5 text-gray-400" />
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">Department</label>
+                                    <div className="flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg bg-neutral-50">
+                                        <MapPin className="w-5 h-5 text-neutral-400" />
                                         <input
                                             type="text"
                                             value={profile.department}
@@ -510,9 +510,9 @@ export const NurseProfile: React.FC = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Joined Date</label>
-                                    <div className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg bg-gray-50">
-                                        <Calendar className="w-5 h-5 text-gray-400" />
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">Joined Date</label>
+                                    <div className="flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg bg-neutral-50">
+                                        <Calendar className="w-5 h-5 text-neutral-400" />
                                         <input
                                             type="text"
                                             value={new Date(profile.joined_date).toLocaleDateString()}
@@ -522,9 +522,9 @@ export const NurseProfile: React.FC = () => {
                                     </div>
                                 </div>
                                 <div className="md:col-span-2">
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
-                                    <div className={`flex items-center gap-2 px-4 py-2 border rounded-lg ${isEditing ? 'border-blue-500 bg-white' : 'border-gray-300 bg-gray-50'}`}>
-                                        <MapPin className="w-5 h-5 text-gray-400" />
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">Address</label>
+                                    <div className={`flex items-center gap-2 px-4 py-2 border rounded-lg ${isEditing ? 'border-primary-500 bg-white' : 'border-neutral-300 bg-neutral-50'}`}>
+                                        <MapPin className="w-5 h-5 text-neutral-400" />
                                         <input
                                             type="text"
                                             value={isEditing ? editProfile.address : (profile.address || 'Not specified')}
@@ -534,12 +534,12 @@ export const NurseProfile: React.FC = () => {
                                             onChange={(e) => setEditProfile({ ...editProfile, address: e.target.value })}
                                         />
                                     </div>
-                                    {isEditing && <p className="text-xs text-blue-500 mt-1">You can update your address</p>}
+                                    {isEditing && <p className="text-xs text-primary-500 mt-1">You can update your address</p>}
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Emergency Contact Name</label>
-                                    <div className={`flex items-center gap-2 px-4 py-2 border rounded-lg ${isEditing ? 'border-blue-500 bg-white' : 'border-gray-300 bg-gray-50'}`}>
-                                        <User className="w-5 h-5 text-gray-400" />
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">Emergency Contact Name</label>
+                                    <div className={`flex items-center gap-2 px-4 py-2 border rounded-lg ${isEditing ? 'border-primary-500 bg-white' : 'border-neutral-300 bg-neutral-50'}`}>
+                                        <User className="w-5 h-5 text-neutral-400" />
                                         <input
                                             type="text"
                                             value={isEditing ? editProfile.emergency_contact_name : (profile.emergency_contact_name || 'Not specified')}
@@ -549,12 +549,12 @@ export const NurseProfile: React.FC = () => {
                                             onChange={(e) => setEditProfile({ ...editProfile, emergency_contact_name: e.target.value })}
                                         />
                                     </div>
-                                    {isEditing && <p className="text-xs text-blue-500 mt-1">You can update emergency contact name</p>}
+                                    {isEditing && <p className="text-xs text-primary-500 mt-1">You can update emergency contact name</p>}
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Emergency Contact Number</label>
-                                    <div className={`flex items-center gap-2 px-4 py-2 border rounded-lg ${isEditing ? 'border-blue-500 bg-white' : 'border-gray-300 bg-gray-50'}`}>
-                                        <Phone className="w-5 h-5 text-gray-400" />
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">Emergency Contact Number</label>
+                                    <div className={`flex items-center gap-2 px-4 py-2 border rounded-lg ${isEditing ? 'border-primary-500 bg-white' : 'border-neutral-300 bg-neutral-50'}`}>
+                                        <Phone className="w-5 h-5 text-neutral-400" />
                                         <input
                                             type="tel"
                                             value={isEditing ? editProfile.emergency_contact : (profile.emergency_contact || 'Not specified')}
@@ -564,7 +564,7 @@ export const NurseProfile: React.FC = () => {
                                             onChange={(e) => setEditProfile({ ...editProfile, emergency_contact: e.target.value })}
                                         />
                                     </div>
-                                    {isEditing && <p className="text-xs text-blue-500 mt-1">You can update emergency contact</p>}
+                                    {isEditing && <p className="text-xs text-primary-500 mt-1">You can update emergency contact</p>}
                                 </div>
                             </div>
                         </div>
@@ -575,14 +575,14 @@ export const NurseProfile: React.FC = () => {
                         <div className="p-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {profile.certifications.map((cert, index) => (
-                                    <div key={index} className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+                                    <div key={index} className="p-4 border border-neutral-200 rounded-lg hover:shadow-md transition-shadow">
                                         <div className="flex items-center gap-3">
                                             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                                                <Award className="w-6 h-6 text-blue-600" />
+                                                <Award className="w-6 h-6 text-primary-500" />
                                             </div>
                                             <div>
-                                                <h4 className="font-semibold text-gray-900">{cert}</h4>
-                                                <p className="text-sm text-gray-500">Valid until 2026</p>
+                                                <h4 className="font-semibold text-neutral-900">{cert}</h4>
+                                                <p className="text-sm text-neutral-500">Valid until 2026</p>
                                             </div>
                                         </div>
                                     </div>
@@ -596,25 +596,25 @@ export const NurseProfile: React.FC = () => {
                         <div className="p-6">
                             <div className="overflow-x-auto">
                                 <table className="w-full">
-                                    <thead className="bg-gray-50 border-b">
+                                    <thead className="bg-neutral-50 border-b">
                                         <tr>
-                                            <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Day</th>
-                                            <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Shift</th>
-                                            <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Working Hours</th>
+                                            <th className="px-4 py-3 text-left text-sm font-medium text-neutral-500">Day</th>
+                                            <th className="px-4 py-3 text-left text-sm font-medium text-neutral-500">Shift</th>
+                                            <th className="px-4 py-3 text-left text-sm font-medium text-neutral-500">Working Hours</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200">
                                         {workingDays.map((day, index) => (
-                                            <tr key={index} className={day.shift === 'Off' ? 'bg-gray-50' : ''}>
-                                                <td className="px-4 py-3 font-medium text-gray-900">{day.day}</td>
+                                            <tr key={index} className={day.shift === 'Off' ? 'bg-neutral-50' : ''}>
+                                                <td className="px-4 py-3 font-medium text-neutral-900">{day.day}</td>
                                                 <td className="px-4 py-3">
                                                     <span className={`px-2 py-1 rounded-full text-xs ${
-                                                        day.shift === 'Off' ? 'bg-gray-200 text-gray-700' : 'bg-blue-100 text-blue-800'
+                                                        day.shift === 'Off' ? 'bg-neutral-200 text-neutral-700' : 'bg-blue-100 text-blue-800'
                                                     }`}>
                                                         {day.shift}
                                                     </span>
                                                 </td>
-                                                <td className="px-4 py-3 text-gray-600 flex items-center gap-2">
+                                                <td className="px-4 py-3 text-neutral-600 flex items-center gap-2">
                                                     {day.shift !== 'Off' && <Clock className="w-4 h-4" />}
                                                     {day.hours}
                                                 </td>
@@ -630,64 +630,64 @@ export const NurseProfile: React.FC = () => {
                     {activeTab === 'password' && (
                         <div className="p-6">
                             <div className="max-w-md">
-                                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                                    <Lock className="w-5 h-5 text-blue-600" />
+                                <h3 className="text-lg font-semibold text-neutral-900 mb-4 flex items-center gap-2">
+                                    <Lock className="w-5 h-5 text-primary-500" />
                                     Change Your Password
                                 </h3>
                                 <div className="space-y-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Current Password</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">Current Password</label>
                                         <div className="relative">
                                             <input
                                                 type={showPasswords.current ? 'text' : 'password'}
                                                 value={passwordData.current_password}
                                                 onChange={(e) => setPasswordData({ ...passwordData, current_password: e.target.value })}
-                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 pr-10"
+                                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 pr-10"
                                                 placeholder="Enter current password"
                                             />
                                             <button
                                                 type="button"
                                                 onClick={() => setShowPasswords({ ...showPasswords, current: !showPasswords.current })}
-                                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
                                             >
                                                 {showPasswords.current ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                                             </button>
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">New Password</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">New Password</label>
                                         <div className="relative">
                                             <input
                                                 type={showPasswords.new ? 'text' : 'password'}
                                                 value={passwordData.new_password}
                                                 onChange={(e) => setPasswordData({ ...passwordData, new_password: e.target.value })}
-                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 pr-10"
+                                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 pr-10"
                                                 placeholder="Enter new password"
                                             />
                                             <button
                                                 type="button"
                                                 onClick={() => setShowPasswords({ ...showPasswords, new: !showPasswords.new })}
-                                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
                                             >
                                                 {showPasswords.new ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                                             </button>
                                         </div>
-                                        <p className="text-xs text-gray-500 mt-1">Must be at least 8 characters</p>
+                                        <p className="text-xs text-neutral-500 mt-1">Must be at least 8 characters</p>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Confirm New Password</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">Confirm New Password</label>
                                         <div className="relative">
                                             <input
                                                 type={showPasswords.confirm ? 'text' : 'password'}
                                                 value={passwordData.new_password_confirmation}
                                                 onChange={(e) => setPasswordData({ ...passwordData, new_password_confirmation: e.target.value })}
-                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 pr-10"
+                                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 pr-10"
                                                 placeholder="Confirm new password"
                                             />
                                             <button
                                                 type="button"
                                                 onClick={() => setShowPasswords({ ...showPasswords, confirm: !showPasswords.confirm })}
-                                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
                                             >
                                                 {showPasswords.confirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                                             </button>
@@ -696,7 +696,7 @@ export const NurseProfile: React.FC = () => {
                                     <button
                                         onClick={handleChangePassword}
                                         disabled={saving || !passwordData.current_password || !passwordData.new_password || !passwordData.new_password_confirmation}
-                                        className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                                        className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50"
                                     >
                                         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Lock className="w-4 h-4" />}
                                         Change Password

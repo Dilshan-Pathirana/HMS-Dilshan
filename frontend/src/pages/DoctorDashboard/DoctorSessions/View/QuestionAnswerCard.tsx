@@ -30,23 +30,23 @@ const QuestionAnswerCard: React.FC<ExtendedDoctorModalProps> = ({
 
     return (
         <div
-            className={`border rounded-lg ${isAnswered ? "border-green-300 bg-green-50" : "border-gray-200"}`}
+            className={`border rounded-lg ${isAnswered ? "border-green-300 bg-green-50" : "border-neutral-200"}`}
         >
             <div
-                className={`p-4 cursor-pointer hover:bg-gray-100 transition-colors duration-200 ${isAnswered ? "bg-green-50 hover:bg-green-100" : "bg-gray-50"}`}
+                className={`p-4 cursor-pointer hover:bg-neutral-100 transition-colors duration-200 ${isAnswered ? "bg-green-50 hover:bg-green-100" : "bg-neutral-50"}`}
                 onClick={onToggle}
             >
                 <div className="flex items-center justify-between">
                     <div className="flex-1">
                         <div className="flex items-center">
-                            <h4 className="font-semibold text-gray-900 text-lg mb-1">
+                            <h4 className="font-semibold text-neutral-900 text-lg mb-1">
                                 {question.question}
                             </h4>
                             {isAnswered && (
                                 <FiCheck className="ml-2 text-green-600" />
                             )}
                         </div>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-neutral-600">
                             {question.description}
                         </p>
                     </div>
@@ -61,10 +61,10 @@ const QuestionAnswerCard: React.FC<ExtendedDoctorModalProps> = ({
             </div>
 
             {question.isExpanded && (
-                <div className="p-4 border-t border-gray-200 bg-white">
+                <div className="p-4 border-t border-neutral-200 bg-white">
                     {question.answers.length > 0 ? (
                         <div className="space-y-3">
-                            <p className="text-sm font-medium text-gray-700 mb-3">
+                            <p className="text-sm font-medium text-neutral-700 mb-3">
                                 Select one answer:
                             </p>
                             {question.answers.map((answer) => (
@@ -72,8 +72,8 @@ const QuestionAnswerCard: React.FC<ExtendedDoctorModalProps> = ({
                                     key={answer.id}
                                     className={`p-3 rounded-lg border cursor-pointer transition-all duration-200 ${
                                         selectedAnswerId === answer.id
-                                            ? "border-blue-500 bg-blue-50"
-                                            : "border-gray-200 hover:border-blue-300 hover:bg-blue-25"
+                                            ? "border-primary-500 bg-blue-50"
+                                            : "border-neutral-200 hover:border-blue-300 hover:bg-blue-25"
                                     }`}
                                     onClick={() =>
                                         onSelectAnswer(answer.id, answer.answer)
@@ -93,20 +93,20 @@ const QuestionAnswerCard: React.FC<ExtendedDoctorModalProps> = ({
                                                     answer.answer,
                                                 )
                                             }
-                                            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                                            className="h-4 w-4 text-primary-500 focus:ring-primary-500 border-neutral-300"
                                             disabled={isSessionSaved}
                                         />
-                                        <label className="ml-3 text-gray-800 cursor-pointer flex-1">
+                                        <label className="ml-3 text-neutral-800 cursor-pointer flex-1">
                                             {answer.answer}
                                         </label>
                                     </div>
                                 </div>
                             ))}
 
-                            <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <div className="mt-6 p-4 bg-neutral-50 rounded-lg border border-neutral-200">
                                 <div className="flex items-center mb-3">
-                                    <FiPlus className="text-gray-600 mr-2" />
-                                    <p className="text-sm font-medium text-gray-700">
+                                    <FiPlus className="text-neutral-600 mr-2" />
+                                    <p className="text-sm font-medium text-neutral-700">
                                         Add Custom Answer
                                     </p>
                                 </div>
@@ -115,8 +115,8 @@ const QuestionAnswerCard: React.FC<ExtendedDoctorModalProps> = ({
                                     <div
                                         className={`p-3 rounded-lg border cursor-pointer transition-all duration-200 ${
                                             isCustomAnswerSelected
-                                                ? "border-blue-500 bg-blue-50"
-                                                : "border-gray-200 hover:border-blue-300 hover:bg-blue-25"
+                                                ? "border-primary-500 bg-blue-50"
+                                                : "border-neutral-200 hover:border-blue-300 hover:bg-blue-25"
                                         }`}
                                         onClick={() => {
                                             if (!isSessionSaved) {
@@ -136,12 +136,12 @@ const QuestionAnswerCard: React.FC<ExtendedDoctorModalProps> = ({
                                                         customAnswerText,
                                                     )
                                                 }
-                                                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                                                className="h-4 w-4 text-primary-500 focus:ring-primary-500 border-neutral-300"
                                                 disabled={isSessionSaved}
                                             />
-                                            <label className="ml-3 text-gray-800 cursor-pointer flex-1">
+                                            <label className="ml-3 text-neutral-800 cursor-pointer flex-1">
                                                 {customAnswerText}
-                                                <span className="ml-2 text-xs text-blue-600 font-medium">
+                                                <span className="ml-2 text-xs text-primary-500 font-medium">
                                                     (Custom)
                                                 </span>
                                             </label>
@@ -159,7 +159,7 @@ const QuestionAnswerCard: React.FC<ExtendedDoctorModalProps> = ({
                                             }
                                             onKeyPress={handleKeyPress}
                                             placeholder="Enter your custom answer..."
-                                            className="flex-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                                            className="flex-1 p-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm"
                                             disabled={isSessionSaved}
                                         />
                                         <button
@@ -171,8 +171,8 @@ const QuestionAnswerCard: React.FC<ExtendedDoctorModalProps> = ({
                                             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${
                                                 newCustomAnswer.trim() &&
                                                 !isSessionSaved
-                                                    ? "bg-blue-600 text-white hover:bg-blue-700"
-                                                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                                    ? "bg-primary-500 text-white hover:bg-primary-600"
+                                                    : "bg-neutral-300 text-neutral-500 cursor-not-allowed"
                                             }`}
                                         >
                                             Add
@@ -181,7 +181,7 @@ const QuestionAnswerCard: React.FC<ExtendedDoctorModalProps> = ({
                                 )}
 
                                 {isSessionSaved && (
-                                    <p className="text-xs text-gray-500 mt-2">
+                                    <p className="text-xs text-neutral-500 mt-2">
                                         Session is saved. Custom answers cannot
                                         be modified.
                                     </p>
@@ -190,24 +190,24 @@ const QuestionAnswerCard: React.FC<ExtendedDoctorModalProps> = ({
                         </div>
                     ) : (
                         <div>
-                            <p className="text-gray-500 italic mb-4">
+                            <p className="text-neutral-500 italic mb-4">
                                 No predefined answers available for this
                                 question.
                             </p>
 
-                            <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <div className="p-4 bg-neutral-50 rounded-lg border border-neutral-200">
                                 <div className="flex items-center mb-3">
-                                    <FiPlus className="text-gray-600 mr-2" />
-                                    <p className="text-sm font-medium text-gray-700">
+                                    <FiPlus className="text-neutral-600 mr-2" />
+                                    <p className="text-sm font-medium text-neutral-700">
                                         Add Your Answer
                                     </p>
                                 </div>
 
                                 {customAnswerText ? (
-                                    <div className="p-3 rounded-lg border border-blue-500 bg-blue-50">
+                                    <div className="p-3 rounded-lg border border-primary-500 bg-blue-50">
                                         <div className="flex items-center">
-                                            <FiCheck className="text-blue-600 mr-2" />
-                                            <span className="text-gray-800 flex-1">
+                                            <FiCheck className="text-primary-500 mr-2" />
+                                            <span className="text-neutral-800 flex-1">
                                                 {customAnswerText}
                                             </span>
                                         </div>
@@ -224,7 +224,7 @@ const QuestionAnswerCard: React.FC<ExtendedDoctorModalProps> = ({
                                             }
                                             onKeyPress={handleKeyPress}
                                             placeholder="Enter your answer..."
-                                            className="flex-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                                            className="flex-1 p-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm"
                                             disabled={isSessionSaved}
                                         />
                                         <button
@@ -236,8 +236,8 @@ const QuestionAnswerCard: React.FC<ExtendedDoctorModalProps> = ({
                                             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${
                                                 newCustomAnswer.trim() &&
                                                 !isSessionSaved
-                                                    ? "bg-blue-600 text-white hover:bg-blue-700"
-                                                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                                    ? "bg-primary-500 text-white hover:bg-primary-600"
+                                                    : "bg-neutral-300 text-neutral-500 cursor-not-allowed"
                                             }`}
                                         >
                                             Add

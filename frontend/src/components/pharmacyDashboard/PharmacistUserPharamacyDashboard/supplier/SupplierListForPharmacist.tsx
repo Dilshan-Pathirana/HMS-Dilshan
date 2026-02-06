@@ -51,11 +51,11 @@ const SupplierListForPharmacist: React.FC = () => {
     };
 
     return (
-        <div className="bg-gray-100 h-screen overflow-hidden relative">
+        <div className="bg-neutral-100 h-screen overflow-hidden relative">
             <div className="sm:ml-64 h-full">
                 <div className="p-6 bg-white rounded-lg mt-16 shadow-lg dark:border-gray-700 h-full">
                     <div className="flex justify-between items-center mb-6 px-6">
-                        <h2 className="text-2xl font-semibold text-gray-800">
+                        <h2 className="text-2xl font-semibold text-neutral-800">
                             Product List
                         </h2>
                     </div>

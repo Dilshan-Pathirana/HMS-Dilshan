@@ -16,7 +16,7 @@ const NotDataAvailable = () => {
                     />
                 </svg>
             </div>
-            <h3 className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <h3 className="text-lg font-medium text-neutral-700 dark:text-gray-300 mb-2">
                 No schedules available
             </h3>
             <div className="flex justify-center space-x-4 w-full"></div>

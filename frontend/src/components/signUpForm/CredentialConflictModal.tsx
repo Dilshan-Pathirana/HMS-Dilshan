@@ -23,13 +23,13 @@ const CredentialConflictModal: React.FC<CredentialConflictModalProps> = ({
     const getIconForField = (field: string) => {
         switch (field.toLowerCase()) {
             case 'phone':
-                return <FaPhone className="text-red-500" />;
+                return <FaPhone className="text-error-500" />;
             case 'nic':
-                return <FaIdCard className="text-red-500" />;
+                return <FaIdCard className="text-error-500" />;
             case 'email':
-                return <FaEnvelope className="text-red-500" />;
+                return <FaEnvelope className="text-error-500" />;
             default:
-                return <FaExclamationCircle className="text-red-500" />;
+                return <FaExclamationCircle className="text-error-500" />;
         }
     };
 
@@ -67,7 +67,7 @@ const CredentialConflictModal: React.FC<CredentialConflictModalProps> = ({
                 {/* Content */}
                 <div className="p-6">
                     <div className="mb-4">
-                        <p className="text-gray-600 text-sm text-center">
+                        <p className="text-neutral-600 text-sm text-center">
                             The following information is already registered in our system:
                         </p>
                     </div>
@@ -77,16 +77,16 @@ const CredentialConflictModal: React.FC<CredentialConflictModalProps> = ({
                         {conflicts.map((conflict, index) => (
                             <div 
                                 key={index}
-                                className="flex items-start gap-3 p-4 bg-red-50 border border-red-200 rounded-xl"
+                                className="flex items-start gap-3 p-4 bg-error-50 border border-red-200 rounded-xl"
                             >
-                                <div className="flex-shrink-0 w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                                <div className="flex-shrink-0 w-10 h-10 bg-error-100 rounded-full flex items-center justify-center">
                                     {getIconForField(conflict.field)}
                                 </div>
                                 <div className="flex-1">
                                     <h4 className="font-semibold text-red-700 text-sm">
                                         {conflict.label}
                                     </h4>
-                                    <p className="text-red-600 text-xs mt-0.5">
+                                    <p className="text-error-600 text-xs mt-0.5">
                                         {conflict.message}
                                     </p>
                                 </div>
@@ -98,18 +98,18 @@ const CredentialConflictModal: React.FC<CredentialConflictModalProps> = ({
                     <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4">
                         <div className="flex items-start gap-3">
                             <div className="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                                <FaKey className="text-blue-500" />
+                                <FaKey className="text-primary-500" />
                             </div>
                             <div className="flex-1">
                                 <h4 className="font-semibold text-blue-700 text-sm mb-1">
                                     Forgot your login credentials?
                                 </h4>
-                                <p className="text-blue-600 text-xs mb-2">
+                                <p className="text-primary-500 text-xs mb-2">
                                     If you already have an account but forgot your password, you can recover it easily.
                                 </p>
                                 <a 
                                     href="/forgot-password"
-                                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-lg hover:bg-blue-600 transition-colors"
+                                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary-500 text-white text-sm font-medium rounded-lg hover:bg-primary-500 transition-colors"
                                 >
                                     <FaKey className="text-xs" />
                                     Recover Password
@@ -128,7 +128,7 @@ const CredentialConflictModal: React.FC<CredentialConflictModalProps> = ({
                         </a>
                         <button
                             onClick={onClose}
-                            className="w-full py-3 bg-gray-100 text-gray-700 text-center font-semibold rounded-xl hover:bg-gray-200 transition-colors"
+                            className="w-full py-3 bg-neutral-100 text-neutral-700 text-center font-semibold rounded-xl hover:bg-neutral-200 transition-colors"
                         >
                             Update My Information
                         </button>
@@ -137,7 +137,7 @@ const CredentialConflictModal: React.FC<CredentialConflictModalProps> = ({
 
                 {/* Footer */}
                 <div className="px-6 pb-6">
-                    <p className="text-center text-xs text-gray-400">
+                    <p className="text-center text-xs text-neutral-400">
                         Need help? Contact our support team at support@cure.lk
                     </p>
                 </div>

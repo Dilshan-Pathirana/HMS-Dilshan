@@ -118,17 +118,17 @@ const DoctorDiseaseEditModal: React.FC<DoctorDiseaseEditModalProps> = ({
             <div className="bg-white rounded-lg p-6 w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
                 <div className="flex justify-between items-center mb-6">
                     <div>
-                        <h3 className="text-xl font-semibold text-gray-800">
+                        <h3 className="text-xl font-semibold text-neutral-800">
                             Edit Disease
                         </h3>
-                        <p className="text-sm text-gray-600 mt-1">
+                        <p className="text-sm text-neutral-600 mt-1">
                             Doctor: Dr. {disease.doctor_first_name}{" "}
                             {disease.doctor_last_name}
                         </p>
                     </div>
                     <button
                         onClick={handleClose}
-                        className="text-gray-400 hover:text-gray-600 p-1"
+                        className="text-neutral-400 hover:text-neutral-600 p-1"
                         disabled={isSubmitting}
                     >
                         <FiX className="w-5 h-5" />
@@ -137,7 +137,7 @@ const DoctorDiseaseEditModal: React.FC<DoctorDiseaseEditModalProps> = ({
 
                 <form onSubmit={handleSubmit} className="space-y-5">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
                             Disease Name *
                         </label>
                         <input
@@ -148,17 +148,17 @@ const DoctorDiseaseEditModal: React.FC<DoctorDiseaseEditModalProps> = ({
                             placeholder="Enter disease name..."
                             maxLength={255}
                             required
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                            className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm"
                         />
                         {errors.disease_name && (
-                            <p className="text-red-500 text-sm mt-1">
+                            <p className="text-error-500 text-sm mt-1">
                                 {errors.disease_name[0]}
                             </p>
                         )}
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
                             Description
                         </label>
                         <textarea
@@ -167,17 +167,17 @@ const DoctorDiseaseEditModal: React.FC<DoctorDiseaseEditModalProps> = ({
                             onChange={handleInputChange}
                             placeholder="Enter disease description (optional)..."
                             rows={4}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm resize-vertical"
+                            className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm resize-vertical"
                         />
                         {errors.description && (
-                            <p className="text-red-500 text-sm mt-1">
+                            <p className="text-error-500 text-sm mt-1">
                                 {errors.description[0]}
                             </p>
                         )}
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
                             Priority (1-10)
                         </label>
                         <input
@@ -188,22 +188,22 @@ const DoctorDiseaseEditModal: React.FC<DoctorDiseaseEditModalProps> = ({
                             placeholder="Enter priority level (optional)..."
                             min="1"
                             max="10"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                            className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm"
                         />
                         {errors.priority && (
-                            <p className="text-red-500 text-sm mt-1">
+                            <p className="text-error-500 text-sm mt-1">
                                 {errors.priority[0]}
                             </p>
                         )}
                     </div>
 
-                    <div className="flex justify-between pt-6 border-t border-gray-200">
+                    <div className="flex justify-between pt-6 border-t border-neutral-200">
                         <div className="flex space-x-3">
                             <button
                                 type="button"
                                 onClick={handleClose}
                                 disabled={isSubmitting}
-                                className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                                className="px-4 py-2 bg-neutral-200 text-neutral-800 rounded-md hover:bg-neutral-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                             >
                                 Cancel
                             </button>
@@ -213,7 +213,7 @@ const DoctorDiseaseEditModal: React.FC<DoctorDiseaseEditModalProps> = ({
                                 className={`px-6 py-2 rounded-md transition-colors text-sm font-medium ${
                                     isSubmitting || !hasChanges
                                         ? "bg-gray-400 cursor-not-allowed"
-                                        : "bg-blue-500 hover:bg-blue-600"
+                                        : "bg-primary-500 hover:bg-primary-500"
                                 } text-white`}
                             >
                                 {isSubmitting ? (

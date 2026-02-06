@@ -5,13 +5,13 @@ const DoctorEditFormStructure: React.FC<{
 }> = ({ userDetails }) => {
     return (
         <div className="grid grid-cols-2 gap-6 mb-6">
-            <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-                <h3 className="text-sm font-medium text-gray-700 mb-3">
+            <div className="bg-white p-4 rounded-lg shadow-sm border border-neutral-200">
+                <h3 className="text-sm font-medium text-neutral-700 mb-3">
                     Profile Photo
                 </h3>
                 <div className="flex items-center space-x-4">
                     <div className="relative">
-                        <div className="h-24 w-24 rounded-full bg-gray-100 overflow-hidden border-2 border-gray-300 flex items-center justify-center">
+                        <div className="h-24 w-24 rounded-full bg-neutral-100 overflow-hidden border-2 border-neutral-300 flex items-center justify-center">
                             {userDetails?.photo ? (
                                 <img
                                     src={userDetails.photo}
@@ -20,7 +20,7 @@ const DoctorEditFormStructure: React.FC<{
                                 />
                             ) : (
                                 <svg
-                                    className="h-12 w-12 text-gray-400"
+                                    className="h-12 w-12 text-neutral-400"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -36,29 +36,29 @@ const DoctorEditFormStructure: React.FC<{
                         </div>
                     </div>
                     <div>
-                        <label className="cursor-pointer inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <label className="cursor-pointer inline-flex items-center px-4 py-2 border border-neutral-300 shadow-sm text-sm font-medium rounded-md text-neutral-700 bg-white hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
                             <input type="file" className="sr-only" />
                             Change Photo
                         </label>
                         {userDetails?.photo && (
-                            <button className="ml-2 text-sm text-red-600 hover:text-red-800">
+                            <button className="ml-2 text-sm text-error-600 hover:text-red-800">
                                 Remove
                             </button>
                         )}
                     </div>
                 </div>
-                <p className="mt-2 text-xs text-gray-500">
+                <p className="mt-2 text-xs text-neutral-500">
                     JPG, GIF or PNG. Max size of 2MB
                 </p>
             </div>
 
-            <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-                <h3 className="text-sm font-medium text-gray-700 mb-3">
+            <div className="bg-white p-4 rounded-lg shadow-sm border border-neutral-200">
+                <h3 className="text-sm font-medium text-neutral-700 mb-3">
                     NIC Document
                 </h3>
                 <div className="flex items-center space-x-4">
                     <div className="relative">
-                        <div className="h-24 w-32 bg-gray-100 rounded-md overflow-hidden border-2 border-gray-300 flex items-center justify-center">
+                        <div className="h-24 w-32 bg-neutral-100 rounded-md overflow-hidden border-2 border-neutral-300 flex items-center justify-center">
                             {userDetails?.nic_photo ? (
                                 <img
                                     src={userDetails.nic_photo}
@@ -67,7 +67,7 @@ const DoctorEditFormStructure: React.FC<{
                                 />
                             ) : (
                                 <svg
-                                    className="h-12 w-12 text-gray-400"
+                                    className="h-12 w-12 text-neutral-400"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -83,18 +83,18 @@ const DoctorEditFormStructure: React.FC<{
                         </div>
                     </div>
                     <div>
-                        <label className="cursor-pointer inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <label className="cursor-pointer inline-flex items-center px-4 py-2 border border-neutral-300 shadow-sm text-sm font-medium rounded-md text-neutral-700 bg-white hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
                             <input type="file" className="sr-only" />
                             Upload NIC
                         </label>
                         {userDetails?.nic_photo && (
-                            <button className="ml-2 text-sm text-red-600 hover:text-red-800">
+                            <button className="ml-2 text-sm text-error-600 hover:text-red-800">
                                 Remove
                             </button>
                         )}
                     </div>
                 </div>
-                <p className="mt-2 text-xs text-gray-500">
+                <p className="mt-2 text-xs text-neutral-500">
                     JPG, GIF or PNG. Max size of 5MB
                 </p>
             </div>

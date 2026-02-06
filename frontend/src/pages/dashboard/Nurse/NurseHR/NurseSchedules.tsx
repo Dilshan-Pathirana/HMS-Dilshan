@@ -209,14 +209,14 @@ const NurseSchedules: React.FC = () => {
             pending: { bg: 'bg-amber-100', text: 'text-amber-800', label: 'Pending' },
             acknowledged: { bg: 'bg-blue-100', text: 'text-blue-800', label: 'Acknowledged' },
             completed: { bg: 'bg-green-100', text: 'text-green-800', label: 'Completed' },
-            missed: { bg: 'bg-red-100', text: 'text-red-800', label: 'Missed' },
+            missed: { bg: 'bg-error-100', text: 'text-red-800', label: 'Missed' },
             approved_change: { bg: 'bg-purple-100', text: 'text-purple-800', label: 'Modified' }
         };
         
         if (isOverridden && overrideType) {
             const overrideBadges: Record<string, { bg: string; text: string; label: string }> = {
                 time_off: { bg: 'bg-green-100', text: 'text-green-800', label: 'Time Off' },
-                cancellation: { bg: 'bg-red-100', text: 'text-red-800', label: 'Cancelled' },
+                cancellation: { bg: 'bg-error-100', text: 'text-red-800', label: 'Cancelled' },
                 shift_change: { bg: 'bg-purple-100', text: 'text-purple-800', label: 'Changed' },
                 interchange: { bg: 'bg-cyan-100', text: 'text-cyan-800', label: 'Swapped' }
             };
@@ -252,10 +252,10 @@ const NurseSchedules: React.FC = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center sm:ml-64 pt-20">
+            <div className="min-h-screen bg-neutral-50 flex items-center justify-center sm:ml-64 pt-20">
                 <div className="text-center">
                     <Loader2 className="w-12 h-12 animate-spin text-teal-500 mx-auto mb-4" />
-                    <p className="text-gray-600">Loading your schedules...</p>
+                    <p className="text-neutral-600">Loading your schedules...</p>
                 </div>
             </div>
         );
@@ -292,22 +292,22 @@ const NurseSchedules: React.FC = () => {
             )}
 
             {/* Header */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 mb-6">
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => navigate('/nurse-dashboard/hr')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ArrowLeft className="w-5 h-5 text-gray-600" />
+                            <ArrowLeft className="w-5 h-5 text-neutral-600" />
                         </button>
                         <div className="flex items-center gap-3">
                             <div className="p-2 bg-teal-100 rounded-lg">
                                 <Activity className="w-6 h-6 text-teal-600" />
                             </div>
                             <div>
-                                <h1 className="text-2xl font-bold text-gray-800">My Nursing Shifts</h1>
-                                <p className="text-gray-600 text-sm mt-1">View and manage your assigned shifts</p>
+                                <h1 className="text-2xl font-bold text-neutral-800">My Nursing Shifts</h1>
+                                <p className="text-neutral-600 text-sm mt-1">View and manage your assigned shifts</p>
                             </div>
                         </div>
                     </div>
@@ -337,7 +337,7 @@ const NurseSchedules: React.FC = () => {
                                 <p className="text-blue-900 font-semibold text-2xl">{acknowledgedShifts}</p>
                                 <p className="text-blue-700 text-sm">Acknowledged</p>
                             </div>
-                            <CheckCircle className="w-8 h-8 text-blue-500" />
+                            <CheckCircle className="w-8 h-8 text-primary-500" />
                         </div>
                     </div>
                     <div className="bg-green-50 rounded-lg p-4 border border-green-200">
@@ -362,7 +362,7 @@ const NurseSchedules: React.FC = () => {
 
                 {/* Upcoming 2 Days */}
                 <div className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-xl p-4 border border-teal-200">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <h3 className="text-lg font-semibold text-neutral-800 mb-4 flex items-center gap-2">
                         <Calendar className="w-5 h-5 text-teal-600" />
                         Your Next 2 Days
                     </h3>
@@ -375,21 +375,21 @@ const NurseSchedules: React.FC = () => {
                                 <div 
                                     key={date}
                                     className={`bg-white rounded-lg p-4 border-2 transition-all cursor-pointer hover:shadow-md ${
-                                        isToday ? 'border-teal-400 shadow-sm' : 'border-gray-200'
+                                        isToday ? 'border-teal-400 shadow-sm' : 'border-neutral-200'
                                     } ${selectedDate === date ? 'ring-2 ring-teal-500' : ''}`}
                                     onClick={() => setSelectedDate(selectedDate === date ? null : date)}
                                 >
                                     <div className="flex items-center justify-between mb-3">
                                         <div>
-                                            <p className={`font-bold text-lg ${isToday ? 'text-teal-600' : 'text-gray-800'}`}>
+                                            <p className={`font-bold text-lg ${isToday ? 'text-teal-600' : 'text-neutral-800'}`}>
                                                 {isToday ? 'Today' : 'Tomorrow'}
                                             </p>
-                                            <p className="text-sm text-gray-500">
+                                            <p className="text-sm text-neutral-500">
                                                 {dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
                                             </p>
                                         </div>
                                         <div className={`px-3 py-1 rounded-full text-sm font-medium ${
-                                            dayShifts.length > 0 ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'
+                                            dayShifts.length > 0 ? 'bg-green-100 text-green-700' : 'bg-neutral-100 text-neutral-500'
                                         }`}>
                                             {dayShifts.length} shift{dayShifts.length !== 1 ? 's' : ''}
                                         </div>
@@ -397,10 +397,10 @@ const NurseSchedules: React.FC = () => {
                                     {dayShifts.length > 0 ? (
                                         <div className="space-y-2">
                                             {dayShifts.map(shift => (
-                                                <div key={shift.id} className="flex items-center justify-between bg-gray-50 rounded-lg p-2">
+                                                <div key={shift.id} className="flex items-center justify-between bg-neutral-50 rounded-lg p-2">
                                                     <div>
-                                                        <p className="font-medium text-gray-800">{shift.shiftType}</p>
-                                                        <p className="text-xs text-gray-500">{shift.startTime} - {shift.endTime}</p>
+                                                        <p className="font-medium text-neutral-800">{shift.shiftType}</p>
+                                                        <p className="text-xs text-neutral-500">{shift.startTime} - {shift.endTime}</p>
                                                     </div>
                                                     <div className="flex items-center gap-2">
                                                         {getStatusBadge(shift.status, shift.isOverridden, shift.overrideType)}
@@ -417,7 +417,7 @@ const NurseSchedules: React.FC = () => {
                                             ))}
                                         </div>
                                     ) : (
-                                        <p className="text-gray-400 text-sm italic">No shifts scheduled</p>
+                                        <p className="text-neutral-400 text-sm italic">No shifts scheduled</p>
                                     )}
                                 </div>
                             );
@@ -427,14 +427,14 @@ const NurseSchedules: React.FC = () => {
             </div>
 
             {/* Month Selector and Filters */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-4">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4 mb-4">
                 <div className="flex flex-wrap items-center justify-between gap-4">
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => changeMonth('prev')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ChevronLeft className="w-5 h-5 text-gray-600" />
+                            <ChevronLeft className="w-5 h-5 text-neutral-600" />
                         </button>
                         <div className="flex items-center gap-2 px-4 py-2 bg-teal-50 rounded-lg">
                             <Calendar className="w-4 h-4 text-teal-600" />
@@ -442,33 +442,33 @@ const NurseSchedules: React.FC = () => {
                         </div>
                         <button
                             onClick={() => changeMonth('next')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ChevronRight className="w-5 h-5 text-gray-600" />
+                            <ChevronRight className="w-5 h-5 text-neutral-600" />
                         </button>
                         <button
                             onClick={fetchScheduleData}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                             title="Refresh"
                         >
-                            <RefreshCw className="w-5 h-5 text-gray-600" />
+                            <RefreshCw className="w-5 h-5 text-neutral-600" />
                         </button>
                     </div>
                     <div className="flex items-center gap-3">
                         <div className="relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
                             <input
                                 type="text"
                                 placeholder="Search shifts..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                                className="pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                             />
                         </div>
                         <select
                             value={filterStatus}
                             onChange={(e) => setFilterStatus(e.target.value)}
-                            className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500"
+                            className="px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-teal-500"
                         >
                             <option value="all">All Status</option>
                             <option value="pending">Pending</option>
@@ -481,48 +481,48 @@ const NurseSchedules: React.FC = () => {
             </div>
 
             {/* Shifts List */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
-                <div className="p-4 border-b border-gray-200">
-                    <h2 className="text-lg font-semibold text-gray-800">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden mb-6">
+                <div className="p-4 border-b border-neutral-200">
+                    <h2 className="text-lg font-semibold text-neutral-800">
                         My Shifts ({filteredShifts.length})
                     </h2>
                 </div>
                 <div className="overflow-x-auto">
                     <table className="w-full">
-                        <thead className="bg-gray-50 border-b border-gray-200">
+                        <thead className="bg-neutral-50 border-b border-neutral-200">
                             <tr>
-                                <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Date</th>
-                                <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Shift Type</th>
-                                <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Time</th>
-                                <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Duration</th>
-                                <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Status</th>
-                                <th className="text-center py-3 px-4 text-sm font-medium text-gray-500">Actions</th>
+                                <th className="text-left py-3 px-4 text-sm font-medium text-neutral-500">Date</th>
+                                <th className="text-left py-3 px-4 text-sm font-medium text-neutral-500">Shift Type</th>
+                                <th className="text-left py-3 px-4 text-sm font-medium text-neutral-500">Time</th>
+                                <th className="text-left py-3 px-4 text-sm font-medium text-neutral-500">Duration</th>
+                                <th className="text-left py-3 px-4 text-sm font-medium text-neutral-500">Status</th>
+                                <th className="text-center py-3 px-4 text-sm font-medium text-neutral-500">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {filteredShifts.length === 0 ? (
                                 <tr>
-                                    <td colSpan={6} className="py-8 text-center text-gray-500">
+                                    <td colSpan={6} className="py-8 text-center text-neutral-500">
                                         <Calendar className="w-12 h-12 mx-auto mb-2 text-gray-300" />
                                         <p>No shifts found for this period</p>
                                     </td>
                                 </tr>
                             ) : (
                                 filteredShifts.map((shift, index) => (
-                                    <tr key={shift.id} className={`border-b border-gray-100 hover:bg-gray-50 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
+                                    <tr key={shift.id} className={`border-b border-gray-100 hover:bg-neutral-50 ${index % 2 === 0 ? 'bg-white' : 'bg-neutral-50/50'}`}>
                                         <td className="py-3 px-4">
-                                            <div className="font-medium text-gray-800">{formatDate(shift.date)}</div>
-                                            <div className="text-xs text-gray-500">{shift.date}</div>
+                                            <div className="font-medium text-neutral-800">{formatDate(shift.date)}</div>
+                                            <div className="text-xs text-neutral-500">{shift.date}</div>
                                         </td>
                                         <td className="py-3 px-4">
                                             <span className="px-2 py-1 bg-teal-100 text-teal-800 text-xs rounded-full font-medium">
                                                 {shift.shiftType}
                                             </span>
                                         </td>
-                                        <td className="py-3 px-4 text-gray-700">
+                                        <td className="py-3 px-4 text-neutral-700">
                                             {shift.startTime} - {shift.endTime}
                                         </td>
-                                        <td className="py-3 px-4 text-gray-700">
+                                        <td className="py-3 px-4 text-neutral-700">
                                             {shift.duration} hrs
                                         </td>
                                         <td className="py-3 px-4">
@@ -551,35 +551,35 @@ const NurseSchedules: React.FC = () => {
 
             {/* Interchange Requests */}
             {interchangeRequests.length > 0 && (
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                    <div className="p-4 border-b border-gray-200">
-                        <h2 className="text-lg font-semibold text-gray-800">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
+                    <div className="p-4 border-b border-neutral-200">
+                        <h2 className="text-lg font-semibold text-neutral-800">
                             Shift Swap Requests ({interchangeRequests.length})
                         </h2>
                     </div>
                     <div className="divide-y divide-gray-100">
                         {interchangeRequests.map((request) => (
-                            <div key={request.id} className="p-4 hover:bg-gray-50">
+                            <div key={request.id} className="p-4 hover:bg-neutral-50">
                                 <div className="flex items-start justify-between">
                                     <div className="flex-1">
                                         <div className="flex items-center gap-2 mb-2">
                                             <Users className="w-4 h-4 text-purple-500" />
-                                            <span className="font-medium text-gray-800">{request.requestedByName}</span>
-                                            <span className="text-gray-500 text-sm">wants to swap shifts</span>
+                                            <span className="font-medium text-neutral-800">{request.requestedByName}</span>
+                                            <span className="text-neutral-500 text-sm">wants to swap shifts</span>
                                         </div>
                                         <div className="grid grid-cols-2 gap-4 mb-2">
                                             <div className="bg-teal-50 p-3 rounded-lg">
                                                 <p className="text-xs text-teal-600 mb-1">Their Shift</p>
-                                                <p className="font-medium text-gray-800">{formatDate(request.shiftDate)}</p>
-                                                <p className="text-sm text-gray-600">{request.shiftType}</p>
+                                                <p className="font-medium text-neutral-800">{formatDate(request.shiftDate)}</p>
+                                                <p className="text-sm text-neutral-600">{request.shiftType}</p>
                                             </div>
                                             <div className="bg-purple-50 p-3 rounded-lg">
                                                 <p className="text-xs text-purple-600 mb-1">Your Shift</p>
-                                                <p className="font-medium text-gray-800">{formatDate(request.yourShiftDate)}</p>
-                                                <p className="text-sm text-gray-600">{request.yourShiftType}</p>
+                                                <p className="font-medium text-neutral-800">{formatDate(request.yourShiftDate)}</p>
+                                                <p className="text-sm text-neutral-600">{request.yourShiftType}</p>
                                             </div>
                                         </div>
-                                        <p className="text-sm text-gray-600">
+                                        <p className="text-sm text-neutral-600">
                                             <span className="font-medium">Reason:</span> {request.reason}
                                         </p>
                                     </div>
@@ -594,7 +594,7 @@ const NurseSchedules: React.FC = () => {
                                             </button>
                                             <button
                                                 onClick={() => respondToInterchange(request.id, 'reject')}
-                                                className="flex items-center gap-1 px-3 py-2 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600 transition-colors"
+                                                className="flex items-center gap-1 px-3 py-2 bg-error-500 text-white text-sm rounded-lg hover:bg-red-600 transition-colors"
                                             >
                                                 <X className="w-4 h-4" />
                                                 Decline
@@ -605,7 +605,7 @@ const NurseSchedules: React.FC = () => {
                                         <span className={`px-3 py-1 rounded-full text-sm font-medium ${
                                             request.status === 'approved' 
                                                 ? 'bg-green-100 text-green-800' 
-                                                : 'bg-red-100 text-red-800'
+                                                : 'bg-error-100 text-red-800'
                                         }`}>
                                             {request.status === 'approved' ? 'Accepted' : 'Declined'}
                                         </span>

@@ -1,93 +1,56 @@
-import React from 'react'
-import { LucideIcon, TrendingUp, TrendingDown } from 'lucide-react'
+import React from 'react';
+import { LucideIcon } from 'lucide-react';
 
 interface StatCardProps {
-    label: string
-    value: string | number
+    title: string;
+    value: string | number;
+    icon: LucideIcon;
     trend?: {
-        value: number
-        isPositive: boolean
-    }
-    icon: LucideIcon
-    color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error'
-    className?: string
+        value: number;
+        label: string;
+        isPositive: boolean;
+    };
+    description?: string;
+    className?: string;
 }
 
 export function StatCard({
-    label,
+    title,
     value,
-    trend,
     icon: Icon,
-    color = 'primary',
-    className = '',
+    trend,
+    description,
+    className = ''
 }: StatCardProps) {
-    const colorClasses = {
-        primary: {
-            bg: 'bg-primary-50',
-            text: 'text-primary-600',
-            iconBg: 'bg-primary-100',
-        },
-        secondary: {
-            bg: 'bg-secondary-50',
-            text: 'text-secondary-600',
-            iconBg: 'bg-secondary-100',
-        },
-        success: {
-            bg: 'bg-emerald-50',
-            text: 'text-emerald-600',
-            iconBg: 'bg-emerald-100',
-        },
-        warning: {
-            bg: 'bg-amber-50',
-            text: 'text-amber-600',
-            iconBg: 'bg-amber-100',
-        },
-        error: {
-            bg: 'bg-rose-50',
-            text: 'text-rose-600',
-            iconBg: 'bg-rose-100',
-        },
-    }
-
-    const colors = colorClasses[color]
-
     return (
-        <div
-            className={`
-      bg-white/80 backdrop-blur-xl border border-white/20 shadow-glass 
-      rounded-2xl p-6 transition-smooth hover:shadow-glass-lg
-      ${className}
-    `}
-        >
+        <div className={`group bg-white rounded-xl border border-neutral-200 p-6 transition-all duration-200 hover:shadow-md hover:border-primary-100 ${className}`}>
             <div className="flex items-start justify-between">
-                <div className="flex-1">
-                    <p className="text-sm font-medium text-slate-600 mb-1">{label}</p>
-                    <p className="text-3xl font-bold text-slate-900 mb-2">{value}</p>
-
-                    {trend && (
-                        <div
-                            className={`inline-flex items-center gap-1 text-xs font-medium ${trend.isPositive ? 'text-emerald-600' : 'text-rose-600'
-                                }`}
-                        >
-                            {trend.isPositive ? (
-                                <TrendingUp className="w-3.5 h-3.5" />
-                            ) : (
-                                <TrendingDown className="w-3.5 h-3.5" />
-                            )}
-                            <span>{Math.abs(trend.value)}%</span>
-                        </div>
-                    )}
+                <div>
+                    <p className="text-sm font-medium text-neutral-500 mb-1">{title}</p>
+                    <h3 className="text-3xl font-bold text-neutral-900 tracking-tight">{value}</h3>
                 </div>
-
-                <div
-                    className={`
-          w-12 h-12 rounded-xl flex items-center justify-center
-          ${colors.iconBg} ${colors.text}
-        `}
-                >
-                    <Icon className="w-6 h-6" />
+                <div className="p-3 bg-neutral-50 rounded-lg group-hover:bg-primary-50 transition-colors">
+                    <Icon className="w-5 h-5 text-neutral-500 group-hover:text-primary-600 transition-colors" />
                 </div>
             </div>
+
+            {(trend || description) && (
+                <div className="mt-4 flex items-center gap-2">
+                    {trend && (
+                        <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${trend.isPositive
+                                ? 'bg-emerald-50 text-emerald-700'
+                                : 'bg-red-50 text-red-700'
+                            }`}>
+                            {trend.isPositive ? '+' : ''}{trend.value}%
+                        </span>
+                    )}
+                    {(trend || description) && (
+                        <p className="text-xs text-neutral-500 font-medium">
+                            {trend ? trend.label : description}
+                        </p>
+                    )}
+                </div>
+            )}
         </div>
-    )
+    );
 }

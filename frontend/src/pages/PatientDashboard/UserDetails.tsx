@@ -16,14 +16,14 @@ const UserDetails = () => {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center h-full text-gray-600">
+            <div className="flex items-center justify-center h-full text-neutral-600">
                 Loading patient details...
             </div>
         );
     }
 
     if (error) {
-        return <div className="text-center text-red-500 mt-6">{error}</div>;
+        return <div className="text-center text-error-500 mt-6">{error}</div>;
     }
 
     return (
@@ -33,7 +33,7 @@ const UserDetails = () => {
                     <FaUserCircle className="text-indigo-500 text-5xl" />
                 </div>
 
-                <h2 className="text-xl font-semibold text-gray-800 text-center">
+                <h2 className="text-xl font-semibold text-neutral-800 text-center">
                     {userDetails.firstName} {userDetails.lastName}
                 </h2>
                 <span className="inline-block mt-1 px-2 py-0.5 text-xs bg-indigo-100 text-indigo-800 rounded-full">
@@ -42,41 +42,41 @@ const UserDetails = () => {
             </div>
 
             <div className="mt-5 space-y-3">
-                <div className="flex items-center p-2 rounded-md hover:bg-gray-50 transition-colors">
+                <div className="flex items-center p-2 rounded-md hover:bg-neutral-50 transition-colors">
                     <FaPhone className="text-indigo-500 text-sm flex-shrink-0" />
                     <div className="ml-3">
-                        <p className="text-xs text-gray-500">Phone</p>
-                        <p className="text-sm text-gray-800">
+                        <p className="text-xs text-neutral-500">Phone</p>
+                        <p className="text-sm text-neutral-800">
                             {userDetails.phone || "Not provided"}
                         </p>
                     </div>
                 </div>
 
-                <div className="flex items-center p-2 rounded-md hover:bg-gray-50 transition-colors">
+                <div className="flex items-center p-2 rounded-md hover:bg-neutral-50 transition-colors">
                     <FaEnvelope className="text-indigo-500 text-sm flex-shrink-0" />
                     <div className="ml-3">
-                        <p className="text-xs text-gray-500">Email</p>
-                        <p className="text-sm text-gray-800">
+                        <p className="text-xs text-neutral-500">Email</p>
+                        <p className="text-sm text-neutral-800">
                             {userDetails.email || "Not provided"}
                         </p>
                     </div>
                 </div>
 
-                <div className="flex items-center p-2 rounded-md hover:bg-gray-50 transition-colors">
+                <div className="flex items-center p-2 rounded-md hover:bg-neutral-50 transition-colors">
                     <FaIdCard className="text-indigo-500 text-sm flex-shrink-0" />
                     <div className="ml-3">
-                        <p className="text-xs text-gray-500">NIC</p>
-                        <p className="text-sm text-gray-800">
+                        <p className="text-xs text-neutral-500">NIC</p>
+                        <p className="text-sm text-neutral-800">
                             {userDetails.nic || "Not provided"}
                         </p>
                     </div>
                 </div>
 
-                <div className="flex items-center p-2 rounded-md hover:bg-gray-50 transition-colors">
+                <div className="flex items-center p-2 rounded-md hover:bg-neutral-50 transition-colors">
                     <FaHome className="text-indigo-500 text-sm flex-shrink-0" />
                     <div className="ml-3">
-                        <p className="text-xs text-gray-500">Address</p>
-                        <p className="text-sm text-gray-800">
+                        <p className="text-xs text-neutral-500">Address</p>
+                        <p className="text-sm text-neutral-800">
                             {userDetails.address || "Not provided"}
                         </p>
                     </div>

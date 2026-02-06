@@ -102,26 +102,26 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
     };
 
     return (
-        <nav className="bg-white shadow-md border-b border-gray-200 h-16">
+        <nav className="bg-white shadow-md border-b border-neutral-200 h-16">
             <div className="h-full px-4 lg:px-6 flex items-center justify-between">
                 {/* Left Section */}
                 <div className="flex items-center gap-4">
                     <button
                         onClick={toggleSidebar}
-                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors lg:hidden"
+                        className="p-2 hover:bg-neutral-100 rounded-lg transition-colors lg:hidden"
                     >
-                        <Menu className="w-5 h-5 text-gray-600" />
+                        <Menu className="w-5 h-5 text-neutral-600" />
                     </button>
                     
                     <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 bg-gradient-to-br from-emerald-500 to-blue-500 rounded-lg flex items-center justify-center text-white font-bold text-sm shadow-md">
+                        <div className="w-9 h-9 bg-gradient-to-br from-emerald-500 to-primary-500 rounded-lg flex items-center justify-center text-white font-bold text-sm shadow-md">
                             {branchName.charAt(0).toUpperCase()}
                         </div>
                         <div className="hidden sm:block">
                             <h1 className="text-lg font-bold bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">
                                 {branchName}
                             </h1>
-                            <p className="text-xs text-gray-500">POS Management</p>
+                            <p className="text-xs text-neutral-500">POS Management</p>
                         </div>
                     </div>
                 </div>
@@ -163,18 +163,18 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
                     <div className="relative">
                         <button 
                             onClick={() => setShowNotifications(!showNotifications)}
-                            className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="relative p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <Bell className="w-5 h-5 text-gray-600" />
-                            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                            <Bell className="w-5 h-5 text-neutral-600" />
+                            <span className="absolute top-1 right-1 w-2 h-2 bg-error-500 rounded-full"></span>
                         </button>
                         
                         {showNotifications && (
                             <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-gray-100 z-50">
                                 <div className="p-4 border-b border-gray-100">
-                                    <h3 className="font-semibold text-gray-800">Notifications</h3>
+                                    <h3 className="font-semibold text-neutral-800">Notifications</h3>
                                 </div>
-                                <div className="p-4 text-center text-gray-500 text-sm">
+                                <div className="p-4 text-center text-neutral-500 text-sm">
                                     No new notifications
                                 </div>
                             </div>
@@ -184,20 +184,20 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
                     {/* Settings */}
                     <button 
                         onClick={() => navigate('/pos/settings')}
-                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors hidden sm:block"
+                        className="p-2 hover:bg-neutral-100 rounded-lg transition-colors hidden sm:block"
                     >
-                        <Settings className="w-5 h-5 text-gray-600" />
+                        <Settings className="w-5 h-5 text-neutral-600" />
                     </button>
 
                     {/* User Menu */}
                     <div className="relative">
                         <button 
                             onClick={() => setShowUserMenu(!showUserMenu)}
-                            className="flex items-center gap-2 pl-3 pr-2 py-1.5 border border-gray-200 rounded-full hover:bg-gray-50 transition-colors"
+                            className="flex items-center gap-2 pl-3 pr-2 py-1.5 border border-neutral-200 rounded-full hover:bg-neutral-50 transition-colors"
                         >
                             <div className="hidden sm:block text-right">
-                                <p className="text-sm font-medium text-gray-800 max-w-[120px] truncate">{userName}</p>
-                                <p className="text-xs text-gray-500">{getRoleName()}</p>
+                                <p className="text-sm font-medium text-neutral-800 max-w-[120px] truncate">{userName}</p>
+                                <p className="text-xs text-neutral-500">{getRoleName()}</p>
                             </div>
                             <div className="w-8 h-8 rounded-full overflow-hidden bg-gradient-to-br from-emerald-100 to-blue-100 flex items-center justify-center border-2 border-white shadow-sm">
                                 {profileImage ? (
@@ -210,14 +210,14 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
                                     <DefaultAvatar gender={userGender} />
                                 )}
                             </div>
-                            <ChevronDown className="w-4 h-4 text-gray-400 hidden sm:block" />
+                            <ChevronDown className="w-4 h-4 text-neutral-400 hidden sm:block" />
                         </button>
 
                         {showUserMenu && (
                             <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 z-50 overflow-hidden">
                                 <div className="p-4 bg-gradient-to-r from-emerald-50 to-blue-50 border-b border-gray-100">
-                                    <p className="font-semibold text-gray-800">{userName}</p>
-                                    <p className="text-xs text-gray-500">{userEmail}</p>
+                                    <p className="font-semibold text-neutral-800">{userName}</p>
+                                    <p className="text-xs text-neutral-500">{userEmail}</p>
                                     <span className="inline-block mt-2 px-2 py-0.5 bg-emerald-100 text-emerald-700 text-xs font-medium rounded-full">
                                         {getRoleName()}
                                     </span>
@@ -236,7 +236,7 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
                                                 navigate('/profile');
                                             }
                                         }}
-                                        className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                                        className="w-full flex items-center gap-3 px-3 py-2 text-sm text-neutral-700 hover:bg-neutral-50 rounded-lg transition-colors"
                                     >
                                         <User className="w-4 h-4" />
                                         My Profile
@@ -246,7 +246,7 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
                                             setShowUserMenu(false);
                                             navigate('/pos/settings');
                                         }}
-                                        className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                                        className="w-full flex items-center gap-3 px-3 py-2 text-sm text-neutral-700 hover:bg-neutral-50 rounded-lg transition-colors"
                                     >
                                         <Settings className="w-4 h-4" />
                                         Settings
@@ -256,7 +256,7 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
                                 <div className="p-2 border-t border-gray-100">
                                     <button
                                         onClick={handleLogout}
-                                        className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                        className="w-full flex items-center gap-3 px-3 py-2 text-sm text-error-600 hover:bg-error-50 rounded-lg transition-colors"
                                     >
                                         <LogOut className="w-4 h-4" />
                                         Logout

@@ -164,12 +164,12 @@ export const PharmacistPurchase: React.FC = () => {
 
     const getStatusBadge = (status: string) => {
         const styles: Record<string, { bg: string; text: string; icon: React.ReactNode }> = {
-            'draft': { bg: 'bg-gray-100', text: 'text-gray-800', icon: <FileText className="w-3 h-3" /> },
+            'draft': { bg: 'bg-neutral-100', text: 'text-neutral-800', icon: <FileText className="w-3 h-3" /> },
             'submitted': { bg: 'bg-blue-100', text: 'text-blue-800', icon: <Clock className="w-3 h-3" /> },
             'approved': { bg: 'bg-green-100', text: 'text-green-800', icon: <CheckCircle className="w-3 h-3" /> },
             'shipped': { bg: 'bg-purple-100', text: 'text-purple-800', icon: <Truck className="w-3 h-3" /> },
             'received': { bg: 'bg-teal-100', text: 'text-teal-800', icon: <Package className="w-3 h-3" /> },
-            'cancelled': { bg: 'bg-red-100', text: 'text-red-800', icon: <AlertTriangle className="w-3 h-3" /> },
+            'cancelled': { bg: 'bg-error-100', text: 'text-red-800', icon: <AlertTriangle className="w-3 h-3" /> },
             'complete': { bg: 'bg-green-100', text: 'text-green-800', icon: <CheckCircle className="w-3 h-3" /> },
             'partial': { bg: 'bg-yellow-100', text: 'text-yellow-800', icon: <AlertTriangle className="w-3 h-3" /> },
             'inspection': { bg: 'bg-orange-100', text: 'text-orange-800', icon: <Eye className="w-3 h-3" /> }
@@ -202,16 +202,16 @@ export const PharmacistPurchase: React.FC = () => {
     };
 
     return (
-        <div className="ml-0 md:ml-64 pt-24 min-h-screen bg-gray-50">
+        <div className="ml-0 md:ml-64 pt-24 min-h-screen bg-neutral-50">
             <div className="p-6">
                 {/* Header */}
                 <div className="flex justify-between items-start mb-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                        <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2">
                             <ShoppingCart className="w-7 h-7 text-indigo-600" />
                             Purchase & Supplier Coordination
                         </h1>
-                        <p className="text-gray-600">Manage purchase orders and supplier relationships</p>
+                        <p className="text-neutral-600">Manage purchase orders and supplier relationships</p>
                     </div>
                     <button
                         onClick={() => setActiveTab('new_order')}
@@ -227,8 +227,8 @@ export const PharmacistPurchase: React.FC = () => {
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-indigo-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Pending Orders</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.pending_orders}</p>
+                                <p className="text-sm text-neutral-600">Pending Orders</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.pending_orders}</p>
                             </div>
                             <ShoppingCart className="w-10 h-10 text-indigo-500" />
                         </div>
@@ -236,26 +236,26 @@ export const PharmacistPurchase: React.FC = () => {
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-green-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Total Order Value</p>
-                                <p className="text-xl font-bold text-gray-900">{formatCurrency(stats.total_value)}</p>
+                                <p className="text-sm text-neutral-600">Total Order Value</p>
+                                <p className="text-xl font-bold text-neutral-900">{formatCurrency(stats.total_value)}</p>
                             </div>
                             <Package className="w-10 h-10 text-green-500" />
                         </div>
                     </div>
-                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-blue-500">
+                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-primary-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Active Suppliers</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.active_suppliers}</p>
+                                <p className="text-sm text-neutral-600">Active Suppliers</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.active_suppliers}</p>
                             </div>
-                            <Building className="w-10 h-10 text-blue-500" />
+                            <Building className="w-10 h-10 text-primary-500" />
                         </div>
                     </div>
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-teal-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">GRN This Month</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.grn_this_month}</p>
+                                <p className="text-sm text-neutral-600">GRN This Month</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.grn_this_month}</p>
                             </div>
                             <FileText className="w-10 h-10 text-teal-500" />
                         </div>
@@ -270,7 +270,7 @@ export const PharmacistPurchase: React.FC = () => {
                             className={`px-6 py-3 font-medium ${
                                 activeTab === 'orders' 
                                     ? 'text-indigo-600 border-b-2 border-indigo-600' 
-                                    : 'text-gray-500 hover:text-gray-700'
+                                    : 'text-neutral-500 hover:text-neutral-700'
                             }`}
                         >
                             Purchase Orders
@@ -280,7 +280,7 @@ export const PharmacistPurchase: React.FC = () => {
                             className={`px-6 py-3 font-medium ${
                                 activeTab === 'suppliers' 
                                     ? 'text-indigo-600 border-b-2 border-indigo-600' 
-                                    : 'text-gray-500 hover:text-gray-700'
+                                    : 'text-neutral-500 hover:text-neutral-700'
                             }`}
                         >
                             Suppliers
@@ -290,7 +290,7 @@ export const PharmacistPurchase: React.FC = () => {
                             className={`px-6 py-3 font-medium ${
                                 activeTab === 'grn' 
                                     ? 'text-indigo-600 border-b-2 border-indigo-600' 
-                                    : 'text-gray-500 hover:text-gray-700'
+                                    : 'text-neutral-500 hover:text-neutral-700'
                             }`}
                         >
                             Goods Received
@@ -302,19 +302,19 @@ export const PharmacistPurchase: React.FC = () => {
                         <div className="p-4">
                             <div className="flex items-center gap-4 mb-4">
                                 <div className="relative flex-1 max-w-md">
-                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400" />
                                     <input
                                         type="text"
                                         placeholder="Search by PO number or supplier..."
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg"
+                                        className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg"
                                     />
                                 </div>
                                 <select
                                     value={filterStatus}
                                     onChange={(e) => setFilterStatus(e.target.value)}
-                                    className="px-3 py-2 border border-gray-300 rounded-lg"
+                                    className="px-3 py-2 border border-neutral-300 rounded-lg"
                                 >
                                     <option value="all">All Status</option>
                                     <option value="draft">Draft</option>
@@ -327,47 +327,47 @@ export const PharmacistPurchase: React.FC = () => {
 
                             <div className="overflow-x-auto">
                                 <table className="w-full">
-                                    <thead className="bg-gray-50 border-b">
+                                    <thead className="bg-neutral-50 border-b">
                                         <tr>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">PO Number</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Supplier</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Items</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Expected</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">PO Number</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Supplier</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Items</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Amount</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Status</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Expected</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200">
                                         {filteredOrders.map((order) => (
-                                            <tr key={order.id} className="hover:bg-gray-50">
+                                            <tr key={order.id} className="hover:bg-neutral-50">
                                                 <td className="px-4 py-3">
-                                                    <div className="font-medium text-gray-900">{order.po_number}</div>
-                                                    <div className="text-xs text-gray-500">Created: {order.created_at}</div>
+                                                    <div className="font-medium text-neutral-900">{order.po_number}</div>
+                                                    <div className="text-xs text-neutral-500">Created: {order.created_at}</div>
                                                 </td>
                                                 <td className="px-4 py-3">
-                                                    <div className="text-gray-900">{order.supplier_name}</div>
-                                                    <div className="text-xs text-gray-500">{order.supplier_id}</div>
+                                                    <div className="text-neutral-900">{order.supplier_name}</div>
+                                                    <div className="text-xs text-neutral-500">{order.supplier_id}</div>
                                                 </td>
-                                                <td className="px-4 py-3 text-gray-900">{order.items_count}</td>
-                                                <td className="px-4 py-3 font-medium text-gray-900">
+                                                <td className="px-4 py-3 text-neutral-900">{order.items_count}</td>
+                                                <td className="px-4 py-3 font-medium text-neutral-900">
                                                     {formatCurrency(order.total_amount)}
                                                 </td>
                                                 <td className="px-4 py-3">{getStatusBadge(order.status)}</td>
-                                                <td className="px-4 py-3 text-gray-600">
+                                                <td className="px-4 py-3 text-neutral-600">
                                                     {order.expected_delivery || '-'}
                                                 </td>
                                                 <td className="px-4 py-3">
                                                     <div className="flex items-center gap-2">
                                                         <button
                                                             onClick={() => setSelectedOrder(order)}
-                                                            className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded"
+                                                            className="p-1.5 text-neutral-400 hover:text-primary-500 hover:bg-blue-50 rounded"
                                                             title="View"
                                                         >
                                                             <Eye className="w-4 h-4" />
                                                         </button>
                                                         <button
-                                                            className="p-1.5 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded"
+                                                            className="p-1.5 text-neutral-400 hover:text-green-600 hover:bg-green-50 rounded"
                                                             title="Download"
                                                         >
                                                             <Download className="w-4 h-4" />
@@ -394,26 +394,26 @@ export const PharmacistPurchase: React.FC = () => {
                                                     <Building className="w-6 h-6 text-indigo-600" />
                                                 </div>
                                                 <div>
-                                                    <h4 className="font-semibold text-gray-900">{supplier.name}</h4>
-                                                    <p className="text-sm text-gray-500">{supplier.id}</p>
+                                                    <h4 className="font-semibold text-neutral-900">{supplier.name}</h4>
+                                                    <p className="text-sm text-neutral-500">{supplier.id}</p>
                                                 </div>
                                             </div>
                                             <span className={`px-2 py-1 rounded-full text-xs ${
-                                                supplier.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                                                supplier.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-neutral-100 text-neutral-800'
                                             }`}>
                                                 {supplier.status.toUpperCase()}
                                             </span>
                                         </div>
                                         <div className="space-y-2 text-sm">
-                                            <div className="flex items-center gap-2 text-gray-600">
+                                            <div className="flex items-center gap-2 text-neutral-600">
                                                 <span className="font-medium">Contact:</span>
                                                 {supplier.contact_person}
                                             </div>
-                                            <div className="flex items-center gap-2 text-gray-600">
+                                            <div className="flex items-center gap-2 text-neutral-600">
                                                 <Phone className="w-4 h-4" />
                                                 {supplier.phone}
                                             </div>
-                                            <div className="flex items-center gap-2 text-gray-600">
+                                            <div className="flex items-center gap-2 text-neutral-600">
                                                 <span className="text-xs">{supplier.email}</span>
                                             </div>
                                         </div>
@@ -424,7 +424,7 @@ export const PharmacistPurchase: React.FC = () => {
                                                         star <= supplier.rating ? 'text-yellow-400' : 'text-gray-300'
                                                     }`}>★</span>
                                                 ))}
-                                                <span className="text-sm text-gray-500 ml-1">{supplier.rating}</span>
+                                                <span className="text-sm text-neutral-500 ml-1">{supplier.rating}</span>
                                             </div>
                                             <button className="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
                                                 View Details
@@ -441,11 +441,11 @@ export const PharmacistPurchase: React.FC = () => {
                         <div className="p-4">
                             <div className="flex items-center justify-between mb-4">
                                 <div className="relative flex-1 max-w-md">
-                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400" />
                                     <input
                                         type="text"
                                         placeholder="Search GRN..."
-                                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg"
+                                        className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg"
                                     />
                                 </div>
                                 <button className="flex items-center gap-2 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">
@@ -456,33 +456,33 @@ export const PharmacistPurchase: React.FC = () => {
 
                             <div className="overflow-x-auto">
                                 <table className="w-full">
-                                    <thead className="bg-gray-50 border-b">
+                                    <thead className="bg-neutral-50 border-b">
                                         <tr>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">GRN Number</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">PO Reference</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Supplier</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Items</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Received</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">GRN Number</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">PO Reference</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Supplier</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Items</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Amount</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Status</th>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Received</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200">
                                         {grns.map((grn) => (
-                                            <tr key={grn.id} className="hover:bg-gray-50">
-                                                <td className="px-4 py-3 font-medium text-gray-900">{grn.grn_number}</td>
-                                                <td className="px-4 py-3 text-blue-600">{grn.po_number}</td>
-                                                <td className="px-4 py-3 text-gray-900">{grn.supplier_name}</td>
-                                                <td className="px-4 py-3 text-gray-900">{grn.items_received}</td>
-                                                <td className="px-4 py-3 font-medium text-gray-900">
+                                            <tr key={grn.id} className="hover:bg-neutral-50">
+                                                <td className="px-4 py-3 font-medium text-neutral-900">{grn.grn_number}</td>
+                                                <td className="px-4 py-3 text-primary-500">{grn.po_number}</td>
+                                                <td className="px-4 py-3 text-neutral-900">{grn.supplier_name}</td>
+                                                <td className="px-4 py-3 text-neutral-900">{grn.items_received}</td>
+                                                <td className="px-4 py-3 font-medium text-neutral-900">
                                                     {formatCurrency(grn.total_amount)}
                                                 </td>
                                                 <td className="px-4 py-3">{getStatusBadge(grn.status)}</td>
                                                 <td className="px-4 py-3">
-                                                    <div className="text-gray-900">
+                                                    <div className="text-neutral-900">
                                                         {new Date(grn.received_at).toLocaleDateString()}
                                                     </div>
-                                                    <div className="text-xs text-gray-500">{grn.received_by}</div>
+                                                    <div className="text-xs text-neutral-500">{grn.received_by}</div>
                                                 </td>
                                             </tr>
                                         ))}
@@ -496,13 +496,13 @@ export const PharmacistPurchase: React.FC = () => {
                     {activeTab === 'new_order' && (
                         <div className="p-6">
                             <div className="max-w-3xl mx-auto">
-                                <h3 className="font-semibold text-gray-900 mb-4">Create New Purchase Order</h3>
+                                <h3 className="font-semibold text-neutral-900 mb-4">Create New Purchase Order</h3>
                                 <div className="space-y-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                                            Supplier* {suppliers.length > 0 && <span className="text-xs text-gray-500">({suppliers.length} available)</span>}
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">
+                                            Supplier* {suppliers.length > 0 && <span className="text-xs text-neutral-500">({suppliers.length} available)</span>}
                                         </label>
-                                        <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                        <select className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
                                             <option value="">{loadingSuppliers ? 'Loading suppliers...' : 'Select Supplier'}</option>
                                             {suppliers.map(s => (
                                                 <option key={s.id} value={s.id}>{s.name}</option>
@@ -511,12 +511,12 @@ export const PharmacistPurchase: React.FC = () => {
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Expected Delivery Date</label>
-                                            <input type="date" className="w-full px-3 py-2 border border-gray-300 rounded-lg" />
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Expected Delivery Date</label>
+                                            <input type="date" className="w-full px-3 py-2 border border-neutral-300 rounded-lg" />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
-                                            <select className="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Priority</label>
+                                            <select className="w-full px-3 py-2 border border-neutral-300 rounded-lg">
                                                 <option value="normal">Normal</option>
                                                 <option value="urgent">Urgent</option>
                                                 <option value="emergency">Emergency</option>
@@ -524,13 +524,13 @@ export const PharmacistPurchase: React.FC = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
-                                        <textarea rows={3} className="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="Additional notes for the supplier..." />
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Notes</label>
+                                        <textarea rows={3} className="w-full px-3 py-2 border border-neutral-300 rounded-lg" placeholder="Additional notes for the supplier..." />
                                     </div>
                                     <div className="border-t pt-4">
-                                        <h4 className="font-medium text-gray-900 mb-3">Order Items</h4>
-                                        <p className="text-sm text-gray-500 mb-4">Add items from inventory that need to be reordered</p>
-                                        <button className="flex items-center gap-2 px-4 py-2 border border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-indigo-500 hover:text-indigo-600 w-full justify-center">
+                                        <h4 className="font-medium text-neutral-900 mb-3">Order Items</h4>
+                                        <p className="text-sm text-neutral-500 mb-4">Add items from inventory that need to be reordered</p>
+                                        <button className="flex items-center gap-2 px-4 py-2 border border-dashed border-neutral-300 rounded-lg text-neutral-600 hover:border-indigo-500 hover:text-indigo-600 w-full justify-center">
                                             <Plus className="w-4 h-4" />
                                             Add Items
                                         </button>
@@ -538,7 +538,7 @@ export const PharmacistPurchase: React.FC = () => {
                                     <div className="flex justify-end gap-3 pt-4">
                                         <button
                                             onClick={() => setActiveTab('orders')}
-                                            className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                                            className="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50"
                                         >
                                             Cancel
                                         </button>

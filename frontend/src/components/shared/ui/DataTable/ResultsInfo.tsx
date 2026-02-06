@@ -10,7 +10,7 @@ const ResultsInfo: React.FC<ResultsInfoProps> = ({
     const end = Math.min(currentPage * pageSize, totalResults);
 
     return (
-        <div className="text-sm text-gray-500">
+        <div className="text-sm text-neutral-500">
             Showing {start} to {end} of {totalResults} results
         </div>
     );

@@ -77,7 +77,7 @@ const PrescriptionsList: React.FC = () => {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+                <Loader2 className="w-8 h-8 animate-spin text-primary-500" />
             </div>
         );
     }
@@ -87,12 +87,12 @@ const PrescriptionsList: React.FC = () => {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-800">Prescriptions</h1>
-                    <p className="text-gray-500">Manage and issue patient prescriptions</p>
+                    <h1 className="text-2xl font-bold text-neutral-800">Prescriptions</h1>
+                    <p className="text-neutral-500">Manage and issue patient prescriptions</p>
                 </div>
                 <Link
                     to="new"
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
                 >
                     <Plus className="w-5 h-5" />
                     New Prescription
@@ -103,13 +103,13 @@ const PrescriptionsList: React.FC = () => {
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
                 <div className="flex flex-col md:flex-row gap-4">
                     <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                         <input
                             type="text"
                             placeholder="Search by patient name..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                         />
                     </div>
                     <div className="flex gap-2">
@@ -123,8 +123,8 @@ const PrescriptionsList: React.FC = () => {
                                 onClick={() => setFilter(tab.key as any)}
                                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                                     filter === tab.key
-                                        ? 'bg-blue-600 text-white'
-                                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                        ? 'bg-primary-500 text-white'
+                                        : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
                                 }`}
                             >
                                 {tab.label}
@@ -138,11 +138,11 @@ const PrescriptionsList: React.FC = () => {
             {prescriptions.length === 0 ? (
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
                     <Pill className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-800 mb-2">No prescriptions found</h3>
-                    <p className="text-gray-500 mb-4">Start by creating a new prescription</p>
+                    <h3 className="text-lg font-medium text-neutral-800 mb-2">No prescriptions found</h3>
+                    <p className="text-neutral-500 mb-4">Start by creating a new prescription</p>
                     <Link
                         to="new"
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                     >
                         <Plus className="w-5 h-5" />
                         New Prescription
@@ -155,25 +155,25 @@ const PrescriptionsList: React.FC = () => {
                             <Link
                                 key={prescription.id}
                                 to={prescription.id}
-                                className="p-4 hover:bg-gray-50 flex items-center justify-between transition-colors block"
+                                className="p-4 hover:bg-neutral-50 flex items-center justify-between transition-colors block"
                             >
                                 <div className="flex items-center gap-4">
                                     <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                                        <Pill className="w-6 h-6 text-blue-600" />
+                                        <Pill className="w-6 h-6 text-primary-500" />
                                     </div>
                                     <div>
-                                        <p className="font-medium text-gray-800">{prescription.patient_name}</p>
-                                        <p className="text-sm text-gray-500">
+                                        <p className="font-medium text-neutral-800">{prescription.patient_name}</p>
+                                        <p className="text-sm text-neutral-500">
                                             {prescription.medications.length} medication(s)
                                         </p>
                                     </div>
                                 </div>
                                 <div className="text-right">
-                                    <p className="text-sm text-gray-500">{prescription.date}</p>
+                                    <p className="text-sm text-neutral-500">{prescription.date}</p>
                                     <span className={`text-xs px-2 py-1 rounded-full ${
                                         prescription.status === 'active' ? 'bg-green-100 text-green-700' :
-                                        prescription.status === 'completed' ? 'bg-gray-100 text-gray-700' :
-                                        'bg-red-100 text-red-700'
+                                        prescription.status === 'completed' ? 'bg-neutral-100 text-neutral-700' :
+                                        'bg-error-100 text-red-700'
                                     }`}>
                                         {prescription.status}
                                     </span>
@@ -297,44 +297,44 @@ const CreatePrescription: React.FC = () => {
     return (
         <div className="max-w-4xl mx-auto">
             <div className="mb-6">
-                <Link to="/doctor-dashboard-new/prescriptions" className="text-blue-600 hover:text-blue-700 text-sm flex items-center gap-1 mb-2">
+                <Link to="/doctor-dashboard-new/prescriptions" className="text-primary-500 hover:text-blue-700 text-sm flex items-center gap-1 mb-2">
                     <ChevronLeft className="w-4 h-4" /> Back to Prescriptions
                 </Link>
-                <h1 className="text-2xl font-bold text-gray-800">New Prescription</h1>
-                <p className="text-gray-500">Prescribe medications for a patient</p>
+                <h1 className="text-2xl font-bold text-neutral-800">New Prescription</h1>
+                <p className="text-neutral-500">Prescribe medications for a patient</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Patient Info */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                    <h2 className="text-lg font-semibold text-gray-800 mb-4">Patient Information</h2>
+                    <h2 className="text-lg font-semibold text-neutral-800 mb-4">Patient Information</h2>
                     {patientId ? (
                         <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
                             <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold">
+                                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-primary-500 font-bold">
                                     P
                                 </div>
                                 <div>
-                                    <p className="font-medium text-gray-800">Patient ID: {patientId}</p>
-                                    <p className="text-sm text-gray-500">From current consultation</p>
+                                    <p className="font-medium text-neutral-800">Patient ID: {patientId}</p>
+                                    <p className="text-sm text-neutral-500">From current consultation</p>
                                 </div>
                             </div>
                             {allergies.length > 0 && (
-                                <div className="flex items-center gap-2 px-3 py-2 bg-red-50 border border-red-200 rounded-lg">
-                                    <AlertTriangle className="w-4 h-4 text-red-500" />
+                                <div className="flex items-center gap-2 px-3 py-2 bg-error-50 border border-red-200 rounded-lg">
+                                    <AlertTriangle className="w-4 h-4 text-error-500" />
                                     <span className="text-sm text-red-700">Known Allergies: {allergies.join(', ')}</span>
                                 </div>
                             )}
                         </div>
                     ) : (
                         <div className="relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                             <input
                                 type="text"
                                 placeholder="Search patient by name or phone..."
                                 value={patientSearch}
                                 onChange={(e) => setPatientSearch(e.target.value)}
-                                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                             />
                         </div>
                     )}
@@ -342,10 +342,10 @@ const CreatePrescription: React.FC = () => {
 
                 {/* Add Medication */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                    <h2 className="text-lg font-semibold text-gray-800 mb-4">Add Medications</h2>
+                    <h2 className="text-lg font-semibold text-neutral-800 mb-4">Add Medications</h2>
                     
                     <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                         <input
                             type="text"
                             placeholder="Search medications..."
@@ -355,20 +355,20 @@ const CreatePrescription: React.FC = () => {
                                 setShowDrugList(e.target.value.length > 0);
                             }}
                             onFocus={() => drugSearch && setShowDrugList(true)}
-                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                         />
                         
                         {showDrugList && filteredDrugs.length > 0 && (
-                            <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto z-10">
+                            <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-neutral-200 rounded-lg shadow-lg max-h-60 overflow-y-auto z-10">
                                 {filteredDrugs.map((drug) => (
                                     <button
                                         key={drug.id}
                                         type="button"
                                         onClick={() => addMedication(drug)}
-                                        className="w-full p-3 text-left hover:bg-gray-50 border-b border-gray-100 last:border-0"
+                                        className="w-full p-3 text-left hover:bg-neutral-50 border-b border-gray-100 last:border-0"
                                     >
-                                        <p className="font-medium text-gray-800">{drug.name}</p>
-                                        <p className="text-xs text-gray-500">{drug.category}</p>
+                                        <p className="font-medium text-neutral-800">{drug.name}</p>
+                                        <p className="text-xs text-neutral-500">{drug.category}</p>
                                     </button>
                                 ))}
                             </div>
@@ -379,24 +379,24 @@ const CreatePrescription: React.FC = () => {
                 {/* Medication List */}
                 {medications.length > 0 && (
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                        <h2 className="text-lg font-semibold text-neutral-800 mb-4">
                             Medications ({medications.length})
                         </h2>
                         
                         <div className="space-y-4">
                             {medications.map((med, index) => (
-                                <div key={med.id} className="p-4 border border-gray-200 rounded-lg">
+                                <div key={med.id} className="p-4 border border-neutral-200 rounded-lg">
                                     <div className="flex items-center justify-between mb-4">
                                         <div className="flex items-center gap-3">
-                                            <span className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-medium">
+                                            <span className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-primary-500 font-medium">
                                                 {index + 1}
                                             </span>
-                                            <h3 className="font-medium text-gray-800">{med.name}</h3>
+                                            <h3 className="font-medium text-neutral-800">{med.name}</h3>
                                         </div>
                                         <button
                                             type="button"
                                             onClick={() => removeMedication(med.id)}
-                                            className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
+                                            className="p-2 text-error-500 hover:bg-error-50 rounded-lg"
                                         >
                                             <Trash2 className="w-4 h-4" />
                                         </button>
@@ -404,20 +404,20 @@ const CreatePrescription: React.FC = () => {
 
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                         <div>
-                                            <label className="block text-xs font-medium text-gray-500 mb-1">Dosage</label>
+                                            <label className="block text-xs font-medium text-neutral-500 mb-1">Dosage</label>
                                             <input
                                                 type="text"
                                                 value={med.dosage}
                                                 onChange={(e) => updateMedication(med.id, 'dosage', e.target.value)}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-xs font-medium text-gray-500 mb-1">Frequency</label>
+                                            <label className="block text-xs font-medium text-neutral-500 mb-1">Frequency</label>
                                             <select
                                                 value={med.frequency}
                                                 onChange={(e) => updateMedication(med.id, 'frequency', e.target.value)}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500"
                                             >
                                                 {frequencyOptions.map(f => (
                                                     <option key={f} value={f}>{f}</option>
@@ -425,11 +425,11 @@ const CreatePrescription: React.FC = () => {
                                             </select>
                                         </div>
                                         <div>
-                                            <label className="block text-xs font-medium text-gray-500 mb-1">Duration</label>
+                                            <label className="block text-xs font-medium text-neutral-500 mb-1">Duration</label>
                                             <select
                                                 value={med.duration}
                                                 onChange={(e) => updateMedication(med.id, 'duration', e.target.value)}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500"
                                             >
                                                 {durationOptions.map(d => (
                                                     <option key={d} value={d}>{d}</option>
@@ -437,25 +437,25 @@ const CreatePrescription: React.FC = () => {
                                             </select>
                                         </div>
                                         <div>
-                                            <label className="block text-xs font-medium text-gray-500 mb-1">Quantity</label>
+                                            <label className="block text-xs font-medium text-neutral-500 mb-1">Quantity</label>
                                             <input
                                                 type="number"
                                                 min="1"
                                                 value={med.quantity}
                                                 onChange={(e) => updateMedication(med.id, 'quantity', parseInt(e.target.value))}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500"
                                             />
                                         </div>
                                     </div>
 
                                     <div className="mt-3">
-                                        <label className="block text-xs font-medium text-gray-500 mb-1">Special Instructions</label>
+                                        <label className="block text-xs font-medium text-neutral-500 mb-1">Special Instructions</label>
                                         <input
                                             type="text"
                                             value={med.instructions}
                                             onChange={(e) => updateMedication(med.id, 'instructions', e.target.value)}
                                             placeholder="e.g., Take with food, Avoid alcohol"
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500"
+                                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500"
                                         />
                                     </div>
                                 </div>
@@ -484,14 +484,14 @@ const CreatePrescription: React.FC = () => {
                     <button
                         type="button"
                         onClick={() => navigate('/doctor-dashboard-new/prescriptions')}
-                        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                        className="flex-1 px-4 py-3 border border-neutral-300 rounded-lg text-neutral-700 hover:bg-neutral-50"
                     >
                         Cancel
                     </button>
                     <button
                         type="submit"
                         disabled={loading || medications.length === 0}
-                        className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center justify-center gap-2"
+                        className="flex-1 px-4 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 flex items-center justify-center gap-2"
                     >
                         {loading ? (
                             <>
@@ -516,16 +516,16 @@ const ViewPrescription: React.FC = () => {
     return (
         <div className="max-w-3xl mx-auto">
             <div className="mb-6">
-                <Link to="/doctor-dashboard-new/prescriptions" className="text-blue-600 hover:text-blue-700 text-sm flex items-center gap-1 mb-2">
+                <Link to="/doctor-dashboard-new/prescriptions" className="text-primary-500 hover:text-blue-700 text-sm flex items-center gap-1 mb-2">
                     <ChevronLeft className="w-4 h-4" /> Back to Prescriptions
                 </Link>
-                <h1 className="text-2xl font-bold text-gray-800">View Prescription</h1>
+                <h1 className="text-2xl font-bold text-neutral-800">View Prescription</h1>
             </div>
 
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
                 <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-800 mb-2">Prescription Details</h3>
-                <p className="text-gray-500">Prescription details will be displayed here</p>
+                <h3 className="text-lg font-medium text-neutral-800 mb-2">Prescription Details</h3>
+                <p className="text-neutral-500">Prescription details will be displayed here</p>
             </div>
         </div>
     );

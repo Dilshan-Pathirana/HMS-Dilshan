@@ -83,7 +83,7 @@ const DoctorReports: React.FC = () => {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+                <Loader2 className="w-8 h-8 animate-spin text-primary-500" />
             </div>
         );
     }
@@ -93,12 +93,12 @@ const DoctorReports: React.FC = () => {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-800">Reports & Analytics</h1>
-                    <p className="text-gray-500">View your practice performance and statistics</p>
+                    <h1 className="text-2xl font-bold text-neutral-800">Reports & Analytics</h1>
+                    <p className="text-neutral-500">View your practice performance and statistics</p>
                 </div>
                 <div className="flex gap-3">
                     {/* Period Selector */}
-                    <div className="flex bg-gray-100 rounded-lg p-1">
+                    <div className="flex bg-neutral-100 rounded-lg p-1">
                         {[
                             { key: 'week', label: 'Week' },
                             { key: 'month', label: 'Month' },
@@ -109,15 +109,15 @@ const DoctorReports: React.FC = () => {
                                 onClick={() => setPeriod(p.key as any)}
                                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                                     period === p.key
-                                        ? 'bg-white text-blue-600 shadow-sm'
-                                        : 'text-gray-600 hover:text-gray-800'
+                                        ? 'bg-white text-primary-500 shadow-sm'
+                                        : 'text-neutral-600 hover:text-neutral-800'
                                 }`}
                             >
                                 {p.label}
                             </button>
                         ))}
                     </div>
-                    <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                    <button className="flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50">
                         <Download className="w-4 h-4" />
                         Export
                     </button>
@@ -130,25 +130,25 @@ const DoctorReports: React.FC = () => {
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Total Patients</p>
-                                <p className="text-3xl font-bold text-gray-800">{stats.total_patients}</p>
+                                <p className="text-sm text-neutral-500">Total Patients</p>
+                                <p className="text-3xl font-bold text-neutral-800">{stats.total_patients}</p>
                             </div>
                             <div className="p-3 bg-blue-100 rounded-lg">
-                                <Users className="w-6 h-6 text-blue-600" />
+                                <Users className="w-6 h-6 text-primary-500" />
                             </div>
                         </div>
                         <div className="mt-4 flex items-center gap-1 text-sm">
                             <TrendingUp className="w-4 h-4 text-green-500" />
                             <span className="text-green-600">+12%</span>
-                            <span className="text-gray-400">vs last {period}</span>
+                            <span className="text-neutral-400">vs last {period}</span>
                         </div>
                     </div>
 
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Appointments</p>
-                                <p className="text-3xl font-bold text-gray-800">{stats.total_appointments}</p>
+                                <p className="text-sm text-neutral-500">Appointments</p>
+                                <p className="text-3xl font-bold text-neutral-800">{stats.total_appointments}</p>
                             </div>
                             <div className="p-3 bg-purple-100 rounded-lg">
                                 <Calendar className="w-6 h-6 text-purple-600" />
@@ -157,15 +157,15 @@ const DoctorReports: React.FC = () => {
                         <div className="mt-4 flex items-center gap-1 text-sm">
                             <TrendingUp className="w-4 h-4 text-green-500" />
                             <span className="text-green-600">+8%</span>
-                            <span className="text-gray-400">vs last {period}</span>
+                            <span className="text-neutral-400">vs last {period}</span>
                         </div>
                     </div>
 
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Completion Rate</p>
-                                <p className="text-3xl font-bold text-gray-800">{completionRate}%</p>
+                                <p className="text-sm text-neutral-500">Completion Rate</p>
+                                <p className="text-3xl font-bold text-neutral-800">{completionRate}%</p>
                             </div>
                             <div className="p-3 bg-green-100 rounded-lg">
                                 <CheckCircle className="w-6 h-6 text-green-600" />
@@ -174,15 +174,15 @@ const DoctorReports: React.FC = () => {
                         <div className="mt-4 flex items-center gap-1 text-sm">
                             <TrendingUp className="w-4 h-4 text-green-500" />
                             <span className="text-green-600">+3%</span>
-                            <span className="text-gray-400">improvement</span>
+                            <span className="text-neutral-400">improvement</span>
                         </div>
                     </div>
 
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Avg. Consultation</p>
-                                <p className="text-3xl font-bold text-gray-800">{stats.avg_consultation_time}m</p>
+                                <p className="text-sm text-neutral-500">Avg. Consultation</p>
+                                <p className="text-3xl font-bold text-neutral-800">{stats.avg_consultation_time}m</p>
                             </div>
                             <div className="p-3 bg-orange-100 rounded-lg">
                                 <Clock className="w-6 h-6 text-orange-600" />
@@ -191,7 +191,7 @@ const DoctorReports: React.FC = () => {
                         <div className="mt-4 flex items-center gap-1 text-sm">
                             <TrendingDown className="w-4 h-4 text-green-500" />
                             <span className="text-green-600">-2 min</span>
-                            <span className="text-gray-400">efficiency</span>
+                            <span className="text-neutral-400">efficiency</span>
                         </div>
                     </div>
                 </div>
@@ -201,18 +201,18 @@ const DoctorReports: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Appointments Chart */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                    <h3 className="font-semibold text-gray-800 mb-6 flex items-center gap-2">
-                        <BarChart3 className="w-5 h-5 text-blue-500" />
+                    <h3 className="font-semibold text-neutral-800 mb-6 flex items-center gap-2">
+                        <BarChart3 className="w-5 h-5 text-primary-500" />
                         Weekly Appointments
                     </h3>
                     
                     <div className="space-y-4">
                         {dailyStats.map((day) => (
                             <div key={day.date} className="flex items-center gap-4">
-                                <span className="w-10 text-sm text-gray-500">{day.date}</span>
+                                <span className="w-10 text-sm text-neutral-500">{day.date}</span>
                                 <div className="flex-1 flex gap-1 h-8">
                                     <div
-                                        className="bg-blue-500 rounded-l"
+                                        className="bg-primary-500 rounded-l"
                                         style={{ width: `${(day.completed / 20) * 100}%` }}
                                         title={`Completed: ${day.completed}`}
                                     />
@@ -222,27 +222,27 @@ const DoctorReports: React.FC = () => {
                                         title={`Cancelled: ${day.cancelled}`}
                                     />
                                 </div>
-                                <span className="w-8 text-sm text-gray-600 text-right">{day.appointments}</span>
+                                <span className="w-8 text-sm text-neutral-600 text-right">{day.appointments}</span>
                             </div>
                         ))}
                     </div>
 
                     <div className="flex items-center gap-6 mt-6 pt-4 border-t border-gray-100">
                         <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 bg-blue-500 rounded" />
-                            <span className="text-sm text-gray-500">Completed</span>
+                            <div className="w-3 h-3 bg-primary-500 rounded" />
+                            <span className="text-sm text-neutral-500">Completed</span>
                         </div>
                         <div className="flex items-center gap-2">
                             <div className="w-3 h-3 bg-red-400 rounded" />
-                            <span className="text-sm text-gray-500">Cancelled</span>
+                            <span className="text-sm text-neutral-500">Cancelled</span>
                         </div>
                     </div>
                 </div>
 
                 {/* Appointment Status Breakdown */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                    <h3 className="font-semibold text-gray-800 mb-6 flex items-center gap-2">
-                        <PieChart className="w-5 h-5 text-blue-500" />
+                    <h3 className="font-semibold text-neutral-800 mb-6 flex items-center gap-2">
+                        <PieChart className="w-5 h-5 text-primary-500" />
                         Appointment Breakdown
                     </h3>
 
@@ -258,7 +258,7 @@ const DoctorReports: React.FC = () => {
                                 { 
                                     label: 'Cancelled', 
                                     value: stats.cancelled_appointments, 
-                                    color: 'bg-red-500',
+                                    color: 'bg-error-500',
                                     percent: Math.round((stats.cancelled_appointments / stats.total_appointments) * 100)
                                 },
                                 { 
@@ -270,12 +270,12 @@ const DoctorReports: React.FC = () => {
                             ].map((item) => (
                                 <div key={item.label}>
                                     <div className="flex justify-between mb-2">
-                                        <span className="text-sm text-gray-600">{item.label}</span>
-                                        <span className="text-sm font-medium text-gray-800">
+                                        <span className="text-sm text-neutral-600">{item.label}</span>
+                                        <span className="text-sm font-medium text-neutral-800">
                                             {item.value} ({item.percent}%)
                                         </span>
                                     </div>
-                                    <div className="w-full bg-gray-100 rounded-full h-2">
+                                    <div className="w-full bg-neutral-100 rounded-full h-2">
                                         <div 
                                             className={`${item.color} h-2 rounded-full transition-all`}
                                             style={{ width: `${item.percent}%` }}
@@ -293,11 +293,11 @@ const DoctorReports: React.FC = () => {
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                     <div className="flex items-center gap-4">
                         <div className="p-3 bg-blue-100 rounded-lg">
-                            <Activity className="w-6 h-6 text-blue-600" />
+                            <Activity className="w-6 h-6 text-primary-500" />
                         </div>
                         <div>
-                            <p className="text-sm text-gray-500">Prescriptions Issued</p>
-                            <p className="text-2xl font-bold text-gray-800">{stats?.total_prescriptions}</p>
+                            <p className="text-sm text-neutral-500">Prescriptions Issued</p>
+                            <p className="text-2xl font-bold text-neutral-800">{stats?.total_prescriptions}</p>
                         </div>
                     </div>
                 </div>
@@ -308,8 +308,8 @@ const DoctorReports: React.FC = () => {
                             <Activity className="w-6 h-6 text-purple-600" />
                         </div>
                         <div>
-                            <p className="text-sm text-gray-500">Investigations Ordered</p>
-                            <p className="text-2xl font-bold text-gray-800">{stats?.total_investigations}</p>
+                            <p className="text-sm text-neutral-500">Investigations Ordered</p>
+                            <p className="text-2xl font-bold text-neutral-800">{stats?.total_investigations}</p>
                         </div>
                     </div>
                 </div>
@@ -320,8 +320,8 @@ const DoctorReports: React.FC = () => {
                             <Users className="w-6 h-6 text-green-600" />
                         </div>
                         <div>
-                            <p className="text-sm text-gray-500">Returning Patients</p>
-                            <p className="text-2xl font-bold text-gray-800">68%</p>
+                            <p className="text-sm text-neutral-500">Returning Patients</p>
+                            <p className="text-2xl font-bold text-neutral-800">68%</p>
                         </div>
                     </div>
                 </div>

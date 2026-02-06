@@ -123,7 +123,7 @@ const QuestionEditModal: React.FC<QuestionEditModalProps> = ({
                     <h2 className="text-xl font-bold">Edit Question</h2>
                     <button
                         onClick={onClose}
-                        className="text-gray-500 hover:text-gray-700"
+                        className="text-neutral-500 hover:text-neutral-700"
                     >
                         ✕
                     </button>
@@ -134,7 +134,7 @@ const QuestionEditModal: React.FC<QuestionEditModalProps> = ({
                         <div>
                             <label
                                 htmlFor="doctor_id"
-                                className="block text-gray-700 font-bold mb-2"
+                                className="block text-neutral-700 font-bold mb-2"
                             >
                                 Doctor
                             </label>
@@ -143,7 +143,7 @@ const QuestionEditModal: React.FC<QuestionEditModalProps> = ({
                                 name="doctor_id"
                                 value={formData.doctor_id}
                                 onChange={handleInputChange}
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className="w-full p-2 border border-neutral-300 rounded"
                                 required
                             >
                                 <option value="">Select Doctor</option>
@@ -166,7 +166,7 @@ const QuestionEditModal: React.FC<QuestionEditModalProps> = ({
                         <div>
                             <label
                                 htmlFor="question"
-                                className="block text-gray-700 font-bold mb-2"
+                                className="block text-neutral-700 font-bold mb-2"
                             >
                                 Question
                             </label>
@@ -176,7 +176,7 @@ const QuestionEditModal: React.FC<QuestionEditModalProps> = ({
                                 value={formData.question}
                                 onChange={handleInputChange}
                                 rows={3}
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className="w-full p-2 border border-neutral-300 rounded"
                                 required
                             />
                             {errors.question && (
@@ -189,7 +189,7 @@ const QuestionEditModal: React.FC<QuestionEditModalProps> = ({
                         <div>
                             <label
                                 htmlFor="description"
-                                className="block text-gray-700 font-bold mb-2"
+                                className="block text-neutral-700 font-bold mb-2"
                             >
                                 Description
                             </label>
@@ -199,7 +199,7 @@ const QuestionEditModal: React.FC<QuestionEditModalProps> = ({
                                 value={formData.description}
                                 onChange={handleInputChange}
                                 rows={4}
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className="w-full p-2 border border-neutral-300 rounded"
                             />
                             {errors.description && (
                                 <p className="text-red-700">
@@ -212,7 +212,7 @@ const QuestionEditModal: React.FC<QuestionEditModalProps> = ({
                             <div>
                                 <label
                                     htmlFor="order"
-                                    className="block text-gray-700 font-bold mb-2"
+                                    className="block text-neutral-700 font-bold mb-2"
                                 >
                                     Order
                                 </label>
@@ -222,7 +222,7 @@ const QuestionEditModal: React.FC<QuestionEditModalProps> = ({
                                     name="order"
                                     value={formData.order}
                                     onChange={handleInputChange}
-                                    className="w-full p-2 border border-gray-300 rounded"
+                                    className="w-full p-2 border border-neutral-300 rounded"
                                     min="1"
                                 />
                                 {errors.order && (
@@ -235,7 +235,7 @@ const QuestionEditModal: React.FC<QuestionEditModalProps> = ({
                             <div>
                                 <label
                                     htmlFor="status"
-                                    className="block text-gray-700 font-bold mb-2"
+                                    className="block text-neutral-700 font-bold mb-2"
                                 >
                                     Status
                                 </label>
@@ -244,7 +244,7 @@ const QuestionEditModal: React.FC<QuestionEditModalProps> = ({
                                     name="status"
                                     value={formData.status}
                                     onChange={handleInputChange}
-                                    className="w-full p-2 border border-gray-300 rounded"
+                                    className="w-full p-2 border border-neutral-300 rounded"
                                 >
                                     <option value="">Select Status</option>
                                     <option value="1">Active</option>
@@ -263,14 +263,14 @@ const QuestionEditModal: React.FC<QuestionEditModalProps> = ({
                         <button
                             type="button"
                             onClick={onClose}
-                            className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 mr-2"
+                            className="px-4 py-2 bg-neutral-300 text-neutral-700 rounded hover:bg-gray-400 mr-2"
                             disabled={isLoading}
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                            className="px-4 py-2 bg-primary-500 text-white rounded hover:bg-primary-600"
                             disabled={isLoading}
                         >
                             {isLoading ? "Updating..." : "Update Question"}

@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../utils/api/axios";
 import {
@@ -75,7 +75,7 @@ const BranchAdminPOSDashboard = () => {
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center min-h-screen bg-gray-50">
+            <div className="flex items-center justify-center min-h-screen bg-neutral-50">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
             </div>
         );
@@ -83,10 +83,10 @@ const BranchAdminPOSDashboard = () => {
 
     if (error || !stats) {
         return (
-            <div className="flex items-center justify-center min-h-screen bg-gray-50">
+            <div className="flex items-center justify-center min-h-screen bg-neutral-50">
                 <div className="text-center">
-                    <AlertCircle className="mx-auto h-12 w-12 text-red-500 mb-4" />
-                    <p className="text-gray-600">{error || "Failed to load dashboard"}</p>
+                    <AlertCircle className="mx-auto h-12 w-12 text-error-500 mb-4" />
+                    <p className="text-neutral-600">{error || "Failed to load dashboard"}</p>
                 </div>
             </div>
         );
@@ -103,7 +103,7 @@ const BranchAdminPOSDashboard = () => {
     ];
 
     return (
-        <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
+        <div className="p-6 space-y-6 bg-neutral-50 min-h-screen">
             {/* Branch Info Header */}
             <div className="bg-gradient-to-r from-purple-600 to-indigo-700 rounded-xl shadow-lg p-6 text-white">
                 <div className="flex items-start justify-between flex-wrap gap-4">
@@ -161,17 +161,17 @@ const BranchAdminPOSDashboard = () => {
                         <div className="p-3 bg-emerald-100 rounded-lg">
                             <DollarSign className="w-6 h-6 text-emerald-600" />
                         </div>
-                        <div className={`flex items-center gap-1 text-sm ${salesChangePositive ? 'text-emerald-600' : 'text-red-600'}`}>
+                        <div className={`flex items-center gap-1 text-sm ${salesChangePositive ? 'text-emerald-600' : 'text-error-600'}`}>
                             {salesChangePositive ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
                             {Math.abs(comparison.sales_change_percentage).toFixed(1)}%
                         </div>
                     </div>
                     <div className="mt-4">
-                        <p className="text-sm text-gray-500">Today's Sales</p>
-                        <p className="text-2xl font-bold text-gray-900">
+                        <p className="text-sm text-neutral-500">Today's Sales</p>
+                        <p className="text-2xl font-bold text-neutral-900">
                             Rs. {today_stats.total_sales.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                         </p>
-                        <p className="text-xs text-gray-400 mt-1">
+                        <p className="text-xs text-neutral-400 mt-1">
                             vs Rs. {comparison.yesterday_sales.toLocaleString('en-US', { minimumFractionDigits: 2 })} yesterday
                         </p>
                     </div>
@@ -180,11 +180,11 @@ const BranchAdminPOSDashboard = () => {
                 {/* Transaction Count */}
                 <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                     <div className="p-3 bg-blue-100 rounded-lg w-fit">
-                        <ShoppingCart className="w-6 h-6 text-blue-600" />
+                        <ShoppingCart className="w-6 h-6 text-primary-500" />
                     </div>
                     <div className="mt-4">
-                        <p className="text-sm text-gray-500">Transactions</p>
-                        <p className="text-2xl font-bold text-gray-900">{today_stats.transaction_count}</p>
+                        <p className="text-sm text-neutral-500">Transactions</p>
+                        <p className="text-2xl font-bold text-neutral-900">{today_stats.transaction_count}</p>
                     </div>
                 </div>
 
@@ -194,7 +194,7 @@ const BranchAdminPOSDashboard = () => {
                         <PlusCircle className="w-6 h-6 text-green-600" />
                     </div>
                     <div className="mt-4">
-                        <p className="text-sm text-gray-500">Cash In</p>
+                        <p className="text-sm text-neutral-500">Cash In</p>
                         <p className="text-2xl font-bold text-green-600">
                             Rs. {today_stats.cash_in.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                         </p>
@@ -207,7 +207,7 @@ const BranchAdminPOSDashboard = () => {
                         <TrendingUp className="w-6 h-6 text-purple-600" />
                     </div>
                     <div className="mt-4">
-                        <p className="text-sm text-gray-500">Net Cash</p>
+                        <p className="text-sm text-neutral-500">Net Cash</p>
                         <p className="text-2xl font-bold text-purple-600">
                             Rs. {today_stats.net_cash.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                         </p>
@@ -219,14 +219,14 @@ const BranchAdminPOSDashboard = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Payment Breakdown */}
                 <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                        <CreditCard className="w-5 h-5 text-gray-600" />
+                    <h3 className="text-lg font-semibold text-neutral-900 mb-4 flex items-center gap-2">
+                        <CreditCard className="w-5 h-5 text-neutral-600" />
                         Payment Methods
                     </h3>
                     <div className="space-y-4">
                         {[
                             { label: 'Cash', value: payment_breakdown.cash, icon: <DollarSign className="w-5 h-5" />, color: 'bg-green-500' },
-                            { label: 'Card', value: payment_breakdown.card, icon: <CreditCard className="w-5 h-5" />, color: 'bg-blue-500' },
+                            { label: 'Card', value: payment_breakdown.card, icon: <CreditCard className="w-5 h-5" />, color: 'bg-primary-500' },
                             { label: 'Online', value: payment_breakdown.online, icon: <Smartphone className="w-5 h-5" />, color: 'bg-purple-500' },
                             { label: 'QR', value: payment_breakdown.qr, icon: <QrCode className="w-5 h-5" />, color: 'bg-orange-500' },
                         ].map((method) => {
@@ -239,12 +239,12 @@ const BranchAdminPOSDashboard = () => {
                                     </div>
                                     <div className="flex-1">
                                         <div className="flex justify-between mb-1">
-                                            <span className="text-sm font-medium text-gray-700">{method.label}</span>
-                                            <span className="text-sm text-gray-500">
+                                            <span className="text-sm font-medium text-neutral-700">{method.label}</span>
+                                            <span className="text-sm text-neutral-500">
                                                 Rs. {method.value.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                                             </span>
                                         </div>
-                                        <div className="w-full bg-gray-200 rounded-full h-2">
+                                        <div className="w-full bg-neutral-200 rounded-full h-2">
                                             <div
                                                 className={`${method.color} h-2 rounded-full`}
                                                 style={{ width: `${percentage}%` }}
@@ -259,30 +259,30 @@ const BranchAdminPOSDashboard = () => {
 
                 {/* Cashier Performance */}
                 <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                        <Users className="w-5 h-5 text-gray-600" />
+                    <h3 className="text-lg font-semibold text-neutral-900 mb-4 flex items-center gap-2">
+                        <Users className="w-5 h-5 text-neutral-600" />
                         Cashier Performance
                     </h3>
                     {cashier_stats && cashier_stats.length > 0 ? (
                         <div className="space-y-3">
                             {cashier_stats.map((cashier) => (
-                                <div key={cashier.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <div key={cashier.id} className="flex items-center justify-between p-3 bg-neutral-50 rounded-lg">
                                     <div className="flex items-center gap-3">
                                         <div className="p-2 bg-indigo-100 rounded-full">
                                             <User className="w-4 h-4 text-indigo-600" />
                                         </div>
                                         <div>
-                                            <p className="font-medium text-gray-900">{cashier.name}</p>
-                                            <p className="text-xs text-gray-500">{cashier.transaction_count} transactions</p>
+                                            <p className="font-medium text-neutral-900">{cashier.name}</p>
+                                            <p className="text-xs text-neutral-500">{cashier.transaction_count} transactions</p>
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <p className="font-semibold text-gray-900">
+                                        <p className="font-semibold text-neutral-900">
                                             Rs. {cashier.total_sales.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                                         </p>
                                         <span className={`text-xs px-2 py-0.5 rounded-full ${
                                             cashier.eod_status === 'OPEN' ? 'bg-green-100 text-green-700' :
-                                            cashier.eod_status === 'LOCKED' ? 'bg-red-100 text-red-700' :
+                                            cashier.eod_status === 'LOCKED' ? 'bg-error-100 text-red-700' :
                                             'bg-yellow-100 text-yellow-700'
                                         }`}>
                                             {cashier.eod_status}
@@ -292,7 +292,7 @@ const BranchAdminPOSDashboard = () => {
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center py-8 text-gray-500">
+                        <div className="text-center py-8 text-neutral-500">
                             <Users className="w-12 h-12 mx-auto mb-2 opacity-50" />
                             <p>No cashier activity today</p>
                         </div>

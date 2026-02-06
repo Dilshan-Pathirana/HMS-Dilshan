@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { DashboardLayout } from '../../../components/common/Layout/DashboardLayout';
 import { BranchAdminSidebar } from '../../../components/common/Layout/BranchAdminSidebar';
-import { 
-    Clock, Activity, TrendingUp, Users, Calendar,
+import {
+    Clock, Activity, Users, Calendar,
     UserCheck, Stethoscope, DollarSign, FileText, User
 } from 'lucide-react';
 import api from "../../../utils/api/axios";
 import { useNavigate } from 'react-router-dom';
+import { PageHeader } from '../../../components/ui/PageHeader';
+import { StatCard } from '../../../components/ui/StatCard';
 
 interface DashboardStats {
     totalStaff: number;
@@ -73,36 +75,12 @@ export const BranchAdminDashboard: React.FC = () => {
         fetchData();
     }, []);
 
-    const StatCard = ({ title, value, icon, color, trend }: { 
-        title: string; 
-        value: number | string; 
-        icon: React.ReactNode; 
-        color: string;
-        trend?: string;
-    }) => (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-            <div className="flex items-start justify-between">
-                <div>
-                    <p className="text-gray-500 text-sm font-medium">{title}</p>
-                    <p className="text-3xl font-bold text-gray-800 mt-2">{value}</p>
-                    {trend && (
-                        <p className="text-emerald-600 text-sm mt-1 flex items-center gap-1">
-                            <TrendingUp className="w-4 h-4" />
-                            {trend}
-                        </p>
-                    )}
-                </div>
-                <div className={`p-3 rounded-lg bg-gradient-to-br ${color}`}>
-                    {icon}
-                </div>
-            </div>
-        </div>
-    );
+    // Inline StatCard removed (using imported component)
 
     return (
-        <DashboardLayout 
-            userName={userName} 
-            userRole="Branch Admin" 
+        <DashboardLayout
+            userName={userName}
+            userRole="Branch Admin"
             profileImage={profileImage}
             sidebarContent={<BranchAdminSidebar />}
             branchName={branchName}
@@ -110,129 +88,138 @@ export const BranchAdminDashboard: React.FC = () => {
             userGender={userGender}
         >
             <div className="space-y-6">
-                {/* Welcome Header */}
-                <div className="bg-gradient-to-r from-emerald-500 to-blue-600 rounded-xl shadow-lg p-6 text-white">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h1 className="text-2xl font-bold">Welcome back, {userName}!</h1>
-                            <p className="text-emerald-100 mt-1">Branch Admin - {branchName}</p>
+                {/* Page Header Component */}
+                <PageHeader
+                    title={`Welcome back, ${userName}!`}
+                    description={`Branch Admin - ${branchName}`}
+                    actions={
+                        <div className="flex items-center gap-2 text-sm text-neutral-500 bg-white px-3 py-1.5 rounded-lg border border-neutral-200 shadow-sm">
+                            <Calendar className="w-4 h-4" />
+                            {new Date().toLocaleDateString('en-US', {
+                                weekday: 'long',
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            })}
                         </div>
-                        <div className="text-right">
-                            <p className="text-emerald-100 text-sm">Today's Date</p>
-                            <p className="text-xl font-semibold">{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                        </div>
-                    </div>
-                </div>
+                    }
+                />
 
                 {/* Stats Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <StatCard 
-                        title="Total Staff" 
-                        value={stats.totalStaff} 
-                        icon={<Users className="w-6 h-6 text-white" />} 
-                        color="from-blue-500 to-blue-600"
-                        trend="+5% this month"
+                    <StatCard
+                        title="Total Staff"
+                        value={stats.totalStaff}
+                        icon={Users}
+                        trend={{ value: 5, label: "this month", isPositive: true }}
                     />
-                    <StatCard 
-                        title="Doctors" 
-                        value={stats.totalDoctors} 
-                        icon={<Stethoscope className="w-6 h-6 text-white" />} 
-                        color="from-emerald-500 to-emerald-600"
+                    <StatCard
+                        title="Doctors"
+                        value={stats.totalDoctors}
+                        icon={Stethoscope}
                     />
-                    <StatCard 
-                        title="Total Patients" 
-                        value={stats.totalPatients} 
-                        icon={<UserCheck className="w-6 h-6 text-white" />} 
-                        color="from-purple-500 to-purple-600"
-                        trend="+12% this month"
+                    <StatCard
+                        title="Total Patients"
+                        value={stats.totalPatients}
+                        icon={UserCheck}
+                        trend={{ value: 12, label: "this month", isPositive: true }}
                     />
-                    <StatCard 
-                        title="Today's Appointments" 
-                        value={stats.todayAppointments} 
-                        icon={<Calendar className="w-6 h-6 text-white" />} 
-                        color="from-orange-500 to-orange-600"
+                    <StatCard
+                        title="Today's Appointments"
+                        value={stats.todayAppointments}
+                        icon={Calendar}
                     />
-                    <StatCard 
-                        title="Monthly Revenue" 
-                        value={`$${(stats.monthlyRevenue || 0).toLocaleString()}`} 
-                        icon={<DollarSign className="w-6 h-6 text-white" />} 
-                        color="from-green-500 to-green-600"
-                        trend="+8% vs last month"
+                    <StatCard
+                        title="Monthly Revenue"
+                        value={`$${(stats.monthlyRevenue || 0).toLocaleString()}`}
+                        icon={DollarSign}
+                        trend={{ value: 8, label: "vs last month", isPositive: true }}
                     />
-                    <StatCard 
-                        title="Pending Schedule Requests" 
-                        value={stats.pendingScheduleRequests || 0} 
-                        icon={<Clock className="w-6 h-6 text-white" />} 
-                        color="from-red-500 to-red-600"
+                    <StatCard
+                        title="Pending Schedule Requests"
+                        value={stats.pendingScheduleRequests || 0}
+                        icon={Clock}
+                        description="Requires attention"
                     />
                 </div>
 
                 {/* Quick Actions & Recent Activity */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
                     {/* Quick Actions */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                        <h2 className="text-lg font-bold text-neutral-900 mb-6 flex items-center gap-2">
                             <Activity className="w-5 h-5 text-emerald-600" />
                             Quick Actions
                         </h2>
-                        <div className="grid grid-cols-2 gap-3">
-                            <button 
+                        <div className="grid grid-cols-2 gap-4">
+                            <button
                                 onClick={() => navigate('/branch-admin/hrm/staff')}
-                                className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-lg hover:from-emerald-100 hover:to-blue-100 transition-all"
+                                className="flex flex-col items-center justify-center p-4 bg-neutral-50 border border-neutral-200 rounded-xl hover:bg-white hover:border-emerald-200 hover:shadow-md transition-all group"
                             >
-                                <Users className="w-5 h-5 text-emerald-600" />
-                                <span className="font-medium text-gray-800">Manage Staff</span>
+                                <div className="p-3 bg-emerald-100 text-emerald-600 rounded-lg group-hover:bg-emerald-500 group-hover:text-white transition-colors mb-3">
+                                    <Users className="w-6 h-6" />
+                                </div>
+                                <span className="font-semibold text-neutral-900">Manage Staff</span>
                             </button>
-                            <button 
+
+                            <button
                                 onClick={() => navigate('/branch-admin/appointments')}
-                                className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-lg hover:from-emerald-100 hover:to-blue-100 transition-all"
+                                className="flex flex-col items-center justify-center p-4 bg-neutral-50 border border-neutral-200 rounded-xl hover:bg-white hover:border-primary-200 hover:shadow-md transition-all group"
                             >
-                                <Calendar className="w-5 h-5 text-blue-600" />
-                                <span className="font-medium text-gray-800">View Appointments</span>
+                                <div className="p-3 bg-primary-100 text-primary-600 rounded-lg group-hover:bg-primary-500 group-hover:text-white transition-colors mb-3">
+                                    <Calendar className="w-6 h-6" />
+                                </div>
+                                <span className="font-semibold text-neutral-900">Appointments</span>
                             </button>
-                            <button 
+
+                            <button
                                 onClick={() => navigate('/branch-admin/reports')}
-                                className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-lg hover:from-emerald-100 hover:to-blue-100 transition-all"
+                                className="flex flex-col items-center justify-center p-4 bg-neutral-50 border border-neutral-200 rounded-xl hover:bg-white hover:border-purple-200 hover:shadow-md transition-all group"
                             >
-                                <FileText className="w-5 h-5 text-purple-600" />
-                                <span className="font-medium text-gray-800">Generate Report</span>
+                                <div className="p-3 bg-purple-100 text-purple-600 rounded-lg group-hover:bg-purple-500 group-hover:text-white transition-colors mb-3">
+                                    <FileText className="w-6 h-6" />
+                                </div>
+                                <span className="font-semibold text-neutral-900">Reports</span>
                             </button>
-                            <button 
+
+                            <button
                                 onClick={() => navigate('/branch-admin/profile')}
-                                className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-lg hover:from-emerald-100 hover:to-blue-100 transition-all"
+                                className="flex flex-col items-center justify-center p-4 bg-neutral-50 border border-neutral-200 rounded-xl hover:bg-white hover:border-orange-200 hover:shadow-md transition-all group"
                             >
-                                <User className="w-5 h-5 text-orange-600" />
-                                <span className="font-medium text-gray-800">My Profile</span>
+                                <div className="p-3 bg-orange-100 text-orange-600 rounded-lg group-hover:bg-orange-500 group-hover:text-white transition-colors mb-3">
+                                    <User className="w-6 h-6" />
+                                </div>
+                                <span className="font-semibold text-neutral-900">My Profile</span>
                             </button>
                         </div>
                     </div>
 
                     {/* Recent Activity */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                            <Clock className="w-5 h-5 text-blue-600" />
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                        <h2 className="text-lg font-bold text-neutral-900 mb-6 flex items-center gap-2">
+                            <Clock className="w-5 h-5 text-primary-500" />
                             Recent Activity
                         </h2>
                         <div className="space-y-4">
-                            <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-                                <div className="w-2 h-2 mt-2 rounded-full bg-emerald-500"></div>
+                            <div className="flex items-start gap-4 p-4 bg-neutral-50 rounded-xl border border-neutral-100">
+                                <span className="w-2.5 h-2.5 mt-2 rounded-full bg-emerald-500 shrink-0"></span>
                                 <div>
-                                    <p className="text-sm font-medium text-gray-800">New staff member added</p>
-                                    <p className="text-xs text-gray-500">Dr. Smith joined as Cardiologist - 2 hours ago</p>
+                                    <p className="text-sm font-semibold text-neutral-900">New staff member added</p>
+                                    <p className="text-xs text-neutral-500 mt-0.5">Dr. Smith joined as Cardiologist • 2 hours ago</p>
                                 </div>
                             </div>
-                            <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-                                <div className="w-2 h-2 mt-2 rounded-full bg-blue-500"></div>
+                            <div className="flex items-start gap-4 p-4 bg-neutral-50 rounded-xl border border-neutral-100">
+                                <span className="w-2.5 h-2.5 mt-2 rounded-full bg-primary-500 shrink-0"></span>
                                 <div>
-                                    <p className="text-sm font-medium text-gray-800">Appointment rescheduled</p>
-                                    <p className="text-xs text-gray-500">Patient John Doe - moved to 3:00 PM - 4 hours ago</p>
+                                    <p className="text-sm font-semibold text-neutral-900">Appointment rescheduled</p>
+                                    <p className="text-xs text-neutral-500 mt-0.5">Patient John Doe moved to 3:00 PM • 4 hours ago</p>
                                 </div>
                             </div>
-                            <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
-                                <div className="w-2 h-2 mt-2 rounded-full bg-orange-500"></div>
+                            <div className="flex items-start gap-4 p-4 bg-neutral-50 rounded-xl border border-neutral-100">
+                                <span className="w-2.5 h-2.5 mt-2 rounded-full bg-orange-500 shrink-0"></span>
                                 <div>
-                                    <p className="text-sm font-medium text-gray-800">Monthly report generated</p>
-                                    <p className="text-xs text-gray-500">November 2025 report ready - Yesterday</p>
+                                    <p className="text-sm font-semibold text-neutral-900">Monthly report generated</p>
+                                    <p className="text-xs text-neutral-500 mt-0.5">November 2025 report ready • Yesterday</p>
                                 </div>
                             </div>
                         </div>

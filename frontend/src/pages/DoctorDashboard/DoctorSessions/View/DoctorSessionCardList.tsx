@@ -10,13 +10,13 @@ const DoctorSessionCardList: React.FC<DoctorSessionProps> = ({
             {sessions.map((session) => (
                 <div
                     key={session.id}
-                    className="bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg transition-shadow duration-200"
+                    className="bg-white rounded-lg shadow-md border border-neutral-200 p-6 hover:shadow-lg transition-shadow duration-200"
                 >
                     <div className="space-y-4">
                         <div className="flex items-center">
-                            <FiUser className="text-blue-500 mr-3 text-lg" />
+                            <FiUser className="text-primary-500 mr-3 text-lg" />
                             <div>
-                                <h3 className="font-semibold text-gray-900 text-lg">
+                                <h3 className="font-semibold text-neutral-900 text-lg">
                                     {session.patient_first_name}{" "}
                                     {session.patient_last_name}
                                 </h3>
@@ -26,7 +26,7 @@ const DoctorSessionCardList: React.FC<DoctorSessionProps> = ({
                         <div className="flex items-center">
                             <FiMapPin className="text-green-500 mr-3 text-lg" />
                             <div>
-                                <p className="font-medium text-gray-900">
+                                <p className="font-medium text-neutral-900">
                                     {session.branch_center_name}
                                 </p>
                             </div>
@@ -35,7 +35,7 @@ const DoctorSessionCardList: React.FC<DoctorSessionProps> = ({
                         <div className="pt-4 border-t border-gray-100">
                             <button
                                 onClick={() => onStartSession(session)}
-                                className="w-full flex items-center justify-center px-4 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                                className="w-full flex items-center justify-center px-4 py-3 bg-primary-500 text-white font-medium rounded-lg hover:bg-primary-600 transition-colors duration-200 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                             >
                                 <FiPlay className="mr-2" />
                                 Start Session

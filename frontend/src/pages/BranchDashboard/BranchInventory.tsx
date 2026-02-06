@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from "../../utils/api/axios";
 import { Plus, Edit, Trash2, ArrowLeft, Package, AlertTriangle, TrendingDown } from 'lucide-react';
@@ -207,20 +207,20 @@ const BranchInventory: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-neutral-50 p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate(`/branch/${id}`)}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Branch Inventory</h1>
-              <p className="text-gray-600 mt-1">View and manage pharmacy inventory</p>
+              <h1 className="text-2xl font-bold text-neutral-900">Branch Inventory</h1>
+              <p className="text-neutral-600 mt-1">View and manage pharmacy inventory</p>
             </div>
           </div>
           <button
@@ -228,7 +228,7 @@ const BranchInventory: React.FC = () => {
               resetForm();
               setShowModal(true);
             }}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
           >
             <Plus className="w-5 h-5" />
             Add Item
@@ -241,8 +241,8 @@ const BranchInventory: React.FC = () => {
             onClick={() => setSelectedFilter('all')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               selectedFilter === 'all'
-                ? 'bg-blue-600 text-white'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
+                ? 'bg-primary-500 text-white'
+                : 'bg-white text-neutral-700 hover:bg-neutral-50'
             }`}
           >
             All Items
@@ -252,7 +252,7 @@ const BranchInventory: React.FC = () => {
             className={`px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 ${
               selectedFilter === 'low-stock'
                 ? 'bg-orange-600 text-white'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
+                : 'bg-white text-neutral-700 hover:bg-neutral-50'
             }`}
           >
             <AlertTriangle className="w-4 h-4" />
@@ -263,7 +263,7 @@ const BranchInventory: React.FC = () => {
             className={`px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 ${
               selectedFilter === 'expiring'
                 ? 'bg-red-600 text-white'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
+                : 'bg-white text-neutral-700 hover:bg-neutral-50'
             }`}
           >
             <TrendingDown className="w-4 h-4" />
@@ -273,7 +273,7 @@ const BranchInventory: React.FC = () => {
 
         {/* Error Alert */}
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+          <div className="mb-6 p-4 bg-error-50 border border-red-200 rounded-lg">
             <p className="text-red-800">{error}</p>
           </div>
         )}
@@ -282,46 +282,46 @@ const BranchInventory: React.FC = () => {
         <div className="bg-white rounded-lg shadow overflow-hidden">
           {inventory.length === 0 ? (
             <div className="p-12 text-center">
-              <Package className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No inventory items</h3>
-              <p className="text-gray-600 mb-4">Add your first inventory item to get started</p>
+              <Package className="w-16 h-16 mx-auto text-neutral-400 mb-4" />
+              <h3 className="text-lg font-medium text-neutral-900 mb-2">No inventory items</h3>
+              <p className="text-neutral-600 mb-4">Add your first inventory item to get started</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gray-50 border-b border-gray-200">
+                <thead className="bg-neutral-50 border-b border-neutral-200">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Medicine</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Batch</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Quantity</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Unit Price</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Expiry</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Medicine</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Batch</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Quantity</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Unit Price</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Expiry</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Status</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {inventory.map((item) => (
-                    <tr key={item.id} className="hover:bg-gray-50">
+                    <tr key={item.id} className="hover:bg-neutral-50">
                       <td className="px-6 py-4">
-                        <div className="font-medium text-gray-900">{item.medicine_name}</div>
-                        <div className="text-sm text-gray-500">{item.generic_name}</div>
+                        <div className="font-medium text-neutral-900">{item.medicine_name}</div>
+                        <div className="text-sm text-neutral-500">{item.generic_name}</div>
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">{item.batch_number}</td>
+                      <td className="px-6 py-4 text-sm text-neutral-700">{item.batch_number}</td>
                       <td className="px-6 py-4">
                         <span
                           className={`text-sm font-medium ${
-                            isLowStock(item) ? 'text-orange-600' : 'text-gray-900'
+                            isLowStock(item) ? 'text-orange-600' : 'text-neutral-900'
                           }`}
                         >
                           {item.quantity} {item.unit}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-700">LKR {item.unit_price.toFixed(2)}</td>
+                      <td className="px-6 py-4 text-sm text-neutral-700">LKR {item.unit_price.toFixed(2)}</td>
                       <td className="px-6 py-4">
                         <span
                           className={`text-sm ${
-                            isExpiringSoon(item) ? 'text-red-600 font-medium' : 'text-gray-700'
+                            isExpiringSoon(item) ? 'text-error-600 font-medium' : 'text-neutral-700'
                           }`}
                         >
                           {new Date(item.expiry_date).toLocaleDateString()}
@@ -335,7 +335,7 @@ const BranchInventory: React.FC = () => {
                             </span>
                           )}
                           {isExpiringSoon(item) && (
-                            <span className="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
+                            <span className="px-2 py-1 text-xs font-semibold rounded-full bg-error-100 text-red-800">
                               Expiring
                             </span>
                           )}
@@ -352,13 +352,13 @@ const BranchInventory: React.FC = () => {
                           </button>
                           <button
                             onClick={() => openEditModal(item)}
-                            className="text-blue-600 hover:text-blue-900"
+                            className="text-primary-500 hover:text-blue-900"
                           >
                             <Edit className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => handleDelete(item.id)}
-                            className="text-red-600 hover:text-red-900"
+                            className="text-error-600 hover:text-red-900"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -378,18 +378,18 @@ const BranchInventory: React.FC = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">
+              <h2 className="text-xl font-bold text-neutral-900 mb-6">
                 {editingItem ? 'Edit Inventory Item' : 'Add New Inventory Item'}
               </h2>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Pharmacy *</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Pharmacy *</label>
                     <select
                       required
                       value={formData.pharmacy_id}
                       onChange={(e) => setFormData({ ...formData, pharmacy_id: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     >
                       <option value="">Select Pharmacy</option>
                       {pharmacies.map((pharmacy) => (
@@ -400,52 +400,52 @@ const BranchInventory: React.FC = () => {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Medicine Name *</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Medicine Name *</label>
                     <input
                       type="text"
                       required
                       value={formData.medicine_name}
                       onChange={(e) => setFormData({ ...formData, medicine_name: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Generic Name</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Generic Name</label>
                     <input
                       type="text"
                       value={formData.generic_name}
                       onChange={(e) => setFormData({ ...formData, generic_name: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Batch Number *</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Batch Number *</label>
                     <input
                       type="text"
                       required
                       value={formData.batch_number}
                       onChange={(e) => setFormData({ ...formData, batch_number: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Quantity *</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Quantity *</label>
                     <input
                       type="number"
                       required
                       min="0"
                       value={formData.quantity}
                       onChange={(e) => setFormData({ ...formData, quantity: Number(e.target.value) })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Unit *</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Unit *</label>
                     <select
                       required
                       value={formData.unit}
                       onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     >
                       <option value="tablets">Tablets</option>
                       <option value="capsules">Capsules</option>
@@ -455,7 +455,7 @@ const BranchInventory: React.FC = () => {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Unit Price *</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Unit Price *</label>
                     <input
                       type="number"
                       required
@@ -463,37 +463,37 @@ const BranchInventory: React.FC = () => {
                       step="0.01"
                       value={formData.unit_price}
                       onChange={(e) => setFormData({ ...formData, unit_price: Number(e.target.value) })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Expiry Date *</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Expiry Date *</label>
                     <input
                       type="date"
                       required
                       value={formData.expiry_date}
                       onChange={(e) => setFormData({ ...formData, expiry_date: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Supplier</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Supplier</label>
                     <input
                       type="text"
                       value={formData.supplier}
                       onChange={(e) => setFormData({ ...formData, supplier: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Reorder Level *</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Reorder Level *</label>
                     <input
                       type="number"
                       required
                       min="0"
                       value={formData.reorder_level}
                       onChange={(e) => setFormData({ ...formData, reorder_level: Number(e.target.value) })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                   </div>
                 </div>
@@ -504,13 +504,13 @@ const BranchInventory: React.FC = () => {
                       setShowModal(false);
                       resetForm();
                     }}
-                    className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                    className="px-4 py-2 border border-neutral-300 rounded-lg text-neutral-700 hover:bg-neutral-50"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                    className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                   >
                     {editingItem ? 'Update' : 'Create'}
                   </button>
@@ -526,40 +526,40 @@ const BranchInventory: React.FC = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg max-w-md w-full">
             <div className="p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Adjust Stock</h2>
-              <p className="text-gray-600 mb-6">
+              <h2 className="text-xl font-bold text-neutral-900 mb-4">Adjust Stock</h2>
+              <p className="text-neutral-600 mb-6">
                 {editingItem.medicine_name} - Current: {editingItem.quantity} {editingItem.unit}
               </p>
               <form onSubmit={handleAdjustStock} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                  <label className="block text-sm font-medium text-neutral-700 mb-1">Type</label>
                   <select
                     value={adjustData.type}
                     onChange={(e) => setAdjustData({ ...adjustData, type: e.target.value as 'add' | 'remove' })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                   >
                     <option value="add">Add Stock</option>
                     <option value="remove">Remove Stock</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Quantity *</label>
+                  <label className="block text-sm font-medium text-neutral-700 mb-1">Quantity *</label>
                   <input
                     type="number"
                     required
                     min="1"
                     value={adjustData.quantity}
                     onChange={(e) => setAdjustData({ ...adjustData, quantity: Number(e.target.value) })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Reason *</label>
+                  <label className="block text-sm font-medium text-neutral-700 mb-1">Reason *</label>
                   <textarea
                     required
                     value={adjustData.reason}
                     onChange={(e) => setAdjustData({ ...adjustData, reason: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     rows={3}
                   />
                 </div>
@@ -571,13 +571,13 @@ const BranchInventory: React.FC = () => {
                       setEditingItem(null);
                       setAdjustData({ quantity: 0, type: 'add', reason: '' });
                     }}
-                    className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                    className="px-4 py-2 border border-neutral-300 rounded-lg text-neutral-700 hover:bg-neutral-50"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                    className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                   >
                     Adjust Stock
                   </button>

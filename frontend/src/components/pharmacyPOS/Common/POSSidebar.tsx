@@ -221,7 +221,7 @@ const POSSidebar: React.FC<POSSidebarProps> = ({ sidebarOpen, userRole }) => {
                             <span className="text-lg font-bold bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">
                                 CURE.lk
                             </span>
-                            <span className="text-xs text-gray-500">Healthcare System</span>
+                            <span className="text-xs text-neutral-500">Healthcare System</span>
                         </div>
                     )}
                 </Link>
@@ -250,12 +250,12 @@ const POSSidebar: React.FC<POSSidebarProps> = ({ sidebarOpen, userRole }) => {
                                         onClick={() => toggleExpand(item.title)}
                                         className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group ${
                                             isSubItemActive(item.subItems)
-                                                ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-md'
-                                                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                                                ? 'bg-gradient-to-r from-emerald-500 to-primary-500 text-white shadow-md'
+                                                : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900'
                                         }`}
                                     >
                                         <span className={`flex-shrink-0 ${
-                                            isSubItemActive(item.subItems) ? 'text-white' : 'text-gray-500 group-hover:text-emerald-600'
+                                            isSubItemActive(item.subItems) ? 'text-white' : 'text-neutral-500 group-hover:text-emerald-600'
                                         }`}>
                                             {React.cloneElement(item.icon as React.ReactElement, { className: 'w-5 h-5' })}
                                         </span>
@@ -281,7 +281,7 @@ const POSSidebar: React.FC<POSSidebarProps> = ({ sidebarOpen, userRole }) => {
                                                     className={`block px-3 py-2 text-sm rounded-lg transition-all duration-200 ${
                                                         isActive(subItem.path)
                                                             ? 'bg-emerald-50 text-emerald-700 font-medium'
-                                                            : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700'
+                                                            : 'text-neutral-500 hover:bg-neutral-50 hover:text-neutral-700'
                                                     }`}
                                                 >
                                                     {subItem.title}
@@ -296,12 +296,12 @@ const POSSidebar: React.FC<POSSidebarProps> = ({ sidebarOpen, userRole }) => {
                                     to={item.path || '/pos'}
                                     className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group ${
                                         isActive(item.path)
-                                            ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-md'
-                                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                                            ? 'bg-gradient-to-r from-emerald-500 to-primary-500 text-white shadow-md'
+                                            : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900'
                                     }`}
                                 >
                                     <span className={`flex-shrink-0 ${
-                                        isActive(item.path) ? 'text-white' : 'text-gray-500 group-hover:text-emerald-600'
+                                        isActive(item.path) ? 'text-white' : 'text-neutral-500 group-hover:text-emerald-600'
                                     }`}>
                                         {React.cloneElement(item.icon as React.ReactElement, { className: 'w-5 h-5' })}
                                     </span>
@@ -319,7 +319,7 @@ const POSSidebar: React.FC<POSSidebarProps> = ({ sidebarOpen, userRole }) => {
             {sidebarOpen && (
                 <div className="p-4 border-t border-gray-100">
                     <div className="text-center">
-                        <p className="text-xs text-gray-400">© 2024 CURE.lk</p>
+                        <p className="text-xs text-neutral-400">© 2024 CURE.lk</p>
                         <p className="text-xs text-gray-300">v2.0.0</p>
                     </div>
                 </div>

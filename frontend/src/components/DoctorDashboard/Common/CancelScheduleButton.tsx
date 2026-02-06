@@ -17,7 +17,7 @@ const CancelScheduleButton: React.FC<CancelScheduleButtonProps> = ({
         <button
             onClick={onClick}
             disabled={disabled}
-            className="inline-flex items-center text-xs font-medium text-red-600 hover:text-red-800 hover:bg-red-100 focus:outline-none px-2 py-1 rounded mr-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center text-xs font-medium text-error-600 hover:text-red-800 hover:bg-error-100 focus:outline-none px-2 py-1 rounded mr-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
             {getButtonText()}
         </button>

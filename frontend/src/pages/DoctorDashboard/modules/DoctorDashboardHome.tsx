@@ -138,10 +138,10 @@ const DoctorDashboardHome: React.FC = () => {
     ];
 
     const colorClasses: Record<string, { bg: string; text: string; icon: string }> = {
-        blue: { bg: 'bg-blue-50', text: 'text-blue-600', icon: 'bg-blue-100' },
+        blue: { bg: 'bg-blue-50', text: 'text-primary-500', icon: 'bg-blue-100' },
         green: { bg: 'bg-green-50', text: 'text-green-600', icon: 'bg-green-100' },
         yellow: { bg: 'bg-yellow-50', text: 'text-yellow-600', icon: 'bg-yellow-100' },
-        red: { bg: 'bg-red-50', text: 'text-red-600', icon: 'bg-red-100' },
+        red: { bg: 'bg-error-50', text: 'text-error-600', icon: 'bg-error-100' },
         purple: { bg: 'bg-purple-50', text: 'text-purple-600', icon: 'bg-purple-100' }
     };
 
@@ -154,16 +154,16 @@ const DoctorDashboardHome: React.FC = () => {
             case 'completed':
                 return <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-700 rounded-full">Completed</span>;
             case 'no-show':
-                return <span className="px-2 py-1 text-xs font-medium bg-red-100 text-red-700 rounded-full">No Show</span>;
+                return <span className="px-2 py-1 text-xs font-medium bg-error-100 text-red-700 rounded-full">No Show</span>;
             default:
-                return <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded-full">Pending</span>;
+                return <span className="px-2 py-1 text-xs font-medium bg-neutral-100 text-neutral-700 rounded-full">Pending</span>;
         }
     };
 
     if (loading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
             </div>
         );
     }
@@ -171,7 +171,7 @@ const DoctorDashboardHome: React.FC = () => {
     return (
         <div className="space-y-6">
             {/* Welcome Section */}
-            <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-6 text-white">
+            <div className="bg-gradient-to-r from-primary-500 to-indigo-600 rounded-2xl p-6 text-white">
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-2xl font-bold mb-1">{getGreeting()}, Dr. {doctorName}!</h1>
@@ -202,8 +202,8 @@ const DoctorDashboardHome: React.FC = () => {
                             </div>
                             <ArrowUpRight className={`w-5 h-5 ${colorClasses[stat.color].text}`} />
                         </div>
-                        <p className="text-3xl font-bold text-gray-800 mb-1">{stat.value}</p>
-                        <p className="text-sm text-gray-600">{stat.title}</p>
+                        <p className="text-3xl font-bold text-neutral-800 mb-1">{stat.value}</p>
+                        <p className="text-sm text-neutral-600">{stat.title}</p>
                     </Link>
                 ))}
             </div>
@@ -214,12 +214,12 @@ const DoctorDashboardHome: React.FC = () => {
                 <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100">
                     <div className="p-5 border-b border-gray-100 flex items-center justify-between">
                         <div>
-                            <h2 className="text-lg font-semibold text-gray-800">Today's Patient Queue</h2>
-                            <p className="text-sm text-gray-500">Manage your appointments</p>
+                            <h2 className="text-lg font-semibold text-neutral-800">Today's Patient Queue</h2>
+                            <p className="text-sm text-neutral-500">Manage your appointments</p>
                         </div>
                         <Link 
                             to="/doctor-dashboard-new/queue"
-                            className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center gap-1"
+                            className="text-primary-500 hover:text-blue-700 text-sm font-medium flex items-center gap-1"
                         >
                             View All <ChevronRight className="w-4 h-4" />
                         </Link>
@@ -228,10 +228,10 @@ const DoctorDashboardHome: React.FC = () => {
                     {todayAppointments.length === 0 ? (
                         <div className="p-8 text-center">
                             <Users className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                            <p className="text-gray-500">No appointments scheduled for today</p>
+                            <p className="text-neutral-500">No appointments scheduled for today</p>
                             <Link 
                                 to="/doctor-dashboard-new/schedule"
-                                className="text-blue-600 hover:underline text-sm mt-2 inline-block"
+                                className="text-primary-500 hover:underline text-sm mt-2 inline-block"
                             >
                                 Manage your schedule
                             </Link>
@@ -239,15 +239,15 @@ const DoctorDashboardHome: React.FC = () => {
                     ) : (
                         <div className="divide-y divide-gray-100">
                             {todayAppointments.map((apt, index) => (
-                                <div key={apt.id} className="p-4 hover:bg-gray-50 transition-colors">
+                                <div key={apt.id} className="p-4 hover:bg-neutral-50 transition-colors">
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold">
+                                            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-primary-500 font-bold">
                                                 {apt.patient_name?.charAt(0) || (index + 1)}
                                             </div>
                                             <div>
-                                                <p className="font-medium text-gray-800">{apt.patient_name || `Patient #${apt.slot}`}</p>
-                                                <p className="text-sm text-gray-500">
+                                                <p className="font-medium text-neutral-800">{apt.patient_name || `Patient #${apt.slot}`}</p>
+                                                <p className="text-sm text-neutral-500">
                                                     Slot #{apt.slot} • {apt.reason || 'General Consultation'}
                                                 </p>
                                             </div>
@@ -257,7 +257,7 @@ const DoctorDashboardHome: React.FC = () => {
                                             {apt.status === 'waiting' && (
                                                 <Link 
                                                     to={`/doctor-dashboard-new/consultation/${apt.id}`}
-                                                    className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
+                                                    className="px-3 py-1.5 bg-primary-500 text-white text-sm rounded-lg hover:bg-primary-600"
                                                 >
                                                     Start
                                                 </Link>
@@ -274,20 +274,20 @@ const DoctorDashboardHome: React.FC = () => {
                 <div className="space-y-6">
                     {/* Quick Actions */}
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h3>
+                        <h3 className="text-lg font-semibold text-neutral-800 mb-4">Quick Actions</h3>
                         <div className="space-y-3">
                             <Link 
                                 to="/doctor-dashboard-new/queue"
                                 className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
                             >
                                 <div className="p-2 bg-blue-100 rounded-lg">
-                                    <Users className="w-5 h-5 text-blue-600" />
+                                    <Users className="w-5 h-5 text-primary-500" />
                                 </div>
                                 <div className="flex-1">
-                                    <p className="font-medium text-gray-800">Call Next Patient</p>
-                                    <p className="text-xs text-gray-500">{stats.pendingToday} waiting</p>
+                                    <p className="font-medium text-neutral-800">Call Next Patient</p>
+                                    <p className="text-xs text-neutral-500">{stats.pendingToday} waiting</p>
                                 </div>
-                                <ChevronRight className="w-5 h-5 text-gray-400" />
+                                <ChevronRight className="w-5 h-5 text-neutral-400" />
                             </Link>
                             
                             <Link 
@@ -298,10 +298,10 @@ const DoctorDashboardHome: React.FC = () => {
                                     <Pill className="w-5 h-5 text-green-600" />
                                 </div>
                                 <div className="flex-1">
-                                    <p className="font-medium text-gray-800">New Prescription</p>
-                                    <p className="text-xs text-gray-500">Write prescription</p>
+                                    <p className="font-medium text-neutral-800">New Prescription</p>
+                                    <p className="text-xs text-neutral-500">Write prescription</p>
                                 </div>
-                                <ChevronRight className="w-5 h-5 text-gray-400" />
+                                <ChevronRight className="w-5 h-5 text-neutral-400" />
                             </Link>
                             
                             <Link 
@@ -312,10 +312,10 @@ const DoctorDashboardHome: React.FC = () => {
                                     <TestTube className="w-5 h-5 text-purple-600" />
                                 </div>
                                 <div className="flex-1">
-                                    <p className="font-medium text-gray-800">Order Investigation</p>
-                                    <p className="text-xs text-gray-500">Lab & imaging</p>
+                                    <p className="font-medium text-neutral-800">Order Investigation</p>
+                                    <p className="text-xs text-neutral-500">Lab & imaging</p>
                                 </div>
-                                <ChevronRight className="w-5 h-5 text-gray-400" />
+                                <ChevronRight className="w-5 h-5 text-neutral-400" />
                             </Link>
                             
                             <Link 
@@ -326,33 +326,33 @@ const DoctorDashboardHome: React.FC = () => {
                                     <Calendar className="w-5 h-5 text-yellow-600" />
                                 </div>
                                 <div className="flex-1">
-                                    <p className="font-medium text-gray-800">Manage Schedule</p>
-                                    <p className="text-xs text-gray-500">Set availability</p>
+                                    <p className="font-medium text-neutral-800">Manage Schedule</p>
+                                    <p className="text-xs text-neutral-500">Set availability</p>
                                 </div>
-                                <ChevronRight className="w-5 h-5 text-gray-400" />
+                                <ChevronRight className="w-5 h-5 text-neutral-400" />
                             </Link>
                         </div>
                     </div>
 
                     {/* Pending Items */}
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-4">Pending Items</h3>
+                        <h3 className="text-lg font-semibold text-neutral-800 mb-4">Pending Items</h3>
                         <div className="space-y-3">
                             <div className="flex items-center justify-between p-3 bg-orange-50 rounded-lg">
                                 <div className="flex items-center gap-3">
                                     <FileText className="w-5 h-5 text-orange-600" />
-                                    <span className="text-gray-700">Pending Reports</span>
+                                    <span className="text-neutral-700">Pending Reports</span>
                                 </div>
                                 <span className="bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full text-sm font-medium">
                                     {stats.pendingReports}
                                 </span>
                             </div>
-                            <div className="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+                            <div className="flex items-center justify-between p-3 bg-error-50 rounded-lg">
                                 <div className="flex items-center gap-3">
-                                    <Pill className="w-5 h-5 text-red-600" />
-                                    <span className="text-gray-700">Pending Prescriptions</span>
+                                    <Pill className="w-5 h-5 text-error-600" />
+                                    <span className="text-neutral-700">Pending Prescriptions</span>
                                 </div>
-                                <span className="bg-red-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">
+                                <span className="bg-error-100 text-red-700 px-2 py-0.5 rounded-full text-sm font-medium">
                                     {stats.pendingPrescriptions}
                                 </span>
                             </div>

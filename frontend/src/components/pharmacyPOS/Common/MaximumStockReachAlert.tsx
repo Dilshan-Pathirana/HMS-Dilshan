@@ -11,7 +11,7 @@ const MaximumStockReachAlert: React.FC<MaximumStockReachAlertProps> = ({
         maximumReachedProduct,
         isReachedMaximumStock,
     ) ? (
-        <p className="text-red-500">Reached stock limit</p>
+        <p className="text-error-500">Reached stock limit</p>
     ) : (
         ""
     );

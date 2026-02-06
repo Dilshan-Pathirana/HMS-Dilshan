@@ -15,27 +15,27 @@ const UserTableFilterSection: React.FC<UserTableFilterSectionProps> = ({
     setSelectedRole,
 }) => {
     return (
-        <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4 p-4 bg-gray-50 rounded-lg shadow-sm mb-6">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4 p-4 bg-neutral-50 rounded-lg shadow-sm mb-6">
             <div className="flex flex-col w-full lg:w-1/3">
-                <label className="text-sm font-medium text-gray-700 mb-2 flex items-center">
-                    <Search className="mr-2 text-gray-500 w-4 h-4" />
+                <label className="text-sm font-medium text-neutral-700 mb-2 flex items-center">
+                    <Search className="mr-2 text-neutral-500 w-4 h-4" />
                     Search Users
                 </label>
                 <div className="relative">
-                    <Search className="absolute w-4 h-4 text-gray-400 left-3 top-1/2 transform -translate-y-1/2" />
+                    <Search className="absolute w-4 h-4 text-neutral-400 left-3 top-1/2 transform -translate-y-1/2" />
                     <input
                         type="text"
                         placeholder="Search by name..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500"
                     />
                 </div>
             </div>
 
             <div className="flex flex-col w-full lg:w-1/3">
-                <label className="text-sm font-medium text-gray-700 mb-2 flex items-center">
-                    <Building2 className="mr-2 text-gray-500 w-4 h-4" />
+                <label className="text-sm font-medium text-neutral-700 mb-2 flex items-center">
+                    <Building2 className="mr-2 text-neutral-500 w-4 h-4" />
                     Filter by Branch
                 </label>
                 <div className="relative">
@@ -53,14 +53,14 @@ const UserTableFilterSection: React.FC<UserTableFilterSectionProps> = ({
                             selectAll: "Select All",
                             search: "Search branches",
                         }}
-                        className="border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="border border-neutral-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500"
                     />
                 </div>
             </div>
 
             <div className="flex flex-col w-full lg:w-1/3">
-                <label className="text-sm font-medium text-gray-700 mb-2 flex items-center">
-                    <UserCheck className="mr-2 text-gray-500 w-4 h-4" />
+                <label className="text-sm font-medium text-neutral-700 mb-2 flex items-center">
+                    <UserCheck className="mr-2 text-neutral-500 w-4 h-4" />
                     Filter by Role
                 </label>
                 <div className="relative">
@@ -78,7 +78,7 @@ const UserTableFilterSection: React.FC<UserTableFilterSectionProps> = ({
                             selectAll: "Select All",
                             search: "Search roles",
                         }}
-                        className="border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="border border-neutral-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500"
                     />
                 </div>
             </div>

@@ -280,11 +280,11 @@ export const SuperAdminSettingsContent: React.FC = () => {
             <div className="bg-gradient-to-r from-emerald-50 via-teal-50 to-cyan-50 border-2 border-emerald-200 rounded-xl p-6 shadow-md">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-3">
+                        <h1 className="text-3xl font-bold text-neutral-800 flex items-center gap-3">
                             <Zap className="w-8 h-8 text-emerald-600" />
                             System Settings
                         </h1>
-                        <p className="text-gray-600 mt-1">Configure system preferences and operational parameters</p>
+                        <p className="text-neutral-600 mt-1">Configure system preferences and operational parameters</p>
                     </div>
                     
                     {/* Branch Selector */}
@@ -296,7 +296,7 @@ export const SuperAdminSettingsContent: React.FC = () => {
                                 setSelectedBranch(e.target.value);
                                 setHasUnsavedChanges(true);
                             }}
-                            className="px-4 py-2 border-2 border-emerald-300 rounded-lg bg-emerald-50 text-gray-800 font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                            className="px-4 py-2 border-2 border-emerald-300 rounded-lg bg-emerald-50 text-neutral-800 font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
                         >
                             <option value="all">All Branches</option>
                             {branches.map(branch => (
@@ -316,22 +316,22 @@ export const SuperAdminSettingsContent: React.FC = () => {
                     </div>
                 )}
 
-                <div className="mt-4 flex items-center gap-2 text-gray-600 bg-gray-100 px-4 py-2 rounded-lg border border-gray-300">
+                <div className="mt-4 flex items-center gap-2 text-neutral-600 bg-neutral-100 px-4 py-2 rounded-lg border border-neutral-300">
                     <Info className="w-4 h-4" />
                     <span className="text-sm">Settings are role-controlled, versioned, and auditable</span>
                 </div>
             </div>
 
             {/* Search Settings */}
-            <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4">
+            <div className="bg-white rounded-lg shadow-md border border-neutral-200 p-4">
                 <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400" />
                     <input
                         type="text"
                         placeholder="Search settings..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                     />
                 </div>
             </div>
@@ -339,35 +339,35 @@ export const SuperAdminSettingsContent: React.FC = () => {
             {/* Settings Categories */}
             <div className="space-y-4">
                 {filteredCategories.map(category => (
-                    <div key={category.id} className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
+                    <div key={category.id} className="bg-white rounded-xl shadow-md border border-neutral-200 overflow-hidden">
                         {/* Category Header */}
                         <button
                             onClick={() => toggleCategory(category.id)}
-                            className="w-full flex items-center justify-between p-6 hover:bg-gray-50 transition-colors"
+                            className="w-full flex items-center justify-between p-6 hover:bg-neutral-50 transition-colors"
                         >
                             <div className="flex items-center gap-4">
                                 <div className={`p-3 rounded-lg bg-gradient-to-r ${category.color} text-white`}>
                                     {category.icon}
                                 </div>
                                 <div className="text-left">
-                                    <h3 className="text-lg font-bold text-gray-800">{category.title}</h3>
-                                    <p className="text-sm text-gray-600">{category.description}</p>
+                                    <h3 className="text-lg font-bold text-neutral-800">{category.title}</h3>
+                                    <p className="text-sm text-neutral-600">{category.description}</p>
                                 </div>
                             </div>
                             {expandedCategories.includes(category.id) ? (
-                                <ChevronDown className="w-6 h-6 text-gray-400" />
+                                <ChevronDown className="w-6 h-6 text-neutral-400" />
                             ) : (
-                                <ChevronRight className="w-6 h-6 text-gray-400" />
+                                <ChevronRight className="w-6 h-6 text-neutral-400" />
                             )}
                         </button>
 
                         {/* Category Settings */}
                         {expandedCategories.includes(category.id) && (
-                            <div className="border-t border-gray-200 p-6 bg-gray-50">
+                            <div className="border-t border-neutral-200 p-6 bg-neutral-50">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     {category.settings.map(setting => (
                                         <div key={setting.id} className="space-y-2">
-                                            <label className="block text-sm font-medium text-gray-700">
+                                            <label className="block text-sm font-medium text-neutral-700">
                                                 {setting.label}
                                             </label>
                                             
@@ -376,7 +376,7 @@ export const SuperAdminSettingsContent: React.FC = () => {
                                                     type="text"
                                                     defaultValue={setting.value}
                                                     onChange={() => setHasUnsavedChanges(true)}
-                                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
                                                 />
                                             )}
                                             
@@ -385,7 +385,7 @@ export const SuperAdminSettingsContent: React.FC = () => {
                                                     type="number"
                                                     defaultValue={setting.value}
                                                     onChange={() => setHasUnsavedChanges(true)}
-                                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
                                                 />
                                             )}
                                             
@@ -393,7 +393,7 @@ export const SuperAdminSettingsContent: React.FC = () => {
                                                 <select
                                                     defaultValue={setting.value}
                                                     onChange={() => setHasUnsavedChanges(true)}
-                                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
                                                 >
                                                     {setting.options?.map(option => (
                                                         <option key={option} value={option}>{option}</option>
@@ -406,7 +406,7 @@ export const SuperAdminSettingsContent: React.FC = () => {
                                                     defaultValue={setting.value}
                                                     onChange={() => setHasUnsavedChanges(true)}
                                                     rows={3}
-                                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
                                                 />
                                             )}
                                             
@@ -414,7 +414,7 @@ export const SuperAdminSettingsContent: React.FC = () => {
                                                 <button
                                                     onClick={() => setHasUnsavedChanges(true)}
                                                     className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
-                                                        setting.value ? 'bg-emerald-600' : 'bg-gray-300'
+                                                        setting.value ? 'bg-emerald-600' : 'bg-neutral-300'
                                                     }`}
                                                 >
                                                     <span
@@ -443,16 +443,16 @@ export const SuperAdminSettingsContent: React.FC = () => {
 
             {/* Sticky Save Bar */}
             {hasUnsavedChanges && (
-                <div className="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-gray-300 shadow-2xl p-4 z-40">
+                <div className="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-neutral-300 shadow-2xl p-4 z-40">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <AlertCircle className="w-6 h-6 text-amber-600" />
-                            <span className="font-medium text-gray-800">You have unsaved changes</span>
+                            <span className="font-medium text-neutral-800">You have unsaved changes</span>
                         </div>
                         <div className="flex gap-3">
                             <button
                                 onClick={() => setHasUnsavedChanges(false)}
-                                className="flex items-center gap-2 px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-all font-medium"
+                                className="flex items-center gap-2 px-6 py-2 bg-neutral-200 text-neutral-700 rounded-lg hover:bg-neutral-300 transition-all font-medium"
                             >
                                 <X className="w-4 h-4" />
                                 Cancel

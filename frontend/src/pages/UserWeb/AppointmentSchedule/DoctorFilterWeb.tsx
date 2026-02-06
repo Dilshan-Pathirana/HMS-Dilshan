@@ -128,46 +128,48 @@ const DoctorFilterWeb = () => {
         if (dateInput) dateInput.value = '';
     };
 
+
     return (
-        <div className="bg-gradient-to-br from-white via-blue-50 to-white p-4 rounded-xl shadow-lg border border-blue-100 backdrop-blur-sm relative z-10">
-            <div className="flex flex-wrap items-end justify-between gap-3 relative">
-                <div className="flex flex-col w-full md:w-1/5 group relative">
-                    <label className="text-gray-700 font-semibold mb-2 flex items-center text-sm transition-colors duration-300 group-hover:text-blue-600">
-                        <div className="w-6 h-6 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center mr-2 shadow-sm group-hover:shadow-md transition-all duration-300">
-                            <FaUser className="text-blue-600 w-3 h-3" />
-                        </div>
-                        Doctor Schedule
+        <div className="bg-white/80 backdrop-blur-xl p-6 rounded-2xl shadow-xl border border-white/50 relative z-10 w-full min-w-full">
+            <div className="flex items-center gap-2 mb-6">
+                <div className="w-10 h-10 rounded-full bg-primary-50 flex items-center justify-center text-primary-600">
+                    <FaCalendarAlt className="w-5 h-5" />
+                </div>
+                <div>
+                    <h3 className="text-xl font-bold text-neutral-900">Book an Appointment</h3>
+                    <p className="text-sm text-neutral-500">Find the right doctor for you</p>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="space-y-1.5 group">
+                    <label className="text-xs font-semibold text-neutral-500 uppercase tracking-wider flex items-center gap-2">
+                        <FaUser className="text-primary-400" /> Select Doctor...
                     </label>
                     <div className="relative">
-                        <div className="dropdown-container">
-                            <MultiSelect
-                                options={doctorUsersDropDownOptions}
-                                value={selectedDoctors}
-                                onChange={(selected: MultiSelectOption[]) => {
-                                    setSelectedDoctors(selected.slice(-1));
-                                }}
-                                labelledBy="DoctorSchedule"
-                                className="w-full bg-white border border-gray-200 hover:border-blue-300 focus:border-blue-500 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-sm dropdown-up"
-                                hasSelectAll={false}
-                                disableSearch={false}
-                                overrideStrings={{
-                                    selectSomeItems: "Select Doctor...",
-                                    allItemsAreSelected: "All Doctors Selected",
-                                    selectAll: "Select All",
-                                    search: "Search Doctors",
-                                }}
-                            />
-                        </div>
-                        <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-transparent opacity-0 hover:opacity-100 rounded-lg pointer-events-none transition-opacity duration-300"></div>
+                        <MultiSelect
+                            options={doctorUsersDropDownOptions}
+                            value={selectedDoctors}
+                            onChange={(selected: MultiSelectOption[]) => {
+                                setSelectedDoctors(selected.slice(-1));
+                            }}
+                            labelledBy="DoctorSchedule"
+                            className="custom-multiselect w-full"
+                            hasSelectAll={false}
+                            disableSearch={false}
+                            overrideStrings={{
+                                selectSomeItems: "Choose a Doctor",
+                                allItemsAreSelected: "All Doctors Selected",
+                                selectAll: "Select All",
+                                search: "Search Doctors",
+                            }}
+                        />
                     </div>
                 </div>
 
-                <div className="flex flex-col w-full md:w-1/5 group">
-                    <label className="text-gray-700 font-semibold mb-2 flex items-center text-sm transition-colors duration-300 group-hover:text-blue-600">
-                        <div className="w-6 h-6 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center mr-2 shadow-sm group-hover:shadow-md transition-all duration-300">
-                            <FaMapMarkerAlt className="text-blue-600 w-3 h-3" />
-                        </div>
-                        Branch
+                <div className="space-y-1.5 group">
+                    <label className="text-xs font-semibold text-neutral-500 uppercase tracking-wider flex items-center gap-2">
+                        <FaMapMarkerAlt className="text-primary-400" /> Branch
                     </label>
                     <div className="relative">
                         <MultiSelect
@@ -177,18 +179,17 @@ const DoctorFilterWeb = () => {
                                 setSelectedBranches(selected.slice(-1))
                             }
                             labelledBy="Select Branch"
-                            className="w-full bg-white border border-gray-200 hover:border-blue-300 focus:border-blue-500 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-sm"
+                            className="custom-multiselect w-full"
+                            overrideStrings={{
+                                selectSomeItems: "Select Branch...",
+                            }}
                         />
-                        <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-transparent opacity-0 hover:opacity-100 rounded-xl pointer-events-none transition-opacity duration-300"></div>
                     </div>
                 </div>
 
-                <div className="flex flex-col w-full md:w-1/5 group">
-                    <label className="text-gray-700 font-semibold mb-2 flex items-center text-sm transition-colors duration-300 group-hover:text-blue-600">
-                        <div className="w-6 h-6 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center mr-2 shadow-sm group-hover:shadow-md transition-all duration-300">
-                            <FaStethoscope className="text-blue-600 w-3 h-3" />
-                        </div>
-                        Specialization
+                <div className="space-y-1.5 group">
+                    <label className="text-xs font-semibold text-neutral-500 uppercase tracking-wider flex items-center gap-2">
+                        <FaStethoscope className="text-primary-400" /> Specialization
                     </label>
                     <div className="relative">
                         <MultiSelect
@@ -198,57 +199,50 @@ const DoctorFilterWeb = () => {
                                 setSelectedSpecializations(selected.slice(-1))
                             }
                             labelledBy="Select Specialization"
-                            className="w-full bg-white border border-gray-200 hover:border-blue-300 focus:border-blue-500 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-sm"
+                            className="custom-multiselect w-full"
+                            overrideStrings={{
+                                selectSomeItems: "Select...",
+                            }}
                         />
-                        <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-transparent opacity-0 hover:opacity-100 rounded-xl pointer-events-none transition-opacity duration-300"></div>
                     </div>
                 </div>
 
-                <div className="flex flex-col w-full md:w-1/5 group">
-                    <label className="text-gray-700 font-semibold mb-2 flex items-center text-sm transition-colors duration-300 group-hover:text-blue-600">
-                        <div className="w-6 h-6 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center mr-2 shadow-sm group-hover:shadow-md transition-all duration-300">
-                            <FaCalendarAlt className="text-blue-600 w-3 h-3" />
-                        </div>
-                        Date
+                <div className="space-y-1.5 group">
+                    <label className="text-xs font-semibold text-neutral-500 uppercase tracking-wider flex items-center gap-2">
+                        <FaCalendarAlt className="text-primary-400" /> Date
                     </label>
                     <div className="relative">
                         <input
                             type="date"
-                            className="w-full px-3 py-2 bg-white border border-gray-200 hover:border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-gray-700 text-sm outline-none"
+                            className="w-full h-[42px] px-3 bg-white border border-neutral-200 hover:border-primary-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 rounded-lg transition-all text-neutral-700 text-sm outline-none"
                             min={new Date().toISOString().split('T')[0]}
                             max={new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
                             onChange={(e) =>
                                 setSelectedDate(new Date(e.target.value))
                             }
                         />
-                        <p className="text-xs text-gray-500 mt-1">You can book up to 30 days in advance</p>
-                        <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-transparent opacity-0 hover:opacity-100 rounded-xl pointer-events-none transition-opacity duration-300"></div>
                     </div>
                 </div>
+            </div>
 
-                <div className="w-full md:w-auto flex items-end gap-2">
+            <div className="mt-2 flex justify-end items-center">
+                <p className="text-xs text-neutral-400 mr-auto italic">
+                    * You can book up to 30 days in advance
+                </p>
+                <div className="flex gap-3">
                     {hasFilters && (
                         <button
                             onClick={handleClearFilters}
-                            className="group relative overflow-hidden bg-gradient-to-r from-gray-500 via-gray-600 to-gray-700 hover:from-gray-600 hover:via-gray-700 hover:to-gray-800 text-white px-4 py-2 rounded-lg font-semibold flex items-center justify-center transition-all duration-300 shadow-md hover:shadow-lg border border-gray-400 hover:border-gray-300 text-sm"
+                            className="px-4 py-2 rounded-lg text-sm font-medium text-neutral-600 hover:bg-neutral-100 transition-colors flex items-center gap-2"
                         >
-                            <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-                            <div className="flex items-center space-x-2 relative z-10">
-                                <FaTimes className="w-3 h-3 group-hover:scale-110 transition-transform duration-300" />
-                                <span>Clear</span>
-                            </div>
+                            <FaTimes /> Clear
                         </button>
                     )}
                     <button
                         onClick={handleApplyFilter}
-                        className="group relative overflow-hidden bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 hover:from-blue-700 hover:via-blue-800 hover:to-blue-900 text-white px-5 py-2 rounded-lg font-semibold flex items-center justify-center w-full md:w-auto transition-all duration-300 shadow-md hover:shadow-lg border border-blue-500 hover:border-blue-400 text-sm"
+                        className="bg-primary-600 hover:bg-primary-700 text-white px-8 py-2.5 rounded-lg font-semibold shadow-lg shadow-primary-500/30 hover:shadow-primary-600/40 transition-all flex items-center gap-2 transform active:scale-95"
                     >
-                        <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-                        <div className="flex items-center space-x-2 relative z-10">
-                            <FaSearch className="w-3 h-3 group-hover:scale-110 transition-transform duration-300" />
-                            <span>Search</span>
-                        </div>
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-20 transform -skew-x-12 group-hover:animate-pulse"></div>
+                        <FaSearch /> Search Availability
                     </button>
                 </div>
             </div>

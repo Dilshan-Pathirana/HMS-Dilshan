@@ -9,28 +9,28 @@ const Mission = () => {
         <>
             <NavBar />
 
-            <div className="flex justify-end mt-20 p-4 bg-gray-100">
+            <div className="flex justify-end mt-20 p-4 bg-neutral-100">
                 <button
-                    className={`px-4 py-2 rounded-md mx-1 ${language === "en" ? "bg-blue-600 text-white" : "bg-white text-black border"}`}
+                    className={`px-4 py-2 rounded-md mx-1 ${language === "en" ? "bg-primary-500 text-white" : "bg-white text-black border"}`}
                     onClick={() => setLanguage("en")}
                 >
                  English
                 </button>
                 <button
-                    className={`px-4 py-2 rounded-md mx-1 ${language === "si" ? "bg-blue-600 text-white" : "bg-white text-black border"}`}
+                    className={`px-4 py-2 rounded-md mx-1 ${language === "si" ? "bg-primary-500 text-white" : "bg-white text-black border"}`}
                     onClick={() => setLanguage("si")}
                 >
                    සිංහල
                 </button>
                 <button
-                    className={`px-4 py-2 rounded-md mx-1 ${language === "ta" ? "bg-blue-600 text-white" : "bg-white text-black border"}`}
+                    className={`px-4 py-2 rounded-md mx-1 ${language === "ta" ? "bg-primary-500 text-white" : "bg-white text-black border"}`}
                     onClick={() => setLanguage("ta")}
                 >
                   தமிழ்
                 </button>
             </div>
 
-            <section className="bg-blue-600 text-white mt-10 py-20 px-4">
+            <section className="bg-primary-500 text-white mt-10 py-20 px-4">
                 <div className="max-w-6xl mx-auto">
                     <h1 className="text-4xl font-bold mb-4">
                         {language === "en"
@@ -45,7 +45,7 @@ const Mission = () => {
             <div className="max-w-6xl mx-auto px-4 py-12">
                 {language === "en" && (
                     <>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-neutral-600 mb-6">
                             At Cure Health Care International (Pvt) Ltd (CHC),
                             our mission is to revolutionize the healthcare
                             sector in Sri Lanka by integrating technology,
@@ -55,7 +55,7 @@ const Mission = () => {
                         <h3 className="text-2xl font-semibold mb-4">
                             What We Strive For
                         </h3>
-                        <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                        <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                             <li>
                                 ✅ Providing Accessible and Affordable
                                 Healthcare
@@ -70,7 +70,7 @@ const Mission = () => {
 
                 {language === "si" && (
                     <>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-neutral-600 mb-6">
                             Cure Health Care International (Pvt) Ltd (CHC) හි
                             අපගේ මෙහෙවර වන්නේ ශ්‍රී ලංකාවේ සෞඛ්‍ය ක්ෂේම භාවිතය
                             තාක්ෂණය, පර්යේෂණ සහ සංවර්ධනය සමඟ ඒකාබද්ධ කර
@@ -79,7 +79,7 @@ const Mission = () => {
                         <h3 className="text-2xl font-semibold mb-4">
                             අපි ව්‍යාපෘතිය මඟින් කරා යන අරමුණු
                         </h3>
-                        <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                        <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                             <li>
                                 ✅ ආර්ථික සහ ප්‍රවේශ ලාභය ඇති සෞඛ්‍ය සේවා සැලසීම
                             </li>
@@ -102,7 +102,7 @@ const Mission = () => {
 
                 {language === "ta" && (
                     <>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-neutral-600 mb-6">
                             Cure Health Care International (Pvt) Ltd (CHC)
                             நிறுவனம் இலங்கையில் மருத்துவம், ஆராய்ச்சி மற்றும்
                             தொழில்நுட்பத்துடன் இணைந்து வளர்ச்சி பெற்ற, தற்காலிக
@@ -111,7 +111,7 @@ const Mission = () => {
                         <h3 className="text-2xl font-semibold mb-4">
                             எங்கள் நோக்கம்
                         </h3>
-                        <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                        <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                             <li>✅ முழுமையான மற்றும் மலிவு மருத்துவ சேவைகள்</li>
                             <li>
                                 ✅ ஹோமியோபதிக்கு புதிய கண்டுபிடிப்புகள்

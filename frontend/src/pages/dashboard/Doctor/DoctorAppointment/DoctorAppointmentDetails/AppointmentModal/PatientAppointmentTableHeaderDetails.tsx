@@ -75,7 +75,7 @@ const PatientAppointmentTableHeaderDetails: React.FC<
             <div className="flex justify-between items-center mb-1">
                 <div className="flex items-center space-x-1">
                     <DateIcon className="h-3.5 w-3.5 text-green-600" />
-                    <h3 className="text-xs font-medium text-gray-700">
+                    <h3 className="text-xs font-medium text-neutral-700">
                         {date}
                     </h3>
                 </div>

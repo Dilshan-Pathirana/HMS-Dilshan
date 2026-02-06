@@ -53,11 +53,11 @@ const SupplierEditModal: React.FC<SupplierEditModalProps> = ({
     };
 
     return (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
+        <div className="fixed inset-0 bg-neutral-800 bg-opacity-75 flex justify-center items-center z-50">
             <div className="bg-white rounded-lg shadow-lg w-[90%] max-w-3xl relative p-6">
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 text-gray-600 hover:text-gray-800"
+                    className="absolute top-4 right-4 text-neutral-600 hover:text-neutral-800"
                 >
                     <FaTimes size={20} />
                 </button>
@@ -78,12 +78,12 @@ const SupplierEditModal: React.FC<SupplierEditModalProps> = ({
                             placeholder="Enter supplier name"
                             className={`border p-2 w-full ${
                                 errors.supplier_name
-                                    ? "border-red-500"
-                                    : "border-gray-300"
+                                    ? "border-error-500"
+                                    : "border-neutral-300"
                             }`}
                         />
                         {errors.supplier_name && (
-                            <p className="text-red-500 text-sm">
+                            <p className="text-error-500 text-sm">
                                 {errors.supplier_name}
                             </p>
                         )}
@@ -99,12 +99,12 @@ const SupplierEditModal: React.FC<SupplierEditModalProps> = ({
                             placeholder="Enter contact person name"
                             className={`border p-2 w-full ${
                                 errors.contact_person
-                                    ? "border-red-500"
-                                    : "border-gray-300"
+                                    ? "border-error-500"
+                                    : "border-neutral-300"
                             }`}
                         />
                         {errors.contact_person && (
-                            <p className="text-red-500 text-sm">
+                            <p className="text-error-500 text-sm">
                                 {errors.contact_person}
                             </p>
                         )}
@@ -120,12 +120,12 @@ const SupplierEditModal: React.FC<SupplierEditModalProps> = ({
                             placeholder="Enter contact number"
                             className={`border p-2 w-full ${
                                 errors.contact_number
-                                    ? "border-red-500"
-                                    : "border-gray-300"
+                                    ? "border-error-500"
+                                    : "border-neutral-300"
                             }`}
                         />
                         {errors.contact_number && (
-                            <p className="text-red-500 text-sm">
+                            <p className="text-error-500 text-sm">
                                 {errors.contact_number}
                             </p>
                         )}
@@ -141,12 +141,12 @@ const SupplierEditModal: React.FC<SupplierEditModalProps> = ({
                             placeholder="Enter email address"
                             className={`border p-2 w-full ${
                                 errors.contact_email
-                                    ? "border-red-500"
-                                    : "border-gray-300"
+                                    ? "border-error-500"
+                                    : "border-neutral-300"
                             }`}
                         />
                         {errors.contact_email && (
-                            <p className="text-red-500 text-sm">
+                            <p className="text-error-500 text-sm">
                                 {errors.contact_email}
                             </p>
                         )}
@@ -162,12 +162,12 @@ const SupplierEditModal: React.FC<SupplierEditModalProps> = ({
                             placeholder="Enter address"
                             className={`border p-2 w-full ${
                                 errors.supplier_address
-                                    ? "border-red-500"
-                                    : "border-gray-300"
+                                    ? "border-error-500"
+                                    : "border-neutral-300"
                             }`}
                         />
                         {errors.supplier_address && (
-                            <p className="text-red-500 text-sm">
+                            <p className="text-error-500 text-sm">
                                 {errors.supplier_address}
                             </p>
                         )}
@@ -183,12 +183,12 @@ const SupplierEditModal: React.FC<SupplierEditModalProps> = ({
                             placeholder="Enter city"
                             className={`border p-2 w-full ${
                                 errors.supplier_city
-                                    ? "border-red-500"
-                                    : "border-gray-300"
+                                    ? "border-error-500"
+                                    : "border-neutral-300"
                             }`}
                         />
                         {errors.supplier_city && (
-                            <p className="text-red-500 text-sm">
+                            <p className="text-error-500 text-sm">
                                 {errors.supplier_city}
                             </p>
                         )}
@@ -204,12 +204,12 @@ const SupplierEditModal: React.FC<SupplierEditModalProps> = ({
                             placeholder="Enter country"
                             className={`border p-2 w-full ${
                                 errors.supplier_country
-                                    ? "border-red-500"
-                                    : "border-gray-300"
+                                    ? "border-error-500"
+                                    : "border-neutral-300"
                             }`}
                         />
                         {errors.supplier_country && (
-                            <p className="text-red-500 text-sm">
+                            <p className="text-error-500 text-sm">
                                 {errors.supplier_country}
                             </p>
                         )}
@@ -226,12 +226,12 @@ const SupplierEditModal: React.FC<SupplierEditModalProps> = ({
                             options={supplierTypes}
                             placeholder="Select Supplier Type"
                             className={`w-full ${
-                                errors.supplier_type ? "border-red-500" : ""
+                                errors.supplier_type ? "border-error-500" : ""
                             }`}
                             classNamePrefix="react-select"
                         />
                         {errors.supplier_type && (
-                            <p className="text-red-500 text-sm">
+                            <p className="text-error-500 text-sm">
                                 {errors.supplier_type}
                             </p>
                         )}
@@ -241,13 +241,13 @@ const SupplierEditModal: React.FC<SupplierEditModalProps> = ({
                         <button
                             type="button"
                             onClick={onClose}
-                            className="border px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+                            className="border px-4 py-2 bg-neutral-300 text-neutral-700 rounded hover:bg-gray-400"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="border px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                            className="border px-4 py-2 bg-primary-500 text-white rounded hover:bg-primary-500"
                         >
                             Save Changes
                         </button>

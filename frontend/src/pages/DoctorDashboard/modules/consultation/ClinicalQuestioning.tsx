@@ -153,7 +153,7 @@ const ClinicalQuestioning: React.FC<ClinicalQuestioningProps> = ({
     if (loading) {
         return (
             <div className="flex items-center justify-center p-12">
-                <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+                <Loader2 className="w-8 h-8 animate-spin text-primary-500" />
             </div>
         );
     }
@@ -162,13 +162,13 @@ const ClinicalQuestioning: React.FC<ClinicalQuestioningProps> = ({
         <div className="p-6 space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-xl font-bold text-gray-800">Clinical Questions</h2>
-                    <p className="text-gray-500">
+                    <h2 className="text-xl font-bold text-neutral-800">Clinical Questions</h2>
+                    <p className="text-neutral-500">
                         Answer relevant questions from the Materia Medica repertory
                     </p>
                 </div>
                 <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-500">
+                    <span className="text-sm text-neutral-500">
                         {questions.length} question{questions.length !== 1 ? 's' : ''} answered
                     </span>
                 </div>
@@ -176,13 +176,13 @@ const ClinicalQuestioning: React.FC<ClinicalQuestioningProps> = ({
 
             {/* Search */}
             <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                 <input
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     placeholder="Search questions..."
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500"
                 />
             </div>
 
@@ -203,26 +203,26 @@ const ClinicalQuestioning: React.FC<ClinicalQuestioningProps> = ({
                     return (
                         <div
                             key={category.id}
-                            className={`border border-gray-200 rounded-xl overflow-hidden ${
+                            className={`border border-neutral-200 rounded-xl overflow-hidden ${
                                 isExpanded ? 'ring-2 ring-' + category.color + '-500/30' : ''
                             }`}
                         >
                             {/* Category Header */}
                             <button
                                 onClick={() => toggleCategory(category.id)}
-                                className={`w-full flex items-center justify-between p-4 hover:bg-gray-50 transition-colors bg-${category.color}-50/50`}
+                                className={`w-full flex items-center justify-between p-4 hover:bg-neutral-50 transition-colors bg-${category.color}-50/50`}
                             >
                                 <div className="flex items-center gap-3">
                                     <div className={`w-2 h-2 rounded-full bg-${category.color}-500`} />
-                                    <span className="font-semibold text-gray-800">{category.label}</span>
+                                    <span className="font-semibold text-neutral-800">{category.label}</span>
                                     <span className={`px-2 py-0.5 text-xs rounded-full bg-${category.color}-100 text-${category.color}-700`}>
                                         {answeredCount}/{categoryQuestions.length}
                                     </span>
                                 </div>
                                 {isExpanded ? (
-                                    <ChevronUp className="w-5 h-5 text-gray-500" />
+                                    <ChevronUp className="w-5 h-5 text-neutral-500" />
                                 ) : (
-                                    <ChevronDown className="w-5 h-5 text-gray-500" />
+                                    <ChevronDown className="w-5 h-5 text-neutral-500" />
                                 )}
                             </button>
 
@@ -247,18 +247,18 @@ const ClinicalQuestioning: React.FC<ClinicalQuestioningProps> = ({
             </div>
 
             {/* Custom Questions */}
-            <div className="border border-gray-200 rounded-xl overflow-hidden">
-                <div className="p-4 bg-gray-50 flex items-center justify-between">
+            <div className="border border-neutral-200 rounded-xl overflow-hidden">
+                <div className="p-4 bg-neutral-50 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <MessageSquare className="w-5 h-5 text-gray-600" />
-                        <span className="font-semibold text-gray-800">Custom Questions</span>
-                        <span className="px-2 py-0.5 text-xs rounded-full bg-gray-200 text-gray-700">
+                        <MessageSquare className="w-5 h-5 text-neutral-600" />
+                        <span className="font-semibold text-neutral-800">Custom Questions</span>
+                        <span className="px-2 py-0.5 text-xs rounded-full bg-neutral-200 text-neutral-700">
                             {getCustomQuestions().length}
                         </span>
                     </div>
                     <button
                         onClick={() => setShowCustomForm(!showCustomForm)}
-                        className="inline-flex items-center gap-1 px-3 py-1.5 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                        className="inline-flex items-center gap-1 px-3 py-1.5 text-sm bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                     >
                         <Plus className="w-4 h-4" />
                         Add Custom
@@ -267,32 +267,32 @@ const ClinicalQuestioning: React.FC<ClinicalQuestioningProps> = ({
 
                 {/* Custom Question Form */}
                 {showCustomForm && (
-                    <div className="p-4 bg-blue-50 border-b border-gray-200">
+                    <div className="p-4 bg-blue-50 border-b border-neutral-200">
                         <div className="space-y-3">
                             <input
                                 type="text"
                                 value={customQuestion}
                                 onChange={(e) => setCustomQuestion(e.target.value)}
                                 placeholder="Enter your question..."
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                             />
                             <textarea
                                 value={customAnswer}
                                 onChange={(e) => setCustomAnswer(e.target.value)}
                                 placeholder="Enter the answer..."
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[80px] resize-none"
+                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 min-h-[80px] resize-none"
                             />
                             <div className="flex items-center justify-end gap-2">
                                 <button
                                     onClick={() => setShowCustomForm(false)}
-                                    className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                                    className="px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={handleAddCustomQuestion}
                                     disabled={!customQuestion.trim() || !customAnswer.trim()}
-                                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50"
                                 >
                                     <Check className="w-4 h-4" />
                                     Add Question
@@ -308,12 +308,12 @@ const ClinicalQuestioning: React.FC<ClinicalQuestioningProps> = ({
                         {getCustomQuestions().map(question => (
                             <div key={question.id} className="p-4 flex items-start gap-4">
                                 <div className="flex-1">
-                                    <p className="font-medium text-gray-800">{question.question_text}</p>
-                                    <p className="text-gray-600 mt-1">{question.answer_text}</p>
+                                    <p className="font-medium text-neutral-800">{question.question_text}</p>
+                                    <p className="text-neutral-600 mt-1">{question.answer_text}</p>
                                 </div>
                                 <button
                                     onClick={() => handleRemoveQuestion(question.id)}
-                                    className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
+                                    className="p-2 text-error-500 hover:bg-error-50 rounded-lg"
                                 >
                                     <Trash2 className="w-4 h-4" />
                                 </button>
@@ -344,7 +344,7 @@ const QuestionItem: React.FC<{
                             className={`px-4 py-2 rounded-lg border transition-colors ${
                                 answer === 'Yes'
                                     ? 'bg-green-100 border-green-500 text-green-700'
-                                    : 'border-gray-300 text-gray-600 hover:bg-gray-50'
+                                    : 'border-neutral-300 text-neutral-600 hover:bg-neutral-50'
                             }`}
                         >
                             Yes
@@ -353,8 +353,8 @@ const QuestionItem: React.FC<{
                             onClick={() => onYesNoChange('No')}
                             className={`px-4 py-2 rounded-lg border transition-colors ${
                                 answer === 'No'
-                                    ? 'bg-red-100 border-red-500 text-red-700'
-                                    : 'border-gray-300 text-gray-600 hover:bg-gray-50'
+                                    ? 'bg-error-100 border-error-500 text-red-700'
+                                    : 'border-neutral-300 text-neutral-600 hover:bg-neutral-50'
                             }`}
                         >
                             No
@@ -370,8 +370,8 @@ const QuestionItem: React.FC<{
                                 onClick={() => onScaleChange(num)}
                                 className={`w-8 h-8 rounded-lg border transition-colors text-sm font-medium ${
                                     parseInt(answer) === num
-                                        ? 'bg-blue-600 border-blue-600 text-white'
-                                        : 'border-gray-300 text-gray-600 hover:bg-gray-50'
+                                        ? 'bg-primary-500 border-primary-500 text-white'
+                                        : 'border-neutral-300 text-neutral-600 hover:bg-neutral-50'
                                 }`}
                             >
                                 {num}
@@ -388,8 +388,8 @@ const QuestionItem: React.FC<{
                                 onClick={() => onAnswerChange(option)}
                                 className={`px-4 py-2 rounded-lg border transition-colors ${
                                     answer === option
-                                        ? 'bg-blue-100 border-blue-500 text-blue-700'
-                                        : 'border-gray-300 text-gray-600 hover:bg-gray-50'
+                                        ? 'bg-blue-100 border-primary-500 text-blue-700'
+                                        : 'border-neutral-300 text-neutral-600 hover:bg-neutral-50'
                                 }`}
                             >
                                 {option}
@@ -403,21 +403,21 @@ const QuestionItem: React.FC<{
                         value={answer}
                         onChange={(e) => onAnswerChange(e.target.value)}
                         placeholder="Enter response..."
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[60px] resize-none"
+                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 min-h-[60px] resize-none"
                     />
                 );
         }
     };
 
     return (
-        <div className="p-4 hover:bg-gray-50 transition-colors">
+        <div className="p-4 hover:bg-neutral-50 transition-colors">
             <div className="flex items-start gap-3 mb-3">
                 <div className={`mt-1 w-2 h-2 rounded-full flex-shrink-0 ${
-                    answer ? 'bg-green-500' : 'bg-gray-300'
+                    answer ? 'bg-green-500' : 'bg-neutral-300'
                 }`} />
-                <p className="font-medium text-gray-800 flex-1">{question.question_text}</p>
+                <p className="font-medium text-neutral-800 flex-1">{question.question_text}</p>
                 {question.is_required && (
-                    <span className="text-red-500 text-sm">Required</span>
+                    <span className="text-error-500 text-sm">Required</span>
                 )}
             </div>
             <div className="ml-5">

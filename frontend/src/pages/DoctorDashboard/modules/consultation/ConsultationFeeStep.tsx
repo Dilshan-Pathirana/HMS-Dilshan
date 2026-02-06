@@ -53,8 +53,8 @@ const ConsultationFeeStep: React.FC<ConsultationFeeStepProps> = ({
     return (
         <div className="p-6 space-y-6">
             <div>
-                <h2 className="text-xl font-bold text-gray-800">Fee & Summary</h2>
-                <p className="text-gray-500">
+                <h2 className="text-xl font-bold text-neutral-800">Fee & Summary</h2>
+                <p className="text-neutral-500">
                     Set the consultation fee and add any final notes
                 </p>
             </div>
@@ -62,10 +62,10 @@ const ConsultationFeeStep: React.FC<ConsultationFeeStepProps> = ({
             {/* Summary */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Diagnoses Summary */}
-                <div className="bg-gray-50 rounded-xl p-4">
+                <div className="bg-neutral-50 rounded-xl p-4">
                     <div className="flex items-center gap-2 mb-3">
-                        <Activity className="w-5 h-5 text-blue-600" />
-                        <h3 className="font-semibold text-gray-800">Diagnoses ({diagnoses.length})</h3>
+                        <Activity className="w-5 h-5 text-primary-500" />
+                        <h3 className="font-semibold text-neutral-800">Diagnoses ({diagnoses.length})</h3>
                     </div>
                     {diagnoses.length === 0 ? (
                         <div className="flex items-center gap-2 text-amber-600 bg-amber-50 p-3 rounded-lg">
@@ -77,10 +77,10 @@ const ConsultationFeeStep: React.FC<ConsultationFeeStepProps> = ({
                             {diagnoses.map((d, i) => (
                                 <div key={i} className="flex items-center gap-2 text-sm">
                                     <span className={`w-2 h-2 rounded-full ${
-                                        d.diagnosis_type === 'primary' ? 'bg-blue-500' :
+                                        d.diagnosis_type === 'primary' ? 'bg-primary-500' :
                                         d.diagnosis_type === 'secondary' ? 'bg-purple-500' : 'bg-amber-500'
                                     }`} />
-                                    <span className="capitalize text-gray-500">{d.diagnosis_type}</span>
+                                    <span className="capitalize text-neutral-500">{d.diagnosis_type}</span>
                                 </div>
                             ))}
                         </div>
@@ -88,22 +88,22 @@ const ConsultationFeeStep: React.FC<ConsultationFeeStepProps> = ({
                 </div>
 
                 {/* Prescriptions Summary */}
-                <div className="bg-gray-50 rounded-xl p-4">
+                <div className="bg-neutral-50 rounded-xl p-4">
                     <div className="flex items-center gap-2 mb-3">
                         <Pill className="w-5 h-5 text-green-600" />
-                        <h3 className="font-semibold text-gray-800">Prescriptions ({prescriptions.length})</h3>
+                        <h3 className="font-semibold text-neutral-800">Prescriptions ({prescriptions.length})</h3>
                     </div>
                     {prescriptions.length === 0 ? (
-                        <p className="text-sm text-gray-500">No medicines prescribed</p>
+                        <p className="text-sm text-neutral-500">No medicines prescribed</p>
                     ) : (
                         <div className="space-y-2">
                             {prescriptions.slice(0, 5).map((p, i) => (
-                                <p key={i} className="text-sm text-gray-700">
+                                <p key={i} className="text-sm text-neutral-700">
                                     • {p.medicine_name} {p.potency}
                                 </p>
                             ))}
                             {prescriptions.length > 5 && (
-                                <p className="text-sm text-gray-500">
+                                <p className="text-sm text-neutral-500">
                                     +{prescriptions.length - 5} more
                                 </p>
                             )}
@@ -113,10 +113,10 @@ const ConsultationFeeStep: React.FC<ConsultationFeeStepProps> = ({
             </div>
 
             {/* Consultation Fee */}
-            <div className="bg-white border border-gray-200 rounded-xl p-6">
+            <div className="bg-white border border-neutral-200 rounded-xl p-6">
                 <div className="flex items-center gap-2 mb-4">
                     <DollarSign className="w-5 h-5 text-green-600" />
-                    <h3 className="font-semibold text-gray-800">Consultation Fee</h3>
+                    <h3 className="font-semibold text-neutral-800">Consultation Fee</h3>
                 </div>
 
                 {/* Preset Buttons */}
@@ -128,7 +128,7 @@ const ConsultationFeeStep: React.FC<ConsultationFeeStepProps> = ({
                             className={`py-3 px-2 rounded-lg border text-center font-medium transition-colors ${
                                 isPresetSelected(option.value)
                                     ? 'bg-green-600 border-green-600 text-white'
-                                    : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                                    : 'border-neutral-300 text-neutral-700 hover:bg-neutral-50'
                             }`}
                         >
                             {option.label}
@@ -138,8 +138,8 @@ const ConsultationFeeStep: React.FC<ConsultationFeeStepProps> = ({
                         onClick={() => setShowCustom(true)}
                         className={`py-3 px-2 rounded-lg border text-center font-medium transition-colors ${
                             showCustom
-                                ? 'bg-blue-600 border-blue-600 text-white'
-                                : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                                ? 'bg-primary-500 border-primary-500 text-white'
+                                : 'border-neutral-300 text-neutral-700 hover:bg-neutral-50'
                         }`}
                     >
                         Custom
@@ -150,7 +150,7 @@ const ConsultationFeeStep: React.FC<ConsultationFeeStepProps> = ({
                 {showCustom && (
                     <div className="flex items-center gap-3 mb-4">
                         <div className="flex-1 relative">
-                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">Rs.</span>
+                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500">Rs.</span>
                             <input
                                 type="number"
                                 min="0"
@@ -158,13 +158,13 @@ const ConsultationFeeStep: React.FC<ConsultationFeeStepProps> = ({
                                 value={customFee}
                                 onChange={(e) => setCustomFee(e.target.value)}
                                 placeholder="Enter custom amount"
-                                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full pl-12 pr-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                             />
                         </div>
                         <button
                             onClick={handleCustomFee}
                             disabled={!customFee}
-                            className="px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                            className="px-4 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50"
                         >
                             Apply
                         </button>
@@ -183,14 +183,14 @@ const ConsultationFeeStep: React.FC<ConsultationFeeStepProps> = ({
             {/* Clinical Notes */}
             <div>
                 <div className="flex items-center gap-2 mb-2">
-                    <FileText className="w-5 h-5 text-blue-600" />
-                    <label className="font-semibold text-gray-800">Clinical Notes</label>
+                    <FileText className="w-5 h-5 text-primary-500" />
+                    <label className="font-semibold text-neutral-800">Clinical Notes</label>
                 </div>
                 <textarea
                     value={clinicalNotes}
                     onChange={(e) => setClinicalNotes(e.target.value)}
                     placeholder="Add any clinical observations, examination findings, or notes for this consultation..."
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[120px] resize-none"
+                    className="w-full px-4 py-3 border border-neutral-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 min-h-[120px] resize-none"
                 />
             </div>
 
@@ -198,13 +198,13 @@ const ConsultationFeeStep: React.FC<ConsultationFeeStepProps> = ({
             <div>
                 <div className="flex items-center gap-2 mb-2">
                     <FileText className="w-5 h-5 text-purple-600" />
-                    <label className="font-semibold text-gray-800">Follow-up Instructions</label>
+                    <label className="font-semibold text-neutral-800">Follow-up Instructions</label>
                 </div>
                 <textarea
                     value={followUpInstructions}
                     onChange={(e) => setFollowUpInstructions(e.target.value)}
                     placeholder="Enter any follow-up instructions, lifestyle advice, dietary recommendations, or next appointment guidance..."
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[120px] resize-none"
+                    className="w-full px-4 py-3 border border-neutral-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 min-h-[120px] resize-none"
                 />
             </div>
 
@@ -214,17 +214,17 @@ const ConsultationFeeStep: React.FC<ConsultationFeeStepProps> = ({
                 <div className="space-y-2">
                     <div className="flex items-center gap-3">
                         <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
-                            diagnoses.length > 0 ? 'bg-green-500' : 'bg-gray-300'
+                            diagnoses.length > 0 ? 'bg-green-500' : 'bg-neutral-300'
                         }`}>
                             {diagnoses.length > 0 && <Check className="w-3 h-3 text-white" />}
                         </div>
-                        <span className={diagnoses.length > 0 ? 'text-green-700' : 'text-gray-500'}>
+                        <span className={diagnoses.length > 0 ? 'text-green-700' : 'text-neutral-500'}>
                             At least one diagnosis selected
                         </span>
                     </div>
                     <div className="flex items-center gap-3">
                         <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
-                            consultationFee >= 0 ? 'bg-green-500' : 'bg-gray-300'
+                            consultationFee >= 0 ? 'bg-green-500' : 'bg-neutral-300'
                         }`}>
                             <Check className="w-3 h-3 text-white" />
                         </div>
@@ -253,8 +253,8 @@ const ConsultationFeeStep: React.FC<ConsultationFeeStepProps> = ({
             </div>
 
             {/* Info about workflow */}
-            <div className="bg-gray-100 rounded-xl p-4 text-sm text-gray-600">
-                <p className="font-medium text-gray-800 mb-2">What happens next?</p>
+            <div className="bg-neutral-100 rounded-xl p-4 text-sm text-neutral-600">
+                <p className="font-medium text-neutral-800 mb-2">What happens next?</p>
                 <ol className="list-decimal list-inside space-y-1">
                     <li>This consultation will be marked as "Payment Pending"</li>
                     <li>The cashier will receive this in their billing queue</li>

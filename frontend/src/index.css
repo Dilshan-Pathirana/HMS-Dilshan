@@ -10,7 +10,7 @@
     }
 
     body {
-        @apply bg-slate-50 text-slate-900 font-sans antialiased;
+        @apply bg-neutral-50 text-neutral-900 font-sans antialiased;
         font-feature-settings: 'cv11', 'ss01';
         font-variation-settings: 'opsz' auto;
     }
@@ -21,7 +21,7 @@
     h4,
     h5,
     h6 {
-        @apply text-slate-900 font-semibold tracking-tight;
+        @apply text-neutral-900 font-semibold tracking-tight;
     }
 }
 
@@ -29,16 +29,24 @@
 
     /* Glass morphism utility classes */
     .glass {
-        @apply bg-white/80 backdrop-blur-xl border border-white/20;
+        @apply bg-white/80 backdrop-blur-xl border border-neutral-200/60;
     }
 
     .glass-dark {
-        @apply bg-slate-900/80 backdrop-blur-xl border border-white/10;
+        @apply bg-neutral-900/80 backdrop-blur-xl border border-white/10;
     }
 
-    /* Smooth transitions for all interactive elements */
+    /* Enhanced transition utilities */
     .transition-smooth {
-        @apply transition-all duration-200 ease-in-out;
+        @apply transition-all duration-200 ease-smooth;
+    }
+
+    .transition-colors-smooth {
+        @apply transition-colors duration-200 ease-smooth;
+    }
+
+    .transition-transform-smooth {
+        @apply transition-transform duration-300 ease-smooth;
     }
 }
 
@@ -61,8 +69,16 @@
         animation: slideInTop 0.2s ease-out;
     }
 
+    .slide-up {
+        animation: slideUp 0.3s ease-out;
+    }
+
+    .slide-down {
+        animation: slideDown 0.3s ease-out;
+    }
+
     .zoom-in-95 {
-        animation: zoomIn 0.2s ease-out;
+        animation: scaleIn 0.2s ease-out;
     }
 
     /* Blob animation for background effects */
@@ -114,7 +130,31 @@
     }
 }
 
-@keyframes zoomIn {
+@keyframes slideUp {
+    0% {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    0% {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
     0% {
         transform: scale(0.95);
         opacity: 0;

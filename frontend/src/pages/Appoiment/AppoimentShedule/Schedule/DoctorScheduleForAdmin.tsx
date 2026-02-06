@@ -125,11 +125,11 @@ const DoctorScheduleForAdmin: React.FC<DoctorProps> = ({
     return (
         <div className="flex-1 bg-white shadow-md rounded-md p-6">
             <div className="flex items-center mb-6 border-b pb-4">
-                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mr-4">
-                    <FaUserMd className="text-gray-500 text-3xl" />
+                <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mr-4">
+                    <FaUserMd className="text-neutral-500 text-3xl" />
                 </div>
                 <div>
-                    <h1 className="text-xl font-bold text-gray-800">
+                    <h1 className="text-xl font-bold text-neutral-800">
                         {schedule.user_first_name} {schedule.user_last_name}
                     </h1>
                     {(() => {
@@ -141,15 +141,15 @@ const DoctorScheduleForAdmin: React.FC<DoctorProps> = ({
                         const visible = specializations.slice(0, 2).join(", ");
                         const hiddenCount = specializations.length - 2;
                         return (
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-neutral-600">
                                 {visible}
                                 {hiddenCount > 0 && (
                                     <div className="relative inline-block ml-1">
-                                        <span className="text-gray-500 cursor-pointer group">
+                                        <span className="text-neutral-500 cursor-pointer group">
                                             +{hiddenCount} more
                                         </span>
-                                        <div className="absolute left-0 mt-1 hidden group-hover:block bg-white border border-gray-200 rounded-md shadow-lg p-2 z-10 max-w-xs">
-                                            <ul className="text-xs text-gray-700 space-y-1">
+                                        <div className="absolute left-0 mt-1 hidden group-hover:block bg-white border border-neutral-200 rounded-md shadow-lg p-2 z-10 max-w-xs">
+                                            <ul className="text-xs text-neutral-700 space-y-1">
                                                 {specializations
                                                     .slice(2)
                                                     .map((spec, idx) => (
@@ -164,26 +164,26 @@ const DoctorScheduleForAdmin: React.FC<DoctorProps> = ({
                             </p>
                         );
                     })()}
-                    <p className="text-sm text-gray-500 italic">
+                    <p className="text-sm text-neutral-500 italic">
                         Branch: {schedule.branch_center_name}
                     </p>
                 </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 bg-gray-100 rounded-md p-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 bg-neutral-100 rounded-md p-4 mb-6">
                 <div className="flex flex-col items-center justify-center text-center">
-                    <p className="text-sm text-gray-500">Start Time:</p>
-                    <h2 className="text-lg font-bold text-gray-700">
+                    <p className="text-sm text-neutral-500">Start Time:</p>
+                    <h2 className="text-lg font-bold text-neutral-700">
                         {schedule.start_time}
                     </h2>
                 </div>
                 <div className="flex flex-col items-center justify-center text-center">
-                    <p className="text-sm text-gray-500">Day:</p>
-                    <h2 className="text-lg font-bold text-gray-700">
+                    <p className="text-sm text-neutral-500">Day:</p>
+                    <h2 className="text-lg font-bold text-neutral-700">
                         {schedule.schedule_day}
                     </h2>
                 </div>
                 <div className="flex flex-col items-center justify-center text-center">
-                    <p className="text-sm text-gray-500">Status:</p>
+                    <p className="text-sm text-neutral-500">Status:</p>
                     <h2 className="text-lg font-bold text-green-600">
                         Available
                     </h2>
@@ -204,27 +204,27 @@ const DoctorScheduleForAdmin: React.FC<DoctorProps> = ({
                         new Date(new Date().setMonth(new Date().getMonth() + 1))
                     }
                     filterDate={isValidAppointmentDate}
-                    className="border border-gray-300 rounded-md shadow-sm p-2 mb-2"
+                    className="border border-neutral-300 rounded-md shadow-sm p-2 mb-2"
                 />
                 {schedule.schedule_day && (
-                    <p className="text-sm text-blue-600 mt-2 flex items-center">
-                        <span className="inline-block w-2 h-2 bg-blue-600 rounded-full mr-2"></span>
+                    <p className="text-sm text-primary-500 mt-2 flex items-center">
+                        <span className="inline-block w-2 h-2 bg-primary-500 rounded-full mr-2"></span>
                         Only {schedule.schedule_day}s are available for booking
                         within the next month
                     </p>
                 )}
                 {isLoadingSlots && (
-                    <p className="text-gray-500 mt-4">
+                    <p className="text-neutral-500 mt-4">
                         Loading available slots...
                     </p>
                 )}
-                {error && <p className="text-red-500 mt-4">{error}</p>}
+                {error && <p className="text-error-500 mt-4">{error}</p>}
             </div>
 
             {allSlots.length > 0 && (
                 <div>
                     <h2 className="text-lg font-bold mb-2">Available Slots</h2>
-                    <div className="overflow-y-auto max-h-60 border border-gray-300 rounded-md p-4">
+                    <div className="overflow-y-auto max-h-60 border border-neutral-300 rounded-md p-4">
                         <div className="grid grid-cols-5 gap-4">
                             {allSlots.map((slot) => {
                                 const isBooked =
@@ -234,8 +234,8 @@ const DoctorScheduleForAdmin: React.FC<DoctorProps> = ({
                                     selectedSlot === slot
                                         ? "text-white"
                                         : isBooked
-                                          ? "text-gray-600"
-                                          : "text-gray-800";
+                                          ? "text-neutral-600"
+                                          : "text-neutral-800";
 
                                 return (
                                     <button
@@ -243,10 +243,10 @@ const DoctorScheduleForAdmin: React.FC<DoctorProps> = ({
                                         onClick={() => onSlotClick(slot)}
                                         className={`flex flex-col items-center py-4 px-6 rounded-md shadow-md text-sm font-semibold transition ${
                                             isBooked
-                                                ? "bg-yellow-200 text-gray-600 cursor-not-allowed"
+                                                ? "bg-yellow-200 text-neutral-600 cursor-not-allowed"
                                                 : selectedSlot === slot
                                                   ? "bg-red-600 text-white"
-                                                  : "bg-gray-50 text-gray-800 hover:bg-blue-500 hover:text-white"
+                                                  : "bg-neutral-50 text-neutral-800 hover:bg-primary-500 hover:text-white"
                                         }`}
                                         disabled={isBooked}
                                     >
@@ -266,7 +266,7 @@ const DoctorScheduleForAdmin: React.FC<DoctorProps> = ({
                                         </div>
                                         {slotTimeLabel && (
                                             <span
-                                                className={`text-xs ${selectedSlot === slot ? "text-white/90" : isBooked ? "text-gray-500" : "text-gray-600"}`}
+                                                className={`text-xs ${selectedSlot === slot ? "text-white/90" : isBooked ? "text-neutral-500" : "text-neutral-600"}`}
                                             >
                                                 {slotTimeLabel}
                                             </span>

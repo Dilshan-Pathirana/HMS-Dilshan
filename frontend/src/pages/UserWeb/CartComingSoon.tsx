@@ -6,7 +6,7 @@ import Footer from './Footer';
 
 const CartComingSoon: React.FC = () => {
     return (
-        <div className="bg-gray-50 min-h-screen flex flex-col">
+        <div className="bg-neutral-50 min-h-screen flex flex-col">
             <NavBar />
             
             <div className="flex-grow flex items-center justify-center px-4 py-16">
@@ -37,14 +37,14 @@ const CartComingSoon: React.FC = () => {
                             <span>Under Development</span>
                         </div>
                         
-                        <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
+                        <h1 className="text-4xl md:text-5xl font-bold text-neutral-900">
                             Online Shopping
                             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">
                                 Coming Soon!
                             </span>
                         </h1>
                         
-                        <p className="text-lg text-gray-600 max-w-md mx-auto leading-relaxed">
+                        <p className="text-lg text-neutral-600 max-w-md mx-auto leading-relaxed">
                             We're working hard to bring you an amazing online shopping experience for 
                             <span className="font-semibold text-emerald-600"> Ayurvedic medicines</span> and 
                             <span className="font-semibold text-emerald-600"> health products</span>.
@@ -56,24 +56,24 @@ const CartComingSoon: React.FC = () => {
                                 <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center mx-auto mb-3">
                                     <Heart className="w-5 h-5 text-emerald-600" />
                                 </div>
-                                <h3 className="font-semibold text-gray-900">Quality Products</h3>
-                                <p className="text-sm text-gray-500">Authentic Ayurvedic medicines</p>
+                                <h3 className="font-semibold text-neutral-900">Quality Products</h3>
+                                <p className="text-sm text-neutral-500">Authentic Ayurvedic medicines</p>
                             </div>
                             
                             <div className="p-4 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                                 <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mx-auto mb-3">
                                     <ShoppingCart className="w-5 h-5 text-teal-600" />
                                 </div>
-                                <h3 className="font-semibold text-gray-900">Easy Ordering</h3>
-                                <p className="text-sm text-gray-500">Simple checkout process</p>
+                                <h3 className="font-semibold text-neutral-900">Easy Ordering</h3>
+                                <p className="text-sm text-neutral-500">Simple checkout process</p>
                             </div>
                             
                             <div className="p-4 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                                 <div className="w-10 h-10 bg-cyan-100 rounded-lg flex items-center justify-center mx-auto mb-3">
                                     <Bell className="w-5 h-5 text-cyan-600" />
                                 </div>
-                                <h3 className="font-semibold text-gray-900">Get Notified</h3>
-                                <p className="text-sm text-gray-500">Be first to know when we launch</p>
+                                <h3 className="font-semibold text-neutral-900">Get Notified</h3>
+                                <p className="text-sm text-neutral-500">Be first to know when we launch</p>
                             </div>
                         </div>
                         
@@ -97,8 +97,8 @@ const CartComingSoon: React.FC = () => {
                     </div>
                     
                     {/* Decorative elements */}
-                    <div className="mt-16 pt-8 border-t border-gray-200">
-                        <p className="text-gray-500 text-sm">
+                    <div className="mt-16 pt-8 border-t border-neutral-200">
+                        <p className="text-neutral-500 text-sm">
                             In the meantime, visit our centers or call us for your medicine needs.
                         </p>
                         <p className="text-emerald-600 font-semibold mt-2">

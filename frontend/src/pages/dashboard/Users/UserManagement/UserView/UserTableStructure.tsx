@@ -113,25 +113,25 @@ const UserTableStructure: React.FC<UserTableStructureProps> = ({
             ) : filteredUsers.length === 0 ? (
                 <div className="text-center py-4">No users found.</div>
             ) : (
-                <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
-                    <thead className="bg-gray-50">
+                <table className="min-w-full divide-y divide-gray-200 border border-neutral-200">
+                    <thead className="bg-neutral-50">
                         <tr>
                             {UserTableHeader && Array.isArray(UserTableHeader) ? UserTableHeader.map((header) => (
                                 <th
                                     key={header}
-                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider"
                                 >
                                     {header}
                                 </th>
                             )) : null}
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                 Action
                             </th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                         {paginatedUsers && paginatedUsers.length > 0 ? paginatedUsers.map((user: IUserData, index: number) => (
-                            <tr key={`${user.id}-${user.role_as}-${index}`} className="hover:bg-gray-50">
+                            <tr key={`${user.id}-${user.role_as}-${index}`} className="hover:bg-neutral-50">
                                 <td className="px-6 py-4 text-sm">
                                     {user.first_name}
                                 </td>
@@ -162,7 +162,7 @@ const UserTableStructure: React.FC<UserTableStructureProps> = ({
                                         title="Record Resignation"
                                     />
                                     <FiTrash
-                                        className="text-red-500 cursor-pointer hover:text-red-700"
+                                        className="text-error-500 cursor-pointer hover:text-red-700"
                                         onClick={() => handleDelete(user)}
                                         title="Delete User"
                                     />
@@ -170,7 +170,7 @@ const UserTableStructure: React.FC<UserTableStructureProps> = ({
                             </tr>
                         )) : (
                             <tr>
-                                <td colSpan={UserTableHeader.length + 1} className="px-6 py-4 text-center text-sm text-gray-500">
+                                <td colSpan={UserTableHeader.length + 1} className="px-6 py-4 text-center text-sm text-neutral-500">
                                     No users found
                                 </td>
                             </tr>

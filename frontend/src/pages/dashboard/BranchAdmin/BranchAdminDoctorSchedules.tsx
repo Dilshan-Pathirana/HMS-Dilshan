@@ -27,7 +27,7 @@ interface DoctorSchedule {
 const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 const dayColors: { [key: string]: string } = {
-    'Sunday': 'bg-red-100 text-red-800 border-red-200',
+    'Sunday': 'bg-error-100 text-red-800 border-red-200',
     'Monday': 'bg-blue-100 text-blue-800 border-blue-200',
     'Tuesday': 'bg-green-100 text-green-800 border-green-200',
     'Wednesday': 'bg-purple-100 text-purple-800 border-purple-200',
@@ -122,23 +122,23 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
             branchLogo={branchLogo}
             userGender={userGender}
         >
-            <div className="min-h-screen bg-gray-50 p-6">
+            <div className="min-h-screen bg-neutral-50 p-6">
                 {/* Header */}
                 <div className="mb-6">
                     <div className="flex items-center gap-4 mb-2">
                         <button 
                             onClick={() => navigate('/branch-admin')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ChevronLeft className="w-5 h-5 text-gray-500" />
+                            <ChevronLeft className="w-5 h-5 text-neutral-500" />
                         </button>
-                        <div className="flex items-center gap-2 text-sm text-gray-500">
+                        <div className="flex items-center gap-2 text-sm text-neutral-500">
                             <Building2 className="w-4 h-4" />
                             <span>{branchName}</span>
                         </div>
                     </div>
-                    <h1 className="text-2xl font-bold text-gray-800">Doctor Schedules</h1>
-                    <p className="text-gray-500">View all approved doctor schedules for your branch</p>
+                    <h1 className="text-2xl font-bold text-neutral-800">Doctor Schedules</h1>
+                    <p className="text-neutral-500">View all approved doctor schedules for your branch</p>
                 </div>
 
                 {/* Stats Cards */}
@@ -146,11 +146,11 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
                         <div className="flex items-center gap-3">
                             <div className="p-3 bg-blue-100 rounded-lg">
-                                <Calendar className="w-6 h-6 text-blue-600" />
+                                <Calendar className="w-6 h-6 text-primary-500" />
                             </div>
                             <div>
-                                <p className="text-2xl font-bold text-gray-800">{totalSchedules}</p>
-                                <p className="text-sm text-gray-500">Total Schedules</p>
+                                <p className="text-2xl font-bold text-neutral-800">{totalSchedules}</p>
+                                <p className="text-sm text-neutral-500">Total Schedules</p>
                             </div>
                         </div>
                     </div>
@@ -160,8 +160,8 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
                                 <Stethoscope className="w-6 h-6 text-green-600" />
                             </div>
                             <div>
-                                <p className="text-2xl font-bold text-gray-800">{uniqueDoctors}</p>
-                                <p className="text-sm text-gray-500">Doctors Scheduled</p>
+                                <p className="text-2xl font-bold text-neutral-800">{uniqueDoctors}</p>
+                                <p className="text-sm text-neutral-500">Doctors Scheduled</p>
                             </div>
                         </div>
                     </div>
@@ -171,8 +171,8 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
                                 <Clock className="w-6 h-6 text-purple-600" />
                             </div>
                             <div>
-                                <p className="text-2xl font-bold text-gray-800">{activeDays}</p>
-                                <p className="text-sm text-gray-500">Active Days</p>
+                                <p className="text-2xl font-bold text-neutral-800">{activeDays}</p>
+                                <p className="text-sm text-neutral-500">Active Days</p>
                             </div>
                         </div>
                     </div>
@@ -183,40 +183,40 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
                     <div className="flex flex-col md:flex-row gap-4">
                         {/* Search */}
                         <div className="flex-1 relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                             <input
                                 type="text"
                                 placeholder="Search by doctor name, email, or specialization..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                             />
                         </div>
 
                         {/* Day Filter */}
                         <div className="relative">
-                            <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                            <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                             <select
                                 value={selectedDay}
                                 onChange={(e) => setSelectedDay(e.target.value)}
-                                className="pl-10 pr-8 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white min-w-[160px]"
+                                className="pl-10 pr-8 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent appearance-none bg-white min-w-[160px]"
                             >
                                 <option value="all">All Days</option>
                                 {daysOfWeek.map(day => (
                                     <option key={day} value={day}>{day}</option>
                                 ))}
                             </select>
-                            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400 pointer-events-none" />
                         </div>
 
                         {/* View Mode Toggle */}
-                        <div className="flex bg-gray-100 rounded-lg p-1">
+                        <div className="flex bg-neutral-100 rounded-lg p-1">
                             <button
                                 onClick={() => setViewMode('day')}
                                 className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
                                     viewMode === 'day' 
-                                        ? 'bg-white text-blue-600 shadow-sm' 
-                                        : 'text-gray-600 hover:text-gray-800'
+                                        ? 'bg-white text-primary-500 shadow-sm' 
+                                        : 'text-neutral-600 hover:text-neutral-800'
                                 }`}
                             >
                                 By Day
@@ -225,8 +225,8 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
                                 onClick={() => setViewMode('list')}
                                 className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
                                     viewMode === 'list' 
-                                        ? 'bg-white text-blue-600 shadow-sm' 
-                                        : 'text-gray-600 hover:text-gray-800'
+                                        ? 'bg-white text-primary-500 shadow-sm' 
+                                        : 'text-neutral-600 hover:text-neutral-800'
                                 }`}
                             >
                                 List
@@ -237,7 +237,7 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
                         <button
                             onClick={fetchSchedules}
                             disabled={loading}
-                            className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center gap-2"
+                            className="px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50 flex items-center gap-2"
                         >
                             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
                             Refresh
@@ -248,14 +248,14 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
                 {/* Loading State */}
                 {loading && (
                     <div className="flex items-center justify-center py-12">
-                        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+                        <Loader2 className="w-8 h-8 animate-spin text-primary-500" />
                     </div>
                 )}
 
                 {/* Error State */}
                 {error && !loading && (
-                    <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
-                        <p className="text-red-600">{error}</p>
+                    <div className="bg-error-50 border border-red-200 rounded-xl p-6 text-center">
+                        <p className="text-error-600">{error}</p>
                         <button
                             onClick={fetchSchedules}
                             className="mt-3 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
@@ -269,8 +269,8 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
                 {!loading && !error && filteredSchedules.length === 0 && (
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
                         <Calendar className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                        <h3 className="text-lg font-semibold text-gray-700 mb-2">No Schedules Found</h3>
-                        <p className="text-gray-500">
+                        <h3 className="text-lg font-semibold text-neutral-700 mb-2">No Schedules Found</h3>
+                        <p className="text-neutral-500">
                             {searchTerm || selectedDay !== 'all' 
                                 ? 'No schedules match your current filters.'
                                 : 'There are no approved doctor schedules for your branch yet.'}
@@ -288,7 +288,7 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
 
                             return (
                                 <div key={day} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                                    <div className={`px-6 py-3 border-b ${dayColors[day] || 'bg-gray-100'}`}>
+                                    <div className={`px-6 py-3 border-b ${dayColors[day] || 'bg-neutral-100'}`}>
                                         <div className="flex items-center justify-between">
                                             <h3 className="font-semibold">{day}</h3>
                                             <span className="text-sm">
@@ -298,17 +298,17 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
                                     </div>
                                     <div className="divide-y divide-gray-100">
                                         {daySchedules.map(schedule => (
-                                            <div key={schedule.id} className="p-4 hover:bg-gray-50">
+                                            <div key={schedule.id} className="p-4 hover:bg-neutral-50">
                                                 <div className="flex items-start justify-between">
                                                     <div className="flex items-start gap-4">
                                                         <div className="p-2 bg-blue-100 rounded-lg">
-                                                            <User className="w-5 h-5 text-blue-600" />
+                                                            <User className="w-5 h-5 text-primary-500" />
                                                         </div>
                                                         <div>
-                                                            <h4 className="font-medium text-gray-800">
+                                                            <h4 className="font-medium text-neutral-800">
                                                                 {schedule.doctor_name}
                                                             </h4>
-                                                            <p className="text-sm text-gray-500">{schedule.doctor_email}</p>
+                                                            <p className="text-sm text-neutral-500">{schedule.doctor_email}</p>
                                                             {schedule.doctor_specialization && (
                                                                 <span className="inline-block mt-1 px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded-full">
                                                                     {schedule.doctor_specialization}
@@ -317,17 +317,17 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
                                                         </div>
                                                     </div>
                                                     <div className="text-right">
-                                                        <div className="flex items-center gap-2 text-gray-700">
-                                                            <Clock className="w-4 h-4 text-gray-400" />
+                                                        <div className="flex items-center gap-2 text-neutral-700">
+                                                            <Clock className="w-4 h-4 text-neutral-400" />
                                                             <span className="font-medium">
                                                                 {formatTime(schedule.start_time)} - {formatTime(schedule.end_time)}
                                                             </span>
                                                         </div>
-                                                        <div className="flex items-center gap-2 text-sm text-gray-500 mt-1">
+                                                        <div className="flex items-center gap-2 text-sm text-neutral-500 mt-1">
                                                             <Users className="w-4 h-4" />
                                                             <span>Max {schedule.max_patients} patients</span>
                                                         </div>
-                                                        <p className="text-xs text-gray-400 mt-1">
+                                                        <p className="text-xs text-neutral-400 mt-1">
                                                             {schedule.time_per_patient} min per patient
                                                         </p>
                                                     </div>
@@ -345,32 +345,32 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
                 {!loading && !error && viewMode === 'list' && filteredSchedules.length > 0 && (
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                         <table className="w-full">
-                            <thead className="bg-gray-50 border-b border-gray-200">
+                            <thead className="bg-neutral-50 border-b border-neutral-200">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                         Doctor
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                         Day
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                         Time
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                         Patients
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                         Duration
                                     </th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100">
                                 {filteredSchedules.map(schedule => (
-                                    <tr key={schedule.id} className="hover:bg-gray-50">
+                                    <tr key={schedule.id} className="hover:bg-neutral-50">
                                         <td className="px-6 py-4">
                                             <div>
-                                                <p className="font-medium text-gray-800">{schedule.doctor_name}</p>
-                                                <p className="text-sm text-gray-500">{schedule.doctor_email}</p>
+                                                <p className="font-medium text-neutral-800">{schedule.doctor_name}</p>
+                                                <p className="text-sm text-neutral-500">{schedule.doctor_email}</p>
                                                 {schedule.doctor_specialization && (
                                                     <span className="inline-block mt-1 px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded-full">
                                                         {schedule.doctor_specialization}
@@ -379,20 +379,20 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
                                             </div>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${dayColors[schedule.schedule_day] || 'bg-gray-100 text-gray-800'}`}>
+                                            <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${dayColors[schedule.schedule_day] || 'bg-neutral-100 text-neutral-800'}`}>
                                                 {schedule.schedule_day}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <span className="text-gray-700">
+                                            <span className="text-neutral-700">
                                                 {formatTime(schedule.start_time)} - {formatTime(schedule.end_time)}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <span className="text-gray-700">{schedule.max_patients}</span>
+                                            <span className="text-neutral-700">{schedule.max_patients}</span>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <span className="text-gray-500">{schedule.time_per_patient} min/patient</span>
+                                            <span className="text-neutral-500">{schedule.time_per_patient} min/patient</span>
                                         </td>
                                     </tr>
                                 ))}

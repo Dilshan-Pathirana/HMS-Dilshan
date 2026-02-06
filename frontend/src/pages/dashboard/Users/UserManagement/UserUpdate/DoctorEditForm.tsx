@@ -188,7 +188,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="first_name"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         First Name
                     </label>
@@ -198,13 +198,13 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                         name="first_name"
                         value={userDetails.first_name || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
                 <div>
                     <label
                         htmlFor="last_name"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Last Name
                     </label>
@@ -214,7 +214,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                         name="last_name"
                         value={userDetails.last_name || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
             </div>
@@ -223,7 +223,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="email"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Email
                     </label>
@@ -233,13 +233,13 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                         name="email"
                         value={userDetails.email || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
                 <div>
                     <label
                         htmlFor="branches"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Branches
                     </label>
@@ -255,7 +255,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                             placeholder="Select Branches"
                         />
                     ) : (
-                        <div className="mt-1 p-2 text-sm text-gray-500">
+                        <div className="mt-1 p-2 text-sm text-neutral-500">
                             Loading branches...
                         </div>
                     )}
@@ -266,7 +266,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="date_of_birth"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Date of Birth
                     </label>
@@ -276,13 +276,13 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                         name="doctors_date_of_birth"
                         value={userDetails.doctors_date_of_birth || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
                 <div>
                     <label
                         htmlFor="gender"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Gender
                     </label>
@@ -291,7 +291,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                         name="doctors_gender"
                         value={userDetails.doctors_gender || ""}
                         onChange={handleSelectChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                     >
                         <option value="">Select Gender</option>
                         <option value="male">Male</option>
@@ -305,7 +305,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="nic_number"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         NIC Number
                     </label>
@@ -315,13 +315,13 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                         name="doctors_nic_number"
                         value={userDetails.doctors_nic_number || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
                 <div>
                     <label
                         htmlFor="contact_number_mobile"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Mobile Number
                     </label>
@@ -331,7 +331,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                         name="doctors_contact_number_mobile"
                         value={userDetails.doctors_contact_number_mobile || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
             </div>
@@ -340,7 +340,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="contact_number_landline"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Landline Number
                     </label>
@@ -352,14 +352,14 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                             userDetails.doctors_contact_number_landline || ""
                         }
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
 
                 <div>
                     <label
                         htmlFor="emergency_contact_info"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Emergency Contact
                     </label>
@@ -369,7 +369,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                         name="doctors_emergency_contact_info"
                         value={userDetails.doctors_emergency_contact_info || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
             </div>
@@ -377,7 +377,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
             <div className="mb-4">
                 <label
                     htmlFor="home_address"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-neutral-700"
                 >
                     Home Address
                 </label>
@@ -387,7 +387,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                     name="doctors_home_address"
                     value={userDetails.doctors_home_address || ""}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                 />
             </div>
 
@@ -395,7 +395,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="qualifications"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Qualifications
                     </label>
@@ -416,7 +416,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="areas_of_specialization"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Areas of Specialization
                     </label>
@@ -439,7 +439,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="years_of_experience"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Years of Experience
                     </label>
@@ -449,13 +449,13 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                         name="doctors_years_of_experience"
                         value={userDetails.doctors_years_of_experience || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
                 <div>
                     <label
                         htmlFor="previous_employment"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Previous Employment
                     </label>
@@ -465,7 +465,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                         name="doctors_previous_employment"
                         value={userDetails.doctors_previous_employment || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
             </div>
@@ -474,7 +474,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="license_validity_date"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         License Validity Date
                     </label>
@@ -484,13 +484,13 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                         name="doctors_license_validity_date"
                         value={userDetails.doctors_license_validity_date || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
                 <div>
                     <label
                         htmlFor="employee_id"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Employee ID
                     </label>
@@ -500,7 +500,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                         name="doctors_employee_id"
                         value={userDetails.doctors_employee_id || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                         readOnly
                     />
                 </div>
@@ -509,7 +509,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="medical_registration_number"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Medical registration number
                     </label>
@@ -522,7 +522,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                             ""
                         }
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
             </div>
@@ -530,7 +530,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="joining_date"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Joining Date
                     </label>
@@ -540,13 +540,13 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                         name="doctors_joining_date"
                         value={userDetails.doctors_joining_date || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
                 <div>
                     <label
                         htmlFor="contract_type"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Contract Type
                     </label>
@@ -555,7 +555,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                         name="doctors_contract_type"
                         value={userDetails.doctors_contract_type || ""}
                         onChange={handleSelectChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                     >
                         <option value="">Select Contract Type</option>
                         <option value="full-time">Full-time</option>
@@ -571,7 +571,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="contract_duration"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Contract Duration
                     </label>
@@ -581,13 +581,13 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                         name="doctors_contract_duration"
                         value={userDetails.doctors_contract_duration || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
                 <div>
                     <label
                         htmlFor="compensation_package"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Compensation Package
                     </label>
@@ -597,7 +597,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                         name="doctors_compensation_package"
                         value={userDetails.doctors_compensation_package || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
             </div>
@@ -606,7 +606,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                 <div>
                     <label
                         htmlFor="probation_start_date"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Probation Start Date
                     </label>
@@ -616,13 +616,13 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                         name="doctors_probation_start_date"
                         value={userDetails.doctors_probation_start_date || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
                 <div>
                     <label
                         htmlFor="probation_end_date"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-neutral-700"
                     >
                         Probation End Date
                     </label>
@@ -632,7 +632,7 @@ export const DoctorEditForm: React.FC<DoctorEditFormProps> = ({
                         name="doctors_probation_end_date"
                         value={userDetails.doctors_probation_end_date || ""}
                         onChange={handleInputChange}
-                        className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md"
                     />
                 </div>
             </div>

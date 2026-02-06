@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ConsultationQueue from './consultation/ConsultationQueue';
 import ConsultationFlow from './consultation/ConsultationFlow';

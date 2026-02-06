@@ -10,11 +10,11 @@ const ProductDetailsModalForPharmacist: React.FC<ProductDetailsModalProps> = ({
     if (!isOpen || !product) return null;
 
     return (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
+        <div className="fixed inset-0 bg-neutral-800 bg-opacity-75 flex justify-center items-center z-50">
             <div className="bg-white rounded-lg shadow-lg w-[90%] max-w-3xl relative p-6">
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 text-gray-600 hover:text-gray-800"
+                    className="absolute top-4 right-4 text-neutral-600 hover:text-neutral-800"
                 >
                     <FaTimes size={20} />
                 </button>
@@ -71,7 +71,7 @@ const ProductDetailsModalForPharmacist: React.FC<ProductDetailsModalProps> = ({
                 <div className="mt-6 flex justify-end">
                     <button
                         onClick={onClose}
-                        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                        className="px-4 py-2 bg-primary-500 text-white rounded hover:bg-primary-500"
                     >
                         Close
                     </button>

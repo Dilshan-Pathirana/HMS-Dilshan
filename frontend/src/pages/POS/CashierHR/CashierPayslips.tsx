@@ -266,10 +266,10 @@ const CashierPayslips: React.FC = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+            <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
                 <div className="text-center">
                     <Loader2 className="w-12 h-12 animate-spin text-emerald-500 mx-auto mb-4" />
-                    <p className="text-gray-600">Loading payslips...</p>
+                    <p className="text-neutral-600">Loading payslips...</p>
                 </div>
             </div>
         );
@@ -278,38 +278,38 @@ const CashierPayslips: React.FC = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-emerald-50/30 p-6">
             {/* Header */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 mb-6">
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => navigate('/pos/hr')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ArrowLeft className="w-5 h-5 text-gray-600" />
+                            <ArrowLeft className="w-5 h-5 text-neutral-600" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">My Payslips</h1>
-                            <p className="text-gray-600 text-sm mt-1">View, download and print your monthly payslips</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">My Payslips</h1>
+                            <p className="text-neutral-600 text-sm mt-1">View, download and print your monthly payslips</p>
                         </div>
                     </div>
                     {years.length > 0 && (
                         <div className="flex items-center gap-2">
                             <button
                                 onClick={() => setSelectedYear(prev => prev - 1)}
-                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                                 disabled={!years.includes(selectedYear - 1)}
                             >
-                                <ChevronLeft className="w-5 h-5 text-gray-600" />
+                                <ChevronLeft className="w-5 h-5 text-neutral-600" />
                             </button>
                             <div className="px-4 py-2 bg-emerald-50 rounded-lg">
                                 <span className="font-medium text-emerald-900">{selectedYear}</span>
                             </div>
                             <button
                                 onClick={() => setSelectedYear(prev => prev + 1)}
-                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                                 disabled={selectedYear >= new Date().getFullYear()}
                             >
-                                <ChevronRight className="w-5 h-5 text-gray-600" />
+                                <ChevronRight className="w-5 h-5 text-neutral-600" />
                             </button>
                         </div>
                     )}
@@ -342,15 +342,15 @@ const CashierPayslips: React.FC = () => {
 
             {/* Latest Payslip Preview */}
             {latestPayslip && (
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 mb-6">
                     <div className="flex items-center justify-between mb-6">
                         <div className="flex items-center gap-3">
                             <div className="p-3 bg-emerald-100 rounded-xl">
                                 <DollarSign className="w-6 h-6 text-emerald-600" />
                             </div>
                             <div>
-                                <h2 className="text-lg font-semibold text-gray-800">Latest Payslip</h2>
-                                <p className="text-sm text-gray-500">{getMonthName(latestPayslip.month)}</p>
+                                <h2 className="text-lg font-semibold text-neutral-800">Latest Payslip</h2>
+                                <p className="text-sm text-neutral-500">{getMonthName(latestPayslip.month)}</p>
                             </div>
                             <span className={`ml-3 px-3 py-1 text-xs rounded-full font-medium ${
                                 latestPayslip.status === 'paid' 
@@ -363,14 +363,14 @@ const CashierPayslips: React.FC = () => {
                         <div className="flex items-center gap-2">
                             <button 
                                 onClick={() => viewPayslipDetail(latestPayslip)}
-                                className="flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors"
                             >
                                 <Eye className="w-4 h-4" />
                                 View
                             </button>
                             <button 
                                 onClick={() => printPayslip(latestPayslip)}
-                                className="flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors"
                             >
                                 <Printer className="w-4 h-4" />
                                 Print
@@ -389,48 +389,48 @@ const CashierPayslips: React.FC = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* Earnings */}
                         <div className="bg-green-50 rounded-lg p-5">
-                            <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                            <h3 className="font-semibold text-neutral-800 mb-4 flex items-center gap-2">
                                 <TrendingUp className="w-4 h-4 text-green-600" />
                                 Earnings
                             </h3>
                             <div className="space-y-3">
                                 <div className="flex justify-between">
-                                    <span className="text-gray-600">Basic Salary</span>
-                                    <span className="font-medium text-gray-800">{formatCurrency(latestPayslip.basicSalary)}</span>
+                                    <span className="text-neutral-600">Basic Salary</span>
+                                    <span className="font-medium text-neutral-800">{formatCurrency(latestPayslip.basicSalary)}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-600">Allowances</span>
-                                    <span className="font-medium text-gray-800">{formatCurrency(latestPayslip.allowances)}</span>
+                                    <span className="text-neutral-600">Allowances</span>
+                                    <span className="font-medium text-neutral-800">{formatCurrency(latestPayslip.allowances)}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-600">Overtime</span>
+                                    <span className="text-neutral-600">Overtime</span>
                                     <span className="font-medium text-emerald-600">{formatCurrency(latestPayslip.overtime)}</span>
                                 </div>
                                 <div className="flex justify-between pt-3 border-t border-green-200">
-                                    <span className="font-semibold text-gray-800">Gross Salary</span>
+                                    <span className="font-semibold text-neutral-800">Gross Salary</span>
                                     <span className="font-bold text-green-700">{formatCurrency(latestPayslip.grossSalary)}</span>
                                 </div>
                             </div>
                         </div>
 
                         {/* Deductions */}
-                        <div className="bg-red-50 rounded-lg p-5">
-                            <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                                <DollarSign className="w-4 h-4 text-red-600" />
+                        <div className="bg-error-50 rounded-lg p-5">
+                            <h3 className="font-semibold text-neutral-800 mb-4 flex items-center gap-2">
+                                <DollarSign className="w-4 h-4 text-error-600" />
                                 Deductions
                             </h3>
                             <div className="space-y-3">
                                 <div className="flex justify-between">
-                                    <span className="text-gray-600">EPF (Employee 8%)</span>
-                                    <span className="font-medium text-red-600">- {formatCurrency(latestPayslip.epfEmployee)}</span>
+                                    <span className="text-neutral-600">EPF (Employee 8%)</span>
+                                    <span className="font-medium text-error-600">- {formatCurrency(latestPayslip.epfEmployee)}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-600">Other Deductions</span>
-                                    <span className="font-medium text-red-600">- {formatCurrency(latestPayslip.otherDeductions)}</span>
+                                    <span className="text-neutral-600">Other Deductions</span>
+                                    <span className="font-medium text-error-600">- {formatCurrency(latestPayslip.otherDeductions)}</span>
                                 </div>
                                 <div className="flex justify-between pt-3 border-t border-red-200">
-                                    <span className="font-semibold text-gray-800">Total Deductions</span>
-                                    <span className="font-bold text-red-600">- {formatCurrency(latestPayslip.epfEmployee + latestPayslip.otherDeductions)}</span>
+                                    <span className="font-semibold text-neutral-800">Total Deductions</span>
+                                    <span className="font-bold text-error-600">- {formatCurrency(latestPayslip.epfEmployee + latestPayslip.otherDeductions)}</span>
                                 </div>
                             </div>
                             <div className="mt-4 p-3 bg-blue-50 rounded-lg">
@@ -438,7 +438,7 @@ const CashierPayslips: React.FC = () => {
                                     <Shield className="w-4 h-4" />
                                     <span className="text-sm font-medium">Employer Contributions</span>
                                 </div>
-                                <p className="text-xs text-blue-600">
+                                <p className="text-xs text-primary-500">
                                     EPF (12%): {formatCurrency(latestPayslip.epfEmployer)} | ETF (3%): {formatCurrency(latestPayslip.etfEmployer)}
                                 </p>
                             </div>
@@ -459,16 +459,16 @@ const CashierPayslips: React.FC = () => {
             )}
 
             {/* Payslip History */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div className="p-4 border-b border-gray-200">
-                    <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                        <FileText className="w-5 h-5 text-blue-500" />
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
+                <div className="p-4 border-b border-neutral-200">
+                    <h2 className="text-lg font-semibold text-neutral-800 flex items-center gap-2">
+                        <FileText className="w-5 h-5 text-primary-500" />
                         Payslip History - {selectedYear}
                     </h2>
                 </div>
                 
                 {filteredPayslips.length === 0 ? (
-                    <div className="py-12 text-center text-gray-500">
+                    <div className="py-12 text-center text-neutral-500">
                         <FileText className="w-16 h-16 mx-auto mb-3 text-gray-300" />
                         <p className="text-lg font-medium">No payslips found</p>
                         <p className="text-sm">No payslips available for {selectedYear}</p>
@@ -476,27 +476,27 @@ const CashierPayslips: React.FC = () => {
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full">
-                            <thead className="bg-gray-50 border-b border-gray-200">
+                            <thead className="bg-neutral-50 border-b border-neutral-200">
                                 <tr>
-                                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Month</th>
-                                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">Gross Salary</th>
-                                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">Deductions</th>
-                                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">Net Salary</th>
-                                    <th className="text-center py-3 px-4 text-sm font-medium text-gray-500">Status</th>
-                                    <th className="text-center py-3 px-4 text-sm font-medium text-gray-500">Actions</th>
+                                    <th className="text-left py-3 px-4 text-sm font-medium text-neutral-500">Month</th>
+                                    <th className="text-right py-3 px-4 text-sm font-medium text-neutral-500">Gross Salary</th>
+                                    <th className="text-right py-3 px-4 text-sm font-medium text-neutral-500">Deductions</th>
+                                    <th className="text-right py-3 px-4 text-sm font-medium text-neutral-500">Net Salary</th>
+                                    <th className="text-center py-3 px-4 text-sm font-medium text-neutral-500">Status</th>
+                                    <th className="text-center py-3 px-4 text-sm font-medium text-neutral-500">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {filteredPayslips.map((payslip, index) => (
-                                    <tr key={payslip.id} className={`border-b border-gray-100 hover:bg-gray-50 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
+                                    <tr key={payslip.id} className={`border-b border-gray-100 hover:bg-neutral-50 ${index % 2 === 0 ? 'bg-white' : 'bg-neutral-50/50'}`}>
                                         <td className="py-3 px-4">
                                             <div className="flex items-center gap-3">
-                                                <Calendar className="w-4 h-4 text-gray-400" />
-                                                <span className="font-medium text-gray-800">{getMonthName(payslip.month)}</span>
+                                                <Calendar className="w-4 h-4 text-neutral-400" />
+                                                <span className="font-medium text-neutral-800">{getMonthName(payslip.month)}</span>
                                             </div>
                                         </td>
-                                        <td className="py-3 px-4 text-right text-gray-700">{formatCurrency(payslip.grossSalary)}</td>
-                                        <td className="py-3 px-4 text-right text-red-600">- {formatCurrency(payslip.epfEmployee + payslip.otherDeductions)}</td>
+                                        <td className="py-3 px-4 text-right text-neutral-700">{formatCurrency(payslip.grossSalary)}</td>
+                                        <td className="py-3 px-4 text-right text-error-600">- {formatCurrency(payslip.epfEmployee + payslip.otherDeductions)}</td>
                                         <td className="py-3 px-4 text-right font-bold text-emerald-600">{formatCurrency(payslip.netSalary)}</td>
                                         <td className="py-3 px-4 text-center">
                                             <span className={`px-2 py-1 text-xs rounded-full font-medium ${
@@ -511,21 +511,21 @@ const CashierPayslips: React.FC = () => {
                                             <div className="flex items-center justify-center gap-1">
                                                 <button
                                                     onClick={() => viewPayslipDetail(payslip)}
-                                                    className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                                    className="p-2 text-neutral-500 hover:text-primary-500 hover:bg-blue-50 rounded-lg transition-colors"
                                                     title="View Details"
                                                 >
                                                     <Eye className="w-4 h-4" />
                                                 </button>
                                                 <button
                                                     onClick={() => printPayslip(payslip)}
-                                                    className="p-2 text-gray-500 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
+                                                    className="p-2 text-neutral-500 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
                                                     title="Print"
                                                 >
                                                     <Printer className="w-4 h-4" />
                                                 </button>
                                                 <button
                                                     onClick={() => downloadPayslip(payslip.id)}
-                                                    className="p-2 text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+                                                    className="p-2 text-neutral-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
                                                     title="Download"
                                                 >
                                                     <Download className="w-4 h-4" />
@@ -544,51 +544,51 @@ const CashierPayslips: React.FC = () => {
             {showDetailModal && selectedPayslip && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                        <div className="p-6 border-b border-gray-200 flex items-center justify-between sticky top-0 bg-white">
+                        <div className="p-6 border-b border-neutral-200 flex items-center justify-between sticky top-0 bg-white">
                             <div>
-                                <h2 className="text-xl font-bold text-gray-800">
+                                <h2 className="text-xl font-bold text-neutral-800">
                                     Payslip Details
                                 </h2>
-                                <p className="text-gray-500">{getMonthName(selectedPayslip.month)}</p>
+                                <p className="text-neutral-500">{getMonthName(selectedPayslip.month)}</p>
                             </div>
                             <div className="flex items-center gap-2">
                                 <button
                                     onClick={() => printPayslip(selectedPayslip)}
-                                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                    className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                                     title="Print"
                                 >
-                                    <Printer className="w-5 h-5 text-gray-600" />
+                                    <Printer className="w-5 h-5 text-neutral-600" />
                                 </button>
                                 <button
                                     onClick={() => setShowDetailModal(false)}
-                                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                    className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                                 >
-                                    <X className="w-5 h-5 text-gray-600" />
+                                    <X className="w-5 h-5 text-neutral-600" />
                                 </button>
                             </div>
                         </div>
                         <div className="p-6">
                             {/* Earnings */}
                             <div className="mb-6">
-                                <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                                <h3 className="font-semibold text-neutral-800 mb-3 flex items-center gap-2">
                                     <TrendingUp className="w-4 h-4 text-green-500" />
                                     Earnings
                                 </h3>
                                 <div className="space-y-2 bg-green-50 p-4 rounded-lg">
                                     <div className="flex justify-between">
-                                        <span className="text-gray-600">Basic Salary</span>
-                                        <span className="font-medium text-gray-800">{formatCurrency(selectedPayslip.basicSalary)}</span>
+                                        <span className="text-neutral-600">Basic Salary</span>
+                                        <span className="font-medium text-neutral-800">{formatCurrency(selectedPayslip.basicSalary)}</span>
                                     </div>
                                     <div className="flex justify-between">
-                                        <span className="text-gray-600">Allowances</span>
-                                        <span className="font-medium text-gray-800">{formatCurrency(selectedPayslip.allowances)}</span>
+                                        <span className="text-neutral-600">Allowances</span>
+                                        <span className="font-medium text-neutral-800">{formatCurrency(selectedPayslip.allowances)}</span>
                                     </div>
                                     <div className="flex justify-between">
-                                        <span className="text-gray-600">Overtime</span>
+                                        <span className="text-neutral-600">Overtime</span>
                                         <span className="font-medium text-emerald-600">{formatCurrency(selectedPayslip.overtime)}</span>
                                     </div>
                                     <div className="flex justify-between pt-2 border-t border-green-200">
-                                        <span className="font-semibold text-gray-800">Gross Salary</span>
+                                        <span className="font-semibold text-neutral-800">Gross Salary</span>
                                         <span className="font-bold text-green-700">{formatCurrency(selectedPayslip.grossSalary)}</span>
                                     </div>
                                 </div>
@@ -596,36 +596,36 @@ const CashierPayslips: React.FC = () => {
 
                             {/* Deductions */}
                             <div className="mb-6">
-                                <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
-                                    <DollarSign className="w-4 h-4 text-red-500" />
+                                <h3 className="font-semibold text-neutral-800 mb-3 flex items-center gap-2">
+                                    <DollarSign className="w-4 h-4 text-error-500" />
                                     Deductions
                                 </h3>
-                                <div className="space-y-2 bg-red-50 p-4 rounded-lg">
+                                <div className="space-y-2 bg-error-50 p-4 rounded-lg">
                                     <div className="flex justify-between">
-                                        <span className="text-gray-600">EPF (Employee 8%)</span>
-                                        <span className="font-medium text-red-600">- {formatCurrency(selectedPayslip.epfEmployee)}</span>
+                                        <span className="text-neutral-600">EPF (Employee 8%)</span>
+                                        <span className="font-medium text-error-600">- {formatCurrency(selectedPayslip.epfEmployee)}</span>
                                     </div>
                                     <div className="flex justify-between">
-                                        <span className="text-gray-600">Other Deductions</span>
-                                        <span className="font-medium text-red-600">- {formatCurrency(selectedPayslip.otherDeductions)}</span>
+                                        <span className="text-neutral-600">Other Deductions</span>
+                                        <span className="font-medium text-error-600">- {formatCurrency(selectedPayslip.otherDeductions)}</span>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Employer Contributions */}
                             <div className="mb-6">
-                                <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
-                                    <FileText className="w-4 h-4 text-blue-500" />
+                                <h3 className="font-semibold text-neutral-800 mb-3 flex items-center gap-2">
+                                    <FileText className="w-4 h-4 text-primary-500" />
                                     Employer Contributions (For your information)
                                 </h3>
                                 <div className="space-y-2 bg-blue-50 p-4 rounded-lg">
                                     <div className="flex justify-between">
-                                        <span className="text-gray-600">EPF (Employer 12%)</span>
-                                        <span className="font-medium text-blue-600">{formatCurrency(selectedPayslip.epfEmployer)}</span>
+                                        <span className="text-neutral-600">EPF (Employer 12%)</span>
+                                        <span className="font-medium text-primary-500">{formatCurrency(selectedPayslip.epfEmployer)}</span>
                                     </div>
                                     <div className="flex justify-between">
-                                        <span className="text-gray-600">ETF (3%)</span>
-                                        <span className="font-medium text-blue-600">{formatCurrency(selectedPayslip.etfEmployer)}</span>
+                                        <span className="text-neutral-600">ETF (3%)</span>
+                                        <span className="font-medium text-primary-500">{formatCurrency(selectedPayslip.etfEmployer)}</span>
                                     </div>
                                 </div>
                             </div>
@@ -645,7 +645,7 @@ const CashierPayslips: React.FC = () => {
                             <div className="mt-6 flex justify-end gap-3">
                                 <button
                                     onClick={() => printPayslip(selectedPayslip)}
-                                    className="flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                                    className="flex items-center gap-2 px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors"
                                 >
                                     <Printer className="w-4 h-4" />
                                     Print Payslip

@@ -11,7 +11,7 @@ const QuestionViewModal: React.FC<QuestionViewModalProps> = ({
     const getStatusBadge = (status: string | number | null | undefined) => {
         const statusClasses = {
             active: "bg-green-100 text-green-800",
-            inactive: "bg-red-100 text-red-800",
+            inactive: "bg-error-100 text-red-800",
         };
 
         let statusString = "";
@@ -30,7 +30,7 @@ const QuestionViewModal: React.FC<QuestionViewModalProps> = ({
 
         const className =
             statusClasses[statusString as keyof typeof statusClasses] ||
-            "bg-gray-100 text-gray-800";
+            "bg-neutral-100 text-neutral-800";
 
         return (
             <span
@@ -45,12 +45,12 @@ const QuestionViewModal: React.FC<QuestionViewModalProps> = ({
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
                 <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-2xl font-bold text-gray-800">
+                    <h2 className="text-2xl font-bold text-neutral-800">
                         Question Details
                     </h2>
                     <button
                         onClick={onClose}
-                        className="text-gray-500 hover:text-gray-700 text-2xl"
+                        className="text-neutral-500 hover:text-neutral-700 text-2xl"
                     >
                         ✕
                     </button>
@@ -58,18 +58,18 @@ const QuestionViewModal: React.FC<QuestionViewModalProps> = ({
 
                 <div className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="bg-gray-50 p-4 rounded-lg">
-                            <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+                        <div className="bg-neutral-50 p-4 rounded-lg">
+                            <h3 className="text-sm font-medium text-neutral-500 uppercase tracking-wide">
                                 Doctor Name
                             </h3>
-                            <p className="mt-1 text-lg text-gray-900">
+                            <p className="mt-1 text-lg text-neutral-900">
                                 Dr. {question.doctor_first_name}{" "}
                                 {question.doctor_last_name}
                             </p>
                         </div>
 
-                        <div className="bg-gray-50 p-4 rounded-lg">
-                            <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+                        <div className="bg-neutral-50 p-4 rounded-lg">
+                            <h3 className="text-sm font-medium text-neutral-500 uppercase tracking-wide">
                                 Status
                             </h3>
                             <div className="mt-1">
@@ -78,30 +78,30 @@ const QuestionViewModal: React.FC<QuestionViewModalProps> = ({
                         </div>
                     </div>
 
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                        <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+                    <div className="bg-neutral-50 p-4 rounded-lg">
+                        <h3 className="text-sm font-medium text-neutral-500 uppercase tracking-wide">
                             Question
                         </h3>
-                        <p className="mt-1 text-lg text-gray-900 whitespace-pre-wrap">
+                        <p className="mt-1 text-lg text-neutral-900 whitespace-pre-wrap">
                             {question.question}
                         </p>
                     </div>
 
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                        <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+                    <div className="bg-neutral-50 p-4 rounded-lg">
+                        <h3 className="text-sm font-medium text-neutral-500 uppercase tracking-wide">
                             Description
                         </h3>
-                        <p className="mt-1 text-lg text-gray-900 whitespace-pre-wrap">
+                        <p className="mt-1 text-lg text-neutral-900 whitespace-pre-wrap">
                             {question.description || "No description provided"}
                         </p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="bg-gray-50 p-4 rounded-lg">
-                            <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+                        <div className="bg-neutral-50 p-4 rounded-lg">
+                            <h3 className="text-sm font-medium text-neutral-500 uppercase tracking-wide">
                                 Order
                             </h3>
-                            <p className="mt-1 text-lg text-gray-900">
+                            <p className="mt-1 text-lg text-neutral-900">
                                 {question.order}
                             </p>
                         </div>

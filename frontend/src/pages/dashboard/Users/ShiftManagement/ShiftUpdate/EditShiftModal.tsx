@@ -111,13 +111,13 @@ const EditShiftModal: React.FC<EditShiftModalProps> = ({
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-2 gap-4 mb-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Select User
                             </label>
                             <select
                                 onChange={handleUserChange}
                                 value={selectedUser?.id || ""}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                             >
                                 <option value="">Select a user</option>
                                 {users.map((user) => (
@@ -128,39 +128,39 @@ const EditShiftModal: React.FC<EditShiftModalProps> = ({
                             </select>
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Branch
                             </label>
                             <input
                                 type="text"
                                 value={selectedUser?.center_name || ""}
                                 readOnly
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 focus:outline-none"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md bg-neutral-100 focus:outline-none"
                             />
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4 mb-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Shift Type
                             </label>
                             <select
                                 value={shiftType}
                                 onChange={(e) => setShiftType(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                             >
                                 <option value="Night shift">Night shift</option>
                                 <option value="Day shift">Day shift</option>
                             </select>
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Day of Week
                             </label>
                             <div className="flex flex-col gap-2">
                                 <select
                                     onChange={handleDayChange}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                                 >
                                     <option>Select day</option>
                                     {Object.keys(dayMap).map((key) => (
@@ -173,13 +173,13 @@ const EditShiftModal: React.FC<EditShiftModalProps> = ({
                                     {selectedDays.map((day) => (
                                         <span
                                             key={day}
-                                            className="bg-blue-100 text-blue-600 px-2 py-1 rounded-md text-sm flex items-center"
+                                            className="bg-blue-100 text-primary-500 px-2 py-1 rounded-md text-sm flex items-center"
                                         >
                                             {dayMap[day]}
                                             <button
                                                 type="button"
                                                 onClick={() => removeDay(day)}
-                                                className="ml-2 text-red-500 hover:text-red-700"
+                                                className="ml-2 text-error-500 hover:text-red-700"
                                             >
                                                 &times;
                                             </button>
@@ -191,36 +191,36 @@ const EditShiftModal: React.FC<EditShiftModalProps> = ({
                     </div>
                     <div className="grid grid-cols-2 gap-4 mb-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Start Time
                             </label>
                             <input
                                 type="time"
                                 value={startTime}
                                 onChange={(e) => setStartTime(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 End Time
                             </label>
                             <input
                                 type="time"
                                 value={endTime}
                                 onChange={(e) => setEndTime(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                             />
                         </div>
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
                             Notes
                         </label>
                         <textarea
                             value={notes}
                             onChange={(e) => setNotes(e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                             rows={4}
                             placeholder="Enter notes"
                         ></textarea>
@@ -229,13 +229,13 @@ const EditShiftModal: React.FC<EditShiftModalProps> = ({
                         <button
                             type="button"
                             onClick={onClose}
-                            className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 mr-2"
+                            className="px-4 py-2 bg-neutral-300 text-neutral-700 rounded-md hover:bg-gray-400 mr-2"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 text-white"
+                            className="px-4 py-2 bg-primary-500 rounded-lg hover:bg-primary-600 text-white"
                         >
                             Update Shift
                         </button>

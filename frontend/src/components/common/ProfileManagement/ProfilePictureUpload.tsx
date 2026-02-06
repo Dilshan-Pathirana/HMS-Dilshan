@@ -100,7 +100,7 @@ export const ProfilePictureUpload: React.FC<ProfilePictureUploadProps> = ({
                     <button
                         onClick={handleRemove}
                         disabled={uploading}
-                        className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 shadow-md hover:bg-red-600 transition-colors disabled:opacity-50"
+                        className="absolute top-0 right-0 bg-error-500 text-white rounded-full p-1 shadow-md hover:bg-red-600 transition-colors disabled:opacity-50"
                     >
                         <X className="w-4 h-4" />
                     </button>
@@ -108,7 +108,7 @@ export const ProfilePictureUpload: React.FC<ProfilePictureUploadProps> = ({
 
                 <label 
                     htmlFor="profile-picture-input"
-                    className="absolute bottom-0 right-0 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-full p-2 shadow-md cursor-pointer hover:from-emerald-600 hover:to-blue-600 transition-all disabled:opacity-50"
+                    className="absolute bottom-0 right-0 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-full p-2 shadow-md cursor-pointer hover:from-emerald-600 hover:to-blue-600 transition-all disabled:opacity-50"
                 >
                     {uploading ? (
                         <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -127,10 +127,10 @@ export const ProfilePictureUpload: React.FC<ProfilePictureUploadProps> = ({
             </div>
 
             {error && (
-                <p className="text-sm text-red-500">{error}</p>
+                <p className="text-sm text-error-500">{error}</p>
             )}
 
-            <p className="text-xs text-gray-500 text-center">
+            <p className="text-xs text-neutral-500 text-center">
                 Click the upload button to change your profile picture
                 <br />
                 Max size: 5MB (JPG, PNG, GIF)

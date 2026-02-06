@@ -165,7 +165,7 @@ const CashierServiceLetters: React.FC = () => {
             approved: { bg: 'bg-blue-100', text: 'text-blue-800', icon: <CheckCircle className="w-4 h-4" />, label: 'Approved' },
             generated: { bg: 'bg-green-100', text: 'text-green-800', icon: <CheckCircle className="w-4 h-4" />, label: 'Ready' },
             completed: { bg: 'bg-green-100', text: 'text-green-800', icon: <CheckCircle className="w-4 h-4" />, label: 'Completed' },
-            rejected: { bg: 'bg-red-100', text: 'text-red-800', icon: <XCircle className="w-4 h-4" />, label: 'Rejected' }
+            rejected: { bg: 'bg-error-100', text: 'text-red-800', icon: <XCircle className="w-4 h-4" />, label: 'Rejected' }
         };
         const badge = badges[status as keyof typeof badges] || badges.pending;
         return (
@@ -190,10 +190,10 @@ const CashierServiceLetters: React.FC = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+            <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
                 <div className="text-center">
                     <Loader2 className="w-12 h-12 animate-spin text-pink-500 mx-auto mb-4" />
-                    <p className="text-gray-600">Loading service letter requests...</p>
+                    <p className="text-neutral-600">Loading service letter requests...</p>
                 </div>
             </div>
         );
@@ -202,18 +202,18 @@ const CashierServiceLetters: React.FC = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-pink-50/30 p-6">
             {/* Header */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 mb-6">
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => navigate('/pos/hr')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ArrowLeft className="w-5 h-5 text-gray-600" />
+                            <ArrowLeft className="w-5 h-5 text-neutral-600" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">Service Letter Requests</h1>
-                            <p className="text-gray-600 text-sm mt-1">Request employment certificates and letters</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">Service Letter Requests</h1>
+                            <p className="text-neutral-600 text-sm mt-1">Request employment certificates and letters</p>
                         </div>
                     </div>
                     <button
@@ -251,60 +251,60 @@ const CashierServiceLetters: React.FC = () => {
                                 <p className="text-blue-900 font-semibold text-2xl">{requests.length}</p>
                                 <p className="text-blue-700 text-sm">Total Requests</p>
                             </div>
-                            <FileText className="w-8 h-8 text-blue-500" />
+                            <FileText className="w-8 h-8 text-primary-500" />
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Requests List */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div className="p-4 border-b border-gray-200">
-                    <h2 className="text-lg font-semibold text-gray-800">My Requests ({requests.length})</h2>
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
+                <div className="p-4 border-b border-neutral-200">
+                    <h2 className="text-lg font-semibold text-neutral-800">My Requests ({requests.length})</h2>
                 </div>
                 <div className="divide-y divide-gray-100">
                     {requests.length === 0 ? (
-                        <div className="py-12 text-center text-gray-500">
+                        <div className="py-12 text-center text-neutral-500">
                             <FileText className="w-16 h-16 mx-auto mb-4 text-gray-300" />
                             <p className="text-lg mb-2">No service letter requests yet</p>
                             <p className="text-sm">Click "New Request" to submit your first request</p>
                         </div>
                     ) : (
                         requests.map((request) => (
-                            <div key={request.id} className="p-6 hover:bg-gray-50 transition-colors">
+                            <div key={request.id} className="p-6 hover:bg-neutral-50 transition-colors">
                                 <div className="flex items-start justify-between">
                                     <div className="flex-1">
                                         <div className="flex items-center gap-3 mb-3">
                                             <FileText className="w-5 h-5 text-pink-500" />
-                                            <h3 className="font-semibold text-gray-800 text-lg">
+                                            <h3 className="font-semibold text-neutral-800 text-lg">
                                                 {getLetterTypeLabel(request.letterType)}
                                             </h3>
                                             {getStatusBadge(request.status)}
                                             {request.urgency === 'urgent' && (
-                                                <span className="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full font-medium">
+                                                <span className="px-2 py-1 bg-error-100 text-red-800 text-xs rounded-full font-medium">
                                                     URGENT
                                                 </span>
                                             )}
                                         </div>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                                             <div>
-                                                <p className="text-xs text-gray-500 mb-1">Purpose</p>
-                                                <p className="text-sm text-gray-700">{request.purpose}</p>
+                                                <p className="text-xs text-neutral-500 mb-1">Purpose</p>
+                                                <p className="text-sm text-neutral-700">{request.purpose}</p>
                                             </div>
                                             <div>
-                                                <p className="text-xs text-gray-500 mb-1">Addressed To</p>
-                                                <p className="text-sm text-gray-700">{request.addressedTo}</p>
+                                                <p className="text-xs text-neutral-500 mb-1">Addressed To</p>
+                                                <p className="text-sm text-neutral-700">{request.addressedTo}</p>
                                             </div>
                                         </div>
-                                        <div className="flex items-center gap-6 text-xs text-gray-500">
+                                        <div className="flex items-center gap-6 text-xs text-neutral-500">
                                             <span>Requested: {formatDate(request.requestedDate)}</span>
                                             {request.completedDate && (
                                                 <span>Completed: {formatDate(request.completedDate)}</span>
                                             )}
                                         </div>
                                         {request.status === 'rejected' && request.rejectionReason && (
-                                            <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg">
-                                                <p className="text-xs text-red-600 font-medium mb-1">Rejection Reason:</p>
+                                            <div className="mt-3 p-3 bg-error-50 border border-red-200 rounded-lg">
+                                                <p className="text-xs text-error-600 font-medium mb-1">Rejection Reason:</p>
                                                 <p className="text-sm text-red-800">{request.rejectionReason}</p>
                                             </div>
                                         )}
@@ -336,19 +336,19 @@ const CashierServiceLetters: React.FC = () => {
             {showRequestModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-xl shadow-xl max-w-lg w-full">
-                        <div className="p-6 border-b border-gray-200">
-                            <h2 className="text-xl font-bold text-gray-800">New Service Letter Request</h2>
+                        <div className="p-6 border-b border-neutral-200">
+                            <h2 className="text-xl font-bold text-neutral-800">New Service Letter Request</h2>
                         </div>
                         <form onSubmit={handleSubmitRequest} className="p-6">
                             <div className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                                         Letter Type *
                                     </label>
                                     <select
                                         value={formData.letterType}
                                         onChange={(e) => setFormData({ ...formData, letterType: e.target.value })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
                                         required
                                     >
                                         <option value="">Select letter type</option>
@@ -358,33 +358,33 @@ const CashierServiceLetters: React.FC = () => {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                                         Purpose *
                                     </label>
                                     <textarea
                                         value={formData.purpose}
                                         onChange={(e) => setFormData({ ...formData, purpose: e.target.value })}
                                         rows={3}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
                                         placeholder="e.g., Bank loan application, Visa processing, etc."
                                         required
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                                         Addressed To *
                                     </label>
                                     <input
                                         type="text"
                                         value={formData.addressedTo}
                                         onChange={(e) => setFormData({ ...formData, addressedTo: e.target.value })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
                                         placeholder="e.g., To Whom It May Concern, Bank Manager, etc."
                                         required
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                                         Urgency
                                     </label>
                                     <div className="flex gap-4">
@@ -396,7 +396,7 @@ const CashierServiceLetters: React.FC = () => {
                                                 onChange={(e) => setFormData({ ...formData, urgency: 'normal' })}
                                                 className="mr-2"
                                             />
-                                            <span className="text-sm text-gray-700">Normal (5-7 days)</span>
+                                            <span className="text-sm text-neutral-700">Normal (5-7 days)</span>
                                         </label>
                                         <label className="flex items-center">
                                             <input
@@ -406,7 +406,7 @@ const CashierServiceLetters: React.FC = () => {
                                                 onChange={(e) => setFormData({ ...formData, urgency: 'urgent' })}
                                                 className="mr-2"
                                             />
-                                            <span className="text-sm text-gray-700">Urgent (2-3 days)</span>
+                                            <span className="text-sm text-neutral-700">Urgent (2-3 days)</span>
                                         </label>
                                     </div>
                                 </div>
@@ -432,7 +432,7 @@ const CashierServiceLetters: React.FC = () => {
                                 <button
                                     type="button"
                                     onClick={() => setShowRequestModal(false)}
-                                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                                    className="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors"
                                 >
                                     Cancel
                                 </button>

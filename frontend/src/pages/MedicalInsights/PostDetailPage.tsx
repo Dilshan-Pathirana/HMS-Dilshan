@@ -72,7 +72,7 @@ interface Question {
 const categoryInfo: Record<string, { label: string; icon: React.ReactNode; color: string; bgColor: string }> = {
     success_story: { label: 'Success Story', icon: <FaHeart />, color: 'text-green-600', bgColor: 'bg-green-100' },
     medical_finding: { label: 'Medical Finding', icon: <FaFlask />, color: 'text-purple-600', bgColor: 'bg-purple-100' },
-    video_vlog: { label: 'Video Vlog', icon: <FaVideo />, color: 'text-red-600', bgColor: 'bg-red-100' },
+    video_vlog: { label: 'Video Vlog', icon: <FaVideo />, color: 'text-error-600', bgColor: 'bg-error-100' },
     research_article: { label: 'Research Article', icon: <FaNewspaper />, color: 'text-orange-600', bgColor: 'bg-orange-100' },
 };
 
@@ -397,10 +397,10 @@ This case demonstrates the effectiveness of holistic treatment when conventional
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gray-50">
+            <div className="min-h-screen bg-neutral-50">
                 <NavBar />
                 <div className="flex justify-center items-center py-40">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
                 </div>
                 <Footer />
             </div>
@@ -409,15 +409,15 @@ This case demonstrates the effectiveness of holistic treatment when conventional
 
     if (!post) {
         return (
-            <div className="min-h-screen bg-gray-50">
+            <div className="min-h-screen bg-neutral-50">
                 <NavBar />
                 <div className="max-w-4xl mx-auto px-6 py-20 text-center">
                     <FaBookMedical className="text-6xl text-gray-300 mx-auto mb-4" />
-                    <h2 className="text-2xl font-bold text-gray-700 mb-4">Article Not Found</h2>
-                    <p className="text-gray-500 mb-6">{error || 'The article you are looking for does not exist.'}</p>
+                    <h2 className="text-2xl font-bold text-neutral-700 mb-4">Article Not Found</h2>
+                    <p className="text-neutral-500 mb-6">{error || 'The article you are looking for does not exist.'}</p>
                     <Link
                         to="/medical-insights"
-                        className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+                        className="inline-flex items-center gap-2 bg-primary-500 text-white px-6 py-3 rounded-lg hover:bg-primary-600 transition-colors"
                     >
                         <FaArrowLeft /> Back to Medical Insights
                     </Link>
@@ -430,7 +430,7 @@ This case demonstrates the effectiveness of holistic treatment when conventional
     const catInfo = categoryInfo[post.category];
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-neutral-50">
             <NavBar />
 
             {/* Back Navigation */}
@@ -438,7 +438,7 @@ This case demonstrates the effectiveness of holistic treatment when conventional
                 <div className="max-w-4xl mx-auto px-6 py-4">
                     <Link
                         to="/medical-insights"
-                        className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors"
+                        className="inline-flex items-center gap-2 text-primary-500 hover:text-blue-800 transition-colors"
                     >
                         <FaArrowLeft /> Back to Medical Insights
                     </Link>
@@ -454,18 +454,18 @@ This case demonstrates the effectiveness of holistic treatment when conventional
                 </span>
 
                 {/* Title */}
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                <h1 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-4">
                     {post.title}
                 </h1>
 
                 {/* Meta Info */}
-                <div className="flex flex-wrap items-center gap-4 text-gray-500 mb-6 pb-6 border-b">
+                <div className="flex flex-wrap items-center gap-4 text-neutral-500 mb-6 pb-6 border-b">
                     <div className="flex items-center gap-2">
                         <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
-                            <FaUserMd className="text-blue-600 text-xl" />
+                            <FaUserMd className="text-primary-500 text-xl" />
                         </div>
                         <div>
-                            <p className="font-medium text-gray-800">{post.doctor.name}</p>
+                            <p className="font-medium text-neutral-800">{post.doctor.name}</p>
                             <p className="text-sm">{post.doctor.specialization || 'Medical Professional'}</p>
                         </div>
                     </div>
@@ -504,7 +504,7 @@ This case demonstrates the effectiveness of holistic treatment when conventional
                 )}
 
                 {/* Short Description */}
-                <p className="text-xl text-gray-600 italic mb-8 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                <p className="text-xl text-neutral-600 italic mb-8 p-4 bg-blue-50 rounded-lg border-l-4 border-primary-500">
                     {post.short_description}
                 </p>
 
@@ -516,19 +516,19 @@ This case demonstrates the effectiveness of holistic treatment when conventional
 
                 {/* PDF Download */}
                 {post.pdf_file_path && (
-                    <div className="bg-gray-100 rounded-lg p-4 mb-8 flex items-center justify-between">
+                    <div className="bg-neutral-100 rounded-lg p-4 mb-8 flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                            <FaFilePdf className="text-red-600 text-2xl" />
+                            <FaFilePdf className="text-error-600 text-2xl" />
                             <div>
                                 <p className="font-medium">Download PDF</p>
-                                <p className="text-sm text-gray-500">Full research document available</p>
+                                <p className="text-sm text-neutral-500">Full research document available</p>
                             </div>
                         </div>
                         <a
                             href={post.pdf_file_path}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                            className="flex items-center gap-2 bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600"
                         >
                             <FaDownload /> Download
                         </a>
@@ -543,8 +543,8 @@ This case demonstrates the effectiveness of holistic treatment when conventional
                             onClick={handleLike}
                             className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
                                 isLiked
-                                    ? 'bg-red-100 text-red-600'
-                                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                    ? 'bg-error-100 text-error-600'
+                                    : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
                             }`}
                         >
                             {isLiked ? <FaHeart /> : <FaRegHeart />}
@@ -553,7 +553,7 @@ This case demonstrates the effectiveness of holistic treatment when conventional
 
                         {/* Rating */}
                         <div className="flex items-center gap-2">
-                            <span className="text-gray-600">Rate this:</span>
+                            <span className="text-neutral-600">Rate this:</span>
                             <div className="flex gap-1">
                                 {[1, 2, 3, 4, 5].map((star) => (
                                     <button
@@ -573,7 +573,7 @@ This case demonstrates the effectiveness of holistic treatment when conventional
                                     </button>
                                 ))}
                             </div>
-                            <span className="text-sm text-gray-500">
+                            <span className="text-sm text-neutral-500">
                                 ({post.average_rating.toFixed(1)} avg)
                             </span>
                         </div>
@@ -581,7 +581,7 @@ This case demonstrates the effectiveness of holistic treatment when conventional
                         {/* Share Button */}
                         <button
                             onClick={() => navigator.clipboard.writeText(window.location.href)}
-                            className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200"
+                            className="flex items-center gap-2 px-4 py-2 bg-neutral-100 text-neutral-600 rounded-lg hover:bg-neutral-200"
                         >
                             <FaShare /> Share
                         </button>
@@ -590,28 +590,28 @@ This case demonstrates the effectiveness of holistic treatment when conventional
                     {/* Stats */}
                     <div className="flex justify-around pt-6 text-center">
                         <div>
-                            <div className="flex items-center justify-center gap-2 text-2xl font-bold text-blue-600">
+                            <div className="flex items-center justify-center gap-2 text-2xl font-bold text-primary-500">
                                 <FaEye /> {post.view_count}
                             </div>
-                            <p className="text-sm text-gray-500">Views</p>
+                            <p className="text-sm text-neutral-500">Views</p>
                         </div>
                         <div>
-                            <div className="flex items-center justify-center gap-2 text-2xl font-bold text-red-500">
+                            <div className="flex items-center justify-center gap-2 text-2xl font-bold text-error-500">
                                 <FaHeart /> {post.like_count}
                             </div>
-                            <p className="text-sm text-gray-500">Likes</p>
+                            <p className="text-sm text-neutral-500">Likes</p>
                         </div>
                         <div>
                             <div className="flex items-center justify-center gap-2 text-2xl font-bold text-green-600">
                                 <FaComments /> {comments.length}
                             </div>
-                            <p className="text-sm text-gray-500">Comments</p>
+                            <p className="text-sm text-neutral-500">Comments</p>
                         </div>
                         <div>
                             <div className="flex items-center justify-center gap-2 text-2xl font-bold text-purple-600">
                                 <FaQuestionCircle /> {questions.length}
                             </div>
-                            <p className="text-sm text-gray-500">Questions</p>
+                            <p className="text-sm text-neutral-500">Questions</p>
                         </div>
                     </div>
                 </div>
@@ -623,8 +623,8 @@ This case demonstrates the effectiveness of holistic treatment when conventional
                             onClick={() => setActiveTab('comments')}
                             className={`flex-1 py-4 font-medium flex items-center justify-center gap-2 transition-colors ${
                                 activeTab === 'comments'
-                                    ? 'bg-blue-50 text-blue-600 border-b-2 border-blue-600'
-                                    : 'text-gray-600 hover:bg-gray-50'
+                                    ? 'bg-blue-50 text-primary-500 border-b-2 border-primary-500'
+                                    : 'text-neutral-600 hover:bg-neutral-50'
                             }`}
                         >
                             <FaComments /> Comments ({comments.length})
@@ -633,8 +633,8 @@ This case demonstrates the effectiveness of holistic treatment when conventional
                             onClick={() => setActiveTab('questions')}
                             className={`flex-1 py-4 font-medium flex items-center justify-center gap-2 transition-colors ${
                                 activeTab === 'questions'
-                                    ? 'bg-blue-50 text-blue-600 border-b-2 border-blue-600'
-                                    : 'text-gray-600 hover:bg-gray-50'
+                                    ? 'bg-blue-50 text-primary-500 border-b-2 border-primary-500'
+                                    : 'text-neutral-600 hover:bg-neutral-50'
                             }`}
                         >
                             <FaQuestionCircle /> Q&A ({questions.length})
@@ -652,14 +652,14 @@ This case demonstrates the effectiveness of holistic treatment when conventional
                                         onChange={(e) => setNewComment(e.target.value)}
                                         placeholder={isAuthenticated ? "Share your thoughts..." : "Please login to comment"}
                                         disabled={!isAuthenticated}
-                                        className="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none disabled:bg-gray-100"
+                                        className="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 resize-none disabled:bg-neutral-100"
                                         rows={3}
                                     />
                                     <div className="flex justify-end mt-2">
                                         <button
                                             type="submit"
                                             disabled={!isAuthenticated || !newComment.trim()}
-                                            className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                                            className="flex items-center gap-2 bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
                                             <FaPaperPlane /> Post Comment
                                         </button>
@@ -672,22 +672,22 @@ This case demonstrates the effectiveness of holistic treatment when conventional
                                         <div key={comment.id} className="border-b pb-4 last:border-b-0">
                                             <div className="flex gap-3">
                                                 <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                                                    <span className="text-blue-600 font-medium">
+                                                    <span className="text-primary-500 font-medium">
                                                         {comment.user.name.charAt(0)}
                                                     </span>
                                                 </div>
                                                 <div className="flex-1">
                                                     <div className="flex items-center gap-2 mb-1">
                                                         <span className="font-medium">{comment.user.name}</span>
-                                                        <span className="text-sm text-gray-500">
+                                                        <span className="text-sm text-neutral-500">
                                                             {formatDate(comment.created_at)}
                                                         </span>
                                                     </div>
-                                                    <p className="text-gray-700 mb-2">{comment.content}</p>
+                                                    <p className="text-neutral-700 mb-2">{comment.content}</p>
                                                     {isAuthenticated && (
                                                         <button
                                                             onClick={() => setReplyingTo(replyingTo === comment.id ? null : comment.id)}
-                                                            className="text-sm text-blue-600 hover:underline flex items-center gap-1"
+                                                            className="text-sm text-primary-500 hover:underline flex items-center gap-1"
                                                         >
                                                             <FaReply /> Reply
                                                         </button>
@@ -700,19 +700,19 @@ This case demonstrates the effectiveness of holistic treatment when conventional
                                                                 value={replyContent}
                                                                 onChange={(e) => setReplyContent(e.target.value)}
                                                                 placeholder="Write your reply..."
-                                                                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none text-sm"
+                                                                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 resize-none text-sm"
                                                                 rows={2}
                                                             />
                                                             <div className="flex gap-2 mt-2">
                                                                 <button
                                                                     onClick={() => handleSubmitReply(comment.id)}
-                                                                    className="text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+                                                                    className="text-sm bg-primary-500 text-white px-3 py-1 rounded hover:bg-primary-600"
                                                                 >
                                                                     Reply
                                                                 </button>
                                                                 <button
                                                                     onClick={() => { setReplyingTo(null); setReplyContent(''); }}
-                                                                    className="text-sm bg-gray-200 text-gray-600 px-3 py-1 rounded hover:bg-gray-300"
+                                                                    className="text-sm bg-neutral-200 text-neutral-600 px-3 py-1 rounded hover:bg-neutral-300"
                                                                 >
                                                                     Cancel
                                                                 </button>
@@ -724,7 +724,7 @@ This case demonstrates the effectiveness of holistic treatment when conventional
                                                     {comment.replies.length > 0 && (
                                                         <div className="mt-4 ml-4 space-y-4">
                                                             {comment.replies.map((reply) => (
-                                                                <div key={reply.id} className="flex gap-3 bg-gray-50 p-3 rounded-lg">
+                                                                <div key={reply.id} className="flex gap-3 bg-neutral-50 p-3 rounded-lg">
                                                                     <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
                                                                         <span className="text-green-600 font-medium text-sm">
                                                                             {reply.user.name.charAt(0)}
@@ -733,11 +733,11 @@ This case demonstrates the effectiveness of holistic treatment when conventional
                                                                     <div>
                                                                         <div className="flex items-center gap-2 mb-1">
                                                                             <span className="font-medium text-sm">{reply.user.name}</span>
-                                                                            <span className="text-xs text-gray-500">
+                                                                            <span className="text-xs text-neutral-500">
                                                                                 {formatDate(reply.created_at)}
                                                                             </span>
                                                                         </div>
-                                                                        <p className="text-sm text-gray-700">{reply.content}</p>
+                                                                        <p className="text-sm text-neutral-700">{reply.content}</p>
                                                                     </div>
                                                                 </div>
                                                             ))}
@@ -749,7 +749,7 @@ This case demonstrates the effectiveness of holistic treatment when conventional
                                     ))}
 
                                     {comments.length === 0 && (
-                                        <p className="text-center text-gray-500 py-8">
+                                        <p className="text-center text-neutral-500 py-8">
                                             No comments yet. Be the first to share your thoughts!
                                         </p>
                                     )}
@@ -767,7 +767,7 @@ This case demonstrates the effectiveness of holistic treatment when conventional
                                         onChange={(e) => setNewQuestion(e.target.value)}
                                         placeholder={isAuthenticated ? "Ask a question to the doctor..." : "Please login to ask a question"}
                                         disabled={!isAuthenticated}
-                                        className="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none disabled:bg-gray-100"
+                                        className="w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 resize-none disabled:bg-neutral-100"
                                         rows={3}
                                     />
                                     <div className="flex justify-end mt-2">
@@ -789,8 +789,8 @@ This case demonstrates the effectiveness of holistic treatment when conventional
                                                 <div className="flex items-start gap-3">
                                                     <FaQuestionCircle className="text-purple-600 mt-1 flex-shrink-0" />
                                                     <div className="flex-1">
-                                                        <p className="font-medium text-gray-800">{question.question}</p>
-                                                        <div className="flex items-center gap-2 mt-2 text-sm text-gray-500">
+                                                        <p className="font-medium text-neutral-800">{question.question}</p>
+                                                        <div className="flex items-center gap-2 mt-2 text-sm text-neutral-500">
                                                             <span>Asked by {question.patient.name}</span>
                                                             <span>•</span>
                                                             <span>{formatDate(question.created_at)}</span>
@@ -803,8 +803,8 @@ This case demonstrates the effectiveness of holistic treatment when conventional
                                                     <div className="flex items-start gap-3">
                                                         <FaUserMd className="text-green-600 mt-1 flex-shrink-0" />
                                                         <div className="flex-1">
-                                                            <p className="text-gray-700">{question.answer}</p>
-                                                            <div className="flex items-center gap-2 mt-2 text-sm text-gray-500">
+                                                            <p className="text-neutral-700">{question.answer}</p>
+                                                            <div className="flex items-center gap-2 mt-2 text-sm text-neutral-500">
                                                                 <span>Answered by {question.answered_by?.name}</span>
                                                                 <span>•</span>
                                                                 <span>{formatDate(question.answered_at!)}</span>
@@ -823,7 +823,7 @@ This case demonstrates the effectiveness of holistic treatment when conventional
                                     ))}
 
                                     {questions.length === 0 && (
-                                        <p className="text-center text-gray-500 py-8">
+                                        <p className="text-center text-neutral-500 py-8">
                                             No questions yet. Be the first to ask!
                                         </p>
                                     )}

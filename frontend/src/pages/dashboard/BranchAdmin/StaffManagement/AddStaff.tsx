@@ -72,8 +72,8 @@ export const AddStaff: React.FC = () => {
                             onClick={() => navigate(item.path)}
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                                 item.path === '/branch-admin/hrm'
-                                    ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-md'
-                                    : 'text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
+                                    ? 'bg-gradient-to-r from-emerald-500 to-primary-500 text-white shadow-md'
+                                    : 'text-neutral-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
                             }`}
                         >
                             <span className="flex-shrink-0">{item.icon}</span>
@@ -95,12 +95,12 @@ export const AddStaff: React.FC = () => {
             branchName={branchName}
             userGender={userGender}
         >
-            <div className="min-h-screen bg-gray-50 p-6">
+            <div className="min-h-screen bg-neutral-50 p-6">
                 {/* Header */}
                 <div className="mb-6">
                     <button
                         onClick={() => navigate('/branch-admin/hrm/staff')}
-                        className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4"
+                        className="flex items-center gap-2 text-neutral-600 hover:text-neutral-900 mb-4"
                     >
                         <ArrowLeft className="w-5 h-5" />
                         Back to Staff Profiles
@@ -110,19 +110,19 @@ export const AddStaff: React.FC = () => {
                             <Users className="w-8 h-8 text-white" />
                         </div>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-900">Add New Staff</h1>
-                            <p className="text-gray-600">Create a new staff member for your branch</p>
+                            <h1 className="text-2xl font-bold text-neutral-900">Add New Staff</h1>
+                            <p className="text-neutral-600">Create a new staff member for your branch</p>
                         </div>
                     </div>
                 </div>
 
                 {/* Main Content */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                     {/* User Type Selection */}
                     <div className="mb-6">
                         <label
                             htmlFor="userType"
-                            className="block text-sm font-medium text-gray-700 mb-2"
+                            className="block text-sm font-medium text-neutral-700 mb-2"
                         >
                             Select Staff Type:
                         </label>
@@ -130,7 +130,7 @@ export const AddStaff: React.FC = () => {
                             id="userType"
                             value={selectedUserType}
                             onChange={handleUserTypeChange}
-                            className="w-full max-w-md p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
+                            className="w-full max-w-md p-3 border border-neutral-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white"
                         >
                             {staffUserTypes.map((type) => (
                                 <option key={type} value={type}>
@@ -141,11 +141,11 @@ export const AddStaff: React.FC = () => {
                     </div>
 
                     {/* Form Title */}
-                    <div className="border-b border-gray-200 pb-4 mb-6">
-                        <h2 className="text-xl font-semibold text-gray-800">
+                    <div className="border-b border-neutral-200 pb-4 mb-6">
+                        <h2 className="text-xl font-semibold text-neutral-800">
                             {selectedUserType} Registration Form
                         </h2>
-                        <p className="text-sm text-gray-500 mt-1">
+                        <p className="text-sm text-neutral-500 mt-1">
                             Fill in the details below to create a new {selectedUserType.toLowerCase()} account
                         </p>
                     </div>

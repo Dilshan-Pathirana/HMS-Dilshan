@@ -35,7 +35,7 @@ const PageSizeSelector: React.FC<PageSizeSelectorProps> = ({
         <div ref={selectRef} className="relative w-44">
             <button
                 onClick={handleToggle}
-                className="w-max px-2 py-0.5 text-left bg-white border border-gray-300 rounded shadow-sm flex items-center justify-between gap-[10px] hover:border-gray-400 focus:outline-none"
+                className="w-max px-2 py-0.5 text-left bg-white border border-neutral-300 rounded shadow-sm flex items-center justify-between gap-[10px] hover:border-gray-400 focus:outline-none"
             >
                 {pageSize}
                 <IoIosArrowDown
@@ -43,11 +43,11 @@ const PageSizeSelector: React.FC<PageSizeSelectorProps> = ({
                 />
             </button>
             {isOpen && (
-                <div className="absolute w-max mt-1 bg-white border border-gray-300 rounded shadow-lg">
+                <div className="absolute w-max mt-1 bg-white border border-neutral-300 rounded shadow-lg">
                     {[5, 10, 20, 50].map((size) => (
                         <div
                             key={size}
-                            className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                            className="px-4 py-2 cursor-pointer hover:bg-neutral-100"
                             onClick={() => handlePageSizeChange(size)}
                         >
                             {size}

@@ -5,7 +5,7 @@ const ProfileButton: React.FC<ProfileButtonProps> = ({ toggleDropdown }) => {
     return (
         <button
             type="button"
-            className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+            className="flex text-sm bg-neutral-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
             aria-expanded="false"
             onClick={toggleDropdown}
         >

@@ -23,7 +23,7 @@ export const statusMap: {
     2: {
         icon: <FiXCircle className="mr-1" size={12} />,
         label: "Rejected",
-        bgClass: "bg-red-100",
+        bgClass: "bg-error-100",
         textClass: "text-red-800",
     },
 };

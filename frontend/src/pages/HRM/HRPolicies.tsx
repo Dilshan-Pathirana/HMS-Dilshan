@@ -315,7 +315,7 @@ const HRPolicies: React.FC = () => {
     const getStatusBadge = (status: string) => {
         const colors = {
             Active: 'bg-green-100 text-green-800',
-            Inactive: 'bg-gray-100 text-gray-800',
+            Inactive: 'bg-neutral-100 text-neutral-800',
             Draft: 'bg-yellow-100 text-yellow-800'
         };
         return (
@@ -332,19 +332,19 @@ const HRPolicies: React.FC = () => {
             'Salary & Compensation': 'bg-green-100 text-green-800',
             'Benefits': 'bg-pink-100 text-pink-800',
             'Working Hours': 'bg-orange-100 text-orange-800',
-            'Code of Conduct': 'bg-red-100 text-red-800',
+            'Code of Conduct': 'bg-error-100 text-red-800',
             'Health & Safety': 'bg-emerald-100 text-emerald-800'
         };
-        return colors[category] || 'bg-gray-100 text-gray-800';
+        return colors[category] || 'bg-neutral-100 text-neutral-800';
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-neutral-50 p-6">
             {/* Header */}
             <div className="mb-6">
                 <button
                     onClick={() => navigate('/hr-dashboard')}
-                    className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4"
+                    className="flex items-center gap-2 text-neutral-600 hover:text-neutral-900 mb-4"
                 >
                     <ArrowLeft className="w-4 h-4" />
                     Back to Dashboard
@@ -355,21 +355,21 @@ const HRPolicies: React.FC = () => {
                             <FileText className="w-8 h-8 text-white" />
                         </div>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">HR Policies</h1>
-                            <p className="text-sm text-gray-500">Manage organizational policies and guidelines</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">HR Policies</h1>
+                            <p className="text-sm text-neutral-500">Manage organizational policies and guidelines</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => setShowCopyModal(true)}
-                            className="flex items-center gap-2 px-4 py-2 border border-blue-500 text-blue-600 rounded-lg hover:bg-blue-50 transition-all"
+                            className="flex items-center gap-2 px-4 py-2 border border-primary-500 text-primary-500 rounded-lg hover:bg-blue-50 transition-all"
                         >
                             <Copy className="w-5 h-5" />
                             Copy to Branch
                         </button>
                         <button
                             onClick={handleCreatePolicy}
-                            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all"
+                            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-primary-500 hover:to-blue-700 transition-all"
                         >
                             <Plus className="w-5 h-5" />
                             Create Policy
@@ -379,14 +379,14 @@ const HRPolicies: React.FC = () => {
             </div>
 
             {/* Branch Selector */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-6">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4 mb-6">
                 <div className="flex items-center gap-4">
                     <Building2 className="w-5 h-5 text-purple-500" />
-                    <span className="text-sm font-medium text-gray-700">Branch:</span>
+                    <span className="text-sm font-medium text-neutral-700">Branch:</span>
                     <select
                         value={selectedBranch}
                         onChange={(e) => setSelectedBranch(e.target.value)}
-                        className="flex-1 max-w-xs px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="flex-1 max-w-xs px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     >
                         <option value="all">All Branches</option>
                         <option value="global">Global (All Branches)</option>
@@ -394,7 +394,7 @@ const HRPolicies: React.FC = () => {
                             <option key={branch.id} value={branch.id}>{branch.center_name}</option>
                         ))}
                     </select>
-                    <span className="text-sm text-gray-500">
+                    <span className="text-sm text-neutral-500">
                         {selectedBranch === 'all' ? 'Showing policies from all branches' :
                          selectedBranch === 'global' ? 'Showing global policies only' :
                          `Showing policies for selected branch`}
@@ -403,7 +403,7 @@ const HRPolicies: React.FC = () => {
             </div>
 
             {error && (
-                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-700">
+                <div className="mb-6 p-4 bg-error-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-700">
                     <AlertCircle className="w-5 h-5" />
                     {error}
                     <button onClick={() => setError(null)} className="ml-auto">
@@ -414,37 +414,37 @@ const HRPolicies: React.FC = () => {
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-gray-500">Total Policies</p>
-                            <p className="text-2xl font-bold text-gray-800 mt-1">{stats.total}</p>
+                            <p className="text-sm text-neutral-500">Total Policies</p>
+                            <p className="text-2xl font-bold text-neutral-800 mt-1">{stats.total}</p>
                         </div>
-                        <FileText className="w-8 h-8 text-blue-500" />
+                        <FileText className="w-8 h-8 text-primary-500" />
                     </div>
                 </div>
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-gray-500">Active</p>
+                            <p className="text-sm text-neutral-500">Active</p>
                             <p className="text-2xl font-bold text-green-600 mt-1">{stats.active}</p>
                         </div>
                         <CheckCircle className="w-8 h-8 text-green-500" />
                     </div>
                 </div>
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-gray-500">Draft</p>
+                            <p className="text-sm text-neutral-500">Draft</p>
                             <p className="text-2xl font-bold text-yellow-600 mt-1">{stats.draft}</p>
                         </div>
                         <Clock className="w-8 h-8 text-yellow-500" />
                     </div>
                 </div>
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-gray-500">Expiring Soon</p>
+                            <p className="text-sm text-neutral-500">Expiring Soon</p>
                             <p className="text-2xl font-bold text-orange-600 mt-1">{stats.expiring_soon}</p>
                         </div>
                         <AlertCircle className="w-8 h-8 text-orange-500" />
@@ -453,22 +453,22 @@ const HRPolicies: React.FC = () => {
             </div>
 
             {/* Filters */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-6">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4 mb-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400" />
                         <input
                             type="text"
                             placeholder="Search policies..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         />
                     </div>
                     <select
                         value={selectedCategory}
                         onChange={(e) => setSelectedCategory(e.target.value)}
-                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     >
                         <option value="all">All Categories</option>
                         {categories.map(cat => (
@@ -478,7 +478,7 @@ const HRPolicies: React.FC = () => {
                     <select
                         value={selectedStatus}
                         onChange={(e) => setSelectedStatus(e.target.value)}
-                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     >
                         <option value="all">All Status</option>
                         <option value="Active">Active</option>
@@ -489,26 +489,26 @@ const HRPolicies: React.FC = () => {
             </div>
 
             {/* Policies Table */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
                 <table className="w-full">
-                    <thead className="bg-gray-50 border-b border-gray-200">
+                    <thead className="bg-neutral-50 border-b border-neutral-200">
                         <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                 Policy Name
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                 Branch
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                 Category
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                 Effective Date
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                 Status
                             </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                 Actions
                             </th>
                         </tr>
@@ -516,23 +516,23 @@ const HRPolicies: React.FC = () => {
                     <tbody className="divide-y divide-gray-200">
                         {isLoading ? (
                             <tr>
-                                <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
+                                <td colSpan={6} className="px-6 py-8 text-center text-neutral-500">
                                     Loading policies...
                                 </td>
                             </tr>
                         ) : filteredPolicies.length === 0 ? (
                             <tr>
-                                <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
+                                <td colSpan={6} className="px-6 py-8 text-center text-neutral-500">
                                     No policies found
                                 </td>
                             </tr>
                         ) : (
                             filteredPolicies.map((policy) => (
-                                <tr key={policy.id} className="hover:bg-gray-50 transition-colors">
+                                <tr key={policy.id} className="hover:bg-neutral-50 transition-colors">
                                     <td className="px-6 py-4">
                                         <div>
-                                            <div className="font-medium text-gray-900">{policy.policy_name}</div>
-                                            <div className="text-sm text-gray-500 line-clamp-1">{policy.description}</div>
+                                            <div className="font-medium text-neutral-900">{policy.policy_name}</div>
+                                            <div className="text-sm text-neutral-500 line-clamp-1">{policy.description}</div>
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">
@@ -545,7 +545,7 @@ const HRPolicies: React.FC = () => {
                                             {policy.policy_category}
                                         </span>
                                     </td>
-                                    <td className="px-6 py-4 text-sm text-gray-600">
+                                    <td className="px-6 py-4 text-sm text-neutral-600">
                                         {new Date(policy.effective_date).toLocaleDateString()}
                                     </td>
                                     <td className="px-6 py-4">
@@ -555,7 +555,7 @@ const HRPolicies: React.FC = () => {
                                         <div className="flex items-center gap-2">
                                             <button
                                                 onClick={() => handleViewPolicy(policy)}
-                                                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                                className="p-2 text-primary-500 hover:bg-blue-50 rounded-lg transition-colors"
                                                 title="View"
                                             >
                                                 <Eye className="w-4 h-4" />
@@ -569,7 +569,7 @@ const HRPolicies: React.FC = () => {
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(policy.id)}
-                                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                className="p-2 text-error-600 hover:bg-error-50 rounded-lg transition-colors"
                                                 title="Delete"
                                             >
                                                 <Trash2 className="w-4 h-4" />
@@ -587,13 +587,13 @@ const HRPolicies: React.FC = () => {
             {showModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" style={{ zIndex: 9999 }}>
                     <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-                        <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-                            <h2 className="text-xl font-semibold text-gray-800">
+                        <div className="sticky top-0 bg-white border-b border-neutral-200 px-6 py-4 flex items-center justify-between">
+                            <h2 className="text-xl font-semibold text-neutral-800">
                                 {isEditMode ? 'Edit Policy' : 'Create New Policy'}
                             </h2>
                             <button
                                 onClick={() => setShowModal(false)}
-                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                             >
                                 <X className="w-5 h-5" />
                             </button>
@@ -601,47 +601,47 @@ const HRPolicies: React.FC = () => {
                         <form onSubmit={handleSubmit} className="p-6 space-y-4">
                             {/* Branch Selector */}
                             <div className="bg-purple-50 rounded-lg p-4">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     <Building2 className="w-4 h-4 inline mr-2" />
                                     Assign to Branch
                                 </label>
                                 <select
                                     value={formData.branch_id}
                                     onChange={(e) => setFormData({ ...formData, branch_id: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                                 >
                                     <option value="">Global (All Branches)</option>
                                     {branches.map(branch => (
                                         <option key={branch.id} value={branch.id}>{branch.center_name}</option>
                                     ))}
                                 </select>
-                                <p className="text-xs text-gray-500 mt-1">
+                                <p className="text-xs text-neutral-500 mt-1">
                                     Leave empty for global policies that apply to all branches
                                 </p>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">
                                     Policy Name *
                                 </label>
                                 <input
                                     type="text"
                                     value={formData.policy_name}
                                     onChange={(e) => setFormData({ ...formData, policy_name: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                                     required
                                 />
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Category *
                                     </label>
                                     <select
                                         value={formData.policy_category}
                                         onChange={(e) => setFormData({ ...formData, policy_category: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                                         required
                                     >
                                         {categories.map(cat => (
@@ -650,13 +650,13 @@ const HRPolicies: React.FC = () => {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Status *
                                     </label>
                                     <select
                                         value={formData.status}
                                         onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                                         required
                                     >
                                         <option value="Draft">Draft</option>
@@ -667,53 +667,53 @@ const HRPolicies: React.FC = () => {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">
                                     Description *
                                 </label>
                                 <textarea
                                     value={formData.description}
                                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                     rows={3}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                                     required
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">
                                     Policy Content
                                 </label>
                                 <textarea
                                     value={formData.policy_content}
                                     onChange={(e) => setFormData({ ...formData, policy_content: e.target.value })}
                                     rows={6}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                                     placeholder="Enter detailed policy content..."
                                 />
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Effective Date *
                                     </label>
                                     <input
                                         type="date"
                                         value={formData.effective_date}
                                         onChange={(e) => setFormData({ ...formData, effective_date: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                                         required
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Expiry Date (Optional)
                                     </label>
                                     <input
                                         type="date"
                                         value={formData.expiry_date}
                                         onChange={(e) => setFormData({ ...formData, expiry_date: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                                     />
                                 </div>
                             </div>
@@ -721,7 +721,7 @@ const HRPolicies: React.FC = () => {
                             <div className="flex gap-3 pt-4">
                                 <button
                                     type="submit"
-                                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all"
+                                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-primary-500 hover:to-blue-700 transition-all"
                                 >
                                     <Save className="w-5 h-5" />
                                     {isEditMode ? 'Update Policy' : 'Create Policy'}
@@ -729,7 +729,7 @@ const HRPolicies: React.FC = () => {
                                 <button
                                     type="button"
                                     onClick={() => setShowModal(false)}
-                                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                                    className="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors"
                                 >
                                     Cancel
                                 </button>
@@ -743,11 +743,11 @@ const HRPolicies: React.FC = () => {
             {showViewModal && selectedPolicy && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" style={{ zIndex: 9999 }}>
                     <div className="bg-white rounded-xl shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-                        <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-                            <h2 className="text-xl font-semibold text-gray-800">{selectedPolicy.policy_name}</h2>
+                        <div className="sticky top-0 bg-white border-b border-neutral-200 px-6 py-4 flex items-center justify-between">
+                            <h2 className="text-xl font-semibold text-neutral-800">{selectedPolicy.policy_name}</h2>
                             <button
                                 onClick={() => setShowViewModal(false)}
-                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                             >
                                 <X className="w-5 h-5" />
                             </button>
@@ -761,14 +761,14 @@ const HRPolicies: React.FC = () => {
                             </div>
 
                             <div>
-                                <h3 className="text-sm font-medium text-gray-500 mb-1">Description</h3>
-                                <p className="text-gray-700">{selectedPolicy.description}</p>
+                                <h3 className="text-sm font-medium text-neutral-500 mb-1">Description</h3>
+                                <p className="text-neutral-700">{selectedPolicy.description}</p>
                             </div>
 
                             {selectedPolicy.policy_content && (
                                 <div>
-                                    <h3 className="text-sm font-medium text-gray-500 mb-1">Policy Content</h3>
-                                    <div className="bg-gray-50 rounded-lg p-4 text-gray-700 whitespace-pre-wrap">
+                                    <h3 className="text-sm font-medium text-neutral-500 mb-1">Policy Content</h3>
+                                    <div className="bg-neutral-50 rounded-lg p-4 text-neutral-700 whitespace-pre-wrap">
                                         {selectedPolicy.policy_content}
                                     </div>
                                 </div>
@@ -776,15 +776,15 @@ const HRPolicies: React.FC = () => {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <h3 className="text-sm font-medium text-gray-500 mb-1">Effective Date</h3>
-                                    <p className="text-gray-700">
+                                    <h3 className="text-sm font-medium text-neutral-500 mb-1">Effective Date</h3>
+                                    <p className="text-neutral-700">
                                         {new Date(selectedPolicy.effective_date).toLocaleDateString()}
                                     </p>
                                 </div>
                                 {selectedPolicy.expiry_date && (
                                     <div>
-                                        <h3 className="text-sm font-medium text-gray-500 mb-1">Expiry Date</h3>
-                                        <p className="text-gray-700">
+                                        <h3 className="text-sm font-medium text-neutral-500 mb-1">Expiry Date</h3>
+                                        <p className="text-neutral-700">
                                             {new Date(selectedPolicy.expiry_date).toLocaleDateString()}
                                         </p>
                                     </div>
@@ -793,15 +793,15 @@ const HRPolicies: React.FC = () => {
 
                             {selectedPolicy.creator && (
                                 <div>
-                                    <h3 className="text-sm font-medium text-gray-500 mb-1">Created By</h3>
-                                    <p className="text-gray-700">
+                                    <h3 className="text-sm font-medium text-neutral-500 mb-1">Created By</h3>
+                                    <p className="text-neutral-700">
                                         {selectedPolicy.creator.first_name} {selectedPolicy.creator.last_name}
                                     </p>
-                                    <p className="text-sm text-gray-500">{selectedPolicy.creator.email}</p>
+                                    <p className="text-sm text-neutral-500">{selectedPolicy.creator.email}</p>
                                 </div>
                             )}
 
-                            <div className="flex gap-3 pt-4 border-t border-gray-200">
+                            <div className="flex gap-3 pt-4 border-t border-neutral-200">
                                 <button
                                     onClick={() => {
                                         setShowViewModal(false);
@@ -814,7 +814,7 @@ const HRPolicies: React.FC = () => {
                                 </button>
                                 <button
                                     onClick={() => setShowViewModal(false)}
-                                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                                    className="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors"
                                 >
                                     Close
                                 </button>
@@ -828,37 +828,37 @@ const HRPolicies: React.FC = () => {
             {showCopyModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" style={{ zIndex: 9999 }}>
                     <div className="bg-white rounded-xl shadow-xl max-w-md w-full" onClick={(e) => e.stopPropagation()}>
-                        <div className="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-                            <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                        <div className="border-b border-neutral-200 px-6 py-4 flex items-center justify-between">
+                            <h2 className="text-xl font-semibold text-neutral-800 flex items-center gap-2">
                                 <Copy className="w-5 h-5" />
                                 Copy Policies to Branch
                             </h2>
                             <button
                                 onClick={() => setShowCopyModal(false)}
-                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                             >
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
                         <div className="p-6 space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Source Branch
                                 </label>
-                                <div className="px-4 py-2 bg-gray-100 rounded-lg text-gray-700">
+                                <div className="px-4 py-2 bg-neutral-100 rounded-lg text-neutral-700">
                                     {selectedBranch === 'all' ? 'Global (All Branches)' :
                                      selectedBranch === 'global' ? 'Global Policies' :
                                      branches.find(b => b.id === selectedBranch)?.center_name || 'Unknown'}
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Target Branch *
                                 </label>
                                 <select
                                     value={copyTargetBranch}
                                     onChange={(e) => setCopyTargetBranch(e.target.value)}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                                     required
                                 >
                                     <option value="">Select target branch...</option>
@@ -870,7 +870,7 @@ const HRPolicies: React.FC = () => {
                                     }
                                 </select>
                             </div>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-neutral-500">
                                 This will copy all policies from the source branch to the target branch.
                                 Existing policies with the same name will not be duplicated.
                             </p>
@@ -878,14 +878,14 @@ const HRPolicies: React.FC = () => {
                                 <button
                                     onClick={handleCopyToBranch}
                                     disabled={!copyTargetBranch}
-                                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-primary-500 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     <Copy className="w-5 h-5" />
                                     Copy Policies
                                 </button>
                                 <button
                                     onClick={() => setShowCopyModal(false)}
-                                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                                    className="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors"
                                 >
                                     Cancel
                                 </button>

@@ -114,7 +114,7 @@ const AddDoctorScheduleModal: React.FC<AddDoctorScheduleModalProps> = ({
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-2 gap-4 mb-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Select Doctor
                             </label>
                             <select
@@ -122,7 +122,7 @@ const AddDoctorScheduleModal: React.FC<AddDoctorScheduleModalProps> = ({
                                 onChange={(e) =>
                                     setSelectedDoctor(e.target.value)
                                 }
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                             >
                                 <option value="">Select Doctor</option>
                                 {users.map((user) => (
@@ -137,7 +137,7 @@ const AddDoctorScheduleModal: React.FC<AddDoctorScheduleModalProps> = ({
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Select Branch
                             </label>
                             <select
@@ -145,7 +145,7 @@ const AddDoctorScheduleModal: React.FC<AddDoctorScheduleModalProps> = ({
                                 onChange={(e) =>
                                     setSelectedBranch(e.target.value)
                                 }
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                                 disabled={branches.length === 0}
                             >
                                 <option value="">Select Branch</option>
@@ -161,13 +161,13 @@ const AddDoctorScheduleModal: React.FC<AddDoctorScheduleModalProps> = ({
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Schedule Day
                             </label>
                             <select
                                 value={scheduleDay}
                                 onChange={(e) => setScheduleDay(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                             >
                                 <option value="">Select Day</option>
                                 {[
@@ -187,26 +187,26 @@ const AddDoctorScheduleModal: React.FC<AddDoctorScheduleModalProps> = ({
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Start Time
                             </label>
                             <input
                                 type="time"
                                 value={startTime}
                                 onChange={(e) => setStartTime(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Maximum Patients
                             </label>
                             <input
                                 type="number"
                                 value={maxPatients}
                                 onChange={(e) => setMaxPatients(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                                 placeholder="Enter maximum patients"
                             />
                         </div>
@@ -216,13 +216,13 @@ const AddDoctorScheduleModal: React.FC<AddDoctorScheduleModalProps> = ({
                         <button
                             type="button"
                             onClick={closeModal}
-                            className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 mr-2"
+                            className="px-4 py-2 bg-neutral-300 text-neutral-700 rounded-md hover:bg-gray-400 mr-2"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 text-white"
+                            className="px-4 py-2 bg-primary-500 rounded-lg hover:bg-primary-600 text-white"
                         >
                             Add Schedule
                         </button>

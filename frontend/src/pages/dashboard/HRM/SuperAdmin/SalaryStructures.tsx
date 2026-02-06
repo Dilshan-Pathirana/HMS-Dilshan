@@ -31,20 +31,20 @@ const SalaryStructures: React.FC = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-neutral-50 p-6">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => navigate('/super-admin/hrm')}
-                            className="p-2 hover:bg-gray-200 rounded-lg"
+                            className="p-2 hover:bg-neutral-200 rounded-lg"
                         >
                             <ArrowLeft className="w-5 h-5" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">Salary Structures</h1>
-                            <p className="text-gray-500">Configure salary grades, pay scales, and allowances</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">Salary Structures</h1>
+                            <p className="text-neutral-500">Configure salary grades, pay scales, and allowances</p>
                         </div>
                     </div>
                     <button 
@@ -57,51 +57,51 @@ const SalaryStructures: React.FC = () => {
                 </div>
 
                 {/* Salary Grades */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full">
-                            <thead className="bg-gray-50 border-b border-gray-200">
+                            <thead className="bg-neutral-50 border-b border-neutral-200">
                                 <tr>
-                                    <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">Grade</th>
-                                    <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">Title</th>
-                                    <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">Salary Range (LKR)</th>
-                                    <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">Medical</th>
-                                    <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">Transport</th>
-                                    <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">Housing</th>
-                                    <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">EPF/ETF</th>
-                                    <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">Actions</th>
+                                    <th className="text-left py-4 px-6 text-sm font-medium text-neutral-500">Grade</th>
+                                    <th className="text-left py-4 px-6 text-sm font-medium text-neutral-500">Title</th>
+                                    <th className="text-left py-4 px-6 text-sm font-medium text-neutral-500">Salary Range (LKR)</th>
+                                    <th className="text-left py-4 px-6 text-sm font-medium text-neutral-500">Medical</th>
+                                    <th className="text-left py-4 px-6 text-sm font-medium text-neutral-500">Transport</th>
+                                    <th className="text-left py-4 px-6 text-sm font-medium text-neutral-500">Housing</th>
+                                    <th className="text-left py-4 px-6 text-sm font-medium text-neutral-500">EPF/ETF</th>
+                                    <th className="text-left py-4 px-6 text-sm font-medium text-neutral-500">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {salaryGrades.map((grade) => (
-                                    <tr key={grade.id} className="border-b border-gray-100 hover:bg-gray-50">
+                                    <tr key={grade.id} className="border-b border-gray-100 hover:bg-neutral-50">
                                         <td className="py-4 px-6">
                                             <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
                                                 {grade.grade}
                                             </span>
                                         </td>
-                                        <td className="py-4 px-6 font-medium text-gray-800">{grade.title}</td>
-                                        <td className="py-4 px-6 text-gray-600">
+                                        <td className="py-4 px-6 font-medium text-neutral-800">{grade.title}</td>
+                                        <td className="py-4 px-6 text-neutral-600">
                                             {grade.minSalary.toLocaleString()} - {grade.maxSalary.toLocaleString()}
                                         </td>
-                                        <td className="py-4 px-6 text-gray-600">{grade.allowances.medical.toLocaleString()}</td>
-                                        <td className="py-4 px-6 text-gray-600">{grade.allowances.transport.toLocaleString()}</td>
-                                        <td className="py-4 px-6 text-gray-600">{grade.allowances.housing.toLocaleString()}</td>
+                                        <td className="py-4 px-6 text-neutral-600">{grade.allowances.medical.toLocaleString()}</td>
+                                        <td className="py-4 px-6 text-neutral-600">{grade.allowances.transport.toLocaleString()}</td>
+                                        <td className="py-4 px-6 text-neutral-600">{grade.allowances.housing.toLocaleString()}</td>
                                         <td className="py-4 px-6">
                                             <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                                                 grade.epfApplicable 
                                                     ? 'bg-emerald-100 text-emerald-700' 
-                                                    : 'bg-gray-100 text-gray-700'
+                                                    : 'bg-neutral-100 text-neutral-700'
                                             }`}>
                                                 {grade.epfApplicable ? 'Yes' : 'No'}
                                             </span>
                                         </td>
                                         <td className="py-4 px-6">
                                             <div className="flex items-center gap-2">
-                                                <button className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
+                                                <button className="p-2 text-neutral-500 hover:text-primary-500 hover:bg-blue-50 rounded-lg">
                                                     <Edit className="w-4 h-4" />
                                                 </button>
-                                                <button className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg">
+                                                <button className="p-2 text-neutral-500 hover:text-error-600 hover:bg-error-50 rounded-lg">
                                                     <Trash2 className="w-4 h-4" />
                                                 </button>
                                             </div>
@@ -117,7 +117,7 @@ const SalaryStructures: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
                     <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
                         <div className="flex items-center gap-3 mb-2">
-                            <DollarSign className="w-5 h-5 text-blue-600" />
+                            <DollarSign className="w-5 h-5 text-primary-500" />
                             <h3 className="font-semibold text-blue-800">Basic Salary</h3>
                         </div>
                         <p className="text-sm text-blue-700">

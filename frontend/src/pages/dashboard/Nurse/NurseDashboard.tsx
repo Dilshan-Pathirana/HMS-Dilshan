@@ -89,14 +89,14 @@ export const NurseDashboard: React.FC = () => {
         icon: React.ReactNode; 
         color: string;
     }) => (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between mb-4">
                 <div className={`p-3 rounded-lg bg-gradient-to-br ${color}`}>
                     {icon}
                 </div>
             </div>
-            <h3 className="text-gray-600 text-sm font-medium mb-1">{title}</h3>
-            <p className="text-3xl font-bold text-gray-800">{value}</p>
+            <h3 className="text-neutral-600 text-sm font-medium mb-1">{title}</h3>
+            <p className="text-3xl font-bold text-neutral-800">{value}</p>
         </div>
     );
 

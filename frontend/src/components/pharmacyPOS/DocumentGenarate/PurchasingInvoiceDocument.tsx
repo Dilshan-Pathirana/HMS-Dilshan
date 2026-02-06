@@ -224,7 +224,7 @@ const InvoicePDF: React.FC<PurchasingInvoiceProps> = ({ purchasing }) => {
         <PDFDownloadLink
             document={<PurchasingInvoiceDocument purchasing={purchasing} />}
             fileName={`invoice-${purchasing.invoice_id}-${format(new Date(), "yyyy-MM-dd")}.pdf`}
-            className="bg-blue-500 py-2.5 px-6 rounded-md text-white flex items-center gap-2 hover:bg-blue-600 transition-colors"
+            className="bg-primary-500 py-2.5 px-6 rounded-md text-white flex items-center gap-2 hover:bg-primary-500 transition-colors"
         >
             Download Invoice
         </PDFDownloadLink>

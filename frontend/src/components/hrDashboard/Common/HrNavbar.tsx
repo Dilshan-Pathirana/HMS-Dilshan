@@ -104,7 +104,7 @@ const HrNavbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
     };
 
     return (
-        <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <nav className="fixed top-0 z-50 w-full bg-white border-b border-neutral-200 dark:bg-neutral-800 dark:border-gray-700">
             <div className="px-2 sm:px-3 py-2 sm:py-3 lg:px-5 lg:pl-3">
                 <div className="flex items-center justify-between gap-2 sm:gap-3">
                     <div className="flex items-center justify-start rtl:justify-end gap-1 sm:gap-2 min-w-0">
@@ -113,7 +113,7 @@ const HrNavbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
                             data-drawer-toggle="logo-sidebar"
                             aria-controls="logo-sidebar"
                             type="button"
-                            className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 min-h-[44px] min-w-[44px] flex-shrink-0"
+                            className="inline-flex items-center p-2 text-sm text-neutral-500 rounded-lg sm:hidden hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-neutral-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 min-h-[44px] min-w-[44px] flex-shrink-0"
                             onClick={toggleSidebar}
                         >
                             <span className="sr-only">Open sidebar</span>
@@ -131,7 +131,7 @@ const HrNavbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
                     <div className="flex items-center relative gap-1 sm:gap-2 flex-shrink-0">
                         <button
                             onClick={handleBackClick}
-                            className="hidden sm:inline-flex text-xs sm:text-sm px-2 sm:px-4 py-2 font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800 whitespace-nowrap"
+                            className="hidden sm:inline-flex text-xs sm:text-sm px-2 sm:px-4 py-2 font-medium text-white bg-primary-500 rounded-lg hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-primary-500 dark:hover:bg-primary-500 dark:focus:ring-blue-800 whitespace-nowrap"
                         >
                             Main Dashboard
                         </button>
@@ -141,7 +141,7 @@ const HrNavbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
                         >
                             <button
                                 type="button"
-                                className="relative text-gray-500 hover:bg-gray-100 p-2 rounded-full dark:text-gray-400 dark:hover:bg-gray-700 min-h-[44px] min-w-[44px] flex items-center justify-center flex-shrink-0"
+                                className="relative text-neutral-500 hover:bg-neutral-100 p-2 rounded-full dark:text-neutral-400 dark:hover:bg-gray-700 min-h-[44px] min-w-[44px] flex items-center justify-center flex-shrink-0"
                                 aria-expanded="false"
                                 onClick={toggleNotificationDropdown}
                             >
@@ -168,7 +168,7 @@ const HrNavbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
                         >
                             <button
                                 type="button"
-                                className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 min-h-[44px] min-w-[44px] items-center justify-center flex-shrink-0"
+                                className="flex text-sm bg-neutral-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 min-h-[44px] min-w-[44px] items-center justify-center flex-shrink-0"
                                 aria-expanded="false"
                                 onClick={toggleProfileDropdown}
                             >
@@ -178,10 +178,10 @@ const HrNavbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
                             {isProfileDropdownOpen && (
                                 <div className="absolute right-0 top-12 sm:top-14 w-48 sm:w-56 bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600">
                                     <div className="px-4 py-3">
-                                        <p className="text-sm text-gray-900 dark:text-white">
+                                        <p className="text-sm text-neutral-900 dark:text-white">
                                             Neil Sims
                                         </p>
-                                        <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300">
+                                        <p className="text-sm font-medium text-neutral-900 truncate dark:text-gray-300">
                                             neil.sims@flowbite.com
                                         </p>
                                     </div>
@@ -189,7 +189,7 @@ const HrNavbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
                                         <li className="sm:hidden">
                                             <button
                                                 onClick={handleBackClick}
-                                                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                                className="w-full text-left px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                             >
                                                 Main Dashboard
                                             </button>

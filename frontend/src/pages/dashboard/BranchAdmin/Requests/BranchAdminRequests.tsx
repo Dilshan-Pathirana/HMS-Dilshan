@@ -128,7 +128,7 @@ export const BranchAdminRequests: React.FC = () => {
     const SidebarMenu = () => (
         <nav className="py-4">
             <div className="px-4 mb-4">
-                <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Navigation</h2>
+                <h2 className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Navigation</h2>
             </div>
             <ul className="space-y-1 px-2">
                 {BranchAdminMenuItems.map((item, index) => (
@@ -138,13 +138,13 @@ export const BranchAdminRequests: React.FC = () => {
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                                 item.path.includes('/requests') 
                                     ? 'bg-gradient-to-r from-emerald-50 to-blue-50 text-emerald-700'
-                                    : 'text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
+                                    : 'text-neutral-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
                             }`}
                         >
                             <span className="flex-shrink-0">{item.icon}</span>
                             <span className="flex-1 font-medium text-left">{item.label}</span>
                             {item.badge && stats.pendingPurchaseRequests > 0 && (
-                                <span className="ml-auto bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                                <span className="ml-auto bg-error-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
                                     {stats.pendingPurchaseRequests}
                                 </span>
                             )}
@@ -202,11 +202,11 @@ export const BranchAdminRequests: React.FC = () => {
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
                         <div className="flex items-center gap-3">
                             <div className="p-2 bg-blue-100 rounded-lg">
-                                <ShoppingCart className="w-5 h-5 text-blue-600" />
+                                <ShoppingCart className="w-5 h-5 text-primary-500" />
                             </div>
                             <div>
-                                <p className="text-2xl font-bold text-gray-900">{stats.pendingPurchaseRequests}</p>
-                                <p className="text-xs text-gray-500">Pending PRs</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.pendingPurchaseRequests}</p>
+                                <p className="text-xs text-neutral-500">Pending PRs</p>
                             </div>
                         </div>
                     </div>
@@ -216,8 +216,8 @@ export const BranchAdminRequests: React.FC = () => {
                                 <CalendarDays className="w-5 h-5 text-purple-600" />
                             </div>
                             <div>
-                                <p className="text-2xl font-bold text-gray-900">{stats.pendingScheduleRequests}</p>
-                                <p className="text-xs text-gray-500">Schedule Requests</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.pendingScheduleRequests}</p>
+                                <p className="text-xs text-neutral-500">Schedule Requests</p>
                             </div>
                         </div>
                     </div>
@@ -227,8 +227,8 @@ export const BranchAdminRequests: React.FC = () => {
                                 <Clock className="w-5 h-5 text-orange-600" />
                             </div>
                             <div>
-                                <p className="text-2xl font-bold text-gray-900">{stats.pendingEODReports}</p>
-                                <p className="text-xs text-gray-500">EOD Reports</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.pendingEODReports}</p>
+                                <p className="text-xs text-neutral-500">EOD Reports</p>
                             </div>
                         </div>
                     </div>
@@ -238,19 +238,19 @@ export const BranchAdminRequests: React.FC = () => {
                                 <DollarSign className="w-5 h-5 text-emerald-600" />
                             </div>
                             <div>
-                                <p className="text-2xl font-bold text-gray-900">{stats.pendingCashEntries}</p>
-                                <p className="text-xs text-gray-500">Cash Entries</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.pendingCashEntries}</p>
+                                <p className="text-xs text-neutral-500">Cash Entries</p>
                             </div>
                         </div>
                     </div>
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-gray-100 rounded-lg">
-                                <TrendingUp className="w-5 h-5 text-gray-600" />
+                            <div className="p-2 bg-neutral-100 rounded-lg">
+                                <TrendingUp className="w-5 h-5 text-neutral-600" />
                             </div>
                             <div>
-                                <p className="text-2xl font-bold text-gray-900">{stats.todaySubmissions}</p>
-                                <p className="text-xs text-gray-500">Today's Total</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.todaySubmissions}</p>
+                                <p className="text-xs text-neutral-500">Today's Total</p>
                             </div>
                         </div>
                     </div>
@@ -269,22 +269,22 @@ export const BranchAdminRequests: React.FC = () => {
                                     {module.icon}
                                 </div>
                                 {module.count > 0 && (
-                                    <span className="bg-red-500 text-white text-sm font-bold px-3 py-1 rounded-full">
+                                    <span className="bg-error-500 text-white text-sm font-bold px-3 py-1 rounded-full">
                                         {module.count}
                                     </span>
                                 )}
                             </div>
-                            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                            <h3 className="text-lg font-semibold text-neutral-900 mb-2">
                                 {module.title}
                             </h3>
-                            <p className="text-sm text-gray-500 mb-4">
+                            <p className="text-sm text-neutral-500 mb-4">
                                 {module.description}
                             </p>
                             <div className="flex items-center justify-between">
-                                <span className="text-xs text-gray-400">
+                                <span className="text-xs text-neutral-400">
                                     {module.count} {module.countLabel}
                                 </span>
-                                <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-emerald-600 transition-colors" />
+                                <ChevronRight className="w-5 h-5 text-neutral-400 group-hover:text-emerald-600 transition-colors" />
                             </div>
                         </div>
                     ))}
@@ -292,13 +292,13 @@ export const BranchAdminRequests: React.FC = () => {
 
                 {/* Quick Actions */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
+                    <h3 className="text-lg font-semibold text-neutral-900 mb-4">Recent Activity</h3>
                     {loading ? (
                         <div className="flex items-center justify-center py-8">
                             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600"></div>
                         </div>
                     ) : (
-                        <div className="text-center py-8 text-gray-500">
+                        <div className="text-center py-8 text-neutral-500">
                             <AlertCircle className="w-12 h-12 mx-auto mb-3 text-gray-300" />
                             <p>Select a module above to view detailed requests</p>
                         </div>

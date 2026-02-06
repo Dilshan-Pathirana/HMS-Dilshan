@@ -143,7 +143,7 @@ const StaffSalaryPayTable = () => {
                                 Download PDF
                             </button>
                             <button
-                                className="bg-blue-500 text-white px-4 py-2 rounded ml-2"
+                                className="bg-primary-500 text-white px-4 py-2 rounded ml-2"
                                 onClick={() => exportToExcel(salaryPayData)}
                             >
                                 Download Excel

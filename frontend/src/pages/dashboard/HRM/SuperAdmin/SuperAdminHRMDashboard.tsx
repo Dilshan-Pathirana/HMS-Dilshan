@@ -2,29 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from "../../../../utils/api/axios";
 import {
-    Building2,
-    Users,
-    DollarSign,
-    FileText,
-    Shield,
-    Settings,
-    TrendingUp,
-    Calendar,
-    Clock,
-    CheckCircle,
-    AlertCircle,
-    ChevronRight,
-    BarChart3,
-    Briefcase,
-    CreditCard,
-    FileCheck,
-    Loader2,
-    Menu,
-    X,
-    LogOut,
-    User,
-    Bell
+    Building2, Users, DollarSign, FileText, Shield,
+    Settings, Calendar, Clock, BarChart3, Briefcase,
+    CreditCard, FileCheck, Loader2
 } from 'lucide-react';
+import { DashboardLayout } from '../../../../components/common/Layout/DashboardLayout';
+import { SidebarMenu } from '../../../../components/common/Layout/SidebarMenu';
+import { PageHeader } from '../../../../components/ui/PageHeader';
+import { StatCard } from '../../../../components/ui/StatCard';
 
 interface HRMStats {
     totalStaff: number;
@@ -167,7 +152,7 @@ const SuperAdminHRMDashboard: React.FC = () => {
         }
     ];
 
-    const sidebarItems = [
+    const hrmMenuItems = [
         { label: 'Dashboard', path: '/super-admin/hrm', icon: <Building2 className="w-5 h-5" /> },
         { label: 'HR Policies', path: '/super-admin/hrm/policies', icon: <FileText className="w-5 h-5" /> },
         { label: 'Salary Structures', path: '/super-admin/hrm/salary-structures', icon: <DollarSign className="w-5 h-5" /> },
@@ -180,290 +165,211 @@ const SuperAdminHRMDashboard: React.FC = () => {
         { label: 'Audit Logs', path: '/super-admin/hrm/audit-logs', icon: <FileCheck className="w-5 h-5" /> },
     ];
 
-    const QuickStatCard = ({ title, value, icon, color, isLoading }: {
-        title: string;
-        value: string | number;
-        icon: React.ReactNode;
-        color: string;
-        isLoading?: boolean;
-    }) => (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
-            <div className="flex items-center justify-between">
-                <div>
-                    <p className="text-sm text-gray-500">{title}</p>
-                    {isLoading ? (
-                        <Loader2 className="w-6 h-6 animate-spin text-gray-400 mt-2" />
-                    ) : (
-                        <p className="text-2xl font-bold text-gray-800 mt-1">{value}</p>
-                    )}
-                </div>
-                <div className={`p-3 rounded-xl bg-gradient-to-br ${color}`}>
-                    {icon}
-                </div>
-            </div>
-        </div>
-    );
+    const userInfo = JSON.parse(localStorage.getItem('user') || '{}');
+    const userName = `${userInfo.first_name || ''} ${userInfo.last_name || ''}`;
+    const userRole = 'Super Admin';
 
     return (
-        <div className="flex h-screen bg-gray-50">
-            {/* Sidebar */}
-            <aside className={`${isSidebarOpen ? 'w-64' : 'w-20'} bg-white border-r border-gray-200 transition-all duration-300 flex flex-col`}>
-                <div className="p-4 border-b border-gray-200">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-blue-500 rounded-xl flex items-center justify-center">
-                            <Briefcase className="w-6 h-6 text-white" />
+        <DashboardLayout
+            userName={userName}
+            userRole={userRole}
+            profileImage={userInfo.profile_picture || ''}
+            sidebarContent={<SidebarMenu items={hrmMenuItems} />}
+        >
+            <div className="space-y-6">
+                {/* Page Header */}
+                <PageHeader
+                    title="HRM Dashboard"
+                    description="Human Resource Management - System Wide"
+                    actions={
+                        <div className="flex items-center gap-2 px-3 py-1.5 bg-white border border-neutral-200 rounded-lg shadow-sm">
+                            <Briefcase className="w-4 h-4 text-emerald-600" />
+                            <span className="text-sm font-medium text-neutral-700">HRM Module</span>
                         </div>
-                        {isSidebarOpen && (
-                            <div>
-                                <h1 className="font-bold text-gray-800">HRM Module</h1>
-                                <p className="text-xs text-gray-500">Super Admin</p>
+                    }
+                />
+
+                {/* Quick Stats */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <StatCard
+                        title="Total Staff"
+                        value={stats.totalStaff}
+                        icon={Users}
+                    />
+                    <StatCard
+                        title="Active Branches"
+                        value={stats.branchOverview?.length || 0}
+                        icon={Building2}
+                    />
+                    <StatCard
+                        title="Monthly Payroll"
+                        value={`LKR ${stats.totalPayroll?.toLocaleString() || 0}`}
+                        icon={DollarSign}
+                    />
+                    <StatCard
+                        title="Pending Leave Requests"
+                        value={stats.pendingLeaves}
+                        icon={Calendar}
+                    />
+                </div>
+
+                {/* EPF/ETF Summary */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="p-2.5 bg-blue-50 rounded-lg border border-blue-100">
+                                <Shield className="w-5 h-5 text-blue-600" />
                             </div>
-                        )}
+                            <h3 className="font-bold text-neutral-900">EPF Contributions (This Month)</h3>
+                        </div>
+                        <div className="space-y-4">
+                            <div className="flex justify-between items-center p-3 bg-neutral-50 rounded-lg border border-neutral-100">
+                                <span className="text-neutral-600 font-medium">Employee (8%)</span>
+                                <span className="font-bold text-neutral-900">
+                                    {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : `LKR ${stats.epfEtf?.epfEmployee?.toLocaleString() || 0}`}
+                                </span>
+                            </div>
+                            <div className="flex justify-between items-center p-3 bg-neutral-50 rounded-lg border border-neutral-100">
+                                <span className="text-neutral-600 font-medium">Employer (12%)</span>
+                                <span className="font-bold text-neutral-900">
+                                    {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : `LKR ${stats.epfEtf?.epfEmployer?.toLocaleString() || 0}`}
+                                </span>
+                            </div>
+                            <div className="border-t border-neutral-100 pt-4 flex justify-between items-center">
+                                <span className="font-bold text-neutral-700">Total EPF</span>
+                                <span className="font-bold text-blue-600 text-lg">
+                                    {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : `LKR ${((stats.epfEtf?.epfEmployee || 0) + (stats.epfEtf?.epfEmployer || 0)).toLocaleString()}`}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="p-2.5 bg-emerald-50 rounded-lg border border-emerald-100">
+                                <Shield className="w-5 h-5 text-emerald-600" />
+                            </div>
+                            <h3 className="font-bold text-neutral-900">ETF Contributions (This Month)</h3>
+                        </div>
+                        <div className="space-y-4">
+                            <div className="flex justify-between items-center p-3 bg-neutral-50 rounded-lg border border-neutral-100">
+                                <span className="text-neutral-600 font-medium">Employer (3%)</span>
+                                <span className="font-bold text-neutral-900">
+                                    {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : `LKR ${stats.epfEtf?.etfEmployer?.toLocaleString() || 0}`}
+                                </span>
+                            </div>
+                            <div className="p-4 bg-yellow-50 rounded-xl border border-yellow-100">
+                                <p className="text-sm text-yellow-800 font-medium">* ETF is employer-only contribution</p>
+                                <p className="text-sm text-yellow-700 mt-1">* Applicable to all EPF-enabled employees</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <nav className="flex-1 py-4">
-                    <ul className="space-y-1 px-2">
-                        {sidebarItems.map((item, index) => (
-                            <li key={index}>
-                                <button
-                                    onClick={() => navigate(item.path)}
-                                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                                        window.location.pathname === item.path
-                                            ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-md'
-                                            : 'text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
-                                    }`}
-                                >
-                                    {item.icon}
-                                    {isSidebarOpen && <span className="font-medium">{item.label}</span>}
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                </nav>
-
-                <div className="p-4 border-t border-gray-200">
-                    <button
-                        onClick={() => navigate('/dashboard')}
-                        className="w-full flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-all"
-                    >
-                        <LogOut className="w-5 h-5" />
-                        {isSidebarOpen && <span>Back to Dashboard</span>}
-                    </button>
-                </div>
-            </aside>
-
-            {/* Main Content */}
-            <main className="flex-1 overflow-auto">
-                {/* Top Navbar */}
-                <header className="bg-white border-b border-gray-200 px-6 py-4">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                            <button
-                                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                                className="p-2 hover:bg-gray-100 rounded-lg"
+                {/* HRM Configuration Modules */}
+                <div>
+                    <h2 className="text-lg font-bold text-neutral-900 mb-6 flex items-center gap-2">
+                        <Settings className="w-5 h-5 text-neutral-500" />
+                        Configuration Modules
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {hrmModules.map((module) => (
+                            <div
+                                key={module.id}
+                                onClick={() => navigate(module.path)}
+                                className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 hover:shadow-md hover:border-emerald-200 transition-all cursor-pointer group relative overflow-hidden"
                             >
-                                {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-                            </button>
-                            <div>
-                                <h1 className="text-xl font-bold text-gray-800">HRM Dashboard</h1>
-                                <p className="text-sm text-gray-500">Human Resource Management - System Wide</p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-4">
-                            <button className="p-2 hover:bg-gray-100 rounded-lg relative">
-                                <Bell className="w-5 h-5 text-gray-600" />
-                                <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">3</span>
-                            </button>
-                            <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-blue-500 rounded-full flex items-center justify-center">
-                                    <User className="w-4 h-4 text-white" />
-                                </div>
-                                <span className="text-sm font-medium text-gray-700">Super Admin</span>
-                            </div>
-                        </div>
-                    </div>
-                </header>
-
-                <div className="p-6 space-y-6">
-                    {/* Quick Stats */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <QuickStatCard
-                            title="Total Staff"
-                            value={stats.totalStaff}
-                            icon={<Users className="w-6 h-6 text-white" />}
-                            color="from-blue-500 to-blue-600"
-                            isLoading={isLoading}
-                        />
-                        <QuickStatCard
-                            title="Active Branches"
-                            value={stats.branchOverview?.length || 0}
-                            icon={<Building2 className="w-6 h-6 text-white" />}
-                            color="from-emerald-500 to-emerald-600"
-                            isLoading={isLoading}
-                        />
-                        <QuickStatCard
-                            title="Monthly Payroll"
-                            value={`LKR ${stats.totalPayroll?.toLocaleString() || 0}`}
-                            icon={<DollarSign className="w-6 h-6 text-white" />}
-                            color="from-purple-500 to-purple-600"
-                            isLoading={isLoading}
-                        />
-                        <QuickStatCard
-                            title="Pending Leave Requests"
-                            value={stats.pendingLeaves}
-                            icon={<Calendar className="w-6 h-6 text-white" />}
-                            color="from-orange-500 to-orange-600"
-                            isLoading={isLoading}
-                        />
-                    </div>
-
-                    {/* EPF/ETF Summary */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="p-2 bg-blue-100 rounded-lg">
-                                    <Shield className="w-5 h-5 text-blue-600" />
-                                </div>
-                                <h3 className="font-semibold text-gray-800">EPF Contributions (This Month)</h3>
-                            </div>
-                            <div className="space-y-3">
-                                <div className="flex justify-between items-center">
-                                    <span className="text-gray-600">Employee (8%)</span>
-                                    <span className="font-semibold text-gray-800">
-                                        {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : `LKR ${stats.epfEtf?.epfEmployee?.toLocaleString() || 0}`}
-                                    </span>
-                                </div>
-                                <div className="flex justify-between items-center">
-                                    <span className="text-gray-600">Employer (12%)</span>
-                                    <span className="font-semibold text-gray-800">
-                                        {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : `LKR ${stats.epfEtf?.epfEmployer?.toLocaleString() || 0}`}
-                                    </span>
-                                </div>
-                                <div className="border-t pt-3 flex justify-between items-center">
-                                    <span className="font-medium text-gray-700">Total EPF</span>
-                                    <span className="font-bold text-blue-600">
-                                        {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : `LKR ${((stats.epfEtf?.epfEmployee || 0) + (stats.epfEtf?.epfEmployer || 0)).toLocaleString()}`}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="p-2 bg-emerald-100 rounded-lg">
-                                    <Shield className="w-5 h-5 text-emerald-600" />
-                                </div>
-                                <h3 className="font-semibold text-gray-800">ETF Contributions (This Month)</h3>
-                            </div>
-                            <div className="space-y-3">
-                                <div className="flex justify-between items-center">
-                                    <span className="text-gray-600">Employer (3%)</span>
-                                    <span className="font-semibold text-gray-800">
-                                        {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : `LKR ${stats.epfEtf?.etfEmployer?.toLocaleString() || 0}`}
-                                    </span>
-                                </div>
-                                <div className="text-sm text-gray-500 mt-2">
-                                    <p>* ETF is employer-only contribution</p>
-                                    <p>* Applicable to EPF-enabled employees</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* HRM Modules Grid */}
-                    <div>
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">HRM Configuration Modules</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            {hrmModules.map((module) => (
-                                <div
-                                    key={module.id}
-                                    onClick={() => navigate(module.path)}
-                                    className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg hover:border-emerald-300 transition-all cursor-pointer group"
-                                >
-                                    <div className={`p-3 rounded-xl bg-gradient-to-br ${module.color} text-white w-fit mb-4 group-hover:scale-110 transition-transform`}>
+                                <div className="relative z-10">
+                                    <div className={`p-3 rounded-lg bg-gradient-to-br ${module.color} text-white w-fit mb-4 group-hover:scale-110 transition-transform shadow-sm`}>
                                         {module.icon}
                                     </div>
-                                    <h3 className="font-semibold text-gray-800 group-hover:text-emerald-600 transition-colors">
+                                    <h3 className="font-bold text-neutral-900 group-hover:text-emerald-700 transition-colors">
                                         {module.title}
                                     </h3>
-                                    <p className="text-sm text-gray-500 mt-1 line-clamp-2">{module.description}</p>
-                                    <div className="mt-3 flex items-center justify-between">
-                                        <span className="text-sm font-medium text-gray-700">
-                                            {module.stats.label}: <span className="text-emerald-600">{module.stats.value}</span>
+                                    <p className="text-sm text-neutral-500 mt-2 line-clamp-2 h-10">{module.description}</p>
+                                    <div className="mt-4 pt-4 border-t border-neutral-100 flex items-center justify-between">
+                                        <span className="text-xs font-semibold uppercase tracking-wider text-neutral-500">
+                                            {module.stats.label}
                                         </span>
-                                        <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-emerald-500 group-hover:translate-x-1 transition-all" />
+                                        <span className="bg-neutral-100 text-neutral-700 px-2 py-1 rounded text-xs font-bold group-hover:bg-emerald-50 group-hover:text-emerald-700 transition-colors">
+                                            {module.stats.value}
+                                        </span>
                                     </div>
                                 </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Branch Overview Table */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <div className="flex items-center justify-between mb-4">
-                            <h2 className="text-lg font-semibold text-gray-800">Branch HR Overview</h2>
-                            <button className="text-sm text-emerald-600 hover:text-emerald-700 font-medium">
-                                View All Branches
-                            </button>
-                        </div>
-                        <div className="overflow-x-auto">
-                            <table className="w-full">
-                                <thead>
-                                    <tr className="border-b border-gray-200">
-                                        <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Branch</th>
-                                        <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Employees</th>
-                                        <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Payroll Cost</th>
-                                        <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">EPF/ETF</th>
-                                        <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {isLoading ? (
-                                        <tr>
-                                            <td colSpan={5} className="py-8 text-center">
-                                                <Loader2 className="w-6 h-6 animate-spin mx-auto text-gray-400" />
-                                            </td>
-                                        </tr>
-                                    ) : stats.branchOverview && stats.branchOverview.length > 0 ? (
-                                        stats.branchOverview.map((branch, index) => {
-                                            const colors = ['blue', 'purple', 'emerald', 'orange', 'pink'];
-                                            const color = colors[index % colors.length];
-                                            return (
-                                                <tr key={branch.id} className="border-b border-gray-100 hover:bg-gray-50">
-                                                    <td className="py-3 px-4">
-                                                        <div className="flex items-center gap-3">
-                                                            <div className={`w-8 h-8 bg-${color}-100 rounded-lg flex items-center justify-center`}>
-                                                                <Building2 className={`w-4 h-4 text-${color}-600`} />
-                                                            </div>
-                                                            <span className="font-medium text-gray-800">{branch.branch_name}</span>
-                                                        </div>
-                                                    </td>
-                                                    <td className="py-3 px-4 text-gray-600">{branch.staff_count}</td>
-                                                    <td className="py-3 px-4 text-gray-600">-</td>
-                                                    <td className="py-3 px-4 text-gray-600">-</td>
-                                                    <td className="py-3 px-4">
-                                                        <span className="px-2 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-medium">
-                                                            Active
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })
-                                    ) : (
-                                        <tr>
-                                            <td colSpan={5} className="py-8 text-center text-gray-500">
-                                                No branches found
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
-            </main>
-        </div>
+
+                {/* Branch Overview Table */}
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
+                    <div className="p-6 border-b border-neutral-200 flex items-center justify-between">
+                        <h2 className="text-lg font-bold text-neutral-900">Branch HR Overview</h2>
+                        <button className="text-sm text-emerald-600 hover:text-emerald-700 font-medium hover:underline">
+                            View All Branches
+                        </button>
+                    </div>
+                    <div className="overflow-x-auto">
+                        <table className="w-full">
+                            <thead className="bg-neutral-50">
+                                <tr>
+                                    <th className="text-left py-4 px-6 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Branch</th>
+                                    <th className="text-left py-4 px-6 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Employees</th>
+                                    <th className="text-left py-4 px-6 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Payroll Cost</th>
+                                    <th className="text-left py-4 px-6 text-xs font-semibold text-neutral-500 uppercase tracking-wider">EPF/ETF</th>
+                                    <th className="text-right py-4 px-6 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-neutral-100">
+                                {isLoading ? (
+                                    <tr>
+                                        <td colSpan={5} className="py-12 text-center">
+                                            <Loader2 className="w-8 h-8 animate-spin mx-auto text-neutral-300" />
+                                        </td>
+                                    </tr>
+                                ) : stats.branchOverview && stats.branchOverview.length > 0 ? (
+                                    stats.branchOverview.map((branch, index) => {
+                                        const colors = ['blue', 'purple', 'emerald', 'orange', 'pink'];
+                                        const color = colors[index % colors.length];
+                                        return (
+                                            <tr key={branch.id} className="group hover:bg-neutral-50 transition-colors">
+                                                <td className="py-4 px-6">
+                                                    <div className="flex items-center gap-4">
+                                                        <div className={`w-10 h-10 bg-${color}-50 rounded-lg flex items-center justify-center border border-${color}-100`}>
+                                                            <Building2 className={`w-5 h-5 text-${color}-600`} />
+                                                        </div>
+                                                        <span className="font-semibold text-neutral-900">{branch.branch_name}</span>
+                                                    </div>
+                                                </td>
+                                                <td className="py-4 px-6">
+                                                    <div className="flex items-center gap-2">
+                                                        <Users className="w-4 h-4 text-neutral-400" />
+                                                        <span className="text-neutral-700 font-medium">{branch.staff_count}</span>
+                                                    </div>
+                                                </td>
+                                                <td className="py-4 px-6 text-neutral-500 font-mono">-</td>
+                                                <td className="py-4 px-6 text-neutral-500 font-mono">-</td>
+                                                <td className="py-4 px-6 text-right">
+                                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">
+                                                        Active
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })
+                                ) : (
+                                    <tr>
+                                        <td colSpan={5} className="py-12 text-center text-neutral-500">
+                                            No branches found
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </DashboardLayout>
     );
 };
 

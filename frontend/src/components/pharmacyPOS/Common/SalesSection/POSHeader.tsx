@@ -85,7 +85,7 @@ const SalesHeader: React.FC<ISalesHeaderCardProps> = ({
                 <div className={isShowCustomerAddFields ? "hidden" : ""}>
                     <label
                         htmlFor="patient"
-                        className="text-sm font-medium text-gray-700"
+                        className="text-sm font-medium text-neutral-700"
                     >
                         Select Customer:
                     </label>
@@ -98,7 +98,7 @@ const SalesHeader: React.FC<ISalesHeaderCardProps> = ({
                     />
                 </div>
                 <button
-                    className="text-sm text-blue-600 mt-0 mb-2"
+                    className="text-sm text-primary-500 mt-0 mb-2"
                     onClick={() => showCustomerAddFields()}
                 >
                     Not Registered Customer
@@ -115,7 +115,7 @@ const SalesHeader: React.FC<ISalesHeaderCardProps> = ({
             <div>
                 <button
                     onClick={() => clearShoppingCart()}
-                    className="m-5 bg-blue-500 text-white p-3 rounded-lg flex flex-col justify-center items-start h-auto hover:bg-blue-600 transition-colors text-left"
+                    className="m-5 bg-primary-500 text-white p-3 rounded-lg flex flex-col justify-center items-start h-auto hover:bg-primary-500 transition-colors text-left"
                 >
                     Clear Shopping Cart
                 </button>

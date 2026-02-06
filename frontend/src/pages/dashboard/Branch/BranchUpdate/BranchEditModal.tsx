@@ -118,7 +118,7 @@ const BranchEditModal: React.FC<EditModalProps> = ({
                     <h2 className="text-lg font-bold mb-4">Edit Branch</h2>
                     <button
                         onClick={onClose}
-                        className="text-gray-600 hover:text-gray-900"
+                        className="text-neutral-600 hover:text-neutral-900"
                     >
                         <AiOutlineClose size={24} />
                     </button>
@@ -129,7 +129,7 @@ const BranchEditModal: React.FC<EditModalProps> = ({
                             <div>
                                 <label
                                     htmlFor="center_name"
-                                    className="block text-gray-700 font-bold mb-2"
+                                    className="block text-neutral-700 font-bold mb-2"
                                 >
                                     Center Name
                                 </label>
@@ -139,14 +139,14 @@ const BranchEditModal: React.FC<EditModalProps> = ({
                                     name="center_name"
                                     value={formData.center_name || ""}
                                     onChange={handleChange}
-                                    className="w-full p-2 border border-gray-300 rounded"
+                                    className="w-full p-2 border border-neutral-300 rounded"
                                     required
                                 />
                             </div>
                             <div>
                                 <label
                                     htmlFor="register_number"
-                                    className="block text-gray-700 font-bold mb-2"
+                                    className="block text-neutral-700 font-bold mb-2"
                                 >
                                     Register Number
                                 </label>
@@ -156,14 +156,14 @@ const BranchEditModal: React.FC<EditModalProps> = ({
                                     name="register_number"
                                     value={formData.register_number}
                                     onChange={handleChange}
-                                    className="w-full p-2 border border-gray-300 rounded"
+                                    className="w-full p-2 border border-neutral-300 rounded"
                                     required
                                 />
                             </div>
                             <div>
                                 <label
                                     htmlFor="register_document"
-                                    className="block text-gray-700 font-bold mb-2"
+                                    className="block text-neutral-700 font-bold mb-2"
                                 >
                                     Register Document
                                 </label>
@@ -173,10 +173,10 @@ const BranchEditModal: React.FC<EditModalProps> = ({
                                     name="register_document"
                                     accept=".pdf"
                                     onChange={handleFileChange}
-                                    className="w-full p-2 border border-gray-300 rounded"
+                                    className="w-full p-2 border border-neutral-300 rounded"
                                 />
                                 {file && (
-                                    <div className="mt-2 flex items-center p-2 border border-gray-300 rounded bg-gray-50">
+                                    <div className="mt-2 flex items-center p-2 border border-neutral-300 rounded bg-neutral-50">
                                         <div className="flex-shrink-0 bg-pink-500 rounded-full p-2">
                                             <IoDocument
                                                 className={"text-white"}
@@ -184,10 +184,10 @@ const BranchEditModal: React.FC<EditModalProps> = ({
                                             />
                                         </div>
                                         <div className="ml-3">
-                                            <p className="text-gray-700">
+                                            <p className="text-neutral-700">
                                                 {file.name}
                                             </p>
-                                            <p className="text-gray-500 text-sm">
+                                            <p className="text-neutral-500 text-sm">
                                                 Document
                                             </p>
                                         </div>
@@ -195,7 +195,7 @@ const BranchEditModal: React.FC<EditModalProps> = ({
                                 )}
                                 {!file && formData && (
                                     <div className="mt-2">
-                                        <h4 className="text-gray-700 font-bold mb-2">
+                                        <h4 className="text-neutral-700 font-bold mb-2">
                                             View Existing Document:
                                         </h4>
 
@@ -207,7 +207,7 @@ const BranchEditModal: React.FC<EditModalProps> = ({
                                                     }
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    className="text-blue-500 underline"
+                                                    className="text-primary-500 underline"
                                                 >
                                                     Open in a new tab
                                                 </a>
@@ -218,7 +218,7 @@ const BranchEditModal: React.FC<EditModalProps> = ({
                             <div>
                                 <label
                                     htmlFor="center_type"
-                                    className="block text-gray-700 font-bold mb-2"
+                                    className="block text-neutral-700 font-bold mb-2"
                                 >
                                     Type of Center
                                 </label>
@@ -227,7 +227,7 @@ const BranchEditModal: React.FC<EditModalProps> = ({
                                     name="center_type"
                                     value={formData.center_type}
                                     onChange={handleChange}
-                                    className="w-full p-2 border border-gray-300 rounded"
+                                    className="w-full p-2 border border-neutral-300 rounded"
                                     required
                                 >
                                     <option value="">Select type</option>
@@ -241,7 +241,7 @@ const BranchEditModal: React.FC<EditModalProps> = ({
                             <div>
                                 <label
                                     htmlFor="owner_type"
-                                    className="block text-gray-700 font-bold mb-2"
+                                    className="block text-neutral-700 font-bold mb-2"
                                 >
                                     Owner Type
                                 </label>
@@ -250,7 +250,7 @@ const BranchEditModal: React.FC<EditModalProps> = ({
                                     name="owner_type"
                                     value={formData.owner_type}
                                     onChange={handleChange}
-                                    className="w-full p-2 border border-gray-300 rounded"
+                                    className="w-full p-2 border border-neutral-300 rounded"
                                     required
                                 >
                                     <option value="">Select owner type</option>
@@ -264,7 +264,7 @@ const BranchEditModal: React.FC<EditModalProps> = ({
                             <div>
                                 <label
                                     htmlFor="owner_full_name"
-                                    className="block text-gray-700 font-bold mb-2"
+                                    className="block text-neutral-700 font-bold mb-2"
                                 >
                                     Owner Full Name
                                 </label>
@@ -274,14 +274,14 @@ const BranchEditModal: React.FC<EditModalProps> = ({
                                     name="owner_full_name"
                                     value={formData.owner_full_name}
                                     onChange={handleChange}
-                                    className="w-full p-2 border border-gray-300 rounded"
+                                    className="w-full p-2 border border-neutral-300 rounded"
                                     required
                                 />
                             </div>
                             <div>
                                 <label
                                     htmlFor="owner_id_number"
-                                    className="block text-gray-700 font-bold mb-2"
+                                    className="block text-neutral-700 font-bold mb-2"
                                 >
                                     Owner ID
                                 </label>
@@ -291,14 +291,14 @@ const BranchEditModal: React.FC<EditModalProps> = ({
                                     name="owner_id_number"
                                     value={formData.owner_id_number}
                                     onChange={handleChange}
-                                    className="w-full p-2 border border-gray-300 rounded"
+                                    className="w-full p-2 border border-neutral-300 rounded"
                                     required
                                 />
                             </div>
                             <div>
                                 <label
                                     htmlFor="owner_contact_number"
-                                    className="block text-gray-700 font-bold mb-2"
+                                    className="block text-neutral-700 font-bold mb-2"
                                 >
                                     Contact Number
                                 </label>
@@ -308,14 +308,14 @@ const BranchEditModal: React.FC<EditModalProps> = ({
                                     name="owner_contact_number"
                                     value={formData.owner_contact_number}
                                     onChange={handleChange}
-                                    className="w-full p-2 border border-gray-300 rounded"
+                                    className="w-full p-2 border border-neutral-300 rounded"
                                     required
                                 />
                             </div>
                             <div>
                                 <label
                                     htmlFor="division"
-                                    className="block text-gray-700 font-bold mb-2"
+                                    className="block text-neutral-700 font-bold mb-2"
                                 >
                                     Division
                                 </label>
@@ -325,14 +325,14 @@ const BranchEditModal: React.FC<EditModalProps> = ({
                                     name="division"
                                     value={formData.division}
                                     onChange={handleChange}
-                                    className="w-full p-2 border border-gray-300 rounded"
+                                    className="w-full p-2 border border-neutral-300 rounded"
                                     required
                                 />
                             </div>
                             <div>
                                 <label
                                     htmlFor="division_number"
-                                    className="block text-gray-700 font-bold mb-2"
+                                    className="block text-neutral-700 font-bold mb-2"
                                 >
                                     Division Number
                                 </label>
@@ -342,7 +342,7 @@ const BranchEditModal: React.FC<EditModalProps> = ({
                                     name="division_number"
                                     value={formData.division_number}
                                     onChange={handleChange}
-                                    className="w-full p-2 border border-gray-300 rounded"
+                                    className="w-full p-2 border border-neutral-300 rounded"
                                     required
                                 />
                             </div>
@@ -351,13 +351,13 @@ const BranchEditModal: React.FC<EditModalProps> = ({
                             <button
                                 type="button"
                                 onClick={onClose}
-                                className="bg-gray-300 text-black rounded px-4 py-2 mr-2"
+                                className="bg-neutral-300 text-black rounded px-4 py-2 mr-2"
                             >
                                 Cancel
                             </button>
                             <button
                                 type="submit"
-                                className="bg-blue-500 text-white rounded px-4 py-2"
+                                className="bg-primary-500 text-white rounded px-4 py-2"
                             >
                                 Update
                             </button>

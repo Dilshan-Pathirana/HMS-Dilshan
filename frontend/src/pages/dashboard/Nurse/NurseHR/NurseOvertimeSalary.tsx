@@ -94,10 +94,10 @@ const NurseOvertimeSalary: React.FC = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center sm:ml-64 pt-20">
+            <div className="min-h-screen bg-neutral-50 flex items-center justify-center sm:ml-64 pt-20">
                 <div className="text-center">
                     <Loader2 className="w-12 h-12 animate-spin text-teal-500 mx-auto mb-4" />
-                    <p className="text-gray-600">Loading salary data...</p>
+                    <p className="text-neutral-600">Loading salary data...</p>
                 </div>
             </div>
         );
@@ -106,21 +106,21 @@ const NurseOvertimeSalary: React.FC = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-teal-50/30 p-6 sm:ml-64 pt-20">
             {/* Header */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 mb-6">
                 <div className="flex items-center gap-4 mb-6">
                     <button
                         onClick={() => navigate('/nurse-dashboard/hr')}
-                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                        className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                     >
-                        <ArrowLeft className="w-5 h-5 text-gray-600" />
+                        <ArrowLeft className="w-5 h-5 text-neutral-600" />
                     </button>
                     <div className="flex items-center gap-3">
                         <div className="p-2 bg-teal-100 rounded-lg">
                             <Activity className="w-6 h-6 text-teal-600" />
                         </div>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">Overtime & Salary</h1>
-                            <p className="text-gray-600 text-sm mt-1">View your overtime hours, night duty allowance, and salary details</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">Overtime & Salary</h1>
+                            <p className="text-neutral-600 text-sm mt-1">View your overtime hours, night duty allowance, and salary details</p>
                         </div>
                     </div>
                 </div>
@@ -156,27 +156,27 @@ const NurseOvertimeSalary: React.FC = () => {
 
             {/* Salary Structure */}
             {salaryBreakdown && (
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-                    <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 mb-6">
+                    <h2 className="text-lg font-semibold text-neutral-800 mb-4 flex items-center gap-2">
                         <DollarSign className="w-5 h-5 text-teal-500" />
                         Your Salary Structure
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <div className="bg-gray-50 rounded-lg p-4">
-                            <p className="text-gray-500 text-sm mb-1">Basic Salary</p>
-                            <p className="text-xl font-bold text-gray-800">{formatCurrency(salaryBreakdown.basicSalary)}</p>
+                        <div className="bg-neutral-50 rounded-lg p-4">
+                            <p className="text-neutral-500 text-sm mb-1">Basic Salary</p>
+                            <p className="text-xl font-bold text-neutral-800">{formatCurrency(salaryBreakdown.basicSalary)}</p>
                         </div>
-                        <div className="bg-gray-50 rounded-lg p-4">
-                            <p className="text-gray-500 text-sm mb-1">Allowances</p>
-                            <p className="text-xl font-bold text-gray-800">{formatCurrency(salaryBreakdown.allocationAmount)}</p>
+                        <div className="bg-neutral-50 rounded-lg p-4">
+                            <p className="text-neutral-500 text-sm mb-1">Allowances</p>
+                            <p className="text-xl font-bold text-neutral-800">{formatCurrency(salaryBreakdown.allocationAmount)}</p>
                         </div>
-                        <div className="bg-gray-50 rounded-lg p-4">
-                            <p className="text-gray-500 text-sm mb-1">OT Rate (Per Hour)</p>
+                        <div className="bg-neutral-50 rounded-lg p-4">
+                            <p className="text-neutral-500 text-sm mb-1">OT Rate (Per Hour)</p>
                             <p className="text-xl font-bold text-teal-600">{formatCurrency(salaryBreakdown.hourlyRate)}</p>
                         </div>
-                        <div className="bg-gray-50 rounded-lg p-4">
-                            <p className="text-gray-500 text-sm mb-1">Max Working Hours</p>
-                            <p className="text-xl font-bold text-gray-800">{salaryBreakdown.maxHours} hrs</p>
+                        <div className="bg-neutral-50 rounded-lg p-4">
+                            <p className="text-neutral-500 text-sm mb-1">Max Working Hours</p>
+                            <p className="text-xl font-bold text-neutral-800">{salaryBreakdown.maxHours} hrs</p>
                         </div>
                     </div>
                     <div className="mt-4 p-4 bg-blue-50 rounded-lg">
@@ -189,14 +189,14 @@ const NurseOvertimeSalary: React.FC = () => {
             )}
 
             {/* Month Selector */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-4">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4 mb-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => changeMonth('prev')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ChevronLeft className="w-5 h-5 text-gray-600" />
+                            <ChevronLeft className="w-5 h-5 text-neutral-600" />
                         </button>
                         <div className="flex items-center gap-2 px-4 py-2 bg-teal-50 rounded-lg">
                             <Calendar className="w-4 h-4 text-teal-600" />
@@ -204,55 +204,55 @@ const NurseOvertimeSalary: React.FC = () => {
                         </div>
                         <button
                             onClick={() => changeMonth('next')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ChevronRight className="w-5 h-5 text-gray-600" />
+                            <ChevronRight className="w-5 h-5 text-neutral-600" />
                         </button>
                     </div>
                 </div>
             </div>
 
             {/* Overtime Records */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
-                <div className="p-4 border-b border-gray-200 flex items-center justify-between">
-                    <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden mb-6">
+                <div className="p-4 border-b border-neutral-200 flex items-center justify-between">
+                    <h2 className="text-lg font-semibold text-neutral-800 flex items-center gap-2">
                         <Clock className="w-5 h-5 text-teal-500" />
                         Overtime Records - {getMonthName(selectedMonth)}
                     </h2>
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-neutral-600">
                         Total: <span className="font-semibold text-teal-600">{totalOvertimeHours.toFixed(1)} hrs</span>
                         {' / '}
-                        <span className="font-semibold text-blue-600">{formatCurrency(totalOvertimeAmount)}</span>
+                        <span className="font-semibold text-primary-500">{formatCurrency(totalOvertimeAmount)}</span>
                     </div>
                 </div>
                 <div className="overflow-x-auto">
                     <table className="w-full">
-                        <thead className="bg-gray-50 border-b border-gray-200">
+                        <thead className="bg-neutral-50 border-b border-neutral-200">
                             <tr>
-                                <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Date</th>
-                                <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">Hours</th>
-                                <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">Rate</th>
-                                <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">Total</th>
-                                <th className="text-center py-3 px-4 text-sm font-medium text-gray-500">Status</th>
+                                <th className="text-left py-3 px-4 text-sm font-medium text-neutral-500">Date</th>
+                                <th className="text-right py-3 px-4 text-sm font-medium text-neutral-500">Hours</th>
+                                <th className="text-right py-3 px-4 text-sm font-medium text-neutral-500">Rate</th>
+                                <th className="text-right py-3 px-4 text-sm font-medium text-neutral-500">Total</th>
+                                <th className="text-center py-3 px-4 text-sm font-medium text-neutral-500">Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             {overtimeRecords.length === 0 ? (
                                 <tr>
-                                    <td colSpan={5} className="py-8 text-center text-gray-500">
+                                    <td colSpan={5} className="py-8 text-center text-neutral-500">
                                         <Clock className="w-12 h-12 mx-auto mb-2 text-gray-300" />
                                         <p>No overtime records for this month</p>
                                     </td>
                                 </tr>
                             ) : (
                                 overtimeRecords.map((ot, index) => (
-                                    <tr key={ot.id} className={`border-b border-gray-100 hover:bg-gray-50 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
-                                        <td className="py-3 px-4 text-gray-700">{formatDate(ot.date)}</td>
+                                    <tr key={ot.id} className={`border-b border-gray-100 hover:bg-neutral-50 ${index % 2 === 0 ? 'bg-white' : 'bg-neutral-50/50'}`}>
+                                        <td className="py-3 px-4 text-neutral-700">{formatDate(ot.date)}</td>
                                         <td className="py-3 px-4 text-right font-medium text-teal-600">
                                             {ot.hoursWorked.toFixed(1)} hrs
                                         </td>
-                                        <td className="py-3 px-4 text-right text-gray-700">{formatCurrency(ot.otRate)}</td>
-                                        <td className="py-3 px-4 text-right font-bold text-blue-600">
+                                        <td className="py-3 px-4 text-right text-neutral-700">{formatCurrency(ot.otRate)}</td>
+                                        <td className="py-3 px-4 text-right font-bold text-primary-500">
                                             {formatCurrency(ot.totalAmount)}
                                         </td>
                                         <td className="py-3 px-4 text-center">

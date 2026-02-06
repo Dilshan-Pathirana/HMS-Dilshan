@@ -136,7 +136,7 @@ const DoctorScheduleCancellationTable: React.FC = () => {
                                 placeholder="Search by doctor name or branch..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="border border-gray-300 rounded pl-3 pr-4 py-2 w-full"
+                                className="border border-neutral-300 rounded pl-3 pr-4 py-2 w-full"
                             />
                         </div>
                         <div className="relative">
@@ -145,7 +145,7 @@ const DoctorScheduleCancellationTable: React.FC = () => {
                                 onChange={(e) =>
                                     setStatusFilter(e.target.value)
                                 }
-                                className="border border-gray-300 rounded px-3 py-2 bg-white"
+                                className="border border-neutral-300 rounded px-3 py-2 bg-white"
                             >
                                 <option value="all">All Statuses</option>
                                 <option value="0">Pending</option>
@@ -157,8 +157,8 @@ const DoctorScheduleCancellationTable: React.FC = () => {
 
                     {paginatedCancellations.length > 0 ? (
                         <div className="overflow-x-auto">
-                            <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
-                                <thead className="bg-gray-50">
+                            <table className="min-w-full divide-y divide-gray-200 border border-neutral-200">
+                                <thead className="bg-neutral-50">
                                     <tr>
                                         {[
                                             "Doctor Name",
@@ -172,7 +172,7 @@ const DoctorScheduleCancellationTable: React.FC = () => {
                                         ].map((header) => (
                                             <th
                                                 key={header}
-                                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                                className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider"
                                             >
                                                 {header}
                                             </th>
@@ -184,9 +184,9 @@ const DoctorScheduleCancellationTable: React.FC = () => {
                                         (cancellation) => (
                                             <tr
                                                 key={cancellation.id}
-                                                className="hover:bg-gray-50"
+                                                className="hover:bg-neutral-50"
                                             >
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                                     {
                                                         cancellation.doctor_first_name
                                                     }{" "}
@@ -194,21 +194,21 @@ const DoctorScheduleCancellationTable: React.FC = () => {
                                                         cancellation.doctor_last_name
                                                     }
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                                     {cancellation.center_name}
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                                     {cancellation.schedule_day}
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                                     {cancellation.start_time}
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                                     {new Date(
                                                         cancellation.date,
                                                     ).toLocaleDateString()}
                                                 </td>
-                                                <td className="px-6 py-4 text-sm text-gray-900 max-w-xs truncate">
+                                                <td className="px-6 py-4 text-sm text-neutral-900 max-w-xs truncate">
                                                     <span
                                                         title={
                                                             cancellation.reason
@@ -217,7 +217,7 @@ const DoctorScheduleCancellationTable: React.FC = () => {
                                                         {cancellation.reason}
                                                     </span>
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                                     {getStatusBadge(
                                                         cancellation.status,
                                                     )}
@@ -225,7 +225,7 @@ const DoctorScheduleCancellationTable: React.FC = () => {
                                                         2 &&
                                                         cancellation.reject_reason && (
                                                             <div
-                                                                className="mt-1 text-xs text-red-600"
+                                                                className="mt-1 text-xs text-error-600"
                                                                 title={
                                                                     cancellation.reject_reason
                                                                 }
@@ -239,7 +239,7 @@ const DoctorScheduleCancellationTable: React.FC = () => {
                                                             </div>
                                                         )}
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                                     <div className="flex items-center space-x-2">
                                                         {cancellation.status ===
                                                             0 && (
@@ -265,7 +265,7 @@ const DoctorScheduleCancellationTable: React.FC = () => {
                                                                             cancellation,
                                                                         )
                                                                     }
-                                                                    className="text-red-600 hover:text-red-800 flex items-center"
+                                                                    className="text-error-600 hover:text-red-800 flex items-center"
                                                                     title="Reject"
                                                                 >
                                                                     <FiXCircle
@@ -278,7 +278,7 @@ const DoctorScheduleCancellationTable: React.FC = () => {
                                                         )}
                                                         {cancellation.status !==
                                                             0 && (
-                                                            <span className="text-gray-400">
+                                                            <span className="text-neutral-400">
                                                                 No actions
                                                             </span>
                                                         )}
@@ -291,7 +291,7 @@ const DoctorScheduleCancellationTable: React.FC = () => {
                             </table>
                         </div>
                     ) : (
-                        <div className="text-center py-8 text-gray-600">
+                        <div className="text-center py-8 text-neutral-600">
                             No schedule cancellation requests found.
                         </div>
                     )}

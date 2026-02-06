@@ -26,7 +26,7 @@ const UserManagement = () => {
                 <h1 className="text-2xl font-bold">User Management</h1>
                 <button
                     onClick={handleAddUserClick}
-                    className="px-6 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 text-white"
+                    className="px-6 py-2 bg-primary-500 rounded-lg hover:bg-primary-600 text-white"
                 >
                     Add User
                 </button>
@@ -39,13 +39,13 @@ const UserManagement = () => {
             {showCreateModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto m-4">
-                        <div className="sticky top-0 bg-white p-4 border-b border-gray-200 flex justify-between items-center z-10">
-                            <h2 className="text-xl font-bold text-gray-900">Add New User</h2>
+                        <div className="sticky top-0 bg-white p-4 border-b border-neutral-200 flex justify-between items-center z-10">
+                            <h2 className="text-xl font-bold text-neutral-900">Add New User</h2>
                             <button
                                 onClick={handleCloseModal}
-                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                             >
-                                <X className="w-5 h-5 text-gray-500" />
+                                <X className="w-5 h-5 text-neutral-500" />
                             </button>
                         </div>
                         <div className="p-2">

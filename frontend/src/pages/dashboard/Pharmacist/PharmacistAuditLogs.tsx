@@ -160,8 +160,8 @@ export const PharmacistAuditLogs: React.FC = () => {
         switch (status) {
             case 'success': return <CheckCircle className="w-4 h-4 text-green-500" />;
             case 'warning': return <AlertTriangle className="w-4 h-4 text-yellow-500" />;
-            case 'error': return <AlertTriangle className="w-4 h-4 text-red-500" />;
-            default: return <CheckCircle className="w-4 h-4 text-gray-500" />;
+            case 'error': return <AlertTriangle className="w-4 h-4 text-error-500" />;
+            default: return <CheckCircle className="w-4 h-4 text-neutral-500" />;
         }
     };
 
@@ -169,7 +169,7 @@ export const PharmacistAuditLogs: React.FC = () => {
         const styles: Record<string, string> = {
             'success': 'bg-green-100 text-green-800',
             'warning': 'bg-yellow-100 text-yellow-800',
-            'error': 'bg-red-100 text-red-800'
+            'error': 'bg-error-100 text-red-800'
         };
         return (
             <span className={`px-2 py-1 rounded-full text-xs font-medium ${styles[status]}`}>
@@ -182,9 +182,9 @@ export const PharmacistAuditLogs: React.FC = () => {
         const styles: Record<string, string> = {
             'dispensing': 'bg-blue-100 text-blue-800',
             'inventory': 'bg-purple-100 text-purple-800',
-            'controlled': 'bg-red-100 text-red-800',
+            'controlled': 'bg-error-100 text-red-800',
             'adjustment': 'bg-orange-100 text-orange-800',
-            'login': 'bg-gray-100 text-gray-800',
+            'login': 'bg-neutral-100 text-neutral-800',
             'report': 'bg-green-100 text-green-800',
             'billing': 'bg-cyan-100 text-cyan-800'
         };
@@ -212,18 +212,18 @@ export const PharmacistAuditLogs: React.FC = () => {
     };
 
     return (
-        <div className="ml-0 md:ml-64 pt-24 min-h-screen bg-gray-50">
+        <div className="ml-0 md:ml-64 pt-24 min-h-screen bg-neutral-50">
             <div className="p-6">
                 {/* Header */}
                 <div className="flex justify-between items-start mb-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                            <FileText className="w-7 h-7 text-gray-600" />
+                        <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2">
+                            <FileText className="w-7 h-7 text-neutral-600" />
                             Audit Logs & Activity
                         </h1>
-                        <p className="text-gray-600">View immutable audit trail of all pharmacy activities</p>
+                        <p className="text-neutral-600">View immutable audit trail of all pharmacy activities</p>
                     </div>
-                    <button className="flex items-center gap-2 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900">
+                    <button className="flex items-center gap-2 px-4 py-2 bg-neutral-800 text-white rounded-lg hover:bg-neutral-900">
                         <Download className="w-4 h-4" />
                         Export Logs
                     </button>
@@ -231,7 +231,7 @@ export const PharmacistAuditLogs: React.FC = () => {
 
                 {/* Important Notice */}
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 flex items-start gap-3">
-                    <FileText className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <FileText className="w-5 h-5 text-primary-500 flex-shrink-0 mt-0.5" />
                     <div>
                         <h4 className="font-medium text-blue-800">Immutable Audit Trail</h4>
                         <p className="text-sm text-blue-700">
@@ -245,35 +245,35 @@ export const PharmacistAuditLogs: React.FC = () => {
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-gray-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Total Actions</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
+                                <p className="text-sm text-neutral-600">Total Actions</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.total}</p>
                             </div>
-                            <FileText className="w-10 h-10 text-gray-500" />
+                            <FileText className="w-10 h-10 text-neutral-500" />
                         </div>
                     </div>
-                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-blue-500">
+                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-primary-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Dispensing</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.dispensing}</p>
+                                <p className="text-sm text-neutral-600">Dispensing</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.dispensing}</p>
                             </div>
-                            <Pill className="w-10 h-10 text-blue-500" />
+                            <Pill className="w-10 h-10 text-primary-500" />
                         </div>
                     </div>
-                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-red-500">
+                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-error-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Controlled Drugs</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.controlled}</p>
+                                <p className="text-sm text-neutral-600">Controlled Drugs</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.controlled}</p>
                             </div>
-                            <AlertTriangle className="w-10 h-10 text-red-500" />
+                            <AlertTriangle className="w-10 h-10 text-error-500" />
                         </div>
                     </div>
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-orange-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Adjustments</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.adjustments}</p>
+                                <p className="text-sm text-neutral-600">Adjustments</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.adjustments}</p>
                             </div>
                             <RefreshCw className="w-10 h-10 text-orange-500" />
                         </div>
@@ -284,21 +284,21 @@ export const PharmacistAuditLogs: React.FC = () => {
                 <div className="bg-white rounded-lg shadow p-4 mb-6">
                     <div className="flex flex-wrap items-center gap-4">
                         <div className="relative flex-1 min-w-[200px] max-w-md">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400" />
                             <input
                                 type="text"
                                 placeholder="Search logs..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500"
+                                className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-gray-500"
                             />
                         </div>
                         <div className="flex items-center gap-2">
-                            <Filter className="w-5 h-5 text-gray-400" />
+                            <Filter className="w-5 h-5 text-neutral-400" />
                             <select
                                 value={filterType}
                                 onChange={(e) => setFilterType(e.target.value)}
-                                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500"
+                                className="px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-gray-500"
                             >
                                 <option value="all">All Types</option>
                                 <option value="dispensing">Dispensing</option>
@@ -311,11 +311,11 @@ export const PharmacistAuditLogs: React.FC = () => {
                             </select>
                         </div>
                         <div className="flex items-center gap-2">
-                            <Calendar className="w-5 h-5 text-gray-400" />
+                            <Calendar className="w-5 h-5 text-neutral-400" />
                             <select
                                 value={filterDate}
                                 onChange={(e) => setFilterDate(e.target.value)}
-                                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500"
+                                className="px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-gray-500"
                             >
                                 <option value="today">Today</option>
                                 <option value="yesterday">Yesterday</option>
@@ -326,7 +326,7 @@ export const PharmacistAuditLogs: React.FC = () => {
                         </div>
                         <button
                             onClick={fetchLogs}
-                            className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
+                            className="flex items-center gap-2 px-4 py-2 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200"
                         >
                             <RefreshCw className="w-4 h-4" />
                             Refresh
@@ -338,45 +338,45 @@ export const PharmacistAuditLogs: React.FC = () => {
                 <div className="bg-white rounded-lg shadow overflow-hidden">
                     {loading ? (
                         <div className="p-12 text-center">
-                            <RefreshCw className="w-8 h-8 animate-spin text-gray-600 mx-auto mb-2" />
+                            <RefreshCw className="w-8 h-8 animate-spin text-neutral-600 mx-auto mb-2" />
                             Loading audit logs...
                         </div>
                     ) : (
                         <div className="overflow-x-auto">
                             <table className="w-full">
-                                <thead className="bg-gray-50 border-b">
+                                <thead className="bg-neutral-50 border-b">
                                     <tr>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Timestamp
                                         </th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Type
                                         </th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Description
                                         </th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             User
                                         </th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Status
                                         </th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Actions
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200">
                                     {filteredLogs.map((log) => (
-                                        <tr key={log.id} className="hover:bg-gray-50">
+                                        <tr key={log.id} className="hover:bg-neutral-50">
                                             <td className="px-4 py-3 whitespace-nowrap">
                                                 <div className="flex items-center gap-2 text-sm">
-                                                    <Clock className="w-4 h-4 text-gray-400" />
+                                                    <Clock className="w-4 h-4 text-neutral-400" />
                                                     <div>
-                                                        <div className="text-gray-900">
+                                                        <div className="text-neutral-900">
                                                             {new Date(log.timestamp).toLocaleTimeString()}
                                                         </div>
-                                                        <div className="text-gray-500 text-xs">
+                                                        <div className="text-neutral-500 text-xs">
                                                             {new Date(log.timestamp).toLocaleDateString()}
                                                         </div>
                                                     </div>
@@ -386,23 +386,23 @@ export const PharmacistAuditLogs: React.FC = () => {
                                                 {getActionTypeBadge(log.action_type)}
                                             </td>
                                             <td className="px-4 py-3">
-                                                <div className="text-sm text-gray-900 max-w-md">
+                                                <div className="text-sm text-neutral-900 max-w-md">
                                                     {log.description}
                                                 </div>
                                                 {log.related_entity && (
-                                                    <div className="text-xs text-blue-600 mt-1">
+                                                    <div className="text-xs text-primary-500 mt-1">
                                                         Ref: {log.related_entity}
                                                     </div>
                                                 )}
                                             </td>
                                             <td className="px-4 py-3 whitespace-nowrap">
                                                 <div className="flex items-center gap-2">
-                                                    <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-                                                        <User className="w-4 h-4 text-gray-600" />
+                                                    <div className="w-8 h-8 bg-neutral-100 rounded-full flex items-center justify-center">
+                                                        <User className="w-4 h-4 text-neutral-600" />
                                                     </div>
                                                     <div>
-                                                        <div className="text-sm text-gray-900">{log.user}</div>
-                                                        <div className="text-xs text-gray-500">{log.ip_address}</div>
+                                                        <div className="text-sm text-neutral-900">{log.user}</div>
+                                                        <div className="text-xs text-neutral-500">{log.ip_address}</div>
                                                     </div>
                                                 </div>
                                             </td>
@@ -415,7 +415,7 @@ export const PharmacistAuditLogs: React.FC = () => {
                                             <td className="px-4 py-3 whitespace-nowrap">
                                                 <button
                                                     onClick={() => setSelectedLog(log)}
-                                                    className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded"
+                                                    className="p-2 text-neutral-400 hover:text-primary-500 hover:bg-blue-50 rounded"
                                                     title="View Details"
                                                 >
                                                     <Eye className="w-5 h-5" />
@@ -431,17 +431,17 @@ export const PharmacistAuditLogs: React.FC = () => {
 
                 {/* Pagination */}
                 <div className="mt-4 flex items-center justify-between">
-                    <div className="text-sm text-gray-500">
+                    <div className="text-sm text-neutral-500">
                         Showing {filteredLogs.length} of {logs.length} entries
                     </div>
                     <div className="flex items-center gap-2">
-                        <button className="px-3 py-1 border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50" disabled>
+                        <button className="px-3 py-1 border border-neutral-300 rounded hover:bg-neutral-50 disabled:opacity-50" disabled>
                             Previous
                         </button>
-                        <button className="px-3 py-1 bg-gray-800 text-white rounded">1</button>
-                        <button className="px-3 py-1 border border-gray-300 rounded hover:bg-gray-50">2</button>
-                        <button className="px-3 py-1 border border-gray-300 rounded hover:bg-gray-50">3</button>
-                        <button className="px-3 py-1 border border-gray-300 rounded hover:bg-gray-50">
+                        <button className="px-3 py-1 bg-neutral-800 text-white rounded">1</button>
+                        <button className="px-3 py-1 border border-neutral-300 rounded hover:bg-neutral-50">2</button>
+                        <button className="px-3 py-1 border border-neutral-300 rounded hover:bg-neutral-50">3</button>
+                        <button className="px-3 py-1 border border-neutral-300 rounded hover:bg-neutral-50">
                             Next
                         </button>
                     </div>
@@ -452,13 +452,13 @@ export const PharmacistAuditLogs: React.FC = () => {
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                         <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4 max-h-[80vh] overflow-y-auto">
                             <div className="p-4 border-b flex items-center justify-between sticky top-0 bg-white">
-                                <h3 className="font-semibold text-gray-900 flex items-center gap-2">
-                                    <FileText className="w-5 h-5 text-gray-600" />
+                                <h3 className="font-semibold text-neutral-900 flex items-center gap-2">
+                                    <FileText className="w-5 h-5 text-neutral-600" />
                                     Audit Log Details
                                 </h3>
                                 <button
                                     onClick={() => setSelectedLog(null)}
-                                    className="text-gray-400 hover:text-gray-600 text-2xl"
+                                    className="text-neutral-400 hover:text-neutral-600 text-2xl"
                                 >
                                     &times;
                                 </button>
@@ -466,52 +466,52 @@ export const PharmacistAuditLogs: React.FC = () => {
                             <div className="p-6">
                                 <div className="grid grid-cols-2 gap-6">
                                     <div>
-                                        <label className="text-xs text-gray-500 uppercase">Timestamp</label>
-                                        <p className="text-gray-900 font-medium">
+                                        <label className="text-xs text-neutral-500 uppercase">Timestamp</label>
+                                        <p className="text-neutral-900 font-medium">
                                             {new Date(selectedLog.timestamp).toLocaleString()}
                                         </p>
                                     </div>
                                     <div>
-                                        <label className="text-xs text-gray-500 uppercase">Action Type</label>
+                                        <label className="text-xs text-neutral-500 uppercase">Action Type</label>
                                         <div className="mt-1">{getActionTypeBadge(selectedLog.action_type)}</div>
                                     </div>
                                     <div>
-                                        <label className="text-xs text-gray-500 uppercase">Action</label>
-                                        <p className="text-gray-900 font-mono text-sm">{selectedLog.action}</p>
+                                        <label className="text-xs text-neutral-500 uppercase">Action</label>
+                                        <p className="text-neutral-900 font-mono text-sm">{selectedLog.action}</p>
                                     </div>
                                     <div>
-                                        <label className="text-xs text-gray-500 uppercase">Status</label>
+                                        <label className="text-xs text-neutral-500 uppercase">Status</label>
                                         <div className="mt-1">{getStatusBadge(selectedLog.status)}</div>
                                     </div>
                                     <div className="col-span-2">
-                                        <label className="text-xs text-gray-500 uppercase">Description</label>
-                                        <p className="text-gray-900">{selectedLog.description}</p>
+                                        <label className="text-xs text-neutral-500 uppercase">Description</label>
+                                        <p className="text-neutral-900">{selectedLog.description}</p>
                                     </div>
                                     <div>
-                                        <label className="text-xs text-gray-500 uppercase">User</label>
-                                        <p className="text-gray-900">{selectedLog.user}</p>
-                                        <p className="text-sm text-gray-500">{selectedLog.user_role}</p>
+                                        <label className="text-xs text-neutral-500 uppercase">User</label>
+                                        <p className="text-neutral-900">{selectedLog.user}</p>
+                                        <p className="text-sm text-neutral-500">{selectedLog.user_role}</p>
                                     </div>
                                     <div>
-                                        <label className="text-xs text-gray-500 uppercase">IP Address</label>
-                                        <p className="text-gray-900 font-mono text-sm">{selectedLog.ip_address}</p>
+                                        <label className="text-xs text-neutral-500 uppercase">IP Address</label>
+                                        <p className="text-neutral-900 font-mono text-sm">{selectedLog.ip_address}</p>
                                     </div>
                                     {selectedLog.related_entity && (
                                         <div>
-                                            <label className="text-xs text-gray-500 uppercase">Related Entity</label>
-                                            <p className="text-blue-600">{selectedLog.related_entity}</p>
+                                            <label className="text-xs text-neutral-500 uppercase">Related Entity</label>
+                                            <p className="text-primary-500">{selectedLog.related_entity}</p>
                                         </div>
                                     )}
                                     {selectedLog.old_value && (
                                         <div>
-                                            <label className="text-xs text-gray-500 uppercase">Old Value</label>
-                                            <p className="text-gray-900">{selectedLog.old_value}</p>
+                                            <label className="text-xs text-neutral-500 uppercase">Old Value</label>
+                                            <p className="text-neutral-900">{selectedLog.old_value}</p>
                                         </div>
                                     )}
                                     {selectedLog.new_value && (
                                         <div>
-                                            <label className="text-xs text-gray-500 uppercase">New Value</label>
-                                            <p className="text-gray-900">{selectedLog.new_value}</p>
+                                            <label className="text-xs text-neutral-500 uppercase">New Value</label>
+                                            <p className="text-neutral-900">{selectedLog.new_value}</p>
                                         </div>
                                     )}
                                 </div>
@@ -519,7 +519,7 @@ export const PharmacistAuditLogs: React.FC = () => {
                             <div className="p-4 border-t flex justify-end">
                                 <button
                                     onClick={() => setSelectedLog(null)}
-                                    className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50"
+                                    className="px-4 py-2 text-neutral-600 border border-neutral-300 rounded-lg hover:bg-neutral-50"
                                 >
                                     Close
                                 </button>

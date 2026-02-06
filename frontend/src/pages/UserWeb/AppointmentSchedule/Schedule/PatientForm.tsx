@@ -111,14 +111,14 @@ const PatientForm: React.FC<{
             <div className="flex items-center justify-between mb-4 border-b border-blue-100 pb-3">
                 <div className="flex items-center">
                     <div className="w-6 h-6 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center mr-2 shadow-sm">
-                        <FaUser className="text-blue-600 w-3 h-3" />
+                        <FaUser className="text-primary-500 w-3 h-3" />
                     </div>
-                    <h1 className="text-lg font-bold text-gray-900">
+                    <h1 className="text-lg font-bold text-neutral-900">
                         Enter Patient Details
                     </h1>
                 </div>
                 <div className="flex items-center bg-gradient-to-r from-red-50 to-red-100 px-2 py-1 rounded-lg border border-red-200 shadow-sm">
-                    <FaClock className="text-red-600 w-3 h-3 mr-1" />
+                    <FaClock className="text-error-600 w-3 h-3 mr-1" />
                     <span className="text-red-700 font-bold text-sm">
                         {formatTimer(timer)}
                     </span>
@@ -128,9 +128,9 @@ const PatientForm: React.FC<{
             <form className="space-y-3">
                 <div className="grid grid-cols-2 gap-3">
                     <div className="group">
-                        <label className="flex items-center text-xs font-semibold text-gray-700 mb-1">
+                        <label className="flex items-center text-xs font-semibold text-neutral-700 mb-1">
                             <div className="w-4 h-4 bg-gradient-to-br from-blue-100 to-blue-200 rounded flex items-center justify-center mr-1 shadow-sm">
-                                <FaUser className="text-blue-600 w-2 h-2" />
+                                <FaUser className="text-primary-500 w-2 h-2" />
                             </div>
                             First Name
                         </label>
@@ -139,11 +139,11 @@ const PatientForm: React.FC<{
                             name="firstName"
                             value={userDetails.firstName}
                             onChange={handleInputChange}
-                            className="w-full px-2 py-2 bg-white border border-gray-200 hover:border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-gray-700 text-sm outline-none"
+                            className="w-full px-2 py-2 bg-white border border-neutral-200 hover:border-blue-300 focus:border-primary-500 focus:ring-2 focus:ring-blue-100 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-neutral-700 text-sm outline-none"
                             placeholder="First name"
                         />
                         {/*{errors.firstName && (*/}
-                        {/*    <div className="mt-1 flex items-center text-red-600 text-xs bg-red-50 px-2 py-1 rounded border border-red-200">*/}
+                        {/*    <div className="mt-1 flex items-center text-error-600 text-xs bg-error-50 px-2 py-1 rounded border border-red-200">*/}
                         {/*        <FaExclamationTriangle className="w-3 h-3 mr-1" />*/}
                         {/*        {errors.firstName}*/}
                         {/*    </div>*/}
@@ -151,9 +151,9 @@ const PatientForm: React.FC<{
                     </div>
 
                     <div className="group">
-                        <label className="flex items-center text-xs font-semibold text-gray-700 mb-1">
+                        <label className="flex items-center text-xs font-semibold text-neutral-700 mb-1">
                             <div className="w-4 h-4 bg-gradient-to-br from-blue-100 to-blue-200 rounded flex items-center justify-center mr-1 shadow-sm">
-                                <FaUser className="text-blue-600 w-2 h-2" />
+                                <FaUser className="text-primary-500 w-2 h-2" />
                             </div>
                             Last Name
                         </label>
@@ -162,11 +162,11 @@ const PatientForm: React.FC<{
                             name="lastName"
                             value={userDetails.lastName}
                             onChange={handleInputChange}
-                            className="w-full px-2 py-2 bg-white border border-gray-200 hover:border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-gray-700 text-sm outline-none disabled:bg-gray-50 disabled:border-gray-200 disabled:cursor-not-allowed"
+                            className="w-full px-2 py-2 bg-white border border-neutral-200 hover:border-blue-300 focus:border-primary-500 focus:ring-2 focus:ring-blue-100 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-neutral-700 text-sm outline-none disabled:bg-neutral-50 disabled:border-neutral-200 disabled:cursor-not-allowed"
                             placeholder="Last name"
                         />
                         {/*{errors.lastName && (*/}
-                        {/*    <div className="mt-1 flex items-center text-red-600 text-xs bg-red-50 px-2 py-1 rounded border border-red-200">*/}
+                        {/*    <div className="mt-1 flex items-center text-error-600 text-xs bg-error-50 px-2 py-1 rounded border border-red-200">*/}
                         {/*        <FaExclamationTriangle className="w-3 h-3 mr-1" />*/}
                         {/*        {errors.lastName}*/}
                         {/*    </div>*/}
@@ -175,7 +175,7 @@ const PatientForm: React.FC<{
                 </div>
 
                 <div className="group">
-                    <label className="flex items-center text-xs font-semibold text-gray-700 mb-1">
+                    <label className="flex items-center text-xs font-semibold text-neutral-700 mb-1">
                         <div className="w-4 h-4 bg-gradient-to-br from-green-100 to-green-200 rounded flex items-center justify-center mr-1 shadow-sm">
                             <FaPhone className="text-green-600 w-2 h-2" />
                         </div>
@@ -186,11 +186,11 @@ const PatientForm: React.FC<{
                         name="phone"
                         value={userDetails.phone}
                         onChange={handleInputChange}
-                        className="w-full px-2 py-2 bg-white border border-gray-200 hover:border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-gray-700 text-sm outline-none disabled:bg-gray-50 disabled:border-gray-200 disabled:cursor-not-allowed"
+                        className="w-full px-2 py-2 bg-white border border-neutral-200 hover:border-blue-300 focus:border-primary-500 focus:ring-2 focus:ring-blue-100 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-neutral-700 text-sm outline-none disabled:bg-neutral-50 disabled:border-neutral-200 disabled:cursor-not-allowed"
                         placeholder="Phone number"
                     />
                     {/*{errors.phone && (*/}
-                    {/*    <div className="mt-1 flex items-center text-red-600 text-xs bg-red-50 px-2 py-1 rounded border border-red-200">*/}
+                    {/*    <div className="mt-1 flex items-center text-error-600 text-xs bg-error-50 px-2 py-1 rounded border border-red-200">*/}
                     {/*        <FaExclamationTriangle className="w-3 h-3 mr-1" />*/}
                     {/*        {errors.phone}*/}
                     {/*    </div>*/}
@@ -198,7 +198,7 @@ const PatientForm: React.FC<{
                 </div>
 
                 <div className="group">
-                    <label className="flex items-center text-xs font-semibold text-gray-700 mb-1">
+                    <label className="flex items-center text-xs font-semibold text-neutral-700 mb-1">
                         <div className="w-4 h-4 bg-gradient-to-br from-purple-100 to-purple-200 rounded flex items-center justify-center mr-1 shadow-sm">
                             <FaIdCard className="text-purple-600 w-2 h-2" />
                         </div>
@@ -209,18 +209,18 @@ const PatientForm: React.FC<{
                         name="nic"
                         value={userDetails.nic}
                         onChange={handleInputChange}
-                        className="w-full px-2 py-2 bg-white border border-gray-200 hover:border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-gray-700 text-sm outline-none disabled:bg-gray-50 disabled:border-gray-200 disabled:cursor-not-allowed"
+                        className="w-full px-2 py-2 bg-white border border-neutral-200 hover:border-blue-300 focus:border-primary-500 focus:ring-2 focus:ring-blue-100 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-neutral-700 text-sm outline-none disabled:bg-neutral-50 disabled:border-neutral-200 disabled:cursor-not-allowed"
                         placeholder="NIC number"
                     />
                 </div>
 
                 <div className="group">
-                    <label className="flex items-center text-xs font-semibold text-gray-700 mb-1">
+                    <label className="flex items-center text-xs font-semibold text-neutral-700 mb-1">
                         <div className="w-4 h-4 bg-gradient-to-br from-orange-100 to-orange-200 rounded flex items-center justify-center mr-1 shadow-sm">
                             <FaEnvelope className="text-orange-600 w-2 h-2" />
                         </div>
                         Email
-                        <span className="text-gray-400 text-xs ml-1">
+                        <span className="text-neutral-400 text-xs ml-1">
                             (optional)
                         </span>
                     </label>
@@ -229,18 +229,18 @@ const PatientForm: React.FC<{
                         name="email"
                         value={userDetails.email}
                         onChange={handleInputChange}
-                        className="w-full px-2 py-2 bg-white border border-gray-200 hover:border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-gray-700 text-sm outline-none disabled:bg-gray-50 disabled:border-gray-200 disabled:cursor-not-allowed"
+                        className="w-full px-2 py-2 bg-white border border-neutral-200 hover:border-blue-300 focus:border-primary-500 focus:ring-2 focus:ring-blue-100 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-neutral-700 text-sm outline-none disabled:bg-neutral-50 disabled:border-neutral-200 disabled:cursor-not-allowed"
                         placeholder="Email address"
                     />
                 </div>
 
                 <div className="group">
-                    <label className="flex items-center text-xs font-semibold text-gray-700 mb-1">
+                    <label className="flex items-center text-xs font-semibold text-neutral-700 mb-1">
                         <div className="w-4 h-4 bg-gradient-to-br from-teal-100 to-teal-200 rounded flex items-center justify-center mr-1 shadow-sm">
                             <FaMapMarkerAlt className="text-teal-600 w-2 h-2" />
                         </div>
                         Address
-                        <span className="text-gray-400 text-xs ml-1">
+                        <span className="text-neutral-400 text-xs ml-1">
                             (optional)
                         </span>
                     </label>
@@ -249,7 +249,7 @@ const PatientForm: React.FC<{
                         name="address"
                         value={userDetails.address}
                         onChange={handleInputChange}
-                        className="w-full px-2 py-2 bg-white border border-gray-200 hover:border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-gray-700 text-sm outline-none disabled:bg-gray-50 disabled:border-gray-200 disabled:cursor-not-allowed"
+                        className="w-full px-2 py-2 bg-white border border-neutral-200 hover:border-blue-300 focus:border-primary-500 focus:ring-2 focus:ring-blue-100 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-neutral-700 text-sm outline-none disabled:bg-neutral-50 disabled:border-neutral-200 disabled:cursor-not-allowed"
                         placeholder="Address"
                     />
                 </div>
@@ -259,7 +259,7 @@ const PatientForm: React.FC<{
                         type="button"
                         onClick={handleBookingConfirmation}
                         disabled={isLoading}
-                        className="group relative overflow-hidden w-full bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 hover:from-blue-700 hover:via-blue-800 hover:to-blue-900 disabled:from-gray-400 disabled:via-gray-500 disabled:to-gray-600 text-white px-4 py-2 rounded-lg font-bold transition-all duration-300 shadow-md hover:shadow-lg border border-blue-500 hover:border-blue-400 disabled:border-gray-400 disabled:cursor-not-allowed"
+                        className="group relative overflow-hidden w-full bg-gradient-to-r from-primary-500 via-blue-700 to-blue-800 hover:from-blue-700 hover:via-blue-800 hover:to-blue-900 disabled:from-gray-400 disabled:via-gray-500 disabled:to-gray-600 text-white px-4 py-2 rounded-lg font-bold transition-all duration-300 shadow-md hover:shadow-lg border border-primary-500 hover:border-blue-400 disabled:border-gray-400 disabled:cursor-not-allowed"
                     >
                         <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
                         <div className="flex items-center justify-center space-x-2 relative z-10">
@@ -282,13 +282,13 @@ const PatientForm: React.FC<{
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-lg shadow-lg w-11/12 max-w-md p-6 max-h-[90vh] overflow-y-auto">
                         <h2 className="text-xl font-bold mb-4 flex items-center">
-                            <FaCreditCard className="text-blue-600 w-5 h-5 mr-2" />
+                            <FaCreditCard className="text-primary-500 w-5 h-5 mr-2" />
                             Complete Payment
                         </h2>
 
                         <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg mb-4">
                             <div className="flex items-center mb-2">
-                                <FaInfoCircle className="text-blue-600 w-5 h-5 mr-2" />
+                                <FaInfoCircle className="text-primary-500 w-5 h-5 mr-2" />
                                 <h4 className="font-semibold text-blue-800">Payment Details</h4>
                             </div>
                             <div className="text-sm text-blue-700 space-y-1">
@@ -336,7 +336,7 @@ const PatientForm: React.FC<{
                             <button
                                 type="button"
                                 onClick={handleCloseModal}
-                                className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition-colors"
+                                className="px-4 py-2 bg-neutral-200 text-neutral-800 rounded hover:bg-neutral-300 transition-colors"
                             >
                                 Close
                             </button>
@@ -344,7 +344,7 @@ const PatientForm: React.FC<{
                                 <button
                                     type="button"
                                     onClick={handlePayNow}
-                                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors flex items-center space-x-2"
+                                    className="px-4 py-2 bg-primary-500 text-white rounded hover:bg-primary-600 transition-colors flex items-center space-x-2"
                                 >
                                     <FaCreditCard className="w-4 h-4" />
                                     <span>Pay Now</span>
@@ -501,13 +501,13 @@ const PatientForm: React.FC<{
             {/*                    <button*/}
             {/*                        type="button"*/}
             {/*                        onClick={() => setShowModal(false)}*/}
-            {/*                        className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"*/}
+            {/*                        className="px-4 py-2 bg-neutral-200 rounded hover:bg-neutral-300"*/}
             {/*                    >*/}
             {/*                        Cancel*/}
             {/*                    </button>*/}
             {/*                    <button*/}
             {/*                        type="submit"*/}
-            {/*                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"*/}
+            {/*                        className="px-4 py-2 bg-primary-500 text-white rounded hover:bg-primary-600"*/}
             {/*                    >*/}
             {/*                        Pay Now*/}
             {/*                    </button>*/}
@@ -531,7 +531,7 @@ const PatientForm: React.FC<{
             {/*                </>*/}
             {/*            ) : (*/}
             {/*                <>*/}
-            {/*                    <FaExclamationTriangle className="text-red-500 w-12 h-12 mx-auto mb-4" />*/}
+            {/*                    <FaExclamationTriangle className="text-error-500 w-12 h-12 mx-auto mb-4" />*/}
             {/*                    <h3 className="text-xl font-bold mb-2">*/}
             {/*                        Payment Failed*/}
             {/*                    </h3>*/}
@@ -543,7 +543,7 @@ const PatientForm: React.FC<{
             {/*            )}*/}
             {/*            <button*/}
             {/*                onClick={() => setPaymentStatus(null)}*/}
-            {/*                className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"*/}
+            {/*                className="mt-4 px-4 py-2 bg-primary-500 text-white rounded hover:bg-primary-600"*/}
             {/*            >*/}
             {/*                Close*/}
             {/*            </button>*/}

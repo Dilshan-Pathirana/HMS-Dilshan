@@ -42,18 +42,18 @@ const DoctorScheduleForPatient: React.FC<DoctorProps> = ({
             <div className="flex items-center mb-4 border-b border-blue-100 pb-3">
                 <div className="relative mr-3">
                     <div className="w-12 h-12 bg-gradient-to-br from-blue-100 via-blue-50 to-white rounded-xl flex items-center justify-center shadow-md border border-blue-200">
-                        <FaUserMd className="text-blue-600 text-2xl" />
+                        <FaUserMd className="text-primary-500 text-2xl" />
                     </div>
                     <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-white shadow-sm"></div>
                 </div>
                 <div className="flex-grow">
-                    <h1 className="text-lg font-bold text-gray-900 mb-1">
+                    <h1 className="text-lg font-bold text-neutral-900 mb-1">
                         Dr. {schedule.user_first_name} {schedule.user_last_name}
                     </h1>
                     <div className="inline-block px-2 py-1 bg-gradient-to-r from-blue-100 to-blue-50 text-blue-700 text-xs font-semibold mb-2 shadow-sm">
                         {schedule.areas_of_specialization}
                     </div>
-                    <p className="text-xs text-gray-600 flex items-center">
+                    <p className="text-xs text-neutral-600 flex items-center">
                         <span className="w-1.5 h-1.5 bg-blue-400 rounded-full mr-1"></span>
                         Branch: {schedule.branch_center_name}
                     </p>
@@ -65,8 +65,8 @@ const DoctorScheduleForPatient: React.FC<DoctorProps> = ({
                     <div className="w-8 h-8 bg-gradient-to-br from-green-100 to-green-200 rounded-lg flex items-center justify-center mx-auto mb-2 shadow-sm group-hover:shadow-md transition-all duration-300">
                         <FaClock className="text-green-600 text-sm" />
                     </div>
-                    <p className="text-xs text-gray-500 mb-1">Start Time</p>
-                    <h2 className="text-sm font-bold text-gray-800">
+                    <p className="text-xs text-neutral-500 mb-1">Start Time</p>
+                    <h2 className="text-sm font-bold text-neutral-800">
                         {schedule.start_time}
                     </h2>
                 </div>
@@ -75,8 +75,8 @@ const DoctorScheduleForPatient: React.FC<DoctorProps> = ({
                     <div className="w-8 h-8 bg-gradient-to-br from-purple-100 to-purple-200 rounded-lg flex items-center justify-center mx-auto mb-2 shadow-sm group-hover:shadow-md transition-all duration-300">
                         <FaCalendarAlt className="text-purple-600 text-sm" />
                     </div>
-                    <p className="text-xs text-gray-500 mb-1">Day</p>
-                    <h2 className="text-sm font-bold text-gray-800">
+                    <p className="text-xs text-neutral-500 mb-1">Day</p>
+                    <h2 className="text-sm font-bold text-neutral-800">
                         {schedule.schedule_day}
                     </h2>
                 </div>
@@ -85,7 +85,7 @@ const DoctorScheduleForPatient: React.FC<DoctorProps> = ({
                     <div className="w-8 h-8 bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-lg flex items-center justify-center mx-auto mb-2 shadow-sm group-hover:shadow-md transition-all duration-300">
                         <FaCheckCircle className="text-emerald-600 text-sm" />
                     </div>
-                    <p className="text-xs text-gray-500 mb-1">Status</p>
+                    <p className="text-xs text-neutral-500 mb-1">Status</p>
                     <h2 className="text-sm font-bold text-emerald-600">
                         Available
                     </h2>
@@ -93,9 +93,9 @@ const DoctorScheduleForPatient: React.FC<DoctorProps> = ({
             </div>
 
             <div className="mb-4">
-                <h2 className="text-sm font-bold text-gray-900 mb-3 flex items-center">
+                <h2 className="text-sm font-bold text-neutral-900 mb-3 flex items-center">
                     <div className="w-5 h-5 bg-gradient-to-br from-blue-100 to-blue-200 rounded flex items-center justify-center mr-2 shadow-sm">
-                        <FaCalendarAlt className="text-blue-600 w-3 h-3" />
+                        <FaCalendarAlt className="text-primary-500 w-3 h-3" />
                     </div>
                     Select Appointment Date
                 </h2>
@@ -127,20 +127,20 @@ const DoctorScheduleForPatient: React.FC<DoctorProps> = ({
                                 return "bg-blue-200 text-blue-800 font-semibold";
                             }
                         }}
-                        className="w-full px-2 py-2 border border-gray-200 hover:border-blue-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-gray-700 text-sm outline-none bg-white"
+                        className="w-full px-2 py-2 border border-neutral-200 hover:border-blue-300 focus:border-primary-500 focus:ring-2 focus:ring-blue-100 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 text-neutral-700 text-sm outline-none bg-white"
                     />
                 </div>
 
                 {isLoadingSlots && (
                     <div className="mt-3 flex items-center justify-center p-3 bg-blue-50 rounded-lg border border-blue-200">
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-2"></div>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-500 mr-2"></div>
                         <p className="text-blue-700 text-sm font-medium">
                             Checking availability...
                         </p>
                     </div>
                 )}
                 {error && (
-                    <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg">
+                    <div className="mt-3 p-3 bg-error-50 border border-red-200 rounded-lg">
                         <p className="text-red-700 text-sm font-medium flex items-center">
                             <FaExclamationTriangle className="w-3 h-3 mr-1" />
                             {error}
@@ -151,13 +151,13 @@ const DoctorScheduleForPatient: React.FC<DoctorProps> = ({
 
             {allSlots.length > 0 && (
                 <div>
-                    <h2 className="text-sm font-bold text-gray-900 mb-3 flex items-center">
+                    <h2 className="text-sm font-bold text-neutral-900 mb-3 flex items-center">
                         <div className="w-5 h-5 bg-gradient-to-br from-emerald-100 to-emerald-200 rounded flex items-center justify-center mr-2 shadow-sm">
                             <FaClock className="text-emerald-600 w-3 h-3" />
                         </div>
                         Available Slots
                     </h2>
-                    <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 shadow-inner">
+                    <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl border border-neutral-200 shadow-inner">
                         <div className="overflow-y-auto max-h-48 p-3">
                             <div className="grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 gap-2">
                                 {allSlots.map((slot) => {
@@ -174,7 +174,7 @@ const DoctorScheduleForPatient: React.FC<DoctorProps> = ({
                                                     ? "bg-gradient-to-br from-yellow-100 to-yellow-200 text-yellow-800 cursor-not-allowed border-yellow-300"
                                                     : isSelected
                                                       ? "bg-gradient-to-br from-red-500 to-red-600 text-white border-red-400 shadow-md scale-105"
-                                                      : "bg-gradient-to-br from-white to-blue-50 text-gray-800 hover:from-blue-500 hover:to-blue-600 hover:text-white border-gray-200 hover:border-blue-400 hover:shadow-md"
+                                                      : "bg-gradient-to-br from-white to-blue-50 text-neutral-800 hover:from-blue-500 hover:to-blue-600 hover:text-white border-neutral-200 hover:border-blue-400 hover:shadow-md"
                                             }`}
                                             disabled={isBooked}
                                         >

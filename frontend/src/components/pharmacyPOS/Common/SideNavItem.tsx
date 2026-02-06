@@ -25,8 +25,8 @@ export default function SideNavItem({
                     to={path}
                     className={`flex items-center px-6 py-3 ${
                         isActive(path)
-                            ? "text-gray-700 bg-gray-200"
-                            : "text-gray-600 hover:bg-gray-200"
+                            ? "text-neutral-700 bg-neutral-200"
+                            : "text-neutral-600 hover:bg-neutral-200"
                     }`}
                 >
                     <div className="w-5 h-5 mr-3">{icon}</div>
@@ -34,7 +34,7 @@ export default function SideNavItem({
                 </Link>
             ) : (
                 <div
-                    className="flex items-center px-6 py-3 cursor-pointer text-gray-600 hover:bg-gray-200"
+                    className="flex items-center px-6 py-3 cursor-pointer text-neutral-600 hover:bg-neutral-200"
                     onClick={toggleOpen}
                 >
                     <div className="w-5 h-5 mr-3">{icon}</div>
@@ -59,8 +59,8 @@ export default function SideNavItem({
                             to={subItem.path}
                             className={`block ${
                                 isActive(subItem.path)
-                                    ? "text-gray-700 bg-gray-200"
-                                    : "text-gray-600 hover:bg-gray-200"
+                                    ? "text-neutral-700 bg-neutral-200"
+                                    : "text-neutral-600 hover:bg-neutral-200"
                             } px-4 py-2 rounded-md`}
                         >
                             {subItem.title}

@@ -19,29 +19,29 @@ const PhoneNumberInputField: React.FC<IPhoneNumberInputFieldProp> = ({
 }) => {
     return (
         <div className="w-full">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-neutral-700 mb-1">
                 Phone Number
             </label>
-            <div className="flex items-center border rounded-lg p-3 w-full focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition-all">
-                <FaPhone className="text-gray-500 mr-3" />
+            <div className="flex items-center border border-neutral-200 bg-neutral-50/50 rounded-xl p-3.5 w-full focus-within:border-primary-500 focus-within:ring-4 focus-within:ring-primary-500/10 transition-all duration-300 ease-out shadow-sm hover:bg-white hover:border-primary-200">
+                <FaPhone className="text-neutral-400 mr-3" />
                 <input
                     type="tel"
                     name="phone"
                     value={signupInfo.phone}
                     onChange={handleChange}
                     placeholder="Enter your phone number"
-                    className="w-full bg-transparent outline-none text-gray-700 placeholder-gray-500"
+                    className="w-full bg-transparent outline-none text-neutral-900 placeholder:text-neutral-400"
                     disabled={isOtpSent}
                 />
                 {isOtpSent && isOtpVerified && (
-                    <span className="flex items-center text-green-600 font-medium text-sm ml-2">
+                    <span className="flex items-center text-success-600 font-medium text-sm ml-2 bg-success-50 px-2 py-0.5 rounded-full">
                         <FaCheckCircle className="mr-1" />
                         Verified
                     </span>
                 )}
             </div>
             {errors.phone && (
-                <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+                <p className="text-error-500 text-sm mt-1">{errors.phone}</p>
             )}
         </div>
     );

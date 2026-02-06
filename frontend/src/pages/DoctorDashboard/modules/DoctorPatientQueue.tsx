@@ -137,8 +137,8 @@ const DoctorPatientQueue: React.FC = () => {
             case 'waiting': return 'bg-yellow-100 text-yellow-700';
             case 'in-consultation': return 'bg-blue-100 text-blue-700';
             case 'completed': return 'bg-green-100 text-green-700';
-            case 'no-show': return 'bg-red-100 text-red-700';
-            default: return 'bg-gray-100 text-gray-700';
+            case 'no-show': return 'bg-error-100 text-red-700';
+            default: return 'bg-neutral-100 text-neutral-700';
         }
     };
 
@@ -162,7 +162,7 @@ const DoctorPatientQueue: React.FC = () => {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+                <Loader2 className="w-8 h-8 animate-spin text-primary-500" />
             </div>
         );
     }
@@ -172,11 +172,11 @@ const DoctorPatientQueue: React.FC = () => {
             <div className="max-w-xl mx-auto">
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
                     <Calendar className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <h2 className="text-xl font-semibold text-gray-800 mb-2">No Schedule Today</h2>
-                    <p className="text-gray-500 mb-6">You don't have any consultation scheduled for today.</p>
+                    <h2 className="text-xl font-semibold text-neutral-800 mb-2">No Schedule Today</h2>
+                    <p className="text-neutral-500 mb-6">You don't have any consultation scheduled for today.</p>
                     <Link
                         to="/doctor-dashboard-new/schedule/create"
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                     >
                         Create Schedule
                     </Link>
@@ -190,8 +190,8 @@ const DoctorPatientQueue: React.FC = () => {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-800">Patient Queue</h1>
-                    <p className="text-gray-500 flex items-center gap-2">
+                    <h1 className="text-2xl font-bold text-neutral-800">Patient Queue</h1>
+                    <p className="text-neutral-500 flex items-center gap-2">
                         <Building2 className="w-4 h-4" />
                         {todaySchedule.branch_name} • {todaySchedule.start_time} - {todaySchedule.end_time}
                     </p>
@@ -200,7 +200,7 @@ const DoctorPatientQueue: React.FC = () => {
                     <button
                         onClick={() => fetchQueueData(true)}
                         disabled={refreshing}
-                        className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50"
+                        className="inline-flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50 disabled:opacity-50"
                     >
                         <RefreshCw className={`w-5 h-5 ${refreshing ? 'animate-spin' : ''}`} />
                         Refresh
@@ -208,7 +208,7 @@ const DoctorPatientQueue: React.FC = () => {
                     <button
                         onClick={callNextPatient}
                         disabled={stats.waiting === 0 || stats.inConsultation > 0}
-                        className="inline-flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="inline-flex items-center gap-2 px-6 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         <PhoneCall className="w-5 h-5" />
                         Call Next Patient
@@ -231,9 +231,9 @@ const DoctorPatientQueue: React.FC = () => {
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-2xl font-bold text-blue-700">{stats.inConsultation}</p>
-                            <p className="text-sm text-blue-600">In Consultation</p>
+                            <p className="text-sm text-primary-500">In Consultation</p>
                         </div>
-                        <Stethoscope className="w-8 h-8 text-blue-500" />
+                        <Stethoscope className="w-8 h-8 text-primary-500" />
                     </div>
                 </div>
                 <div className="bg-green-50 rounded-xl p-4">
@@ -245,20 +245,20 @@ const DoctorPatientQueue: React.FC = () => {
                         <CheckCircle className="w-8 h-8 text-green-500" />
                     </div>
                 </div>
-                <div className="bg-red-50 rounded-xl p-4">
+                <div className="bg-error-50 rounded-xl p-4">
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-2xl font-bold text-red-700">{stats.noShow}</p>
-                            <p className="text-sm text-red-600">No Show</p>
+                            <p className="text-sm text-error-600">No Show</p>
                         </div>
-                        <XCircle className="w-8 h-8 text-red-500" />
+                        <XCircle className="w-8 h-8 text-error-500" />
                     </div>
                 </div>
             </div>
 
             {/* Current Patient Card */}
             {currentPatient && (
-                <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl p-6 text-white">
+                <div className="bg-gradient-to-r from-primary-500 to-indigo-600 rounded-xl p-6 text-white">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
                             <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center text-2xl font-bold">
@@ -272,7 +272,7 @@ const DoctorPatientQueue: React.FC = () => {
                         <div className="flex gap-3">
                             <Link
                                 to={`/doctor-dashboard-new/consultation/${currentPatient.appointment_id}`}
-                                className="px-4 py-2 bg-white text-blue-600 rounded-lg hover:bg-blue-50 font-medium"
+                                className="px-4 py-2 bg-white text-primary-500 rounded-lg hover:bg-blue-50 font-medium"
                             >
                                 Open Consultation
                             </Link>
@@ -290,21 +290,21 @@ const DoctorPatientQueue: React.FC = () => {
             {/* Queue List */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100">
                 <div className="p-5 border-b border-gray-100">
-                    <h2 className="text-lg font-semibold text-gray-800">Today's Queue</h2>
+                    <h2 className="text-lg font-semibold text-neutral-800">Today's Queue</h2>
                 </div>
 
                 {queue.length === 0 ? (
                     <div className="p-12 text-center">
                         <Users className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                        <h3 className="text-lg font-medium text-gray-800 mb-2">No patients in queue</h3>
-                        <p className="text-gray-500">Patients will appear here when they book appointments</p>
+                        <h3 className="text-lg font-medium text-neutral-800 mb-2">No patients in queue</h3>
+                        <p className="text-neutral-500">Patients will appear here when they book appointments</p>
                     </div>
                 ) : (
                     <div className="divide-y divide-gray-100">
                         {queue.map((patient, index) => (
                             <div 
                                 key={patient.id} 
-                                className={`p-4 hover:bg-gray-50 transition-colors ${
+                                className={`p-4 hover:bg-neutral-50 transition-colors ${
                                     patient.status === 'in-consultation' ? 'bg-blue-50' : ''
                                 }`}
                             >
@@ -312,15 +312,15 @@ const DoctorPatientQueue: React.FC = () => {
                                     <div className="flex items-center gap-4">
                                         <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
                                             patient.status === 'completed' ? 'bg-green-100 text-green-600' :
-                                            patient.status === 'in-consultation' ? 'bg-blue-100 text-blue-600' :
-                                            patient.status === 'no-show' ? 'bg-red-100 text-red-600' :
-                                            'bg-gray-100 text-gray-600'
+                                            patient.status === 'in-consultation' ? 'bg-blue-100 text-primary-500' :
+                                            patient.status === 'no-show' ? 'bg-error-100 text-error-600' :
+                                            'bg-neutral-100 text-neutral-600'
                                         }`}>
                                             {patient.slot}
                                         </div>
                                         <div>
-                                            <p className="font-medium text-gray-800">{patient.patient_name}</p>
-                                            <p className="text-sm text-gray-500">{patient.reason || 'General Consultation'}</p>
+                                            <p className="font-medium text-neutral-800">{patient.patient_name}</p>
+                                            <p className="text-sm text-neutral-500">{patient.reason || 'General Consultation'}</p>
                                         </div>
                                     </div>
                                     
@@ -337,13 +337,13 @@ const DoctorPatientQueue: React.FC = () => {
                                                         setCurrentPatient(patient);
                                                         updatePatientStatus(patient.id, 'in-consultation');
                                                     }}
-                                                    className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
+                                                    className="px-3 py-1.5 bg-primary-500 text-white text-sm rounded-lg hover:bg-primary-600"
                                                 >
                                                     Call In
                                                 </button>
                                                 <button
                                                     onClick={() => markNoShow(patient.id)}
-                                                    className="px-3 py-1.5 text-red-600 hover:bg-red-50 text-sm rounded-lg"
+                                                    className="px-3 py-1.5 text-error-600 hover:bg-error-50 text-sm rounded-lg"
                                                 >
                                                     No Show
                                                 </button>

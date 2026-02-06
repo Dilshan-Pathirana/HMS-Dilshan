@@ -84,7 +84,7 @@ const PatientQueueStatus: React.FC = () => {
     const getStatusColor = (patientsAhead: number) => {
         if (patientsAhead === 0) return 'text-green-600 bg-green-100';
         if (patientsAhead <= 3) return 'text-yellow-600 bg-yellow-100';
-        return 'text-blue-600 bg-blue-100';
+        return 'text-primary-500 bg-blue-100';
     };
 
     const getStatusMessage = (patientsAhead: number) => {
@@ -114,11 +114,11 @@ const PatientQueueStatus: React.FC = () => {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-800">Live Queue Status</h1>
-                    <p className="text-gray-500">Track your appointment queue in real-time</p>
+                    <h1 className="text-2xl font-bold text-neutral-800">Live Queue Status</h1>
+                    <p className="text-neutral-500">Track your appointment queue in real-time</p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <label className="flex items-center gap-2 text-sm text-gray-600">
+                    <label className="flex items-center gap-2 text-sm text-neutral-600">
                         <input
                             type="checkbox"
                             checked={autoRefresh}
@@ -139,7 +139,7 @@ const PatientQueueStatus: React.FC = () => {
 
             {/* Last Updated */}
             {lastUpdated && (
-                <div className="text-sm text-gray-500 flex items-center gap-2">
+                <div className="text-sm text-neutral-500 flex items-center gap-2">
                     <Clock className="w-4 h-4" />
                     Last updated: {lastUpdated.toLocaleTimeString()}
                 </div>
@@ -149,8 +149,8 @@ const PatientQueueStatus: React.FC = () => {
             {queueInfo.length === 0 ? (
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
                     <Clock className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-800 mb-2">No Active Queue</h3>
-                    <p className="text-gray-500">
+                    <h3 className="text-lg font-medium text-neutral-800 mb-2">No Active Queue</h3>
+                    <p className="text-neutral-500">
                         You don't have any appointments scheduled for today
                     </p>
                 </div>
@@ -190,36 +190,36 @@ const PatientQueueStatus: React.FC = () => {
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                                     {/* Your Token */}
                                     <div className="text-center p-4 bg-emerald-50 rounded-xl">
-                                        <p className="text-sm text-gray-500 mb-1">Your Token</p>
+                                        <p className="text-sm text-neutral-500 mb-1">Your Token</p>
                                         <p className="text-3xl font-bold text-emerald-600">#{queue.token_number}</p>
                                     </div>
 
                                     {/* Current Token */}
                                     <div className="text-center p-4 bg-blue-50 rounded-xl">
-                                        <p className="text-sm text-gray-500 mb-1">Now Serving</p>
-                                        <p className="text-3xl font-bold text-blue-600">#{queue.current_token}</p>
+                                        <p className="text-sm text-neutral-500 mb-1">Now Serving</p>
+                                        <p className="text-3xl font-bold text-primary-500">#{queue.current_token}</p>
                                     </div>
 
                                     {/* Patients Ahead */}
                                     <div className="text-center p-4 bg-purple-50 rounded-xl">
-                                        <p className="text-sm text-gray-500 mb-1">Patients Ahead</p>
+                                        <p className="text-sm text-neutral-500 mb-1">Patients Ahead</p>
                                         <p className="text-3xl font-bold text-purple-600">{queue.patients_ahead}</p>
                                     </div>
 
                                     {/* Wait Time */}
                                     <div className="text-center p-4 bg-orange-50 rounded-xl">
-                                        <p className="text-sm text-gray-500 mb-1">Est. Wait Time</p>
+                                        <p className="text-sm text-neutral-500 mb-1">Est. Wait Time</p>
                                         <p className="text-3xl font-bold text-orange-600">{formatWaitTime(queue.estimated_wait_time)}</p>
                                     </div>
                                 </div>
 
                                 {/* Progress Bar */}
                                 <div className="mb-4">
-                                    <div className="flex justify-between text-sm text-gray-500 mb-2">
+                                    <div className="flex justify-between text-sm text-neutral-500 mb-2">
                                         <span>Queue Progress</span>
                                         <span>{queue.current_token} / {queue.token_number}</span>
                                     </div>
-                                    <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
+                                    <div className="h-3 bg-neutral-200 rounded-full overflow-hidden">
                                         <div 
                                             className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-500"
                                             style={{ 
@@ -230,7 +230,7 @@ const PatientQueueStatus: React.FC = () => {
                                 </div>
 
                                 {/* Appointment Time */}
-                                <div className="flex items-center justify-between text-sm text-gray-500 border-t pt-4">
+                                <div className="flex items-center justify-between text-sm text-neutral-500 border-t pt-4">
                                     <div className="flex items-center gap-2">
                                         <CalendarDays className="w-4 h-4" />
                                         <span>Scheduled: {new Date(queue.date).toLocaleDateString()}</span>
@@ -275,7 +275,7 @@ const PatientQueueStatus: React.FC = () => {
             {/* Info Card */}
             <div className="bg-blue-50 border border-blue-200 rounded-xl p-5">
                 <div className="flex items-start gap-3">
-                    <AlertCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <AlertCircle className="w-5 h-5 text-primary-500 flex-shrink-0 mt-0.5" />
                     <div>
                         <h4 className="font-medium text-blue-800">Queue Information</h4>
                         <ul className="mt-2 space-y-1 text-sm text-blue-700">

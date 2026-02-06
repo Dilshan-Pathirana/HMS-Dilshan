@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../utils/api/axios";
 import { 
@@ -163,8 +163,8 @@ const BranchAdminEODManagement = () => {
             SUBMITTED: { bg: "bg-blue-100", text: "text-blue-800", icon: Send, label: "Submitted" },
             APPROVED: { bg: "bg-green-100", text: "text-green-800", icon: CheckCircle, label: "Approved" },
             CLOSED: { bg: "bg-green-100", text: "text-green-800", icon: CheckCircle, label: "Closed" },
-            REJECTED: { bg: "bg-red-100", text: "text-red-800", icon: XCircle, label: "Needs Revision" },
-            OPEN: { bg: "bg-gray-100", text: "text-gray-600", icon: Clock, label: "Open" },
+            REJECTED: { bg: "bg-error-100", text: "text-red-800", icon: XCircle, label: "Needs Revision" },
+            OPEN: { bg: "bg-neutral-100", text: "text-neutral-600", icon: Clock, label: "Open" },
         };
         const badge = badges[status] || badges.OPEN;
         const Icon = badge.icon;
@@ -184,7 +184,7 @@ const BranchAdminEODManagement = () => {
     });
 
     return (
-        <div className="p-6 bg-gray-50 min-h-screen">
+        <div className="p-6 bg-neutral-50 min-h-screen">
             {/* Header */}
             <div className="bg-gradient-to-r from-purple-600 to-indigo-700 rounded-xl shadow-lg p-6 text-white mb-6">
                 <div className="flex items-center justify-between">
@@ -226,18 +226,18 @@ const BranchAdminEODManagement = () => {
                 <div className="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-gray-500">Total Cashiers</p>
-                            <p className="text-2xl font-bold text-gray-800">{stats.total_cashiers}</p>
+                            <p className="text-sm text-neutral-500">Total Cashiers</p>
+                            <p className="text-2xl font-bold text-neutral-800">{stats.total_cashiers}</p>
                         </div>
                         <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                            <User className="w-5 h-5 text-blue-600" />
+                            <User className="w-5 h-5 text-primary-500" />
                         </div>
                     </div>
                 </div>
                 <div className="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-gray-500">Pending Review</p>
+                            <p className="text-sm text-neutral-500">Pending Review</p>
                             <p className="text-2xl font-bold text-yellow-600">{stats.pending_eods}</p>
                         </div>
                         <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
@@ -248,7 +248,7 @@ const BranchAdminEODManagement = () => {
                 <div className="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-gray-500">Approved</p>
+                            <p className="text-sm text-neutral-500">Approved</p>
                             <p className="text-2xl font-bold text-green-600">{stats.approved_eods}</p>
                         </div>
                         <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
@@ -259,22 +259,22 @@ const BranchAdminEODManagement = () => {
                 <div className="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-gray-500">Needs Revision</p>
-                            <p className="text-2xl font-bold text-red-600">{stats.rejected_eods}</p>
+                            <p className="text-sm text-neutral-500">Needs Revision</p>
+                            <p className="text-2xl font-bold text-error-600">{stats.rejected_eods}</p>
                         </div>
-                        <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
-                            <XCircle className="w-5 h-5 text-red-600" />
+                        <div className="w-10 h-10 bg-error-100 rounded-full flex items-center justify-center">
+                            <XCircle className="w-5 h-5 text-error-600" />
                         </div>
                     </div>
                 </div>
                 <div className="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm text-gray-500">Today's Sales</p>
-                            <p className="text-xl font-bold text-blue-600">Rs. {stats.total_sales_today.toLocaleString()}</p>
+                            <p className="text-sm text-neutral-500">Today's Sales</p>
+                            <p className="text-xl font-bold text-primary-500">Rs. {stats.total_sales_today.toLocaleString()}</p>
                         </div>
                         <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                            <DollarSign className="w-5 h-5 text-blue-600" />
+                            <DollarSign className="w-5 h-5 text-primary-500" />
                         </div>
                     </div>
                 </div>
@@ -282,10 +282,10 @@ const BranchAdminEODManagement = () => {
 
             {/* Alerts */}
             {error && (
-                <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-xl flex items-center gap-3">
-                    <AlertTriangle className="w-5 h-5 text-red-500" />
+                <div className="mb-4 p-4 bg-error-50 border border-red-200 rounded-xl flex items-center gap-3">
+                    <AlertTriangle className="w-5 h-5 text-error-500" />
                     <p className="text-red-700">{error}</p>
-                    <button onClick={() => setError("")} className="ml-auto text-red-500 hover:text-red-700">
+                    <button onClick={() => setError("")} className="ml-auto text-error-500 hover:text-red-700">
                         <X className="w-4 h-4" />
                     </button>
                 </div>
@@ -306,7 +306,7 @@ const BranchAdminEODManagement = () => {
                         className={`px-6 py-4 font-medium transition-all border-b-2 ${
                             activeTab === "pending"
                                 ? "text-purple-600 border-purple-600"
-                                : "text-gray-500 border-transparent hover:text-gray-700"
+                                : "text-neutral-500 border-transparent hover:text-neutral-700"
                         }`}
                     >
                         <Clock className="w-4 h-4 inline-block mr-2" />
@@ -317,7 +317,7 @@ const BranchAdminEODManagement = () => {
                         className={`px-6 py-4 font-medium transition-all border-b-2 ${
                             activeTab === "approved"
                                 ? "text-purple-600 border-purple-600"
-                                : "text-gray-500 border-transparent hover:text-gray-700"
+                                : "text-neutral-500 border-transparent hover:text-neutral-700"
                         }`}
                     >
                         <CheckCircle className="w-4 h-4 inline-block mr-2" />
@@ -328,7 +328,7 @@ const BranchAdminEODManagement = () => {
                         className={`px-6 py-4 font-medium transition-all border-b-2 ${
                             activeTab === "all"
                                 ? "text-purple-600 border-purple-600"
-                                : "text-gray-500 border-transparent hover:text-gray-700"
+                                : "text-neutral-500 border-transparent hover:text-neutral-700"
                         }`}
                     >
                         <FileText className="w-4 h-4 inline-block mr-2" />
@@ -341,30 +341,30 @@ const BranchAdminEODManagement = () => {
             <div className="bg-white rounded-b-xl shadow-sm overflow-hidden">
                 {isLoading ? (
                     <div className="p-12 text-center">
-                        <RefreshCw className="w-8 h-8 mx-auto animate-spin text-gray-400" />
-                        <p className="mt-2 text-gray-500">Loading EOD requests...</p>
+                        <RefreshCw className="w-8 h-8 mx-auto animate-spin text-neutral-400" />
+                        <p className="mt-2 text-neutral-500">Loading EOD requests...</p>
                     </div>
                 ) : filteredEODs.length === 0 ? (
                     <div className="p-12 text-center">
                         <FileText className="w-12 h-12 mx-auto text-gray-300" />
-                        <p className="mt-2 text-gray-500">No EOD submissions found for this date</p>
+                        <p className="mt-2 text-neutral-500">No EOD submissions found for this date</p>
                     </div>
                 ) : (
                     <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
+                        <thead className="bg-neutral-50">
                             <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Cashier</th>
-                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Transactions</th>
-                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Total Sales</th>
-                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Cash Variance</th>
-                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Status</th>
-                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Submitted</th>
-                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Cashier</th>
+                                <th className="px-6 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Transactions</th>
+                                <th className="px-6 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Total Sales</th>
+                                <th className="px-6 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Cash Variance</th>
+                                <th className="px-6 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Status</th>
+                                <th className="px-6 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Submitted</th>
+                                <th className="px-6 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                             {filteredEODs.map((eod) => (
-                                <tr key={eod.id} className="hover:bg-gray-50">
+                                <tr key={eod.id} className="hover:bg-neutral-50">
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <div className="flex items-center">
                                             <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
@@ -373,23 +373,23 @@ const BranchAdminEODManagement = () => {
                                                 </span>
                                             </div>
                                             <div className="ml-3">
-                                                <p className="font-medium text-gray-900">{eod.cashier_name || 'Unknown'}</p>
-                                                <p className="text-sm text-gray-500">{eod.cashier_email || 'N/A'}</p>
+                                                <p className="font-medium text-neutral-900">{eod.cashier_name || 'Unknown'}</p>
+                                                <p className="text-sm text-neutral-500">{eod.cashier_email || 'N/A'}</p>
                                             </div>
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-center">
-                                        <span className="font-medium text-gray-800">{eod.total_transactions}</span>
+                                        <span className="font-medium text-neutral-800">{eod.total_transactions}</span>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-center">
-                                        <span className="font-semibold text-blue-600">
+                                        <span className="font-semibold text-primary-500">
                                             Rs. {(eod.total_sales || 0).toLocaleString()}
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-center">
                                         <span className={`font-medium ${
                                             eod.cash_variance === 0 ? 'text-green-600' :
-                                            eod.cash_variance > 0 ? 'text-blue-600' : 'text-red-600'
+                                            eod.cash_variance > 0 ? 'text-primary-500' : 'text-error-600'
                                         }`}>
                                             {eod.cash_variance > 0 ? '+' : ''}{(eod.cash_variance || 0).toLocaleString()}
                                         </span>
@@ -397,14 +397,14 @@ const BranchAdminEODManagement = () => {
                                     <td className="px-6 py-4 whitespace-nowrap text-center">
                                         {getStatusBadge(eod.eod_status)}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">
+                                    <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-neutral-500">
                                         {eod.submitted_at ? new Date(eod.submitted_at).toLocaleTimeString() : '-'}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-center">
                                         <div className="flex items-center justify-center gap-2">
                                             <button
                                                 onClick={() => openDetailsModal(eod)}
-                                                className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition"
+                                                className="p-2 text-neutral-600 hover:bg-neutral-100 rounded-lg transition"
                                                 title="View Details"
                                             >
                                                 <Eye className="w-4 h-4" />
@@ -422,7 +422,7 @@ const BranchAdminEODManagement = () => {
                                                     <button
                                                         onClick={() => openRejectModal(eod)}
                                                         disabled={isProcessing}
-                                                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
+                                                        className="p-2 text-error-600 hover:bg-error-50 rounded-lg transition"
                                                         title="Request Revision"
                                                     >
                                                         <MessageSquare className="w-4 h-4" />
@@ -444,10 +444,10 @@ const BranchAdminEODManagement = () => {
                     <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
                         <div className="p-6 border-b border-gray-100">
                             <div className="flex items-center justify-between">
-                                <h2 className="text-xl font-bold text-gray-800">EOD Details</h2>
+                                <h2 className="text-xl font-bold text-neutral-800">EOD Details</h2>
                                 <button
                                     onClick={() => setShowDetailsModal(false)}
-                                    className="p-2 hover:bg-gray-100 rounded-lg"
+                                    className="p-2 hover:bg-neutral-100 rounded-lg"
                                 >
                                     <X className="w-5 h-5" />
                                 </button>
@@ -455,15 +455,15 @@ const BranchAdminEODManagement = () => {
                         </div>
                         <div className="p-6 space-y-6">
                             {/* Cashier Info */}
-                            <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+                            <div className="flex items-center gap-4 p-4 bg-neutral-50 rounded-xl">
                                 <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
                                     <span className="text-purple-600 font-bold text-lg">
                                         {(selectedEOD.cashier_name || 'U').charAt(0).toUpperCase()}
                                     </span>
                                 </div>
                                 <div>
-                                    <p className="font-semibold text-gray-800">{selectedEOD.cashier_name}</p>
-                                    <p className="text-sm text-gray-500">{selectedEOD.cashier_email}</p>
+                                    <p className="font-semibold text-neutral-800">{selectedEOD.cashier_name}</p>
+                                    <p className="text-sm text-neutral-500">{selectedEOD.cashier_email}</p>
                                 </div>
                                 <div className="ml-auto">
                                     {getStatusBadge(selectedEOD.eod_status)}
@@ -473,7 +473,7 @@ const BranchAdminEODManagement = () => {
                             {/* Sales Summary */}
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="p-4 bg-blue-50 rounded-xl">
-                                    <p className="text-sm text-blue-600">Total Sales</p>
+                                    <p className="text-sm text-primary-500">Total Sales</p>
                                     <p className="text-2xl font-bold text-blue-700">Rs. {selectedEOD.total_sales.toLocaleString()}</p>
                                 </div>
                                 <div className="p-4 bg-green-50 rounded-xl">
@@ -484,22 +484,22 @@ const BranchAdminEODManagement = () => {
 
                             {/* Payment Breakdown */}
                             <div>
-                                <h3 className="font-semibold text-gray-800 mb-3">Payment Breakdown</h3>
+                                <h3 className="font-semibold text-neutral-800 mb-3">Payment Breakdown</h3>
                                 <div className="grid grid-cols-2 gap-3">
-                                    <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
-                                        <span className="text-gray-600">Cash</span>
+                                    <div className="flex justify-between p-3 bg-neutral-50 rounded-lg">
+                                        <span className="text-neutral-600">Cash</span>
                                         <span className="font-medium">Rs. {(selectedEOD.cash_total || 0).toLocaleString()}</span>
                                     </div>
-                                    <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
-                                        <span className="text-gray-600">Card</span>
+                                    <div className="flex justify-between p-3 bg-neutral-50 rounded-lg">
+                                        <span className="text-neutral-600">Card</span>
                                         <span className="font-medium">Rs. {(selectedEOD.card_total || 0).toLocaleString()}</span>
                                     </div>
-                                    <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
-                                        <span className="text-gray-600">Online</span>
+                                    <div className="flex justify-between p-3 bg-neutral-50 rounded-lg">
+                                        <span className="text-neutral-600">Online</span>
                                         <span className="font-medium">Rs. {(selectedEOD.online_total || 0).toLocaleString()}</span>
                                     </div>
-                                    <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
-                                        <span className="text-gray-600">QR</span>
+                                    <div className="flex justify-between p-3 bg-neutral-50 rounded-lg">
+                                        <span className="text-neutral-600">QR</span>
                                         <span className="font-medium">Rs. {(selectedEOD.qr_total || 0).toLocaleString()}</span>
                                     </div>
                                 </div>
@@ -507,15 +507,15 @@ const BranchAdminEODManagement = () => {
 
                             {/* Cash Reconciliation */}
                             <div>
-                                <h3 className="font-semibold text-gray-800 mb-3">Cash Reconciliation</h3>
+                                <h3 className="font-semibold text-neutral-800 mb-3">Cash Reconciliation</h3>
                                 <div className="space-y-2">
-                                    <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
-                                        <span className="text-gray-600">Cash In</span>
+                                    <div className="flex justify-between p-3 bg-neutral-50 rounded-lg">
+                                        <span className="text-neutral-600">Cash In</span>
                                         <span className="font-medium text-green-600">+Rs. {(selectedEOD.cash_in_total || 0).toLocaleString()}</span>
                                     </div>
-                                    <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
-                                        <span className="text-gray-600">Cash Out</span>
-                                        <span className="font-medium text-red-600">-Rs. {(selectedEOD.cash_out_total || 0).toLocaleString()}</span>
+                                    <div className="flex justify-between p-3 bg-neutral-50 rounded-lg">
+                                        <span className="text-neutral-600">Cash Out</span>
+                                        <span className="font-medium text-error-600">-Rs. {(selectedEOD.cash_out_total || 0).toLocaleString()}</span>
                                     </div>
                                     <div className="flex justify-between p-3 bg-blue-50 rounded-lg">
                                         <span className="text-blue-700">Expected Balance</span>
@@ -527,7 +527,7 @@ const BranchAdminEODManagement = () => {
                                     </div>
                                     <div className={`flex justify-between p-3 rounded-lg ${
                                         selectedEOD.cash_variance === 0 ? 'bg-green-50' :
-                                        selectedEOD.cash_variance > 0 ? 'bg-blue-50' : 'bg-red-50'
+                                        selectedEOD.cash_variance > 0 ? 'bg-blue-50' : 'bg-error-50'
                                     }`}>
                                         <span className={`font-medium ${
                                             selectedEOD.cash_variance === 0 ? 'text-green-700' :
@@ -546,7 +546,7 @@ const BranchAdminEODManagement = () => {
                             {/* Variance Remarks */}
                             {selectedEOD.variance_remarks && (
                                 <div>
-                                    <h3 className="font-semibold text-gray-800 mb-2">Variance Remarks</h3>
+                                    <h3 className="font-semibold text-neutral-800 mb-2">Variance Remarks</h3>
                                     <p className="p-3 bg-yellow-50 rounded-lg text-yellow-800">{selectedEOD.variance_remarks}</p>
                                 </div>
                             )}
@@ -555,7 +555,7 @@ const BranchAdminEODManagement = () => {
                             {selectedEOD.rejection_reason && (
                                 <div>
                                     <h3 className="font-semibold text-red-700 mb-2">Revision Required</h3>
-                                    <p className="p-3 bg-red-50 rounded-lg text-red-700">{selectedEOD.rejection_reason}</p>
+                                    <p className="p-3 bg-error-50 rounded-lg text-red-700">{selectedEOD.rejection_reason}</p>
                                 </div>
                             )}
                         </div>
@@ -568,7 +568,7 @@ const BranchAdminEODManagement = () => {
                                         setShowDetailsModal(false);
                                         openRejectModal(selectedEOD);
                                     }}
-                                    className="flex-1 py-3 px-4 border border-red-300 text-red-600 rounded-xl hover:bg-red-50 transition font-medium"
+                                    className="flex-1 py-3 px-4 border border-red-300 text-error-600 rounded-xl hover:bg-error-50 transition font-medium"
                                 >
                                     Request Revision
                                 </button>
@@ -593,20 +593,20 @@ const BranchAdminEODManagement = () => {
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4">
                         <div className="p-6 border-b border-gray-100">
-                            <h2 className="text-xl font-bold text-gray-800">Request Revision</h2>
-                            <p className="text-sm text-gray-500 mt-1">
+                            <h2 className="text-xl font-bold text-neutral-800">Request Revision</h2>
+                            <p className="text-sm text-neutral-500 mt-1">
                                 Send this EOD back to {selectedEOD.cashier_name} for corrections
                             </p>
                         </div>
                         <div className="p-6">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Reason for Revision *
                             </label>
                             <textarea
                                 value={rejectionReason}
                                 onChange={(e) => setRejectionReason(e.target.value)}
                                 rows={4}
-                                className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
+                                className="w-full p-3 border border-neutral-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
                                 placeholder="Please explain what needs to be corrected..."
                             />
                         </div>
@@ -616,14 +616,14 @@ const BranchAdminEODManagement = () => {
                                     setShowRejectModal(false);
                                     setRejectionReason("");
                                 }}
-                                className="flex-1 py-3 px-4 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition font-medium"
+                                className="flex-1 py-3 px-4 border border-neutral-300 text-neutral-700 rounded-xl hover:bg-neutral-50 transition font-medium"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleReject}
                                 disabled={isProcessing || !rejectionReason.trim()}
-                                className="flex-1 py-3 px-4 bg-red-600 text-white rounded-xl hover:bg-red-700 transition font-medium disabled:bg-gray-300"
+                                className="flex-1 py-3 px-4 bg-red-600 text-white rounded-xl hover:bg-red-700 transition font-medium disabled:bg-neutral-300"
                             >
                                 {isProcessing ? "Sending..." : "Send for Revision"}
                             </button>

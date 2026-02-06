@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../../../../utils/api/axios";
 import {
     DollarSign, ShoppingCart, TrendingUp, AlertCircle,
@@ -82,18 +82,18 @@ const SuperAdminPOSDashboardEnhanced = () => {
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center min-h-screen bg-gray-50">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            <div className="flex items-center justify-center min-h-screen bg-neutral-50">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
             </div>
         );
     }
 
     if (error || !stats) {
         return (
-            <div className="flex items-center justify-center min-h-screen bg-gray-50">
+            <div className="flex items-center justify-center min-h-screen bg-neutral-50">
                 <div className="text-center">
-                    <AlertCircle className="mx-auto h-12 w-12 text-red-500 mb-4" />
-                    <p className="text-gray-600">{error || "Failed to load dashboard"}</p>
+                    <AlertCircle className="mx-auto h-12 w-12 text-error-500 mb-4" />
+                    <p className="text-neutral-600">{error || "Failed to load dashboard"}</p>
                 </div>
             </div>
         );
@@ -103,9 +103,9 @@ const SuperAdminPOSDashboardEnhanced = () => {
     const salesChangePositive = comparison.sales_change_percentage >= 0;
 
     return (
-        <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
+        <div className="p-6 space-y-6 bg-neutral-50 min-h-screen">
             {/* Header with Branch Filter */}
-            <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl shadow-lg p-6 text-white">
+            <div className="bg-gradient-to-r from-primary-500 to-indigo-700 rounded-xl shadow-lg p-6 text-white">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                     <div className="flex items-center gap-4">
                         <div className="p-3 bg-white/20 rounded-lg backdrop-blur-sm">
@@ -127,9 +127,9 @@ const SuperAdminPOSDashboardEnhanced = () => {
                             onChange={(e) => handleBranchChange(e.target.value)}
                             className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg px-4 py-2 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 min-w-[200px]"
                         >
-                            <option value="" className="text-gray-800">All Branches</option>
+                            <option value="" className="text-neutral-800">All Branches</option>
                             {all_branches.map((branch) => (
-                                <option key={branch.id} value={branch.id} className="text-gray-800">
+                                <option key={branch.id} value={branch.id} className="text-neutral-800">
                                     {branch.name}
                                 </option>
                             ))}
@@ -164,17 +164,17 @@ const SuperAdminPOSDashboardEnhanced = () => {
                         <div className="p-3 bg-emerald-100 rounded-lg">
                             <DollarSign className="w-6 h-6 text-emerald-600" />
                         </div>
-                        <div className={`flex items-center gap-1 text-sm ${salesChangePositive ? 'text-emerald-600' : 'text-red-600'}`}>
+                        <div className={`flex items-center gap-1 text-sm ${salesChangePositive ? 'text-emerald-600' : 'text-error-600'}`}>
                             {salesChangePositive ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
                             {Math.abs(comparison.sales_change_percentage).toFixed(1)}%
                         </div>
                     </div>
                     <div className="mt-4">
-                        <p className="text-sm text-gray-500">Today's Sales</p>
-                        <p className="text-2xl font-bold text-gray-900">
+                        <p className="text-sm text-neutral-500">Today's Sales</p>
+                        <p className="text-2xl font-bold text-neutral-900">
                             Rs. {today_stats.total_sales.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                         </p>
-                        <p className="text-xs text-gray-400 mt-1">
+                        <p className="text-xs text-neutral-400 mt-1">
                             vs Rs. {comparison.yesterday_sales.toLocaleString('en-US', { minimumFractionDigits: 2 })} yesterday
                         </p>
                     </div>
@@ -183,11 +183,11 @@ const SuperAdminPOSDashboardEnhanced = () => {
                 {/* Transaction Count */}
                 <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                     <div className="p-3 bg-blue-100 rounded-lg w-fit">
-                        <ShoppingCart className="w-6 h-6 text-blue-600" />
+                        <ShoppingCart className="w-6 h-6 text-primary-500" />
                     </div>
                     <div className="mt-4">
-                        <p className="text-sm text-gray-500">Transactions</p>
-                        <p className="text-2xl font-bold text-gray-900">{today_stats.transaction_count}</p>
+                        <p className="text-sm text-neutral-500">Transactions</p>
+                        <p className="text-2xl font-bold text-neutral-900">{today_stats.transaction_count}</p>
                     </div>
                 </div>
 
@@ -197,7 +197,7 @@ const SuperAdminPOSDashboardEnhanced = () => {
                         <TrendingUp className="w-6 h-6 text-green-600" />
                     </div>
                     <div className="mt-4">
-                        <p className="text-sm text-gray-500">Cash In</p>
+                        <p className="text-sm text-neutral-500">Cash In</p>
                         <p className="text-2xl font-bold text-green-600">
                             Rs. {today_stats.cash_in.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                         </p>
@@ -210,7 +210,7 @@ const SuperAdminPOSDashboardEnhanced = () => {
                         <BarChart3 className="w-6 h-6 text-purple-600" />
                     </div>
                     <div className="mt-4">
-                        <p className="text-sm text-gray-500">Net Cash</p>
+                        <p className="text-sm text-neutral-500">Net Cash</p>
                         <p className="text-2xl font-bold text-purple-600">
                             Rs. {today_stats.net_cash.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                         </p>
@@ -222,14 +222,14 @@ const SuperAdminPOSDashboardEnhanced = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Payment Breakdown */}
                 <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                        <CreditCard className="w-5 h-5 text-gray-600" />
+                    <h3 className="text-lg font-semibold text-neutral-900 mb-4 flex items-center gap-2">
+                        <CreditCard className="w-5 h-5 text-neutral-600" />
                         Payment Methods
                     </h3>
                     <div className="space-y-4">
                         {[
                             { label: 'Cash', value: payment_breakdown.cash, icon: <DollarSign className="w-5 h-5" />, color: 'bg-green-500' },
-                            { label: 'Card', value: payment_breakdown.card, icon: <CreditCard className="w-5 h-5" />, color: 'bg-blue-500' },
+                            { label: 'Card', value: payment_breakdown.card, icon: <CreditCard className="w-5 h-5" />, color: 'bg-primary-500' },
                             { label: 'Online', value: payment_breakdown.online, icon: <Smartphone className="w-5 h-5" />, color: 'bg-purple-500' },
                             { label: 'QR', value: payment_breakdown.qr, icon: <QrCode className="w-5 h-5" />, color: 'bg-orange-500' },
                         ].map((method) => {
@@ -242,12 +242,12 @@ const SuperAdminPOSDashboardEnhanced = () => {
                                     </div>
                                     <div className="flex-1">
                                         <div className="flex justify-between mb-1">
-                                            <span className="text-sm font-medium text-gray-700">{method.label}</span>
-                                            <span className="text-sm text-gray-500">
+                                            <span className="text-sm font-medium text-neutral-700">{method.label}</span>
+                                            <span className="text-sm text-neutral-500">
                                                 Rs. {method.value.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                                             </span>
                                         </div>
-                                        <div className="w-full bg-gray-200 rounded-full h-2">
+                                        <div className="w-full bg-neutral-200 rounded-full h-2">
                                             <div
                                                 className={`${method.color} h-2 rounded-full`}
                                                 style={{ width: `${percentage}%` }}
@@ -262,8 +262,8 @@ const SuperAdminPOSDashboardEnhanced = () => {
 
                 {/* Branch Performance */}
                 <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                        <Building2 className="w-5 h-5 text-gray-600" />
+                    <h3 className="text-lg font-semibold text-neutral-900 mb-4 flex items-center gap-2">
+                        <Building2 className="w-5 h-5 text-neutral-600" />
                         {selectedBranchId ? 'Branch Details' : 'Branch Performance'}
                     </h3>
                     {branch_performance && branch_performance.length > 0 ? (
@@ -272,40 +272,40 @@ const SuperAdminPOSDashboardEnhanced = () => {
                                 <div 
                                     key={branch.id} 
                                     className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors ${
-                                        selectedBranchId === branch.id ? 'bg-blue-50 border border-blue-200' : 'bg-gray-50 hover:bg-gray-100'
+                                        selectedBranchId === branch.id ? 'bg-blue-50 border border-blue-200' : 'bg-neutral-50 hover:bg-neutral-100'
                                     }`}
                                     onClick={() => handleBranchChange(selectedBranchId === branch.id ? '' : branch.id)}
                                 >
                                     <div className="flex items-center gap-3">
                                         <div className={`p-2 rounded-full ${
                                             index === 0 ? 'bg-yellow-100' :
-                                            index === 1 ? 'bg-gray-100' :
+                                            index === 1 ? 'bg-neutral-100' :
                                             index === 2 ? 'bg-orange-100' :
                                             'bg-indigo-100'
                                         }`}>
                                             <Building2 className={`w-4 h-4 ${
                                                 index === 0 ? 'text-yellow-600' :
-                                                index === 1 ? 'text-gray-600' :
+                                                index === 1 ? 'text-neutral-600' :
                                                 index === 2 ? 'text-orange-600' :
                                                 'text-indigo-600'
                                             }`} />
                                         </div>
                                         <div>
-                                            <p className="font-medium text-gray-900">{branch.name}</p>
-                                            <p className="text-xs text-gray-500">{branch.transaction_count} transactions</p>
+                                            <p className="font-medium text-neutral-900">{branch.name}</p>
+                                            <p className="text-xs text-neutral-500">{branch.transaction_count} transactions</p>
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <p className="font-semibold text-gray-900">
+                                        <p className="font-semibold text-neutral-900">
                                             Rs. {branch.total_sales.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                                         </p>
-                                        <span className="text-xs text-gray-400">{branch.type}</span>
+                                        <span className="text-xs text-neutral-400">{branch.type}</span>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center py-8 text-gray-500">
+                        <div className="text-center py-8 text-neutral-500">
                             <Building2 className="w-12 h-12 mx-auto mb-2 opacity-50" />
                             <p>No branch activity today</p>
                         </div>

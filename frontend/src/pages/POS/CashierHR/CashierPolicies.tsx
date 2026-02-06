@@ -113,10 +113,10 @@ const CashierPolicies: React.FC = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+            <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
                 <div className="text-center">
                     <Loader2 className="w-12 h-12 animate-spin text-indigo-500 mx-auto mb-4" />
-                    <p className="text-gray-600">Loading HR policies...</p>
+                    <p className="text-neutral-600">Loading HR policies...</p>
                 </div>
             </div>
         );
@@ -125,18 +125,18 @@ const CashierPolicies: React.FC = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-indigo-50/30 p-6">
             {/* Header */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 mb-6">
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => navigate('/pos/hr')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ArrowLeft className="w-5 h-5 text-gray-600" />
+                            <ArrowLeft className="w-5 h-5 text-neutral-600" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">HR Policies & Documents</h1>
-                            <p className="text-gray-600 text-sm mt-1">View company policies and employee handbook</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">HR Policies & Documents</h1>
+                            <p className="text-neutral-600 text-sm mt-1">View company policies and employee handbook</p>
                         </div>
                     </div>
                 </div>
@@ -145,13 +145,13 @@ const CashierPolicies: React.FC = () => {
                 <div className="flex flex-wrap items-center gap-4">
                     <div className="flex-1 min-w-[250px]">
                         <div className="relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
                             <input
                                 type="text"
                                 placeholder="Search policies..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                             />
                         </div>
                     </div>
@@ -163,7 +163,7 @@ const CashierPolicies: React.FC = () => {
                                 className={`flex items-center gap-2 px-4 py-2 rounded-lg whitespace-nowrap transition-colors ${
                                     selectedCategory === category.value
                                         ? 'bg-indigo-500 text-white'
-                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
                                 }`}
                             >
                                 {category.icon}
@@ -177,16 +177,16 @@ const CashierPolicies: React.FC = () => {
             {/* Policies Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredPolicies.length === 0 ? (
-                    <div className="col-span-full bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
+                    <div className="col-span-full bg-white rounded-xl shadow-sm border border-neutral-200 p-12 text-center">
                         <BookOpen className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-                        <p className="text-lg text-gray-500 mb-2">No policies found</p>
-                        <p className="text-sm text-gray-400">Try adjusting your filters or search terms</p>
+                        <p className="text-lg text-neutral-500 mb-2">No policies found</p>
+                        <p className="text-sm text-neutral-400">Try adjusting your filters or search terms</p>
                     </div>
                 ) : (
                     filteredPolicies.map((policy) => (
                         <div
                             key={policy.id}
-                            className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all duration-200"
+                            className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 hover:shadow-lg transition-all duration-200"
                         >
                             <div className="flex items-start justify-between mb-4">
                                 <div className={`p-3 rounded-lg bg-gradient-to-br ${
@@ -200,17 +200,17 @@ const CashierPolicies: React.FC = () => {
                                         {getCategoryIcon(policy.category)}
                                     </div>
                                 </div>
-                                <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
+                                <span className="px-2 py-1 bg-neutral-100 text-neutral-600 text-xs rounded-full">
                                     v{policy.version || '1.0'}
                                 </span>
                             </div>
-                            <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                            <h3 className="text-lg font-semibold text-neutral-800 mb-2">
                                 {policy.title}
                             </h3>
-                            <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+                            <p className="text-sm text-neutral-600 mb-4 line-clamp-2">
                                 {policy.description}
                             </p>
-                            <div className="flex items-center justify-between text-xs text-gray-500 mb-4">
+                            <div className="flex items-center justify-between text-xs text-neutral-500 mb-4">
                                 <span>Last updated: {formatDate(policy.lastUpdated)}</span>
                             </div>
                             <div className="flex items-center gap-2">
@@ -238,7 +238,7 @@ const CashierPolicies: React.FC = () => {
             {showViewModal && selectedPolicy && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-xl shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-                        <div className="p-6 border-b border-gray-200 flex items-center justify-between sticky top-0 bg-white">
+                        <div className="p-6 border-b border-neutral-200 flex items-center justify-between sticky top-0 bg-white">
                             <div className="flex items-center gap-3">
                                 <div className={`p-2 rounded-lg bg-gradient-to-br ${
                                     selectedPolicy.category === 'hr' ? 'from-blue-500 to-blue-600' :
@@ -252,33 +252,33 @@ const CashierPolicies: React.FC = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <h2 className="text-xl font-bold text-gray-800">{selectedPolicy.title}</h2>
-                                    <p className="text-sm text-gray-500">Version {selectedPolicy.version} • Last updated: {formatDate(selectedPolicy.lastUpdated)}</p>
+                                    <h2 className="text-xl font-bold text-neutral-800">{selectedPolicy.title}</h2>
+                                    <p className="text-sm text-neutral-500">Version {selectedPolicy.version} • Last updated: {formatDate(selectedPolicy.lastUpdated)}</p>
                                 </div>
                             </div>
                             <button
                                 onClick={() => setShowViewModal(false)}
-                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                             >
-                                <ArrowLeft className="w-5 h-5 text-gray-600" />
+                                <ArrowLeft className="w-5 h-5 text-neutral-600" />
                             </button>
                         </div>
                         <div className="p-6">
                             <div className="prose max-w-none">
-                                <p className="text-gray-700 mb-6">{selectedPolicy.description}</p>
+                                <p className="text-neutral-700 mb-6">{selectedPolicy.description}</p>
                                 
                                 {/* Display policy content if available */}
                                 {selectedPolicy.content ? (
-                                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-4">Policy Details</h3>
-                                        <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
+                                    <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-6">
+                                        <h3 className="text-lg font-semibold text-neutral-800 mb-4">Policy Details</h3>
+                                        <div className="whitespace-pre-wrap text-neutral-700 leading-relaxed">
                                             {selectedPolicy.content}
                                         </div>
                                     </div>
                                 ) : selectedPolicy.documentUrl ? (
-                                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
-                                        <FileText className="w-16 h-16 mx-auto mb-4 text-gray-400" />
-                                        <p className="text-gray-600 mb-4">Full policy document available for download</p>
+                                    <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-8 text-center">
+                                        <FileText className="w-16 h-16 mx-auto mb-4 text-neutral-400" />
+                                        <p className="text-neutral-600 mb-4">Full policy document available for download</p>
                                         <button
                                             onClick={() => downloadPolicy(selectedPolicy)}
                                             className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors"
@@ -288,9 +288,9 @@ const CashierPolicies: React.FC = () => {
                                         </button>
                                     </div>
                                 ) : (
-                                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
-                                        <FileText className="w-16 h-16 mx-auto mb-4 text-gray-400" />
-                                        <p className="text-gray-500">No additional content available for this policy.</p>
+                                    <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-8 text-center">
+                                        <FileText className="w-16 h-16 mx-auto mb-4 text-neutral-400" />
+                                        <p className="text-neutral-500">No additional content available for this policy.</p>
                                     </div>
                                 )}
                                 

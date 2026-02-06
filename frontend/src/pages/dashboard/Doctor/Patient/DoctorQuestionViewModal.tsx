@@ -28,18 +28,18 @@ const DoctorQuestionViewModal: React.FC<DoctorQuestionViewModalProps> = ({
                     </QuestionDetailCard>
 
                     <QuestionDetailCard title="Order">
-                        <p className="text-lg text-gray-900">{order}</p>
+                        <p className="text-lg text-neutral-900">{order}</p>
                     </QuestionDetailCard>
                 </div>
 
                 <QuestionDetailCard title="Question">
-                    <p className="text-lg text-gray-900 whitespace-pre-wrap">
+                    <p className="text-lg text-neutral-900 whitespace-pre-wrap">
                         {questionText}
                     </p>
                 </QuestionDetailCard>
 
                 <QuestionDetailCard title="Description">
-                    <p className="text-lg text-gray-900 whitespace-pre-wrap">
+                    <p className="text-lg text-neutral-900 whitespace-pre-wrap">
                         {description}
                     </p>
                 </QuestionDetailCard>

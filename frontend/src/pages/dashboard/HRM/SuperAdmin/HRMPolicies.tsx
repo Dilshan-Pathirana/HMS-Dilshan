@@ -15,20 +15,20 @@ const HRMPolicies: React.FC = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-neutral-50 p-6">
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => navigate('/super-admin/hrm')}
-                            className="p-2 hover:bg-gray-200 rounded-lg"
+                            className="p-2 hover:bg-neutral-200 rounded-lg"
                         >
                             <ArrowLeft className="w-5 h-5" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">HR Policies</h1>
-                            <p className="text-gray-500">Manage system-wide HR policies and guidelines</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">HR Policies</h1>
+                            <p className="text-neutral-500">Manage system-wide HR policies and guidelines</p>
                         </div>
                     </div>
                     <button className="flex items-center gap-2 px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600">
@@ -38,46 +38,46 @@ const HRMPolicies: React.FC = () => {
                 </div>
 
                 {/* Policies List */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200">
                     <div className="overflow-x-auto">
                         <table className="w-full">
-                            <thead className="bg-gray-50 border-b border-gray-200">
+                            <thead className="bg-neutral-50 border-b border-neutral-200">
                                 <tr>
-                                    <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">Policy Name</th>
-                                    <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">Description</th>
-                                    <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">Status</th>
-                                    <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">Last Updated</th>
-                                    <th className="text-left py-4 px-6 text-sm font-medium text-gray-500">Actions</th>
+                                    <th className="text-left py-4 px-6 text-sm font-medium text-neutral-500">Policy Name</th>
+                                    <th className="text-left py-4 px-6 text-sm font-medium text-neutral-500">Description</th>
+                                    <th className="text-left py-4 px-6 text-sm font-medium text-neutral-500">Status</th>
+                                    <th className="text-left py-4 px-6 text-sm font-medium text-neutral-500">Last Updated</th>
+                                    <th className="text-left py-4 px-6 text-sm font-medium text-neutral-500">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {policies.map((policy) => (
-                                    <tr key={policy.id} className="border-b border-gray-100 hover:bg-gray-50">
+                                    <tr key={policy.id} className="border-b border-gray-100 hover:bg-neutral-50">
                                         <td className="py-4 px-6">
                                             <div className="flex items-center gap-3">
                                                 <div className="p-2 bg-blue-100 rounded-lg">
-                                                    <FileText className="w-4 h-4 text-blue-600" />
+                                                    <FileText className="w-4 h-4 text-primary-500" />
                                                 </div>
-                                                <span className="font-medium text-gray-800">{policy.name}</span>
+                                                <span className="font-medium text-neutral-800">{policy.name}</span>
                                             </div>
                                         </td>
-                                        <td className="py-4 px-6 text-gray-600">{policy.description}</td>
+                                        <td className="py-4 px-6 text-neutral-600">{policy.description}</td>
                                         <td className="py-4 px-6">
                                             <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                                                 policy.status === 'active' 
                                                     ? 'bg-emerald-100 text-emerald-700' 
-                                                    : 'bg-gray-100 text-gray-700'
+                                                    : 'bg-neutral-100 text-neutral-700'
                                             }`}>
                                                 {policy.status === 'active' ? 'Active' : 'Inactive'}
                                             </span>
                                         </td>
-                                        <td className="py-4 px-6 text-gray-500">{policy.lastUpdated}</td>
+                                        <td className="py-4 px-6 text-neutral-500">{policy.lastUpdated}</td>
                                         <td className="py-4 px-6">
                                             <div className="flex items-center gap-2">
-                                                <button className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
+                                                <button className="p-2 text-neutral-500 hover:text-primary-500 hover:bg-blue-50 rounded-lg">
                                                     <Edit className="w-4 h-4" />
                                                 </button>
-                                                <button className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg">
+                                                <button className="p-2 text-neutral-500 hover:text-error-600 hover:bg-error-50 rounded-lg">
                                                     <Trash2 className="w-4 h-4" />
                                                 </button>
                                             </div>

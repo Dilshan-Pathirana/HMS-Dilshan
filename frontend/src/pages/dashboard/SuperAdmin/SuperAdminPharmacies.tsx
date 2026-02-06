@@ -998,19 +998,19 @@ const SuperAdminPharmacies: React.FC = () => {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Pharmacy Management</h1>
-                    <p className="text-gray-500 mt-1">Centralized control for all pharmacy operations</p>
+                    <h1 className="text-2xl font-bold text-neutral-900">Pharmacy Management</h1>
+                    <p className="text-neutral-500 mt-1">Centralized control for all pharmacy operations</p>
                 </div>
             </div>
 
             {/* Main Tabs */}
-            <div className="border-b border-gray-200">
+            <div className="border-b border-neutral-200">
                 <nav className="-mb-px flex space-x-8">
                     <button
                         onClick={() => setActiveMainTab('pharmacies')}
                         className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${activeMainTab === 'pharmacies'
                                 ? 'border-emerald-500 text-emerald-600'
-                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                                : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'
                             }`}
                     >
                         <Building2 className="w-5 h-5" />
@@ -1020,7 +1020,7 @@ const SuperAdminPharmacies: React.FC = () => {
                         onClick={() => setActiveMainTab('inventory')}
                         className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${activeMainTab === 'inventory'
                                 ? 'border-emerald-500 text-emerald-600'
-                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                                : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'
                             }`}
                     >
                         <Box className="w-5 h-5" />
@@ -1030,7 +1030,7 @@ const SuperAdminPharmacies: React.FC = () => {
                         onClick={() => setActiveMainTab('suppliers')}
                         className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${activeMainTab === 'suppliers'
                                 ? 'border-emerald-500 text-emerald-600'
-                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                                : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'
                             }`}
                     >
                         <Truck className="w-5 h-5" />
@@ -1047,7 +1047,7 @@ const SuperAdminPharmacies: React.FC = () => {
                 </div>
             )}
             {error && (
-                <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
+                <div className="flex items-center gap-2 p-4 bg-error-50 border border-red-200 text-red-700 rounded-lg">
                     <AlertTriangle className="w-5 h-5" />
                     {error}
                     <button onClick={() => setError(null)} className="ml-auto">
@@ -1066,7 +1066,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 resetForm();
                                 setShowCreateModal(true);
                             }}
-                            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all shadow-md"
+                            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all shadow-md"
                         >
                             <Plus className="w-5 h-5" />
                             Create Pharmacy
@@ -1078,11 +1078,11 @@ const SuperAdminPharmacies: React.FC = () => {
                         <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                             <div className="flex items-center gap-3">
                                 <div className="p-2 bg-blue-100 rounded-lg">
-                                    <Building2 className="w-5 h-5 text-blue-600" />
+                                    <Building2 className="w-5 h-5 text-primary-500" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Total Pharmacies</p>
-                                    <p className="text-xl font-bold text-gray-900">{stats.total}</p>
+                                    <p className="text-sm text-neutral-500">Total Pharmacies</p>
+                                    <p className="text-xl font-bold text-neutral-900">{stats.total}</p>
                                 </div>
                             </div>
                         </div>
@@ -1092,19 +1092,19 @@ const SuperAdminPharmacies: React.FC = () => {
                                     <Check className="w-5 h-5 text-emerald-600" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Active</p>
+                                    <p className="text-sm text-neutral-500">Active</p>
                                     <p className="text-xl font-bold text-emerald-600">{stats.active}</p>
                                 </div>
                             </div>
                         </div>
                         <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                             <div className="flex items-center gap-3">
-                                <div className="p-2 bg-gray-100 rounded-lg">
-                                    <X className="w-5 h-5 text-gray-600" />
+                                <div className="p-2 bg-neutral-100 rounded-lg">
+                                    <X className="w-5 h-5 text-neutral-600" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Inactive</p>
-                                    <p className="text-xl font-bold text-gray-600">{stats.inactive}</p>
+                                    <p className="text-sm text-neutral-500">Inactive</p>
+                                    <p className="text-xl font-bold text-neutral-600">{stats.inactive}</p>
                                 </div>
                             </div>
                         </div>
@@ -1114,19 +1114,19 @@ const SuperAdminPharmacies: React.FC = () => {
                                     <MapPin className="w-5 h-5 text-amber-600" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Unassigned</p>
+                                    <p className="text-sm text-neutral-500">Unassigned</p>
                                     <p className="text-xl font-bold text-amber-600">{stats.unassigned}</p>
                                 </div>
                             </div>
                         </div>
                         <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                             <div className="flex items-center gap-3">
-                                <div className="p-2 bg-red-100 rounded-lg">
-                                    <TrendingDown className="w-5 h-5 text-red-600" />
+                                <div className="p-2 bg-error-100 rounded-lg">
+                                    <TrendingDown className="w-5 h-5 text-error-600" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Low Stock Items</p>
-                                    <p className="text-xl font-bold text-red-600">{stats.lowStock}</p>
+                                    <p className="text-sm text-neutral-500">Low Stock Items</p>
+                                    <p className="text-xl font-bold text-error-600">{stats.lowStock}</p>
                                 </div>
                             </div>
                         </div>
@@ -1137,20 +1137,20 @@ const SuperAdminPharmacies: React.FC = () => {
                         <div className="flex flex-wrap gap-4">
                             <div className="flex-1 min-w-[200px]">
                                 <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                                     <input
                                         type="text"
                                         placeholder="Search pharmacies..."
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                        className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                     />
                                 </div>
                             </div>
                             <select
                                 value={filterBranch}
                                 onChange={(e) => setFilterBranch(e.target.value)}
-                                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                             >
                                 <option value="">All Branches</option>
                                 <option value="unassigned">Unassigned</option>
@@ -1161,7 +1161,7 @@ const SuperAdminPharmacies: React.FC = () => {
                             <select
                                 value={filterStatus}
                                 onChange={(e) => setFilterStatus(e.target.value as '' | 'active' | 'inactive')}
-                                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                             >
                                 <option value="">All Status</option>
                                 <option value="active">Active</option>
@@ -1169,7 +1169,7 @@ const SuperAdminPharmacies: React.FC = () => {
                             </select>
                             <button
                                 onClick={loadPharmacies}
-                                className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
                             >
                                 <RefreshCw className="w-4 h-4" />
                                 Refresh
@@ -1186,7 +1186,7 @@ const SuperAdminPharmacies: React.FC = () => {
                         ) : filteredPharmacies.length === 0 ? (
                             <div className="text-center py-12">
                                 <Building2 className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                                <p className="text-gray-500">No pharmacies found</p>
+                                <p className="text-neutral-500">No pharmacies found</p>
                                 <button
                                     onClick={() => setShowCreateModal(true)}
                                     className="mt-4 text-emerald-600 hover:text-emerald-700 font-medium"
@@ -1197,42 +1197,42 @@ const SuperAdminPharmacies: React.FC = () => {
                         ) : (
                             <div className="overflow-x-auto">
                                 <table className="w-full">
-                                    <thead className="bg-gray-50 border-b border-gray-200">
+                                    <thead className="bg-neutral-50 border-b border-neutral-200">
                                         <tr>
-                                            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
                                                 Pharmacy
                                             </th>
-                                            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
                                                 Branch
                                             </th>
-                                            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
                                                 Status
                                             </th>
-                                            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
                                                 Inventory
                                             </th>
-                                            <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
                                                 Contact
                                             </th>
-                                            <th className="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                            <th className="px-6 py-3 text-right text-xs font-semibold text-neutral-600 uppercase tracking-wider">
                                                 Actions
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200">
                                         {filteredPharmacies.map((pharmacy) => (
-                                            <tr key={pharmacy.id} className="hover:bg-gray-50 transition-colors">
+                                            <tr key={pharmacy.id} className="hover:bg-neutral-50 transition-colors">
                                                 <td className="px-6 py-4">
                                                     <div>
-                                                        <p className="font-medium text-gray-900">{pharmacy.name}</p>
-                                                        <p className="text-sm text-gray-500">{pharmacy.pharmacy_code}</p>
+                                                        <p className="font-medium text-neutral-900">{pharmacy.name}</p>
+                                                        <p className="text-sm text-neutral-500">{pharmacy.pharmacy_code}</p>
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4">
                                                     {pharmacy.branch ? (
                                                         <div className="flex items-center gap-2">
-                                                            <MapPin className="w-4 h-4 text-gray-400" />
-                                                            <span className="text-gray-700">{pharmacy.branch.center_name}</span>
+                                                            <MapPin className="w-4 h-4 text-neutral-400" />
+                                                            <span className="text-neutral-700">{pharmacy.branch.center_name}</span>
                                                         </div>
                                                     ) : (
                                                         <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700">
@@ -1245,7 +1245,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                                         onClick={() => handleToggleStatus(pharmacy)}
                                                         className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${pharmacy.status === 'active'
                                                                 ? 'bg-emerald-100 text-emerald-700'
-                                                                : 'bg-gray-100 text-gray-600'
+                                                                : 'bg-neutral-100 text-neutral-600'
                                                             }`}
                                                     >
                                                         {pharmacy.status === 'active' ? (
@@ -1259,11 +1259,11 @@ const SuperAdminPharmacies: React.FC = () => {
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-center gap-4">
                                                         <div className="flex items-center gap-1">
-                                                            <Package className="w-4 h-4 text-gray-400" />
-                                                            <span className="text-sm text-gray-700">{pharmacy.inventory_count || 0} items</span>
+                                                            <Package className="w-4 h-4 text-neutral-400" />
+                                                            <span className="text-sm text-neutral-700">{pharmacy.inventory_count || 0} items</span>
                                                         </div>
                                                         {(pharmacy.low_stock_count || 0) > 0 && (
-                                                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">
+                                                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-error-100 text-red-700">
                                                                 <AlertTriangle className="w-3 h-3 mr-1" />
                                                                 {pharmacy.low_stock_count} low
                                                             </span>
@@ -1273,19 +1273,19 @@ const SuperAdminPharmacies: React.FC = () => {
                                                 <td className="px-6 py-4">
                                                     <div className="text-sm">
                                                         {pharmacy.phone && (
-                                                            <div className="flex items-center gap-1 text-gray-600">
+                                                            <div className="flex items-center gap-1 text-neutral-600">
                                                                 <Phone className="w-3 h-3" />
                                                                 {pharmacy.phone}
                                                             </div>
                                                         )}
                                                         {pharmacy.email && (
-                                                            <div className="flex items-center gap-1 text-gray-600">
+                                                            <div className="flex items-center gap-1 text-neutral-600">
                                                                 <Mail className="w-3 h-3" />
                                                                 {pharmacy.email}
                                                             </div>
                                                         )}
                                                         {!pharmacy.phone && !pharmacy.email && (
-                                                            <span className="text-gray-400">—</span>
+                                                            <span className="text-neutral-400">—</span>
                                                         )}
                                                     </div>
                                                 </td>
@@ -1293,14 +1293,14 @@ const SuperAdminPharmacies: React.FC = () => {
                                                     <div className="flex items-center justify-end gap-2">
                                                         <button
                                                             onClick={() => openManageModal(pharmacy)}
-                                                            className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                                            className="p-2 text-primary-500 hover:bg-blue-50 rounded-lg transition-colors"
                                                             title="Manage Pharmacy"
                                                         >
                                                             <Settings className="w-4 h-4" />
                                                         </button>
                                                         <button
                                                             onClick={() => openEditModal(pharmacy)}
-                                                            className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                                            className="p-2 text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
                                                             title="Edit"
                                                         >
                                                             <Edit2 className="w-4 h-4" />
@@ -1317,7 +1317,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                                                 setSelectedPharmacy(pharmacy);
                                                                 setShowDeleteConfirm(true);
                                                             }}
-                                                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                            className="p-2 text-error-600 hover:bg-error-50 rounded-lg transition-colors"
                                                             title="Delete"
                                                         >
                                                             <Trash2 className="w-4 h-4" />
@@ -1340,14 +1340,14 @@ const SuperAdminPharmacies: React.FC = () => {
                     {/* Header with Create Button */}
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-gray-500">Manage global inventory items across all pharmacies</p>
+                            <p className="text-neutral-500">Manage global inventory items across all pharmacies</p>
                         </div>
                         <button
                             onClick={() => {
                                 resetProductForm();
                                 setShowProductModal(true);
                             }}
-                            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all shadow-md"
+                            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all shadow-md"
                         >
                             <Plus className="w-5 h-5" />
                             Add Inventory Item
@@ -1359,11 +1359,11 @@ const SuperAdminPharmacies: React.FC = () => {
                         <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                             <div className="flex items-center gap-3">
                                 <div className="p-2 bg-blue-100 rounded-lg">
-                                    <Box className="w-5 h-5 text-blue-600" />
+                                    <Box className="w-5 h-5 text-primary-500" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Total Items</p>
-                                    <p className="text-xl font-bold text-gray-900">{productStats.total}</p>
+                                    <p className="text-sm text-neutral-500">Total Items</p>
+                                    <p className="text-xl font-bold text-neutral-900">{productStats.total}</p>
                                 </div>
                             </div>
                         </div>
@@ -1373,7 +1373,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                     <Check className="w-5 h-5 text-emerald-600" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">In Stock</p>
+                                    <p className="text-sm text-neutral-500">In Stock</p>
                                     <p className="text-xl font-bold text-emerald-600">{productStats.inStock}</p>
                                 </div>
                             </div>
@@ -1384,19 +1384,19 @@ const SuperAdminPharmacies: React.FC = () => {
                                     <TrendingDown className="w-5 h-5 text-amber-600" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Low Stock</p>
+                                    <p className="text-sm text-neutral-500">Low Stock</p>
                                     <p className="text-xl font-bold text-amber-600">{productStats.lowStock}</p>
                                 </div>
                             </div>
                         </div>
                         <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                             <div className="flex items-center gap-3">
-                                <div className="p-2 bg-red-100 rounded-lg">
-                                    <AlertTriangle className="w-5 h-5 text-red-600" />
+                                <div className="p-2 bg-error-100 rounded-lg">
+                                    <AlertTriangle className="w-5 h-5 text-error-600" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Out of Stock</p>
-                                    <p className="text-xl font-bold text-red-600">{productStats.outOfStock}</p>
+                                    <p className="text-sm text-neutral-500">Out of Stock</p>
+                                    <p className="text-xl font-bold text-error-600">{productStats.outOfStock}</p>
                                 </div>
                             </div>
                         </div>
@@ -1407,20 +1407,20 @@ const SuperAdminPharmacies: React.FC = () => {
                         <div className="flex flex-wrap gap-4">
                             <div className="flex-1 min-w-[200px]">
                                 <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                                     <input
                                         type="text"
                                         placeholder="Search by name, code, or brand..."
                                         value={productSearchTerm}
                                         onChange={(e) => setProductSearchTerm(e.target.value)}
-                                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                        className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                     />
                                 </div>
                             </div>
                             <select
                                 value={productFilterBranch}
                                 onChange={(e) => setProductFilterBranch(e.target.value)}
-                                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                             >
                                 <option value="">All Branches (Global)</option>
                                 {branches.map(branch => (
@@ -1432,7 +1432,7 @@ const SuperAdminPharmacies: React.FC = () => {
                             <select
                                 value={productFilterCategory}
                                 onChange={(e) => setProductFilterCategory(e.target.value)}
-                                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                             >
                                 <option value="">All Categories</option>
                                 {productCategories.map(cat => (
@@ -1441,21 +1441,21 @@ const SuperAdminPharmacies: React.FC = () => {
                             </select>
                             <button
                                 onClick={() => loadProducts(productFilterBranch || undefined)}
-                                className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
                             >
                                 <RefreshCw className={`w-4 h-4 ${productsLoading ? 'animate-spin' : ''}`} />
                                 Refresh
                             </button>
                         </div>
                         {productFilterBranch && (
-                            <div className="mt-3 flex items-center gap-2 text-sm text-blue-600 bg-blue-50 p-2 rounded-lg">
+                            <div className="mt-3 flex items-center gap-2 text-sm text-primary-500 bg-blue-50 p-2 rounded-lg">
                                 <Building2 className="w-4 h-4" />
                                 <span>
                                     Showing stock & pricing for: <strong>{branches.find(b => b.id === productFilterBranch)?.center_name || 'Selected Branch'}</strong>
                                 </span>
                                 <button
                                     onClick={() => setProductFilterBranch('')}
-                                    className="ml-auto text-blue-600 hover:text-blue-700"
+                                    className="ml-auto text-primary-500 hover:text-blue-700"
                                 >
                                     <X className="w-4 h-4" />
                                 </button>
@@ -1472,7 +1472,7 @@ const SuperAdminPharmacies: React.FC = () => {
                         ) : filteredProducts.length === 0 ? (
                             <div className="text-center py-12">
                                 <Box className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                                <p className="text-gray-500">No inventory items found</p>
+                                <p className="text-neutral-500">No inventory items found</p>
                                 <button
                                     onClick={() => setShowProductModal(true)}
                                     className="mt-4 text-emerald-600 hover:text-emerald-700 font-medium"
@@ -1483,56 +1483,56 @@ const SuperAdminPharmacies: React.FC = () => {
                         ) : (
                             <div className="overflow-x-auto">
                                 <table className="w-full">
-                                    <thead className="bg-gray-50 border-b border-gray-200">
+                                    <thead className="bg-neutral-50 border-b border-neutral-200">
                                         <tr>
-                                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Item</th>
-                                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Code</th>
-                                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Category</th>
-                                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Supplier</th>
-                                            <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Stock</th>
-                                            <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Cost</th>
-                                            <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Price</th>
-                                            <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Status</th>
-                                            <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Actions</th>
+                                            <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Item</th>
+                                            <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Code</th>
+                                            <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Category</th>
+                                            <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Supplier</th>
+                                            <th className="px-4 py-3 text-right text-xs font-semibold text-neutral-600 uppercase">Stock</th>
+                                            <th className="px-4 py-3 text-right text-xs font-semibold text-neutral-600 uppercase">Cost</th>
+                                            <th className="px-4 py-3 text-right text-xs font-semibold text-neutral-600 uppercase">Price</th>
+                                            <th className="px-4 py-3 text-center text-xs font-semibold text-neutral-600 uppercase">Status</th>
+                                            <th className="px-4 py-3 text-right text-xs font-semibold text-neutral-600 uppercase">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200">
                                         {filteredProducts.slice(0, 50).map((product) => (
-                                            <tr key={product.id} className="hover:bg-gray-50 transition-colors">
+                                            <tr key={product.id} className="hover:bg-neutral-50 transition-colors">
                                                 <td className="px-4 py-3">
                                                     <div>
-                                                        <p className="font-medium text-gray-900">{product.item_name}</p>
-                                                        <p className="text-xs text-gray-500">{product.generic_name || product.brand_name}</p>
+                                                        <p className="font-medium text-neutral-900">{product.item_name}</p>
+                                                        <p className="text-xs text-neutral-500">{product.generic_name || product.brand_name}</p>
                                                     </div>
                                                 </td>
                                                 <td className="px-4 py-3">
-                                                    <span className="text-sm font-mono text-gray-600">{product.item_code}</span>
+                                                    <span className="text-sm font-mono text-neutral-600">{product.item_code}</span>
                                                 </td>
                                                 <td className="px-4 py-3">
-                                                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+                                                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-neutral-100 text-neutral-700">
                                                         {product.category || 'Uncategorized'}
                                                     </span>
                                                 </td>
-                                                <td className="px-4 py-3 text-sm text-gray-600">
+                                                <td className="px-4 py-3 text-sm text-neutral-600">
                                                     {product.supplier_name || '—'}
                                                 </td>
                                                 <td className="px-4 py-3 text-right">
-                                                    <span className={`font-medium ${(product.current_stock || 0) === 0 ? 'text-red-600' :
+                                                    <span className={`font-medium ${(product.current_stock || 0) === 0 ? 'text-error-600' :
                                                             (product.current_stock || 0) <= (product.min_stock || 0) ? 'text-amber-600' :
-                                                                'text-gray-900'
+                                                                'text-neutral-900'
                                                         }`}>
                                                         {product.current_stock || 0} {product.unit}
                                                     </span>
                                                 </td>
-                                                <td className="px-4 py-3 text-right text-sm text-gray-600">
+                                                <td className="px-4 py-3 text-right text-sm text-neutral-600">
                                                     Rs. {Number(product.unit_cost || 0).toFixed(2)}
                                                 </td>
-                                                <td className="px-4 py-3 text-right text-sm font-medium text-gray-900">
+                                                <td className="px-4 py-3 text-right text-sm font-medium text-neutral-900">
                                                     Rs. {Number(product.unit_selling_price || 0).toFixed(2)}
                                                 </td>
                                                 <td className="px-4 py-3 text-center">
                                                     {(product.current_stock || 0) === 0 ? (
-                                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-red-100 text-red-700">Out</span>
+                                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-error-100 text-red-700">Out</span>
                                                     ) : (product.current_stock || 0) <= (product.min_stock || 0) ? (
                                                         <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-amber-100 text-amber-700">Low</span>
                                                     ) : (
@@ -1543,14 +1543,14 @@ const SuperAdminPharmacies: React.FC = () => {
                                                     <div className="flex items-center justify-end gap-2">
                                                         <button
                                                             onClick={() => openBranchStockModal(product)}
-                                                            className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors"
+                                                            className="p-2 text-primary-500 hover:bg-blue-100 rounded-lg transition-colors"
                                                             title="Manage Branch Stock"
                                                         >
                                                             <Building2 className="w-4 h-4" />
                                                         </button>
                                                         <button
                                                             onClick={() => openProductEditModal(product)}
-                                                            className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                                            className="p-2 text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
                                                             title="Edit Item"
                                                         >
                                                             <Edit2 className="w-4 h-4" />
@@ -1562,7 +1562,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                     </tbody>
                                 </table>
                                 {filteredProducts.length > 50 && (
-                                    <div className="px-4 py-3 text-center text-sm text-gray-500 bg-gray-50 border-t">
+                                    <div className="px-4 py-3 text-center text-sm text-neutral-500 bg-neutral-50 border-t">
                                         Showing first 50 of {filteredProducts.length} items
                                     </div>
                                 )}
@@ -1576,20 +1576,20 @@ const SuperAdminPharmacies: React.FC = () => {
             {showProductModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto m-4">
-                        <div className="p-6 border-b border-gray-200">
-                            <h2 className="text-xl font-bold text-gray-900">Add New Inventory Item</h2>
-                            <p className="text-sm text-gray-500 mt-1">This item will be available across all pharmacies</p>
+                        <div className="p-6 border-b border-neutral-200">
+                            <h2 className="text-xl font-bold text-neutral-900">Add New Inventory Item</h2>
+                            <p className="text-sm text-neutral-500 mt-1">This item will be available across all pharmacies</p>
                         </div>
                         <div className="p-6 space-y-4">
                             {/* Supplier Selection */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Supplier <span className="text-red-500">*</span>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">
+                                    Supplier <span className="text-error-500">*</span>
                                 </label>
                                 <select
                                     value={productFormData.supplier_id}
                                     onChange={(e) => setProductFormData({ ...productFormData, supplier_id: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                 >
                                     <option value="">Select Supplier</option>
                                     {suppliers.map(s => (
@@ -1600,34 +1600,34 @@ const SuperAdminPharmacies: React.FC = () => {
 
                             <div className="grid grid-cols-3 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Item Code <span className="text-red-500">*</span>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
+                                        Item Code <span className="text-error-500">*</span>
                                     </label>
                                     <input
                                         type="text"
                                         value={productFormData.item_code}
                                         onChange={(e) => setProductFormData({ ...productFormData, item_code: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                         placeholder="e.g., ITM001"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Barcode</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Barcode</label>
                                     <input
                                         type="text"
                                         value={productFormData.barcode}
                                         onChange={(e) => setProductFormData({ ...productFormData, barcode: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                         placeholder="Barcode"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Category</label>
                                     <input
                                         type="text"
                                         value={productFormData.category}
                                         onChange={(e) => setProductFormData({ ...productFormData, category: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                         placeholder="e.g., Medicine"
                                     />
                                 </div>
@@ -1635,24 +1635,24 @@ const SuperAdminPharmacies: React.FC = () => {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Item Name <span className="text-red-500">*</span>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
+                                        Item Name <span className="text-error-500">*</span>
                                     </label>
                                     <input
                                         type="text"
                                         value={productFormData.item_name}
                                         onChange={(e) => setProductFormData({ ...productFormData, item_name: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                         placeholder="Item name"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Generic Name</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Generic Name</label>
                                     <input
                                         type="text"
                                         value={productFormData.generic_name}
                                         onChange={(e) => setProductFormData({ ...productFormData, generic_name: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                         placeholder="Generic name"
                                     />
                                 </div>
@@ -1660,21 +1660,21 @@ const SuperAdminPharmacies: React.FC = () => {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Brand Name</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Brand Name</label>
                                     <input
                                         type="text"
                                         value={productFormData.brand_name}
                                         onChange={(e) => setProductFormData({ ...productFormData, brand_name: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                         placeholder="Brand name"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Unit</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Unit</label>
                                     <select
                                         value={productFormData.unit}
                                         onChange={(e) => setProductFormData({ ...productFormData, unit: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="pcs">Pieces</option>
                                         <option value="box">Box</option>
@@ -1692,100 +1692,100 @@ const SuperAdminPharmacies: React.FC = () => {
 
                             <div className="grid grid-cols-4 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Current Stock</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Current Stock</label>
                                     <input
                                         type="number"
                                         value={productFormData.current_stock}
                                         onChange={(e) => setProductFormData({ ...productFormData, current_stock: Number(e.target.value) })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Min Stock</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Min Stock</label>
                                     <input
                                         type="number"
                                         value={productFormData.min_stock}
                                         onChange={(e) => setProductFormData({ ...productFormData, min_stock: Number(e.target.value) })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Reorder Level</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Reorder Level</label>
                                     <input
                                         type="number"
                                         value={productFormData.reorder_level}
                                         onChange={(e) => setProductFormData({ ...productFormData, reorder_level: Number(e.target.value) })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Reorder Qty</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Reorder Qty</label>
                                     <input
                                         type="number"
                                         value={productFormData.reorder_quantity}
                                         onChange={(e) => setProductFormData({ ...productFormData, reorder_quantity: Number(e.target.value) })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-3 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Unit Cost (Rs.)</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Unit Cost (Rs.)</label>
                                     <input
                                         type="number"
                                         step="0.01"
                                         value={productFormData.unit_cost}
                                         onChange={(e) => setProductFormData({ ...productFormData, unit_cost: Number(e.target.value) })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Selling Price (Rs.)</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Selling Price (Rs.)</label>
                                     <input
                                         type="number"
                                         step="0.01"
                                         value={productFormData.unit_selling_price}
                                         onChange={(e) => setProductFormData({ ...productFormData, unit_selling_price: Number(e.target.value) })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Expiry Date</label>
                                     <input
                                         type="date"
                                         value={productFormData.expiry_date}
                                         onChange={(e) => setProductFormData({ ...productFormData, expiry_date: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Storage Location</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Storage Location</label>
                                 <input
                                     type="text"
                                     value={productFormData.product_store_location}
                                     onChange={(e) => setProductFormData({ ...productFormData, product_store_location: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     placeholder="e.g., Shelf A, Row 3"
                                 />
                             </div>
                         </div>
-                        <div className="p-6 border-t border-gray-200 flex justify-end gap-3">
+                        <div className="p-6 border-t border-neutral-200 flex justify-end gap-3">
                             <button
                                 onClick={() => {
                                     setShowProductModal(false);
                                     resetProductForm();
                                 }}
-                                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleCreateProduct}
                                 disabled={productsLoading}
-                                className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all disabled:opacity-50"
+                                className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all disabled:opacity-50"
                             >
                                 {productsLoading ? 'Creating...' : 'Create Item'}
                             </button>
@@ -1798,18 +1798,18 @@ const SuperAdminPharmacies: React.FC = () => {
             {showProductEditModal && selectedProduct && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto m-4">
-                        <div className="p-6 border-b border-gray-200">
-                            <h2 className="text-xl font-bold text-gray-900">Edit Inventory Item</h2>
-                            <p className="text-sm text-gray-500 mt-1">Changes will reflect across all pharmacies</p>
+                        <div className="p-6 border-b border-neutral-200">
+                            <h2 className="text-xl font-bold text-neutral-900">Edit Inventory Item</h2>
+                            <p className="text-sm text-neutral-500 mt-1">Changes will reflect across all pharmacies</p>
                         </div>
                         <div className="p-6 space-y-4">
                             {/* Same form fields as create, but for editing */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Supplier</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Supplier</label>
                                 <select
                                     value={productFormData.supplier_id}
                                     onChange={(e) => setProductFormData({ ...productFormData, supplier_id: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                 >
                                     <option value="">Select Supplier</option>
                                     {suppliers.map(s => (
@@ -1820,29 +1820,29 @@ const SuperAdminPharmacies: React.FC = () => {
 
                             <div className="grid grid-cols-3 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Item Code</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Item Code</label>
                                     <input
                                         type="text"
                                         value={productFormData.item_code}
                                         disabled
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg bg-neutral-100 text-neutral-500"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Category</label>
                                     <input
                                         type="text"
                                         value={productFormData.category}
                                         onChange={(e) => setProductFormData({ ...productFormData, category: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Unit</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Unit</label>
                                     <select
                                         value={productFormData.unit}
                                         onChange={(e) => setProductFormData({ ...productFormData, unit: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="pcs">Pieces</option>
                                         <option value="box">Box</option>
@@ -1860,91 +1860,91 @@ const SuperAdminPharmacies: React.FC = () => {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Item Name</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Item Name</label>
                                     <input
                                         type="text"
                                         value={productFormData.item_name}
                                         onChange={(e) => setProductFormData({ ...productFormData, item_name: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Generic Name</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Generic Name</label>
                                     <input
                                         type="text"
                                         value={productFormData.generic_name}
                                         onChange={(e) => setProductFormData({ ...productFormData, generic_name: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-4 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Min Stock</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Min Stock</label>
                                     <input
                                         type="number"
                                         value={productFormData.min_stock}
                                         onChange={(e) => setProductFormData({ ...productFormData, min_stock: Number(e.target.value) })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Reorder Level</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Reorder Level</label>
                                     <input
                                         type="number"
                                         value={productFormData.reorder_level}
                                         onChange={(e) => setProductFormData({ ...productFormData, reorder_level: Number(e.target.value) })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Unit Cost</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Unit Cost</label>
                                     <input
                                         type="number"
                                         step="0.01"
                                         value={productFormData.unit_cost}
                                         onChange={(e) => setProductFormData({ ...productFormData, unit_cost: Number(e.target.value) })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Selling Price</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Selling Price</label>
                                     <input
                                         type="number"
                                         step="0.01"
                                         value={productFormData.unit_selling_price}
                                         onChange={(e) => setProductFormData({ ...productFormData, unit_selling_price: Number(e.target.value) })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Storage Location</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Storage Location</label>
                                 <input
                                     type="text"
                                     value={productFormData.product_store_location}
                                     onChange={(e) => setProductFormData({ ...productFormData, product_store_location: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                 />
                             </div>
                         </div>
-                        <div className="p-6 border-t border-gray-200 flex justify-end gap-3">
+                        <div className="p-6 border-t border-neutral-200 flex justify-end gap-3">
                             <button
                                 onClick={() => {
                                     setShowProductEditModal(false);
                                     setSelectedProduct(null);
                                     resetProductForm();
                                 }}
-                                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleUpdateProduct}
                                 disabled={productsLoading}
-                                className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all disabled:opacity-50"
+                                className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all disabled:opacity-50"
                             >
                                 {productsLoading ? 'Updating...' : 'Update Item'}
                             </button>
@@ -1957,11 +1957,11 @@ const SuperAdminPharmacies: React.FC = () => {
             {showBranchStockModal && selectedProduct && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto m-4">
-                        <div className="p-6 border-b border-gray-200">
+                        <div className="p-6 border-b border-neutral-200">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <h2 className="text-xl font-bold text-gray-900">Branch Stock Management</h2>
-                                    <p className="text-sm text-gray-500 mt-1">
+                                    <h2 className="text-xl font-bold text-neutral-900">Branch Stock Management</h2>
+                                    <p className="text-sm text-neutral-500 mt-1">
                                         {selectedProduct.item_name} ({selectedProduct.item_code})
                                     </p>
                                 </div>
@@ -1972,9 +1972,9 @@ const SuperAdminPharmacies: React.FC = () => {
                                         setSelectedBranchForEdit(null);
                                         setBranchStockList([]);
                                     }}
-                                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                    className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                                 >
-                                    <X className="w-5 h-5 text-gray-500" />
+                                    <X className="w-5 h-5 text-neutral-500" />
                                 </button>
                             </div>
                         </div>
@@ -1990,63 +1990,63 @@ const SuperAdminPharmacies: React.FC = () => {
                                     <div className="flex items-center gap-2 mb-4">
                                         <button
                                             onClick={() => setSelectedBranchForEdit(null)}
-                                            className="p-2 hover:bg-gray-100 rounded-lg"
+                                            className="p-2 hover:bg-neutral-100 rounded-lg"
                                         >
                                             <X className="w-4 h-4" />
                                         </button>
-                                        <h3 className="font-semibold text-gray-900">
+                                        <h3 className="font-semibold text-neutral-900">
                                             Edit Stock for: {selectedBranchForEdit.branch_name}
                                         </h3>
                                     </div>
 
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Current Stock</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Current Stock</label>
                                             <input
                                                 type="number"
                                                 value={branchStockFormData.current_stock}
                                                 onChange={(e) => setBranchStockFormData({ ...branchStockFormData, current_stock: Number(e.target.value) })}
-                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Min Stock</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Min Stock</label>
                                             <input
                                                 type="number"
                                                 value={branchStockFormData.min_stock}
                                                 onChange={(e) => setBranchStockFormData({ ...branchStockFormData, min_stock: Number(e.target.value) })}
-                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Unit Cost (Rs.)</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Unit Cost (Rs.)</label>
                                             <input
                                                 type="number"
                                                 step="0.01"
                                                 value={branchStockFormData.unit_cost}
                                                 onChange={(e) => setBranchStockFormData({ ...branchStockFormData, unit_cost: Number(e.target.value) })}
-                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Selling Price (Rs.)</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Selling Price (Rs.)</label>
                                             <input
                                                 type="number"
                                                 step="0.01"
                                                 value={branchStockFormData.unit_selling_price}
                                                 onChange={(e) => setBranchStockFormData({ ...branchStockFormData, unit_selling_price: Number(e.target.value) })}
-                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             />
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Unit</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Unit</label>
                                             <select
                                                 value={branchStockFormData.unit}
                                                 onChange={(e) => setBranchStockFormData({ ...branchStockFormData, unit: e.target.value })}
-                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             >
                                                 <option value="pcs">Pieces</option>
                                                 <option value="box">Box</option>
@@ -2061,21 +2061,21 @@ const SuperAdminPharmacies: React.FC = () => {
                                             </select>
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Reorder Level</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Reorder Level</label>
                                             <input
                                                 type="number"
                                                 value={branchStockFormData.reorder_level}
                                                 onChange={(e) => setBranchStockFormData({ ...branchStockFormData, reorder_level: Number(e.target.value) })}
-                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Storage Location</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Storage Location</label>
                                             <input
                                                 type="text"
                                                 value={branchStockFormData.product_store_location}
                                                 onChange={(e) => setBranchStockFormData({ ...branchStockFormData, product_store_location: e.target.value })}
-                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             />
                                         </div>
                                     </div>
@@ -2083,14 +2083,14 @@ const SuperAdminPharmacies: React.FC = () => {
                                     <div className="flex justify-end gap-3 pt-4">
                                         <button
                                             onClick={() => setSelectedBranchForEdit(null)}
-                                            className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                            className="px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
                                         >
                                             Cancel
                                         </button>
                                         <button
                                             onClick={handleUpdateBranchStock}
                                             disabled={branchStockLoading}
-                                            className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all disabled:opacity-50"
+                                            className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all disabled:opacity-50"
                                         >
                                             {branchStockLoading ? 'Saving...' : 'Save Changes'}
                                         </button>
@@ -2099,7 +2099,7 @@ const SuperAdminPharmacies: React.FC = () => {
                             ) : (
                                 /* Branch Stock List */
                                 <div className="space-y-4">
-                                    <div className="text-sm text-gray-500 mb-4">
+                                    <div className="text-sm text-neutral-500 mb-4">
                                         Click on a branch to set specific stock levels and pricing for that location.
                                     </div>
 
@@ -2110,51 +2110,51 @@ const SuperAdminPharmacies: React.FC = () => {
                                                 onClick={() => openBranchStockEdit(branchStock)}
                                                 className={`p-4 rounded-xl border-2 cursor-pointer transition-all hover:shadow-md ${branchStock.has_stock
                                                         ? 'border-emerald-200 bg-emerald-50/50 hover:border-emerald-400'
-                                                        : 'border-gray-200 bg-gray-50/50 hover:border-gray-400'
+                                                        : 'border-neutral-200 bg-neutral-50/50 hover:border-gray-400'
                                                     }`}
                                             >
                                                 <div className="flex items-center justify-between mb-2">
                                                     <div className="flex items-center gap-2">
-                                                        <Building2 className={`w-5 h-5 ${branchStock.has_stock ? 'text-emerald-600' : 'text-gray-400'}`} />
-                                                        <span className="font-semibold text-gray-900">{branchStock.branch_name}</span>
+                                                        <Building2 className={`w-5 h-5 ${branchStock.has_stock ? 'text-emerald-600' : 'text-neutral-400'}`} />
+                                                        <span className="font-semibold text-neutral-900">{branchStock.branch_name}</span>
                                                     </div>
                                                     {branchStock.has_stock ? (
                                                         <span className="text-xs px-2 py-1 bg-emerald-100 text-emerald-700 rounded-full">Configured</span>
                                                     ) : (
-                                                        <span className="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded-full">Not Set</span>
+                                                        <span className="text-xs px-2 py-1 bg-neutral-100 text-neutral-600 rounded-full">Not Set</span>
                                                     )}
                                                 </div>
-                                                <div className="text-sm text-gray-500 mb-3">{branchStock.city || 'No location'}</div>
+                                                <div className="text-sm text-neutral-500 mb-3">{branchStock.city || 'No location'}</div>
 
                                                 {branchStock.has_stock ? (
                                                     <div className="grid grid-cols-3 gap-2 text-sm">
                                                         <div>
-                                                            <p className="text-gray-500">Stock</p>
-                                                            <p className={`font-semibold ${branchStock.current_stock === 0 ? 'text-red-600' :
+                                                            <p className="text-neutral-500">Stock</p>
+                                                            <p className={`font-semibold ${branchStock.current_stock === 0 ? 'text-error-600' :
                                                                     branchStock.current_stock <= branchStock.min_stock ? 'text-amber-600' :
-                                                                        'text-gray-900'
+                                                                        'text-neutral-900'
                                                                 }`}>
                                                                 {branchStock.current_stock} {branchStock.unit}
                                                             </p>
                                                         </div>
                                                         <div>
-                                                            <p className="text-gray-500">Cost</p>
-                                                            <p className="font-semibold text-gray-900">Rs. {Number(branchStock.unit_cost || 0).toFixed(2)}</p>
+                                                            <p className="text-neutral-500">Cost</p>
+                                                            <p className="font-semibold text-neutral-900">Rs. {Number(branchStock.unit_cost || 0).toFixed(2)}</p>
                                                         </div>
                                                         <div>
-                                                            <p className="text-gray-500">Price</p>
+                                                            <p className="text-neutral-500">Price</p>
                                                             <p className="font-semibold text-emerald-600">Rs. {Number(branchStock.unit_selling_price || 0).toFixed(2)}</p>
                                                         </div>
                                                     </div>
                                                 ) : (
-                                                    <p className="text-sm text-gray-400 italic">Click to set stock & pricing</p>
+                                                    <p className="text-sm text-neutral-400 italic">Click to set stock & pricing</p>
                                                 )}
                                             </div>
                                         ))}
                                     </div>
 
                                     {branchStockList.length === 0 && (
-                                        <div className="text-center py-8 text-gray-500">
+                                        <div className="text-center py-8 text-neutral-500">
                                             <Building2 className="w-12 h-12 text-gray-300 mx-auto mb-3" />
                                             <p>No branches available</p>
                                         </div>
@@ -2172,15 +2172,15 @@ const SuperAdminPharmacies: React.FC = () => {
                     {/* Header */}
                     <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                         <div>
-                            <h2 className="text-2xl font-bold text-gray-900">Supplier Management</h2>
-                            <p className="text-gray-500">Manage all suppliers across all branches</p>
+                            <h2 className="text-2xl font-bold text-neutral-900">Supplier Management</h2>
+                            <p className="text-neutral-500">Manage all suppliers across all branches</p>
                         </div>
                         <button
                             onClick={() => {
                                 resetSupplierForm();
                                 setShowSupplierModal(true);
                             }}
-                            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all shadow-md"
+                            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all shadow-md"
                         >
                             <Plus className="w-5 h-5" />
                             Add Supplier
@@ -2192,11 +2192,11 @@ const SuperAdminPharmacies: React.FC = () => {
                         <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                             <div className="flex items-center gap-3">
                                 <div className="p-2 bg-blue-100 rounded-lg">
-                                    <Truck className="w-5 h-5 text-blue-600" />
+                                    <Truck className="w-5 h-5 text-primary-500" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Total Suppliers</p>
-                                    <p className="text-xl font-bold text-gray-900">{supplierStats.total}</p>
+                                    <p className="text-sm text-neutral-500">Total Suppliers</p>
+                                    <p className="text-xl font-bold text-neutral-900">{supplierStats.total}</p>
                                 </div>
                             </div>
                         </div>
@@ -2206,7 +2206,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                     <Package className="w-5 h-5 text-purple-600" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Pharmaceutical</p>
+                                    <p className="text-sm text-neutral-500">Pharmaceutical</p>
                                     <p className="text-xl font-bold text-purple-600">{supplierStats.pharmaceutical}</p>
                                 </div>
                             </div>
@@ -2217,19 +2217,19 @@ const SuperAdminPharmacies: React.FC = () => {
                                     <Box className="w-5 h-5 text-emerald-600" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Medical Equipment</p>
+                                    <p className="text-sm text-neutral-500">Medical Equipment</p>
                                     <p className="text-xl font-bold text-emerald-600">{supplierStats.medical}</p>
                                 </div>
                             </div>
                         </div>
                         <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                             <div className="flex items-center gap-3">
-                                <div className="p-2 bg-gray-100 rounded-lg">
-                                    <Settings className="w-5 h-5 text-gray-600" />
+                                <div className="p-2 bg-neutral-100 rounded-lg">
+                                    <Settings className="w-5 h-5 text-neutral-600" />
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">General</p>
-                                    <p className="text-xl font-bold text-gray-600">{supplierStats.general}</p>
+                                    <p className="text-sm text-neutral-500">General</p>
+                                    <p className="text-xl font-bold text-neutral-600">{supplierStats.general}</p>
                                 </div>
                             </div>
                         </div>
@@ -2240,20 +2240,20 @@ const SuperAdminPharmacies: React.FC = () => {
                         <div className="flex flex-wrap gap-4">
                             <div className="flex-1 min-w-[200px]">
                                 <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                                     <input
                                         type="text"
                                         placeholder="Search suppliers..."
                                         value={supplierSearchTerm}
                                         onChange={(e) => setSupplierSearchTerm(e.target.value)}
-                                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                        className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                     />
                                 </div>
                             </div>
                             <select
                                 value={supplierFilterType}
                                 onChange={(e) => setSupplierFilterType(e.target.value)}
-                                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                             >
                                 <option value="">All Types</option>
                                 <option value="pharmaceutical">Pharmaceutical</option>
@@ -2265,7 +2265,7 @@ const SuperAdminPharmacies: React.FC = () => {
                             </select>
                             <button
                                 onClick={loadSuppliersForTab}
-                                className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
                             >
                                 <RefreshCw className={`w-4 h-4 ${suppliersLoading ? 'animate-spin' : ''}`} />
                                 Refresh
@@ -2282,7 +2282,7 @@ const SuperAdminPharmacies: React.FC = () => {
                         ) : filteredSuppliers.length === 0 ? (
                             <div className="text-center py-12">
                                 <Truck className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                                <p className="text-gray-500">No suppliers found</p>
+                                <p className="text-neutral-500">No suppliers found</p>
                                 <button
                                     onClick={() => setShowSupplierModal(true)}
                                     className="mt-4 text-emerald-600 hover:text-emerald-700 font-medium"
@@ -2293,42 +2293,42 @@ const SuperAdminPharmacies: React.FC = () => {
                         ) : (
                             <div className="overflow-x-auto">
                                 <table className="w-full">
-                                    <thead className="bg-gray-50 border-b border-gray-200">
+                                    <thead className="bg-neutral-50 border-b border-neutral-200">
                                         <tr>
-                                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Supplier</th>
-                                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Contact Person</th>
-                                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Contact Info</th>
-                                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Location</th>
-                                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Type</th>
-                                            <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Actions</th>
+                                            <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Supplier</th>
+                                            <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Contact Person</th>
+                                            <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Contact Info</th>
+                                            <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Location</th>
+                                            <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Type</th>
+                                            <th className="px-4 py-3 text-right text-xs font-semibold text-neutral-600 uppercase">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200">
                                         {filteredSuppliers.map((supplier) => (
-                                            <tr key={supplier.id} className="hover:bg-gray-50 transition-colors">
+                                            <tr key={supplier.id} className="hover:bg-neutral-50 transition-colors">
                                                 <td className="px-4 py-3">
                                                     <div className="flex items-center gap-3">
                                                         <div className="p-2 bg-blue-100 rounded-lg">
-                                                            <Truck className="w-5 h-5 text-blue-600" />
+                                                            <Truck className="w-5 h-5 text-primary-500" />
                                                         </div>
                                                         <div>
-                                                            <p className="font-medium text-gray-900">{supplier.supplier_name}</p>
+                                                            <p className="font-medium text-neutral-900">{supplier.supplier_name}</p>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td className="px-4 py-3 text-sm text-gray-600">
+                                                <td className="px-4 py-3 text-sm text-neutral-600">
                                                     {supplier.contact_person || '—'}
                                                 </td>
                                                 <td className="px-4 py-3">
                                                     <div className="text-sm space-y-1">
                                                         {supplier.contact_number && (
-                                                            <div className="flex items-center gap-1 text-gray-600">
+                                                            <div className="flex items-center gap-1 text-neutral-600">
                                                                 <Phone className="w-3 h-3" />
                                                                 {supplier.contact_number}
                                                             </div>
                                                         )}
                                                         {supplier.contact_email && (
-                                                            <div className="flex items-center gap-1 text-gray-600">
+                                                            <div className="flex items-center gap-1 text-neutral-600">
                                                                 <Mail className="w-3 h-3" />
                                                                 {supplier.contact_email}
                                                             </div>
@@ -2337,7 +2337,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                                     </div>
                                                 </td>
                                                 <td className="px-4 py-3">
-                                                    <div className="text-sm text-gray-600">
+                                                    <div className="text-sm text-neutral-600">
                                                         {supplier.supplier_city && (
                                                             <div className="flex items-center gap-1">
                                                                 <MapPin className="w-3 h-3" />
@@ -2345,7 +2345,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                                             </div>
                                                         )}
                                                         {supplier.supplier_address && (
-                                                            <p className="text-xs text-gray-400 mt-1 truncate max-w-[200px]">{supplier.supplier_address}</p>
+                                                            <p className="text-xs text-neutral-400 mt-1 truncate max-w-[200px]">{supplier.supplier_address}</p>
                                                         )}
                                                         {!supplier.supplier_city && !supplier.supplier_address && '—'}
                                                     </div>
@@ -2353,7 +2353,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                                 <td className="px-4 py-3">
                                                     <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${supplier.supplier_type === 'pharmaceutical' ? 'bg-purple-100 text-purple-700' :
                                                             supplier.supplier_type === 'medical' ? 'bg-emerald-100 text-emerald-700' :
-                                                                'bg-gray-100 text-gray-700'
+                                                                'bg-neutral-100 text-neutral-700'
                                                         }`}>
                                                         {supplier.supplier_type || 'General'}
                                                     </span>
@@ -2362,7 +2362,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                                     <div className="flex items-center justify-end gap-2">
                                                         <button
                                                             onClick={() => openSupplierEditModal(supplier)}
-                                                            className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                                            className="p-2 text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
                                                             title="Edit"
                                                         >
                                                             <Edit2 className="w-4 h-4" />
@@ -2372,7 +2372,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                                                 setSelectedSupplier(supplier);
                                                                 setShowSupplierDeleteConfirm(true);
                                                             }}
-                                                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                            className="p-2 text-error-600 hover:bg-error-50 rounded-lg transition-colors"
                                                             title="Delete"
                                                         >
                                                             <Trash2 className="w-4 h-4" />
@@ -2393,93 +2393,93 @@ const SuperAdminPharmacies: React.FC = () => {
             {showSupplierModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto m-4">
-                        <div className="p-6 border-b border-gray-200">
-                            <h2 className="text-xl font-bold text-gray-900">Add New Supplier</h2>
-                            <p className="text-sm text-gray-500 mt-1">Create a new supplier for all pharmacies</p>
+                        <div className="p-6 border-b border-neutral-200">
+                            <h2 className="text-xl font-bold text-neutral-900">Add New Supplier</h2>
+                            <p className="text-sm text-neutral-500 mt-1">Create a new supplier for all pharmacies</p>
                         </div>
                         <div className="p-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {/* Column 1 - Basic Information */}
                                 <div className="space-y-4">
-                                    <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wide border-b pb-2">Basic Information</h3>
+                                    <h3 className="text-sm font-semibold text-neutral-600 uppercase tracking-wide border-b pb-2">Basic Information</h3>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                                            Supplier Name <span className="text-red-500">*</span>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">
+                                            Supplier Name <span className="text-error-500">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             value={supplierFormData.supplier_name}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, supplier_name: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Full name of the supplier company"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Contact Person</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Contact Person</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.contact_person}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, contact_person: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Name of primary contact person"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Contact Number</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.contact_number}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, contact_number: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Phone number for reaching the supplier"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Email Address</label>
                                         <input
                                             type="email"
                                             value={supplierFormData.contact_email}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, contact_email: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Contact email for communication"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Address</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.supplier_address}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, supplier_address: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Full address of the supplier's main office"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">City/Region</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">City/Region</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.supplier_city}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, supplier_city: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="City or region"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Country</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.supplier_country}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, supplier_country: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Supplier's country of origin"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Supplier Type</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Supplier Type</label>
                                         <select
                                             value={supplierFormData.supplier_type}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, supplier_type: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                         >
                                             <option value="general">General</option>
                                             <option value="pharmaceutical">Pharmaceutical</option>
@@ -2489,12 +2489,12 @@ const SuperAdminPharmacies: React.FC = () => {
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Products Supplied</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Products Supplied</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.products_supplied}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, products_supplied: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="List or reference to products supplied"
                                         />
                                     </div>
@@ -2502,93 +2502,93 @@ const SuperAdminPharmacies: React.FC = () => {
 
                                 {/* Column 2 - Business Terms */}
                                 <div className="space-y-4">
-                                    <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wide border-b pb-2">Business Terms</h3>
+                                    <h3 className="text-sm font-semibold text-neutral-600 uppercase tracking-wide border-b pb-2">Business Terms</h3>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Delivery Time</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Delivery Time</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.delivery_time}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, delivery_time: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Average delivery time (e.g., 3 days)"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Payment Terms</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Payment Terms</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.payment_terms}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, payment_terms: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Terms for payments (e.g., Net 30)"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Bank Details</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Bank Details</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.bank_details}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, bank_details: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Optional account details for payments"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Rating</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Rating</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.rating}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, rating: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Supplier rating based on performance"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Discounts/Agreements</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Discounts/Agreements</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.discounts_agreements}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, discounts_agreements: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Any discounts or special agreements"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Return Policy</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Return Policy</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.return_policy}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, return_policy: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Policy regarding returns of products"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Notes</label>
                                         <textarea
                                             value={supplierFormData.note}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, note: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 h-24"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 h-24"
                                             placeholder="Any additional notes or comments"
                                         />
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="p-6 border-t border-gray-200 flex justify-end gap-3">
+                        <div className="p-6 border-t border-neutral-200 flex justify-end gap-3">
                             <button
                                 onClick={() => {
                                     setShowSupplierModal(false);
                                     resetSupplierForm();
                                 }}
-                                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleCreateSupplier}
                                 disabled={suppliersLoading}
-                                className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all disabled:opacity-50"
+                                className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all disabled:opacity-50"
                             >
                                 {suppliersLoading ? 'Creating...' : 'Create Supplier'}
                             </button>
@@ -2601,93 +2601,93 @@ const SuperAdminPharmacies: React.FC = () => {
             {showSupplierEditModal && selectedSupplier && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto m-4">
-                        <div className="p-6 border-b border-gray-200">
-                            <h2 className="text-xl font-bold text-gray-900">Edit Supplier</h2>
-                            <p className="text-sm text-gray-500 mt-1">Update supplier information</p>
+                        <div className="p-6 border-b border-neutral-200">
+                            <h2 className="text-xl font-bold text-neutral-900">Edit Supplier</h2>
+                            <p className="text-sm text-neutral-500 mt-1">Update supplier information</p>
                         </div>
                         <div className="p-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {/* Column 1 - Basic Information */}
                                 <div className="space-y-4">
-                                    <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wide border-b pb-2">Basic Information</h3>
+                                    <h3 className="text-sm font-semibold text-neutral-600 uppercase tracking-wide border-b pb-2">Basic Information</h3>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                                            Supplier Name <span className="text-red-500">*</span>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">
+                                            Supplier Name <span className="text-error-500">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             value={supplierFormData.supplier_name}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, supplier_name: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Full name of the supplier company"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Contact Person</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Contact Person</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.contact_person}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, contact_person: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Name of primary contact person"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Contact Number</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.contact_number}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, contact_number: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Phone number for reaching the supplier"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Email Address</label>
                                         <input
                                             type="email"
                                             value={supplierFormData.contact_email}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, contact_email: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Contact email for communication"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Address</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.supplier_address}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, supplier_address: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Full address of the supplier's main office"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">City/Region</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">City/Region</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.supplier_city}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, supplier_city: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="City or region"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Country</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.supplier_country}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, supplier_country: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Supplier's country of origin"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Supplier Type</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Supplier Type</label>
                                         <select
                                             value={supplierFormData.supplier_type}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, supplier_type: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                         >
                                             <option value="general">General</option>
                                             <option value="pharmaceutical">Pharmaceutical</option>
@@ -2697,12 +2697,12 @@ const SuperAdminPharmacies: React.FC = () => {
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Products Supplied</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Products Supplied</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.products_supplied}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, products_supplied: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="List or reference to products supplied"
                                         />
                                     </div>
@@ -2710,94 +2710,94 @@ const SuperAdminPharmacies: React.FC = () => {
 
                                 {/* Column 2 - Business Terms */}
                                 <div className="space-y-4">
-                                    <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wide border-b pb-2">Business Terms</h3>
+                                    <h3 className="text-sm font-semibold text-neutral-600 uppercase tracking-wide border-b pb-2">Business Terms</h3>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Delivery Time</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Delivery Time</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.delivery_time}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, delivery_time: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Average delivery time (e.g., 3 days)"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Payment Terms</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Payment Terms</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.payment_terms}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, payment_terms: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Terms for payments (e.g., Net 30)"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Bank Details</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Bank Details</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.bank_details}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, bank_details: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Optional account details for payments"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Rating</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Rating</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.rating}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, rating: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Supplier rating based on performance"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Discounts/Agreements</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Discounts/Agreements</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.discounts_agreements}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, discounts_agreements: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Any discounts or special agreements"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Return Policy</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Return Policy</label>
                                         <input
                                             type="text"
                                             value={supplierFormData.return_policy}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, return_policy: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                             placeholder="Policy regarding returns of products"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Notes</label>
                                         <textarea
                                             value={supplierFormData.note}
                                             onChange={(e) => setSupplierFormData({ ...supplierFormData, note: e.target.value })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 h-24"
+                                            className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 h-24"
                                             placeholder="Any additional notes or comments"
                                         />
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="p-6 border-t border-gray-200 flex justify-end gap-3">
+                        <div className="p-6 border-t border-neutral-200 flex justify-end gap-3">
                             <button
                                 onClick={() => {
                                     setShowSupplierEditModal(false);
                                     setSelectedSupplier(null);
                                     resetSupplierForm();
                                 }}
-                                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleUpdateSupplier}
                                 disabled={suppliersLoading}
-                                className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all disabled:opacity-50"
+                                className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all disabled:opacity-50"
                             >
                                 {suppliersLoading ? 'Updating...' : 'Update Supplier'}
                             </button>
@@ -2812,15 +2812,15 @@ const SuperAdminPharmacies: React.FC = () => {
                     <div className="bg-white rounded-2xl w-full max-w-md m-4">
                         <div className="p-6">
                             <div className="flex items-center gap-4 mb-4">
-                                <div className="p-3 bg-red-100 rounded-full">
-                                    <AlertTriangle className="w-6 h-6 text-red-600" />
+                                <div className="p-3 bg-error-100 rounded-full">
+                                    <AlertTriangle className="w-6 h-6 text-error-600" />
                                 </div>
                                 <div>
-                                    <h3 className="text-lg font-semibold text-gray-900">Delete Supplier</h3>
-                                    <p className="text-sm text-gray-500">This action cannot be undone</p>
+                                    <h3 className="text-lg font-semibold text-neutral-900">Delete Supplier</h3>
+                                    <p className="text-sm text-neutral-500">This action cannot be undone</p>
                                 </div>
                             </div>
-                            <p className="text-gray-600 mb-6">
+                            <p className="text-neutral-600 mb-6">
                                 Are you sure you want to delete <strong>{selectedSupplier.supplier_name}</strong>?
                                 This will remove all associated data.
                             </p>
@@ -2830,7 +2830,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                         setShowSupplierDeleteConfirm(false);
                                         setSelectedSupplier(null);
                                     }}
-                                    className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                    className="px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
                                 >
                                     Cancel
                                 </button>
@@ -2851,34 +2851,34 @@ const SuperAdminPharmacies: React.FC = () => {
             {(showCreateModal || showEditModal) && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto m-4">
-                        <div className="p-6 border-b border-gray-200">
-                            <h2 className="text-xl font-bold text-gray-900">
+                        <div className="p-6 border-b border-neutral-200">
+                            <h2 className="text-xl font-bold text-neutral-900">
                                 {showCreateModal ? 'Create New Pharmacy' : 'Edit Pharmacy'}
                             </h2>
                         </div>
                         <div className="p-6 space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Pharmacy Name <span className="text-red-500">*</span>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
+                                        Pharmacy Name <span className="text-error-500">*</span>
                                     </label>
                                     <input
                                         type="text"
                                         value={formData.pharmacy_name}
                                         onChange={(e) => setFormData({ ...formData, pharmacy_name: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                         placeholder="Enter pharmacy name"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Pharmacy Code <span className="text-red-500">*</span>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
+                                        Pharmacy Code <span className="text-error-500">*</span>
                                     </label>
                                     <input
                                         type="text"
                                         value={formData.pharmacy_code}
                                         onChange={(e) => setFormData({ ...formData, pharmacy_code: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                         placeholder="e.g., PHM001"
                                         disabled={showEditModal}
                                     />
@@ -2887,86 +2887,86 @@ const SuperAdminPharmacies: React.FC = () => {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         License Number
                                     </label>
                                     <input
                                         type="text"
                                         value={formData.license_number}
                                         onChange={(e) => setFormData({ ...formData, license_number: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                         placeholder="License number"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         License Expiry Date
                                     </label>
                                     <input
                                         type="date"
                                         value={formData.license_expiry_date}
                                         onChange={(e) => setFormData({ ...formData, license_expiry_date: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     />
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Phone
                                     </label>
                                     <input
                                         type="tel"
                                         value={formData.phone}
                                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                         placeholder="Phone number"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Email
                                     </label>
                                     <input
                                         type="email"
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                         placeholder="Email address"
                                     />
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">
                                     Location in Branch
                                 </label>
                                 <input
                                     type="text"
                                     value={formData.location_in_branch}
                                     onChange={(e) => setFormData({ ...formData, location_in_branch: e.target.value })}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     placeholder="e.g., Ground Floor, Building A"
                                 />
                             </div>
 
                             {showCreateModal && (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Assign to Branch (Optional)
                                     </label>
                                     <select
                                         value={formData.branch_id}
                                         onChange={(e) => setFormData({ ...formData, branch_id: e.target.value })}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     >
                                         <option value="">Leave Unassigned</option>
                                         {branches.map(branch => (
                                             <option key={branch.id} value={branch.id}>{branch.center_name}</option>
                                         ))}
                                     </select>
-                                    <p className="text-xs text-gray-500 mt-1">
+                                    <p className="text-xs text-neutral-500 mt-1">
                                         You can assign a branch later from the allocation menu
                                     </p>
                                 </div>
@@ -2980,12 +2980,12 @@ const SuperAdminPharmacies: React.FC = () => {
                                     onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
                                     className="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500"
                                 />
-                                <label htmlFor="is_active" className="text-sm text-gray-700">
+                                <label htmlFor="is_active" className="text-sm text-neutral-700">
                                     Active Status
                                 </label>
                             </div>
                         </div>
-                        <div className="p-6 border-t border-gray-200 flex justify-end gap-3">
+                        <div className="p-6 border-t border-neutral-200 flex justify-end gap-3">
                             <button
                                 onClick={() => {
                                     setShowCreateModal(false);
@@ -2993,14 +2993,14 @@ const SuperAdminPharmacies: React.FC = () => {
                                     setSelectedPharmacy(null);
                                     resetForm();
                                 }}
-                                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={showCreateModal ? handleCreate : handleUpdate}
                                 disabled={loading}
-                                className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all disabled:opacity-50"
+                                className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all disabled:opacity-50"
                             >
                                 {loading ? 'Saving...' : showCreateModal ? 'Create Pharmacy' : 'Update Pharmacy'}
                             </button>
@@ -3013,24 +3013,24 @@ const SuperAdminPharmacies: React.FC = () => {
             {showAllocateModal && selectedPharmacy && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl w-full max-w-md m-4">
-                        <div className="p-6 border-b border-gray-200">
-                            <h2 className="text-xl font-bold text-gray-900">Allocate Pharmacy to Branch</h2>
+                        <div className="p-6 border-b border-neutral-200">
+                            <h2 className="text-xl font-bold text-neutral-900">Allocate Pharmacy to Branch</h2>
                         </div>
                         <div className="p-6 space-y-4">
-                            <div className="p-4 bg-gray-50 rounded-lg">
-                                <p className="text-sm text-gray-500">Pharmacy</p>
-                                <p className="font-medium text-gray-900">{selectedPharmacy.name}</p>
-                                <p className="text-sm text-gray-500">{selectedPharmacy.pharmacy_code}</p>
+                            <div className="p-4 bg-neutral-50 rounded-lg">
+                                <p className="text-sm text-neutral-500">Pharmacy</p>
+                                <p className="font-medium text-neutral-900">{selectedPharmacy.name}</p>
+                                <p className="text-sm text-neutral-500">{selectedPharmacy.pharmacy_code}</p>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">
                                     Select Branch
                                 </label>
                                 <select
                                     value={allocateBranchId}
                                     onChange={(e) => setAllocateBranchId(e.target.value)}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                 >
                                     <option value="">Select a branch...</option>
                                     {branches.map(branch => (
@@ -3049,21 +3049,21 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </div>
                             )}
                         </div>
-                        <div className="p-6 border-t border-gray-200 flex justify-end gap-3">
+                        <div className="p-6 border-t border-neutral-200 flex justify-end gap-3">
                             <button
                                 onClick={() => {
                                     setShowAllocateModal(false);
                                     setSelectedPharmacy(null);
                                     setAllocateBranchId('');
                                 }}
-                                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleAllocate}
                                 disabled={loading || !allocateBranchId}
-                                className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all disabled:opacity-50"
+                                className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all disabled:opacity-50"
                             >
                                 {loading ? 'Allocating...' : 'Allocate'}
                             </button>
@@ -3076,10 +3076,10 @@ const SuperAdminPharmacies: React.FC = () => {
             {showManageModal && selectedPharmacy && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden m-4">
-                        <div className="p-6 border-b border-gray-200 flex items-center justify-between">
+                        <div className="p-6 border-b border-neutral-200 flex items-center justify-between">
                             <div>
-                                <h2 className="text-xl font-bold text-gray-900">Manage Pharmacy</h2>
-                                <p className="text-gray-500">{selectedPharmacy.name} ({selectedPharmacy.pharmacy_code})</p>
+                                <h2 className="text-xl font-bold text-neutral-900">Manage Pharmacy</h2>
+                                <p className="text-neutral-500">{selectedPharmacy.name} ({selectedPharmacy.pharmacy_code})</p>
                             </div>
                             <button
                                 onClick={() => {
@@ -3087,7 +3087,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                     setSelectedPharmacy(null);
                                     setInventory([]);
                                 }}
-                                className="p-2 hover:bg-gray-100 rounded-lg"
+                                className="p-2 hover:bg-neutral-100 rounded-lg"
                             >
                                 <X className="w-5 h-5" />
                             </button>
@@ -3098,15 +3098,15 @@ const SuperAdminPharmacies: React.FC = () => {
                             <div className="grid grid-cols-4 gap-4 mb-6">
                                 <div className="bg-blue-50 rounded-lg p-4">
                                     <div className="flex items-center gap-2">
-                                        <Package className="w-5 h-5 text-blue-600" />
-                                        <span className="text-sm text-gray-600">Total Items</span>
+                                        <Package className="w-5 h-5 text-primary-500" />
+                                        <span className="text-sm text-neutral-600">Total Items</span>
                                     </div>
-                                    <p className="text-2xl font-bold text-blue-600 mt-1">{inventory.length}</p>
+                                    <p className="text-2xl font-bold text-primary-500 mt-1">{inventory.length}</p>
                                 </div>
                                 <div className="bg-emerald-50 rounded-lg p-4">
                                     <div className="flex items-center gap-2">
                                         <Check className="w-5 h-5 text-emerald-600" />
-                                        <span className="text-sm text-gray-600">In Stock</span>
+                                        <span className="text-sm text-neutral-600">In Stock</span>
                                     </div>
                                     <p className="text-2xl font-bold text-emerald-600 mt-1">
                                         {inventory.filter(i => i.quantity_in_stock > i.reorder_level).length}
@@ -3115,18 +3115,18 @@ const SuperAdminPharmacies: React.FC = () => {
                                 <div className="bg-amber-50 rounded-lg p-4">
                                     <div className="flex items-center gap-2">
                                         <TrendingDown className="w-5 h-5 text-amber-600" />
-                                        <span className="text-sm text-gray-600">Low Stock</span>
+                                        <span className="text-sm text-neutral-600">Low Stock</span>
                                     </div>
                                     <p className="text-2xl font-bold text-amber-600 mt-1">
                                         {inventory.filter(i => i.quantity_in_stock <= i.reorder_level && i.quantity_in_stock > 0).length}
                                     </p>
                                 </div>
-                                <div className="bg-red-50 rounded-lg p-4">
+                                <div className="bg-error-50 rounded-lg p-4">
                                     <div className="flex items-center gap-2">
-                                        <AlertTriangle className="w-5 h-5 text-red-600" />
-                                        <span className="text-sm text-gray-600">Out of Stock</span>
+                                        <AlertTriangle className="w-5 h-5 text-error-600" />
+                                        <span className="text-sm text-neutral-600">Out of Stock</span>
                                     </div>
-                                    <p className="text-2xl font-bold text-red-600 mt-1">
+                                    <p className="text-2xl font-bold text-error-600 mt-1">
                                         {inventory.filter(i => i.quantity_in_stock === 0).length}
                                     </p>
                                 </div>
@@ -3134,8 +3134,8 @@ const SuperAdminPharmacies: React.FC = () => {
 
                             {/* Inventory Table */}
                             <div className="border rounded-lg overflow-hidden">
-                                <div className="bg-gray-50 px-4 py-3 border-b">
-                                    <h3 className="font-semibold text-gray-900">Inventory Items</h3>
+                                <div className="bg-neutral-50 px-4 py-3 border-b">
+                                    <h3 className="font-semibold text-neutral-900">Inventory Items</h3>
                                 </div>
                                 {inventoryLoading ? (
                                     <div className="flex items-center justify-center py-12">
@@ -3144,52 +3144,52 @@ const SuperAdminPharmacies: React.FC = () => {
                                 ) : inventory.length === 0 ? (
                                     <div className="text-center py-12">
                                         <Package className="w-10 h-10 text-gray-300 mx-auto mb-2" />
-                                        <p className="text-gray-500">No inventory items found</p>
+                                        <p className="text-neutral-500">No inventory items found</p>
                                     </div>
                                 ) : (
                                     <div className="overflow-x-auto">
                                         <table className="w-full">
-                                            <thead className="bg-gray-50 border-b">
+                                            <thead className="bg-neutral-50 border-b">
                                                 <tr>
-                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-gray-600">Item</th>
-                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-gray-600">Form</th>
-                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-gray-600">Batch</th>
-                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-gray-600">Expiry</th>
-                                                    <th className="px-4 py-2 text-right text-xs font-semibold text-gray-600">Qty</th>
-                                                    <th className="px-4 py-2 text-right text-xs font-semibold text-gray-600">Price</th>
-                                                    <th className="px-4 py-2 text-center text-xs font-semibold text-gray-600">Status</th>
+                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-neutral-600">Item</th>
+                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-neutral-600">Form</th>
+                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-neutral-600">Batch</th>
+                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-neutral-600">Expiry</th>
+                                                    <th className="px-4 py-2 text-right text-xs font-semibold text-neutral-600">Qty</th>
+                                                    <th className="px-4 py-2 text-right text-xs font-semibold text-neutral-600">Price</th>
+                                                    <th className="px-4 py-2 text-center text-xs font-semibold text-neutral-600">Status</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y">
                                                 {inventory.slice(0, 20).map((item) => (
-                                                    <tr key={item.id} className="hover:bg-gray-50">
+                                                    <tr key={item.id} className="hover:bg-neutral-50">
                                                         <td className="px-4 py-3">
-                                                            <p className="font-medium text-gray-900">{item.medication_name}</p>
-                                                            <p className="text-xs text-gray-500">{item.generic_name}</p>
+                                                            <p className="font-medium text-neutral-900">{item.medication_name}</p>
+                                                            <p className="text-xs text-neutral-500">{item.generic_name}</p>
                                                         </td>
-                                                        <td className="px-4 py-3 text-sm text-gray-600">
+                                                        <td className="px-4 py-3 text-sm text-neutral-600">
                                                             {item.dosage_form} {item.strength}
                                                         </td>
-                                                        <td className="px-4 py-3 text-sm text-gray-600">
+                                                        <td className="px-4 py-3 text-sm text-neutral-600">
                                                             {item.batch_number}
                                                         </td>
-                                                        <td className="px-4 py-3 text-sm text-gray-600">
+                                                        <td className="px-4 py-3 text-sm text-neutral-600">
                                                             {item.expiration_date ? new Date(item.expiration_date).toLocaleDateString() : '-'}
                                                         </td>
                                                         <td className="px-4 py-3 text-right">
-                                                            <span className={`font-medium ${item.quantity_in_stock === 0 ? 'text-red-600' :
+                                                            <span className={`font-medium ${item.quantity_in_stock === 0 ? 'text-error-600' :
                                                                     item.quantity_in_stock <= item.reorder_level ? 'text-amber-600' :
-                                                                        'text-gray-900'
+                                                                        'text-neutral-900'
                                                                 }`}>
                                                                 {item.quantity_in_stock}
                                                             </span>
                                                         </td>
-                                                        <td className="px-4 py-3 text-right text-sm text-gray-600">
+                                                        <td className="px-4 py-3 text-right text-sm text-neutral-600">
                                                             Rs. {Number(item.selling_price || 0).toFixed(2)}
                                                         </td>
                                                         <td className="px-4 py-3 text-center">
                                                             {item.quantity_in_stock === 0 ? (
-                                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-red-100 text-red-700">Out</span>
+                                                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-error-100 text-red-700">Out</span>
                                                             ) : item.quantity_in_stock <= item.reorder_level ? (
                                                                 <span className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-amber-100 text-amber-700">Low</span>
                                                             ) : (
@@ -3201,7 +3201,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                             </tbody>
                                         </table>
                                         {inventory.length > 20 && (
-                                            <div className="px-4 py-3 text-center text-sm text-gray-500 bg-gray-50 border-t">
+                                            <div className="px-4 py-3 text-center text-sm text-neutral-500 bg-neutral-50 border-t">
                                                 Showing first 20 of {inventory.length} items
                                             </div>
                                         )}
@@ -3219,15 +3219,15 @@ const SuperAdminPharmacies: React.FC = () => {
                     <div className="bg-white rounded-2xl w-full max-w-md m-4">
                         <div className="p-6">
                             <div className="flex items-center gap-4 mb-4">
-                                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                                    <Trash2 className="w-6 h-6 text-red-600" />
+                                <div className="w-12 h-12 bg-error-100 rounded-full flex items-center justify-center">
+                                    <Trash2 className="w-6 h-6 text-error-600" />
                                 </div>
                                 <div>
-                                    <h2 className="text-lg font-bold text-gray-900">Delete Pharmacy</h2>
-                                    <p className="text-gray-500">This action cannot be undone</p>
+                                    <h2 className="text-lg font-bold text-neutral-900">Delete Pharmacy</h2>
+                                    <p className="text-neutral-500">This action cannot be undone</p>
                                 </div>
                             </div>
-                            <p className="text-gray-600">
+                            <p className="text-neutral-600">
                                 Are you sure you want to delete <strong>{selectedPharmacy.name}</strong>?
                             </p>
                             {(selectedPharmacy.inventory_count || 0) > 0 && (
@@ -3240,13 +3240,13 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </div>
                             )}
                         </div>
-                        <div className="p-6 border-t border-gray-200 flex justify-end gap-3">
+                        <div className="p-6 border-t border-neutral-200 flex justify-end gap-3">
                             <button
                                 onClick={() => {
                                     setShowDeleteConfirm(false);
                                     setSelectedPharmacy(null);
                                 }}
-                                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg transition-colors"
                             >
                                 Cancel
                             </button>

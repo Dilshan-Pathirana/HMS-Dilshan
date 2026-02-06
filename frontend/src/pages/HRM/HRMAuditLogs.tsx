@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from "../../utils/api/axios";
 import { 
@@ -254,14 +254,14 @@ const HRMAuditLogs: React.FC = () => {
             salary_change: 'bg-purple-100 text-purple-800',
             salary_increment: 'bg-green-100 text-green-800',
             leave_approved: 'bg-green-100 text-green-800',
-            leave_rejected: 'bg-red-100 text-red-800',
+            leave_rejected: 'bg-error-100 text-red-800',
             payroll_generated: 'bg-blue-100 text-blue-800',
             employee_created: 'bg-emerald-100 text-emerald-800',
-            employee_terminated: 'bg-red-100 text-red-800',
+            employee_terminated: 'bg-error-100 text-red-800',
             config_changed: 'bg-yellow-100 text-yellow-800',
             data_export: 'bg-indigo-100 text-indigo-800',
         };
-        return colors[action] || 'bg-gray-100 text-gray-800';
+        return colors[action] || 'bg-neutral-100 text-neutral-800';
     };
 
     const clearFilters = () => {
@@ -281,8 +281,8 @@ const HRMAuditLogs: React.FC = () => {
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                 <div className="bg-white rounded-xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
                     <div className="flex items-center justify-between p-6 border-b">
-                        <h3 className="text-xl font-semibold text-gray-900">Audit Log Details</h3>
-                        <button onClick={() => setSelectedLog(null)} className="text-gray-400 hover:text-gray-600">
+                        <h3 className="text-xl font-semibold text-neutral-900">Audit Log Details</h3>
+                        <button onClick={() => setSelectedLog(null)} className="text-neutral-400 hover:text-neutral-600">
                             <X className="w-6 h-6" />
                         </button>
                     </div>
@@ -290,19 +290,19 @@ const HRMAuditLogs: React.FC = () => {
                         {/* Action Info */}
                         <div className="grid grid-cols-2 gap-4">
                             <div>
-                                <label className="text-sm text-gray-500">Action Type</label>
+                                <label className="text-sm text-neutral-500">Action Type</label>
                                 <p className="font-medium">{formatActionType(selectedLog.action_type)}</p>
                             </div>
                             <div>
-                                <label className="text-sm text-gray-500">Entity Type</label>
+                                <label className="text-sm text-neutral-500">Entity Type</label>
                                 <p className="font-medium">{formatEntityType(selectedLog.entity_type)}</p>
                             </div>
                             <div>
-                                <label className="text-sm text-gray-500">Date & Time</label>
+                                <label className="text-sm text-neutral-500">Date & Time</label>
                                 <p className="font-medium">{formatDate(selectedLog.created_at)}</p>
                             </div>
                             <div>
-                                <label className="text-sm text-gray-500">Branch</label>
+                                <label className="text-sm text-neutral-500">Branch</label>
                                 <p className="font-medium">{selectedLog.branch_name || 'N/A'}</p>
                             </div>
                         </div>
@@ -332,8 +332,8 @@ const HRMAuditLogs: React.FC = () => {
                         {/* Description */}
                         {selectedLog.description && (
                             <div>
-                                <label className="text-sm text-gray-500">Description</label>
-                                <p className="mt-1 text-gray-900">{selectedLog.description}</p>
+                                <label className="text-sm text-neutral-500">Description</label>
+                                <p className="mt-1 text-neutral-900">{selectedLog.description}</p>
                             </div>
                         )}
 
@@ -341,7 +341,7 @@ const HRMAuditLogs: React.FC = () => {
                         {(selectedLog.old_values || selectedLog.new_values) && (
                             <div className="grid grid-cols-2 gap-4">
                                 {selectedLog.old_values && (
-                                    <div className="bg-red-50 p-4 rounded-lg">
+                                    <div className="bg-error-50 p-4 rounded-lg">
                                         <h4 className="font-medium text-red-900 mb-2">Previous Values</h4>
                                         <pre className="text-xs text-red-800 overflow-auto max-h-48">
                                             {JSON.stringify(selectedLog.old_values, null, 2)}
@@ -365,23 +365,23 @@ const HRMAuditLogs: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-neutral-50 p-6">
             {/* Header */}
             <div className="mb-6">
                 <button
                     onClick={() => navigate('/super-admin/hrm')}
-                    className="flex items-center text-gray-600 hover:text-gray-900 mb-4"
+                    className="flex items-center text-neutral-600 hover:text-neutral-900 mb-4"
                 >
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Back to HRM Dashboard
                 </button>
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                        <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2">
                             <Shield className="w-7 h-7 text-purple-600" />
                             HRM Audit Logs
                         </h1>
-                        <p className="text-gray-600 mt-1">Track all HR activities and changes for compliance</p>
+                        <p className="text-neutral-600 mt-1">Track all HR activities and changes for compliance</p>
                     </div>
                     <div className="flex gap-2">
                         <button
@@ -394,7 +394,7 @@ const HRMAuditLogs: React.FC = () => {
                         </button>
                         <button
                             onClick={() => { fetchLogs(); fetchStats(); }}
-                            className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
+                            className="flex items-center gap-2 px-4 py-2 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200"
                         >
                             <RefreshCw className="w-4 h-4" />
                             Refresh
@@ -410,7 +410,7 @@ const HRMAuditLogs: React.FC = () => {
                     className={`px-4 py-2 rounded-lg font-medium transition ${
                         activeTab === 'logs' 
                             ? 'bg-purple-600 text-white' 
-                            : 'bg-white text-gray-600 hover:bg-gray-100'
+                            : 'bg-white text-neutral-600 hover:bg-neutral-100'
                     }`}
                 >
                     <FileText className="w-4 h-4 inline mr-2" />
@@ -421,7 +421,7 @@ const HRMAuditLogs: React.FC = () => {
                     className={`px-4 py-2 rounded-lg font-medium transition ${
                         activeTab === 'stats' 
                             ? 'bg-purple-600 text-white' 
-                            : 'bg-white text-gray-600 hover:bg-gray-100'
+                            : 'bg-white text-neutral-600 hover:bg-neutral-100'
                     }`}
                 >
                     <Activity className="w-4 h-4 inline mr-2" />
@@ -436,8 +436,8 @@ const HRMAuditLogs: React.FC = () => {
                         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm text-gray-500">Total Logs</p>
-                                    <p className="text-2xl font-bold text-gray-900">{stats.total_logs.toLocaleString()}</p>
+                                    <p className="text-sm text-neutral-500">Total Logs</p>
+                                    <p className="text-2xl font-bold text-neutral-900">{stats.total_logs.toLocaleString()}</p>
                                 </div>
                                 <div className="bg-purple-100 p-3 rounded-full">
                                     <FileText className="w-6 h-6 text-purple-600" />
@@ -447,18 +447,18 @@ const HRMAuditLogs: React.FC = () => {
                         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm text-gray-500">Today</p>
-                                    <p className="text-2xl font-bold text-blue-600">{stats.today_count}</p>
+                                    <p className="text-sm text-neutral-500">Today</p>
+                                    <p className="text-2xl font-bold text-primary-500">{stats.today_count}</p>
                                 </div>
                                 <div className="bg-blue-100 p-3 rounded-full">
-                                    <Calendar className="w-6 h-6 text-blue-600" />
+                                    <Calendar className="w-6 h-6 text-primary-500" />
                                 </div>
                             </div>
                         </div>
                         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm text-gray-500">This Week</p>
+                                    <p className="text-sm text-neutral-500">This Week</p>
                                     <p className="text-2xl font-bold text-green-600">{stats.this_week_count}</p>
                                 </div>
                                 <div className="bg-green-100 p-3 rounded-full">
@@ -469,7 +469,7 @@ const HRMAuditLogs: React.FC = () => {
                         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm text-gray-500">This Month</p>
+                                    <p className="text-sm text-neutral-500">This Month</p>
                                     <p className="text-2xl font-bold text-amber-600">{stats.this_month_count}</p>
                                 </div>
                                 <div className="bg-amber-100 p-3 rounded-full">
@@ -483,58 +483,58 @@ const HRMAuditLogs: React.FC = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {/* By Action Type */}
                         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                            <h3 className="text-lg font-semibold text-gray-900 mb-4">By Action Type</h3>
+                            <h3 className="text-lg font-semibold text-neutral-900 mb-4">By Action Type</h3>
                             <div className="space-y-3">
                                 {stats.by_action_type.slice(0, 8).map((item, idx) => (
                                     <div key={idx} className="flex items-center justify-between">
                                         <span className={`px-2 py-1 rounded text-xs font-medium ${getActionColor(item.action_type)}`}>
                                             {formatActionType(item.action_type)}
                                         </span>
-                                        <span className="text-gray-900 font-medium">{item.count}</span>
+                                        <span className="text-neutral-900 font-medium">{item.count}</span>
                                     </div>
                                 ))}
                                 {stats.by_action_type.length === 0 && (
-                                    <p className="text-gray-500 text-sm">No data available</p>
+                                    <p className="text-neutral-500 text-sm">No data available</p>
                                 )}
                             </div>
                         </div>
 
                         {/* By Entity Type */}
                         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                            <h3 className="text-lg font-semibold text-gray-900 mb-4">By Entity Type</h3>
+                            <h3 className="text-lg font-semibold text-neutral-900 mb-4">By Entity Type</h3>
                             <div className="space-y-3">
                                 {stats.by_entity_type.map((item, idx) => (
                                     <div key={idx} className="flex items-center justify-between">
-                                        <span className="text-gray-700">{formatEntityType(item.entity_type)}</span>
+                                        <span className="text-neutral-700">{formatEntityType(item.entity_type)}</span>
                                         <div className="flex items-center gap-2">
-                                            <div className="w-32 bg-gray-200 rounded-full h-2">
+                                            <div className="w-32 bg-neutral-200 rounded-full h-2">
                                                 <div 
                                                     className="bg-purple-600 h-2 rounded-full" 
                                                     style={{ width: `${Math.min((item.count / stats.total_logs) * 100, 100)}%` }}
                                                 />
                                             </div>
-                                            <span className="text-gray-900 font-medium w-12 text-right">{item.count}</span>
+                                            <span className="text-neutral-900 font-medium w-12 text-right">{item.count}</span>
                                         </div>
                                     </div>
                                 ))}
                                 {stats.by_entity_type.length === 0 && (
-                                    <p className="text-gray-500 text-sm">No data available</p>
+                                    <p className="text-neutral-500 text-sm">No data available</p>
                                 )}
                             </div>
                         </div>
 
                         {/* Top Active Users */}
                         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                            <h3 className="text-lg font-semibold text-neutral-900 mb-4 flex items-center gap-2">
                                 <Users className="w-5 h-5" />
                                 Top Active Users
                             </h3>
                             <div className="space-y-3">
                                 {stats.top_users?.map((user, idx) => (
-                                    <div key={idx} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
+                                    <div key={idx} className="flex items-center justify-between p-2 bg-neutral-50 rounded-lg">
                                         <div>
-                                            <p className="font-medium text-gray-900">{user.name}</p>
-                                            <p className="text-xs text-gray-500">{user.email}</p>
+                                            <p className="font-medium text-neutral-900">{user.name}</p>
+                                            <p className="text-xs text-neutral-500">{user.email}</p>
                                         </div>
                                         <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">
                                             {user.count} actions
@@ -542,28 +542,28 @@ const HRMAuditLogs: React.FC = () => {
                                     </div>
                                 ))}
                                 {(!stats.top_users || stats.top_users.length === 0) && (
-                                    <p className="text-gray-500 text-sm">No data available</p>
+                                    <p className="text-neutral-500 text-sm">No data available</p>
                                 )}
                             </div>
                         </div>
 
                         {/* By Branch */}
                         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                            <h3 className="text-lg font-semibold text-neutral-900 mb-4 flex items-center gap-2">
                                 <Building2 className="w-5 h-5" />
                                 Activity by Branch
                             </h3>
                             <div className="space-y-3">
                                 {stats.by_branch?.map((item, idx) => (
-                                    <div key={idx} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
-                                        <span className="text-gray-700">{item.branch_name || 'Unknown'}</span>
+                                    <div key={idx} className="flex items-center justify-between p-2 bg-neutral-50 rounded-lg">
+                                        <span className="text-neutral-700">{item.branch_name || 'Unknown'}</span>
                                         <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
                                             {item.count}
                                         </span>
                                     </div>
                                 ))}
                                 {(!stats.by_branch || stats.by_branch.length === 0) && (
-                                    <p className="text-gray-500 text-sm">No branch data available</p>
+                                    <p className="text-neutral-500 text-sm">No branch data available</p>
                                 )}
                             </div>
                         </div>
@@ -571,29 +571,29 @@ const HRMAuditLogs: React.FC = () => {
 
                     {/* Recent Activity */}
                     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                        <h3 className="text-lg font-semibold text-neutral-900 mb-4 flex items-center gap-2">
                             <Clock className="w-5 h-5" />
                             Recent Activity
                         </h3>
                         <div className="space-y-2">
                             {stats.recent_activity?.map((item, idx) => (
-                                <div key={idx} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100">
+                                <div key={idx} className="flex items-center justify-between p-3 bg-neutral-50 rounded-lg hover:bg-neutral-100">
                                     <div className="flex items-center gap-3">
                                         <span className={`px-2 py-1 rounded text-xs font-medium ${getActionColor(item.action_type)}`}>
                                             {formatActionType(item.action_type)}
                                         </span>
-                                        <span className="text-gray-600 text-sm">
+                                        <span className="text-neutral-600 text-sm">
                                             {item.description || `${formatEntityType(item.entity_type)} activity`}
                                         </span>
                                     </div>
                                     <div className="flex items-center gap-4">
-                                        <span className="text-sm text-gray-500">{item.user_name}</span>
-                                        <span className="text-xs text-gray-400">{formatDate(item.created_at)}</span>
+                                        <span className="text-sm text-neutral-500">{item.user_name}</span>
+                                        <span className="text-xs text-neutral-400">{formatDate(item.created_at)}</span>
                                     </div>
                                 </div>
                             ))}
                             {(!stats.recent_activity || stats.recent_activity.length === 0) && (
-                                <p className="text-gray-500 text-sm text-center py-4">No recent activity</p>
+                                <p className="text-neutral-500 text-sm text-center py-4">No recent activity</p>
                             )}
                         </div>
                     </div>
@@ -607,20 +607,20 @@ const HRMAuditLogs: React.FC = () => {
                         <div className="flex flex-wrap gap-4 items-center">
                             <div className="flex-1 min-w-[200px]">
                                 <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-4 h-4" />
                                     <input
                                         type="text"
                                         placeholder="Search logs..."
                                         value={search}
                                         onChange={(e) => setSearch(e.target.value)}
-                                        className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                        className="w-full pl-10 pr-4 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                                     />
                                 </div>
                             </div>
                             <button
                                 onClick={() => setShowFilters(!showFilters)}
                                 className={`flex items-center gap-2 px-4 py-2 rounded-lg border ${
-                                    showFilters ? 'bg-purple-50 border-purple-200 text-purple-700' : 'border-gray-200 text-gray-600'
+                                    showFilters ? 'bg-purple-50 border-purple-200 text-purple-700' : 'border-neutral-200 text-neutral-600'
                                 }`}
                             >
                                 <Filter className="w-4 h-4" />
@@ -632,7 +632,7 @@ const HRMAuditLogs: React.FC = () => {
                             {(actionType || entityType || branchId || startDate || endDate) && (
                                 <button
                                     onClick={clearFilters}
-                                    className="text-sm text-red-600 hover:text-red-800"
+                                    className="text-sm text-error-600 hover:text-red-800"
                                 >
                                     Clear All
                                 </button>
@@ -643,11 +643,11 @@ const HRMAuditLogs: React.FC = () => {
                         {showFilters && (
                             <div className="mt-4 pt-4 border-t border-gray-100 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Action Type</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Action Type</label>
                                     <select
                                         value={actionType}
                                         onChange={(e) => { setActionType(e.target.value); setPage(1); }}
-                                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500"
+                                        className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-purple-500"
                                     >
                                         <option value="">All Actions</option>
                                         {filterOptions?.action_types.map(type => (
@@ -656,11 +656,11 @@ const HRMAuditLogs: React.FC = () => {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Entity Type</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Entity Type</label>
                                     <select
                                         value={entityType}
                                         onChange={(e) => { setEntityType(e.target.value); setPage(1); }}
-                                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500"
+                                        className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-purple-500"
                                     >
                                         <option value="">All Entities</option>
                                         {filterOptions?.entity_types.map(type => (
@@ -669,11 +669,11 @@ const HRMAuditLogs: React.FC = () => {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Branch</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Branch</label>
                                     <select
                                         value={branchId}
                                         onChange={(e) => { setBranchId(e.target.value); setPage(1); }}
-                                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500"
+                                        className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-purple-500"
                                     >
                                         <option value="">All Branches</option>
                                         {filterOptions?.branches.map(branch => (
@@ -682,21 +682,21 @@ const HRMAuditLogs: React.FC = () => {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Start Date</label>
                                     <input
                                         type="date"
                                         value={startDate}
                                         onChange={(e) => { setStartDate(e.target.value); setPage(1); }}
-                                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500"
+                                        className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-purple-500"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">End Date</label>
                                     <input
                                         type="date"
                                         value={endDate}
                                         onChange={(e) => { setEndDate(e.target.value); setPage(1); }}
-                                        className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500"
+                                        className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-purple-500"
                                     />
                                 </div>
                             </div>
@@ -710,7 +710,7 @@ const HRMAuditLogs: React.FC = () => {
                                 <RefreshCw className="w-8 h-8 animate-spin text-purple-600" />
                             </div>
                         ) : logs.length === 0 ? (
-                            <div className="flex flex-col items-center justify-center py-12 text-gray-500">
+                            <div className="flex flex-col items-center justify-center py-12 text-neutral-500">
                                 <AlertCircle className="w-12 h-12 mb-4" />
                                 <p className="text-lg font-medium">No audit logs found</p>
                                 <p className="text-sm">Try adjusting your filters or search criteria</p>
@@ -719,24 +719,24 @@ const HRMAuditLogs: React.FC = () => {
                             <>
                                 <div className="overflow-x-auto">
                                     <table className="w-full">
-                                        <thead className="bg-gray-50 border-b border-gray-100">
+                                        <thead className="bg-neutral-50 border-b border-gray-100">
                                             <tr>
-                                                <th className="text-left py-3 px-4 text-xs font-semibold text-gray-500 uppercase">Date/Time</th>
-                                                <th className="text-left py-3 px-4 text-xs font-semibold text-gray-500 uppercase">Action</th>
-                                                <th className="text-left py-3 px-4 text-xs font-semibold text-gray-500 uppercase">Entity</th>
-                                                <th className="text-left py-3 px-4 text-xs font-semibold text-gray-500 uppercase">Performed By</th>
-                                                <th className="text-left py-3 px-4 text-xs font-semibold text-gray-500 uppercase">Affected</th>
-                                                <th className="text-left py-3 px-4 text-xs font-semibold text-gray-500 uppercase">Branch</th>
-                                                <th className="text-center py-3 px-4 text-xs font-semibold text-gray-500 uppercase">Details</th>
+                                                <th className="text-left py-3 px-4 text-xs font-semibold text-neutral-500 uppercase">Date/Time</th>
+                                                <th className="text-left py-3 px-4 text-xs font-semibold text-neutral-500 uppercase">Action</th>
+                                                <th className="text-left py-3 px-4 text-xs font-semibold text-neutral-500 uppercase">Entity</th>
+                                                <th className="text-left py-3 px-4 text-xs font-semibold text-neutral-500 uppercase">Performed By</th>
+                                                <th className="text-left py-3 px-4 text-xs font-semibold text-neutral-500 uppercase">Affected</th>
+                                                <th className="text-left py-3 px-4 text-xs font-semibold text-neutral-500 uppercase">Branch</th>
+                                                <th className="text-center py-3 px-4 text-xs font-semibold text-neutral-500 uppercase">Details</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-100">
                                             {logs.map((log) => (
-                                                <tr key={log.id} className="hover:bg-gray-50 transition">
+                                                <tr key={log.id} className="hover:bg-neutral-50 transition">
                                                     <td className="py-3 px-4">
                                                         <div className="flex items-center gap-2">
-                                                            <Clock className="w-4 h-4 text-gray-400" />
-                                                            <span className="text-sm text-gray-900">{formatDate(log.created_at)}</span>
+                                                            <Clock className="w-4 h-4 text-neutral-400" />
+                                                            <span className="text-sm text-neutral-900">{formatDate(log.created_at)}</span>
                                                         </div>
                                                     </td>
                                                     <td className="py-3 px-4">
@@ -745,32 +745,32 @@ const HRMAuditLogs: React.FC = () => {
                                                         </span>
                                                     </td>
                                                     <td className="py-3 px-4">
-                                                        <span className="text-sm text-gray-700">{formatEntityType(log.entity_type)}</span>
+                                                        <span className="text-sm text-neutral-700">{formatEntityType(log.entity_type)}</span>
                                                     </td>
                                                     <td className="py-3 px-4">
                                                         <div className="flex items-center gap-2">
-                                                            <User className="w-4 h-4 text-gray-400" />
+                                                            <User className="w-4 h-4 text-neutral-400" />
                                                             <div>
-                                                                <p className="text-sm font-medium text-gray-900">{log.user_name}</p>
-                                                                <p className="text-xs text-gray-500">{formatRole(log.user_role)}</p>
+                                                                <p className="text-sm font-medium text-neutral-900">{log.user_name}</p>
+                                                                <p className="text-xs text-neutral-500">{formatRole(log.user_role)}</p>
                                                             </div>
                                                         </div>
                                                     </td>
                                                     <td className="py-3 px-4">
                                                         {log.target_user_name ? (
-                                                            <span className="text-sm text-gray-700">{log.target_user_name}</span>
+                                                            <span className="text-sm text-neutral-700">{log.target_user_name}</span>
                                                         ) : (
-                                                            <span className="text-sm text-gray-400">-</span>
+                                                            <span className="text-sm text-neutral-400">-</span>
                                                         )}
                                                     </td>
                                                     <td className="py-3 px-4">
                                                         {log.branch_name ? (
                                                             <div className="flex items-center gap-1">
-                                                                <Building2 className="w-3 h-3 text-gray-400" />
-                                                                <span className="text-sm text-gray-700">{log.branch_name}</span>
+                                                                <Building2 className="w-3 h-3 text-neutral-400" />
+                                                                <span className="text-sm text-neutral-700">{log.branch_name}</span>
                                                             </div>
                                                         ) : (
-                                                            <span className="text-sm text-gray-400">-</span>
+                                                            <span className="text-sm text-neutral-400">-</span>
                                                         )}
                                                     </td>
                                                     <td className="py-3 px-4 text-center">
@@ -790,24 +790,24 @@ const HRMAuditLogs: React.FC = () => {
 
                                 {/* Pagination */}
                                 <div className="flex items-center justify-between p-4 border-t border-gray-100">
-                                    <p className="text-sm text-gray-500">
+                                    <p className="text-sm text-neutral-500">
                                         Showing {((meta.current_page - 1) * meta.per_page) + 1} to {Math.min(meta.current_page * meta.per_page, meta.total)} of {meta.total} entries
                                     </p>
                                     <div className="flex items-center gap-2">
                                         <button
                                             onClick={() => setPage(p => Math.max(1, p - 1))}
                                             disabled={meta.current_page <= 1}
-                                            className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                            className="p-2 rounded-lg border border-neutral-200 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
                                             <ChevronLeft className="w-4 h-4" />
                                         </button>
-                                        <span className="text-sm text-gray-600">
+                                        <span className="text-sm text-neutral-600">
                                             Page {meta.current_page} of {meta.last_page}
                                         </span>
                                         <button
                                             onClick={() => setPage(p => Math.min(meta.last_page, p + 1))}
                                             disabled={meta.current_page >= meta.last_page}
-                                            className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                            className="p-2 rounded-lg border border-neutral-200 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
                                             <ChevronRight className="w-4 h-4" />
                                         </button>
@@ -819,7 +819,7 @@ const HRMAuditLogs: React.FC = () => {
 
                     {/* Info Box */}
                     <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 flex items-start gap-3">
-                        <Info className="w-5 h-5 text-blue-600 mt-0.5" />
+                        <Info className="w-5 h-5 text-primary-500 mt-0.5" />
                         <div className="text-sm text-blue-800">
                             <p className="font-medium">About Audit Logs</p>
                             <p className="mt-1">

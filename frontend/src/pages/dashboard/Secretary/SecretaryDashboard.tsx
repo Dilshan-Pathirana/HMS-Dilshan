@@ -34,19 +34,19 @@ export const SecretaryDashboard: React.FC = () => {
     }, []);
 
     const StatCard = ({ title, value, icon, color }: { title: string; value: number; icon: React.ReactNode; color: string; }) => (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
             <div className={`p-3 rounded-lg bg-gradient-to-br ${color} w-fit mb-4`}>{icon}</div>
-            <h3 className="text-gray-600 text-sm font-medium mb-1">{title}</h3>
-            <p className="text-3xl font-bold text-gray-800">{value}</p>
+            <h3 className="text-neutral-600 text-sm font-medium mb-1">{title}</h3>
+            <p className="text-3xl font-bold text-neutral-800">{value}</p>
         </div>
     );
 
     return (
         <DashboardLayout userName={userName} userRole="Secretary" profileImage={profileImage} sidebarContent={<SidebarMenu items={SecretaryMenuItems} />}>
             <div className="space-y-6">
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                     <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">Hello, {userName}!</h1>
-                    <p className="text-gray-600 mt-1">Manage schedules, correspondence, and administrative tasks.</p>
+                    <p className="text-neutral-600 mt-1">Manage schedules, correspondence, and administrative tasks.</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <StatCard title="Today's Meetings" value={stats.todayMeetings} icon={<Calendar className="w-6 h-6 text-white" />} color="from-emerald-500 to-emerald-600" />
@@ -55,37 +55,37 @@ export const SecretaryDashboard: React.FC = () => {
                     <StatCard title="Documents Processed" value={stats.documentsProcessed} icon={<FileText className="w-6 h-6 text-white" />} color="from-purple-500 to-purple-600" />
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">Today's Schedule</h2>
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                        <h2 className="text-lg font-semibold text-neutral-800 mb-4">Today's Schedule</h2>
                         <div className="space-y-3">
                             <div className="flex items-center gap-3 p-3 bg-emerald-50 rounded-lg">
                                 <Clock className="w-5 h-5 text-emerald-600" />
-                                <div><p className="font-medium text-gray-800">09:00 AM - Staff Meeting</p><p className="text-xs text-gray-500">Conference Room A</p></div>
+                                <div><p className="font-medium text-neutral-800">09:00 AM - Staff Meeting</p><p className="text-xs text-neutral-500">Conference Room A</p></div>
                             </div>
                             <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
-                                <Clock className="w-5 h-5 text-blue-600" />
-                                <div><p className="font-medium text-gray-800">11:30 AM - Board Meeting</p><p className="text-xs text-gray-500">Board Room</p></div>
+                                <Clock className="w-5 h-5 text-primary-500" />
+                                <div><p className="font-medium text-neutral-800">11:30 AM - Board Meeting</p><p className="text-xs text-neutral-500">Board Room</p></div>
                             </div>
                             <div className="flex items-center gap-3 p-3 bg-purple-50 rounded-lg">
                                 <Clock className="w-5 h-5 text-purple-600" />
-                                <div><p className="font-medium text-gray-800">02:00 PM - Director Call</p><p className="text-xs text-gray-500">Phone Conference</p></div>
+                                <div><p className="font-medium text-neutral-800">02:00 PM - Director Call</p><p className="text-xs text-neutral-500">Phone Conference</p></div>
                             </div>
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h2>
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                        <h2 className="text-lg font-semibold text-neutral-800 mb-4">Quick Actions</h2>
                         <div className="space-y-3">
                             <button className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-lg hover:from-emerald-100 hover:to-blue-100 transition-all text-left">
                                 <Calendar className="w-5 h-5 text-emerald-600" />
-                                <div><p className="font-medium text-gray-800">Schedule Meeting</p><p className="text-xs text-gray-500">Book conference room</p></div>
+                                <div><p className="font-medium text-neutral-800">Schedule Meeting</p><p className="text-xs text-neutral-500">Book conference room</p></div>
                             </button>
                             <button className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-lg hover:from-emerald-100 hover:to-blue-100 transition-all text-left">
-                                <Mail className="w-5 h-5 text-blue-600" />
-                                <div><p className="font-medium text-gray-800">Send Email</p><p className="text-xs text-gray-500">Compose correspondence</p></div>
+                                <Mail className="w-5 h-5 text-primary-500" />
+                                <div><p className="font-medium text-neutral-800">Send Email</p><p className="text-xs text-neutral-500">Compose correspondence</p></div>
                             </button>
                             <button className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-lg hover:from-emerald-100 hover:to-blue-100 transition-all text-left">
                                 <FileText className="w-5 h-5 text-purple-600" />
-                                <div><p className="font-medium text-gray-800">Prepare Documents</p><p className="text-xs text-gray-500">Draft and organize files</p></div>
+                                <div><p className="font-medium text-neutral-800">Prepare Documents</p><p className="text-xs text-neutral-500">Draft and organize files</p></div>
                             </button>
                         </div>
                     </div>

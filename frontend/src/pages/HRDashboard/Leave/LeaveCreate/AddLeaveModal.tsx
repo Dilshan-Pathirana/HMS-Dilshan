@@ -104,7 +104,7 @@ const AddLeaveModal: React.FC<AddLeaveModalProps> = ({
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-2 gap-4 mb-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Start Date
                             </label>
                             <input
@@ -113,11 +113,11 @@ const AddLeaveModal: React.FC<AddLeaveModalProps> = ({
                                 onChange={(e) =>
                                     setLeavesStartDate(e.target.value)
                                 }
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 End Date
                             </label>
                             <input
@@ -126,30 +126,30 @@ const AddLeaveModal: React.FC<AddLeaveModalProps> = ({
                                 onChange={(e) =>
                                     setLeavesEndDate(e.target.value)
                                 }
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                             />
                         </div>
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
                             Reason
                         </label>
                         <textarea
                             value={reason}
                             onChange={(e) => setReason(e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                             rows={4}
                             placeholder="Enter reason"
                         ></textarea>
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
                             Assigner
                         </label>
                         <select
                             value={assigner}
                             onChange={(e) => setAssigner(e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                         >
                             <option value="">Select Assigner</option>
                             {assignerList.map((user) => (
@@ -163,13 +163,13 @@ const AddLeaveModal: React.FC<AddLeaveModalProps> = ({
                         <button
                             type="button"
                             onClick={closeModal}
-                            className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 mr-2"
+                            className="px-4 py-2 bg-neutral-300 text-neutral-700 rounded-md hover:bg-gray-400 mr-2"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 text-white"
+                            className="px-4 py-2 bg-primary-500 rounded-lg hover:bg-primary-600 text-white"
                         >
                             Add Leave
                         </button>

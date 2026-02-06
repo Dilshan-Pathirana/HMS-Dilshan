@@ -118,7 +118,7 @@ const CashierPendingConsultations: React.FC = () => {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+                <Loader2 className="w-8 h-8 animate-spin text-primary-500" />
             </div>
         );
     }
@@ -128,13 +128,13 @@ const CashierPendingConsultations: React.FC = () => {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-xl font-bold text-gray-800">Pending Consultations</h2>
-                    <p className="text-gray-500">Collect payment for completed consultations</p>
+                    <h2 className="text-xl font-bold text-neutral-800">Pending Consultations</h2>
+                    <p className="text-neutral-500">Collect payment for completed consultations</p>
                 </div>
                 <button
                     onClick={handleRefresh}
                     disabled={refreshing}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-neutral-300 rounded-lg hover:bg-neutral-50 disabled:opacity-50"
                 >
                     <RefreshCw className={`w-5 h-5 ${refreshing ? 'animate-spin' : ''}`} />
                     Refresh
@@ -143,8 +143,8 @@ const CashierPendingConsultations: React.FC = () => {
 
             {/* Error State */}
             {error && (
-                <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-center gap-3">
-                    <AlertCircle className="w-5 h-5 text-red-500" />
+                <div className="bg-error-50 border border-red-200 rounded-xl p-4 flex items-center gap-3">
+                    <AlertCircle className="w-5 h-5 text-error-500" />
                     <p className="text-red-700">{error}</p>
                 </div>
             )}
@@ -166,8 +166,8 @@ const CashierPendingConsultations: React.FC = () => {
             {consultations.length === 0 ? (
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
                     <CheckCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-800 mb-2">All caught up!</h3>
-                    <p className="text-gray-500">No consultations pending payment</p>
+                    <h3 className="text-lg font-medium text-neutral-800 mb-2">All caught up!</h3>
+                    <p className="text-neutral-500">No consultations pending payment</p>
                 </div>
             ) : (
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
@@ -175,27 +175,27 @@ const CashierPendingConsultations: React.FC = () => {
                         {consultations.map((consultation) => (
                             <div
                                 key={consultation.id}
-                                className="p-4 hover:bg-gray-50 transition-colors"
+                                className="p-4 hover:bg-neutral-50 transition-colors"
                             >
                                 <div className="flex items-start justify-between">
                                     <div className="flex items-start gap-4">
                                         <div className="p-2 bg-blue-100 rounded-lg">
-                                            <User className="w-6 h-6 text-blue-600" />
+                                            <User className="w-6 h-6 text-primary-500" />
                                         </div>
                                         <div>
-                                            <h3 className="font-semibold text-gray-800">
+                                            <h3 className="font-semibold text-neutral-800">
                                                 {consultation.patient_name}
                                             </h3>
-                                            <p className="text-sm text-gray-500">
+                                            <p className="text-sm text-neutral-500">
                                                 Dr. {consultation.doctor_name}
                                             </p>
                                             <div className="flex items-center gap-4 mt-2 text-sm">
-                                                <span className="flex items-center gap-1 text-gray-500">
+                                                <span className="flex items-center gap-1 text-neutral-500">
                                                     <Clock className="w-3.5 h-3.5" />
                                                     {formatDate(consultation.completed_at)}
                                                 </span>
                                                 {consultation.chief_complaint && (
-                                                    <span className="text-gray-500">
+                                                    <span className="text-neutral-500">
                                                         {consultation.chief_complaint.substring(0, 50)}...
                                                     </span>
                                                 )}
@@ -220,7 +220,7 @@ const CashierPendingConsultations: React.FC = () => {
                                     </div>
 
                                     <div className="text-right">
-                                        <p className="text-2xl font-bold text-gray-800">
+                                        <p className="text-2xl font-bold text-neutral-800">
                                             Rs. {consultation.consultation_fee.toLocaleString()}
                                         </p>
                                         <button
@@ -242,16 +242,16 @@ const CashierPendingConsultations: React.FC = () => {
             {selectedConsultation && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-2xl w-full max-w-md">
-                        <div className="p-6 border-b border-gray-200">
-                            <h3 className="text-lg font-bold text-gray-800">Collect Payment</h3>
+                        <div className="p-6 border-b border-neutral-200">
+                            <h3 className="text-lg font-bold text-neutral-800">Collect Payment</h3>
                         </div>
                         
                         <div className="p-6 space-y-4">
-                            <div className="bg-gray-50 rounded-xl p-4">
-                                <p className="text-sm text-gray-500">Patient</p>
-                                <p className="font-semibold text-gray-800">{selectedConsultation.patient_name}</p>
-                                <p className="text-sm text-gray-500 mt-2">Doctor</p>
-                                <p className="font-medium text-gray-700">Dr. {selectedConsultation.doctor_name}</p>
+                            <div className="bg-neutral-50 rounded-xl p-4">
+                                <p className="text-sm text-neutral-500">Patient</p>
+                                <p className="font-semibold text-neutral-800">{selectedConsultation.patient_name}</p>
+                                <p className="text-sm text-neutral-500 mt-2">Doctor</p>
+                                <p className="font-medium text-neutral-700">Dr. {selectedConsultation.doctor_name}</p>
                             </div>
 
                             <div className="bg-green-50 rounded-xl p-4 flex items-center justify-between">
@@ -264,17 +264,17 @@ const CashierPendingConsultations: React.FC = () => {
                             {/* Prescriptions preview */}
                             {selectedConsultation.prescriptions.length > 0 && (
                                 <div className="bg-blue-50 rounded-xl p-4">
-                                    <p className="text-sm text-blue-600 font-medium mb-2">
+                                    <p className="text-sm text-primary-500 font-medium mb-2">
                                         Medicines to be issued ({selectedConsultation.prescriptions.length})
                                     </p>
                                     <div className="space-y-1">
                                         {selectedConsultation.prescriptions.slice(0, 3).map((p, i) => (
-                                            <p key={i} className="text-sm text-gray-700">
+                                            <p key={i} className="text-sm text-neutral-700">
                                                 • {p.medicine_name} {p.potency} x{p.quantity}
                                             </p>
                                         ))}
                                         {selectedConsultation.prescriptions.length > 3 && (
-                                            <p className="text-sm text-gray-500">
+                                            <p className="text-sm text-neutral-500">
                                                 +{selectedConsultation.prescriptions.length - 3} more
                                             </p>
                                         )}
@@ -283,7 +283,7 @@ const CashierPendingConsultations: React.FC = () => {
                             )}
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Payment Method
                                 </label>
                                 <div className="flex gap-2">
@@ -293,8 +293,8 @@ const CashierPendingConsultations: React.FC = () => {
                                             onClick={() => setPaymentMethod(method)}
                                             className={`flex-1 py-2 px-3 rounded-lg border text-sm font-medium capitalize transition-colors ${
                                                 paymentMethod === method
-                                                    ? 'bg-blue-600 border-blue-600 text-white'
-                                                    : 'border-gray-300 text-gray-600 hover:bg-gray-50'
+                                                    ? 'bg-primary-500 border-primary-500 text-white'
+                                                    : 'border-neutral-300 text-neutral-600 hover:bg-neutral-50'
                                             }`}
                                         >
                                             {method}
@@ -304,7 +304,7 @@ const CashierPendingConsultations: React.FC = () => {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Note (Optional)
                                 </label>
                                 <input
@@ -312,19 +312,19 @@ const CashierPendingConsultations: React.FC = () => {
                                     value={paymentNote}
                                     onChange={(e) => setPaymentNote(e.target.value)}
                                     placeholder="Add any payment note..."
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                                 />
                             </div>
                         </div>
 
-                        <div className="p-6 border-t border-gray-200 flex items-center justify-end gap-3">
+                        <div className="p-6 border-t border-neutral-200 flex items-center justify-end gap-3">
                             <button
                                 onClick={() => {
                                     setSelectedConsultation(null);
                                     setPaymentMethod('cash');
                                     setPaymentNote('');
                                 }}
-                                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                                className="px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-lg"
                             >
                                 Cancel
                             </button>

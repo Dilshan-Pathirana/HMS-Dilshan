@@ -326,7 +326,7 @@ const PayrollConfig: React.FC = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-neutral-50">
             {/* Header */}
             <div className="bg-white shadow-sm border-b">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -334,26 +334,26 @@ const PayrollConfig: React.FC = () => {
                         <div className="flex items-center space-x-4">
                             <button
                                 onClick={() => navigate('/super-admin/hrm')}
-                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                             >
                                 <ArrowLeft className="w-5 h-5" />
                             </button>
                             <div>
-                                <h1 className="text-2xl font-bold text-gray-900">Payroll Configuration</h1>
-                                <p className="text-sm text-gray-500">Configure payroll settings and rules</p>
+                                <h1 className="text-2xl font-bold text-neutral-900">Payroll Configuration</h1>
+                                <p className="text-sm text-neutral-500">Configure payroll settings and rules</p>
                             </div>
                         </div>
                         <div className="flex items-center space-x-3">
                             <button
                                 onClick={() => setShowCalculator(true)}
-                                className="flex items-center px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                                className="flex items-center px-4 py-2 text-neutral-700 bg-neutral-100 rounded-lg hover:bg-neutral-200 transition-colors"
                             >
                                 <Calculator className="w-4 h-4 mr-2" />
                                 Calculator
                             </button>
                             <button
                                 onClick={() => setShowCopyModal(true)}
-                                className="flex items-center px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                                className="flex items-center px-4 py-2 text-neutral-700 bg-neutral-100 rounded-lg hover:bg-neutral-200 transition-colors"
                             >
                                 <Copy className="w-4 h-4 mr-2" />
                                 Copy to Branch
@@ -369,7 +369,7 @@ const PayrollConfig: React.FC = () => {
                             <button
                                 onClick={handleSave}
                                 disabled={isSaving}
-                                className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+                                className="flex items-center px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50"
                             >
                                 {isSaving ? (
                                     <>
@@ -398,8 +398,8 @@ const PayrollConfig: React.FC = () => {
                         </div>
                     )}
                     {error && (
-                        <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center">
-                            <AlertCircle className="w-5 h-5 text-red-500 mr-3" />
+                        <div className="bg-error-50 border border-red-200 rounded-lg p-4 flex items-center">
+                            <AlertCircle className="w-5 h-5 text-error-500 mr-3" />
                             <span className="text-red-700">{error}</span>
                         </div>
                     )}
@@ -411,13 +411,13 @@ const PayrollConfig: React.FC = () => {
                 <div className="bg-white rounded-xl shadow-sm border p-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-4">
-                            <Building2 className="w-5 h-5 text-gray-400" />
+                            <Building2 className="w-5 h-5 text-neutral-400" />
                             <div>
-                                <label className="block text-sm font-medium text-gray-700">Configuration Scope</label>
+                                <label className="block text-sm font-medium text-neutral-700">Configuration Scope</label>
                                 <select
                                     value={selectedBranch}
                                     onChange={(e) => setSelectedBranch(e.target.value)}
-                                    className="mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-w-[250px]"
+                                    className="mt-1 px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 min-w-[250px]"
                                 >
                                     <option value="global">Global (Default for all branches)</option>
                                     {branches.map(branch => (
@@ -440,7 +440,7 @@ const PayrollConfig: React.FC = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
                 {isLoading ? (
                     <div className="flex items-center justify-center h-64">
-                        <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent"></div>
+                        <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary-500 border-t-transparent"></div>
                     </div>
                 ) : (
                     <div className="bg-white rounded-xl shadow-sm border">
@@ -453,8 +453,8 @@ const PayrollConfig: React.FC = () => {
                                         onClick={() => setActiveTab(tab.id)}
                                         className={`flex items-center px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
                                             activeTab === tab.id
-                                                ? 'border-blue-500 text-blue-600'
-                                                : 'border-transparent text-gray-500 hover:text-gray-700'
+                                                ? 'border-primary-500 text-primary-500'
+                                                : 'border-transparent text-neutral-500 hover:text-neutral-700'
                                         }`}
                                     >
                                         <tab.icon className="w-4 h-4 mr-2" />
@@ -469,14 +469,14 @@ const PayrollConfig: React.FC = () => {
                             {/* Pay Period Tab */}
                             {activeTab === 'pay-period' && (
                                 <div className="space-y-6">
-                                    <h3 className="text-lg font-medium text-gray-900">Pay Period Settings</h3>
+                                    <h3 className="text-lg font-medium text-neutral-900">Pay Period Settings</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Pay Period</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Pay Period</label>
                                             <select
                                                 value={config.pay_period}
                                                 onChange={(e) => setConfig({ ...config, pay_period: e.target.value })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             >
                                                 {payPeriodOptions.map(opt => (
                                                     <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -484,23 +484,23 @@ const PayrollConfig: React.FC = () => {
                                             </select>
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Pay Day (of month)</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Pay Day (of month)</label>
                                             <input
                                                 type="number"
                                                 value={config.pay_day}
                                                 onChange={(e) => setConfig({ ...config, pay_day: parseInt(e.target.value) || 25 })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                                 min="1"
                                                 max="31"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Pay Cycle Starts On</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Pay Cycle Starts On</label>
                                             <input
                                                 type="text"
                                                 value={config.pay_cycle_start}
                                                 onChange={(e) => setConfig({ ...config, pay_cycle_start: e.target.value })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                                 placeholder="1"
                                             />
                                         </div>
@@ -508,21 +508,21 @@ const PayrollConfig: React.FC = () => {
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Currency Code</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Currency Code</label>
                                             <input
                                                 type="text"
                                                 value={config.currency_code}
                                                 onChange={(e) => setConfig({ ...config, currency_code: e.target.value })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Currency Symbol</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Currency Symbol</label>
                                             <input
                                                 type="text"
                                                 value={config.currency_symbol}
                                                 onChange={(e) => setConfig({ ...config, currency_symbol: e.target.value })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             />
                                         </div>
                                     </div>
@@ -532,35 +532,35 @@ const PayrollConfig: React.FC = () => {
                             {/* Working Hours Tab */}
                             {activeTab === 'working-hours' && (
                                 <div className="space-y-6">
-                                    <h3 className="text-lg font-medium text-gray-900">Working Hours Settings</h3>
+                                    <h3 className="text-lg font-medium text-neutral-900">Working Hours Settings</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Standard Hours/Day</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Standard Hours/Day</label>
                                             <input
                                                 type="number"
                                                 value={config.standard_hours_per_day}
                                                 onChange={(e) => setConfig({ ...config, standard_hours_per_day: parseFloat(e.target.value) || 8 })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                                 step="0.5"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Standard Hours/Week</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Standard Hours/Week</label>
                                             <input
                                                 type="number"
                                                 value={config.standard_hours_per_week}
                                                 onChange={(e) => setConfig({ ...config, standard_hours_per_week: parseFloat(e.target.value) || 45 })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                                 step="0.5"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Working Days/Month</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Working Days/Month</label>
                                             <input
                                                 type="number"
                                                 value={config.standard_days_per_month}
                                                 onChange={(e) => setConfig({ ...config, standard_days_per_month: parseFloat(e.target.value) || 26 })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                                 step="0.5"
                                             />
                                         </div>
@@ -571,103 +571,103 @@ const PayrollConfig: React.FC = () => {
                             {/* Overtime Tab */}
                             {activeTab === 'overtime' && (
                                 <div className="space-y-6">
-                                    <h3 className="text-lg font-medium text-gray-900">Overtime Settings</h3>
+                                    <h3 className="text-lg font-medium text-neutral-900">Overtime Settings</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Normal OT Rate (×)</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Normal OT Rate (×)</label>
                                             <input
                                                 type="number"
                                                 value={config.overtime_rate}
                                                 onChange={(e) => setConfig({ ...config, overtime_rate: parseFloat(e.target.value) || 1.5 })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                                 step="0.1"
                                                 min="1"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Weekend Rate (×)</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Weekend Rate (×)</label>
                                             <input
                                                 type="number"
                                                 value={config.weekend_rate}
                                                 onChange={(e) => setConfig({ ...config, weekend_rate: parseFloat(e.target.value) || 2 })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                                 step="0.1"
                                                 min="1"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Holiday Rate (×)</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Holiday Rate (×)</label>
                                             <input
                                                 type="number"
                                                 value={config.holiday_rate}
                                                 onChange={(e) => setConfig({ ...config, holiday_rate: parseFloat(e.target.value) || 2.5 })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                                 step="0.1"
                                                 min="1"
                                             />
                                         </div>
                                     </div>
 
-                                    <h4 className="text-md font-medium text-gray-900 flex items-center mt-6">
+                                    <h4 className="text-md font-medium text-neutral-900 flex items-center mt-6">
                                         <Moon className="w-4 h-4 mr-2" /> Night Shift Settings
                                     </h4>
                                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Night Shift Allowance ({config.currency_symbol})</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Night Shift Allowance ({config.currency_symbol})</label>
                                             <input
                                                 type="number"
                                                 value={config.night_shift_allowance}
                                                 onChange={(e) => setConfig({ ...config, night_shift_allowance: parseFloat(e.target.value) || 0 })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Night Rate (×)</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Night Rate (×)</label>
                                             <input
                                                 type="number"
                                                 value={config.night_shift_rate}
                                                 onChange={(e) => setConfig({ ...config, night_shift_rate: parseFloat(e.target.value) || 1.1 })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                                 step="0.1"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Night Starts</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Night Starts</label>
                                             <input
                                                 type="time"
                                                 value={config.night_shift_start}
                                                 onChange={(e) => setConfig({ ...config, night_shift_start: e.target.value })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Night Ends</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Night Ends</label>
                                             <input
                                                 type="time"
                                                 value={config.night_shift_end}
                                                 onChange={(e) => setConfig({ ...config, night_shift_end: e.target.value })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             />
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Max OT Hours/Day</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Max OT Hours/Day</label>
                                             <input
                                                 type="number"
                                                 value={config.max_overtime_hours_per_day}
                                                 onChange={(e) => setConfig({ ...config, max_overtime_hours_per_day: parseFloat(e.target.value) || 4 })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Max OT Hours/Week</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Max OT Hours/Week</label>
                                             <input
                                                 type="number"
                                                 value={config.max_overtime_hours_per_week}
                                                 onChange={(e) => setConfig({ ...config, max_overtime_hours_per_week: parseFloat(e.target.value) || 16 })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             />
                                         </div>
                                     </div>
@@ -677,53 +677,53 @@ const PayrollConfig: React.FC = () => {
                             {/* Attendance Tab */}
                             {activeTab === 'attendance' && (
                                 <div className="space-y-6">
-                                    <h3 className="text-lg font-medium text-gray-900">Attendance Settings</h3>
+                                    <h3 className="text-lg font-medium text-neutral-900">Attendance Settings</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Grace Period (minutes)</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Grace Period (minutes)</label>
                                             <input
                                                 type="number"
                                                 value={config.grace_period_minutes}
                                                 onChange={(e) => setConfig({ ...config, grace_period_minutes: parseInt(e.target.value) || 15 })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             />
-                                            <p className="text-xs text-gray-500 mt-1">Allowed late arrival without deduction</p>
+                                            <p className="text-xs text-neutral-500 mt-1">Allowed late arrival without deduction</p>
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Half Day Threshold (hours)</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Half Day Threshold (hours)</label>
                                             <input
                                                 type="number"
                                                 value={config.half_day_threshold_hours}
                                                 onChange={(e) => setConfig({ ...config, half_day_threshold_hours: parseInt(e.target.value) || 4 })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             />
-                                            <p className="text-xs text-gray-500 mt-1">Hours worked to count as half day</p>
+                                            <p className="text-xs text-neutral-500 mt-1">Hours worked to count as half day</p>
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Late Deduction/Minute ({config.currency_symbol})</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Late Deduction/Minute ({config.currency_symbol})</label>
                                             <input
                                                 type="number"
                                                 value={config.late_deduction_per_minute}
                                                 onChange={(e) => setConfig({ ...config, late_deduction_per_minute: parseFloat(e.target.value) || 0 })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Absent Deduction (× daily rate)</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Absent Deduction (× daily rate)</label>
                                             <input
                                                 type="number"
                                                 value={config.absent_deduction_multiplier}
                                                 onChange={(e) => setConfig({ ...config, absent_deduction_multiplier: parseFloat(e.target.value) || 1 })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                                 step="0.1"
                                             />
                                         </div>
                                     </div>
 
-                                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                    <div className="flex items-center justify-between p-4 bg-neutral-50 rounded-lg">
                                         <div>
-                                            <p className="font-medium text-gray-900">Deduct for Unpaid Leave</p>
-                                            <p className="text-sm text-gray-500">Automatically deduct salary for unpaid leave days</p>
+                                            <p className="font-medium text-neutral-900">Deduct for Unpaid Leave</p>
+                                            <p className="text-sm text-neutral-500">Automatically deduct salary for unpaid leave days</p>
                                         </div>
                                         <label className="relative inline-flex items-center cursor-pointer">
                                             <input
@@ -732,7 +732,7 @@ const PayrollConfig: React.FC = () => {
                                                 onChange={(e) => setConfig({ ...config, unpaid_leave_deduction: e.target.checked })}
                                                 className="sr-only peer"
                                             />
-                                            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                            <div className="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-500"></div>
                                         </label>
                                     </div>
                                 </div>
@@ -741,13 +741,13 @@ const PayrollConfig: React.FC = () => {
                             {/* Components Tab */}
                             {activeTab === 'components' && (
                                 <div className="space-y-6">
-                                    <h3 className="text-lg font-medium text-gray-900">Salary Component Settings</h3>
+                                    <h3 className="text-lg font-medium text-neutral-900">Salary Component Settings</h3>
                                     
                                     <div className="space-y-4">
-                                        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                        <div className="flex items-center justify-between p-4 bg-neutral-50 rounded-lg">
                                             <div>
-                                                <p className="font-medium text-gray-900">Include Allowances in Basic</p>
-                                                <p className="text-sm text-gray-500">Merge allowances into basic salary</p>
+                                                <p className="font-medium text-neutral-900">Include Allowances in Basic</p>
+                                                <p className="text-sm text-neutral-500">Merge allowances into basic salary</p>
                                             </div>
                                             <label className="relative inline-flex items-center cursor-pointer">
                                                 <input
@@ -756,14 +756,14 @@ const PayrollConfig: React.FC = () => {
                                                     onChange={(e) => setConfig({ ...config, include_allowances_in_basic: e.target.checked })}
                                                     className="sr-only peer"
                                                 />
-                                                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                                <div className="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-500"></div>
                                             </label>
                                         </div>
 
-                                        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                        <div className="flex items-center justify-between p-4 bg-neutral-50 rounded-lg">
                                             <div>
-                                                <p className="font-medium text-gray-900">Include Allowances in EPF Calculation</p>
-                                                <p className="text-sm text-gray-500">Apply EPF contribution on allowances</p>
+                                                <p className="font-medium text-neutral-900">Include Allowances in EPF Calculation</p>
+                                                <p className="text-sm text-neutral-500">Apply EPF contribution on allowances</p>
                                             </div>
                                             <label className="relative inline-flex items-center cursor-pointer">
                                                 <input
@@ -772,14 +772,14 @@ const PayrollConfig: React.FC = () => {
                                                     onChange={(e) => setConfig({ ...config, include_allowances_in_epf: e.target.checked })}
                                                     className="sr-only peer"
                                                 />
-                                                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                                <div className="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-500"></div>
                                             </label>
                                         </div>
 
-                                        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                        <div className="flex items-center justify-between p-4 bg-neutral-50 rounded-lg">
                                             <div>
-                                                <p className="font-medium text-gray-900">Include OT in EPF Calculation</p>
-                                                <p className="text-sm text-gray-500">Apply EPF contribution on overtime pay</p>
+                                                <p className="font-medium text-neutral-900">Include OT in EPF Calculation</p>
+                                                <p className="text-sm text-neutral-500">Apply EPF contribution on overtime pay</p>
                                             </div>
                                             <label className="relative inline-flex items-center cursor-pointer">
                                                 <input
@@ -788,14 +788,14 @@ const PayrollConfig: React.FC = () => {
                                                     onChange={(e) => setConfig({ ...config, include_ot_in_epf: e.target.checked })}
                                                     className="sr-only peer"
                                                 />
-                                                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                                <div className="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-500"></div>
                                             </label>
                                         </div>
 
-                                        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                        <div className="flex items-center justify-between p-4 bg-neutral-50 rounded-lg">
                                             <div>
-                                                <p className="font-medium text-gray-900">Auto Calculate PAYE Tax</p>
-                                                <p className="text-sm text-gray-500">Automatically calculate income tax</p>
+                                                <p className="font-medium text-neutral-900">Auto Calculate PAYE Tax</p>
+                                                <p className="text-sm text-neutral-500">Automatically calculate income tax</p>
                                             </div>
                                             <label className="relative inline-flex items-center cursor-pointer">
                                                 <input
@@ -804,28 +804,28 @@ const PayrollConfig: React.FC = () => {
                                                     onChange={(e) => setConfig({ ...config, auto_calculate_paye: e.target.checked })}
                                                     className="sr-only peer"
                                                 />
-                                                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                                <div className="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-500"></div>
                                             </label>
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Tax Free Threshold ({config.currency_symbol})</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Tax Free Threshold ({config.currency_symbol})</label>
                                             <input
                                                 type="number"
                                                 value={config.tax_free_threshold}
                                                 onChange={(e) => setConfig({ ...config, tax_free_threshold: parseFloat(e.target.value) || 100000 })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             />
-                                            <p className="text-xs text-gray-500 mt-1">Monthly income below this is tax-free</p>
+                                            <p className="text-xs text-neutral-500 mt-1">Monthly income below this is tax-free</p>
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Rounding Method</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Rounding Method</label>
                                             <select
                                                 value={config.rounding_method}
                                                 onChange={(e) => setConfig({ ...config, rounding_method: e.target.value })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                             >
                                                 {roundingOptions.map(opt => (
                                                     <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -839,14 +839,14 @@ const PayrollConfig: React.FC = () => {
                             {/* Payslip Tab */}
                             {activeTab === 'payslip' && (
                                 <div className="space-y-6">
-                                    <h3 className="text-lg font-medium text-gray-900">Payslip Settings</h3>
+                                    <h3 className="text-lg font-medium text-neutral-900">Payslip Settings</h3>
                                     
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Payslip Template</label>
+                                        <label className="block text-sm font-medium text-neutral-700 mb-1">Payslip Template</label>
                                         <select
                                             value={config.payslip_template}
                                             onChange={(e) => setConfig({ ...config, payslip_template: e.target.value })}
-                                            className="w-full max-w-md px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                            className="w-full max-w-md px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                         >
                                             {templateOptions.map(opt => (
                                                 <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -855,10 +855,10 @@ const PayrollConfig: React.FC = () => {
                                     </div>
 
                                     <div className="space-y-4">
-                                        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                        <div className="flex items-center justify-between p-4 bg-neutral-50 rounded-lg">
                                             <div>
-                                                <p className="font-medium text-gray-900">Show YTD on Payslip</p>
-                                                <p className="text-sm text-gray-500">Display year-to-date totals</p>
+                                                <p className="font-medium text-neutral-900">Show YTD on Payslip</p>
+                                                <p className="text-sm text-neutral-500">Display year-to-date totals</p>
                                             </div>
                                             <label className="relative inline-flex items-center cursor-pointer">
                                                 <input
@@ -867,14 +867,14 @@ const PayrollConfig: React.FC = () => {
                                                     onChange={(e) => setConfig({ ...config, show_ytd_on_payslip: e.target.checked })}
                                                     className="sr-only peer"
                                                 />
-                                                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                                <div className="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-500"></div>
                                             </label>
                                         </div>
 
-                                        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                        <div className="flex items-center justify-between p-4 bg-neutral-50 rounded-lg">
                                             <div>
-                                                <p className="font-medium text-gray-900">Show Leave Balance on Payslip</p>
-                                                <p className="text-sm text-gray-500">Display remaining leave days</p>
+                                                <p className="font-medium text-neutral-900">Show Leave Balance on Payslip</p>
+                                                <p className="text-sm text-neutral-500">Display remaining leave days</p>
                                             </div>
                                             <label className="relative inline-flex items-center cursor-pointer">
                                                 <input
@@ -883,14 +883,14 @@ const PayrollConfig: React.FC = () => {
                                                     onChange={(e) => setConfig({ ...config, show_leave_balance_on_payslip: e.target.checked })}
                                                     className="sr-only peer"
                                                 />
-                                                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                                <div className="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-500"></div>
                                             </label>
                                         </div>
 
-                                        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                        <div className="flex items-center justify-between p-4 bg-neutral-50 rounded-lg">
                                             <div>
-                                                <p className="font-medium text-gray-900">Show Loan Balance on Payslip</p>
-                                                <p className="text-sm text-gray-500">Display outstanding loan amounts</p>
+                                                <p className="font-medium text-neutral-900">Show Loan Balance on Payslip</p>
+                                                <p className="text-sm text-neutral-500">Display outstanding loan amounts</p>
                                             </div>
                                             <label className="relative inline-flex items-center cursor-pointer">
                                                 <input
@@ -899,7 +899,7 @@ const PayrollConfig: React.FC = () => {
                                                     onChange={(e) => setConfig({ ...config, show_loan_balance_on_payslip: e.target.checked })}
                                                     className="sr-only peer"
                                                 />
-                                                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                                <div className="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-500"></div>
                                             </label>
                                         </div>
                                     </div>
@@ -909,12 +909,12 @@ const PayrollConfig: React.FC = () => {
                             {/* Approval Tab */}
                             {activeTab === 'approval' && (
                                 <div className="space-y-6">
-                                    <h3 className="text-lg font-medium text-gray-900">Approval Settings</h3>
+                                    <h3 className="text-lg font-medium text-neutral-900">Approval Settings</h3>
                                     
-                                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                    <div className="flex items-center justify-between p-4 bg-neutral-50 rounded-lg">
                                         <div>
-                                            <p className="font-medium text-gray-900">Require Payroll Approval</p>
-                                            <p className="text-sm text-gray-500">Payroll must be approved before processing</p>
+                                            <p className="font-medium text-neutral-900">Require Payroll Approval</p>
+                                            <p className="text-sm text-neutral-500">Payroll must be approved before processing</p>
                                         </div>
                                         <label className="relative inline-flex items-center cursor-pointer">
                                             <input
@@ -923,22 +923,22 @@ const PayrollConfig: React.FC = () => {
                                                 onChange={(e) => setConfig({ ...config, require_payroll_approval: e.target.checked })}
                                                 className="sr-only peer"
                                             />
-                                            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                            <div className="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-500"></div>
                                         </label>
                                     </div>
 
                                     {config.require_payroll_approval && (
                                         <div className="max-w-md">
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Number of Approval Levels</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-1">Number of Approval Levels</label>
                                             <input
                                                 type="number"
                                                 value={config.approval_levels}
                                                 onChange={(e) => setConfig({ ...config, approval_levels: parseInt(e.target.value) || 1 })}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                                 min="1"
                                                 max="5"
                                             />
-                                            <p className="text-xs text-gray-500 mt-1">Number of approvers required (1-5)</p>
+                                            <p className="text-xs text-neutral-500 mt-1">Number of approvers required (1-5)</p>
                                         </div>
                                     )}
                                 </div>
@@ -955,58 +955,58 @@ const PayrollConfig: React.FC = () => {
                         <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center space-x-3">
                                 <div className="p-2 bg-blue-100 rounded-lg">
-                                    <Calculator className="w-5 h-5 text-blue-600" />
+                                    <Calculator className="w-5 h-5 text-primary-500" />
                                 </div>
-                                <h3 className="text-lg font-bold text-gray-900">Salary Calculator</h3>
+                                <h3 className="text-lg font-bold text-neutral-900">Salary Calculator</h3>
                             </div>
-                            <button onClick={() => setShowCalculator(false)} className="p-1 hover:bg-gray-100 rounded">
+                            <button onClick={() => setShowCalculator(false)} className="p-1 hover:bg-neutral-100 rounded">
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
 
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Monthly Salary ({config.currency_symbol})</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Monthly Salary ({config.currency_symbol})</label>
                                 <input
                                     type="number"
                                     value={calcSalary}
                                     onChange={(e) => setCalcSalary(parseInt(e.target.value) || 0)}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">OT Hours</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">OT Hours</label>
                                 <input
                                     type="number"
                                     value={calcOtHours}
                                     onChange={(e) => setCalcOtHours(parseInt(e.target.value) || 0)}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg"
                                 />
                             </div>
                             <button
                                 onClick={calculatePreview}
-                                className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                                className="w-full py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                             >
                                 Calculate
                             </button>
 
                             {calcResult && (
-                                <div className="mt-4 p-4 bg-gray-50 rounded-lg space-y-2">
+                                <div className="mt-4 p-4 bg-neutral-50 rounded-lg space-y-2">
                                     <div className="flex justify-between">
-                                        <span className="text-gray-600">Daily Rate:</span>
+                                        <span className="text-neutral-600">Daily Rate:</span>
                                         <span className="font-medium">{config.currency_symbol} {calcResult.daily_rate?.toLocaleString()}</span>
                                     </div>
                                     <div className="flex justify-between">
-                                        <span className="text-gray-600">Hourly Rate:</span>
+                                        <span className="text-neutral-600">Hourly Rate:</span>
                                         <span className="font-medium">{config.currency_symbol} {calcResult.hourly_rate?.toLocaleString()}</span>
                                     </div>
                                     <div className="flex justify-between">
-                                        <span className="text-gray-600">OT Amount:</span>
+                                        <span className="text-neutral-600">OT Amount:</span>
                                         <span className="font-medium">{config.currency_symbol} {calcResult.normal_ot_amount?.toLocaleString()}</span>
                                     </div>
                                     <div className="border-t pt-2 flex justify-between">
-                                        <span className="font-medium text-gray-900">Total OT:</span>
-                                        <span className="font-bold text-blue-600">{config.currency_symbol} {calcResult.total_ot?.toLocaleString()}</span>
+                                        <span className="font-medium text-neutral-900">Total OT:</span>
+                                        <span className="font-bold text-primary-500">{config.currency_symbol} {calcResult.total_ot?.toLocaleString()}</span>
                                     </div>
                                 </div>
                             )}
@@ -1024,19 +1024,19 @@ const PayrollConfig: React.FC = () => {
                                 <Copy className="w-6 h-6 text-purple-600" />
                             </div>
                             <div>
-                                <h3 className="text-lg font-bold text-gray-900">Copy Configuration</h3>
-                                <p className="text-sm text-gray-500">Copy to another branch</p>
+                                <h3 className="text-lg font-bold text-neutral-900">Copy Configuration</h3>
+                                <p className="text-sm text-neutral-500">Copy to another branch</p>
                             </div>
                         </div>
 
                         <div className="mb-6">
-                            <p className="text-sm text-gray-600 mb-4">
+                            <p className="text-sm text-neutral-600 mb-4">
                                 Copy configuration from <strong>{selectedBranch === 'global' ? 'Global' : branches.find(b => b.id === selectedBranch)?.center_name}</strong> to:
                             </p>
                             <select
                                 value={copyTargetBranch}
                                 onChange={(e) => setCopyTargetBranch(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg"
                             >
                                 <option value="">Select target branch...</option>
                                 {branches.filter(b => b.id !== selectedBranch).map(branch => (
@@ -1051,7 +1051,7 @@ const PayrollConfig: React.FC = () => {
                                     setShowCopyModal(false);
                                     setCopyTargetBranch('');
                                 }}
-                                className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200"
+                                className="px-4 py-2 text-neutral-700 bg-neutral-100 rounded-lg hover:bg-neutral-200"
                             >
                                 Cancel
                             </button>

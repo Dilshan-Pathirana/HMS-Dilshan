@@ -10,13 +10,13 @@ const CreateQuestionForm: React.FC<CreateDoctorQuestionFormProps> = ({
 }) => {
     return (
         <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">
+            <h2 className="text-2xl font-bold text-neutral-800 mb-6">
                 Create Main Question
             </h2>
 
             <form onSubmit={onSubmit} className="space-y-6">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                         Question *
                     </label>
                     <input
@@ -24,18 +24,18 @@ const CreateQuestionForm: React.FC<CreateDoctorQuestionFormProps> = ({
                         name="question"
                         value={formData.question}
                         onChange={onInputChange}
-                        className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-3 border border-neutral-300 rounded-md shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                         placeholder="Enter your question..."
                     />
                     {errors.question && (
-                        <p className="text-red-500 text-sm mt-1">
+                        <p className="text-error-500 text-sm mt-1">
                             {errors.question[0]}
                         </p>
                     )}
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                         Description
                     </label>
                     <textarea
@@ -43,18 +43,18 @@ const CreateQuestionForm: React.FC<CreateDoctorQuestionFormProps> = ({
                         value={formData.description}
                         onChange={onInputChange}
                         rows={4}
-                        className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-3 border border-neutral-300 rounded-md shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                         placeholder="Enter question description..."
                     />
                     {errors.description && (
-                        <p className="text-red-500 text-sm mt-1">
+                        <p className="text-error-500 text-sm mt-1">
                             {errors.description[0]}
                         </p>
                     )}
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                         Order *
                     </label>
                     <input
@@ -63,31 +63,31 @@ const CreateQuestionForm: React.FC<CreateDoctorQuestionFormProps> = ({
                         value={formData.order}
                         onChange={onInputChange}
                         min="1"
-                        className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-3 border border-neutral-300 rounded-md shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                         placeholder="Enter display order"
                     />
                     {errors.order && (
-                        <p className="text-red-500 text-sm mt-1">
+                        <p className="text-error-500 text-sm mt-1">
                             {errors.order[0]}
                         </p>
                     )}
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                         Status *
                     </label>
                     <select
                         name="status"
                         value={formData.status}
                         onChange={onInputChange}
-                        className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-3 border border-neutral-300 rounded-md shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     >
                         <option value="1">Active</option>
                         <option value="0">Inactive</option>
                     </select>
                     {errors.status && (
-                        <p className="text-red-500 text-sm mt-1">
+                        <p className="text-error-500 text-sm mt-1">
                             {errors.status[0]}
                         </p>
                     )}
@@ -97,7 +97,7 @@ const CreateQuestionForm: React.FC<CreateDoctorQuestionFormProps> = ({
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="bg-blue-500 text-white px-8 py-3 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="bg-primary-500 text-white px-8 py-3 rounded-md hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                         {isLoading
                             ? "Creating Main Question..."

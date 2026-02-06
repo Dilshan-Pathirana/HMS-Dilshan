@@ -108,19 +108,19 @@ const SupplierInformationForPharmacistUser: React.FC<SupplierStepProps> = ({
                         onChange={handleSupplierSelect}
                         options={supplierOptions}
                         placeholder="Select Supplier"
-                        className={`max-w-md ${error ? "border-red-500" : ""}`}
+                        className={`max-w-md ${error ? "border-error-500" : ""}`}
                         classNamePrefix="react-select"
                         isDisabled={isAddingSupplier}
                     />
                     {error && (
-                        <p className="text-red-500 text-sm mt-1">{error}</p>
+                        <p className="text-error-500 text-sm mt-1">{error}</p>
                     )}
                 </div>
                 <div className="flex items-center mt-8">
                     <button
                         type="button"
                         onClick={toggleAddSupplierForm}
-                        className="flex items-center text-blue-500 border border-blue-500 px-4 py-2 rounded"
+                        className="flex items-center text-primary-500 border border-primary-500 px-4 py-2 rounded"
                     >
                         {isAddingSupplier ? (
                             <AiOutlineClose className="mr-2" />
@@ -149,7 +149,7 @@ const SupplierInformationForPharmacistUser: React.FC<SupplierStepProps> = ({
                 <button
                     type="submit"
                     onClick={handleSubmit}
-                    className="border px-4 py-2 bg-blue-500 text-white"
+                    className="border px-4 py-2 bg-primary-500 text-white"
                 >
                     Next
                 </button>

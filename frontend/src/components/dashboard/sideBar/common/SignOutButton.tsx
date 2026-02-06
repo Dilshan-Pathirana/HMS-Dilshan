@@ -28,9 +28,9 @@ const SignOutButton = () => {
         <button
             type="button"
             onClick={signOutHandle}
-            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+            className="flex items-center px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
         >
-            <FaSignOutAlt className="text-red-500 mr-2" />
+            <FaSignOutAlt className="text-error-500 mr-2" />
             Sign out
         </button>
     );

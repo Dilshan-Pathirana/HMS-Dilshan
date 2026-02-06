@@ -179,10 +179,10 @@ const BranchPayrollSummary: React.FC = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+            <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
                 <div className="text-center">
                     <Loader2 className="w-12 h-12 animate-spin text-emerald-500 mx-auto mb-4" />
-                    <p className="text-gray-600">Loading payroll data...</p>
+                    <p className="text-neutral-600">Loading payroll data...</p>
                 </div>
             </div>
         );
@@ -190,10 +190,10 @@ const BranchPayrollSummary: React.FC = () => {
 
     if (error) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+            <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
                 <div className="text-center max-w-md">
-                    <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-                    <p className="text-red-600 mb-4">{error}</p>
+                    <AlertCircle className="w-12 h-12 text-error-500 mx-auto mb-4" />
+                    <p className="text-error-600 mb-4">{error}</p>
                     <button 
                         onClick={fetchPayrollData}
                         className="px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600"
@@ -220,40 +220,40 @@ const BranchPayrollSummary: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6 print:p-0 print:bg-white">
+        <div className="min-h-screen bg-neutral-50 p-6 print:p-0 print:bg-white">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6 print:hidden">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => navigate('/branch-admin/hrm')}
-                            className="p-2 hover:bg-gray-200 rounded-lg"
+                            className="p-2 hover:bg-neutral-200 rounded-lg"
                         >
                             <ArrowLeft className="w-5 h-5" />
                         </button>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">Payroll Management</h1>
-                            <p className="text-gray-500">Process and manage staff payroll</p>
+                            <h1 className="text-2xl font-bold text-neutral-800">Payroll Management</h1>
+                            <p className="text-neutral-500">Process and manage staff payroll</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
                         <button
                             onClick={fetchPayrollData}
-                            className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                            className="p-2 text-neutral-600 hover:bg-neutral-100 rounded-lg"
                             title="Refresh"
                         >
                             <RefreshCw className={`w-5 h-5 ${isLoading ? 'animate-spin' : ''}`} />
                         </button>
                         <button
                             onClick={handlePrint}
-                            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                            className="flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50"
                         >
                             <Printer className="w-4 h-4" />
                             Print
                         </button>
                         <button
                             onClick={handleExportCSV}
-                            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                            className="flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50"
                         >
                             <Download className="w-4 h-4" />
                             Export CSV
@@ -281,19 +281,19 @@ const BranchPayrollSummary: React.FC = () => {
                 {/* Print Header */}
                 <div className="hidden print:block mb-6">
                     <h1 className="text-2xl font-bold text-center">Payroll Report</h1>
-                    <p className="text-center text-gray-600">{payrollData?.monthName}</p>
+                    <p className="text-center text-neutral-600">{payrollData?.monthName}</p>
                 </div>
 
                 {/* Month Selector */}
                 <div className="flex items-center justify-center gap-4 mb-6 print:hidden">
                     <button
                         onClick={() => changeMonth('prev')}
-                        className="p-2 hover:bg-gray-200 rounded-lg"
+                        className="p-2 hover:bg-neutral-200 rounded-lg"
                     >
                         <ChevronLeft className="w-5 h-5" />
                     </button>
-                    <div className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg">
-                        <Calendar className="w-5 h-5 text-gray-400" />
+                    <div className="flex items-center gap-2 px-4 py-2 bg-white border border-neutral-300 rounded-lg">
+                        <Calendar className="w-5 h-5 text-neutral-400" />
                         <input
                             type="month"
                             value={selectedMonth}
@@ -303,7 +303,7 @@ const BranchPayrollSummary: React.FC = () => {
                     </div>
                     <button
                         onClick={() => changeMonth('next')}
-                        className="p-2 hover:bg-gray-200 rounded-lg"
+                        className="p-2 hover:bg-neutral-200 rounded-lg"
                     >
                         <ChevronRight className="w-5 h-5" />
                     </button>
@@ -311,41 +311,41 @@ const BranchPayrollSummary: React.FC = () => {
 
                 {/* Summary Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5">
                         <div className="flex items-center gap-3 mb-2">
                             <div className="p-2 bg-blue-100 rounded-lg">
-                                <Users className="w-5 h-5 text-blue-600" />
+                                <Users className="w-5 h-5 text-primary-500" />
                             </div>
-                            <span className="text-gray-500 text-sm">Total Staff</span>
+                            <span className="text-neutral-500 text-sm">Total Staff</span>
                         </div>
-                        <p className="text-2xl font-bold text-gray-800">{summary.staffCount}</p>
+                        <p className="text-2xl font-bold text-neutral-800">{summary.staffCount}</p>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5">
                         <div className="flex items-center gap-3 mb-2">
                             <div className="p-2 bg-emerald-100 rounded-lg">
                                 <DollarSign className="w-5 h-5 text-emerald-600" />
                             </div>
-                            <span className="text-gray-500 text-sm">Gross Payroll</span>
+                            <span className="text-neutral-500 text-sm">Gross Payroll</span>
                         </div>
-                        <p className="text-2xl font-bold text-gray-800">{formatCurrency(summary.totalGross)}</p>
+                        <p className="text-2xl font-bold text-neutral-800">{formatCurrency(summary.totalGross)}</p>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5">
                         <div className="flex items-center gap-3 mb-2">
                             <div className="p-2 bg-purple-100 rounded-lg">
                                 <Shield className="w-5 h-5 text-purple-600" />
                             </div>
-                            <span className="text-gray-500 text-sm">EPF/ETF Total</span>
+                            <span className="text-neutral-500 text-sm">EPF/ETF Total</span>
                         </div>
-                        <p className="text-2xl font-bold text-gray-800">
+                        <p className="text-2xl font-bold text-neutral-800">
                             {formatCurrency(summary.totalEPFEmployee + summary.totalEPFEmployer + summary.totalETFEmployer)}
                         </p>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5">
                         <div className="flex items-center gap-3 mb-2">
                             <div className="p-2 bg-orange-100 rounded-lg">
                                 <TrendingUp className="w-5 h-5 text-orange-600" />
                             </div>
-                            <span className="text-gray-500 text-sm">Net Payable</span>
+                            <span className="text-neutral-500 text-sm">Net Payable</span>
                         </div>
                         <p className="text-2xl font-bold text-emerald-600">{formatCurrency(summary.totalNet)}</p>
                     </div>
@@ -354,23 +354,23 @@ const BranchPayrollSummary: React.FC = () => {
                 {/* Detailed Breakdown */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     {/* Earnings */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">Earnings Breakdown</h2>
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                        <h2 className="text-lg font-semibold text-neutral-800 mb-4">Earnings Breakdown</h2>
                         <div className="space-y-4">
                             <div className="flex justify-between items-center pb-3 border-b">
-                                <span className="text-gray-600">Basic Salary</span>
-                                <span className="font-semibold text-gray-800">{formatCurrency(summary.totalBasic)}</span>
+                                <span className="text-neutral-600">Basic Salary</span>
+                                <span className="font-semibold text-neutral-800">{formatCurrency(summary.totalBasic)}</span>
                             </div>
                             <div className="flex justify-between items-center pb-3 border-b">
-                                <span className="text-gray-600">Allowances</span>
-                                <span className="font-semibold text-gray-800">{formatCurrency(summary.totalAllowances)}</span>
+                                <span className="text-neutral-600">Allowances</span>
+                                <span className="font-semibold text-neutral-800">{formatCurrency(summary.totalAllowances)}</span>
                             </div>
                             <div className="flex justify-between items-center pb-3 border-b">
-                                <span className="text-gray-600">Overtime</span>
-                                <span className="font-semibold text-gray-800">{formatCurrency(summary.totalOvertime)}</span>
+                                <span className="text-neutral-600">Overtime</span>
+                                <span className="font-semibold text-neutral-800">{formatCurrency(summary.totalOvertime)}</span>
                             </div>
                             <div className="flex justify-between items-center pt-2">
-                                <span className="font-medium text-gray-700">Total Earnings</span>
+                                <span className="font-medium text-neutral-700">Total Earnings</span>
                                 <span className="font-bold text-emerald-600 text-lg">
                                     {formatCurrency(summary.totalGross)}
                                 </span>
@@ -379,30 +379,30 @@ const BranchPayrollSummary: React.FC = () => {
                     </div>
 
                     {/* Deductions */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">Deductions & Contributions</h2>
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                        <h2 className="text-lg font-semibold text-neutral-800 mb-4">Deductions & Contributions</h2>
                         <div className="space-y-4">
                             <div className="flex justify-between items-center pb-3 border-b">
-                                <span className="text-gray-600">EPF (Employee 8%)</span>
-                                <span className="font-semibold text-red-600">- {formatCurrency(summary.totalEPFEmployee)}</span>
+                                <span className="text-neutral-600">EPF (Employee 8%)</span>
+                                <span className="font-semibold text-error-600">- {formatCurrency(summary.totalEPFEmployee)}</span>
                             </div>
                             <div className="flex justify-between items-center pb-3 border-b">
-                                <span className="text-gray-600">Other Deductions</span>
-                                <span className="font-semibold text-red-600">- {formatCurrency(summary.totalDeductions - summary.totalEPFEmployee)}</span>
+                                <span className="text-neutral-600">Other Deductions</span>
+                                <span className="font-semibold text-error-600">- {formatCurrency(summary.totalDeductions - summary.totalEPFEmployee)}</span>
                             </div>
                             <div className="bg-blue-50 p-3 rounded-lg">
                                 <p className="text-sm text-blue-700 font-medium mb-2">Employer Contributions (Not deducted from salary)</p>
                                 <div className="flex justify-between text-sm">
-                                    <span className="text-blue-600">EPF (12%)</span>
+                                    <span className="text-primary-500">EPF (12%)</span>
                                     <span className="text-blue-800">{formatCurrency(summary.totalEPFEmployer)}</span>
                                 </div>
                                 <div className="flex justify-between text-sm mt-1">
-                                    <span className="text-blue-600">ETF (3%)</span>
+                                    <span className="text-primary-500">ETF (3%)</span>
                                     <span className="text-blue-800">{formatCurrency(summary.totalETFEmployer)}</span>
                                 </div>
                             </div>
-                            <div className="flex justify-between items-center pt-2 bg-gray-50 p-3 rounded-lg">
-                                <span className="font-medium text-gray-700">Total Employer Cost</span>
+                            <div className="flex justify-between items-center pt-2 bg-neutral-50 p-3 rounded-lg">
+                                <span className="font-medium text-neutral-700">Total Employer Cost</span>
                                 <span className="font-bold text-purple-600 text-lg">
                                     {formatCurrency(summary.totalEmployerCost)}
                                 </span>
@@ -412,26 +412,26 @@ const BranchPayrollSummary: React.FC = () => {
                 </div>
 
                 {/* Search and Filter */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-4 print:hidden">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4 mb-4 print:hidden">
                     <div className="flex flex-wrap items-center gap-4">
                         <div className="flex-1 min-w-[200px]">
                             <div className="relative">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
                                 <input
                                     type="text"
                                     placeholder="Search by name or role..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                    className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                 />
                             </div>
                         </div>
                         <div className="flex items-center gap-2">
-                            <Filter className="w-4 h-4 text-gray-400" />
+                            <Filter className="w-4 h-4 text-neutral-400" />
                             <select
                                 value={roleFilter}
                                 onChange={(e) => setRoleFilter(e.target.value)}
-                                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                className="px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                             >
                                 <option value="all">All Roles</option>
                                 {uniqueRoles.map(role => (
@@ -443,63 +443,63 @@ const BranchPayrollSummary: React.FC = () => {
                 </div>
 
                 {/* Staff Payroll Table */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                    <div className="p-4 border-b border-gray-200">
-                        <h2 className="text-lg font-semibold text-gray-800">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
+                    <div className="p-4 border-b border-neutral-200">
+                        <h2 className="text-lg font-semibold text-neutral-800">
                             Staff Payroll Details ({filteredStaff.length} staff)
                         </h2>
                     </div>
                     <div className="overflow-x-auto">
                         <table className="w-full">
-                            <thead className="bg-gray-50 border-b border-gray-200">
+                            <thead className="bg-neutral-50 border-b border-neutral-200">
                                 <tr>
-                                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Staff</th>
-                                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Role</th>
-                                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">Basic</th>
-                                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">Allowances</th>
-                                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">OT</th>
-                                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">Gross</th>
-                                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">EPF (8%)</th>
-                                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">Net Salary</th>
-                                    <th className="text-center py-3 px-4 text-sm font-medium text-gray-500 print:hidden">Actions</th>
+                                    <th className="text-left py-3 px-4 text-sm font-medium text-neutral-500">Staff</th>
+                                    <th className="text-left py-3 px-4 text-sm font-medium text-neutral-500">Role</th>
+                                    <th className="text-right py-3 px-4 text-sm font-medium text-neutral-500">Basic</th>
+                                    <th className="text-right py-3 px-4 text-sm font-medium text-neutral-500">Allowances</th>
+                                    <th className="text-right py-3 px-4 text-sm font-medium text-neutral-500">OT</th>
+                                    <th className="text-right py-3 px-4 text-sm font-medium text-neutral-500">Gross</th>
+                                    <th className="text-right py-3 px-4 text-sm font-medium text-neutral-500">EPF (8%)</th>
+                                    <th className="text-right py-3 px-4 text-sm font-medium text-neutral-500">Net Salary</th>
+                                    <th className="text-center py-3 px-4 text-sm font-medium text-neutral-500 print:hidden">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {filteredStaff.length === 0 ? (
                                     <tr>
-                                        <td colSpan={9} className="py-8 text-center text-gray-500">
+                                        <td colSpan={9} className="py-8 text-center text-neutral-500">
                                             <FileText className="w-12 h-12 mx-auto mb-2 text-gray-300" />
                                             <p>No staff payroll records found</p>
                                         </td>
                                     </tr>
                                 ) : (
                                     filteredStaff.map((staff, index) => (
-                                        <tr key={staff.id} className={`border-b border-gray-100 hover:bg-gray-50 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
+                                        <tr key={staff.id} className={`border-b border-gray-100 hover:bg-neutral-50 ${index % 2 === 0 ? 'bg-white' : 'bg-neutral-50/50'}`}>
                                             <td className="py-3 px-4">
-                                                <div className="font-medium text-gray-800">{staff.name}</div>
-                                                <div className="text-xs text-gray-500">{staff.branch}</div>
+                                                <div className="font-medium text-neutral-800">{staff.name}</div>
+                                                <div className="text-xs text-neutral-500">{staff.branch}</div>
                                             </td>
                                             <td className="py-3 px-4">
                                                 <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
                                                     {staff.role}
                                                 </span>
                                             </td>
-                                            <td className="py-3 px-4 text-right text-gray-700">{formatCurrency(staff.basic)}</td>
-                                            <td className="py-3 px-4 text-right text-gray-700">{formatCurrency(staff.allowances)}</td>
-                                            <td className="py-3 px-4 text-right text-gray-700">
+                                            <td className="py-3 px-4 text-right text-neutral-700">{formatCurrency(staff.basic)}</td>
+                                            <td className="py-3 px-4 text-right text-neutral-700">{formatCurrency(staff.allowances)}</td>
+                                            <td className="py-3 px-4 text-right text-neutral-700">
                                                 {staff.overtime > 0 ? (
                                                     <span className="text-amber-600">{formatCurrency(staff.overtime)}</span>
                                                 ) : (
                                                     '-'
                                                 )}
                                             </td>
-                                            <td className="py-3 px-4 text-right font-medium text-gray-800">{formatCurrency(staff.gross)}</td>
-                                            <td className="py-3 px-4 text-right text-red-600">-{formatCurrency(staff.epfEmployee)}</td>
+                                            <td className="py-3 px-4 text-right font-medium text-neutral-800">{formatCurrency(staff.gross)}</td>
+                                            <td className="py-3 px-4 text-right text-error-600">-{formatCurrency(staff.epfEmployee)}</td>
                                             <td className="py-3 px-4 text-right font-bold text-emerald-600">{formatCurrency(staff.net)}</td>
                                             <td className="py-3 px-4 text-center print:hidden">
                                                 <button
                                                     onClick={() => viewStaffDetail(staff)}
-                                                    className="p-1.5 text-gray-400 hover:text-blue-500 hover:bg-blue-50 rounded"
+                                                    className="p-1.5 text-neutral-400 hover:text-primary-500 hover:bg-blue-50 rounded"
                                                     title="View Details"
                                                 >
                                                     <Eye className="w-4 h-4" />
@@ -510,22 +510,22 @@ const BranchPayrollSummary: React.FC = () => {
                                 )}
                             </tbody>
                             {filteredStaff.length > 0 && (
-                                <tfoot className="bg-gray-100 font-semibold">
+                                <tfoot className="bg-neutral-100 font-semibold">
                                     <tr>
-                                        <td colSpan={2} className="py-3 px-4 text-gray-700">Totals</td>
-                                        <td className="py-3 px-4 text-right text-gray-800">
+                                        <td colSpan={2} className="py-3 px-4 text-neutral-700">Totals</td>
+                                        <td className="py-3 px-4 text-right text-neutral-800">
                                             {formatCurrency(filteredStaff.reduce((sum, s) => sum + s.basic, 0))}
                                         </td>
-                                        <td className="py-3 px-4 text-right text-gray-800">
+                                        <td className="py-3 px-4 text-right text-neutral-800">
                                             {formatCurrency(filteredStaff.reduce((sum, s) => sum + s.allowances, 0))}
                                         </td>
-                                        <td className="py-3 px-4 text-right text-gray-800">
+                                        <td className="py-3 px-4 text-right text-neutral-800">
                                             {formatCurrency(filteredStaff.reduce((sum, s) => sum + s.overtime, 0))}
                                         </td>
-                                        <td className="py-3 px-4 text-right text-gray-800">
+                                        <td className="py-3 px-4 text-right text-neutral-800">
                                             {formatCurrency(filteredStaff.reduce((sum, s) => sum + s.gross, 0))}
                                         </td>
-                                        <td className="py-3 px-4 text-right text-red-600">
+                                        <td className="py-3 px-4 text-right text-error-600">
                                             -{formatCurrency(filteredStaff.reduce((sum, s) => sum + s.epfEmployee, 0))}
                                         </td>
                                         <td className="py-3 px-4 text-right text-emerald-600">
@@ -541,16 +541,16 @@ const BranchPayrollSummary: React.FC = () => {
 
                 {/* Role-wise Summary */}
                 {payrollData?.staff && payrollData.staff.length > 0 && (
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mt-6">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">Role-wise Breakdown</h2>
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 mt-6">
+                        <h2 className="text-lg font-semibold text-neutral-800 mb-4">Role-wise Breakdown</h2>
                         <div className="overflow-x-auto">
                             <table className="w-full">
-                                <thead className="bg-gray-50 border-b border-gray-200">
+                                <thead className="bg-neutral-50 border-b border-neutral-200">
                                     <tr>
-                                        <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">Role</th>
-                                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-500">Staff Count</th>
-                                        <th className="text-right py-3 px-4 text-sm font-medium text-gray-500">Total Payroll</th>
-                                        <th className="text-left py-3 px-4 text-sm font-medium text-gray-500">% of Total</th>
+                                        <th className="text-left py-3 px-4 text-sm font-medium text-neutral-500">Role</th>
+                                        <th className="text-center py-3 px-4 text-sm font-medium text-neutral-500">Staff Count</th>
+                                        <th className="text-right py-3 px-4 text-sm font-medium text-neutral-500">Total Payroll</th>
+                                        <th className="text-left py-3 px-4 text-sm font-medium text-neutral-500">% of Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -560,19 +560,19 @@ const BranchPayrollSummary: React.FC = () => {
                                         const percentage = summary.totalNet > 0 ? (roleTotal / summary.totalNet) * 100 : 0;
                                         
                                         return (
-                                            <tr key={role} className="border-b border-gray-100 hover:bg-gray-50">
-                                                <td className="py-3 px-4 font-medium text-gray-800">{role}</td>
-                                                <td className="py-3 px-4 text-center text-gray-600">{roleStaff.length}</td>
-                                                <td className="py-3 px-4 text-right text-gray-600">{formatCurrency(roleTotal)}</td>
+                                            <tr key={role} className="border-b border-gray-100 hover:bg-neutral-50">
+                                                <td className="py-3 px-4 font-medium text-neutral-800">{role}</td>
+                                                <td className="py-3 px-4 text-center text-neutral-600">{roleStaff.length}</td>
+                                                <td className="py-3 px-4 text-right text-neutral-600">{formatCurrency(roleTotal)}</td>
                                                 <td className="py-3 px-4">
                                                     <div className="flex items-center gap-2">
-                                                        <div className="w-24 bg-gray-200 rounded-full h-2">
+                                                        <div className="w-24 bg-neutral-200 rounded-full h-2">
                                                             <div 
                                                                 className="bg-emerald-500 h-2 rounded-full transition-all duration-300" 
                                                                 style={{ width: `${Math.min(percentage, 100)}%` }}
                                                             ></div>
                                                         </div>
-                                                        <span className="text-sm text-gray-600 w-12">
+                                                        <span className="text-sm text-neutral-600 w-12">
                                                             {percentage.toFixed(1)}%
                                                         </span>
                                                     </div>
@@ -592,10 +592,10 @@ const BranchPayrollSummary: React.FC = () => {
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 print:hidden">
                     <div className="bg-white rounded-xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
                         <div className="flex items-center justify-between p-4 border-b">
-                            <h3 className="text-lg font-semibold text-gray-800">Payroll Details</h3>
+                            <h3 className="text-lg font-semibold text-neutral-800">Payroll Details</h3>
                             <button
                                 onClick={() => setShowDetailModal(false)}
-                                className="p-1 hover:bg-gray-100 rounded"
+                                className="p-1 hover:bg-neutral-100 rounded"
                             >
                                 <X className="w-5 h-5" />
                             </button>
@@ -603,41 +603,41 @@ const BranchPayrollSummary: React.FC = () => {
                         <div className="p-6">
                             {/* Staff Info */}
                             <div className="mb-6 pb-4 border-b">
-                                <h4 className="font-semibold text-gray-800 text-lg">{selectedStaff.name}</h4>
-                                <p className="text-gray-500">{selectedStaff.role} • {selectedStaff.branch}</p>
-                                <p className="text-sm text-gray-400">{payrollData?.monthName}</p>
+                                <h4 className="font-semibold text-neutral-800 text-lg">{selectedStaff.name}</h4>
+                                <p className="text-neutral-500">{selectedStaff.role} • {selectedStaff.branch}</p>
+                                <p className="text-sm text-neutral-400">{payrollData?.monthName}</p>
                             </div>
 
                             {/* Earnings */}
                             <div className="mb-6">
-                                <h5 className="font-medium text-gray-700 mb-3">Earnings</h5>
+                                <h5 className="font-medium text-neutral-700 mb-3">Earnings</h5>
                                 <div className="space-y-2">
                                     <div className="flex justify-between">
-                                        <span className="text-gray-600">Basic Salary</span>
+                                        <span className="text-neutral-600">Basic Salary</span>
                                         <span className="font-medium">{formatCurrency(selectedStaff.basic)}</span>
                                     </div>
                                     <div className="flex justify-between">
-                                        <span className="text-gray-600">Allowances</span>
+                                        <span className="text-neutral-600">Allowances</span>
                                         <span className="font-medium">{formatCurrency(selectedStaff.allowances)}</span>
                                     </div>
                                     <div className="flex justify-between">
-                                        <span className="text-gray-600">Overtime</span>
+                                        <span className="text-neutral-600">Overtime</span>
                                         <span className="font-medium">{formatCurrency(selectedStaff.overtime)}</span>
                                     </div>
                                     <div className="flex justify-between pt-2 border-t">
-                                        <span className="font-medium text-gray-700">Gross Salary</span>
-                                        <span className="font-bold text-gray-800">{formatCurrency(selectedStaff.gross)}</span>
+                                        <span className="font-medium text-neutral-700">Gross Salary</span>
+                                        <span className="font-bold text-neutral-800">{formatCurrency(selectedStaff.gross)}</span>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Deductions */}
                             <div className="mb-6">
-                                <h5 className="font-medium text-gray-700 mb-3">Deductions</h5>
+                                <h5 className="font-medium text-neutral-700 mb-3">Deductions</h5>
                                 <div className="space-y-2">
                                     <div className="flex justify-between">
-                                        <span className="text-gray-600">EPF (Employee 8%)</span>
-                                        <span className="font-medium text-red-600">-{formatCurrency(selectedStaff.epfEmployee)}</span>
+                                        <span className="text-neutral-600">EPF (Employee 8%)</span>
+                                        <span className="font-medium text-error-600">-{formatCurrency(selectedStaff.epfEmployee)}</span>
                                     </div>
                                 </div>
                             </div>
@@ -668,7 +668,7 @@ const BranchPayrollSummary: React.FC = () => {
                         <div className="p-4 border-t flex justify-end">
                             <button
                                 onClick={() => setShowDetailModal(false)}
-                                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
+                                className="px-4 py-2 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200"
                             >
                                 Close
                             </button>

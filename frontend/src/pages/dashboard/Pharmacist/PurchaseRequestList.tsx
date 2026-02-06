@@ -215,10 +215,10 @@ export const PurchaseRequestList: React.FC = () => {
 
     const getStatusBadge = (status: string) => {
         const styles: Record<string, string> = {
-            Draft: 'bg-gray-100 text-gray-700',
+            Draft: 'bg-neutral-100 text-neutral-700',
             'Pending Approval': 'bg-yellow-100 text-yellow-700',
             Approved: 'bg-green-100 text-green-700',
-            Rejected: 'bg-red-100 text-red-700',
+            Rejected: 'bg-error-100 text-red-700',
             Converted: 'bg-blue-100 text-blue-700',
             'Clarification Requested': 'bg-orange-100 text-orange-700'
         };
@@ -242,9 +242,9 @@ export const PurchaseRequestList: React.FC = () => {
 
     const getPriorityBadge = (priority: string) => {
         const styles: Record<string, string> = {
-            Normal: 'bg-blue-50 text-blue-600 border-blue-200',
+            Normal: 'bg-blue-50 text-primary-500 border-blue-200',
             Urgent: 'bg-orange-50 text-orange-600 border-orange-200',
-            Emergency: 'bg-red-50 text-red-600 border-red-200'
+            Emergency: 'bg-error-50 text-error-600 border-red-200'
         };
 
         return (
@@ -269,39 +269,39 @@ export const PurchaseRequestList: React.FC = () => {
     };
 
     return (
-        <div className="ml-0 md:ml-64 pt-24 min-h-screen bg-gray-50 p-6">
+        <div className="ml-0 md:ml-64 pt-24 min-h-screen bg-neutral-50 p-6">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="mb-6">
-                    <h1 className="text-3xl font-bold text-gray-900">Purchase Requests</h1>
-                    <p className="text-gray-600">Manage and track purchase requests</p>
+                    <h1 className="text-3xl font-bold text-neutral-900">Purchase Requests</h1>
+                    <p className="text-neutral-600">Manage and track purchase requests</p>
                 </div>
 
                 {/* Statistics Cards */}
                 <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-6">
-                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-blue-500">
-                        <p className="text-sm text-gray-600">Total</p>
-                        <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
+                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-primary-500">
+                        <p className="text-sm text-neutral-600">Total</p>
+                        <p className="text-2xl font-bold text-neutral-900">{stats.total}</p>
                     </div>
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-gray-500">
-                        <p className="text-sm text-gray-600">Draft</p>
-                        <p className="text-2xl font-bold text-gray-700">{stats.draft}</p>
+                        <p className="text-sm text-neutral-600">Draft</p>
+                        <p className="text-2xl font-bold text-neutral-700">{stats.draft}</p>
                     </div>
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-yellow-500">
-                        <p className="text-sm text-gray-600">Pending</p>
+                        <p className="text-sm text-neutral-600">Pending</p>
                         <p className="text-2xl font-bold text-yellow-600">{stats.pending}</p>
                     </div>
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-green-500">
-                        <p className="text-sm text-gray-600">Approved</p>
+                        <p className="text-sm text-neutral-600">Approved</p>
                         <p className="text-2xl font-bold text-green-600">{stats.approved}</p>
                     </div>
-                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-red-500">
-                        <p className="text-sm text-gray-600">Rejected</p>
-                        <p className="text-2xl font-bold text-red-600">{stats.rejected}</p>
+                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-error-500">
+                        <p className="text-sm text-neutral-600">Rejected</p>
+                        <p className="text-2xl font-bold text-error-600">{stats.rejected}</p>
                     </div>
-                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-blue-600">
-                        <p className="text-sm text-gray-600">Converted</p>
-                        <p className="text-2xl font-bold text-blue-600">{stats.converted}</p>
+                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-primary-500">
+                        <p className="text-sm text-neutral-600">Converted</p>
+                        <p className="text-2xl font-bold text-primary-500">{stats.converted}</p>
                     </div>
                 </div>
 
@@ -337,13 +337,13 @@ export const PurchaseRequestList: React.FC = () => {
                     <div className="flex flex-col md:flex-row gap-4">
                         <div className="flex-1">
                             <div className="relative">
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
                                 <input
                                     type="text"
                                     placeholder="Search by PR number or creator..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                    className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                                 />
                             </div>
                         </div>
@@ -351,7 +351,7 @@ export const PurchaseRequestList: React.FC = () => {
                             <select
                                 value={selectedStatus}
                                 onChange={(e) => setSelectedStatus(e.target.value)}
-                                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                             >
                                 <option value="all">All Status</option>
                                 <option value="Draft">Draft</option>
@@ -364,7 +364,7 @@ export const PurchaseRequestList: React.FC = () => {
                         </div>
                         <button
                             onClick={() => setShowCreateModal(true)}
-                            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-md hover:shadow-lg"
+                            className="px-6 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors flex items-center gap-2 shadow-md hover:shadow-lg"
                         >
                             <Plus className="w-5 h-5" />
                             Create New PR
@@ -376,11 +376,11 @@ export const PurchaseRequestList: React.FC = () => {
                 <div className="bg-white rounded-lg shadow overflow-hidden">
                     {loading ? (
                         <div className="p-8 text-center">
-                            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                            <p className="mt-2 text-gray-600">Loading purchase requests...</p>
+                            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
+                            <p className="mt-2 text-neutral-600">Loading purchase requests...</p>
                         </div>
                     ) : filteredPRs.length === 0 ? (
-                        <div className="p-8 text-center text-gray-500">
+                        <div className="p-8 text-center text-neutral-500">
                             <FileText className="w-16 h-16 mx-auto mb-4 text-gray-300" />
                             <p className="text-lg font-medium">No purchase requests found</p>
                             <p className="text-sm">Create a new purchase request to get started</p>
@@ -388,65 +388,65 @@ export const PurchaseRequestList: React.FC = () => {
                     ) : (
                         <div className="overflow-x-auto">
                             <table className="w-full">
-                                <thead className="bg-gray-50 border-b border-gray-200">
+                                <thead className="bg-neutral-50 border-b border-neutral-200">
                                     <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             PR Number
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Date
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Priority
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Items
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Total Cost
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Status
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Created By
                                         </th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                             Actions
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
                                     {filteredPRs.map((pr) => (
-                                        <tr key={pr.id} className="hover:bg-gray-50">
+                                        <tr key={pr.id} className="hover:bg-neutral-50">
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className="text-sm font-medium text-blue-600">
+                                                <span className="text-sm font-medium text-primary-500">
                                                     {pr.pr_number}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-600">
                                                 {formatDate(pr.created_at)}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 {getPriorityBadge(pr.priority)}
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                                 {pr.total_items} items
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-neutral-900">
                                                 {formatCurrency(pr.total_estimated_cost)}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 {getStatusBadge(pr.status)}
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-600">
                                                 {pr.creator.first_name} {pr.creator.last_name}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                                 <div className="flex items-center gap-2">
                                                     <button
                                                         onClick={() => handleViewDetails(pr.id)}
-                                                        className="text-blue-600 hover:text-blue-800"
+                                                        className="text-primary-500 hover:text-blue-800"
                                                         title="View Details"
                                                     >
                                                         <Eye className="w-5 h-5" />
@@ -455,7 +455,7 @@ export const PurchaseRequestList: React.FC = () => {
                                                         <>
                                                             <button
                                                                 onClick={() => handleEdit(pr.id)}
-                                                                className="text-blue-600 hover:text-blue-800"
+                                                                className="text-primary-500 hover:text-blue-800"
                                                                 title="Edit Draft"
                                                             >
                                                                 <Edit className="w-5 h-5" />
@@ -469,7 +469,7 @@ export const PurchaseRequestList: React.FC = () => {
                                                             </button>
                                                             <button
                                                                 onClick={() => handleDelete(pr.id, pr.pr_number)}
-                                                                className="text-red-600 hover:text-red-800"
+                                                                className="text-error-600 hover:text-red-800"
                                                                 title="Delete"
                                                             >
                                                                 <Trash2 className="w-5 h-5" />
@@ -504,14 +504,14 @@ export const PurchaseRequestList: React.FC = () => {
                 {showDetailsModal && selectedPR && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                         <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-                            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+                            <div className="sticky top-0 bg-white border-b border-neutral-200 px-6 py-4 flex justify-between items-center">
                                 <div>
-                                    <h2 className="text-2xl font-bold text-gray-900">{selectedPR.pr_number}</h2>
-                                    <p className="text-sm text-gray-600">Purchase Request Details</p>
+                                    <h2 className="text-2xl font-bold text-neutral-900">{selectedPR.pr_number}</h2>
+                                    <p className="text-sm text-neutral-600">Purchase Request Details</p>
                                 </div>
                                 <button
                                     onClick={() => setShowDetailsModal(false)}
-                                    className="text-gray-400 hover:text-gray-600"
+                                    className="text-neutral-400 hover:text-neutral-600"
                                 >
                                     <XCircle className="w-6 h-6" />
                                 </button>
@@ -521,57 +521,57 @@ export const PurchaseRequestList: React.FC = () => {
                                 {/* PR Information */}
                                 <div className="grid grid-cols-2 gap-6 mb-6">
                                     <div>
-                                        <p className="text-sm text-gray-600">Status</p>
+                                        <p className="text-sm text-neutral-600">Status</p>
                                         <div className="mt-1">{getStatusBadge(selectedPR.status)}</div>
                                     </div>
                                     <div>
-                                        <p className="text-sm text-gray-600">Priority</p>
+                                        <p className="text-sm text-neutral-600">Priority</p>
                                         <div className="mt-1">{getPriorityBadge(selectedPR.priority)}</div>
                                     </div>
                                     <div>
-                                        <p className="text-sm text-gray-600">Created By</p>
+                                        <p className="text-sm text-neutral-600">Created By</p>
                                         <p className="mt-1 font-medium">
                                             {selectedPR.creator.first_name} {selectedPR.creator.last_name}
                                         </p>
-                                        <p className="text-xs text-gray-500">{formatDate(selectedPR.created_at)}</p>
+                                        <p className="text-xs text-neutral-500">{formatDate(selectedPR.created_at)}</p>
                                     </div>
                                     <div>
-                                        <p className="text-sm text-gray-600">Total Estimated Cost</p>
-                                        <p className="mt-1 text-lg font-bold text-blue-600">
+                                        <p className="text-sm text-neutral-600">Total Estimated Cost</p>
+                                        <p className="mt-1 text-lg font-bold text-primary-500">
                                             {formatCurrency(selectedPR.total_estimated_cost)}
                                         </p>
                                     </div>
                                 </div>
 
                                 {selectedPR.general_remarks && (
-                                    <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-                                        <p className="text-sm text-gray-600 mb-1">General Remarks</p>
-                                        <p className="text-gray-900">{selectedPR.general_remarks}</p>
+                                    <div className="mb-6 p-4 bg-neutral-50 rounded-lg">
+                                        <p className="text-sm text-neutral-600 mb-1">General Remarks</p>
+                                        <p className="text-neutral-900">{selectedPR.general_remarks}</p>
                                     </div>
                                 )}
 
                                 {selectedPR.status === 'Approved' && selectedPR.approver && (
                                     <div className="mb-6 p-4 bg-green-50 rounded-lg border border-green-200">
                                         <p className="text-sm text-green-700 font-semibold mb-2">Approved</p>
-                                        <p className="text-sm text-gray-700">
+                                        <p className="text-sm text-neutral-700">
                                             By: {selectedPR.approver.first_name} {selectedPR.approver.last_name}
                                         </p>
-                                        <p className="text-xs text-gray-600">{formatDate(selectedPR.approved_at!)}</p>
+                                        <p className="text-xs text-neutral-600">{formatDate(selectedPR.approved_at!)}</p>
                                         {selectedPR.approval_remarks && (
-                                            <p className="text-sm text-gray-700 mt-2">{selectedPR.approval_remarks}</p>
+                                            <p className="text-sm text-neutral-700 mt-2">{selectedPR.approval_remarks}</p>
                                         )}
                                     </div>
                                 )}
 
                                 {selectedPR.status === 'Rejected' && selectedPR.rejected_by && (
-                                    <div className="mb-6 p-4 bg-red-50 rounded-lg border border-red-200">
+                                    <div className="mb-6 p-4 bg-error-50 rounded-lg border border-red-200">
                                         <p className="text-sm text-red-700 font-semibold mb-2">Rejected</p>
-                                        <p className="text-sm text-gray-700">
+                                        <p className="text-sm text-neutral-700">
                                             By: {selectedPR.rejected_by.first_name} {selectedPR.rejected_by.last_name}
                                         </p>
-                                        <p className="text-xs text-gray-600">{formatDate(selectedPR.rejected_at!)}</p>
+                                        <p className="text-xs text-neutral-600">{formatDate(selectedPR.rejected_at!)}</p>
                                         {selectedPR.rejection_reason && (
-                                            <p className="text-sm text-gray-700 mt-2">{selectedPR.rejection_reason}</p>
+                                            <p className="text-sm text-neutral-700 mt-2">{selectedPR.rejection_reason}</p>
                                         )}
                                     </div>
                                 )}
@@ -579,24 +579,24 @@ export const PurchaseRequestList: React.FC = () => {
                                 {/* Items Table */}
                                 <div>
                                     <h3 className="text-lg font-semibold mb-4">Items ({selectedPR.items.length})</h3>
-                                    <div className="border border-gray-200 rounded-lg overflow-hidden">
+                                    <div className="border border-neutral-200 rounded-lg overflow-hidden">
                                         <table className="w-full">
-                                            <thead className="bg-gray-50">
+                                            <thead className="bg-neutral-50">
                                                 <tr>
-                                                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">#</th>
-                                                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">Product</th>
-                                                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">Supplier</th>
-                                                    <th className="px-4 py-2 text-right text-xs font-medium text-gray-500">Qty</th>
-                                                    <th className="px-4 py-2 text-right text-xs font-medium text-gray-500">Unit Price</th>
-                                                    <th className="px-4 py-2 text-right text-xs font-medium text-gray-500">Total</th>
+                                                    <th className="px-4 py-2 text-left text-xs font-medium text-neutral-500">#</th>
+                                                    <th className="px-4 py-2 text-left text-xs font-medium text-neutral-500">Product</th>
+                                                    <th className="px-4 py-2 text-left text-xs font-medium text-neutral-500">Supplier</th>
+                                                    <th className="px-4 py-2 text-right text-xs font-medium text-neutral-500">Qty</th>
+                                                    <th className="px-4 py-2 text-right text-xs font-medium text-neutral-500">Unit Price</th>
+                                                    <th className="px-4 py-2 text-right text-xs font-medium text-neutral-500">Total</th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-gray-200">
                                                 {selectedPR.items.map((item, index) => (
                                                     <tr key={item.id}>
-                                                        <td className="px-4 py-3 text-sm text-gray-600">{index + 1}</td>
+                                                        <td className="px-4 py-3 text-sm text-neutral-600">{index + 1}</td>
                                                         <td className="px-4 py-3">
-                                                            <p className="text-sm font-medium text-gray-900">
+                                                            <p className="text-sm font-medium text-neutral-900">
                                                                 {item.product.item_name}
                                                             </p>
                                                             {item.suggestion_reason && (
@@ -605,30 +605,30 @@ export const PurchaseRequestList: React.FC = () => {
                                                                 </span>
                                                             )}
                                                             {item.item_remarks && (
-                                                                <p className="text-xs text-gray-500 mt-1">{item.item_remarks}</p>
+                                                                <p className="text-xs text-neutral-500 mt-1">{item.item_remarks}</p>
                                                             )}
                                                         </td>
-                                                        <td className="px-4 py-3 text-sm text-gray-600">
+                                                        <td className="px-4 py-3 text-sm text-neutral-600">
                                                             {item.supplier?.supplier_name || '-'}
                                                         </td>
-                                                        <td className="px-4 py-3 text-sm text-right text-gray-900">
+                                                        <td className="px-4 py-3 text-sm text-right text-neutral-900">
                                                             {item.requested_quantity}
                                                         </td>
-                                                        <td className="px-4 py-3 text-sm text-right text-gray-900">
+                                                        <td className="px-4 py-3 text-sm text-right text-neutral-900">
                                                             {formatCurrency(item.estimated_unit_price)}
                                                         </td>
-                                                        <td className="px-4 py-3 text-sm text-right font-medium text-gray-900">
+                                                        <td className="px-4 py-3 text-sm text-right font-medium text-neutral-900">
                                                             {formatCurrency(item.total_estimated_cost)}
                                                         </td>
                                                     </tr>
                                                 ))}
                                             </tbody>
-                                            <tfoot className="bg-gray-50">
+                                            <tfoot className="bg-neutral-50">
                                                 <tr>
-                                                    <td colSpan={5} className="px-4 py-3 text-right font-semibold text-gray-900">
+                                                    <td colSpan={5} className="px-4 py-3 text-right font-semibold text-neutral-900">
                                                         Total Estimated Cost:
                                                     </td>
-                                                    <td className="px-4 py-3 text-right font-bold text-blue-600 text-lg">
+                                                    <td className="px-4 py-3 text-right font-bold text-primary-500 text-lg">
                                                         {formatCurrency(selectedPR.total_estimated_cost)}
                                                     </td>
                                                 </tr>
@@ -638,10 +638,10 @@ export const PurchaseRequestList: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="sticky bottom-0 bg-gray-50 border-t border-gray-200 px-6 py-4 flex justify-end gap-3">
+                            <div className="sticky bottom-0 bg-neutral-50 border-t border-neutral-200 px-6 py-4 flex justify-end gap-3">
                                 <button
                                     onClick={() => setShowDetailsModal(false)}
-                                    className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
+                                    className="px-6 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-100 transition-colors"
                                 >
                                     Close
                                 </button>

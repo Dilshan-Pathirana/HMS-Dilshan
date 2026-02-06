@@ -138,11 +138,11 @@ const InventoryEditModal: React.FC<InventoryEditModalProps> = ({ isOpen, onClose
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-                <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-                    <h2 className="text-2xl font-bold text-gray-800">Edit Product</h2>
+                <div className="sticky top-0 bg-white border-b border-neutral-200 px-6 py-4 flex items-center justify-between">
+                    <h2 className="text-2xl font-bold text-neutral-800">Edit Product</h2>
                     <button
                         onClick={onClose}
-                        className="text-gray-400 hover:text-gray-600 transition-colors"
+                        className="text-neutral-400 hover:text-neutral-600 transition-colors"
                     >
                         <X className="w-6 h-6" />
                     </button>
@@ -152,14 +152,14 @@ const InventoryEditModal: React.FC<InventoryEditModalProps> = ({ isOpen, onClose
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* Product Information Section */}
                         <div className="md:col-span-2">
-                            <h3 className="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">
+                            <h3 className="text-lg font-semibold text-neutral-800 mb-4 pb-2 border-b border-neutral-200">
                                 Product Information
                             </h3>
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Item Code / SKU <span className="text-red-500">*</span>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
+                                Item Code / SKU <span className="text-error-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -167,12 +167,12 @@ const InventoryEditModal: React.FC<InventoryEditModalProps> = ({ isOpen, onClose
                                 value={formData.item_code}
                                 onChange={handleChange}
                                 required
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Barcode
                             </label>
                             <input
@@ -180,13 +180,13 @@ const InventoryEditModal: React.FC<InventoryEditModalProps> = ({ isOpen, onClose
                                 name="barcode"
                                 value={formData.barcode}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Item Name <span className="text-red-500">*</span>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
+                                Item Name <span className="text-error-500">*</span>
                             </label>
                             <input
                                 type="text"
@@ -194,12 +194,12 @@ const InventoryEditModal: React.FC<InventoryEditModalProps> = ({ isOpen, onClose
                                 value={formData.item_name}
                                 onChange={handleChange}
                                 required
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Generic Name
                             </label>
                             <input
@@ -207,12 +207,12 @@ const InventoryEditModal: React.FC<InventoryEditModalProps> = ({ isOpen, onClose
                                 name="generic_name"
                                 value={formData.generic_name}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Brand Name
                             </label>
                             <input
@@ -220,13 +220,13 @@ const InventoryEditModal: React.FC<InventoryEditModalProps> = ({ isOpen, onClose
                                 name="brand_name"
                                 value={formData.brand_name}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Category <span className="text-red-500">*</span>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
+                                Category <span className="text-error-500">*</span>
                             </label>
                             <Select
                                 value={categories.find(cat => cat.value === formData.category)}
@@ -238,8 +238,8 @@ const InventoryEditModal: React.FC<InventoryEditModalProps> = ({ isOpen, onClose
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Unit <span className="text-red-500">*</span>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
+                                Unit <span className="text-error-500">*</span>
                             </label>
                             <Select
                                 value={units.find(unit => unit.value === formData.unit)}
@@ -252,14 +252,14 @@ const InventoryEditModal: React.FC<InventoryEditModalProps> = ({ isOpen, onClose
 
                         {/* Stock Information Section */}
                         <div className="md:col-span-2 mt-4">
-                            <h3 className="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">
+                            <h3 className="text-lg font-semibold text-neutral-800 mb-4 pb-2 border-b border-neutral-200">
                                 Stock Information
                             </h3>
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Current Stock <span className="text-red-500">*</span>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
+                                Current Stock <span className="text-error-500">*</span>
                             </label>
                             <input
                                 type="number"
@@ -269,13 +269,13 @@ const InventoryEditModal: React.FC<InventoryEditModalProps> = ({ isOpen, onClose
                                 required
                                 min="0"
                                 step="0.01"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Reorder Level <span className="text-red-500">*</span>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
+                                Reorder Level <span className="text-error-500">*</span>
                             </label>
                             <input
                                 type="number"
@@ -285,13 +285,13 @@ const InventoryEditModal: React.FC<InventoryEditModalProps> = ({ isOpen, onClose
                                 required
                                 min="0"
                                 step="0.01"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Unit Selling Price (LKR) <span className="text-red-500">*</span>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
+                                Unit Selling Price (LKR) <span className="text-error-500">*</span>
                             </label>
                             <input
                                 type="number"
@@ -301,13 +301,13 @@ const InventoryEditModal: React.FC<InventoryEditModalProps> = ({ isOpen, onClose
                                 required
                                 min="0"
                                 step="0.01"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Expiry Date <span className="text-red-500">*</span>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
+                                Expiry Date <span className="text-error-500">*</span>
                             </label>
                             <input
                                 type="date"
@@ -315,21 +315,21 @@ const InventoryEditModal: React.FC<InventoryEditModalProps> = ({ isOpen, onClose
                                 value={formData.expiry_date}
                                 onChange={handleChange}
                                 required
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                             />
                         </div>
 
                         {/* Supplier Information Section */}
                         <div className="md:col-span-2 mt-4">
-                            <h3 className="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-200">
+                            <h3 className="text-lg font-semibold text-neutral-800 mb-4 pb-2 border-b border-neutral-200">
                                 Supplier Information
                             </h3>
                         </div>
 
                         <div className="md:col-span-2">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Supplier {Array.isArray(suppliers) && suppliers.length > 0 && (
-                                    <span className="text-xs text-gray-500">({suppliers.length} available)</span>
+                                    <span className="text-xs text-neutral-500">({suppliers.length} available)</span>
                                 )}
                             </label>
                             <Select
@@ -370,18 +370,18 @@ const InventoryEditModal: React.FC<InventoryEditModalProps> = ({ isOpen, onClose
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex gap-3 mt-6 pt-6 border-t border-gray-200">
+                    <div className="flex gap-3 mt-6 pt-6 border-t border-neutral-200">
                         <button
                             type="submit"
                             disabled={loading}
-                            className="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="flex-1 bg-primary-500 text-white px-6 py-3 rounded-lg hover:bg-primary-600 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {loading ? 'Updating...' : 'Update Product'}
                         </button>
                         <button
                             type="button"
                             onClick={onClose}
-                            className="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+                            className="flex-1 bg-neutral-200 text-neutral-700 px-6 py-3 rounded-lg hover:bg-neutral-300 transition-colors font-medium"
                         >
                             Cancel
                         </button>

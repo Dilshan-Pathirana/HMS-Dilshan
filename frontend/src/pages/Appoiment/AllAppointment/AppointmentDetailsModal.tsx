@@ -6,12 +6,12 @@ const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = ({
     onClose,
 }) => {
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-neutral-800 bg-opacity-50">
             <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-                <h2 className="text-xl font-bold text-gray-800 mb-4">
+                <h2 className="text-xl font-bold text-neutral-800 mb-4">
                     Appointment Details
                 </h2>
-                <div className="text-gray-700">
+                <div className="text-neutral-700">
                     <p>
                         <strong>Patient:</strong>{" "}
                         {appointment.patient_first_name}{" "}
@@ -47,7 +47,7 @@ const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = ({
                 </div>
                 <button
                     onClick={onClose}
-                    className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
+                    className="mt-4 bg-error-500 text-white px-4 py-2 rounded hover:bg-red-700"
                 >
                     Close
                 </button>

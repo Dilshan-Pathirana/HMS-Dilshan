@@ -63,7 +63,7 @@ const LeaveDetailsModal: React.FC<LeaveDetailsModalProps> = ({
     };
 
     return (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-neutral-800 bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-lg w-1/2 p-6">
                 <h2 className="text-2xl font-bold mb-4">
                     Leave Details - {leave.user_first_name}{" "}
@@ -124,7 +124,7 @@ const LeaveDetailsModal: React.FC<LeaveDetailsModalProps> = ({
                         </>
                     )}
                     <button
-                        className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400"
+                        className="px-4 py-2 bg-neutral-300 text-black rounded hover:bg-gray-400"
                         onClick={() => onClose(false)}
                     >
                         Close

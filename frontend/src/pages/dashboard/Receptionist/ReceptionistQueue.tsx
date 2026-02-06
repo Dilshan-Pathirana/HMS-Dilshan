@@ -139,16 +139,16 @@ const ReceptionistQueue: React.FC = () => {
             in_progress: { bg: 'bg-blue-100', text: 'text-blue-700', icon: <PlayCircle className="w-3 h-3" /> },
             with_doctor: { bg: 'bg-purple-100', text: 'text-purple-700', icon: <Users className="w-3 h-3" /> },
             completed: { bg: 'bg-green-100', text: 'text-green-700', icon: <CheckCircle className="w-3 h-3" /> },
-            cancelled: { bg: 'bg-red-100', text: 'text-red-700', icon: <XCircle className="w-3 h-3" /> },
+            cancelled: { bg: 'bg-error-100', text: 'text-red-700', icon: <XCircle className="w-3 h-3" /> },
         };
         return styles[status] || styles.waiting;
     };
 
     const getPriorityBadge = (priority: string) => {
         const styles: Record<string, string> = {
-            normal: 'bg-gray-100 text-gray-700',
+            normal: 'bg-neutral-100 text-neutral-700',
             priority: 'bg-orange-100 text-orange-700',
-            emergency: 'bg-red-100 text-red-700',
+            emergency: 'bg-error-100 text-red-700',
         };
         return styles[priority] || styles.normal;
     };
@@ -167,28 +167,28 @@ const ReceptionistQueue: React.FC = () => {
     return (
         <div className="space-y-6">
             {/* Header */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="p-3 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600">
                             <Ticket className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                            <h1 className="text-xl font-bold text-gray-800">Patient Queue</h1>
-                            <p className="text-sm text-gray-500">Manage patient tokens and queue</p>
+                            <h1 className="text-xl font-bold text-neutral-800">Patient Queue</h1>
+                            <p className="text-sm text-neutral-500">Manage patient tokens and queue</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => setAutoRefresh(!autoRefresh)}
-                            className={`p-2 rounded-lg transition-colors ${autoRefresh ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}
+                            className={`p-2 rounded-lg transition-colors ${autoRefresh ? 'bg-green-100 text-green-700' : 'bg-neutral-100 text-neutral-500'}`}
                             title={autoRefresh ? 'Auto-refresh ON' : 'Auto-refresh OFF'}
                         >
                             <RefreshCw className={`w-5 h-5 ${autoRefresh ? 'animate-spin' : ''}`} style={{ animationDuration: '3s' }} />
                         </button>
                         <button
                             onClick={() => setShowAddModal(true)}
-                            className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-blue-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all font-medium"
+                            className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-primary-500 text-white rounded-lg hover:from-emerald-600 hover:to-blue-600 transition-all font-medium"
                         >
                             <Plus className="w-4 h-4 inline mr-2" />
                             Issue Token
@@ -202,7 +202,7 @@ const ReceptionistQueue: React.FC = () => {
                 <div className={`p-4 rounded-lg flex items-center gap-3 ${
                     message.type === 'success' 
                         ? 'bg-green-50 text-green-800 border border-green-200'
-                        : 'bg-red-50 text-red-800 border border-red-200'
+                        : 'bg-error-50 text-red-800 border border-red-200'
                 }`}>
                     {message.type === 'success' ? <Check className="w-5 h-5" /> : <AlertCircle className="w-5 h-5" />}
                     {message.text}
@@ -211,47 +211,47 @@ const ReceptionistQueue: React.FC = () => {
 
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                     <div className="flex items-center gap-3">
                         <div className="p-2 rounded-lg bg-yellow-100">
                             <Clock className="w-5 h-5 text-yellow-600" />
                         </div>
                         <div>
-                            <p className="text-sm text-gray-500">Waiting</p>
-                            <p className="text-2xl font-bold text-gray-800">{stats?.waiting || 0}</p>
+                            <p className="text-sm text-neutral-500">Waiting</p>
+                            <p className="text-2xl font-bold text-neutral-800">{stats?.waiting || 0}</p>
                         </div>
                     </div>
                 </div>
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                     <div className="flex items-center gap-3">
                         <div className="p-2 rounded-lg bg-blue-100">
-                            <PlayCircle className="w-5 h-5 text-blue-600" />
+                            <PlayCircle className="w-5 h-5 text-primary-500" />
                         </div>
                         <div>
-                            <p className="text-sm text-gray-500">In Progress</p>
-                            <p className="text-2xl font-bold text-gray-800">{stats?.inProgress || 0}</p>
+                            <p className="text-sm text-neutral-500">In Progress</p>
+                            <p className="text-2xl font-bold text-neutral-800">{stats?.inProgress || 0}</p>
                         </div>
                     </div>
                 </div>
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                     <div className="flex items-center gap-3">
                         <div className="p-2 rounded-lg bg-green-100">
                             <CheckCircle className="w-5 h-5 text-green-600" />
                         </div>
                         <div>
-                            <p className="text-sm text-gray-500">Completed</p>
-                            <p className="text-2xl font-bold text-gray-800">{stats?.completed || 0}</p>
+                            <p className="text-sm text-neutral-500">Completed</p>
+                            <p className="text-2xl font-bold text-neutral-800">{stats?.completed || 0}</p>
                         </div>
                     </div>
                 </div>
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                     <div className="flex items-center gap-3">
                         <div className="p-2 rounded-lg bg-purple-100">
                             <Clock className="w-5 h-5 text-purple-600" />
                         </div>
                         <div>
-                            <p className="text-sm text-gray-500">Avg. Wait Time</p>
-                            <p className="text-2xl font-bold text-gray-800">{stats?.avgWaitTime || 0} min</p>
+                            <p className="text-sm text-neutral-500">Avg. Wait Time</p>
+                            <p className="text-2xl font-bold text-neutral-800">{stats?.avgWaitTime || 0} min</p>
                         </div>
                     </div>
                 </div>
@@ -260,9 +260,9 @@ const ReceptionistQueue: React.FC = () => {
             {/* Queue Lists */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Waiting */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200">
                     <div className="p-4 border-b bg-yellow-50">
-                        <h2 className="font-semibold text-gray-800 flex items-center gap-2">
+                        <h2 className="font-semibold text-neutral-800 flex items-center gap-2">
                             <Clock className="w-5 h-5 text-yellow-600" />
                             Waiting ({waitingQueue.length})
                         </h2>
@@ -273,31 +273,31 @@ const ReceptionistQueue: React.FC = () => {
                                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-500 mx-auto"></div>
                             </div>
                         ) : waitingQueue.length === 0 ? (
-                            <p className="text-center text-gray-500 py-8">No patients waiting</p>
+                            <p className="text-center text-neutral-500 py-8">No patients waiting</p>
                         ) : (
                             waitingQueue.map((item) => (
-                                <div key={item.id} className="p-3 border rounded-lg hover:bg-gray-50">
+                                <div key={item.id} className="p-3 border rounded-lg hover:bg-neutral-50">
                                     <div className="flex items-center justify-between mb-2">
                                         <span className="text-2xl font-bold text-purple-600">#{item.token_number}</span>
                                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityBadge(item.priority)}`}>
                                             {item.priority}
                                         </span>
                                     </div>
-                                    <p className="font-medium text-gray-800">{item.patient_name}</p>
-                                    <p className="text-sm text-gray-500">{item.patient_code}</p>
+                                    <p className="font-medium text-neutral-800">{item.patient_name}</p>
+                                    <p className="text-sm text-neutral-500">{item.patient_code}</p>
                                     {item.doctor_name && (
-                                        <p className="text-xs text-gray-500 mt-1">For: Dr. {item.doctor_name}</p>
+                                        <p className="text-xs text-neutral-500 mt-1">For: Dr. {item.doctor_name}</p>
                                     )}
                                     <div className="mt-3 flex gap-2">
                                         <button
                                             onClick={() => handleUpdateStatus(item.id, 'in_progress')}
-                                            className="flex-1 px-3 py-1.5 bg-blue-500 text-white rounded text-sm hover:bg-blue-600"
+                                            className="flex-1 px-3 py-1.5 bg-primary-500 text-white rounded text-sm hover:bg-primary-500"
                                         >
                                             Call Next
                                         </button>
                                         <button
                                             onClick={() => handleUpdateStatus(item.id, 'cancelled')}
-                                            className="px-3 py-1.5 border border-red-300 text-red-600 rounded text-sm hover:bg-red-50"
+                                            className="px-3 py-1.5 border border-red-300 text-error-600 rounded text-sm hover:bg-error-50"
                                         >
                                             <X className="w-4 h-4" />
                                         </button>
@@ -309,29 +309,29 @@ const ReceptionistQueue: React.FC = () => {
                 </div>
 
                 {/* In Progress */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200">
                     <div className="p-4 border-b bg-blue-50">
-                        <h2 className="font-semibold text-gray-800 flex items-center gap-2">
-                            <PlayCircle className="w-5 h-5 text-blue-600" />
+                        <h2 className="font-semibold text-neutral-800 flex items-center gap-2">
+                            <PlayCircle className="w-5 h-5 text-primary-500" />
                             In Progress ({inProgressQueue.length})
                         </h2>
                     </div>
                     <div className="p-4 space-y-3 max-h-[500px] overflow-y-auto">
                         {inProgressQueue.length === 0 ? (
-                            <p className="text-center text-gray-500 py-8">No patients in progress</p>
+                            <p className="text-center text-neutral-500 py-8">No patients in progress</p>
                         ) : (
                             inProgressQueue.map((item) => (
-                                <div key={item.id} className="p-3 border rounded-lg hover:bg-gray-50">
+                                <div key={item.id} className="p-3 border rounded-lg hover:bg-neutral-50">
                                     <div className="flex items-center justify-between mb-2">
-                                        <span className="text-2xl font-bold text-blue-600">#{item.token_number}</span>
+                                        <span className="text-2xl font-bold text-primary-500">#{item.token_number}</span>
                                         <span className={`px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1 ${getStatusBadge(item.status).bg} ${getStatusBadge(item.status).text}`}>
                                             {getStatusBadge(item.status).icon}
                                             {item.status.replace('_', ' ')}
                                         </span>
                                     </div>
-                                    <p className="font-medium text-gray-800">{item.patient_name}</p>
+                                    <p className="font-medium text-neutral-800">{item.patient_name}</p>
                                     {item.doctor_name && (
-                                        <p className="text-xs text-gray-500 mt-1">With: Dr. {item.doctor_name}</p>
+                                        <p className="text-xs text-neutral-500 mt-1">With: Dr. {item.doctor_name}</p>
                                     )}
                                     <div className="mt-3 flex gap-2">
                                         {item.status === 'in_progress' && (
@@ -356,25 +356,25 @@ const ReceptionistQueue: React.FC = () => {
                 </div>
 
                 {/* Completed */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200">
                     <div className="p-4 border-b bg-green-50">
-                        <h2 className="font-semibold text-gray-800 flex items-center gap-2">
+                        <h2 className="font-semibold text-neutral-800 flex items-center gap-2">
                             <CheckCircle className="w-5 h-5 text-green-600" />
                             Completed Today ({completedQueue.length})
                         </h2>
                     </div>
                     <div className="p-4 space-y-3 max-h-[500px] overflow-y-auto">
                         {completedQueue.length === 0 ? (
-                            <p className="text-center text-gray-500 py-8">No completed visits yet</p>
+                            <p className="text-center text-neutral-500 py-8">No completed visits yet</p>
                         ) : (
                             completedQueue.slice(0, 10).map((item) => (
-                                <div key={item.id} className="p-3 border rounded-lg bg-gray-50">
+                                <div key={item.id} className="p-3 border rounded-lg bg-neutral-50">
                                     <div className="flex items-center justify-between mb-1">
-                                        <span className="text-lg font-bold text-gray-400">#{item.token_number}</span>
+                                        <span className="text-lg font-bold text-neutral-400">#{item.token_number}</span>
                                         <CheckCircle className="w-5 h-5 text-green-500" />
                                     </div>
-                                    <p className="font-medium text-gray-600">{item.patient_name}</p>
-                                    <p className="text-xs text-gray-400">
+                                    <p className="font-medium text-neutral-600">{item.patient_name}</p>
+                                    <p className="text-xs text-neutral-400">
                                         Completed at {new Date(item.completed_at || '').toLocaleTimeString()}
                                     </p>
                                 </div>
@@ -390,20 +390,20 @@ const ReceptionistQueue: React.FC = () => {
                     <div className="bg-white rounded-xl shadow-xl w-full max-w-md mx-4">
                         <div className="p-6 border-b">
                             <div className="flex items-center justify-between">
-                                <h2 className="text-lg font-bold text-gray-800">Issue Queue Token</h2>
+                                <h2 className="text-lg font-bold text-neutral-800">Issue Queue Token</h2>
                                 <button onClick={() => { setShowAddModal(false); resetForm(); }}>
-                                    <X className="w-5 h-5 text-gray-500" />
+                                    <X className="w-5 h-5 text-neutral-500" />
                                 </button>
                             </div>
                         </div>
                         <div className="p-6 space-y-4">
                             {/* Patient Search */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Patient <span className="text-red-500">*</span>
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
+                                    Patient <span className="text-error-500">*</span>
                                 </label>
                                 <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
                                     <input
                                         type="text"
                                         value={searchQuery}
@@ -412,7 +412,7 @@ const ReceptionistQueue: React.FC = () => {
                                             searchPatients(e.target.value);
                                         }}
                                         placeholder="Search patient..."
-                                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                                        className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-purple-500"
                                     />
                                 </div>
                                 {patients.length > 0 && (
@@ -425,10 +425,10 @@ const ReceptionistQueue: React.FC = () => {
                                                     setSearchQuery(patient.name);
                                                     setPatients([]);
                                                 }}
-                                                className="p-3 hover:bg-gray-50 cursor-pointer"
+                                                className="p-3 hover:bg-neutral-50 cursor-pointer"
                                             >
                                                 <p className="font-medium">{patient.name}</p>
-                                                <p className="text-xs text-gray-500">{patient.patient_id}</p>
+                                                <p className="text-xs text-neutral-500">{patient.patient_id}</p>
                                             </div>
                                         ))}
                                     </div>
@@ -437,14 +437,14 @@ const ReceptionistQueue: React.FC = () => {
 
                             {/* Visit Type */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Visit Type</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">Visit Type</label>
                                 <div className="flex gap-2">
                                     <button
                                         onClick={() => setNewToken(prev => ({ ...prev, visit_type: 'walk_in' }))}
                                         className={`flex-1 px-4 py-2 rounded-lg border font-medium transition-colors ${
                                             newToken.visit_type === 'walk_in'
                                                 ? 'bg-purple-500 text-white border-purple-500'
-                                                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                                                : 'bg-white text-neutral-700 border-neutral-300 hover:bg-neutral-50'
                                         }`}
                                     >
                                         Walk-in
@@ -454,7 +454,7 @@ const ReceptionistQueue: React.FC = () => {
                                         className={`flex-1 px-4 py-2 rounded-lg border font-medium transition-colors ${
                                             newToken.visit_type === 'appointment'
                                                 ? 'bg-purple-500 text-white border-purple-500'
-                                                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                                                : 'bg-white text-neutral-700 border-neutral-300 hover:bg-neutral-50'
                                         }`}
                                     >
                                         Appointment
@@ -464,11 +464,11 @@ const ReceptionistQueue: React.FC = () => {
 
                             {/* Priority */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Priority</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">Priority</label>
                                 <select
                                     value={newToken.priority}
                                     onChange={(e) => setNewToken(prev => ({ ...prev, priority: e.target.value as any }))}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                                    className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-purple-500"
                                 >
                                     <option value="normal">Normal</option>
                                     <option value="priority">Priority</option>
@@ -478,11 +478,11 @@ const ReceptionistQueue: React.FC = () => {
 
                             {/* Doctor (Optional) */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Doctor (Optional)</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">Doctor (Optional)</label>
                                 <select
                                     value={newToken.doctor_id}
                                     onChange={(e) => setNewToken(prev => ({ ...prev, doctor_id: parseInt(e.target.value) }))}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                                    className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-purple-500"
                                 >
                                     <option value={0}>Any Available Doctor</option>
                                     {doctors.map((doctor) => (
@@ -496,7 +496,7 @@ const ReceptionistQueue: React.FC = () => {
                         <div className="p-6 border-t flex justify-end gap-3">
                             <button
                                 onClick={() => { setShowAddModal(false); resetForm(); }}
-                                className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                                className="px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50"
                             >
                                 Cancel
                             </button>

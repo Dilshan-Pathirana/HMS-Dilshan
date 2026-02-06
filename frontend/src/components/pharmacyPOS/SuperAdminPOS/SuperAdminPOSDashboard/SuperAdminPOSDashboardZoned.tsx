@@ -191,7 +191,7 @@ const SuperAdminPOSDashboardZoned = () => {
         {
             id: "stock",
             title: "Stock Zone",
-            color: "text-blue-600",
+            color: "text-primary-500",
             bgColor: "bg-blue-50 border-blue-200",
             icon: <Package className="w-6 h-6" />,
             buttons: [
@@ -215,7 +215,7 @@ const SuperAdminPOSDashboardZoned = () => {
                     icon: <AlertTriangle className="w-5 h-5" />,
                     path: "/dashboard/pos/reports/expiring",
                     badge: enhancedStats?.expiring_soon_count,
-                    badgeColor: "bg-red-500",
+                    badgeColor: "bg-error-500",
                     description: "Items expiring within 30 days"
                 },
                 {
@@ -321,18 +321,18 @@ const SuperAdminPOSDashboardZoned = () => {
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center min-h-screen bg-gray-50">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            <div className="flex items-center justify-center min-h-screen bg-neutral-50">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
             </div>
         );
     }
 
     if (error || !stats) {
         return (
-            <div className="flex items-center justify-center min-h-screen bg-gray-50">
+            <div className="flex items-center justify-center min-h-screen bg-neutral-50">
                 <div className="text-center">
-                    <AlertCircle className="mx-auto h-12 w-12 text-red-500 mb-4" />
-                    <p className="text-gray-600">{error || "Failed to load dashboard"}</p>
+                    <AlertCircle className="mx-auto h-12 w-12 text-error-500 mb-4" />
+                    <p className="text-neutral-600">{error || "Failed to load dashboard"}</p>
                 </div>
             </div>
         );
@@ -342,9 +342,9 @@ const SuperAdminPOSDashboardZoned = () => {
     const salesChangePositive = comparison.sales_change_percentage >= 0;
 
     return (
-        <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
+        <div className="p-6 space-y-6 bg-neutral-50 min-h-screen">
             {/* Header with Branch Filter */}
-            <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl shadow-lg p-6 text-white">
+            <div className="bg-gradient-to-r from-primary-500 to-indigo-700 rounded-xl shadow-lg p-6 text-white">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                     <div className="flex items-center gap-4">
                         <div className="p-3 bg-white/20 rounded-lg backdrop-blur-sm">
@@ -366,9 +366,9 @@ const SuperAdminPOSDashboardZoned = () => {
                             onChange={(e) => handleBranchChange(e.target.value)}
                             className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/50 min-w-[200px]"
                         >
-                            <option value="" className="text-gray-800">All Branches</option>
+                            <option value="" className="text-neutral-800">All Branches</option>
                             {all_branches.map((branch) => (
-                                <option key={branch.id} value={branch.id} className="text-gray-800">
+                                <option key={branch.id} value={branch.id} className="text-neutral-800">
                                     {branch.name}
                                 </option>
                             ))}
@@ -406,14 +406,14 @@ const SuperAdminPOSDashboardZoned = () => {
                         <div className="p-2 bg-emerald-100 rounded-lg">
                             <DollarSign className="w-5 h-5 text-emerald-600" />
                         </div>
-                        <div className={`flex items-center gap-1 text-sm ${salesChangePositive ? 'text-emerald-600' : 'text-red-600'}`}>
+                        <div className={`flex items-center gap-1 text-sm ${salesChangePositive ? 'text-emerald-600' : 'text-error-600'}`}>
                             {salesChangePositive ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
                             {Math.abs(comparison.sales_change_percentage).toFixed(1)}%
                         </div>
                     </div>
                     <div className="mt-3">
-                        <p className="text-xs text-gray-500">Today's Sales</p>
-                        <p className="text-lg font-bold text-gray-900">
+                        <p className="text-xs text-neutral-500">Today's Sales</p>
+                        <p className="text-lg font-bold text-neutral-900">
                             Rs. {today_stats.total_sales.toLocaleString('en-US', { minimumFractionDigits: 0 })}
                         </p>
                     </div>
@@ -422,11 +422,11 @@ const SuperAdminPOSDashboardZoned = () => {
                 {/* Transaction Count */}
                 <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                     <div className="p-2 bg-blue-100 rounded-lg w-fit">
-                        <ShoppingCart className="w-5 h-5 text-blue-600" />
+                        <ShoppingCart className="w-5 h-5 text-primary-500" />
                     </div>
                     <div className="mt-3">
-                        <p className="text-xs text-gray-500">Transactions</p>
-                        <p className="text-lg font-bold text-gray-900">{today_stats.transaction_count}</p>
+                        <p className="text-xs text-neutral-500">Transactions</p>
+                        <p className="text-lg font-bold text-neutral-900">{today_stats.transaction_count}</p>
                     </div>
                 </div>
 
@@ -436,7 +436,7 @@ const SuperAdminPOSDashboardZoned = () => {
                         <Tag className="w-5 h-5 text-purple-600" />
                     </div>
                     <div className="mt-3">
-                        <p className="text-xs text-gray-500">Discounts Given</p>
+                        <p className="text-xs text-neutral-500">Discounts Given</p>
                         <p className="text-lg font-bold text-purple-600">
                             Rs. {(enhancedStats?.today_discount_total || 0).toLocaleString()}
                         </p>
@@ -449,7 +449,7 @@ const SuperAdminPOSDashboardZoned = () => {
                         <TrendingUp className="w-5 h-5 text-green-600" />
                     </div>
                     <div className="mt-3">
-                        <p className="text-xs text-gray-500">Month Profit</p>
+                        <p className="text-xs text-neutral-500">Month Profit</p>
                         <p className="text-lg font-bold text-green-600">
                             Rs. {(enhancedStats?.month_profit || 0).toLocaleString()}
                         </p>
@@ -462,7 +462,7 @@ const SuperAdminPOSDashboardZoned = () => {
                         <BarChart3 className="w-5 h-5 text-indigo-600" />
                     </div>
                     <div className="mt-3">
-                        <p className="text-xs text-gray-500">Avg Margin</p>
+                        <p className="text-xs text-neutral-500">Avg Margin</p>
                         <p className="text-lg font-bold text-indigo-600">
                             {(enhancedStats?.month_margin || 0).toFixed(1)}%
                         </p>
@@ -493,7 +493,7 @@ const SuperAdminPOSDashboardZoned = () => {
                                 <button
                                     key={button.id}
                                     onClick={() => button.path && navigate(button.path)}
-                                    className="relative flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-100 hover:border-gray-200 group"
+                                    className="relative flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-100 hover:border-neutral-200 group"
                                     title={button.description}
                                 >
                                     {/* Badge */}
@@ -509,7 +509,7 @@ const SuperAdminPOSDashboardZoned = () => {
                                     </div>
                                     
                                     {/* Label */}
-                                    <span className="text-xs font-medium text-gray-700 text-center leading-tight">
+                                    <span className="text-xs font-medium text-neutral-700 text-center leading-tight">
                                         {button.label}
                                     </span>
                                 </button>
@@ -522,8 +522,8 @@ const SuperAdminPOSDashboardZoned = () => {
             {/* Branch Performance (Compact) */}
             {branch_performance && branch_performance.length > 0 && (
                 <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                        <Building2 className="w-5 h-5 text-gray-600" />
+                    <h3 className="text-lg font-semibold text-neutral-900 mb-4 flex items-center gap-2">
+                        <Building2 className="w-5 h-5 text-neutral-600" />
                         {selectedBranchId ? 'Branch Details' : 'Top Performing Branches'}
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -531,26 +531,26 @@ const SuperAdminPOSDashboardZoned = () => {
                             <div 
                                 key={branch.id} 
                                 className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors ${
-                                    selectedBranchId === branch.id ? 'bg-blue-50 border border-blue-200' : 'bg-gray-50 hover:bg-gray-100'
+                                    selectedBranchId === branch.id ? 'bg-blue-50 border border-blue-200' : 'bg-neutral-50 hover:bg-neutral-100'
                                 }`}
                                 onClick={() => handleBranchChange(selectedBranchId === branch.id ? '' : branch.id)}
                             >
                                 <div className="flex items-center gap-3">
                                     <div className={`p-2 rounded-full ${
                                         index === 0 ? 'bg-yellow-100' :
-                                        index === 1 ? 'bg-gray-100' :
+                                        index === 1 ? 'bg-neutral-100' :
                                         index === 2 ? 'bg-orange-100' :
                                         'bg-indigo-100'
                                     }`}>
                                         <span className="font-bold text-sm">{index + 1}</span>
                                     </div>
                                     <div>
-                                        <p className="font-medium text-gray-900 text-sm">{branch.name}</p>
-                                        <p className="text-xs text-gray-500">{branch.transaction_count} txns</p>
+                                        <p className="font-medium text-neutral-900 text-sm">{branch.name}</p>
+                                        <p className="text-xs text-neutral-500">{branch.transaction_count} txns</p>
                                     </div>
                                 </div>
                                 <div className="text-right">
-                                    <p className="font-semibold text-gray-900 text-sm">
+                                    <p className="font-semibold text-neutral-900 text-sm">
                                         Rs. {branch.total_sales.toLocaleString()}
                                     </p>
                                 </div>

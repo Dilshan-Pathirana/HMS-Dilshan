@@ -58,43 +58,47 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ items }) => {
     };
 
     return (
-        <nav className="py-4">
-            <div className="px-4 mb-4">
-                <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                    Navigation
+        <nav className="py-4 px-3">
+            <div className="px-3 mb-2 mt-2">
+                <h2 className="text-[11px] font-bold text-neutral-400 uppercase tracking-widest">
+                    Main Menu
                 </h2>
             </div>
-            <ul className="space-y-1 px-2">
+            <ul className="space-y-0.5">
                 {items.map((item, index) => (
                     <li key={index}>
                         {item.children ? (
                             // Menu item with children (expandable)
-                            <div>
+                            <div className="mb-0.5">
                                 <button
                                     onClick={() => toggleMenu(item.label)}
-                                    className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all w-full ${isChildActive(item.children) || expandedMenus.includes(item.label)
-                                            ? 'bg-primary-50 text-primary-700'
-                                            : 'text-slate-700 hover:bg-slate-50'
+                                    className={`group flex items-center justify-between px-3 py-2 rounded-lg transition-all w-full text-sm font-medium ${isChildActive(item.children) || expandedMenus.includes(item.label)
+                                        ? 'text-neutral-900 bg-neutral-100'
+                                        : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900'
                                         }`}
                                 >
-                                    <span className="flex-shrink-0">{item.icon}</span>
-                                    <span className="flex-1 font-medium text-left">{item.label}</span>
+                                    <div className="flex items-center gap-3">
+                                        <span className={`transition-colors ${isChildActive(item.children) || expandedMenus.includes(item.label) ? 'text-primary-600' : 'text-neutral-400 group-hover:text-neutral-600'}`}>
+                                            {item.icon}
+                                        </span>
+                                        <span>{item.label}</span>
+                                    </div>
                                     {expandedMenus.includes(item.label) ? (
-                                        <ChevronDown className="w-4 h-4" />
+                                        <ChevronDown className="w-3.5 h-3.5 text-neutral-400" />
                                     ) : (
-                                        <ChevronRight className="w-4 h-4" />
+                                        <ChevronRight className="w-3.5 h-3.5 text-neutral-400" />
                                     )}
                                 </button>
                                 {expandedMenus.includes(item.label) && (
-                                    <ul className="mt-1 ml-6 space-y-1 border-l-2 border-primary-200 pl-4">
+                                    <ul className="mt-1 ml-4 space-y-0.5 border-l border-neutral-200 pl-3">
                                         {item.children.map((child, childIndex) => (
                                             <li key={childIndex}>
                                                 <NavLink
                                                     to={child.path}
                                                     className={({ isActive }) =>
-                                                        `block px-3 py-2 rounded-lg text-sm transition-all ${isActive
-                                                            ? 'bg-primary-600 text-white shadow-sm'
-                                                            : 'text-slate-600 hover:bg-slate-100'
+                                                        `block px-3 py-2 rounded-md text-sm transition-all ${isActive
+                                                            ? 'text-primary-700 bg-primary-50 font-medium'
+                                                            : 'text-neutral-500 hover:text-neutral-800 hover:bg-neutral-50'
                                                         }`
                                                     }
                                                 >
@@ -110,16 +114,21 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ items }) => {
                             <NavLink
                                 to={item.path}
                                 className={({ isActive }) =>
-                                    `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive
-                                        ? 'bg-primary-600 text-white shadow-primary'
-                                        : 'text-slate-700 hover:bg-slate-50'
+                                    `group flex items-center gap-3 px-3 py-2 rounded-lg transition-all text-sm font-medium ${isActive
+                                        ? 'bg-neutral-900 text-white shadow-sm'
+                                        : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900'
                                     }`
                                 }
                             >
-                                <span className="flex-shrink-0">{item.icon}</span>
-                                <span className="flex-1 font-medium">{item.label}</span>
+                                <span className={`flex-shrink-0 transition-colors ${
+                                    // Hacky way to check isActive inside the children 
+                                    location.pathname === item.path ? 'text-white' : 'text-neutral-400 group-hover:text-neutral-600'
+                                    }`}>
+                                    {item.icon}
+                                </span>
+                                <span className="flex-1">{item.label}</span>
                                 {item.badge && (
-                                    <span className="px-2 py-1 text-xs font-bold bg-rose-500 text-white rounded-full">
+                                    <span className="px-1.5 py-0.5 text-[10px] font-bold bg-error-500 text-white rounded-full">
                                         {item.badge}
                                     </span>
                                 )}

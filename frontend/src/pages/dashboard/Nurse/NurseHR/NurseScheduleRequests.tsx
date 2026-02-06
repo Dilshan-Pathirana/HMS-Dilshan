@@ -205,7 +205,7 @@ const NurseScheduleRequests: React.FC = () => {
         const badges: Record<string, { bg: string; text: string; label: string }> = {
             pending: { bg: 'bg-amber-100', text: 'text-amber-800', label: 'Pending' },
             approved: { bg: 'bg-green-100', text: 'text-green-800', label: 'Approved' },
-            rejected: { bg: 'bg-red-100', text: 'text-red-800', label: 'Rejected' }
+            rejected: { bg: 'bg-error-100', text: 'text-red-800', label: 'Rejected' }
         };
         const badge = badges[status] || badges.pending;
         return (
@@ -220,7 +220,7 @@ const NurseScheduleRequests: React.FC = () => {
             change: { bg: 'bg-blue-100', text: 'text-blue-800', label: 'Shift Change' },
             interchange: { bg: 'bg-purple-100', text: 'text-purple-800', label: 'Shift Swap' },
             time_off: { bg: 'bg-green-100', text: 'text-green-800', label: 'Leave' },
-            cancellation: { bg: 'bg-red-100', text: 'text-red-800', label: 'Cancellation' }
+            cancellation: { bg: 'bg-error-100', text: 'text-red-800', label: 'Cancellation' }
         };
         const badge = badges[type] || badges.change;
         return (
@@ -235,10 +235,10 @@ const NurseScheduleRequests: React.FC = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center sm:ml-64 pt-20">
+            <div className="min-h-screen bg-neutral-50 flex items-center justify-center sm:ml-64 pt-20">
                 <div className="text-center">
                     <Loader2 className="w-12 h-12 animate-spin text-teal-500 mx-auto mb-4" />
-                    <p className="text-gray-600">Loading requests...</p>
+                    <p className="text-neutral-600">Loading requests...</p>
                 </div>
             </div>
         );
@@ -247,22 +247,22 @@ const NurseScheduleRequests: React.FC = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-teal-50/30 p-6 sm:ml-64 pt-20">
             {/* Header */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 mb-6">
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => navigate('/nurse-dashboard/hr')}
-                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
-                            <ArrowLeft className="w-5 h-5 text-gray-600" />
+                            <ArrowLeft className="w-5 h-5 text-neutral-600" />
                         </button>
                         <div className="flex items-center gap-3">
                             <div className="p-2 bg-teal-100 rounded-lg">
                                 <Activity className="w-6 h-6 text-teal-600" />
                             </div>
                             <div>
-                                <h1 className="text-2xl font-bold text-gray-800">Leave & Shift Requests</h1>
-                                <p className="text-gray-600 text-sm mt-1">Apply for leave, request shift changes, or swap shifts</p>
+                                <h1 className="text-2xl font-bold text-neutral-800">Leave & Shift Requests</h1>
+                                <p className="text-neutral-600 text-sm mt-1">Apply for leave, request shift changes, or swap shifts</p>
                             </div>
                         </div>
                     </div>
@@ -308,14 +308,14 @@ const NurseScheduleRequests: React.FC = () => {
             </div>
 
             {/* Tabs */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 mb-6">
-                <div className="flex border-b border-gray-200">
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 mb-6">
+                <div className="flex border-b border-neutral-200">
                     <button
                         onClick={() => setActiveTab('my-requests')}
                         className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
                             activeTab === 'my-requests'
                                 ? 'text-teal-600 border-b-2 border-teal-500 bg-teal-50/50'
-                                : 'text-gray-500 hover:text-gray-700'
+                                : 'text-neutral-500 hover:text-neutral-700'
                         }`}
                     >
                         My Requests ({requests.length})
@@ -325,12 +325,12 @@ const NurseScheduleRequests: React.FC = () => {
                         className={`flex-1 px-4 py-3 text-sm font-medium transition-colors relative ${
                             activeTab === 'swap-requests'
                                 ? 'text-teal-600 border-b-2 border-teal-500 bg-teal-50/50'
-                                : 'text-gray-500 hover:text-gray-700'
+                                : 'text-neutral-500 hover:text-neutral-700'
                         }`}
                     >
                         Swap Requests ({incomingSwapRequests.length})
                         {pendingSwaps > 0 && (
-                            <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                            <span className="absolute -top-1 -right-1 w-5 h-5 bg-error-500 text-white text-xs rounded-full flex items-center justify-center">
                                 {pendingSwaps}
                             </span>
                         )}
@@ -340,7 +340,7 @@ const NurseScheduleRequests: React.FC = () => {
                         className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
                             activeTab === 'new-request'
                                 ? 'text-teal-600 border-b-2 border-teal-500 bg-teal-50/50'
-                                : 'text-gray-500 hover:text-gray-700'
+                                : 'text-neutral-500 hover:text-neutral-700'
                         }`}
                     >
                         <Plus className="w-4 h-4 inline mr-1" />
@@ -353,7 +353,7 @@ const NurseScheduleRequests: React.FC = () => {
                     {activeTab === 'my-requests' && (
                         <div>
                             {requests.length === 0 ? (
-                                <div className="text-center py-12 text-gray-500">
+                                <div className="text-center py-12 text-neutral-500">
                                     <Calendar className="w-12 h-12 mx-auto mb-3 text-gray-300" />
                                     <p>No requests found</p>
                                     <button
@@ -366,7 +366,7 @@ const NurseScheduleRequests: React.FC = () => {
                             ) : (
                                 <div className="space-y-4">
                                     {requests.map((request) => (
-                                        <div key={request.id} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50">
+                                        <div key={request.id} className="border border-neutral-200 rounded-lg p-4 hover:bg-neutral-50">
                                             <div className="flex items-start justify-between mb-3">
                                                 <div className="flex items-center gap-3">
                                                     {getRequestTypeBadge(request.requestType)}
@@ -374,36 +374,36 @@ const NurseScheduleRequests: React.FC = () => {
                                                     {request.requestType === 'interchange' && request.peerStatus && (
                                                         <span className={`px-2 py-1 text-xs rounded-full font-medium ${
                                                             request.peerStatus === 'approved' ? 'bg-blue-100 text-blue-800' :
-                                                            request.peerStatus === 'rejected' ? 'bg-red-100 text-red-800' :
-                                                            'bg-gray-100 text-gray-800'
+                                                            request.peerStatus === 'rejected' ? 'bg-error-100 text-red-800' :
+                                                            'bg-neutral-100 text-neutral-800'
                                                         }`}>
                                                             Peer: {request.peerStatus}
                                                         </span>
                                                     )}
                                                 </div>
-                                                <span className="text-xs text-gray-500">{formatDate(request.requestedDate)}</span>
+                                                <span className="text-xs text-neutral-500">{formatDate(request.requestedDate)}</span>
                                             </div>
                                             <div className="grid grid-cols-2 gap-4 mb-3">
                                                 <div>
-                                                    <p className="text-xs text-gray-500 mb-1">Original Shift</p>
-                                                    <p className="font-medium text-gray-800">{formatDate(request.originalShiftDate)}</p>
-                                                    <p className="text-sm text-gray-600">{request.originalShiftType}</p>
+                                                    <p className="text-xs text-neutral-500 mb-1">Original Shift</p>
+                                                    <p className="font-medium text-neutral-800">{formatDate(request.originalShiftDate)}</p>
+                                                    <p className="text-sm text-neutral-600">{request.originalShiftType}</p>
                                                 </div>
                                                 {request.requestType === 'interchange' && request.interchangeWithName && (
                                                     <div>
-                                                        <p className="text-xs text-gray-500 mb-1">Swap With</p>
-                                                        <p className="font-medium text-gray-800">{request.interchangeWithName}</p>
+                                                        <p className="text-xs text-neutral-500 mb-1">Swap With</p>
+                                                        <p className="font-medium text-neutral-800">{request.interchangeWithName}</p>
                                                         {request.interchangeShiftDate && (
-                                                            <p className="text-sm text-gray-600">{formatDate(request.interchangeShiftDate)}</p>
+                                                            <p className="text-sm text-neutral-600">{formatDate(request.interchangeShiftDate)}</p>
                                                         )}
                                                     </div>
                                                 )}
                                             </div>
-                                            <p className="text-sm text-gray-600">
+                                            <p className="text-sm text-neutral-600">
                                                 <span className="font-medium">Reason:</span> {request.reason}
                                             </p>
                                             {request.status === 'rejected' && request.rejectionReason && (
-                                                <div className="mt-3 p-3 bg-red-50 rounded-lg">
+                                                <div className="mt-3 p-3 bg-error-50 rounded-lg">
                                                     <p className="text-sm text-red-700">
                                                         <span className="font-medium">Rejection Reason:</span> {request.rejectionReason}
                                                     </p>
@@ -420,35 +420,35 @@ const NurseScheduleRequests: React.FC = () => {
                     {activeTab === 'swap-requests' && (
                         <div>
                             {incomingSwapRequests.length === 0 ? (
-                                <div className="text-center py-12 text-gray-500">
+                                <div className="text-center py-12 text-neutral-500">
                                     <Users className="w-12 h-12 mx-auto mb-3 text-gray-300" />
                                     <p>No swap requests from colleagues</p>
                                 </div>
                             ) : (
                                 <div className="space-y-4">
                                     {incomingSwapRequests.map((request) => (
-                                        <div key={request.id} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50">
+                                        <div key={request.id} className="border border-neutral-200 rounded-lg p-4 hover:bg-neutral-50">
                                             <div className="flex items-start justify-between mb-3">
                                                 <div className="flex items-center gap-2">
                                                     <Users className="w-4 h-4 text-purple-500" />
-                                                    <span className="font-medium text-gray-800">{request.requesterName}</span>
-                                                    <span className="text-gray-500 text-sm">wants to swap shifts</span>
+                                                    <span className="font-medium text-neutral-800">{request.requesterName}</span>
+                                                    <span className="text-neutral-500 text-sm">wants to swap shifts</span>
                                                 </div>
                                                 {getStatusBadge(request.peerStatus)}
                                             </div>
                                             <div className="grid grid-cols-2 gap-4 mb-3">
                                                 <div className="bg-teal-50 p-3 rounded-lg">
                                                     <p className="text-xs text-teal-600 mb-1">Their Shift</p>
-                                                    <p className="font-medium text-gray-800">{formatDate(request.requesterShiftDate)}</p>
-                                                    <p className="text-sm text-gray-600">{request.requesterShiftType}</p>
+                                                    <p className="font-medium text-neutral-800">{formatDate(request.requesterShiftDate)}</p>
+                                                    <p className="text-sm text-neutral-600">{request.requesterShiftType}</p>
                                                 </div>
                                                 <div className="bg-purple-50 p-3 rounded-lg">
                                                     <p className="text-xs text-purple-600 mb-1">Your Shift</p>
-                                                    <p className="font-medium text-gray-800">{request.yourShiftDate ? formatDate(request.yourShiftDate) : '-'}</p>
-                                                    <p className="text-sm text-gray-600">{request.yourShiftType || '-'}</p>
+                                                    <p className="font-medium text-neutral-800">{request.yourShiftDate ? formatDate(request.yourShiftDate) : '-'}</p>
+                                                    <p className="text-sm text-neutral-600">{request.yourShiftType || '-'}</p>
                                                 </div>
                                             </div>
-                                            <p className="text-sm text-gray-600 mb-3">
+                                            <p className="text-sm text-neutral-600 mb-3">
                                                 <span className="font-medium">Reason:</span> {request.reason}
                                             </p>
                                             {request.peerStatus === 'pending' && (
@@ -462,7 +462,7 @@ const NurseScheduleRequests: React.FC = () => {
                                                     </button>
                                                     <button
                                                         onClick={() => respondToSwapRequest(request.id, 'reject')}
-                                                        className="flex items-center gap-1 px-4 py-2 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600"
+                                                        className="flex items-center gap-1 px-4 py-2 bg-error-500 text-white text-sm rounded-lg hover:bg-red-600"
                                                     >
                                                         <X className="w-4 h-4" />
                                                         Decline
@@ -482,7 +482,7 @@ const NurseScheduleRequests: React.FC = () => {
                             <div className="max-w-2xl">
                                 {/* Request Type */}
                                 <div className="mb-6">
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Request Type</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">Request Type</label>
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                                         {[
                                             { value: 'time_off', label: 'Leave', icon: <Calendar className="w-4 h-4" />, color: 'green' },
@@ -496,10 +496,10 @@ const NurseScheduleRequests: React.FC = () => {
                                                 className={`p-3 rounded-lg border-2 transition-all text-left ${
                                                     requestType === type.value
                                                         ? `border-${type.color}-500 bg-${type.color}-50`
-                                                        : 'border-gray-200 hover:border-gray-300'
+                                                        : 'border-neutral-200 hover:border-neutral-300'
                                                 }`}
                                             >
-                                                <div className={`flex items-center gap-2 ${requestType === type.value ? `text-${type.color}-600` : 'text-gray-600'}`}>
+                                                <div className={`flex items-center gap-2 ${requestType === type.value ? `text-${type.color}-600` : 'text-neutral-600'}`}>
                                                     {type.icon}
                                                     <span className="font-medium text-sm">{type.label}</span>
                                                 </div>
@@ -510,25 +510,25 @@ const NurseScheduleRequests: React.FC = () => {
 
                                 {/* Original Shift Date */}
                                 <div className="mb-4">
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                                         {requestType === 'time_off' ? 'Leave Date' : 'Shift Date'}
                                     </label>
                                     <input
                                         type="date"
                                         value={originalShiftDate}
                                         onChange={(e) => setOriginalShiftDate(e.target.value)}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                                         min={new Date().toISOString().split('T')[0]}
                                     />
                                 </div>
 
                                 {/* Shift Type */}
                                 <div className="mb-4">
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Shift Type</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">Shift Type</label>
                                     <select
                                         value={originalShiftType}
                                         onChange={(e) => setOriginalShiftType(e.target.value)}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option value="">Select shift type</option>
                                         {shiftTypes.map((shift) => (
@@ -543,11 +543,11 @@ const NurseScheduleRequests: React.FC = () => {
                                 {requestType === 'interchange' && (
                                     <>
                                         <div className="mb-4">
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">Swap With</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-2">Swap With</label>
                                             <select
                                                 value={interchangeWith}
                                                 onChange={(e) => setInterchangeWith(e.target.value)}
-                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                                             >
                                                 <option value="">Select colleague</option>
                                                 {colleagues.map((colleague) => (
@@ -558,20 +558,20 @@ const NurseScheduleRequests: React.FC = () => {
                                             </select>
                                         </div>
                                         <div className="mb-4">
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">Their Shift Date</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-2">Their Shift Date</label>
                                             <input
                                                 type="date"
                                                 value={interchangeShiftDate}
                                                 onChange={(e) => setInterchangeShiftDate(e.target.value)}
-                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                                             />
                                         </div>
                                         <div className="mb-4">
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">Their Shift Type</label>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-2">Their Shift Type</label>
                                             <select
                                                 value={interchangeShiftType}
                                                 onChange={(e) => setInterchangeShiftType(e.target.value)}
-                                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                                                className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                                             >
                                                 <option value="">Select shift type</option>
                                                 {shiftTypes.map((shift) => (
@@ -586,12 +586,12 @@ const NurseScheduleRequests: React.FC = () => {
 
                                 {/* Reason */}
                                 <div className="mb-6">
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Reason</label>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">Reason</label>
                                     <textarea
                                         value={reason}
                                         onChange={(e) => setReason(e.target.value)}
                                         rows={3}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                                         placeholder="Please provide a reason for your request..."
                                     />
                                 </div>

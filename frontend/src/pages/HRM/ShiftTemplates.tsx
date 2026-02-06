@@ -378,7 +378,7 @@ const ShiftTemplates: React.FC = () => {
     }, [success, error]);
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-neutral-50">
             {/* Header */}
             <div className="bg-white shadow-sm border-b">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -386,19 +386,19 @@ const ShiftTemplates: React.FC = () => {
                         <div className="flex items-center space-x-4">
                             <button
                                 onClick={() => navigate('/super-admin/hrm')}
-                                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                             >
                                 <ArrowLeft className="w-5 h-5" />
                             </button>
                             <div>
-                                <h1 className="text-2xl font-bold text-gray-900">Shift Templates</h1>
-                                <p className="text-sm text-gray-500">Configure shift schedules for staff</p>
+                                <h1 className="text-2xl font-bold text-neutral-900">Shift Templates</h1>
+                                <p className="text-sm text-neutral-500">Configure shift schedules for staff</p>
                             </div>
                         </div>
                         <div className="flex items-center space-x-3">
                             <button
                                 onClick={() => setShowCopyModal(true)}
-                                className="flex items-center px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                                className="flex items-center px-4 py-2 text-neutral-700 bg-neutral-100 rounded-lg hover:bg-neutral-200 transition-colors"
                             >
                                 <Copy className="w-4 h-4 mr-2" />
                                 Copy to Branch
@@ -412,7 +412,7 @@ const ShiftTemplates: React.FC = () => {
                             </button>
                             <button
                                 onClick={handleCreate}
-                                className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                                className="flex items-center px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
                             >
                                 <Plus className="w-4 h-4 mr-2" />
                                 Add Shift Template
@@ -432,8 +432,8 @@ const ShiftTemplates: React.FC = () => {
                         </div>
                     )}
                     {error && (
-                        <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center">
-                            <AlertCircle className="w-5 h-5 text-red-500 mr-3" />
+                        <div className="bg-error-50 border border-red-200 rounded-lg p-4 flex items-center">
+                            <AlertCircle className="w-5 h-5 text-error-500 mr-3" />
                             <span className="text-red-700">{error}</span>
                         </div>
                     )}
@@ -446,11 +446,11 @@ const ShiftTemplates: React.FC = () => {
                     <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                         {/* Branch Select */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Branch</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">Branch</label>
                             <select
                                 value={selectedBranch}
                                 onChange={(e) => setSelectedBranch(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                             >
                                 <option value="all">All Branches</option>
                                 <option value="global">Global (Default)</option>
@@ -462,26 +462,26 @@ const ShiftTemplates: React.FC = () => {
 
                         {/* Search */}
                         <div className="md:col-span-2">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Search</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">Search</label>
                             <div className="relative">
-                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-neutral-400" />
                                 <input
                                     type="text"
                                     placeholder="Search shifts..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                 />
                             </div>
                         </div>
 
                         {/* Active Filter */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">Status</label>
                             <select
                                 value={filterActive}
                                 onChange={(e) => setFilterActive(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                             >
                                 <option value="all">All Status</option>
                                 <option value="active">Active</option>
@@ -491,11 +491,11 @@ const ShiftTemplates: React.FC = () => {
 
                         {/* Overnight Filter */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Shift Type</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-1">Shift Type</label>
                             <select
                                 value={filterOvernight}
                                 onChange={(e) => setFilterOvernight(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                             >
                                 <option value="all">All Types</option>
                                 <option value="day">Day Shifts</option>
@@ -510,13 +510,13 @@ const ShiftTemplates: React.FC = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
                 {isLoading ? (
                     <div className="flex items-center justify-center h-64">
-                        <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent"></div>
+                        <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary-500 border-t-transparent"></div>
                     </div>
                 ) : filteredTemplates.length === 0 ? (
                     <div className="bg-white rounded-xl shadow-sm border p-12 text-center">
                         <Clock className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                        <h3 className="text-lg font-medium text-gray-900 mb-2">No Shift Templates Found</h3>
-                        <p className="text-gray-500 mb-6">
+                        <h3 className="text-lg font-medium text-neutral-900 mb-2">No Shift Templates Found</h3>
+                        <p className="text-neutral-500 mb-6">
                             {searchQuery ? 'Try adjusting your search or filters' : 'Get started by adding shift templates or initializing defaults'}
                         </p>
                         <div className="flex justify-center space-x-4">
@@ -528,7 +528,7 @@ const ShiftTemplates: React.FC = () => {
                             </button>
                             <button
                                 onClick={handleCreate}
-                                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                                className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
                             >
                                 Add Manually
                             </button>
@@ -547,9 +547,9 @@ const ShiftTemplates: React.FC = () => {
                                             {getShiftIcon(template)}
                                         </div>
                                         <div>
-                                            <h3 className="font-semibold text-gray-900">{template.shift_name}</h3>
+                                            <h3 className="font-semibold text-neutral-900">{template.shift_name}</h3>
                                             {template.shift_code && (
-                                                <span className="text-sm text-gray-500">Code: {template.shift_code}</span>
+                                                <span className="text-sm text-neutral-500">Code: {template.shift_code}</span>
                                             )}
                                         </div>
                                     </div>
@@ -559,14 +559,14 @@ const ShiftTemplates: React.FC = () => {
                                             className="p-2 hover:bg-white/50 rounded-lg transition-colors"
                                             title="Edit"
                                         >
-                                            <Edit2 className="w-4 h-4 text-gray-600" />
+                                            <Edit2 className="w-4 h-4 text-neutral-600" />
                                         </button>
                                         <button
                                             onClick={() => handleDelete(template)}
                                             className="p-2 hover:bg-white/50 rounded-lg transition-colors"
                                             title="Delete"
                                         >
-                                            <Trash2 className="w-4 h-4 text-red-500" />
+                                            <Trash2 className="w-4 h-4 text-error-500" />
                                         </button>
                                     </div>
                                 </div>
@@ -575,19 +575,19 @@ const ShiftTemplates: React.FC = () => {
                                 <div className="bg-white/70 rounded-lg p-3 mb-4">
                                     <div className="flex items-center justify-between">
                                         <div className="text-center">
-                                            <p className="text-xs text-gray-500 uppercase">Start</p>
-                                            <p className="text-lg font-bold text-gray-900">{formatTime(template.start_time)}</p>
+                                            <p className="text-xs text-neutral-500 uppercase">Start</p>
+                                            <p className="text-lg font-bold text-neutral-900">{formatTime(template.start_time)}</p>
                                         </div>
                                         <div className="flex-1 px-4">
-                                            <div className="h-0.5 bg-gray-300 relative">
-                                                <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-white px-2 text-xs text-gray-500">
+                                            <div className="h-0.5 bg-neutral-300 relative">
+                                                <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-white px-2 text-xs text-neutral-500">
                                                     {template.standard_hours}h
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="text-center">
-                                            <p className="text-xs text-gray-500 uppercase">End</p>
-                                            <p className="text-lg font-bold text-gray-900">{formatTime(template.end_time)}</p>
+                                            <p className="text-xs text-neutral-500 uppercase">End</p>
+                                            <p className="text-lg font-bold text-neutral-900">{formatTime(template.end_time)}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -595,17 +595,17 @@ const ShiftTemplates: React.FC = () => {
                                 {/* Details */}
                                 <div className="space-y-2 text-sm">
                                     <div className="flex items-center justify-between">
-                                        <span className="text-gray-500">Break Duration:</span>
+                                        <span className="text-neutral-500">Break Duration:</span>
                                         <span className="font-medium">{template.break_duration}h</span>
                                     </div>
                                     <div className="flex items-center justify-between">
-                                        <span className="text-gray-500">Overnight:</span>
+                                        <span className="text-neutral-500">Overnight:</span>
                                         {template.overnight_shift ? (
                                             <span className="flex items-center text-indigo-600">
                                                 <Moon className="w-3 h-3 mr-1" /> Yes
                                             </span>
                                         ) : (
-                                            <span className="text-gray-600">No</span>
+                                            <span className="text-neutral-600">No</span>
                                         )}
                                     </div>
                                 </div>
@@ -613,7 +613,7 @@ const ShiftTemplates: React.FC = () => {
                                 {/* Applicable Days */}
                                 {template.applicable_days && template.applicable_days.length > 0 && (
                                     <div className="mt-4">
-                                        <p className="text-xs text-gray-500 mb-2">Available Days:</p>
+                                        <p className="text-xs text-neutral-500 mb-2">Available Days:</p>
                                         <div className="flex flex-wrap gap-1">
                                             {daysOfWeek.map(day => (
                                                 <span
@@ -621,7 +621,7 @@ const ShiftTemplates: React.FC = () => {
                                                     className={`px-2 py-0.5 text-xs rounded ${
                                                         template.applicable_days?.includes(day.value)
                                                             ? 'bg-blue-100 text-blue-700'
-                                                            : 'bg-gray-100 text-gray-400'
+                                                            : 'bg-neutral-100 text-neutral-400'
                                                     }`}
                                                 >
                                                     {day.label}
@@ -632,15 +632,15 @@ const ShiftTemplates: React.FC = () => {
                                 )}
 
                                 {/* Footer */}
-                                <div className="mt-4 pt-4 border-t border-gray-200/50 flex items-center justify-between">
-                                    <div className="flex items-center text-xs text-gray-500">
+                                <div className="mt-4 pt-4 border-t border-neutral-200/50 flex items-center justify-between">
+                                    <div className="flex items-center text-xs text-neutral-500">
                                         <Building2 className="w-3 h-3 mr-1" />
                                         {template.branch?.center_name || 'Global'}
                                     </div>
                                     <span className={`px-2 py-1 text-xs rounded-full ${
                                         template.is_active 
                                             ? 'bg-green-100 text-green-700' 
-                                            : 'bg-gray-100 text-gray-600'
+                                            : 'bg-neutral-100 text-neutral-600'
                                     }`}>
                                         {template.is_active ? 'Active' : 'Inactive'}
                                     </span>
@@ -657,12 +657,12 @@ const ShiftTemplates: React.FC = () => {
                     <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                         <div className="p-6 border-b sticky top-0 bg-white z-10">
                             <div className="flex items-center justify-between">
-                                <h2 className="text-xl font-bold text-gray-900">
+                                <h2 className="text-xl font-bold text-neutral-900">
                                     {editingTemplate ? 'Edit Shift Template' : 'Add Shift Template'}
                                 </h2>
                                 <button
                                     onClick={() => setShowModal(false)}
-                                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                                    className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                                 >
                                     <X className="w-5 h-5" />
                                 </button>
@@ -673,27 +673,27 @@ const ShiftTemplates: React.FC = () => {
                             {/* Basic Info */}
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Shift Name <span className="text-red-500">*</span>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
+                                        Shift Name <span className="text-error-500">*</span>
                                     </label>
                                     <input
                                         type="text"
                                         value={formData.shift_name}
                                         onChange={(e) => setFormData({ ...formData, shift_name: e.target.value })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                         placeholder="e.g., Morning Shift"
                                         required
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Shift Code
                                     </label>
                                     <input
                                         type="text"
                                         value={formData.shift_code}
                                         onChange={(e) => setFormData({ ...formData, shift_code: e.target.value.toUpperCase() })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                         placeholder="e.g., M, A, N"
                                         maxLength={10}
                                     />
@@ -703,26 +703,26 @@ const ShiftTemplates: React.FC = () => {
                             {/* Time */}
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Start Time <span className="text-red-500">*</span>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
+                                        Start Time <span className="text-error-500">*</span>
                                     </label>
                                     <input
                                         type="time"
                                         value={formData.start_time}
                                         onChange={(e) => setFormData({ ...formData, start_time: e.target.value })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                         required
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        End Time <span className="text-red-500">*</span>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
+                                        End Time <span className="text-error-500">*</span>
                                     </label>
                                     <input
                                         type="time"
                                         value={formData.end_time}
                                         onChange={(e) => setFormData({ ...formData, end_time: e.target.value })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                         required
                                     />
                                 </div>
@@ -731,28 +731,28 @@ const ShiftTemplates: React.FC = () => {
                             {/* Hours */}
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Standard Hours
                                     </label>
                                     <input
                                         type="number"
                                         value={formData.standard_hours}
                                         onChange={(e) => setFormData({ ...formData, standard_hours: parseFloat(e.target.value) || 0 })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                         min="0"
                                         max="24"
                                         step="0.5"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Break Duration (hours)
                                     </label>
                                     <input
                                         type="number"
                                         value={formData.break_duration}
                                         onChange={(e) => setFormData({ ...formData, break_duration: parseFloat(e.target.value) || 0 })}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                         min="0"
                                         max="4"
                                         step="0.25"
@@ -762,11 +762,11 @@ const ShiftTemplates: React.FC = () => {
 
                             {/* Description */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Description</label>
                                 <textarea
                                     value={formData.description}
                                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                     rows={2}
                                     placeholder="Optional description..."
                                 />
@@ -774,7 +774,7 @@ const ShiftTemplates: React.FC = () => {
 
                             {/* Applicable Days */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     <Calendar className="w-4 h-4 inline mr-1" />
                                     Applicable Days
                                 </label>
@@ -786,8 +786,8 @@ const ShiftTemplates: React.FC = () => {
                                             onClick={() => toggleDay(day.value)}
                                             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                                                 formData.applicable_days.includes(day.value)
-                                                    ? 'bg-blue-600 text-white'
-                                                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                                    ? 'bg-primary-500 text-white'
+                                                    : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
                                             }`}
                                         >
                                             {day.label}
@@ -798,7 +798,7 @@ const ShiftTemplates: React.FC = () => {
 
                             {/* Applicable Roles */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     <Users className="w-4 h-4 inline mr-1" />
                                     Applicable Roles
                                 </label>
@@ -811,7 +811,7 @@ const ShiftTemplates: React.FC = () => {
                                             className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors text-left ${
                                                 formData.applicable_roles.includes(role.value)
                                                     ? 'bg-green-100 text-green-700 border-2 border-green-300'
-                                                    : 'bg-gray-50 text-gray-600 border-2 border-gray-200 hover:bg-gray-100'
+                                                    : 'bg-neutral-50 text-neutral-600 border-2 border-neutral-200 hover:bg-neutral-100'
                                             }`}
                                         >
                                             {formData.applicable_roles.includes(role.value) && (
@@ -825,12 +825,12 @@ const ShiftTemplates: React.FC = () => {
 
                             {/* Toggles */}
                             <div className="grid grid-cols-2 gap-4">
-                                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                <div className="flex items-center justify-between p-4 bg-neutral-50 rounded-lg">
                                     <div className="flex items-center space-x-3">
                                         <Moon className="w-5 h-5 text-indigo-500" />
                                         <div>
-                                            <p className="font-medium text-gray-900">Overnight Shift</p>
-                                            <p className="text-xs text-gray-500">Crosses midnight</p>
+                                            <p className="font-medium text-neutral-900">Overnight Shift</p>
+                                            <p className="text-xs text-neutral-500">Crosses midnight</p>
                                         </div>
                                     </div>
                                     <label className="relative inline-flex items-center cursor-pointer">
@@ -840,15 +840,15 @@ const ShiftTemplates: React.FC = () => {
                                             onChange={(e) => setFormData({ ...formData, overnight_shift: e.target.checked })}
                                             className="sr-only peer"
                                         />
-                                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                        <div className="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-500"></div>
                                     </label>
                                 </div>
-                                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                <div className="flex items-center justify-between p-4 bg-neutral-50 rounded-lg">
                                     <div className="flex items-center space-x-3">
                                         <CheckCircle className="w-5 h-5 text-green-500" />
                                         <div>
-                                            <p className="font-medium text-gray-900">Active</p>
-                                            <p className="text-xs text-gray-500">Available for assignment</p>
+                                            <p className="font-medium text-neutral-900">Active</p>
+                                            <p className="text-xs text-neutral-500">Available for assignment</p>
                                         </div>
                                     </div>
                                     <label className="relative inline-flex items-center cursor-pointer">
@@ -858,15 +858,15 @@ const ShiftTemplates: React.FC = () => {
                                             onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
                                             className="sr-only peer"
                                         />
-                                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
+                                        <div className="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
                                     </label>
                                 </div>
                             </div>
 
                             {/* Error */}
                             {error && (
-                                <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center">
-                                    <AlertCircle className="w-5 h-5 text-red-500 mr-3" />
+                                <div className="bg-error-50 border border-red-200 rounded-lg p-4 flex items-center">
+                                    <AlertCircle className="w-5 h-5 text-error-500 mr-3" />
                                     <span className="text-red-700">{error}</span>
                                 </div>
                             )}
@@ -876,14 +876,14 @@ const ShiftTemplates: React.FC = () => {
                                 <button
                                     type="button"
                                     onClick={() => setShowModal(false)}
-                                    className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                                    className="px-4 py-2 text-neutral-700 bg-neutral-100 rounded-lg hover:bg-neutral-200 transition-colors"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={isSaving}
-                                    className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+                                    className="flex items-center px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50"
                                 >
                                     {isSaving ? (
                                         <>
@@ -908,15 +908,15 @@ const ShiftTemplates: React.FC = () => {
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
                         <div className="flex items-center space-x-4 mb-4">
-                            <div className="p-3 bg-red-100 rounded-full">
-                                <Trash2 className="w-6 h-6 text-red-600" />
+                            <div className="p-3 bg-error-100 rounded-full">
+                                <Trash2 className="w-6 h-6 text-error-600" />
                             </div>
                             <div>
-                                <h3 className="text-lg font-bold text-gray-900">Delete Shift Template</h3>
-                                <p className="text-sm text-gray-500">This action cannot be undone</p>
+                                <h3 className="text-lg font-bold text-neutral-900">Delete Shift Template</h3>
+                                <p className="text-sm text-neutral-500">This action cannot be undone</p>
                             </div>
                         </div>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-neutral-600 mb-6">
                             Are you sure you want to delete <strong>{deletingTemplate.shift_name}</strong>?
                         </p>
                         <div className="flex justify-end space-x-3">
@@ -925,7 +925,7 @@ const ShiftTemplates: React.FC = () => {
                                     setShowDeleteModal(false);
                                     setDeletingTemplate(null);
                                 }}
-                                className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                                className="px-4 py-2 text-neutral-700 bg-neutral-100 rounded-lg hover:bg-neutral-200 transition-colors"
                             >
                                 Cancel
                             </button>
@@ -947,16 +947,16 @@ const ShiftTemplates: React.FC = () => {
                     <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
                         <div className="flex items-center space-x-4 mb-4">
                             <div className="p-3 bg-blue-100 rounded-full">
-                                <RefreshCw className="w-6 h-6 text-blue-600" />
+                                <RefreshCw className="w-6 h-6 text-primary-500" />
                             </div>
                             <div>
-                                <h3 className="text-lg font-bold text-gray-900">Initialize Default Shifts</h3>
-                                <p className="text-sm text-gray-500">Sri Lanka hospital shift standards</p>
+                                <h3 className="text-lg font-bold text-neutral-900">Initialize Default Shifts</h3>
+                                <p className="text-sm text-neutral-500">Sri Lanka hospital shift standards</p>
                             </div>
                         </div>
                         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
                             <div className="flex items-start space-x-3">
-                                <Info className="w-5 h-5 text-blue-500 mt-0.5" />
+                                <Info className="w-5 h-5 text-primary-500 mt-0.5" />
                                 <div className="text-sm text-blue-700">
                                     <p className="font-medium mb-1">This will create:</p>
                                     <ul className="list-disc list-inside space-y-1">
@@ -970,20 +970,20 @@ const ShiftTemplates: React.FC = () => {
                                 </div>
                             </div>
                         </div>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-neutral-600 mb-6">
                             Initialize for: <strong>{selectedBranch === 'all' || selectedBranch === 'global' ? 'Global (All Branches)' : branches.find(b => b.id === selectedBranch)?.center_name}</strong>
                         </p>
                         <div className="flex justify-end space-x-3">
                             <button
                                 onClick={() => setShowInitializeModal(false)}
-                                className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                                className="px-4 py-2 text-neutral-700 bg-neutral-100 rounded-lg hover:bg-neutral-200 transition-colors"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleInitialize}
                                 disabled={isSaving}
-                                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+                                className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors disabled:opacity-50"
                             >
                                 {isSaving ? 'Initializing...' : 'Initialize'}
                             </button>
@@ -1001,17 +1001,17 @@ const ShiftTemplates: React.FC = () => {
                                 <Copy className="w-6 h-6 text-purple-600" />
                             </div>
                             <div>
-                                <h3 className="text-lg font-bold text-gray-900">Copy to Branch</h3>
-                                <p className="text-sm text-gray-500">Duplicate shift templates</p>
+                                <h3 className="text-lg font-bold text-neutral-900">Copy to Branch</h3>
+                                <p className="text-sm text-neutral-500">Duplicate shift templates</p>
                             </div>
                         </div>
                         <div className="space-y-4 mb-6">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Source</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Source</label>
                                 <select
                                     value={copySourceBranch}
                                     onChange={(e) => setCopySourceBranch(e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                 >
                                     <option value="global">Global (Default)</option>
                                     {branches.map(branch => (
@@ -1020,11 +1020,11 @@ const ShiftTemplates: React.FC = () => {
                                 </select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Target Branch</label>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">Target Branch</label>
                                 <select
                                     value={copyTargetBranch}
                                     onChange={(e) => setCopyTargetBranch(e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                 >
                                     <option value="">Select target branch...</option>
                                     {branches.filter(b => b.id !== copySourceBranch).map(branch => (
@@ -1034,8 +1034,8 @@ const ShiftTemplates: React.FC = () => {
                             </div>
                         </div>
                         {error && (
-                            <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4 flex items-center">
-                                <AlertCircle className="w-4 h-4 text-red-500 mr-2" />
+                            <div className="bg-error-50 border border-red-200 rounded-lg p-3 mb-4 flex items-center">
+                                <AlertCircle className="w-4 h-4 text-error-500 mr-2" />
                                 <span className="text-sm text-red-700">{error}</span>
                             </div>
                         )}
@@ -1046,7 +1046,7 @@ const ShiftTemplates: React.FC = () => {
                                     setCopyTargetBranch('');
                                     setError(null);
                                 }}
-                                className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                                className="px-4 py-2 text-neutral-700 bg-neutral-100 rounded-lg hover:bg-neutral-200 transition-colors"
                             >
                                 Cancel
                             </button>

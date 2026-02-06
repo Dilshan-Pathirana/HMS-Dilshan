@@ -11,19 +11,16 @@ import {
     AlertCircle,
     ChevronRight,
     Briefcase,
-    CreditCard,
     Loader2,
-    Menu,
-    X,
-    LogOut,
-    Bell,
     Download,
     Eye,
-    Plus,
     History,
-    Award,
     TrendingUp
 } from 'lucide-react';
+import { DashboardLayout } from '../../../../components/common/Layout/DashboardLayout';
+import { SidebarMenu } from '../../../../components/common/Layout/SidebarMenu';
+import { PageHeader } from '../../../../components/ui/PageHeader';
+import { StatCard } from '../../../../components/ui/StatCard';
 
 interface EmployeeHRMStats {
     leaveBalance: {
@@ -187,7 +184,7 @@ const EmployeeHRMDashboard: React.FC = () => {
         }
     ];
 
-    const sidebarItems = [
+    const employeeHRMMenuItems = [
         { label: 'Dashboard', path: '/dashboard/hrm', icon: <Briefcase className="w-5 h-5" /> },
         { label: 'My Profile', path: '/dashboard/hrm/profile', icon: <User className="w-5 h-5" /> },
         { label: 'Leave', path: '/dashboard/hrm/leave', icon: <Calendar className="w-5 h-5" /> },
@@ -205,288 +202,192 @@ const EmployeeHRMDashboard: React.FC = () => {
     ];
 
     return (
-        <div className="flex h-screen bg-gray-50">
-            {/* Sidebar */}
-            <aside className={`${isSidebarOpen ? 'w-64' : 'w-20'} bg-white border-r border-gray-200 transition-all duration-300 flex flex-col`}>
-                <div className="p-4 border-b border-gray-200">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-blue-500 rounded-xl flex items-center justify-center">
-                            <Briefcase className="w-6 h-6 text-white" />
+        <DashboardLayout
+            userName={userName}
+            userRole={userRole}
+            profileImage={sessionStorage.getItem('profileImage') || ''}
+            sidebarContent={<SidebarMenu items={employeeHRMMenuItems} />}
+        >
+            <div className="space-y-6">
+                {/* Page Header */}
+                <PageHeader
+                    title="HR Self-Service"
+                    description="Manage your profile, leave, and attendance."
+                    actions={
+                        <div className="flex items-center gap-2 px-3 py-1.5 bg-white border border-neutral-200 rounded-lg shadow-sm">
+                            <User className="w-4 h-4 text-emerald-600" />
+                            <span className="text-sm font-medium text-neutral-700">Employee Portal</span>
                         </div>
-                        {isSidebarOpen && (
-                            <div>
-                                <h1 className="font-bold text-gray-800">HR Self-Service</h1>
-                                <p className="text-xs text-gray-500">Employee Portal</p>
-                            </div>
-                        )}
-                    </div>
+                    }
+                />
+
+                {/* Leave Balances Grid (Replaced custom cards with StatCard for consistency) */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <StatCard
+                        title="Annual Leave"
+                        value={`${stats.leaveBalance.annual} days`}
+                        icon={Calendar}
+                        description="Available Balance"
+                    />
+                    <StatCard
+                        title="Casual Leave"
+                        value={`${stats.leaveBalance.casual} days`}
+                        icon={Calendar}
+                        description="Available Balance"
+                    />
+                    <StatCard
+                        title="Medical Leave"
+                        value={`${stats.leaveBalance.medical} days`}
+                        icon={Calendar}
+                        description="Available Balance"
+                    />
+                    <StatCard
+                        title="Sick Leave"
+                        value={`${stats.leaveBalance.sick} days`}
+                        icon={Calendar}
+                        description="Available Balance"
+                    />
                 </div>
 
-                <nav className="flex-1 py-4">
-                    <ul className="space-y-1 px-2">
-                        {sidebarItems.map((item, index) => (
-                            <li key={index}>
-                                <button
-                                    onClick={() => navigate(item.path)}
-                                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                                        window.location.pathname === item.path
-                                            ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-md'
-                                            : 'text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
-                                    }`}
-                                >
-                                    {item.icon}
-                                    {isSidebarOpen && <span className="font-medium">{item.label}</span>}
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                </nav>
-
-                <div className="p-4 border-t border-gray-200">
-                    <button
-                        onClick={() => navigate('/dashboard')}
-                        className="w-full flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-all"
-                    >
-                        <LogOut className="w-5 h-5" />
-                        {isSidebarOpen && <span>Back to Dashboard</span>}
-                    </button>
-                </div>
-            </aside>
-
-            {/* Main Content */}
-            <main className="flex-1 overflow-auto">
-                {/* Top Navbar */}
-                <header className="bg-white border-b border-gray-200 px-6 py-4">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                            <button
-                                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                                className="p-2 hover:bg-gray-100 rounded-lg"
+                {/* HR Services Navigation */}
+                <div>
+                    <h2 className="text-lg font-semibold text-neutral-800 mb-4">HR Services</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {selfServiceModules.map((module) => (
+                            <div
+                                key={module.id}
+                                onClick={() => navigate(module.path)}
+                                className="group bg-white rounded-xl border border-neutral-200 p-6 hover:shadow-lg hover:border-emerald-500/30 transition-all cursor-pointer"
                             >
-                                {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-                            </button>
-                            <div>
-                                <h1 className="text-xl font-bold text-gray-800">HR Self-Service</h1>
-                                <p className="text-sm text-gray-500">Welcome back, {userName}</p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-4">
-                            <button className="p-2 hover:bg-gray-100 rounded-lg relative">
-                                <Bell className="w-5 h-5 text-gray-600" />
-                            </button>
-                            <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-blue-500 rounded-full flex items-center justify-center">
-                                    <User className="w-4 h-4 text-white" />
-                                </div>
-                                <div className="text-right">
-                                    <span className="text-sm font-medium text-gray-700 block">{userName}</span>
-                                    <span className="text-xs text-gray-500">{userRole}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </header>
-
-                <div className="p-6 space-y-6">
-                    {/* Leave Balance Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-5 text-white">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <p className="text-blue-100 text-sm">Annual Leave</p>
-                                    {isLoading ? (
-                                        <Loader2 className="w-6 h-6 animate-spin mt-2" />
-                                    ) : (
-                                        <p className="text-3xl font-bold mt-1">{stats.leaveBalance.annual} days</p>
-                                    )}
-                                    <p className="text-blue-200 text-xs mt-1">Available balance</p>
-                                </div>
-                                <Calendar className="w-12 h-12 text-blue-300" />
-                            </div>
-                        </div>
-                        <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-5 text-white">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <p className="text-orange-100 text-sm">Casual Leave</p>
-                                    {isLoading ? (
-                                        <Loader2 className="w-6 h-6 animate-spin mt-2" />
-                                    ) : (
-                                        <p className="text-3xl font-bold mt-1">{stats.leaveBalance.casual} days</p>
-                                    )}
-                                    <p className="text-orange-200 text-xs mt-1">Available balance</p>
-                                </div>
-                                <Calendar className="w-12 h-12 text-orange-300" />
-                            </div>
-                        </div>
-                        <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl p-5 text-white">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <p className="text-emerald-100 text-sm">Medical Leave</p>
-                                    {isLoading ? (
-                                        <Loader2 className="w-6 h-6 animate-spin mt-2" />
-                                    ) : (
-                                        <p className="text-3xl font-bold mt-1">{stats.leaveBalance.medical} days</p>
-                                    )}
-                                    <p className="text-emerald-200 text-xs mt-1">Available balance</p>
-                                </div>
-                                <Calendar className="w-12 h-12 text-emerald-300" />
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Quick Actions */}
-                    <div className="flex flex-wrap gap-3">
-                        <button 
-                            onClick={() => navigate('/dashboard/hrm/leave')}
-                            className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
-                        >
-                            <Plus className="w-4 h-4" />
-                            Apply Leave
-                        </button>
-                        <button 
-                            onClick={() => navigate('/dashboard/hrm/payslips')}
-                            className="flex items-center gap-2 px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors"
-                        >
-                            <Download className="w-4 h-4" />
-                            Download Payslip
-                        </button>
-                        <button 
-                            onClick={() => navigate('/dashboard/hrm/shifts')}
-                            className="flex items-center gap-2 px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
-                        >
-                            <Clock className="w-4 h-4" />
-                            View Schedule
-                        </button>
-                        <button 
-                            onClick={() => navigate('/dashboard/hrm/documents')}
-                            className="flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-                        >
-                            <FileText className="w-4 h-4" />
-                            Request Letter
-                        </button>
-                    </div>
-
-                    {/* Self-Service Modules */}
-                    <div>
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">HR Services</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {selfServiceModules.map((module) => (
-                                <div
-                                    key={module.id}
-                                    onClick={() => navigate(module.path)}
-                                    className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg hover:border-emerald-300 transition-all cursor-pointer group"
-                                >
-                                    <div className={`p-3 rounded-xl bg-gradient-to-br ${module.color} text-white w-fit mb-4 group-hover:scale-110 transition-transform`}>
+                                <div className="flex items-start gap-4">
+                                    <div className={`p-3 rounded-lg bg-gradient-to-br ${module.color} text-white group-hover:scale-110 transition-transform shadow-sm`}>
                                         {module.icon}
                                     </div>
-                                    <h3 className="font-semibold text-gray-800 group-hover:text-emerald-600 transition-colors">
-                                        {module.title}
-                                    </h3>
-                                    <p className="text-sm text-gray-500 mt-1">{module.description}</p>
-                                    <div className="mt-4 flex items-center justify-between">
-                                        <span className="text-sm font-medium text-emerald-600">{module.action}</span>
-                                        <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-emerald-500 group-hover:translate-x-1 transition-all" />
+                                    <div className="flex-1">
+                                        <h3 className="font-semibold text-neutral-800 group-hover:text-emerald-600 transition-colors">
+                                            {module.title}
+                                        </h3>
+                                        <p className="text-sm text-neutral-500 mt-1 line-clamp-2">{module.description}</p>
+                                        <div className="mt-4 flex items-center justify-between pt-4 border-t border-neutral-100">
+                                            <span className="text-sm font-medium text-emerald-600 group-hover:underline">{module.action}</span>
+                                            <ChevronRight className="w-4 h-4 text-neutral-400 group-hover:text-emerald-500 group-hover:translate-x-1 transition-all" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Next Shift & Recent Payslips */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {/* Next Shift */}
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="p-2 bg-purple-50 rounded-lg">
+                                <Clock className="w-5 h-5 text-purple-600" />
+                            </div>
+                            <h3 className="text-lg font-semibold text-neutral-800">Next Shift</h3>
+                        </div>
+                        {stats.nextShift ? (
+                            <div className="bg-purple-50 rounded-xl p-6 border border-purple-100">
+                                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                                    <div className="flex items-center gap-2 text-purple-700">
+                                        <Calendar className="w-5 h-5" />
+                                        <span className="font-semibold text-lg">{stats.nextShift.date}</span>
+                                    </div>
+                                    <span className="px-3 py-1 bg-white text-purple-700 rounded-full text-sm font-medium border border-purple-100 shadow-sm w-fit">
+                                        {stats.nextShift.type}
+                                    </span>
+                                </div>
+                                <div className="flex items-center gap-3 text-3xl font-bold text-neutral-800 mb-6">
+                                    <Clock className="w-8 h-8 text-purple-400" />
+                                    {stats.nextShift.time}
+                                </div>
+                                <button className="w-full py-2.5 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium shadow-sm shadow-purple-200">
+                                    Acknowledge Awareness
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="text-center py-12 text-neutral-400 bg-neutral-50 rounded-lg border border-neutral-100 border-dashed">
+                                <Clock className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                                <p>No upcoming shifts assigned</p>
+                            </div>
+                        )}
+                        <div className="mt-4 flex items-center justify-between text-sm text-neutral-500 pt-4 border-t border-neutral-100">
+                            <span className="flex items-center gap-2">
+                                <History className="w-4 h-4" />
+                                This month: <span className="font-semibold text-neutral-700">{stats.currentMonthOT} OT hours</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* Recent Payslips */}
+                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                        <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 bg-emerald-50 rounded-lg">
+                                    <DollarSign className="w-5 h-5 text-emerald-600" />
+                                </div>
+                                <h3 className="text-lg font-semibold text-neutral-800">Recent Payslips</h3>
+                            </div>
+                            <button
+                                onClick={() => navigate('/dashboard/hrm/payslips')}
+                                className="text-sm text-emerald-600 hover:text-emerald-700 font-medium hover:underline"
+                            >
+                                View All
+                            </button>
+                        </div>
+                        <div className="space-y-3">
+                            {recentPayslips.map((payslip) => (
+                                <div key={payslip.id} className="flex items-center justify-between p-4 bg-neutral-50 rounded-lg border border-neutral-100 hover:border-emerald-100 transition-colors">
+                                    <div>
+                                        <p className="font-semibold text-neutral-800">{payslip.month}</p>
+                                        <div className="flex items-center gap-2 mt-1">
+                                            <span className="text-sm text-neutral-500">Net Salary:</span>
+                                            <span className="text-sm font-bold text-emerald-600">LKR {payslip.netSalary.toLocaleString()}</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <button className="p-2 text-neutral-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors">
+                                            <Eye className="w-5 h-5" />
+                                        </button>
+                                        <button className="p-2 text-neutral-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors">
+                                            <Download className="w-5 h-5" />
+                                        </button>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     </div>
+                </div>
 
-                    {/* Next Shift & Recent Payslips */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {/* Next Shift */}
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="p-2 bg-purple-100 rounded-lg">
-                                    <Clock className="w-5 h-5 text-purple-600" />
+                {/* Pending Leave Alert */}
+                {stats.pendingLeaveRequests > 0 && (
+                    <div className="bg-orange-50 border border-orange-200 rounded-xl p-4 shadow-sm animate-pulse-slight">
+                        <div className="flex items-center justify-between flex-wrap gap-4">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 bg-orange-100 rounded-full">
+                                    <AlertCircle className="w-5 h-5 text-orange-600" />
                                 </div>
-                                <h3 className="font-semibold text-gray-800">Next Shift</h3>
-                            </div>
-                            {stats.nextShift ? (
-                                <div className="bg-purple-50 rounded-lg p-4">
-                                    <div className="flex items-center justify-between mb-2">
-                                        <span className="text-purple-600 font-medium">{stats.nextShift.date}</span>
-                                        <span className="px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs font-medium">
-                                            {stats.nextShift.type}
-                                        </span>
-                                    </div>
-                                    <p className="text-2xl font-bold text-gray-800">{stats.nextShift.time}</p>
-                                    <button className="mt-3 w-full py-2 text-sm text-purple-600 border border-purple-200 rounded-lg hover:bg-purple-50 transition-colors">
-                                        Acknowledge Shift
-                                    </button>
+                                <div>
+                                    <p className="font-semibold text-orange-900">
+                                        Action Required: {stats.pendingLeaveRequests} Pending Leave Request{stats.pendingLeaveRequests > 1 ? 's' : ''}
+                                    </p>
+                                    <p className="text-sm text-orange-700 mt-0.5">Please check the status of your request.</p>
                                 </div>
-                            ) : (
-                                <div className="text-center py-6 text-gray-500">
-                                    <Clock className="w-12 h-12 mx-auto mb-2 text-gray-300" />
-                                    <p>No upcoming shifts</p>
-                                </div>
-                            )}
-                            <div className="mt-4 flex items-center gap-2 text-sm text-gray-500">
-                                <History className="w-4 h-4" />
-                                <span>This month: {stats.currentMonthOT} OT hours</span>
                             </div>
-                        </div>
-
-                        {/* Recent Payslips */}
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                            <div className="flex items-center justify-between mb-4">
-                                <div className="flex items-center gap-3">
-                                    <div className="p-2 bg-emerald-100 rounded-lg">
-                                        <DollarSign className="w-5 h-5 text-emerald-600" />
-                                    </div>
-                                    <h3 className="font-semibold text-gray-800">Recent Payslips</h3>
-                                </div>
-                                <button 
-                                    onClick={() => navigate('/dashboard/hrm/payslips')}
-                                    className="text-sm text-emerald-600 hover:text-emerald-700"
-                                >
-                                    View All
-                                </button>
-                            </div>
-                            <div className="space-y-3">
-                                {recentPayslips.map((payslip) => (
-                                    <div key={payslip.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                                        <div>
-                                            <p className="font-medium text-gray-800">{payslip.month}</p>
-                                            <p className="text-sm text-emerald-600">LKR {payslip.netSalary.toLocaleString()}</p>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <button className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-                                                <Eye className="w-4 h-4" />
-                                            </button>
-                                            <button className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-                                                <Download className="w-4 h-4" />
-                                            </button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
+                            <button
+                                onClick={() => navigate('/dashboard/hrm/leave')}
+                                className="px-4 py-2 bg-white text-orange-700 border border-orange-200 rounded-lg hover:bg-orange-50 transition-colors text-sm font-medium shadow-sm"
+                            >
+                                View Status
+                            </button>
                         </div>
                     </div>
-
-                    {/* Pending Leave Requests */}
-                    {stats.pendingLeaveRequests > 0 && (
-                        <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
-                            <div className="flex items-center gap-3">
-                                <AlertCircle className="w-5 h-5 text-yellow-600" />
-                                <div>
-                                    <p className="font-medium text-yellow-800">
-                                        You have {stats.pendingLeaveRequests} pending leave request{stats.pendingLeaveRequests > 1 ? 's' : ''}
-                                    </p>
-                                    <p className="text-sm text-yellow-700">Awaiting approval from your supervisor</p>
-                                </div>
-                                <button 
-                                    onClick={() => navigate('/dashboard/hrm/leave')}
-                                    className="ml-auto px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors text-sm"
-                                >
-                                    View Status
-                                </button>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </main>
-        </div>
+                )}
+            </div>
+        </DashboardLayout>
     );
 };
 

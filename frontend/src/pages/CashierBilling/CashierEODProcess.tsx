@@ -280,7 +280,7 @@ const CashierEODProcess = () => {
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center min-h-screen bg-gray-50">
+            <div className="flex items-center justify-center min-h-screen bg-neutral-50">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
             </div>
         );
@@ -288,11 +288,11 @@ const CashierEODProcess = () => {
 
     if (!summary) {
         return (
-            <div className="flex items-center justify-center min-h-screen bg-gray-50">
-                <div className="text-center bg-white p-8 rounded-xl shadow-md border border-gray-200 max-w-md">
+            <div className="flex items-center justify-center min-h-screen bg-neutral-50">
+                <div className="text-center bg-white p-8 rounded-xl shadow-md border border-neutral-200 max-w-md">
                     <AlertTriangle className="h-12 w-12 text-orange-500 mx-auto mb-4" />
-                    <h2 className="text-lg font-semibold text-gray-800 mb-2">Unable to Load EOD Summary</h2>
-                    <p className="text-gray-600 mb-4">{error || "An unexpected error occurred"}</p>
+                    <h2 className="text-lg font-semibold text-neutral-800 mb-2">Unable to Load EOD Summary</h2>
+                    <p className="text-neutral-600 mb-4">{error || "An unexpected error occurred"}</p>
                     <div className="flex gap-3 justify-center">
                         <button
                             onClick={() => {
@@ -306,7 +306,7 @@ const CashierEODProcess = () => {
                         </button>
                         <button
                             onClick={() => navigate("/pos")}
-                            className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
+                            className="px-4 py-2 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition"
                         >
                             Back to Dashboard
                         </button>
@@ -321,7 +321,7 @@ const CashierEODProcess = () => {
     const hasVariance = Math.abs(variance) > 0.01;
 
     return (
-        <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
+        <div className="p-6 space-y-6 bg-neutral-50 min-h-screen">
             {/* Header */}
             <div className="bg-gradient-to-r from-emerald-500 to-blue-600 rounded-xl shadow-lg p-6 text-white">
                 <div className="flex items-center justify-between">
@@ -365,8 +365,8 @@ const CashierEODProcess = () => {
 
             {/* Alerts */}
             {error && (
-                <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-center gap-3">
-                    <AlertTriangle className="h-5 w-5 text-red-500" />
+                <div className="bg-error-50 border border-red-200 rounded-xl p-4 flex items-center gap-3">
+                    <AlertTriangle className="h-5 w-5 text-error-500" />
                     <p className="text-sm text-red-700">{error}</p>
                 </div>
             )}
@@ -380,7 +380,7 @@ const CashierEODProcess = () => {
 
             {isEODLocked && (
                 <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-center gap-3">
-                    <Lock className="h-5 w-5 text-blue-500" />
+                    <Lock className="h-5 w-5 text-primary-500" />
                     <p className="text-sm text-blue-700">
                         EOD has been {summary.eod_status.toLowerCase()}. Day is locked.
                         {summary.submitted_at && ` Submitted at ${new Date(summary.submitted_at).toLocaleString()}`}
@@ -392,15 +392,15 @@ const CashierEODProcess = () => {
                 {/* Left Column - Summary */}
                 <div className="lg:col-span-2 space-y-6">
                     {/* Sales Summary */}
-                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">Sales Summary</h2>
+                    <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+                        <h2 className="text-lg font-semibold text-neutral-800 mb-4">Sales Summary</h2>
                         <div className="grid grid-cols-2 gap-4">
-                            <div className="p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200">
-                                <p className="text-sm text-gray-600 mb-1">Total Transactions</p>
-                                <p className="text-3xl font-bold text-gray-800">{summary.total_transactions}</p>
+                            <div className="p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-neutral-200">
+                                <p className="text-sm text-neutral-600 mb-1">Total Transactions</p>
+                                <p className="text-3xl font-bold text-neutral-800">{summary.total_transactions}</p>
                             </div>
                             <div className="p-4 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl border border-blue-200">
-                                <p className="text-sm text-gray-600 mb-1">Total Sales</p>
+                                <p className="text-sm text-neutral-600 mb-1">Total Sales</p>
                                 <p className="text-3xl font-bold text-blue-700">
                                     Rs. {summary.total_sales.toLocaleString()}
                                 </p>
@@ -409,8 +409,8 @@ const CashierEODProcess = () => {
                     </div>
 
                     {/* Payment Mode Breakdown */}
-                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">Payment Mode Breakdown</h2>
+                    <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+                        <h2 className="text-lg font-semibold text-neutral-800 mb-4">Payment Mode Breakdown</h2>
                         <div className="space-y-3">
                             {[
                                 { label: "Cash", amount: summary.cash_total, count: summary.cash_count, color: "from-green-50 to-emerald-50 border-green-200" },
@@ -419,12 +419,12 @@ const CashierEODProcess = () => {
                                 { label: "QR Code", amount: summary.qr_total, count: summary.qr_count, color: "from-orange-50 to-amber-50 border-orange-200" },
                             ].map((method) => (
                                 <div key={method.label} className={`flex items-center justify-between p-4 bg-gradient-to-r ${method.color} rounded-xl border`}>
-                                    <span className="text-sm font-medium text-gray-700">{method.label}</span>
+                                    <span className="text-sm font-medium text-neutral-700">{method.label}</span>
                                     <div className="text-right">
-                                        <p className="text-sm font-semibold text-gray-900">
+                                        <p className="text-sm font-semibold text-neutral-900">
                                             Rs. {method.amount.toLocaleString()}
                                         </p>
-                                        <p className="text-xs text-gray-500">{method.count} transactions</p>
+                                        <p className="text-xs text-neutral-500">{method.count} transactions</p>
                                     </div>
                                 </div>
                             ))}
@@ -432,8 +432,8 @@ const CashierEODProcess = () => {
                     </div>
 
                     {/* Cash Movement */}
-                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">Cash Movement</h2>
+                    <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+                        <h2 className="text-lg font-semibold text-neutral-800 mb-4">Cash Movement</h2>
                         <div className="space-y-3">
                             <div className="flex items-center justify-between p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200">
                                 <div className="flex items-center gap-3">
@@ -474,25 +474,25 @@ const CashierEODProcess = () => {
 
                 {/* Right Column - Cash Counting */}
                 <div className="space-y-6">
-                    <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 sticky top-6">
-                        <h2 className="text-lg font-semibold text-gray-800 mb-4">Cash Counting</h2>
+                    <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6 sticky top-6">
+                        <h2 className="text-lg font-semibold text-neutral-800 mb-4">Cash Counting</h2>
                         
                         <div className="mb-6">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Expected Cash Balance
                             </label>
                             <div className="p-4 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-xl border border-emerald-200">
-                                <p className="text-2xl font-bold text-gray-800">
+                                <p className="text-2xl font-bold text-neutral-800">
                                     Rs. {summary.expected_cash_balance.toLocaleString()}
                                 </p>
-                                <p className="text-xs text-gray-500 mt-1">
+                                <p className="text-xs text-neutral-500 mt-1">
                                     Cash sales + Cash in - Cash out
                                 </p>
                             </div>
                         </div>
 
                         <div className="mb-6">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
                                 Actual Cash Counted *
                             </label>
                             <input
@@ -501,7 +501,7 @@ const CashierEODProcess = () => {
                                 value={actualCashCounted}
                                 onChange={(e) => setActualCashCounted(e.target.value)}
                                 disabled={isEODLocked}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-lg font-semibold disabled:bg-gray-100"
+                                className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500 text-lg font-semibold disabled:bg-neutral-100"
                                 placeholder="0.00"
                             />
                         </div>
@@ -515,7 +515,7 @@ const CashierEODProcess = () => {
                                     : "bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200"
                             }`}>
                                 <div className="flex items-center justify-between mb-2">
-                                    <span className="text-sm font-medium text-gray-700">Variance:</span>
+                                    <span className="text-sm font-medium text-neutral-700">Variance:</span>
                                     <span className={`text-lg font-bold ${
                                         hasVariance 
                                             ? variance < 0 ? "text-red-700" : "text-yellow-700"
@@ -524,7 +524,7 @@ const CashierEODProcess = () => {
                                         {variance >= 0 ? "+" : ""}Rs. {variance.toLocaleString()}
                                     </span>
                                 </div>
-                                <p className="text-xs text-gray-600">
+                                <p className="text-xs text-neutral-600">
                                     {hasVariance 
                                         ? variance < 0 
                                             ? "Cash shortage detected" 
@@ -536,14 +536,14 @@ const CashierEODProcess = () => {
 
                         {hasVariance && !isEODLocked && (
                             <div className="mb-6">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Variance Remarks * (Required for variance)
                                 </label>
                                 <textarea
                                     value={varianceRemarks}
                                     onChange={(e) => setVarianceRemarks(e.target.value)}
                                     rows={4}
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
                                     placeholder="Explain the reason for cash variance..."
                                 />
                             </div>
@@ -551,10 +551,10 @@ const CashierEODProcess = () => {
 
                         {summary.variance_remarks && isEODLocked && (
                             <div className="mb-6">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-neutral-700 mb-2">
                                     Variance Remarks
                                 </label>
-                                <div className="p-3 bg-gray-50 rounded-lg text-sm text-gray-700">
+                                <div className="p-3 bg-neutral-50 rounded-lg text-sm text-neutral-700">
                                     {summary.variance_remarks}
                                 </div>
                             </div>
@@ -578,24 +578,24 @@ const CashierEODProcess = () => {
             {showConfirmation && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-xl max-w-md w-full p-6">
-                        <h3 className="text-lg font-semibold text-gray-800 mb-4">Confirm EOD Submission</h3>
-                        <p className="text-sm text-gray-600 mb-4">
+                        <h3 className="text-lg font-semibold text-neutral-800 mb-4">Confirm EOD Submission</h3>
+                        <p className="text-sm text-neutral-600 mb-4">
                             Are you sure you want to submit the End of Day? This action cannot be undone and will lock all transactions for today.
                         </p>
-                        <div className="mb-4 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200">
+                        <div className="mb-4 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-neutral-200">
                             <div className="space-y-2 text-sm">
                                 <div className="flex justify-between">
-                                    <span className="text-gray-600">Expected:</span>
+                                    <span className="text-neutral-600">Expected:</span>
                                     <span className="font-semibold">Rs. {summary.expected_cash_balance.toLocaleString()}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-gray-600">Actual:</span>
+                                    <span className="text-neutral-600">Actual:</span>
                                     <span className="font-semibold">Rs. {parseFloat(actualCashCounted).toLocaleString()}</span>
                                 </div>
                                 <div className="flex justify-between pt-2 border-t">
-                                    <span className="text-gray-600">Variance:</span>
+                                    <span className="text-neutral-600">Variance:</span>
                                     <span className={`font-bold ${
-                                        hasVariance ? variance < 0 ? "text-red-600" : "text-yellow-600" : "text-green-600"
+                                        hasVariance ? variance < 0 ? "text-error-600" : "text-yellow-600" : "text-green-600"
                                     }`}>
                                         {variance >= 0 ? "+" : ""}Rs. {variance.toLocaleString()}
                                     </span>
@@ -605,7 +605,7 @@ const CashierEODProcess = () => {
                         <div className="flex gap-3">
                             <button
                                 onClick={() => setShowConfirmation(false)}
-                                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
+                                className="flex-1 px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50 transition"
                             >
                                 Cancel
                             </button>

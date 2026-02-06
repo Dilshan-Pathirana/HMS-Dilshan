@@ -116,7 +116,7 @@ const DoctorDashboardNew: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex">
+        <div className="min-h-screen bg-neutral-50 flex">
             {/* Mobile Menu Overlay */}
             {mobileMenuOpen && (
                 <div 
@@ -130,12 +130,12 @@ const DoctorDashboardNew: React.FC = () => {
                 fixed lg:static inset-y-0 left-0 z-50
                 ${sidebarOpen ? 'w-64' : 'w-20'} 
                 ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-                bg-gradient-to-b from-blue-600 to-indigo-700 text-white
+                bg-gradient-to-b from-primary-500 to-indigo-700 text-white
                 transition-all duration-300 ease-in-out
                 flex flex-col
             `}>
                 {/* Logo/Header */}
-                <div className="p-4 border-b border-blue-500/30">
+                <div className="p-4 border-b border-primary-500/30">
                     <div className="flex items-center justify-between">
                         {sidebarOpen && (
                             <div className="flex items-center gap-3">
@@ -165,7 +165,7 @@ const DoctorDashboardNew: React.FC = () => {
 
                 {/* User Info */}
                 {sidebarOpen && (
-                    <div className="p-4 border-b border-blue-500/30">
+                    <div className="p-4 border-b border-primary-500/30">
                         <div className="flex items-center gap-3">
                             <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-xl font-bold">
                                 {doctorName?.charAt(0) || 'D'}
@@ -203,7 +203,7 @@ const DoctorDashboardNew: React.FC = () => {
                                 <>
                                     <span className="flex-1">{item.label}</span>
                                     {item.badge !== undefined && item.badge > 0 && (
-                                        <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
+                                        <span className="bg-error-500 text-white text-xs px-2 py-0.5 rounded-full">
                                             {item.badge}
                                         </span>
                                     )}
@@ -215,14 +215,14 @@ const DoctorDashboardNew: React.FC = () => {
                 </nav>
 
                 {/* Bottom Actions */}
-                <div className="p-4 border-t border-blue-500/30 space-y-1">
+                <div className="p-4 border-t border-primary-500/30 space-y-1">
                     <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-blue-100 hover:bg-white/10 hover:text-white transition-all">
                         <HelpCircle className="w-5 h-5" />
                         {sidebarOpen && <span>Help & Support</span>}
                     </button>
                     <button 
                         onClick={handleSignOut}
-                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-300 hover:bg-red-500/20 hover:text-red-200 transition-all"
+                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-300 hover:bg-error-500/20 hover:text-red-200 transition-all"
                     >
                         <LogOut className="w-5 h-5" />
                         {sidebarOpen && <span>Sign Out</span>}
@@ -233,20 +233,20 @@ const DoctorDashboardNew: React.FC = () => {
             {/* Main Content */}
             <div className="flex-1 flex flex-col min-h-screen">
                 {/* Top Header */}
-                <header className="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
+                <header className="bg-white shadow-sm border-b border-neutral-200 px-6 py-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
                             <button 
                                 onClick={() => setMobileMenuOpen(true)}
-                                className="p-2 hover:bg-gray-100 rounded-lg lg:hidden"
+                                className="p-2 hover:bg-neutral-100 rounded-lg lg:hidden"
                             >
-                                <Menu className="w-6 h-6 text-gray-600" />
+                                <Menu className="w-6 h-6 text-neutral-600" />
                             </button>
                             <div>
-                                <h2 className="text-xl font-semibold text-gray-800">
+                                <h2 className="text-xl font-semibold text-neutral-800">
                                     {navItems.find(item => isActivePath(item.path))?.label || 'Dashboard'}
                                 </h2>
-                                <p className="text-sm text-gray-500">
+                                <p className="text-sm text-neutral-500">
                                     {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
                                 </p>
                             </div>
@@ -256,7 +256,7 @@ const DoctorDashboardNew: React.FC = () => {
                             {/* Quick Actions */}
                             <NavLink 
                                 to="/doctor-dashboard-new/queue"
-                                className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-primary-500 rounded-lg hover:bg-blue-100 transition-colors"
                             >
                                 <Activity className="w-5 h-5" />
                                 <span className="hidden md:inline">Live Queue</span>
@@ -265,11 +265,11 @@ const DoctorDashboardNew: React.FC = () => {
                             {/* Notifications */}
                             <NavLink 
                                 to="/doctor-dashboard-new/notifications"
-                                className="relative p-2 hover:bg-gray-100 rounded-lg"
+                                className="relative p-2 hover:bg-neutral-100 rounded-lg"
                             >
-                                <Bell className="w-6 h-6 text-gray-600" />
+                                <Bell className="w-6 h-6 text-neutral-600" />
                                 {notificationCount > 0 && (
-                                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                                    <span className="absolute -top-1 -right-1 bg-error-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
                                         {notificationCount}
                                     </span>
                                 )}
@@ -278,9 +278,9 @@ const DoctorDashboardNew: React.FC = () => {
                             {/* Profile */}
                             <NavLink 
                                 to="/doctor-dashboard-new/profile"
-                                className="flex items-center gap-3 p-2 hover:bg-gray-100 rounded-lg"
+                                className="flex items-center gap-3 p-2 hover:bg-neutral-100 rounded-lg"
                             >
-                                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                                <div className="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
                                     {doctorName?.charAt(0) || 'D'}
                                 </div>
                             </NavLink>

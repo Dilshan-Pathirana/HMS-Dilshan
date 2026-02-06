@@ -21,7 +21,7 @@ const ShiftViewModal: React.FC<ShiftViewModalProps> = ({ isOpen, notes, days, on
                 </div>
                 <button
                     onClick={onClose}
-                    className="mt-4 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
+                    className="mt-4 px-4 py-2 bg-neutral-300 text-neutral-700 rounded-md hover:bg-gray-400"
                 >
                     Close
                 </button>

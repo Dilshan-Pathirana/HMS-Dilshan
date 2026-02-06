@@ -23,27 +23,27 @@ export function Table<T extends { id?: string | number }>({
         <div className={`overflow-x-auto ${className}`}>
             <table className="w-full">
                 <thead>
-                    <tr className="border-b border-slate-200">
+                    <tr className="border-b border-neutral-200">
                         {columns.map((column, index) => (
                             <th
                                 key={index}
-                                className="text-left text-xs font-semibold text-slate-600 uppercase tracking-wider px-4 py-3 bg-slate-50/50"
+                                className="text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider px-6 py-4 bg-neutral-50/80"
                             >
                                 {column.header}
                             </th>
                         ))}
                     </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-neutral-100">
                     {data.length === 0 ? (
                         <tr>
                             <td
                                 colSpan={columns.length}
-                                className="px-4 py-12 text-center text-slate-500"
+                                className="px-6 py-12 text-center text-neutral-500"
                             >
-                                <div className="flex flex-col items-center gap-2">
+                                <div className="flex flex-col items-center gap-3">
                                     <svg
-                                        className="w-12 h-12 text-slate-300"
+                                        className="w-12 h-12 text-neutral-300"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
@@ -65,14 +65,14 @@ export function Table<T extends { id?: string | number }>({
                                 key={item.id || rowIndex}
                                 onClick={() => onRowClick?.(item)}
                                 className={`
-                  bg-white hover:bg-slate-50/50 transition-colors
+                  bg-white hover:bg-neutral-50/50 transition-colors duration-150 group
                   ${onRowClick ? 'cursor-pointer' : ''}
                 `}
                             >
                                 {columns.map((column, colIndex) => (
                                     <td
                                         key={colIndex}
-                                        className={`px-4 py-3 text-sm text-slate-700 ${column.className || ''}`}
+                                        className={`px-6 py-4 text-sm text-neutral-900 font-medium ${column.className || ''}`}
                                     >
                                         {typeof column.accessor === 'function'
                                             ? column.accessor(item)

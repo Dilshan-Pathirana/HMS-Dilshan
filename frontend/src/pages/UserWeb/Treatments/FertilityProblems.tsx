@@ -9,28 +9,28 @@ const FertilityProblems = () => {
         <>
             <NavBar />
 
-            <div className="flex justify-end p-4 mt-20 bg-gray-100">
+            <div className="flex justify-end p-4 mt-20 bg-neutral-100">
                 <button
-                    className={`px-4 py-2 rounded-md mx-1 ${language === "en" ? "bg-blue-600 text-white" : "bg-white text-black border"}`}
+                    className={`px-4 py-2 rounded-md mx-1 ${language === "en" ? "bg-primary-500 text-white" : "bg-white text-black border"}`}
                     onClick={() => setLanguage("en")}
                 >
                     English
                 </button>
                 <button
-                    className={`px-4 py-2 rounded-md mx-1 ${language === "si" ? "bg-blue-600 text-white" : "bg-white text-black border"}`}
+                    className={`px-4 py-2 rounded-md mx-1 ${language === "si" ? "bg-primary-500 text-white" : "bg-white text-black border"}`}
                     onClick={() => setLanguage("si")}
                 >
                     සිංහල
                 </button>
                 <button
-                    className={`px-4 py-2 rounded-md mx-1 ${language === "ta" ? "bg-blue-600 text-white" : "bg-white text-black border"}`}
+                    className={`px-4 py-2 rounded-md mx-1 ${language === "ta" ? "bg-primary-500 text-white" : "bg-white text-black border"}`}
                     onClick={() => setLanguage("ta")}
                 >
                     தமிழ்
                 </button>
             </div>
 
-            <section className="bg-blue-600 text-white mt-10 py-20 px-4">
+            <section className="bg-primary-500 text-white mt-10 py-20 px-4">
                 <div className="max-w-6xl mx-auto">
                     <h1 className="text-4xl font-bold mb-4">
                         {language === "en"
@@ -48,7 +48,7 @@ const FertilityProblems = () => {
                         <h2 className="text-2xl font-semibold mb-4">
                             Understanding Fertility Problems
                         </h2>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-neutral-600 mb-6">
                             Fertility problems affect both men and women,
                             leading to difficulties in conceiving naturally.
                             This condition has become increasingly common due to
@@ -58,7 +58,7 @@ const FertilityProblems = () => {
                         <h3 className="text-xl font-semibold mb-4">
                             Causes of Fertility Issues
                         </h3>
-                        <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                        <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                             <li>
                                 🔹 Hormonal Imbalances (PCOS, Thyroid disorders)
                             </li>
@@ -80,7 +80,7 @@ const FertilityProblems = () => {
                         <h2 className="text-2xl font-semibold mb-4">
                             වඳභාව ගැටළු පිළිබඳව
                         </h2>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-neutral-600 mb-6">
                             පිරිමි සහ ගැහැණු දෙපාර්ශවයටම බලපාන වඳභාව ගැටළු,
                             ස්වභාවිකව ගැබ් ගැනීම අපහසු කරයි. ආහාර සන්සුන්,
                             ආතතිය, හෝමෝන ගැටළු වැනි කරුණු නිසා මෙය වැඩි විය හැක.
@@ -88,7 +88,7 @@ const FertilityProblems = () => {
                         <h3 className="text-xl font-semibold mb-4">
                             වඳභාවයට හේතු
                         </h3>
-                        <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                        <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                             <li>
                                 🔹 හෝමෝන අසමතුලිතතාව (PCOS, තයිරොයිඩ් ගැටළු)
                             </li>
@@ -105,7 +105,7 @@ const FertilityProblems = () => {
                         <h2 className="text-2xl font-semibold mb-4">
                             கருப்பைச்சிதைவு மற்றும் குழந்தையின்மை
                         </h2>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-neutral-600 mb-6">
                             பெண்கள் மற்றும் ஆண்களில் கருப்பைச்சிதைவு மற்றும்
                             குழந்தையின்மை பிரச்சினைகள் இயற்கையாக கருத்தரிக்க
                             முடியாத நிலைக்கு வழிவகுக்கின்றன.
@@ -113,7 +113,7 @@ const FertilityProblems = () => {
                         <h3 className="text-xl font-semibold mb-4">
                             கருப்பைச்சிதைவு மற்றும் குழந்தையின்மைக்கான காரணங்கள்
                         </h3>
-                        <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                        <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                             <li>
                                 🔹 ஹார்மோன் மாற்றங்கள் (PCOS, தைராய்டு
                                 கோளாறுகள்)
@@ -140,7 +140,7 @@ const FertilityProblems = () => {
                         href="https://www.cure.lk"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold inline-block"
+                        className="bg-primary-500 text-white px-6 py-3 rounded-lg font-semibold inline-block"
                     >
                         📞 Book an Appointment Today at www.cure.lk
                     </a>

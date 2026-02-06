@@ -142,7 +142,7 @@ export const StaffManagementDashboard: React.FC = () => {
     const SidebarMenu = () => (
         <nav className="py-4">
             <div className="px-4 mb-4">
-                <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Navigation</h2>
+                <h2 className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Navigation</h2>
             </div>
             <ul className="space-y-1 px-2">
                 {BranchAdminMenuItems.map((item, index) => (
@@ -151,8 +151,8 @@ export const StaffManagementDashboard: React.FC = () => {
                             onClick={() => navigate(item.path)}
                             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                                 item.path === '/branch-admin/hrm'
-                                    ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-md'
-                                    : 'text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
+                                    ? 'bg-gradient-to-r from-emerald-500 to-primary-500 text-white shadow-md'
+                                    : 'text-neutral-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-blue-50'
                             }`}
                         >
                             <span className="flex-shrink-0">{item.icon}</span>
@@ -172,19 +172,19 @@ export const StaffManagementDashboard: React.FC = () => {
         trendUp?: boolean;
         isLoading?: boolean;
     }) => (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
             <div className="flex items-center justify-between">
                 <div>
-                    <p className="text-sm text-gray-500">{title}</p>
+                    <p className="text-sm text-neutral-500">{title}</p>
                     {isLoading ? (
                         <div className="flex items-center gap-2 mt-1">
-                            <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
+                            <Loader2 className="w-5 h-5 animate-spin text-neutral-400" />
                         </div>
                     ) : (
-                        <p className="text-2xl font-bold text-gray-800 mt-1">{value}</p>
+                        <p className="text-2xl font-bold text-neutral-800 mt-1">{value}</p>
                     )}
                     {trend && !isLoading && (
-                        <p className={`text-xs mt-1 flex items-center gap-1 ${trendUp ? 'text-emerald-600' : 'text-red-600'}`}>
+                        <p className={`text-xs mt-1 flex items-center gap-1 ${trendUp ? 'text-emerald-600' : 'text-error-600'}`}>
                             <TrendingUp className={`w-3 h-3 ${!trendUp && 'rotate-180'}`} />
                             {trend}
                         </p>
@@ -236,7 +236,7 @@ export const StaffManagementDashboard: React.FC = () => {
                     <QuickStatCard 
                         title="On Shift" 
                         value={stats.activeOnShift} 
-                        icon={<Briefcase className="w-6 h-6 text-blue-600" />}
+                        icon={<Briefcase className="w-6 h-6 text-primary-500" />}
                         isLoading={isLoadingStats}
                     />
                     <QuickStatCard 
@@ -248,7 +248,7 @@ export const StaffManagementDashboard: React.FC = () => {
                     <QuickStatCard 
                         title="Pending Approvals" 
                         value={stats.pendingApprovals} 
-                        icon={<AlertCircle className="w-6 h-6 text-red-600" />}
+                        icon={<AlertCircle className="w-6 h-6 text-error-600" />}
                         isLoading={isLoadingStats}
                     />
                     <QuickStatCard 
@@ -266,8 +266,8 @@ export const StaffManagementDashboard: React.FC = () => {
                 </div>
 
                 {/* Pending Actions */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                    <h2 className="text-lg font-semibold text-neutral-800 mb-4 flex items-center gap-2">
                         <AlertCircle className="w-5 h-5 text-orange-500" />
                         Pending Actions
                     </h2>
@@ -275,54 +275,54 @@ export const StaffManagementDashboard: React.FC = () => {
                         <div className="flex items-center gap-3 p-4 bg-orange-50 rounded-lg border border-orange-200">
                             <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">8</div>
                             <div>
-                                <p className="font-medium text-gray-800">Leave Requests</p>
-                                <p className="text-sm text-gray-500">Awaiting approval</p>
+                                <p className="font-medium text-neutral-800">Leave Requests</p>
+                                <p className="text-sm text-neutral-500">Awaiting approval</p>
                             </div>
-                            <ChevronRight className="w-5 h-5 text-gray-400 ml-auto" />
+                            <ChevronRight className="w-5 h-5 text-neutral-400 ml-auto" />
                         </div>
                         <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                            <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">3</div>
+                            <div className="w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center text-white font-bold">3</div>
                             <div>
-                                <p className="font-medium text-gray-800">Shift Swaps</p>
-                                <p className="text-sm text-gray-500">Pending review</p>
+                                <p className="font-medium text-neutral-800">Shift Swaps</p>
+                                <p className="text-sm text-neutral-500">Pending review</p>
                             </div>
-                            <ChevronRight className="w-5 h-5 text-gray-400 ml-auto" />
+                            <ChevronRight className="w-5 h-5 text-neutral-400 ml-auto" />
                         </div>
-                        <div className="flex items-center gap-3 p-4 bg-red-50 rounded-lg border border-red-200">
-                            <div className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center text-white font-bold">4</div>
+                        <div className="flex items-center gap-3 p-4 bg-error-50 rounded-lg border border-red-200">
+                            <div className="w-10 h-10 bg-error-500 rounded-full flex items-center justify-center text-white font-bold">4</div>
                             <div>
-                                <p className="font-medium text-gray-800">Overtime Requests</p>
-                                <p className="text-sm text-gray-500">Need approval</p>
+                                <p className="font-medium text-neutral-800">Overtime Requests</p>
+                                <p className="text-sm text-neutral-500">Need approval</p>
                             </div>
-                            <ChevronRight className="w-5 h-5 text-gray-400 ml-auto" />
+                            <ChevronRight className="w-5 h-5 text-neutral-400 ml-auto" />
                         </div>
                     </div>
                 </div>
 
                 {/* Staff Management Modules */}
                 <div>
-                    <h2 className="text-lg font-semibold text-gray-800 mb-4">Staff Management Modules</h2>
+                    <h2 className="text-lg font-semibold text-neutral-800 mb-4">Staff Management Modules</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {getStaffModules(stats).map((module) => (
                             <div 
                                 key={module.id}
                                 onClick={() => navigate(module.path)}
-                                className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg hover:border-emerald-300 transition-all cursor-pointer group"
+                                className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 hover:shadow-lg hover:border-emerald-300 transition-all cursor-pointer group"
                             >
                                 <div className="flex items-start gap-4">
                                     <div className={`p-3 rounded-xl bg-gradient-to-br ${module.color} text-white group-hover:scale-110 transition-transform`}>
                                         {module.icon}
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="font-semibold text-gray-800 group-hover:text-emerald-600 transition-colors">
+                                        <h3 className="font-semibold text-neutral-800 group-hover:text-emerald-600 transition-colors">
                                             {module.title}
                                         </h3>
-                                        <p className="text-sm text-gray-500 mt-1">{module.description}</p>
+                                        <p className="text-sm text-neutral-500 mt-1">{module.description}</p>
                                         <div className="mt-3 flex items-center justify-between">
-                                            <span className="text-sm font-medium text-gray-700">
+                                            <span className="text-sm font-medium text-neutral-700">
                                                 {module.stats.label}: <span className="text-emerald-600">{module.stats.value}</span>
                                             </span>
-                                            <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-emerald-500 group-hover:translate-x-1 transition-all" />
+                                            <ChevronRight className="w-5 h-5 text-neutral-400 group-hover:text-emerald-500 group-hover:translate-x-1 transition-all" />
                                         </div>
                                     </div>
                                 </div>
@@ -332,8 +332,8 @@ export const StaffManagementDashboard: React.FC = () => {
                 </div>
 
                 {/* Recent Activity */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h2 className="text-lg font-semibold text-gray-800 mb-4">Recent Staff Activity</h2>
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                    <h2 className="text-lg font-semibold text-neutral-800 mb-4">Recent Staff Activity</h2>
                     <div className="space-y-4">
                         {[
                             { action: 'New staff member added', user: 'Dr. Sarah Wilson', time: '10 minutes ago', type: 'add' },
@@ -342,19 +342,19 @@ export const StaffManagementDashboard: React.FC = () => {
                             { action: 'Training completed', user: 'IT Support Team', time: '3 hours ago', type: 'complete' },
                             { action: 'Certification renewed', user: 'Dr. Michael Brown', time: '5 hours ago', type: 'cert' },
                         ].map((activity, index) => (
-                            <div key={index} className="flex items-center gap-4 p-3 hover:bg-gray-50 rounded-lg">
+                            <div key={index} className="flex items-center gap-4 p-3 hover:bg-neutral-50 rounded-lg">
                                 <div className={`w-2 h-2 rounded-full ${
-                                    activity.type === 'add' ? 'bg-blue-500' :
+                                    activity.type === 'add' ? 'bg-primary-500' :
                                     activity.type === 'approve' ? 'bg-green-500' :
                                     activity.type === 'update' ? 'bg-orange-500' :
                                     activity.type === 'complete' ? 'bg-purple-500' :
                                     'bg-pink-500'
                                 }`}></div>
                                 <div className="flex-1">
-                                    <p className="text-sm font-medium text-gray-800">{activity.action}</p>
-                                    <p className="text-xs text-gray-500">{activity.user}</p>
+                                    <p className="text-sm font-medium text-neutral-800">{activity.action}</p>
+                                    <p className="text-xs text-neutral-500">{activity.user}</p>
                                 </div>
-                                <span className="text-xs text-gray-400">{activity.time}</span>
+                                <span className="text-xs text-neutral-400">{activity.time}</span>
                             </div>
                         ))}
                     </div>

@@ -7,7 +7,7 @@ const PrescriptionsFilledCard = () => {
                 </span>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 text-gray-400"
+                    className="h-4 w-4 text-neutral-400"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -19,7 +19,7 @@ const PrescriptionsFilledCard = () => {
                 </svg>
             </div>
             <div className="text-2xl font-bold">892</div>
-            <p className="text-xs text-gray-400">48 pending review</p>
+            <p className="text-xs text-neutral-400">48 pending review</p>
         </div>
     );
 };

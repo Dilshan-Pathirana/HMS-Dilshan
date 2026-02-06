@@ -29,7 +29,7 @@ const WebDoctorScheduleDetails = () => {
         );
     } else if (doctorSchedules.length === 0) {
         content = (
-            <div className="text-center text-gray-500 mt-20 text-lg">
+            <div className="text-center text-neutral-500 mt-20 text-lg">
                 No doctor schedules found. Please try adjusting your search
                 criteria.
             </div>

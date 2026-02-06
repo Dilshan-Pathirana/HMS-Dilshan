@@ -55,9 +55,9 @@ export default function CashierUserPurchasingPage() {
     };
 
     return (
-        <div className="flex flex-col min-h-screen bg-gray-100">
+        <div className="flex flex-col min-h-screen bg-neutral-100">
             <PurchasingHeader />
-            <main className="flex-1 overflow-x-hidden bg-gray-100 p-6">
+            <main className="flex-1 overflow-x-hidden bg-neutral-100 p-6">
                 <Spinner isLoading={isLoading} />
                 {!isLoading && (
                     <PurchasingTable

@@ -105,16 +105,16 @@ export const PharmacistControlledDrugs: React.FC = () => {
     );
 
     return (
-        <div className="ml-0 md:ml-64 pt-24 min-h-screen bg-gray-50">
+        <div className="ml-0 md:ml-64 pt-24 min-h-screen bg-neutral-50">
             <div className="p-6">
                 {/* Header */}
                 <div className="flex justify-between items-start mb-6">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                            <ShieldAlert className="w-7 h-7 text-red-600" />
+                        <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2">
+                            <ShieldAlert className="w-7 h-7 text-error-600" />
                             Controlled Drugs Register
                         </h1>
-                        <p className="text-gray-600">Maintain and track controlled substance records</p>
+                        <p className="text-neutral-600">Maintain and track controlled substance records</p>
                     </div>
                     <button
                         className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
@@ -125,12 +125,12 @@ export const PharmacistControlledDrugs: React.FC = () => {
                 </div>
 
                 {/* Warning Banner */}
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                <div className="bg-error-50 border border-red-200 rounded-lg p-4 mb-6">
                     <div className="flex items-center gap-3">
-                        <Lock className="w-6 h-6 text-red-600" />
+                        <Lock className="w-6 h-6 text-error-600" />
                         <div>
                             <p className="font-medium text-red-800">Audit-Ready Register</p>
-                            <p className="text-sm text-red-600">All entries are immutable and time-stamped. Regulatory compliance mode enabled.</p>
+                            <p className="text-sm text-error-600">All entries are immutable and time-stamped. Regulatory compliance mode enabled.</p>
                         </div>
                     </div>
                 </div>
@@ -140,37 +140,37 @@ export const PharmacistControlledDrugs: React.FC = () => {
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-purple-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Total Controlled Drugs</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.total_drugs}</p>
+                                <p className="text-sm text-neutral-600">Total Controlled Drugs</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.total_drugs}</p>
                             </div>
                             <ShieldAlert className="w-10 h-10 text-purple-500" />
                         </div>
                     </div>
-                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-blue-500">
+                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-primary-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Issued Today</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.issued_today}</p>
+                                <p className="text-sm text-neutral-600">Issued Today</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.issued_today}</p>
                             </div>
-                            <CheckCircle className="w-10 h-10 text-blue-500" />
+                            <CheckCircle className="w-10 h-10 text-primary-500" />
                         </div>
                     </div>
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-yellow-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Pending Verification</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.pending_verification}</p>
+                                <p className="text-sm text-neutral-600">Pending Verification</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.pending_verification}</p>
                             </div>
                             <Clock className="w-10 h-10 text-yellow-500" />
                         </div>
                     </div>
-                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-red-500">
+                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-error-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Low Stock Alert</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.low_stock}</p>
+                                <p className="text-sm text-neutral-600">Low Stock Alert</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.low_stock}</p>
                             </div>
-                            <AlertTriangle className="w-10 h-10 text-red-500" />
+                            <AlertTriangle className="w-10 h-10 text-error-500" />
                         </div>
                     </div>
                 </div>
@@ -179,17 +179,17 @@ export const PharmacistControlledDrugs: React.FC = () => {
                 <div className="bg-white rounded-lg shadow p-4 mb-6">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div className="md:col-span-2 relative">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
                             <input
                                 type="text"
                                 placeholder="Search drug name, batch, or patient..."
-                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
+                                className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
                         <select
-                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500"
+                            className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500"
                             value={dateFilter}
                             onChange={(e) => setDateFilter(e.target.value)}
                         >
@@ -212,62 +212,62 @@ export const PharmacistControlledDrugs: React.FC = () => {
                 <div className="bg-white rounded-lg shadow overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-red-50">
+                            <thead className="bg-error-50">
                                 <tr>
-                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Time</th>
-                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Drug Name</th>
-                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Batch</th>
-                                    <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">Opening</th>
-                                    <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">Received</th>
-                                    <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">Issued</th>
-                                    <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">Closing</th>
-                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Patient</th>
-                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Issued By</th>
-                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Verified By</th>
-                                    <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Time</th>
+                                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Drug Name</th>
+                                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Batch</th>
+                                    <th className="px-4 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Opening</th>
+                                    <th className="px-4 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Received</th>
+                                    <th className="px-4 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Issued</th>
+                                    <th className="px-4 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Closing</th>
+                                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Patient</th>
+                                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Issued By</th>
+                                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Verified By</th>
+                                    <th className="px-4 py-3 text-center text-xs font-medium text-neutral-500 uppercase">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {loading ? (
                                     <tr>
                                         <td colSpan={11} className="px-6 py-12 text-center">
-                                            <RefreshCw className="w-6 h-6 animate-spin text-red-600 mx-auto mb-2" />
+                                            <RefreshCw className="w-6 h-6 animate-spin text-error-600 mx-auto mb-2" />
                                             Loading register...
                                         </td>
                                     </tr>
                                 ) : filteredEntries.length === 0 ? (
                                     <tr>
-                                        <td colSpan={11} className="px-6 py-12 text-center text-gray-500">
+                                        <td colSpan={11} className="px-6 py-12 text-center text-neutral-500">
                                             No entries found
                                         </td>
                                     </tr>
                                 ) : (
                                     filteredEntries.map((entry) => (
-                                        <tr key={entry.id} className="hover:bg-gray-50">
-                                            <td className="px-4 py-4 text-sm text-gray-600">
+                                        <tr key={entry.id} className="hover:bg-neutral-50">
+                                            <td className="px-4 py-4 text-sm text-neutral-600">
                                                 {new Date(entry.timestamp).toLocaleTimeString()}
                                             </td>
                                             <td className="px-4 py-4">
-                                                <span className="font-medium text-gray-900">{entry.drug_name}</span>
+                                                <span className="font-medium text-neutral-900">{entry.drug_name}</span>
                                             </td>
-                                            <td className="px-4 py-4 text-sm text-gray-600">{entry.batch_number}</td>
+                                            <td className="px-4 py-4 text-sm text-neutral-600">{entry.batch_number}</td>
                                             <td className="px-4 py-4 text-center font-medium">{entry.opening_balance}</td>
                                             <td className="px-4 py-4 text-center text-green-600 font-medium">
                                                 {entry.received > 0 ? `+${entry.received}` : '-'}
                                             </td>
-                                            <td className="px-4 py-4 text-center text-red-600 font-medium">
+                                            <td className="px-4 py-4 text-center text-error-600 font-medium">
                                                 {entry.issued > 0 ? `-${entry.issued}` : '-'}
                                             </td>
                                             <td className="px-4 py-4 text-center font-bold">{entry.closing_balance}</td>
                                             <td className="px-4 py-4 text-sm">
                                                 {entry.patient_name && (
                                                     <div>
-                                                        <p className="text-gray-900">{entry.patient_name}</p>
-                                                        <p className="text-xs text-gray-500">{entry.prescription_number}</p>
+                                                        <p className="text-neutral-900">{entry.patient_name}</p>
+                                                        <p className="text-xs text-neutral-500">{entry.prescription_number}</p>
                                                     </div>
                                                 )}
                                             </td>
-                                            <td className="px-4 py-4 text-sm text-gray-600">{entry.issued_by}</td>
+                                            <td className="px-4 py-4 text-sm text-neutral-600">{entry.issued_by}</td>
                                             <td className="px-4 py-4 text-sm">
                                                 {entry.verified_by ? (
                                                     <span className="text-green-600 flex items-center gap-1">
@@ -282,7 +282,7 @@ export const PharmacistControlledDrugs: React.FC = () => {
                                                 )}
                                             </td>
                                             <td className="px-4 py-4 text-center">
-                                                <button className="p-1 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded">
+                                                <button className="p-1 text-neutral-600 hover:text-primary-500 hover:bg-blue-50 rounded">
                                                     <Eye className="w-4 h-4" />
                                                 </button>
                                             </td>

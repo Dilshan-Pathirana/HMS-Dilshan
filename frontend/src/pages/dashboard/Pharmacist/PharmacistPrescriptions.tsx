@@ -153,7 +153,7 @@ export const PharmacistPrescriptions: React.FC = () => {
             dispensed: 'bg-green-100 text-green-800',
             partial: 'bg-blue-100 text-blue-800',
             clarification: 'bg-orange-100 text-orange-800',
-            cancelled: 'bg-red-100 text-red-800'
+            cancelled: 'bg-error-100 text-red-800'
         };
         const labels: Record<string, string> = {
             pending: 'Pending',
@@ -163,7 +163,7 @@ export const PharmacistPrescriptions: React.FC = () => {
             cancelled: 'Cancelled'
         };
         return (
-            <span className={`px-2 py-1 rounded-full text-xs font-medium ${styles[status] || 'bg-gray-100 text-gray-800'}`}>
+            <span className={`px-2 py-1 rounded-full text-xs font-medium ${styles[status] || 'bg-neutral-100 text-neutral-800'}`}>
                 {labels[status] || status}
             </span>
         );
@@ -196,30 +196,30 @@ export const PharmacistPrescriptions: React.FC = () => {
     };
 
     return (
-        <div className="ml-0 md:ml-64 pt-24 min-h-screen bg-gray-50">
+        <div className="ml-0 md:ml-64 pt-24 min-h-screen bg-neutral-50">
             <div className="p-6">
                 {/* Header */}
                 <div className="mb-6">
-                    <h1 className="text-2xl font-bold text-gray-900">Prescription Management</h1>
-                    <p className="text-gray-600">View and manage OPD/IPD prescriptions</p>
+                    <h1 className="text-2xl font-bold text-neutral-900">Prescription Management</h1>
+                    <p className="text-neutral-600">View and manage OPD/IPD prescriptions</p>
                 </div>
 
                 {/* Stats Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-blue-500">
+                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-primary-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Today's Total</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.total_today}</p>
+                                <p className="text-sm text-neutral-600">Today's Total</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.total_today}</p>
                             </div>
-                            <FileText className="w-10 h-10 text-blue-500" />
+                            <FileText className="w-10 h-10 text-primary-500" />
                         </div>
                     </div>
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-yellow-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Pending</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.pending}</p>
+                                <p className="text-sm text-neutral-600">Pending</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.pending}</p>
                             </div>
                             <Clock className="w-10 h-10 text-yellow-500" />
                         </div>
@@ -227,8 +227,8 @@ export const PharmacistPrescriptions: React.FC = () => {
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-green-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Dispensed</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.dispensed}</p>
+                                <p className="text-sm text-neutral-600">Dispensed</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.dispensed}</p>
                             </div>
                             <CheckCircle className="w-10 h-10 text-green-500" />
                         </div>
@@ -236,8 +236,8 @@ export const PharmacistPrescriptions: React.FC = () => {
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-orange-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Need Clarification</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.clarification_needed}</p>
+                                <p className="text-sm text-neutral-600">Need Clarification</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.clarification_needed}</p>
                             </div>
                             <AlertTriangle className="w-10 h-10 text-orange-500" />
                         </div>
@@ -245,8 +245,8 @@ export const PharmacistPrescriptions: React.FC = () => {
                     <div className="bg-white rounded-lg shadow p-4 border-l-4 border-purple-500">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-600">Partial</p>
-                                <p className="text-2xl font-bold text-gray-900">{stats.partial}</p>
+                                <p className="text-sm text-neutral-600">Partial</p>
+                                <p className="text-2xl font-bold text-neutral-900">{stats.partial}</p>
                             </div>
                             <Pill className="w-10 h-10 text-purple-500" />
                         </div>
@@ -257,17 +257,17 @@ export const PharmacistPrescriptions: React.FC = () => {
                 <div className="bg-white rounded-lg shadow p-4 mb-6">
                     <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                         <div className="md:col-span-2 relative">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
                             <input
                                 type="text"
                                 placeholder="Search by prescription #, patient, or doctor..."
-                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
                         <select
-                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                            className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                             value={filterType}
                             onChange={(e) => setFilterType(e.target.value)}
                         >
@@ -276,7 +276,7 @@ export const PharmacistPrescriptions: React.FC = () => {
                             <option value="IPD">IPD</option>
                         </select>
                         <select
-                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                            className="px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                             value={filterStatus}
                             onChange={(e) => setFilterStatus(e.target.value)}
                         >
@@ -288,7 +288,7 @@ export const PharmacistPrescriptions: React.FC = () => {
                         </select>
                         <button
                             onClick={fetchPrescriptions}
-                            className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                            className="flex items-center justify-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
                         >
                             <RefreshCw className="w-4 h-4" />
                             Refresh
@@ -300,33 +300,33 @@ export const PharmacistPrescriptions: React.FC = () => {
                 <div className="bg-white rounded-lg shadow overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
+                            <thead className="bg-neutral-50">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                         Prescription #
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                         Patient
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                         Doctor
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                         Type
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                         Items
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                         Status
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                         Verified
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                         Time
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                         Actions
                                     </th>
                                 </tr>
@@ -336,32 +336,32 @@ export const PharmacistPrescriptions: React.FC = () => {
                                     <tr>
                                         <td colSpan={9} className="px-6 py-12 text-center">
                                             <div className="flex items-center justify-center">
-                                                <RefreshCw className="w-6 h-6 animate-spin text-blue-600 mr-2" />
+                                                <RefreshCw className="w-6 h-6 animate-spin text-primary-500 mr-2" />
                                                 Loading prescriptions...
                                             </div>
                                         </td>
                                     </tr>
                                 ) : paginatedPrescriptions.length === 0 ? (
                                     <tr>
-                                        <td colSpan={9} className="px-6 py-12 text-center text-gray-500">
+                                        <td colSpan={9} className="px-6 py-12 text-center text-neutral-500">
                                             No prescriptions found
                                         </td>
                                     </tr>
                                 ) : (
                                     paginatedPrescriptions.map((prescription) => (
-                                        <tr key={prescription.id} className="hover:bg-gray-50">
+                                        <tr key={prescription.id} className="hover:bg-neutral-50">
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className="font-medium text-blue-600">
+                                                <span className="font-medium text-primary-500">
                                                     {prescription.prescription_number}
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="flex items-center">
-                                                    <User className="w-4 h-4 text-gray-400 mr-2" />
+                                                    <User className="w-4 h-4 text-neutral-400 mr-2" />
                                                     <span>{prescription.patient_name}</span>
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-gray-600">
+                                            <td className="px-6 py-4 whitespace-nowrap text-neutral-600">
                                                 {prescription.doctor_name}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
@@ -386,7 +386,7 @@ export const PharmacistPrescriptions: React.FC = () => {
                                                     <AlertCircle className="w-5 h-5 text-yellow-500 mx-auto" />
                                                 )}
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500">
                                                 {new Date(prescription.created_at).toLocaleTimeString()}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
@@ -396,7 +396,7 @@ export const PharmacistPrescriptions: React.FC = () => {
                                                             setSelectedPrescription(prescription);
                                                             setShowDetailsModal(true);
                                                         }}
-                                                        className="p-1 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded"
+                                                        className="p-1 text-neutral-600 hover:text-primary-500 hover:bg-blue-50 rounded"
                                                         title="View Details"
                                                     >
                                                         <Eye className="w-4 h-4" />
@@ -404,7 +404,7 @@ export const PharmacistPrescriptions: React.FC = () => {
                                                     {prescription.status === 'pending' && (
                                                         <button
                                                             onClick={() => handleDispense(prescription)}
-                                                            className="p-1 text-gray-600 hover:text-green-600 hover:bg-green-50 rounded"
+                                                            className="p-1 text-neutral-600 hover:text-green-600 hover:bg-green-50 rounded"
                                                             title="Dispense"
                                                         >
                                                             <Pill className="w-4 h-4" />
@@ -412,13 +412,13 @@ export const PharmacistPrescriptions: React.FC = () => {
                                                     )}
                                                     <button
                                                         onClick={() => handleRequestClarification(prescription)}
-                                                        className="p-1 text-gray-600 hover:text-orange-600 hover:bg-orange-50 rounded"
+                                                        className="p-1 text-neutral-600 hover:text-orange-600 hover:bg-orange-50 rounded"
                                                         title="Request Clarification"
                                                     >
                                                         <MessageSquare className="w-4 h-4" />
                                                     </button>
                                                     <button
-                                                        className="p-1 text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded"
+                                                        className="p-1 text-neutral-600 hover:text-purple-600 hover:bg-purple-50 rounded"
                                                         title="Print"
                                                     >
                                                         <Printer className="w-4 h-4" />
@@ -434,15 +434,15 @@ export const PharmacistPrescriptions: React.FC = () => {
 
                     {/* Pagination */}
                     {totalPages > 1 && (
-                        <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
-                            <p className="text-sm text-gray-600">
+                        <div className="px-6 py-4 border-t border-neutral-200 flex items-center justify-between">
+                            <p className="text-sm text-neutral-600">
                                 Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, filteredPrescriptions.length)} of {filteredPrescriptions.length} prescriptions
                             </p>
                             <div className="flex items-center gap-2">
                                 <button
                                     onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                                     disabled={currentPage === 1}
-                                    className="p-2 rounded-lg border hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="p-2 rounded-lg border hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     <ChevronLeft className="w-4 h-4" />
                                 </button>
@@ -452,7 +452,7 @@ export const PharmacistPrescriptions: React.FC = () => {
                                 <button
                                     onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                                     disabled={currentPage === totalPages}
-                                    className="p-2 rounded-lg border hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="p-2 rounded-lg border hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     <ChevronRight className="w-4 h-4" />
                                 </button>
@@ -468,36 +468,36 @@ export const PharmacistPrescriptions: React.FC = () => {
                             <div className="p-6">
                                 <div className="flex justify-between items-start mb-6">
                                     <div>
-                                        <h2 className="text-xl font-bold text-gray-900">
+                                        <h2 className="text-xl font-bold text-neutral-900">
                                             {selectedPrescription.prescription_number}
                                         </h2>
-                                        <p className="text-gray-500">Prescription Details</p>
+                                        <p className="text-neutral-500">Prescription Details</p>
                                     </div>
                                     <button
                                         onClick={() => setShowDetailsModal(false)}
-                                        className="p-2 hover:bg-gray-100 rounded-lg"
+                                        className="p-2 hover:bg-neutral-100 rounded-lg"
                                     >
                                         ×
                                     </button>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-4 mb-6">
-                                    <div className="bg-gray-50 p-4 rounded-lg">
-                                        <p className="text-sm text-gray-500">Patient</p>
+                                    <div className="bg-neutral-50 p-4 rounded-lg">
+                                        <p className="text-sm text-neutral-500">Patient</p>
                                         <p className="font-medium">{selectedPrescription.patient_name}</p>
-                                        <p className="text-sm text-gray-400">ID: {selectedPrescription.patient_id}</p>
+                                        <p className="text-sm text-neutral-400">ID: {selectedPrescription.patient_id}</p>
                                     </div>
-                                    <div className="bg-gray-50 p-4 rounded-lg">
-                                        <p className="text-sm text-gray-500">Doctor</p>
+                                    <div className="bg-neutral-50 p-4 rounded-lg">
+                                        <p className="text-sm text-neutral-500">Doctor</p>
                                         <p className="font-medium">{selectedPrescription.doctor_name}</p>
-                                        <p className="text-sm text-gray-400">ID: {selectedPrescription.doctor_id}</p>
+                                        <p className="text-sm text-neutral-400">ID: {selectedPrescription.doctor_id}</p>
                                     </div>
-                                    <div className="bg-gray-50 p-4 rounded-lg">
-                                        <p className="text-sm text-gray-500">Type</p>
+                                    <div className="bg-neutral-50 p-4 rounded-lg">
+                                        <p className="text-sm text-neutral-500">Type</p>
                                         <p className="font-medium">{selectedPrescription.type}</p>
                                     </div>
-                                    <div className="bg-gray-50 p-4 rounded-lg">
-                                        <p className="text-sm text-gray-500">Status</p>
+                                    <div className="bg-neutral-50 p-4 rounded-lg">
+                                        <p className="text-sm text-neutral-500">Status</p>
                                         {getStatusBadge(selectedPrescription.status)}
                                     </div>
                                 </div>
@@ -512,7 +512,7 @@ export const PharmacistPrescriptions: React.FC = () => {
                                 <div className="flex justify-end gap-3">
                                     <button
                                         onClick={() => setShowDetailsModal(false)}
-                                        className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                                        className="px-4 py-2 border border-neutral-300 rounded-lg hover:bg-neutral-50"
                                     >
                                         Close
                                     </button>
@@ -522,7 +522,7 @@ export const PharmacistPrescriptions: React.FC = () => {
                                                 setShowDetailsModal(false);
                                                 handleDispense(selectedPrescription);
                                             }}
-                                            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                                            className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                                         >
                                             Dispense
                                         </button>

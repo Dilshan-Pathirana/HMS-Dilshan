@@ -265,11 +265,11 @@ export const SuperAdminStaffDashboard: React.FC = () => {
         color: string;
         trend?: string;
     }) => (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
             <div className="flex items-center justify-between">
                 <div>
-                    <p className="text-sm text-gray-500 font-medium">{title}</p>
-                    <p className="text-2xl font-bold text-gray-800 mt-1">{value}</p>
+                    <p className="text-sm text-neutral-500 font-medium">{title}</p>
+                    <p className="text-2xl font-bold text-neutral-800 mt-1">{value}</p>
                     {trend && (
                         <div className="flex items-center gap-1 mt-1">
                             <TrendingUp className="w-3 h-3 text-green-500" />
@@ -312,7 +312,7 @@ export const SuperAdminStaffDashboard: React.FC = () => {
                             <h1 className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">
                                 Hospital Management Dashboard
                             </h1>
-                            <p className="text-gray-600 mt-1">Comprehensive analytics and staff management across all branches</p>
+                            <p className="text-neutral-600 mt-1">Comprehensive analytics and staff management across all branches</p>
                         </div>
 
                         {/* Branch Selector */}
@@ -322,7 +322,7 @@ export const SuperAdminStaffDashboard: React.FC = () => {
                                 <select
                                     value={selectedBranch}
                                     onChange={(e) => handleBranchChange(e.target.value)}
-                                    className="bg-transparent border-none focus:ring-0 text-gray-700 font-semibold cursor-pointer pr-8"
+                                    className="bg-transparent border-none focus:ring-0 text-neutral-700 font-semibold cursor-pointer pr-8"
                                 >
                                     <option value="all">All Branches</option>
                                     {branches.map((branch) => (
@@ -361,11 +361,11 @@ export const SuperAdminStaffDashboard: React.FC = () => {
                 {/* Financial Analytics */}
                 <div className="mb-8">
                     <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                        <h2 className="text-xl font-bold text-neutral-800 flex items-center gap-2">
                             <Wallet className="w-6 h-6 text-teal-600" />
                             Financial Overview
                         </h2>
-                        <span className="text-sm text-gray-500">Current Month</span>
+                        <span className="text-sm text-neutral-500">Current Month</span>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
                         <div className="bg-gradient-to-br from-teal-500 to-cyan-600 rounded-xl p-5 text-white shadow-lg col-span-1 md:col-span-2">
@@ -385,11 +385,11 @@ export const SuperAdminStaffDashboard: React.FC = () => {
 
                         <div className="bg-white rounded-xl p-4 shadow-md border-2 border-blue-100">
                             <div className="flex items-center justify-between mb-2">
-                                <Clock className="w-6 h-6 text-blue-600" />
+                                <Clock className="w-6 h-6 text-primary-500" />
                                 <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-medium">+12%</span>
                             </div>
-                            <p className="text-gray-600 text-sm mb-1">Overtime Costs</p>
-                            <p className="text-2xl font-bold text-gray-800">${(financialStats.overtimeCosts / 1000).toFixed(1)}K</p>
+                            <p className="text-neutral-600 text-sm mb-1">Overtime Costs</p>
+                            <p className="text-2xl font-bold text-neutral-800">${(financialStats.overtimeCosts / 1000).toFixed(1)}K</p>
                         </div>
 
                         <div className="bg-white rounded-xl p-4 shadow-md border-2 border-emerald-100">
@@ -397,8 +397,8 @@ export const SuperAdminStaffDashboard: React.FC = () => {
                                 <Shield className="w-6 h-6 text-emerald-600" />
                                 <span className="text-xs bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full font-medium">Active</span>
                             </div>
-                            <p className="text-gray-600 text-sm mb-1">Benefits Costs</p>
-                            <p className="text-2xl font-bold text-gray-800">${(financialStats.benefitsCosts / 1000).toFixed(0)}K</p>
+                            <p className="text-neutral-600 text-sm mb-1">Benefits Costs</p>
+                            <p className="text-2xl font-bold text-neutral-800">${(financialStats.benefitsCosts / 1000).toFixed(0)}K</p>
                         </div>
 
                         <div className="bg-white rounded-xl p-4 shadow-md border-2 border-purple-100">
@@ -406,8 +406,8 @@ export const SuperAdminStaffDashboard: React.FC = () => {
                                 <Award className="w-6 h-6 text-purple-600" />
                                 <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full font-medium">Budget</span>
                             </div>
-                            <p className="text-gray-600 text-sm mb-1">Training Budget</p>
-                            <p className="text-2xl font-bold text-gray-800">${(financialStats.trainingBudget / 1000).toFixed(0)}K</p>
+                            <p className="text-neutral-600 text-sm mb-1">Training Budget</p>
+                            <p className="text-2xl font-bold text-neutral-800">${(financialStats.trainingBudget / 1000).toFixed(0)}K</p>
                         </div>
 
                         <div className="bg-white rounded-xl p-4 shadow-md border-2 border-green-100">
@@ -415,8 +415,8 @@ export const SuperAdminStaffDashboard: React.FC = () => {
                                 <TrendingUp className="w-6 h-6 text-green-600" />
                                 <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-medium">Good</span>
                             </div>
-                            <p className="text-gray-600 text-sm mb-1">Savings Rate</p>
-                            <p className="text-2xl font-bold text-gray-800">{financialStats.savingsRate}%</p>
+                            <p className="text-neutral-600 text-sm mb-1">Savings Rate</p>
+                            <p className="text-2xl font-bold text-neutral-800">{financialStats.savingsRate}%</p>
                         </div>
                     </div>
                 </div>
@@ -424,11 +424,11 @@ export const SuperAdminStaffDashboard: React.FC = () => {
                 {/* Management Performance */}
                 <div className="mb-8">
                     <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
-                            <Activity className="w-6 h-6 text-blue-600" />
+                        <h2 className="text-xl font-bold text-neutral-800 flex items-center gap-2">
+                            <Activity className="w-6 h-6 text-primary-500" />
                             Management Performance
                         </h2>
-                        <span className="text-sm text-gray-500">Real-time Metrics</span>
+                        <span className="text-sm text-neutral-500">Real-time Metrics</span>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                         <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 text-white shadow-md">
@@ -471,7 +471,7 @@ export const SuperAdminStaffDashboard: React.FC = () => {
 
                 {/* Staff Stats Overview */}
                 <div className="mb-8">
-                    <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <h2 className="text-xl font-bold text-neutral-800 mb-4 flex items-center gap-2">
                         <Users className="w-6 h-6 text-teal-600" />
                         Staff Management Overview
                     </h2>
@@ -518,8 +518,8 @@ export const SuperAdminStaffDashboard: React.FC = () => {
 
                 {/* Module Cards */}
                 <div className="mb-8">
-                    <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                        <Building2 className="w-6 h-6 text-blue-600" />
+                    <h2 className="text-xl font-bold text-neutral-800 mb-4 flex items-center gap-2">
+                        <Building2 className="w-6 h-6 text-primary-500" />
                         Management Modules
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -532,18 +532,18 @@ export const SuperAdminStaffDashboard: React.FC = () => {
                                 <div className={`inline-flex p-4 rounded-xl bg-gradient-to-br ${module.color} text-white mb-4 group-hover:scale-110 transition-transform shadow-lg`}>
                                     {module.icon}
                                 </div>
-                                <h3 className="text-lg font-semibold text-gray-800 mb-2 group-hover:text-teal-600 transition-colors">
+                                <h3 className="text-lg font-semibold text-neutral-800 mb-2 group-hover:text-teal-600 transition-colors">
                                     {module.title}
                                 </h3>
-                                <p className="text-sm text-gray-600 mb-4">
+                                <p className="text-sm text-neutral-600 mb-4">
                                     {module.description}
                                 </p>
                                 <div className="flex items-center justify-between pt-4 border-t-2 border-gray-100">
                                     <div>
-                                        <p className="text-xs text-gray-500 font-medium">{module.stats.label}</p>
+                                        <p className="text-xs text-neutral-500 font-medium">{module.stats.label}</p>
                                         <p className="text-lg font-bold bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">{module.stats.value}</p>
                                     </div>
-                                    <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-teal-500 group-hover:translate-x-1 transition-all" />
+                                    <ChevronRight className="w-5 h-5 text-neutral-400 group-hover:text-teal-500 group-hover:translate-x-1 transition-all" />
                                 </div>
                             </div>
                         ))}
@@ -552,7 +552,7 @@ export const SuperAdminStaffDashboard: React.FC = () => {
 
                 {/* Quick Actions */}
                 <div className="bg-white rounded-xl shadow-lg border-2 border-teal-100 p-6">
-                    <h3 className="text-xl font-bold text-gray-800 mb-5 flex items-center gap-2">
+                    <h3 className="text-xl font-bold text-neutral-800 mb-5 flex items-center gap-2">
                         <Activity className="w-6 h-6 text-teal-600" />
                         Quick Actions
                     </h3>
@@ -575,7 +575,7 @@ export const SuperAdminStaffDashboard: React.FC = () => {
                             onClick={() => handleModuleClick('/super-admin/staff/leave')}
                             className="flex items-center gap-3 p-5 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl hover:from-blue-100 hover:to-indigo-200 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
                         >
-                            <Clock className="w-7 h-7 text-blue-600" />
+                            <Clock className="w-7 h-7 text-primary-500" />
                             <span className="font-semibold text-blue-700">Pending Leaves</span>
                         </button>
                         <button

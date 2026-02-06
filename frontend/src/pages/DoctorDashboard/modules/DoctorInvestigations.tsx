@@ -74,11 +74,11 @@ const InvestigationsList: React.FC = () => {
     const getPriorityBadge = (priority: string) => {
         switch (priority) {
             case 'stat':
-                return <span className="px-2 py-1 text-xs font-medium bg-red-100 text-red-700 rounded-full">STAT</span>;
+                return <span className="px-2 py-1 text-xs font-medium bg-error-100 text-red-700 rounded-full">STAT</span>;
             case 'urgent':
                 return <span className="px-2 py-1 text-xs font-medium bg-orange-100 text-orange-700 rounded-full">Urgent</span>;
             default:
-                return <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded-full">Normal</span>;
+                return <span className="px-2 py-1 text-xs font-medium bg-neutral-100 text-neutral-700 rounded-full">Normal</span>;
         }
     };
 
@@ -91,7 +91,7 @@ const InvestigationsList: React.FC = () => {
             case 'in-progress':
                 return <span className="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-700 rounded-full flex items-center gap-1"><Clock className="w-3 h-3" /> In Progress</span>;
             default:
-                return <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded-full flex items-center gap-1"><Clock className="w-3 h-3" /> Ordered</span>;
+                return <span className="px-2 py-1 text-xs font-medium bg-neutral-100 text-neutral-700 rounded-full flex items-center gap-1"><Clock className="w-3 h-3" /> Ordered</span>;
         }
     };
 
@@ -110,7 +110,7 @@ const InvestigationsList: React.FC = () => {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+                <Loader2 className="w-8 h-8 animate-spin text-primary-500" />
             </div>
         );
     }
@@ -120,12 +120,12 @@ const InvestigationsList: React.FC = () => {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-800">Investigations</h1>
-                    <p className="text-gray-500">Order and review lab tests and imaging studies</p>
+                    <h1 className="text-2xl font-bold text-neutral-800">Investigations</h1>
+                    <p className="text-neutral-500">Order and review lab tests and imaging studies</p>
                 </div>
                 <Link
                     to="order"
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
                 >
                     <Plus className="w-5 h-5" />
                     Order Investigation
@@ -136,13 +136,13 @@ const InvestigationsList: React.FC = () => {
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
                 <div className="flex flex-col md:flex-row gap-4">
                     <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                         <input
                             type="text"
                             placeholder="Search by patient or test name..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                         />
                     </div>
                     <div className="flex gap-2">
@@ -156,8 +156,8 @@ const InvestigationsList: React.FC = () => {
                                 onClick={() => setFilter(tab.key as any)}
                                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                                     filter === tab.key
-                                        ? 'bg-blue-600 text-white'
-                                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                        ? 'bg-primary-500 text-white'
+                                        : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
                                 }`}
                             >
                                 {tab.label}
@@ -186,13 +186,13 @@ const InvestigationsList: React.FC = () => {
             {filteredInvestigations.length === 0 ? (
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
                     <TestTube className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-800 mb-2">No investigations found</h3>
-                    <p className="text-gray-500 mb-4">
+                    <h3 className="text-lg font-medium text-neutral-800 mb-2">No investigations found</h3>
+                    <p className="text-neutral-500 mb-4">
                         {filter === 'pending' ? "No pending investigations to review" : "No investigations match your criteria"}
                     </p>
                     <Link
                         to="order"
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                     >
                         <Plus className="w-5 h-5" />
                         Order New Investigation
@@ -205,19 +205,19 @@ const InvestigationsList: React.FC = () => {
                             <Link
                                 key={inv.id}
                                 to={inv.id}
-                                className="p-4 hover:bg-gray-50 flex items-center justify-between transition-colors block"
+                                className="p-4 hover:bg-neutral-50 flex items-center justify-between transition-colors block"
                             >
                                 <div className="flex items-center gap-4">
                                     <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
                                         inv.test_type === 'lab' ? 'bg-purple-100' : 'bg-blue-100'
                                     }`}>
                                         <TestTube className={`w-6 h-6 ${
-                                            inv.test_type === 'lab' ? 'text-purple-600' : 'text-blue-600'
+                                            inv.test_type === 'lab' ? 'text-purple-600' : 'text-primary-500'
                                         }`} />
                                     </div>
                                     <div>
-                                        <p className="font-medium text-gray-800">{inv.test_name}</p>
-                                        <p className="text-sm text-gray-500 flex items-center gap-2">
+                                        <p className="font-medium text-neutral-800">{inv.test_name}</p>
+                                        <p className="text-sm text-neutral-500 flex items-center gap-2">
                                             <User className="w-4 h-4" />
                                             {inv.patient_name}
                                         </p>
@@ -225,9 +225,9 @@ const InvestigationsList: React.FC = () => {
                                 </div>
                                 <div className="flex items-center gap-4">
                                     <div className="text-right">
-                                        <p className="text-sm text-gray-500">{inv.ordered_date}</p>
+                                        <p className="text-sm text-neutral-500">{inv.ordered_date}</p>
                                         {inv.result_date && (
-                                            <p className="text-xs text-gray-400">Result: {inv.result_date}</p>
+                                            <p className="text-xs text-neutral-400">Result: {inv.result_date}</p>
                                         )}
                                     </div>
                                     {getPriorityBadge(inv.priority)}
@@ -329,36 +329,36 @@ const OrderInvestigation: React.FC = () => {
     return (
         <div className="max-w-4xl mx-auto">
             <div className="mb-6">
-                <Link to="/doctor-dashboard-new/investigations" className="text-blue-600 hover:text-blue-700 text-sm flex items-center gap-1 mb-2">
+                <Link to="/doctor-dashboard-new/investigations" className="text-primary-500 hover:text-blue-700 text-sm flex items-center gap-1 mb-2">
                     <ChevronLeft className="w-4 h-4" /> Back to Investigations
                 </Link>
-                <h1 className="text-2xl font-bold text-gray-800">Order Investigation</h1>
-                <p className="text-gray-500">Order lab tests or imaging studies for a patient</p>
+                <h1 className="text-2xl font-bold text-neutral-800">Order Investigation</h1>
+                <p className="text-neutral-500">Order lab tests or imaging studies for a patient</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Patient Selection */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                    <h2 className="text-lg font-semibold text-gray-800 mb-4">Patient Information</h2>
+                    <h2 className="text-lg font-semibold text-neutral-800 mb-4">Patient Information</h2>
                     {patientId ? (
                         <div className="flex items-center gap-4 p-4 bg-blue-50 rounded-lg">
-                            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold">
+                            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-primary-500 font-bold">
                                 P
                             </div>
                             <div>
-                                <p className="font-medium text-gray-800">Patient ID: {patientId}</p>
-                                <p className="text-sm text-gray-500">From current consultation</p>
+                                <p className="font-medium text-neutral-800">Patient ID: {patientId}</p>
+                                <p className="text-sm text-neutral-500">From current consultation</p>
                             </div>
                         </div>
                     ) : (
                         <div className="relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                             <input
                                 type="text"
                                 placeholder="Search patient by name or phone..."
                                 value={patientSearch}
                                 onChange={(e) => setPatientSearch(e.target.value)}
-                                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                             />
                         </div>
                     )}
@@ -366,11 +366,11 @@ const OrderInvestigation: React.FC = () => {
 
                 {/* Test Selection */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                    <h2 className="text-lg font-semibold text-gray-800 mb-4">Select Tests</h2>
+                    <h2 className="text-lg font-semibold text-neutral-800 mb-4">Select Tests</h2>
                     
                     {testCategories.map((category) => (
                         <div key={category.type} className="mb-6 last:mb-0">
-                            <h3 className="font-medium text-gray-700 mb-3">{category.name}</h3>
+                            <h3 className="font-medium text-neutral-700 mb-3">{category.name}</h3>
                             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                                 {category.tests.map((test) => (
                                     <button
@@ -379,15 +379,15 @@ const OrderInvestigation: React.FC = () => {
                                         onClick={() => toggleTest(test.id)}
                                         className={`p-3 border rounded-lg text-left transition-all ${
                                             selectedTests.includes(test.id)
-                                                ? 'border-blue-500 bg-blue-50 text-blue-700'
-                                                : 'border-gray-200 hover:border-blue-300 hover:bg-gray-50'
+                                                ? 'border-primary-500 bg-blue-50 text-blue-700'
+                                                : 'border-neutral-200 hover:border-blue-300 hover:bg-neutral-50'
                                         }`}
                                     >
                                         <div className="flex items-center gap-2">
                                             <div className={`w-4 h-4 rounded border flex items-center justify-center ${
                                                 selectedTests.includes(test.id)
-                                                    ? 'bg-blue-600 border-blue-600'
-                                                    : 'border-gray-300'
+                                                    ? 'bg-primary-500 border-primary-500'
+                                                    : 'border-neutral-300'
                                             }`}>
                                                 {selectedTests.includes(test.id) && (
                                                     <CheckCircle className="w-3 h-3 text-white" />
@@ -412,11 +412,11 @@ const OrderInvestigation: React.FC = () => {
 
                 {/* Priority & Justification */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                    <h2 className="text-lg font-semibold text-gray-800 mb-4">Clinical Details</h2>
+                    <h2 className="text-lg font-semibold text-neutral-800 mb-4">Clinical Details</h2>
                     
                     <div className="space-y-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Priority</label>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">Priority</label>
                             <div className="flex gap-3">
                                 {[
                                     { value: 'normal', label: 'Normal', color: 'gray' },
@@ -430,11 +430,11 @@ const OrderInvestigation: React.FC = () => {
                                         className={`px-4 py-2 rounded-lg border transition-all ${
                                             formData.priority === priority.value
                                                 ? priority.value === 'stat' 
-                                                    ? 'border-red-500 bg-red-50 text-red-700'
+                                                    ? 'border-error-500 bg-error-50 text-red-700'
                                                     : priority.value === 'urgent'
                                                         ? 'border-orange-500 bg-orange-50 text-orange-700'
-                                                        : 'border-blue-500 bg-blue-50 text-blue-700'
-                                                : 'border-gray-200 hover:border-gray-300'
+                                                        : 'border-primary-500 bg-blue-50 text-blue-700'
+                                                : 'border-neutral-200 hover:border-neutral-300'
                                         }`}
                                     >
                                         {priority.label}
@@ -444,8 +444,8 @@ const OrderInvestigation: React.FC = () => {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Clinical Justification <span className="text-red-500">*</span>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
+                                Clinical Justification <span className="text-error-500">*</span>
                             </label>
                             <textarea
                                 required
@@ -453,7 +453,7 @@ const OrderInvestigation: React.FC = () => {
                                 value={formData.clinical_justification}
                                 onChange={(e) => setFormData({ ...formData, clinical_justification: e.target.value })}
                                 placeholder="Reason for ordering these investigations..."
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                             />
                         </div>
                     </div>
@@ -464,14 +464,14 @@ const OrderInvestigation: React.FC = () => {
                     <button
                         type="button"
                         onClick={() => navigate('/doctor-dashboard-new/investigations')}
-                        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                        className="flex-1 px-4 py-3 border border-neutral-300 rounded-lg text-neutral-700 hover:bg-neutral-50"
                     >
                         Cancel
                     </button>
                     <button
                         type="submit"
                         disabled={loading || selectedTests.length === 0}
-                        className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center justify-center gap-2"
+                        className="flex-1 px-4 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 flex items-center justify-center gap-2"
                     >
                         {loading ? (
                             <>
@@ -496,16 +496,16 @@ const ViewInvestigation: React.FC = () => {
     return (
         <div className="max-w-3xl mx-auto">
             <div className="mb-6">
-                <Link to="/doctor-dashboard-new/investigations" className="text-blue-600 hover:text-blue-700 text-sm flex items-center gap-1 mb-2">
+                <Link to="/doctor-dashboard-new/investigations" className="text-primary-500 hover:text-blue-700 text-sm flex items-center gap-1 mb-2">
                     <ChevronLeft className="w-4 h-4" /> Back to Investigations
                 </Link>
-                <h1 className="text-2xl font-bold text-gray-800">Investigation Results</h1>
+                <h1 className="text-2xl font-bold text-neutral-800">Investigation Results</h1>
             </div>
 
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
                 <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-800 mb-2">Results Not Available</h3>
-                <p className="text-gray-500">Investigation results will appear here once available</p>
+                <h3 className="text-lg font-medium text-neutral-800 mb-2">Results Not Available</h3>
+                <p className="text-neutral-500">Investigation results will appear here once available</p>
             </div>
         </div>
     );

@@ -36,7 +36,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
     }, []);
 
     return (
-        <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <nav className="fixed top-0 z-50 w-full bg-white border-b border-neutral-200 dark:bg-neutral-800 dark:border-gray-700">
             <div className="px-2 sm:px-3 py-2 sm:py-3 lg:px-5 lg:pl-3">
                 <div className="flex items-center justify-between gap-2 sm:gap-3">
                     <div className="flex items-center justify-start rtl:justify-end gap-1 sm:gap-2 min-w-0">
@@ -45,7 +45,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
                             data-drawer-toggle="logo-sidebar"
                             aria-controls="logo-sidebar"
                             type="button"
-                            className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 min-h-[44px] min-w-[44px] flex-shrink-0"
+                            className="inline-flex items-center p-2 text-sm text-neutral-500 rounded-lg sm:hidden hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-neutral-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 min-h-[44px] min-w-[44px] flex-shrink-0"
                             onClick={toggleSidebar}
                         >
                             <span className="sr-only">Open sidebar</span>
@@ -87,7 +87,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
                         >
                             <button
                                 type="button"
-                                className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 min-h-[44px] min-w-[44px] items-center justify-center flex-shrink-0"
+                                className="flex text-sm bg-neutral-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 min-h-[44px] min-w-[44px] items-center justify-center flex-shrink-0"
                                 aria-expanded="false"
                                 onClick={toggleDropdown}
                             >
@@ -102,7 +102,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
                                                 <li className="sm:hidden">
                                                     <Link
                                                         to="/pharmacy-dashboard"
-                                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                                        className="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                                     >
                                                         Pharmacy
                                                     </Link>
@@ -110,7 +110,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
                                                 <li className="sm:hidden">
                                                     <Link
                                                         to="/hr-dashboard"
-                                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                                        className="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                                     >
                                                         HR
                                                     </Link>
@@ -118,7 +118,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
                                                 <li className="sm:hidden">
                                                     <Link
                                                         to="/pos"
-                                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                                        className="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                                     >
                                                         POS
                                                     </Link>
@@ -131,7 +131,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
                                         <li>
                                             <Link
                                                 to="/hr-dashboard"
-                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                                className="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                             >
                                                 HR Management
                                             </Link>

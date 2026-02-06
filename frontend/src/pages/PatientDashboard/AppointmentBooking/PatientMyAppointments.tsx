@@ -292,13 +292,13 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
       case 'in_session':
         return 'bg-purple-100 text-purple-800';
       case 'completed':
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-neutral-100 text-neutral-800';
       case 'cancelled':
-        return 'bg-red-100 text-red-800';
+        return 'bg-error-100 text-red-800';
       case 'no_show':
         return 'bg-orange-100 text-orange-800';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-neutral-100 text-neutral-800';
     }
   };
 
@@ -320,7 +320,7 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
     <div className="bg-white rounded-xl shadow-lg p-6">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-semibold text-gray-800">My Appointments</h2>
+        <h2 className="text-xl font-semibold text-neutral-800">My Appointments</h2>
         {onBookNew && (
           <button
             className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
@@ -339,7 +339,7 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
               filter === f
                 ? 'bg-indigo-600 text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
             }`}
             onClick={() => setFilter(f)}
           >
@@ -350,7 +350,7 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
 
       {/* Error */}
       {error && (
-        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+        <div className="mb-4 p-4 bg-error-50 border border-red-200 rounded-lg text-red-700">
           {error}
         </div>
       )}
@@ -359,12 +359,12 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
       {loading ? (
         <div className="text-center py-8">
           <div className="animate-spin w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full mx-auto"></div>
-          <p className="mt-2 text-gray-500">Loading appointments...</p>
+          <p className="mt-2 text-neutral-500">Loading appointments...</p>
         </div>
       ) : appointments.length === 0 ? (
         <div className="text-center py-8">
           <FaCalendarAlt className="text-4xl text-gray-300 mx-auto mb-2" />
-          <p className="text-gray-500">No appointments found</p>
+          <p className="text-neutral-500">No appointments found</p>
           {filter === 'upcoming' && onBookNew && (
             <button
               className="mt-4 text-indigo-600 hover:text-indigo-800"
@@ -379,7 +379,7 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
           {appointments.map((appointment) => (
             <div
               key={appointment.id}
-              className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+              className="border border-neutral-200 rounded-lg p-4 hover:shadow-md transition-shadow"
             >
               <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                 <div className="flex-1">
@@ -393,12 +393,12 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-                    <div className="flex items-center text-gray-600">
-                      <FaUser className="mr-2 text-gray-400" />
+                    <div className="flex items-center text-neutral-600">
+                      <FaUser className="mr-2 text-neutral-400" />
                       <span className="font-medium">{appointment.doctor_name || 'Doctor'}</span>
                     </div>
-                    <div className="flex items-center text-gray-600">
-                      <FaCalendarAlt className="mr-2 text-gray-400" />
+                    <div className="flex items-center text-neutral-600">
+                      <FaCalendarAlt className="mr-2 text-neutral-400" />
                       <span>
                         {new Date(appointment.appointment_date).toLocaleDateString('en-US', {
                           weekday: 'short',
@@ -407,13 +407,13 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                         })}
                       </span>
                     </div>
-                    <div className="flex items-center text-gray-600">
-                      <FaClock className="mr-2 text-gray-400" />
+                    <div className="flex items-center text-neutral-600">
+                      <FaClock className="mr-2 text-neutral-400" />
                       <span>{appointment.appointment_time}</span>
                     </div>
                     {appointment.branch_name && (
-                      <div className="flex items-center text-gray-600">
-                        <FaMapMarkerAlt className="mr-2 text-gray-400" />
+                      <div className="flex items-center text-neutral-600">
+                        <FaMapMarkerAlt className="mr-2 text-neutral-400" />
                         <span>{appointment.branch_name}</span>
                       </div>
                     )}
@@ -423,7 +423,7 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                 {/* Actions */}
                 <div className="flex space-x-2 mt-4 md:mt-0">
                   <button
-                    className="p-2 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+                    className="p-2 text-neutral-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
                     title="View Details"
                     onClick={() => setSelectedAppointment(appointment)}
                   >
@@ -432,7 +432,7 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                   
                   {canReschedule(appointment) && (
                     <button
-                      className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                      className="p-2 text-neutral-500 hover:text-primary-500 hover:bg-blue-50 rounded-lg transition-colors"
                       title="Reschedule"
                       onClick={() => openRescheduleModal(appointment)}
                     >
@@ -442,7 +442,7 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                   
                   {canCancel(appointment) && (
                     <button
-                      className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                      className="p-2 text-neutral-500 hover:text-error-600 hover:bg-error-50 rounded-lg transition-colors"
                       title="Cancel"
                       onClick={() => {
                         setSelectedAppointment(appointment);
@@ -481,18 +481,18 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
       {/* Cancel Modal - Red Warning Theme */}
       {showCancelModal && selectedAppointment && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4 border-t-4 border-red-600">
+          <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4 border-t-4 border-error-600">
             {/* Warning Header */}
             <div className="flex items-center justify-center mb-4">
-              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
-                <FaExclamationTriangle className="text-red-600 text-3xl" />
+              <div className="w-16 h-16 bg-error-100 rounded-full flex items-center justify-center">
+                <FaExclamationTriangle className="text-error-600 text-3xl" />
               </div>
             </div>
             
             <h3 className="text-xl font-bold text-red-700 text-center mb-2">Cancel Appointment</h3>
             
             {/* Strong Warning Message */}
-            <div className="bg-red-50 border-2 border-red-300 rounded-lg p-4 mb-4">
+            <div className="bg-error-50 border-2 border-red-300 rounded-lg p-4 mb-4">
               <p className="text-red-800 text-center font-medium">
                 ⚠️ This action is <strong>non-reversible</strong>.
               </p>
@@ -502,13 +502,13 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
             </div>
 
             {/* Appointment Details */}
-            <div className="bg-gray-50 rounded-lg p-3 mb-4 text-sm">
+            <div className="bg-neutral-50 rounded-lg p-3 mb-4 text-sm">
               <div className="flex justify-between mb-1">
-                <span className="text-gray-500">Doctor:</span>
+                <span className="text-neutral-500">Doctor:</span>
                 <span className="font-medium">{selectedAppointment.doctor_name}</span>
               </div>
               <div className="flex justify-between mb-1">
-                <span className="text-gray-500">Date:</span>
+                <span className="text-neutral-500">Date:</span>
                 <span className="font-medium">
                   {new Date(selectedAppointment.appointment_date).toLocaleDateString('en-US', {
                     weekday: 'long',
@@ -519,22 +519,22 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                 </span>
               </div>
               <div className="flex justify-between mb-1">
-                <span className="text-gray-500">Time:</span>
+                <span className="text-neutral-500">Time:</span>
                 <span className="font-medium">{selectedAppointment.appointment_time}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">Token #:</span>
+                <span className="text-neutral-500">Token #:</span>
                 <span className="font-bold text-indigo-600">#{selectedAppointment.token_number}</span>
               </div>
             </div>
 
             {/* Reason Input */}
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Reason for cancellation <span className="text-red-500">*</span>
+              <label className="block text-sm font-medium text-neutral-700 mb-1">
+                Reason for cancellation <span className="text-error-500">*</span>
               </label>
               <textarea
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                className="w-full p-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-error-500"
                 rows={3}
                 value={cancelReason}
                 onChange={(e) => setCancelReason(e.target.value)}
@@ -549,9 +549,9 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                   type="checkbox"
                   checked={confirmCancellation}
                   onChange={(e) => setConfirmCancellation(e.target.checked)}
-                  className="mt-1 h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
+                  className="mt-1 h-4 w-4 text-error-600 focus:ring-red-500 border-neutral-300 rounded"
                 />
-                <span className="ml-2 text-sm text-gray-700">
+                <span className="ml-2 text-sm text-neutral-700">
                   I understand that this action is permanent and my <strong>booking fee will NOT be refunded</strong>. I wish to proceed with the cancellation.
                 </span>
               </label>
@@ -560,7 +560,7 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
             {/* Action Buttons */}
             <div className="flex space-x-3">
               <button
-                className="flex-1 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                className="flex-1 py-3 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200 transition-colors font-medium"
                 onClick={() => {
                   setShowCancelModal(false);
                   setCancelReason('');
@@ -594,9 +594,9 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-gray-800">Appointment Details</h3>
+              <h3 className="text-lg font-semibold text-neutral-800">Appointment Details</h3>
               <button
-                className="text-gray-400 hover:text-gray-600"
+                className="text-neutral-400 hover:text-neutral-600"
                 onClick={() => setSelectedAppointment(null)}
               >
                 <FaTimes />
@@ -605,57 +605,57 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
 
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-gray-500">Token Number</span>
+                <span className="text-neutral-500">Token Number</span>
                 <span className="font-bold text-indigo-600">#{selectedAppointment.token_number}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">Status</span>
+                <span className="text-neutral-500">Status</span>
                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(selectedAppointment.status)}`}>
                   {getStatusLabel(selectedAppointment.status)}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">Doctor</span>
+                <span className="text-neutral-500">Doctor</span>
                 <span className="font-medium">{selectedAppointment.doctor_name}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">Date</span>
+                <span className="text-neutral-500">Date</span>
                 <span>{new Date(selectedAppointment.appointment_date).toLocaleDateString()}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">Time</span>
+                <span className="text-neutral-500">Time</span>
                 <span>{selectedAppointment.appointment_time}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">Type</span>
+                <span className="text-neutral-500">Type</span>
                 <span className="capitalize">{selectedAppointment.appointment_type?.replace('_', ' ')}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">Booking Type</span>
+                <span className="text-neutral-500">Booking Type</span>
                 <span className="capitalize">{selectedAppointment.booking_type?.replace('_', ' ')}</span>
               </div>
               {selectedAppointment.booking_fee && (
                 <div className="flex justify-between">
-                  <span className="text-gray-500">Fee</span>
+                  <span className="text-neutral-500">Fee</span>
                   <span>Rs. {selectedAppointment.booking_fee.toFixed(2)}</span>
                 </div>
               )}
               {selectedAppointment.notes && (
                 <div className="pt-2 border-t border-gray-100">
-                  <span className="text-gray-500 text-sm">Notes</span>
-                  <p className="text-gray-700">{selectedAppointment.notes}</p>
+                  <span className="text-neutral-500 text-sm">Notes</span>
+                  <p className="text-neutral-700">{selectedAppointment.notes}</p>
                 </div>
               )}
               {selectedAppointment.cancellation_reason && (
                 <div className="pt-2 border-t border-gray-100">
-                  <span className="text-gray-500 text-sm">Cancellation Reason</span>
-                  <p className="text-red-600">{selectedAppointment.cancellation_reason}</p>
+                  <span className="text-neutral-500 text-sm">Cancellation Reason</span>
+                  <p className="text-error-600">{selectedAppointment.cancellation_reason}</p>
                 </div>
               )}
             </div>
 
             <button
-              className="w-full mt-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+              className="w-full mt-6 py-2 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200 transition-colors"
               onClick={() => setSelectedAppointment(null)}
             >
               Close
@@ -667,17 +667,17 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
       {/* Reschedule Modal - Blue Theme with Steps */}
       {showRescheduleModal && selectedAppointment && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl p-6 max-w-lg w-full mx-4 border-t-4 border-blue-600 max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-xl p-6 max-w-lg w-full mx-4 border-t-4 border-primary-500 max-h-[90vh] overflow-y-auto">
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                  <FaRedo className="text-blue-600 text-lg" />
+                  <FaRedo className="text-primary-500 text-lg" />
                 </div>
                 <h3 className="text-xl font-bold text-blue-700">Reschedule Appointment</h3>
               </div>
               <button
-                className="text-gray-400 hover:text-gray-600"
+                className="text-neutral-400 hover:text-neutral-600"
                 onClick={closeRescheduleModal}
               >
                 <FaTimes />
@@ -687,31 +687,31 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
             {/* Step: Checking Eligibility */}
             {rescheduleStep === 'checking' && (
               <div className="text-center py-8">
-                <div className="animate-spin w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
-                <p className="text-gray-600">Checking reschedule eligibility...</p>
+                <div className="animate-spin w-10 h-10 border-4 border-primary-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+                <p className="text-neutral-600">Checking reschedule eligibility...</p>
               </div>
             )}
 
             {/* Step: Ineligible */}
             {rescheduleStep === 'ineligible' && rescheduleEligibility && (
               <div>
-                <div className="bg-red-50 border-2 border-red-200 rounded-lg p-4 mb-4">
+                <div className="bg-error-50 border-2 border-red-200 rounded-lg p-4 mb-4">
                   <div className="flex items-start">
-                    <FaExclamationTriangle className="text-red-500 text-xl mr-3 mt-0.5" />
+                    <FaExclamationTriangle className="text-error-500 text-xl mr-3 mt-0.5" />
                     <div>
                       <p className="font-semibold text-red-700">Cannot Reschedule</p>
-                      <p className="text-red-600 mt-1">{rescheduleEligibility.reason}</p>
+                      <p className="text-error-600 mt-1">{rescheduleEligibility.reason}</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Info about reschedule rules */}
-                <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                  <h4 className="font-semibold text-gray-700 mb-2 flex items-center">
-                    <FaInfoCircle className="mr-2 text-blue-500" />
+                <div className="bg-neutral-50 rounded-lg p-4 mb-4">
+                  <h4 className="font-semibold text-neutral-700 mb-2 flex items-center">
+                    <FaInfoCircle className="mr-2 text-primary-500" />
                     Reschedule Rules
                   </h4>
-                  <ul className="text-sm text-gray-600 space-y-1">
+                  <ul className="text-sm text-neutral-600 space-y-1">
                     <li>• Rescheduling requires 24-hour advance notice</li>
                     <li>• You can reschedule once per appointment</li>
                     <li>• Admin-cancelled appointments allow 2 reschedules</li>
@@ -719,7 +719,7 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                 </div>
 
                 <button
-                  className="w-full py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                  className="w-full py-3 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200 transition-colors font-medium"
                   onClick={closeRescheduleModal}
                 >
                   Close
@@ -751,14 +751,14 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                 </div>
 
                 {/* Current Appointment Details */}
-                <div className="bg-gray-50 rounded-lg p-3 mb-4 text-sm">
-                  <h4 className="font-semibold text-gray-700 mb-2">Current Appointment</h4>
+                <div className="bg-neutral-50 rounded-lg p-3 mb-4 text-sm">
+                  <h4 className="font-semibold text-neutral-700 mb-2">Current Appointment</h4>
                   <div className="flex justify-between mb-1">
-                    <span className="text-gray-500">Doctor:</span>
+                    <span className="text-neutral-500">Doctor:</span>
                     <span className="font-medium">{selectedAppointment.doctor_name}</span>
                   </div>
                   <div className="flex justify-between mb-1">
-                    <span className="text-gray-500">Current Date:</span>
+                    <span className="text-neutral-500">Current Date:</span>
                     <span className="font-medium">
                       {new Date(selectedAppointment.appointment_date).toLocaleDateString('en-US', {
                         weekday: 'short',
@@ -768,15 +768,15 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Current Time:</span>
+                    <span className="text-neutral-500">Current Time:</span>
                     <span className="font-medium">{selectedAppointment.appointment_time}</span>
                   </div>
                 </div>
 
                 {/* New Date Selection */}
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Select New Date <span className="text-red-500">*</span>
+                  <label className="block text-sm font-medium text-neutral-700 mb-1">
+                    Select New Date <span className="text-error-500">*</span>
                   </label>
                   <input
                     type="date"
@@ -784,9 +784,9 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                     onChange={handleRescheduleDateChange}
                     min={getMinRescheduleDate()}
                     max={getMaxRescheduleDate()}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full p-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   />
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-neutral-500 mt-1">
                     Must be at least 24 hours from now
                   </p>
                 </div>
@@ -794,14 +794,14 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                 {/* Slot Selection */}
                 {rescheduleDate && (
                   <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Select Time Slot <span className="text-red-500">*</span>
+                    <label className="block text-sm font-medium text-neutral-700 mb-2">
+                      Select Time Slot <span className="text-error-500">*</span>
                     </label>
                     
                     {loadingSlots ? (
                       <div className="text-center py-4">
-                        <div className="animate-spin w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full mx-auto"></div>
-                        <p className="text-sm text-gray-500 mt-2">Loading available slots...</p>
+                        <div className="animate-spin w-6 h-6 border-2 border-primary-500 border-t-transparent rounded-full mx-auto"></div>
+                        <p className="text-sm text-neutral-500 mt-2">Loading available slots...</p>
                       </div>
                     ) : availableSlots.length === 0 ? (
                       <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-yellow-700 text-sm">
@@ -814,10 +814,10 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                             key={slot.slot_number}
                             className={`p-2 text-sm rounded-lg border transition-colors ${
                               !slot.available
-                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed border-gray-200'
+                                ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed border-neutral-200'
                                 : rescheduleSlot === slot.slot_number
-                                ? 'bg-blue-600 text-white border-blue-600'
-                                : 'bg-white text-gray-700 border-gray-300 hover:border-blue-400 hover:bg-blue-50'
+                                ? 'bg-primary-500 text-white border-primary-500'
+                                : 'bg-white text-neutral-700 border-neutral-300 hover:border-blue-400 hover:bg-blue-50'
                             }`}
                             onClick={() => slot.available && setRescheduleSlot(slot.slot_number)}
                             disabled={!slot.available}
@@ -832,11 +832,11 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
 
                 {/* Reason (Optional) */}
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-neutral-700 mb-1">
                     Reason for Rescheduling (Optional)
                   </label>
                   <textarea
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full p-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     rows={2}
                     value={rescheduleReason}
                     onChange={(e) => setRescheduleReason(e.target.value)}
@@ -851,9 +851,9 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                       type="checkbox"
                       checked={confirmReschedule}
                       onChange={(e) => setConfirmReschedule(e.target.checked)}
-                      className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                      className="mt-1 h-4 w-4 text-primary-500 focus:ring-primary-500 border-neutral-300 rounded"
                     />
-                    <span className="ml-2 text-sm text-gray-700">
+                    <span className="ml-2 text-sm text-neutral-700">
                       I confirm that I want to reschedule this appointment to the new date and time selected above.
                     </span>
                   </label>
@@ -862,14 +862,14 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                 {/* Action Buttons */}
                 <div className="flex space-x-3">
                   <button
-                    className="flex-1 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                    className="flex-1 py-3 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200 transition-colors font-medium"
                     onClick={closeRescheduleModal}
                     disabled={actionLoading}
                   >
                     Cancel
                   </button>
                   <button
-                    className="flex-1 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium disabled:bg-blue-300 disabled:cursor-not-allowed"
+                    className="flex-1 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors font-medium disabled:bg-blue-300 disabled:cursor-not-allowed"
                     onClick={handleRescheduleAppointment}
                     disabled={!rescheduleDate || !rescheduleSlot || !confirmReschedule || actionLoading}
                   >
@@ -893,14 +893,14 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                   <FaCheck className="text-green-600 text-3xl" />
                 </div>
                 <h4 className="text-xl font-bold text-green-700 mb-2">Appointment Rescheduled!</h4>
-                <p className="text-gray-600 mb-4">Your appointment has been successfully rescheduled.</p>
+                <p className="text-neutral-600 mb-4">Your appointment has been successfully rescheduled.</p>
 
                 {/* New Appointment Details */}
                 <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6 text-left">
                   <h5 className="font-semibold text-green-800 mb-2">New Appointment Details</h5>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-600">New Date:</span>
+                      <span className="text-neutral-600">New Date:</span>
                       <span className="font-medium">
                         {new Date(rescheduleSuccess.appointment_date).toLocaleDateString('en-US', {
                           weekday: 'long',
@@ -911,22 +911,22 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">New Time:</span>
+                      <span className="text-neutral-600">New Time:</span>
                       <span className="font-medium">{rescheduleSuccess.appointment_time}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">New Token #:</span>
+                      <span className="text-neutral-600">New Token #:</span>
                       <span className="font-bold text-indigo-600">#{rescheduleSuccess.token_number}</span>
                     </div>
                   </div>
                 </div>
 
-                <p className="text-sm text-gray-500 mb-4">
+                <p className="text-sm text-neutral-500 mb-4">
                   You will receive an SMS confirmation shortly.
                 </p>
 
                 <button
-                  className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                  className="w-full py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors font-medium"
                   onClick={closeRescheduleModal}
                 >
                   Done

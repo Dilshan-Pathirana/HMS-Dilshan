@@ -14,7 +14,7 @@ const DoctorAllAppointmentFilter: React.FC<IDoctorAppointmentFilterProps> = ({
             <input
                 type="text"
                 placeholder="Search by branch, day or time..."
-                className="pl-10 pr-4 py-3 w-full border-2 border-blue-100 rounded-xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 outline-none transition-all duration-200 dark:bg-gray-800 dark:border-blue-900 dark:focus:ring-blue-800 dark:focus:border-blue-500 dark:placeholder-blue-300 dark:text-white shadow-sm hover:border-blue-200"
+                className="pl-10 pr-4 py-3 w-full border-2 border-blue-100 rounded-xl focus:ring-4 focus:ring-blue-200 focus:border-primary-500 outline-none transition-all duration-200 dark:bg-neutral-800 dark:border-blue-900 dark:focus:ring-blue-800 dark:focus:border-primary-500 dark:placeholder-blue-300 dark:text-white shadow-sm hover:border-blue-200"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
             />

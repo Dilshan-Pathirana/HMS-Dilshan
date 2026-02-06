@@ -143,7 +143,7 @@ const BranchAdminAuditLogs = () => {
 
     const getSeverityColor = (severity: string) => {
         switch (severity) {
-            case 'critical': return 'bg-red-100 text-red-800';
+            case 'critical': return 'bg-error-100 text-red-800';
             case 'warning': return 'bg-amber-100 text-amber-800';
             default: return 'bg-blue-100 text-blue-800';
         }
@@ -151,9 +151,9 @@ const BranchAdminAuditLogs = () => {
 
     const getActionColor = (action: string) => {
         if (action.includes('create') || action.includes('approve')) return 'text-green-600';
-        if (action.includes('delete') || action.includes('reject') || action.includes('void')) return 'text-red-600';
+        if (action.includes('delete') || action.includes('reject') || action.includes('void')) return 'text-error-600';
         if (action.includes('flag') || action.includes('warning')) return 'text-amber-600';
-        return 'text-blue-600';
+        return 'text-primary-500';
     };
 
     const formatDate = (dateStr: string) => {
@@ -172,14 +172,14 @@ const BranchAdminAuditLogs = () => {
     };
 
     return (
-        <div className="p-6 bg-gray-50 min-h-screen">
+        <div className="p-6 bg-neutral-50 min-h-screen">
             {/* Header */}
             <div className="mb-6">
-                <h1 className="text-2xl font-bold text-gray-800 flex items-center">
-                    <ClipboardList className="w-8 h-8 mr-3 text-blue-600" />
+                <h1 className="text-2xl font-bold text-neutral-800 flex items-center">
+                    <ClipboardList className="w-8 h-8 mr-3 text-primary-500" />
                     Audit Logs
                 </h1>
-                <p className="text-gray-600 mt-1">Track all system actions and changes</p>
+                <p className="text-neutral-600 mt-1">Track all system actions and changes</p>
             </div>
 
             {/* Stats Cards */}
@@ -188,17 +188,17 @@ const BranchAdminAuditLogs = () => {
                     <div className="bg-white rounded-xl shadow-sm p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Today</p>
-                                <p className="text-2xl font-bold text-gray-800">{stats.today}</p>
+                                <p className="text-sm text-neutral-500">Today</p>
+                                <p className="text-2xl font-bold text-neutral-800">{stats.today}</p>
                             </div>
-                            <Clock className="w-8 h-8 text-blue-500" />
+                            <Clock className="w-8 h-8 text-primary-500" />
                         </div>
                     </div>
                     <div className="bg-white rounded-xl shadow-sm p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">This Week</p>
-                                <p className="text-2xl font-bold text-gray-800">{stats.this_week}</p>
+                                <p className="text-sm text-neutral-500">This Week</p>
+                                <p className="text-2xl font-bold text-neutral-800">{stats.this_week}</p>
                             </div>
                             <Calendar className="w-8 h-8 text-green-500" />
                         </div>
@@ -206,8 +206,8 @@ const BranchAdminAuditLogs = () => {
                     <div className="bg-white rounded-xl shadow-sm p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">This Month</p>
-                                <p className="text-2xl font-bold text-gray-800">{stats.this_month}</p>
+                                <p className="text-sm text-neutral-500">This Month</p>
+                                <p className="text-2xl font-bold text-neutral-800">{stats.this_month}</p>
                             </div>
                             <FileText className="w-8 h-8 text-purple-500" />
                         </div>
@@ -215,10 +215,10 @@ const BranchAdminAuditLogs = () => {
                     <div className="bg-white rounded-xl shadow-sm p-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-gray-500">Critical Events</p>
-                                <p className="text-2xl font-bold text-red-600">{stats.by_severity?.critical || 0}</p>
+                                <p className="text-sm text-neutral-500">Critical Events</p>
+                                <p className="text-2xl font-bold text-error-600">{stats.by_severity?.critical || 0}</p>
                             </div>
-                            <AlertTriangle className="w-8 h-8 text-red-500" />
+                            <AlertTriangle className="w-8 h-8 text-error-500" />
                         </div>
                     </div>
                 </div>
@@ -227,27 +227,27 @@ const BranchAdminAuditLogs = () => {
             {/* Filters */}
             <div className="bg-white rounded-xl shadow-sm p-4 mb-6">
                 <div className="flex items-center mb-4">
-                    <Filter className="w-5 h-5 text-gray-500 mr-2" />
-                    <h3 className="font-semibold text-gray-700">Filters</h3>
+                    <Filter className="w-5 h-5 text-neutral-500 mr-2" />
+                    <h3 className="font-semibold text-neutral-700">Filters</h3>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div>
-                        <label className="block text-sm text-gray-600 mb-1">Search</label>
+                        <label className="block text-sm text-neutral-600 mb-1">Search</label>
                         <div className="relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
                             <input
                                 type="text"
                                 placeholder="Search logs..."
-                                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500"
                                 value={filters.search}
                                 onChange={(e) => setFilters({...filters, search: e.target.value})}
                             />
                         </div>
                     </div>
                     <div>
-                        <label className="block text-sm text-gray-600 mb-1">Module</label>
+                        <label className="block text-sm text-neutral-600 mb-1">Module</label>
                         <select
-                            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500"
                             value={filters.module}
                             onChange={(e) => setFilters({...filters, module: e.target.value})}
                         >
@@ -258,9 +258,9 @@ const BranchAdminAuditLogs = () => {
                         </select>
                     </div>
                     <div>
-                        <label className="block text-sm text-gray-600 mb-1">Action</label>
+                        <label className="block text-sm text-neutral-600 mb-1">Action</label>
                         <select
-                            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500"
                             value={filters.action}
                             onChange={(e) => setFilters({...filters, action: e.target.value})}
                         >
@@ -271,9 +271,9 @@ const BranchAdminAuditLogs = () => {
                         </select>
                     </div>
                     <div>
-                        <label className="block text-sm text-gray-600 mb-1">Severity</label>
+                        <label className="block text-sm text-neutral-600 mb-1">Severity</label>
                         <select
-                            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500"
                             value={filters.severity}
                             onChange={(e) => setFilters({...filters, severity: e.target.value})}
                         >
@@ -284,9 +284,9 @@ const BranchAdminAuditLogs = () => {
                         </select>
                     </div>
                     <div>
-                        <label className="block text-sm text-gray-600 mb-1">Entity Type</label>
+                        <label className="block text-sm text-neutral-600 mb-1">Entity Type</label>
                         <select
-                            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500"
                             value={filters.entity_type}
                             onChange={(e) => setFilters({...filters, entity_type: e.target.value})}
                         >
@@ -297,19 +297,19 @@ const BranchAdminAuditLogs = () => {
                         </select>
                     </div>
                     <div>
-                        <label className="block text-sm text-gray-600 mb-1">Start Date</label>
+                        <label className="block text-sm text-neutral-600 mb-1">Start Date</label>
                         <input
                             type="date"
-                            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500"
                             value={filters.start_date}
                             onChange={(e) => setFilters({...filters, start_date: e.target.value})}
                         />
                     </div>
                     <div>
-                        <label className="block text-sm text-gray-600 mb-1">End Date</label>
+                        <label className="block text-sm text-neutral-600 mb-1">End Date</label>
                         <input
                             type="date"
-                            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500"
                             value={filters.end_date}
                             onChange={(e) => setFilters({...filters, end_date: e.target.value})}
                         />
@@ -317,14 +317,14 @@ const BranchAdminAuditLogs = () => {
                     <div className="flex items-end gap-2">
                         <button
                             onClick={handleFilter}
-                            className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center justify-center"
+                            className="flex-1 bg-primary-500 text-white px-4 py-2 rounded-lg hover:bg-primary-600 flex items-center justify-center"
                         >
                             <Search className="w-4 h-4 mr-2" />
                             Apply
                         </button>
                         <button
                             onClick={handleClearFilters}
-                            className="px-4 py-2 border rounded-lg hover:bg-gray-50"
+                            className="px-4 py-2 border rounded-lg hover:bg-neutral-50"
                         >
                             <RefreshCw className="w-4 h-4" />
                         </button>
@@ -336,44 +336,44 @@ const BranchAdminAuditLogs = () => {
             <div className="bg-white rounded-xl shadow-sm overflow-hidden">
                 {loading ? (
                     <div className="p-8 text-center">
-                        <RefreshCw className="w-8 h-8 animate-spin mx-auto text-blue-500" />
-                        <p className="mt-2 text-gray-500">Loading audit logs...</p>
+                        <RefreshCw className="w-8 h-8 animate-spin mx-auto text-primary-500" />
+                        <p className="mt-2 text-neutral-500">Loading audit logs...</p>
                     </div>
                 ) : logs.length === 0 ? (
                     <div className="p-8 text-center">
                         <ClipboardList className="w-12 h-12 mx-auto text-gray-300" />
-                        <p className="mt-2 text-gray-500">No audit logs found</p>
+                        <p className="mt-2 text-neutral-500">No audit logs found</p>
                     </div>
                 ) : (
                     <>
                         <div className="overflow-x-auto">
                             <table className="w-full">
-                                <thead className="bg-gray-50 border-b">
+                                <thead className="bg-neutral-50 border-b">
                                     <tr>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Timestamp</th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Entity</th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Module</th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Severity</th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Transaction</th>
-                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Timestamp</th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">User</th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Action</th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Entity</th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Module</th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Severity</th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Transaction</th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200">
                                     {logs.map((log) => (
-                                        <tr key={log.id} className="hover:bg-gray-50">
-                                            <td className="px-4 py-3 text-sm text-gray-600">
+                                        <tr key={log.id} className="hover:bg-neutral-50">
+                                            <td className="px-4 py-3 text-sm text-neutral-600">
                                                 {formatDate(log.created_at)}
                                             </td>
                                             <td className="px-4 py-3">
                                                 <div className="flex items-center">
-                                                    <User className="w-4 h-4 text-gray-400 mr-2" />
+                                                    <User className="w-4 h-4 text-neutral-400 mr-2" />
                                                     <div>
-                                                        <p className="text-sm font-medium text-gray-800">
+                                                        <p className="text-sm font-medium text-neutral-800">
                                                             {log.user ? `${log.user.first_name} ${log.user.last_name}` : `User #${log.user_id}`}
                                                         </p>
-                                                        <p className="text-xs text-gray-500">{log.user?.role || 'Unknown'}</p>
+                                                        <p className="text-xs text-neutral-500">{log.user?.role || 'Unknown'}</p>
                                                     </div>
                                                 </div>
                                             </td>
@@ -384,14 +384,14 @@ const BranchAdminAuditLogs = () => {
                                             </td>
                                             <td className="px-4 py-3">
                                                 <div>
-                                                    <p className="text-sm text-gray-800">{log.entity_type?.replace(/_/g, ' ')}</p>
+                                                    <p className="text-sm text-neutral-800">{log.entity_type?.replace(/_/g, ' ')}</p>
                                                     {log.entity_id && (
-                                                        <p className="text-xs text-gray-500">ID: {log.entity_id}</p>
+                                                        <p className="text-xs text-neutral-500">ID: {log.entity_id}</p>
                                                     )}
                                                 </div>
                                             </td>
                                             <td className="px-4 py-3">
-                                                <span className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">
+                                                <span className="px-2 py-1 bg-neutral-100 text-neutral-700 text-xs rounded-full">
                                                     {log.module?.toUpperCase() || 'N/A'}
                                                 </span>
                                             </td>
@@ -400,13 +400,13 @@ const BranchAdminAuditLogs = () => {
                                                     {log.severity || 'info'}
                                                 </span>
                                             </td>
-                                            <td className="px-4 py-3 text-sm text-gray-600">
+                                            <td className="px-4 py-3 text-sm text-neutral-600">
                                                 {log.transaction_id ? `#${log.transaction_id}` : '-'}
                                             </td>
                                             <td className="px-4 py-3">
                                                 <button
                                                     onClick={() => { setSelectedLog(log); setShowDetails(true); }}
-                                                    className="p-1 text-blue-600 hover:bg-blue-50 rounded"
+                                                    className="p-1 text-primary-500 hover:bg-blue-50 rounded"
                                                     title="View Details"
                                                 >
                                                     <Eye className="w-4 h-4" />
@@ -421,24 +421,24 @@ const BranchAdminAuditLogs = () => {
                         {/* Pagination */}
                         {pagination && pagination.last_page > 1 && (
                             <div className="px-4 py-3 border-t flex items-center justify-between">
-                                <p className="text-sm text-gray-500">
+                                <p className="text-sm text-neutral-500">
                                     Showing {((pagination.current_page - 1) * pagination.per_page) + 1} to {Math.min(pagination.current_page * pagination.per_page, pagination.total)} of {pagination.total}
                                 </p>
                                 <div className="flex items-center gap-2">
                                     <button
                                         onClick={() => loadLogs(pagination.current_page - 1)}
                                         disabled={pagination.current_page === 1}
-                                        className="p-2 border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                                        className="p-2 border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-neutral-50"
                                     >
                                         <ChevronLeft className="w-4 h-4" />
                                     </button>
-                                    <span className="text-sm text-gray-600">
+                                    <span className="text-sm text-neutral-600">
                                         Page {pagination.current_page} of {pagination.last_page}
                                     </span>
                                     <button
                                         onClick={() => loadLogs(pagination.current_page + 1)}
                                         disabled={pagination.current_page === pagination.last_page}
-                                        className="p-2 border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                                        className="p-2 border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-neutral-50"
                                     >
                                         <ChevronRight className="w-4 h-4" />
                                     </button>
@@ -455,13 +455,13 @@ const BranchAdminAuditLogs = () => {
                     <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full mx-4 max-h-[80vh] overflow-y-auto">
                         <div className="p-6 border-b">
                             <div className="flex items-center justify-between">
-                                <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                                    <Shield className="w-5 h-5 mr-2 text-blue-600" />
+                                <h3 className="text-lg font-semibold text-neutral-800 flex items-center">
+                                    <Shield className="w-5 h-5 mr-2 text-primary-500" />
                                     Audit Log Details
                                 </h3>
                                 <button
                                     onClick={() => setShowDetails(false)}
-                                    className="text-gray-400 hover:text-gray-600"
+                                    className="text-neutral-400 hover:text-neutral-600"
                                 >
                                     ✕
                                 </button>
@@ -470,57 +470,57 @@ const BranchAdminAuditLogs = () => {
                         <div className="p-6 space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="text-xs text-gray-500 uppercase">Log ID</label>
+                                    <label className="text-xs text-neutral-500 uppercase">Log ID</label>
                                     <p className="font-medium">{selectedLog.id}</p>
                                 </div>
                                 <div>
-                                    <label className="text-xs text-gray-500 uppercase">Timestamp</label>
+                                    <label className="text-xs text-neutral-500 uppercase">Timestamp</label>
                                     <p className="font-medium">{formatDate(selectedLog.created_at)}</p>
                                 </div>
                                 <div>
-                                    <label className="text-xs text-gray-500 uppercase">User</label>
+                                    <label className="text-xs text-neutral-500 uppercase">User</label>
                                     <p className="font-medium">
                                         {selectedLog.user ? `${selectedLog.user.first_name} ${selectedLog.user.last_name}` : `User #${selectedLog.user_id}`}
                                     </p>
                                 </div>
                                 <div>
-                                    <label className="text-xs text-gray-500 uppercase">Role</label>
+                                    <label className="text-xs text-neutral-500 uppercase">Role</label>
                                     <p className="font-medium">{selectedLog.user?.role || 'Unknown'}</p>
                                 </div>
                                 <div>
-                                    <label className="text-xs text-gray-500 uppercase">Action</label>
+                                    <label className="text-xs text-neutral-500 uppercase">Action</label>
                                     <p className={`font-medium ${getActionColor(selectedLog.action)}`}>
                                         {formatAction(selectedLog.action)}
                                     </p>
                                 </div>
                                 <div>
-                                    <label className="text-xs text-gray-500 uppercase">Severity</label>
+                                    <label className="text-xs text-neutral-500 uppercase">Severity</label>
                                     <span className={`px-2 py-1 text-xs rounded-full ${getSeverityColor(selectedLog.severity)}`}>
                                         {selectedLog.severity}
                                     </span>
                                 </div>
                                 <div>
-                                    <label className="text-xs text-gray-500 uppercase">Module</label>
+                                    <label className="text-xs text-neutral-500 uppercase">Module</label>
                                     <p className="font-medium">{selectedLog.module?.toUpperCase() || 'N/A'}</p>
                                 </div>
                                 <div>
-                                    <label className="text-xs text-gray-500 uppercase">Entity</label>
+                                    <label className="text-xs text-neutral-500 uppercase">Entity</label>
                                     <p className="font-medium">{selectedLog.entity_type} #{selectedLog.entity_id || 'N/A'}</p>
                                 </div>
                                 <div>
-                                    <label className="text-xs text-gray-500 uppercase">Transaction ID</label>
+                                    <label className="text-xs text-neutral-500 uppercase">Transaction ID</label>
                                     <p className="font-medium">{selectedLog.transaction_id || 'N/A'}</p>
                                 </div>
                                 <div>
-                                    <label className="text-xs text-gray-500 uppercase">IP Address</label>
+                                    <label className="text-xs text-neutral-500 uppercase">IP Address</label>
                                     <p className="font-medium">{selectedLog.ip_address || 'Unknown'}</p>
                                 </div>
                             </div>
 
                             {selectedLog.before_data && (
                                 <div>
-                                    <label className="text-xs text-gray-500 uppercase block mb-2">Before Data</label>
-                                    <pre className="bg-gray-100 p-3 rounded-lg text-sm overflow-x-auto">
+                                    <label className="text-xs text-neutral-500 uppercase block mb-2">Before Data</label>
+                                    <pre className="bg-neutral-100 p-3 rounded-lg text-sm overflow-x-auto">
                                         {JSON.stringify(selectedLog.before_data, null, 2)}
                                     </pre>
                                 </div>
@@ -528,7 +528,7 @@ const BranchAdminAuditLogs = () => {
 
                             {selectedLog.after_data && (
                                 <div>
-                                    <label className="text-xs text-gray-500 uppercase block mb-2">After Data</label>
+                                    <label className="text-xs text-neutral-500 uppercase block mb-2">After Data</label>
                                     <pre className="bg-green-50 p-3 rounded-lg text-sm overflow-x-auto">
                                         {JSON.stringify(selectedLog.after_data, null, 2)}
                                     </pre>
@@ -537,7 +537,7 @@ const BranchAdminAuditLogs = () => {
 
                             {selectedLog.changes && (
                                 <div>
-                                    <label className="text-xs text-gray-500 uppercase block mb-2">Changes</label>
+                                    <label className="text-xs text-neutral-500 uppercase block mb-2">Changes</label>
                                     <pre className="bg-amber-50 p-3 rounded-lg text-sm overflow-x-auto">
                                         {JSON.stringify(selectedLog.changes, null, 2)}
                                     </pre>
@@ -546,15 +546,15 @@ const BranchAdminAuditLogs = () => {
 
                             {selectedLog.user_agent && (
                                 <div>
-                                    <label className="text-xs text-gray-500 uppercase block mb-2">User Agent</label>
-                                    <p className="text-sm text-gray-600 break-all">{selectedLog.user_agent}</p>
+                                    <label className="text-xs text-neutral-500 uppercase block mb-2">User Agent</label>
+                                    <p className="text-sm text-neutral-600 break-all">{selectedLog.user_agent}</p>
                                 </div>
                             )}
                         </div>
-                        <div className="p-6 border-t bg-gray-50">
+                        <div className="p-6 border-t bg-neutral-50">
                             <button
                                 onClick={() => setShowDetails(false)}
-                                className="w-full bg-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-300"
+                                className="w-full bg-neutral-200 text-neutral-700 py-2 rounded-lg hover:bg-neutral-300"
                             >
                                 Close
                             </button>

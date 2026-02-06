@@ -105,49 +105,49 @@ const DoctorAppointmentFilter: React.FC<DoctorAppointmentFilterProps> = ({
     };
 
     return (
-        <div className="flex flex-wrap items-end gap-4 p-6 bg-gray-100 shadow-md rounded-lg">
+        <div className="flex flex-wrap items-end gap-4 p-6 bg-neutral-100 shadow-md rounded-lg">
             <div className="flex flex-col w-1/5">
-                <label className="text-sm font-medium text-gray-700 mb-2 flex items-center">
-                    <FaUserMd className="mr-2 text-gray-500" /> Doctor
+                <label className="text-sm font-medium text-neutral-700 mb-2 flex items-center">
+                    <FaUserMd className="mr-2 text-neutral-500" /> Doctor
                 </label>
                 <MultiSelect
                     options={doctors}
                     value={selectedDoctors}
                     onChange={setSelectedDoctors}
                     labelledBy="Select Doctor"
-                    className="border border-gray-300 rounded-md shadow-sm p-2"
+                    className="border border-neutral-300 rounded-md shadow-sm p-2"
                 />
             </div>
 
             <div className="flex flex-col w-1/5">
-                <label className="text-sm font-medium text-gray-700 mb-2 flex items-center">
-                    <FaHospital className="mr-2 text-gray-500" /> Branch
+                <label className="text-sm font-medium text-neutral-700 mb-2 flex items-center">
+                    <FaHospital className="mr-2 text-neutral-500" /> Branch
                 </label>
                 <MultiSelect
                     options={branches}
                     value={selectedBranches}
                     onChange={setSelectedBranches}
                     labelledBy="Select Branch"
-                    className="border border-gray-300 rounded-md shadow-sm p-2"
+                    className="border border-neutral-300 rounded-md shadow-sm p-2"
                 />
             </div>
 
             <div className="flex flex-col w-1/5">
-                <label className="text-sm font-medium text-gray-700 mb-2 flex items-center">
-                    <FaUser className="mr-2 text-gray-500" /> Patient Name
+                <label className="text-sm font-medium text-neutral-700 mb-2 flex items-center">
+                    <FaUser className="mr-2 text-neutral-500" /> Patient Name
                 </label>
                 <input
                     type="text"
                     value={newPatientName}
                     onChange={(e) => setNewPatientName(e.target.value)}
                     placeholder="Enter patient name"
-                    className="border border-gray-300 rounded-md shadow-sm p-2 w-full"
+                    className="border border-neutral-300 rounded-md shadow-sm p-2 w-full"
                 />
             </div>
 
             <div className="flex flex-col w-1/5">
-                <label className="text-sm font-medium text-gray-700 mb-2 flex items-center">
-                    <FaCalendarAlt className="mr-2 text-gray-500" /> Appointment
+                <label className="text-sm font-medium text-neutral-700 mb-2 flex items-center">
+                    <FaCalendarAlt className="mr-2 text-neutral-500" /> Appointment
                     Date
                 </label>
                 <DatePicker
@@ -159,13 +159,13 @@ const DoctorAppointmentFilter: React.FC<DoctorAppointmentFilterProps> = ({
                     maxDate={
                         new Date(new Date().setDate(new Date().getDate() + 30))
                     }
-                    className="border border-gray-300 rounded-md shadow-sm p-2 w-full"
+                    className="border border-neutral-300 rounded-md shadow-sm p-2 w-full"
                 />
             </div>
 
             <button
                 onClick={handleFilterSubmit}
-                className="flex items-center justify-center bg-blue-600 text-white py-2 px-6 rounded-md shadow hover:bg-blue-700 h-10 mt-6"
+                className="flex items-center justify-center bg-primary-500 text-white py-2 px-6 rounded-md shadow hover:bg-primary-600 h-10 mt-6"
             >
                 <FaSearch className="mr-2" />
                 Search

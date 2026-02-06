@@ -9,28 +9,28 @@ const SkinHairDisorders = () => {
         <>
             <NavBar />
 
-            <div className="flex justify-end p-4 mt-20 bg-gray-100">
+            <div className="flex justify-end p-4 mt-20 bg-neutral-100">
                 <button
-                    className={`px-4 py-2 rounded-md mx-1 ${language === "en" ? "bg-blue-600 text-white" : "bg-white text-black border"}`}
+                    className={`px-4 py-2 rounded-md mx-1 ${language === "en" ? "bg-primary-500 text-white" : "bg-white text-black border"}`}
                     onClick={() => setLanguage("en")}
                 >
                     English
                 </button>
                 <button
-                    className={`px-4 py-2 rounded-md mx-1 ${language === "si" ? "bg-blue-600 text-white" : "bg-white text-black border"}`}
+                    className={`px-4 py-2 rounded-md mx-1 ${language === "si" ? "bg-primary-500 text-white" : "bg-white text-black border"}`}
                     onClick={() => setLanguage("si")}
                 >
                     සිංහල
                 </button>
                 <button
-                    className={`px-4 py-2 rounded-md mx-1 ${language === "ta" ? "bg-blue-600 text-white" : "bg-white text-black border"}`}
+                    className={`px-4 py-2 rounded-md mx-1 ${language === "ta" ? "bg-primary-500 text-white" : "bg-white text-black border"}`}
                     onClick={() => setLanguage("ta")}
                 >
                     தமிழ்
                 </button>
             </div>
 
-            <section className="bg-blue-600 text-white mt-10 py-20 px-4">
+            <section className="bg-primary-500 text-white mt-10 py-20 px-4">
                 <div className="max-w-6xl mx-auto">
                     <h1 className="text-4xl font-bold mb-4">
                         {language === "en"
@@ -48,7 +48,7 @@ const SkinHairDisorders = () => {
                         <h2 className="text-2xl font-semibold mb-4">
                             Understanding Skin & Hair Disorders
                         </h2>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-neutral-600 mb-6">
                             Skin and hair disorders affect millions of people worldwide and can have a significant
                             impact on confidence and overall well-being. The skin is the body's largest organ and serves
                             as a protective barrier, while hair plays a vital role in appearance and health. Any
@@ -58,7 +58,7 @@ const SkinHairDisorders = () => {
                         <h3 className="text-xl font-semibold mb-4">
                             Common Causes of Skin & Hair Disorders
                         </h3>
-                        <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                        <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                             <li>🔹 Hormonal Imbalances – Conditions like PCOS, thyroid disorders, and stress-related
                                 hormonal changes.
                             </li>
@@ -79,7 +79,7 @@ const SkinHairDisorders = () => {
                         <h3 className="text-xl font-semibold mb-4">
                             The Science Behind Skin & Hair Disorders
                         </h3>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-neutral-600 mb-6">
                             The skin and scalp require proper hydration, nourishment, and protection to stay healthy.
                             Imbalances in oil production, cell regeneration, and blood circulation can lead to dryness,
                             hair fall, acne, eczema, and other conditions. Conventional treatments often provide
@@ -88,7 +88,7 @@ const SkinHairDisorders = () => {
                         <h3 className="text-xl font-semibold mb-4">
                             How Homeopathy Helps with Skin & Hair Disorders
                         </h3>
-                        <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                        <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                             <li>✅ Balancing hormones naturally</li>
                             <li>✅ Boosting immune system to fight infections</li>
                             <li>✅ Improving blood circulation for healthy skin and hair</li>
@@ -99,7 +99,7 @@ const SkinHairDisorders = () => {
                         <h3 className="text-xl font-semibold mb-4">
                             Why Homeopathy is the Best Choice?
                         </h3>
-                        <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                        <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                             <li>🔹 No Harmful Chemicals – 100% natural remedies.</li>
                             <li>🔹 Treats the Root Cause – Unlike conventional creams and shampoos, homeopathy works from
                                 within.
@@ -114,7 +114,7 @@ const SkinHairDisorders = () => {
                                 href="https://www.cure.lk"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold inline-block"
+                                className="bg-primary-500 text-white px-6 py-3 rounded-lg font-semibold inline-block"
                             >
                                 📞 Book an Appointment Today at www.cure.lk
                             </a>
@@ -127,7 +127,7 @@ const SkinHairDisorders = () => {
                         <h2 className="text-2xl font-semibold mb-4">
                             සංවේදනාත්මක සම සහ කොණ්ඩි ගැටළු
                         </h2>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-neutral-600 mb-6">
                             සම සහ කොණ්ඩි ගැටළු බොහෝදෙනෙකුට බලපාන ගැටලුවකි. සම යනු ශරීරයේ විශාලම අවයවය වන අතර එය ආරක්ෂිත
                             ආවරණයකි. කොණ්ඩියද ආරක්ෂණය සහ ප්‍රභවය සඳහා වැදගත් වේ. ශරීරයේ හෝර්මෝන අසුමත, පෝෂණීය අඩුකම, සහ
                             පාරිසරික බලපෑම් මගින් මෙම ගැටළු ඇතිවිය හැක.
@@ -135,7 +135,7 @@ const SkinHairDisorders = () => {
                         <h3 className="text-xl font-semibold mb-4">
                             සම සහ කොණ්ඩි ගැටළු ඇතිවීමට හේතු
                         </h3>
-                        <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                        <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                             <li>🔹 හෝර්මෝන අසුමතතාවය – PCOS, අධි ශීඝ්‍රතල, සහ ආතතික ගැටළු.</li>
                             <li>🔹 පෝෂක හිඟය – විටමින් A, B, C, D සහ සින්ක්, යකඩ වැනි ඛනිජ අඩු වීම.</li>
                             <li>🔹 ජනිතීය හේතු – උණසැසි, එක්සමා, සහ කෙස් ගැලවීම්.</li>
@@ -146,7 +146,7 @@ const SkinHairDisorders = () => {
                         <h3 className="text-xl font-semibold mb-4">
                             හෝමියෝපති ප්‍රතිකාරය කෙසේ උපකාරී වේද?
                         </h3>
-                        <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                        <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                             <li>✅ හෝර්මෝන ස්වභාවිකව සමතුලිත කරයි</li>
                             <li>✅ සම්පූර්ණ සෞඛ්‍යය සඳහා ආතතික තත්වයන් පහදයි</li>
                             <li>✅ කෙස්මූල පෝෂණය කර, කොණ්ඩි ගැලවීම වැලැක්වයි</li>
@@ -157,7 +157,7 @@ const SkinHairDisorders = () => {
                                 href="https://www.cure.lk"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold inline-block"
+                                className="bg-primary-500 text-white px-6 py-3 rounded-lg font-semibold inline-block"
                             >
                                 📞 Book an Appointment Today at www.cure.lk
                             </a>
@@ -170,7 +170,7 @@ const SkinHairDisorders = () => {
                         <h2 className="text-2xl font-semibold mb-4">
                             தோல் மற்றும் தலைமுடி பிரச்சினைகள்
                         </h2>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-neutral-600 mb-6">
                             தோல் மற்றும் தலைமுடி பிரச்சினைகள் பலருக்கு விளைவிக்கும் பிரச்சினைகள் ஆகும். தோல் என்பது
                             உடலின் மிகப்பெரிய உறுப்பானது மற்றும் அது பாதுகாப்பு கவசமாக செயல்படுகிறது. தலைமுடி தோல்
                             போன்றே தோற்றம் மற்றும் ஆரோக்கியத்தில் முக்கியப் பங்கு வகிக்கிறது. உடலில் உள்ள அனைத்து
@@ -180,7 +180,7 @@ const SkinHairDisorders = () => {
                         <h3 className="text-xl font-semibold mb-4">
                             தோல் மற்றும் தலைமுடி பிரச்சினைகளுக்கான காரணங்கள்
                         </h3>
-                        <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                        <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                             <li>🔹 ஹார்மோனல் மாற்றங்கள் – PCOS, உரேணைக் குறைபாடுகள் மற்றும் மன அழுத்தம் போன்றவை.</li>
                             <li>🔹 போஷணக் குறைபாடுகள் – A, B, C, D போன்ற வைட்டமின்கள் மற்றும் Zinc, Iron போன்ற
                                 கனிமங்கள்.
@@ -194,7 +194,7 @@ const SkinHairDisorders = () => {
                         <h3 className="text-xl font-semibold mb-4">
                             ஹோமியோபதி தோல் மற்றும் தலைமுடி பிரச்சினைகளுக்கு எவ்வாறு உதவுகிறது
                         </h3>
-                        <ul className="list-disc pl-5 space-y-2 text-gray-600">
+                        <ul className="list-disc pl-5 space-y-2 text-neutral-600">
                             <li>✅ துவக்க அமைப்பை தானாகச் சரி செய்கிறது</li>
                             <li>✅ நோய்களை எதிர்கொள்ளும் நோக்கில் உடல் சீர்திருத்தம் செய்கிறது</li>
                             <li>✅ தலை முடி வளர்ச்சிக்கு பூரண ஆதரவு அளிக்கிறது</li>
@@ -205,7 +205,7 @@ const SkinHairDisorders = () => {
                                 href="https://www.cure.lk"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold inline-block"
+                                className="bg-primary-500 text-white px-6 py-3 rounded-lg font-semibold inline-block"
                             >
                                 📞 Book an Appointment Today at www.cure.lk
                             </a>

@@ -105,9 +105,9 @@ export default function PharmacistUserAddReStock() {
     };
 
     return (
-        <div className="flex flex-col min-h-screen bg-gray-100">
+        <div className="flex flex-col min-h-screen bg-neutral-100">
             <div className="p-6 bg-white rounded-lg m-6 shadow">
-                <h2 className="text-xl font-semibold text-gray-700 mb-4">
+                <h2 className="text-xl font-semibold text-neutral-700 mb-4">
                     Re-Order Product Stock
                 </h2>
 
@@ -115,7 +115,7 @@ export default function PharmacistUserAddReStock() {
                 <div className="mb-4">
                     <label
                         htmlFor="product"
-                        className="block text-sm font-medium text-gray-700 mb-1"
+                        className="block text-sm font-medium text-neutral-700 mb-1"
                     >
                         Select Product
                     </label>
@@ -132,7 +132,7 @@ export default function PharmacistUserAddReStock() {
                 <div className="mb-4">
                     <label
                         htmlFor="new_added_stock"
-                        className="block text-sm font-medium text-gray-700 mb-1"
+                        className="block text-sm font-medium text-neutral-700 mb-1"
                     >
                         New Quantity
                     </label>
@@ -140,7 +140,7 @@ export default function PharmacistUserAddReStock() {
                         type="number"
                         id="new_added_stock"
                         name="new_added_stock"
-                        className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300"
+                        className="w-full border border-neutral-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300"
                         value={newProductStockDetails.new_added_stock}
                         onChange={handleProductStockChange}
                         min="0"
@@ -152,7 +152,7 @@ export default function PharmacistUserAddReStock() {
                 <button
                     type="button"
                     onClick={handleSellingPriceChangeSectionVisibilities}
-                    className="text-blue-600 hover:underline mb-4"
+                    className="text-primary-500 hover:underline mb-4"
                 >
                     Have changed selling prices?
                 </button>
@@ -167,7 +167,7 @@ export default function PharmacistUserAddReStock() {
                 <button
                     onClick={handleReOrder}
                     disabled={isLoading}
-                    className={`w-full bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-700 transition ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                    className={`w-full bg-primary-500 text-white py-2 rounded-md font-semibold hover:bg-primary-600 transition ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                 >
                     {isLoading ? "Processing..." : "Re-Order"}
                 </button>

@@ -8,6 +8,9 @@ import { getAllBranches } from "../../utils/api/branch/GetAllBranches.ts";
 import { MultiSelect } from "react-multi-select-component";
 import { MultiSelectOption } from "../../utils/types/Appointment/IAppointment.ts";
 import PhoneNumberVerification from "./phoneNumberVerification/PhoneNumberVerification.tsx";
+import { Input } from "../ui/Input";
+import { Button } from "../ui/Button";
+import { Select } from "../ui/Select";
 
 const BLOOD_TYPES = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 const GENDER_OPTIONS = [
@@ -103,52 +106,36 @@ const SignupForm: React.FC<ISignupFormProps> = ({
     return (
         <>
             <NavBar />
-            <section className="flex flex-col md:flex-row items-center justify-between px-6 md:px-12 text-center md:text-left">
-                <div className="w-full md:w-1/2 pt-24 pb-12 px-4">
+            <section className="flex flex-col items-center justify-center min-h-screen bg-neutral-50 px-4 py-12">
+                <div className="w-full max-w-4xl">
                     <form
-                        className="space-y-7 max-w-md mx-auto bg-white p-8 rounded-2xl shadow-lg"
+                        className="glass rounded-3xl shadow-2xl p-8 md:p-12 border border-white/50 backdrop-blur-xl"
                         onSubmit={handleSubmit}
                     >
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            <div className="w-full">
-                                <div
-                                    className="flex items-center border-2 rounded-xl p-3.5 w-full focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition-all duration-300">
-                                    <FaUser className="text-blue-500 mr-3 text-lg" />
-                                    <input
-                                        type="text"
-                                        name="first_name"
-                                        value={signupInfo.first_name}
-                                        onChange={handleChange}
-                                        placeholder="First Name"
-                                        className="w-full bg-transparent outline-none text-gray-800 placeholder-gray-400 text-base"
-                                    />
-                                </div>
-                                {errors.first_name && (
-                                    <p className="text-red-500 text-sm mt-2 ml-1">
-                                        {errors.first_name}
-                                    </p>
-                                )}
-                            </div>
+                        <div className="text-center mb-10">
+                            <h2 className="text-3xl font-bold text-neutral-900">Create Your Account</h2>
+                            <p className="text-neutral-500 mt-2">Join us to access personalized healthcare</p>
+                        </div>
 
-                            <div className="w-full">
-                                <div
-                                    className="flex items-center border-2 rounded-xl p-3.5 w-full focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition-all duration-300">
-                                    <FaUser className="text-blue-500 mr-3 text-lg" />
-                                    <input
-                                        type="text"
-                                        name="last_name"
-                                        value={signupInfo.last_name}
-                                        onChange={handleChange}
-                                        placeholder="Last Name"
-                                        className="w-full bg-transparent outline-none text-gray-800 placeholder-gray-400 text-base"
-                                    />
-                                </div>
-                                {errors.last_name && (
-                                    <p className="text-red-500 text-sm mt-2 ml-1">
-                                        {errors.last_name}
-                                    </p>
-                                )}
-                            </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8">
+                            <Input
+                                label="First Name"
+                                leftIcon={<FaUser className="h-4 w-4" />}
+                                name="first_name"
+                                value={signupInfo.first_name}
+                                onChange={handleChange}
+                                placeholder="Enter your first name"
+                                error={errors.first_name}
+                            />
+                            <Input
+                                label="Last Name"
+                                leftIcon={<FaUser className="h-4 w-4" />}
+                                name="last_name"
+                                value={signupInfo.last_name}
+                                onChange={handleChange}
+                                placeholder="Enter your last name"
+                                error={errors.last_name}
+                            />
                         </div>
 
                         <PhoneNumberVerification
@@ -164,217 +151,124 @@ const SignupForm: React.FC<ISignupFormProps> = ({
                             phoneExistsError={phoneExistsError}
                         />
 
-                        <div className="w-full">
-                            <div
-                                className="flex items-center border-2 rounded-xl p-3.5 w-full focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition-all duration-300">
-                                <FaIdCard className="text-blue-500 mr-3 text-lg" />
-                                <input
-                                    type="text"
-                                    name="NIC"
-                                    value={signupInfo.NIC}
-                                    onChange={handleChange}
-                                    placeholder="National ID Card Number"
-                                    className="w-full bg-transparent outline-none text-gray-800 placeholder-gray-400 text-base"
-                                />
-                            </div>
-                            {errors.NIC && (
-                                <p className="text-red-500 text-sm mt-2 ml-1">
-                                    {"NIC Number is required."}
-                                </p>
-                            )}
-                        </div>
+                        <Input
+                            label="National Identity Card (NIC)"
+                            leftIcon={<FaIdCard className="h-4 w-4" />}
+                            name="NIC"
+                            value={signupInfo.NIC}
+                            onChange={handleChange}
+                            placeholder="e.g. 199012345678"
+                            error={errors.NIC}
+                        />
 
-                        <div className="w-full">
-                            <div
-                                className="flex items-center border-2 rounded-xl p-3.5 w-full focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition-all duration-300">
-                                <FaEnvelope className="text-blue-500 mr-3 text-lg" />
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={signupInfo.email}
-                                    onChange={handleChange}
-                                    placeholder="name@company.com"
-                                    className="w-full bg-transparent outline-none text-gray-800 placeholder-gray-400 text-base"
-                                />
-                            </div>
-                            {errors.email && (
-                                <p className="text-red-500 text-sm mt-2 ml-1">
-                                    {errors.email}
-                                </p>
-                            )}
-                        </div>
+                        <Input
+                            label="Email Address"
+                            leftIcon={<FaEnvelope className="h-4 w-4" />}
+                            type="email"
+                            name="email"
+                            value={signupInfo.email}
+                            onChange={handleChange}
+                            placeholder="name@example.com"
+                            error={errors.email}
+                        />
 
-                        <div className="w-full">
-                            <div
-                                className="flex items-center border-2 rounded-xl p-3.5 w-full focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition-all duration-300">
-                                <FaMapMarkerAlt className="text-blue-500 mr-3 text-lg" />
-                                <input
-                                    type="text"
-                                    name="address"
-                                    value={signupInfo.address}
-                                    onChange={handleChange}
-                                    placeholder="Enter your full address"
-                                    className="w-full bg-transparent outline-none text-gray-800 placeholder-gray-400 text-base"
-                                />
-                            </div>
-                            {errors.address && (
-                                <p className="text-red-500 text-sm mt-2 ml-1">
-                                    {errors.address}
-                                </p>
-                            )}
-                        </div>
+                        <Input
+                            label="Home Address"
+                            leftIcon={<FaMapMarkerAlt className="h-4 w-4" />}
+                            name="address"
+                            value={signupInfo.address}
+                            onChange={handleChange}
+                            placeholder="Enter your street address"
+                            error={errors.address}
+                        />
 
                         {/* City */}
-                        <div className="w-full">
-                            <div
-                                className="flex items-center border-2 rounded-xl p-3.5 w-full focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition-all duration-300">
-                                <FaCity className="text-blue-500 mr-3 text-lg" />
-                                <select
-                                    name="city"
-                                    value={signupInfo.city}
-                                    onChange={(e) => setSignupInfo(prev => ({ ...prev, city: e.target.value }))}
-                                    className="w-full bg-transparent outline-none text-gray-800 text-base cursor-pointer"
-                                >
-                                    <option value="">Select City</option>
-                                    {SRI_LANKAN_CITIES.map((city) => (
-                                        <option key={city} value={city}>{city}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            {errors.city && (
-                                <p className="text-red-500 text-sm mt-2 ml-1">
-                                    {errors.city}
-                                </p>
-                            )}
-                        </div>
+                        <Select
+                            label="City"
+                            options={[{ label: "Select City", value: "" }, ...SRI_LANKAN_CITIES.map(city => ({ label: city, value: city }))]}
+                            value={signupInfo.city}
+                            onChange={(e) => setSignupInfo(prev => ({ ...prev, city: e.target.value }))}
+                            error={errors.city}
+                        />
 
                         {/* Date of Birth and Gender */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            <div className="w-full">
-                                <label className="block text-sm font-medium text-gray-600 mb-1.5 ml-1">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8">
+                            <div>
+                                <label className="block text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">
                                     Date of Birth
                                 </label>
-                                <div
-                                    className="flex items-center border-2 rounded-xl p-3.5 w-full focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition-all duration-300">
-                                    <FaCalendarAlt className="text-blue-500 mr-3 text-lg" />
+                                <div className="relative group">
+                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400">
+                                        <FaCalendarAlt className="h-4 w-4" />
+                                    </div>
                                     <input
                                         type="date"
                                         name="date_of_birth"
                                         value={signupInfo.date_of_birth}
                                         onChange={handleChange}
                                         max={new Date().toISOString().split('T')[0]}
-                                        placeholder="Enter your birthday"
-                                        title="Enter your date of birth"
-                                        className="w-full bg-transparent outline-none text-gray-800 placeholder-gray-400 text-base"
+                                        className={`w-full bg-neutral-50/50 border ${errors.date_of_birth ? 'border-error-500' : 'border-neutral-200'} rounded-xl pl-11 pr-4 py-3.5 text-neutral-900 focus:outline-none focus:ring-4 ${errors.date_of_birth ? 'focus:ring-error-500/10 focus:border-error-500' : 'focus:ring-primary-500/10 focus:border-primary-500'} hover:border-primary-200 hover:bg-white transition-all duration-300 ease-out shadow-sm`}
                                     />
                                 </div>
                                 {errors.date_of_birth && (
-                                    <p className="text-red-500 text-sm mt-2 ml-1">
+                                    <p className="mt-1.5 text-xs text-error-600 font-medium animate-slide-down">
                                         {errors.date_of_birth}
                                     </p>
                                 )}
                             </div>
 
-                            <div className="w-full">
-                                <div
-                                    className="flex items-center border-2 rounded-xl p-3.5 w-full focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition-all duration-300">
-                                    <FaVenusMars className="text-blue-500 mr-3 text-lg" />
-                                    <select
-                                        name="gender"
-                                        value={signupInfo.gender}
-                                        onChange={(e) => setSignupInfo(prev => ({ ...prev, gender: e.target.value }))}
-                                        className="w-full bg-transparent outline-none text-gray-800 text-base cursor-pointer"
-                                    >
-                                        <option value="">Select Gender</option>
-                                        {GENDER_OPTIONS.map(option => (
-                                            <option key={option.value} value={option.value}>{option.label}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                                {errors.gender && (
-                                    <p className="text-red-500 text-sm mt-2 ml-1">
-                                        {errors.gender}
-                                    </p>
-                                )}
+                            <div className="mt-6 md:mt-0"> {/* Margin top adjustment for label alignment */}
+                                <Select
+                                    label="Gender"
+                                    options={GENDER_OPTIONS}
+                                    value={signupInfo.gender}
+                                    onChange={(e) => setSignupInfo(prev => ({ ...prev, gender: e.target.value }))}
+                                    error={errors.gender}
+                                />
                             </div>
                         </div>
 
                         {/* Blood Type */}
-                        <div className="w-full">
-                            <div
-                                className="flex items-center border-2 rounded-xl p-3.5 w-full focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition-all duration-300">
-                                <FaTint className="text-blue-500 mr-3 text-lg" />
-                                <select
-                                    name="blood_type"
-                                    value={signupInfo.blood_type}
-                                    onChange={(e) => setSignupInfo(prev => ({ ...prev, blood_type: e.target.value }))}
-                                    className="w-full bg-transparent outline-none text-gray-800 text-base cursor-pointer"
-                                >
-                                    <option value="">Select Blood Type (Optional)</option>
-                                    {BLOOD_TYPES.map(type => (
-                                        <option key={type} value={type}>{type}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            {errors.blood_type && (
-                                <p className="text-red-500 text-sm mt-2 ml-1">
-                                    {errors.blood_type}
-                                </p>
-                            )}
-                        </div>
+                        <Select
+                            label="Blood Type (Optional)"
+                            options={BLOOD_TYPES.map(t => ({ label: t, value: t }))}
+                            value={signupInfo.blood_type}
+                            onChange={(e) => setSignupInfo(prev => ({ ...prev, blood_type: e.target.value }))}
+                            error={errors.blood_type}
+                        />
 
                         {/* Emergency Contact Section */}
-                        <div className="border-t border-gray-200 pt-5 mt-2">
-                            <h3 className="text-sm font-semibold text-gray-700 mb-4 flex items-center">
-                                <FaUserShield className="text-blue-500 mr-2" />
+                        <div className="border-t border-neutral-100 pt-6 mt-2">
+                            <h3 className="text-sm font-semibold text-neutral-900 mb-4 flex items-center">
+                                <FaUserShield className="text-primary-500 mr-2" />
                                 Emergency Contact (Optional)
                             </h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                <div className="w-full">
-                                    <div
-                                        className="flex items-center border-2 rounded-xl p-3.5 w-full focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition-all duration-300">
-                                        <FaUser className="text-blue-500 mr-3 text-lg" />
-                                        <input
-                                            type="text"
-                                            name="emergency_contact_name"
-                                            value={signupInfo.emergency_contact_name}
-                                            onChange={handleChange}
-                                            placeholder="Contact Name"
-                                            className="w-full bg-transparent outline-none text-gray-800 placeholder-gray-400 text-base"
-                                        />
-                                    </div>
-                                    {errors.emergency_contact_name && (
-                                        <p className="text-red-500 text-sm mt-2 ml-1">
-                                            {errors.emergency_contact_name}
-                                        </p>
-                                    )}
-                                </div>
-
-                                <div className="w-full">
-                                    <div
-                                        className="flex items-center border-2 rounded-xl p-3.5 w-full focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition-all duration-300">
-                                        <FaPhoneAlt className="text-blue-500 mr-3 text-lg" />
-                                        <input
-                                            type="tel"
-                                            name="emergency_contact_phone"
-                                            value={signupInfo.emergency_contact_phone}
-                                            onChange={handleChange}
-                                            placeholder="Contact Phone"
-                                            className="w-full bg-transparent outline-none text-gray-800 placeholder-gray-400 text-base"
-                                        />
-                                    </div>
-                                    {errors.emergency_contact_phone && (
-                                        <p className="text-red-500 text-sm mt-2 ml-1">
-                                            {errors.emergency_contact_phone}
-                                        </p>
-                                    )}
-                                </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8">
+                                <Input
+                                    label="Contact Person Name"
+                                    leftIcon={<FaUser className="h-4 w-4" />}
+                                    name="emergency_contact_name"
+                                    value={signupInfo.emergency_contact_name}
+                                    onChange={handleChange}
+                                    placeholder="Enter contact name"
+                                    error={errors.emergency_contact_name}
+                                />
+                                <Input
+                                    label="Contact Phone Number"
+                                    leftIcon={<FaPhoneAlt className="h-4 w-4" />}
+                                    type="tel"
+                                    name="emergency_contact_phone"
+                                    value={signupInfo.emergency_contact_phone}
+                                    onChange={handleChange}
+                                    placeholder="Enter contact phone"
+                                    error={errors.emergency_contact_phone}
+                                />
                             </div>
                         </div>
 
                         <div className="w-full">
-                            <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
-                                <FaMapMarkerAlt className="text-blue-500 mr-2 text-lg" />
+                            <label className="block text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2 flex items-center">
+                                <FaMapMarkerAlt className="text-primary-500 mr-2" />
                                 Select Branch
                             </label>
                             <MultiSelect
@@ -382,65 +276,32 @@ const SignupForm: React.FC<ISignupFormProps> = ({
                                 value={selectedBranches}
                                 onChange={handleBranchChange}
                                 labelledBy="Select Branch"
-                                className="w-full rounded-xl"
+                                className="w-full"
                             />
+                            {errors.branch_id && (
+                                <p className="mt-1.5 text-xs text-error-600 font-medium animate-slide-down">
+                                    {errors.branch_id}
+                                </p>
+                            )}
                         </div>
-                        {errors.branch_id && (
-                            <p className="text-red-500 text-sm mt-2 ml-1">
-                                {errors.branch_id}
-                            </p>
-                        )}
 
-                        <button
+                        <Button
                             type="submit"
                             disabled={isSubmitting}
-                            className={`w-full py-4 rounded-xl font-semibold text-base transition-all duration-300 transform hover:scale-[1.02] ${
-                                isSubmitting
-                                    ? "bg-gray-400 text-gray-200 cursor-not-allowed"
-                                    : "bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-blue-200"
-                            }`}
+                            isLoading={isSubmitting}
+                            className="w-full shadow-lg shadow-primary hover:shadow-primary-hover"
+                            size="lg"
                         >
-                            {isSubmitting ? (
-                                <span className="flex items-center justify-center">
-                                    <svg
-                                        className="animate-spin -ml-1 mr-2 h-5 w-5 text-white"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <circle
-                                            className="opacity-25"
-                                            cx="12"
-                                            cy="12"
-                                            r="10"
-                                            stroke="currentColor"
-                                            strokeWidth="4"
-                                        ></circle>
-                                        <path
-                                            className="opacity-75"
-                                            fill="currentColor"
-                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                        ></path>
-                                    </svg>
-                                    Creating Account...
-                                </span>
-                            ) : (
-                                "Create Account"
-                            )}
-                        </button>
+                            Create Account
+                        </Button>
 
                         {!isOtpVerified && isOtpSent && (
-                            <p className="text-gray-600 text-center text-sm">
+                            <p className="text-neutral-500 text-center text-sm">
                                 Please verify your phone number to continue
                             </p>
                         )}
                     </form>
                 </div>
-                <img
-                    src={HeroImage}
-                    alt="Hero"
-                    className="w-full md:w-[50%] h-screen object-cover"
-                />
             </section>
             <Footer />
         </>
