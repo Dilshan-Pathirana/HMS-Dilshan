@@ -8,7 +8,11 @@ from datetime import date, time, datetime, timedelta
 from random import choice, randint, sample
 from uuid import uuid4
 
-sys.path.insert(0, '/var/www/hms/current/backend')
+import os
+if os.path.exists('/app/backend'):
+    sys.path.insert(0, '/app/backend')
+else:
+    sys.path.insert(0, '/var/www/hms/current/backend')
 
 from sqlmodel import select
 from sqlalchemy.orm import sessionmaker

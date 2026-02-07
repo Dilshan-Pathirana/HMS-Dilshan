@@ -62,6 +62,8 @@ const CreateQuestions = lazy(() => import("../pages/dashboard/Doctor/Patient/Cre
 const GetDoctorQuestions = lazy(() => import("../pages/dashboard/Doctor/Patient/GetDoctorQuestions.tsx"));
 const DoctorScheduleCalendar = lazy(() => import("../pages/dashboard/Doctor/DoctorAppointment/DoctorScheduleCalendar.tsx"));
 const GetDoctorSessions = lazy(() => import("../pages/DoctorDashboard/DoctorSessions/GetDoctorSessions.tsx"));
+const DoctorPatients = lazy(() => import("../pages/dashboard/Doctor/Patient/DoctorPatients.tsx"));
+const MedicalRecord = lazy(() => import("../pages/dashboard/Doctor/Patient/MedicalRecord.tsx"));
 
 // ============================================
 // LAZY LOADED BRANCH ADMIN MODULE
@@ -869,6 +871,38 @@ const AppRoutes: React.FC = () => {
                     element={
                         <ProtectedRoute>
                             <EmployeeScheduleAcknowledgment />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/doctor/schedule"
+                    element={
+                        <ProtectedRoute allowedRoles={['doctor']}>
+                            <DoctorScheduleCalendar />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/doctor/patients"
+                    element={
+                        <ProtectedRoute allowedRoles={['doctor']}>
+                            <DoctorPatients />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/doctor/patients/:id"
+                    element={
+                        <ProtectedRoute allowedRoles={['doctor']}>
+                            <MedicalRecord />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/doctor/appointments"
+                    element={
+                        <ProtectedRoute allowedRoles={['doctor']}>
+                            <AllDoctorRelatedAppointments />
                         </ProtectedRoute>
                     }
                 />

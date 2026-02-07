@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { DashboardLayout } from '../../../components/common/Layout/DashboardLayout';
 import { SidebarMenu, PharmacistMenuItems } from '../../../components/common/Layout/SidebarMenu';
-import { 
-    Package, 
-    FileText, 
-    DollarSign, 
+import {
+    Package,
+    FileText,
+    DollarSign,
     AlertTriangle,
     TrendingUp,
     ShoppingCart,
     Building2,
     MapPin,
     Phone,
-    User
+    User,
+    ArrowRight,
+    Activity
 } from 'lucide-react';
 import api from "../../../utils/api/axios";
+import { StatCard } from '../../../components/ui/StatCard';
+import { Card } from '../../../components/ui/Card';
 
 interface PharmacistStats {
     totalProducts: number;
@@ -63,7 +67,7 @@ export const PharmacistDashboard: React.FC = () => {
                     setUserName(response.data.user.name || 'Pharmacist');
                 }
             }
-            
+
             const userInfo = JSON.parse(localStorage.getItem('user') || '{}');
             if (!userName || userName === 'Pharmacist') {
                 setUserName(`${userInfo.first_name || ''} ${userInfo.last_name || ''}`);
@@ -76,38 +80,6 @@ export const PharmacistDashboard: React.FC = () => {
         }
     };
 
-    const StatCard = ({ 
-        title, 
-        value, 
-        icon, 
-        color,
-        alert 
-    }: { 
-        title: string; 
-        value: number | string; 
-        icon: React.ReactNode; 
-        color: string;
-        alert?: boolean;
-    }) => (
-        <div className={`bg-white rounded-xl shadow-sm border ${alert ? 'border-red-300' : 'border-neutral-200'} p-6 hover:shadow-md transition-shadow relative`}>
-            {alert && (
-                <div className="absolute top-2 right-2">
-                    <span className="flex h-3 w-3">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-error-500"></span>
-                    </span>
-                </div>
-            )}
-            <div className="flex items-center justify-between mb-4">
-                <div className={`p-3 rounded-lg bg-gradient-to-br ${color}`}>
-                    {icon}
-                </div>
-            </div>
-            <h3 className="text-neutral-600 text-sm font-medium mb-1">{title}</h3>
-            <p className="text-3xl font-bold text-neutral-800">{typeof value === 'number' ? value : value}</p>
-        </div>
-    );
-
     return (
         <DashboardLayout
             userName={userName}
@@ -115,41 +87,54 @@ export const PharmacistDashboard: React.FC = () => {
             profileImage={profileImage}
             sidebarContent={<SidebarMenu items={PharmacistMenuItems} />}
         >
-            <div className="space-y-6">
+            <div className="space-y-8 p-2">
                 {/* Branch Info Header */}
                 {branchInfo && (
-                    <div className="bg-gradient-to-r from-emerald-500 to-blue-600 rounded-xl shadow-lg p-6 text-white">
-                        <div className="flex items-start justify-between">
-                            <div className="flex items-center gap-4">
-                                <div className="p-3 bg-white/20 rounded-lg backdrop-blur-sm">
-                                    <Building2 className="w-8 h-8 text-white" />
-                                </div>
-                                <div>
-                                    <h2 className="text-2xl font-bold">{branchInfo.center_name}</h2>
-                                    <div className="flex items-center gap-4 mt-2 text-emerald-100">
-                                        <span className="flex items-center gap-1">
-                                            <MapPin className="w-4 h-4" />
-                                            {branchInfo.center_type}
-                                        </span>
-                                        <span className="text-white/70">|</span>
-                                        <span>Reg: {branchInfo.register_number}</span>
-                                        {branchInfo.division_number && (
-                                            <>
-                                                <span className="text-white/70">|</span>
-                                                <span>Division: {branchInfo.division_number}</span>
-                                            </>
-                                        )}
+                    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-600 to-teal-500 text-white shadow-xl">
+                        <div className="absolute top-0 right-0 -mt-10 -mr-10 h-64 w-64 rounded-full bg-white/10 blur-3xl pointer-events-none"></div>
+                        <div className="absolute bottom-0 left-0 -mb-10 -ml-10 h-64 w-64 rounded-full bg-emerald-400/20 blur-3xl pointer-events-none"></div>
+
+                        <div className="relative z-10 p-8">
+                            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+                                <div className="flex items-start gap-5">
+                                    <div className="p-4 bg-white/10 backdrop-blur-md rounded-2xl shadow-inner border border-white/20">
+                                        <Building2 className="w-8 h-8 text-white" />
+                                    </div>
+                                    <div>
+                                        <div className="flex items-center gap-3 mb-1">
+                                            <h2 className="text-3xl font-bold tracking-tight text-white">{branchInfo.center_name}</h2>
+                                            <span className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-medium border border-white/20">
+                                                {branchInfo.center_type}
+                                            </span>
+                                        </div>
+                                        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-3 text-emerald-50">
+                                            <span className="flex items-center gap-2 text-sm">
+                                                <MapPin className="w-4 h-4 opacity-80" />
+                                                Reg: {branchInfo.register_number}
+                                            </span>
+                                            {branchInfo.division_number && (
+                                                <span className="flex items-center gap-2 text-sm">
+                                                    <span className="w-1 h-1 rounded-full bg-emerald-300"></span>
+                                                    Division: {branchInfo.division_number}
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="text-right">
-                                <div className="flex items-center gap-2 text-emerald-100">
-                                    <User className="w-4 h-4" />
-                                    <span>{branchInfo.owner_full_name}</span>
-                                </div>
-                                <div className="flex items-center gap-2 mt-1 text-emerald-100">
-                                    <Phone className="w-4 h-4" />
-                                    <span>{branchInfo.owner_contact_number}</span>
+                                <div className="flex flex-col items-end gap-2 bg-white/5 backdrop-blur-sm p-4 rounded-2xl border border-white/10">
+                                    <div className="flex items-center gap-3 text-emerald-50">
+                                        <div className="text-right">
+                                            <p className="text-xs opacity-70 uppercase tracking-wider">Owner</p>
+                                            <p className="font-semibold">{branchInfo.owner_full_name}</p>
+                                        </div>
+                                        <div className="h-10 w-10 bg-white/10 rounded-full flex items-center justify-center">
+                                            <User className="w-5 h-5" />
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-2 text-emerald-100 text-sm bg-white/10 px-3 py-1.5 rounded-full">
+                                        <Phone className="w-3.5 h-3.5" />
+                                        <span>{branchInfo.owner_contact_number}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -157,121 +142,160 @@ export const PharmacistDashboard: React.FC = () => {
                 )}
 
                 {/* Page Header */}
-                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent">
-                                Welcome, {userName}!
-                            </h1>
-                            <p className="text-neutral-600 mt-1">Manage pharmacy inventory and prescriptions efficiently.</p>
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h1 className="text-2xl font-bold text-neutral-900">
+                            Pharmacy Overview
+                        </h1>
+                        <p className="text-neutral-500 mt-1">Manage inventory, process prescriptions, and track sales.</p>
+                    </div>
+                    <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-xl shadow-sm border border-neutral-200">
+                        <div className="p-2 bg-emerald-50 rounded-lg">
+                            <TrendingUp className="w-5 h-5 text-emerald-600" />
                         </div>
-                        <div className="flex items-center gap-2">
-                            <span className="text-2xl font-bold text-emerald-600">${stats.todaysSales}</span>
-                            <span className="text-sm text-neutral-500">Today's Sales</span>
+                        <div>
+                            <p className="text-xs text-neutral-500 font-medium uppercase tracking-wide">Today's Sales</p>
+                            <p className="text-lg font-bold text-neutral-900">${stats.todaysSales}</p>
                         </div>
                     </div>
                 </div>
 
                 {/* Stats Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <StatCard
                         title="Total Products"
                         value={stats.totalProducts}
-                        icon={<Package className="w-6 h-6 text-white" />}
-                        color="from-emerald-500 to-emerald-600"
+                        icon={Package}
+                        className="bg-white"
+                        trend={{ value: 12, label: "vs last month", isPositive: true }}
                     />
                     <StatCard
-                        title="Low Stock Items"
+                        title="Low Stock"
                         value={stats.lowStockItems}
-                        icon={<AlertTriangle className="w-6 h-6 text-white" />}
-                        color="from-red-500 to-red-600"
-                        alert={stats.lowStockItems > 0}
-                    />
-                    <StatCard
-                        title="Today's Sales"
-                        value={`$${stats.todaysSales}`}
-                        icon={<DollarSign className="w-6 h-6 text-white" />}
-                        color="from-green-500 to-green-600"
+                        icon={AlertTriangle}
+                        className={stats.lowStockItems > 0 ? "border-red-200 bg-red-50/50" : ""}
+                        description="Items require reordering"
+                        trend={stats.lowStockItems > 0 ? { value: stats.lowStockItems, label: "Critical", isPositive: false } : undefined}
                     />
                     <StatCard
                         title="Pending Prescriptions"
                         value={stats.pendingPrescriptions}
-                        icon={<FileText className="w-6 h-6 text-white" />}
-                        color="from-orange-500 to-orange-600"
+                        icon={FileText}
+                        className="bg-white"
+                        description="Waiting for processing"
                     />
                     <StatCard
                         title="Monthly Revenue"
                         value={`$${stats.monthlyRevenue}`}
-                        icon={<TrendingUp className="w-6 h-6 text-white" />}
-                        color="from-blue-500 to-blue-600"
+                        icon={DollarSign}
+                        className="bg-white"
+                        trend={{ value: 8, label: "Growth", isPositive: true }}
                     />
                 </div>
 
-                {/* Alerts & Quick Actions */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Stock Alerts */}
-                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
-                        <h2 className="text-lg font-semibold text-neutral-800 mb-4 flex items-center gap-2">
-                            <AlertTriangle className="w-5 h-5 text-error-600" />
-                            Low Stock Alerts
-                        </h2>
-                        <div className="space-y-3">
-                            <div className="flex items-center justify-between p-3 bg-error-50 rounded-lg border border-red-200">
-                                <div>
-                                    <p className="font-medium text-neutral-800">Paracetamol 500mg</p>
-                                    <p className="text-xs text-neutral-500">Only 15 units left</p>
+                {/* Main Content Grid */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    {/* Alerts Section */}
+                    <div className="lg:col-span-2">
+                        <Card title="Stock Alerts" action={<AlertTriangle className="w-5 h-5 text-error-500" />}>
+                            {stats.lowStockItems > 0 ? (
+                                <div className="space-y-4">
+                                    {/* This would ideally map through actual low stock items, but using static for now as per original */}
+                                    <div className="flex items-center justify-between p-4 bg-error-50/50 rounded-xl border border-error-100 hover:border-error-200 transition-colors group">
+                                        <div className="flex items-center gap-4">
+                                            <div className="p-2 bg-white rounded-lg shadow-sm text-error-500">
+                                                <AlertTriangle className="w-5 h-5" />
+                                            </div>
+                                            <div>
+                                                <h4 className="font-semibold text-neutral-900">Paracetamol 500mg</h4>
+                                                <p className="text-sm text-neutral-500">Only 15 units remaining</p>
+                                            </div>
+                                        </div>
+                                        <button className="px-4 py-2 bg-white border border-error-200 text-error-700 font-medium rounded-lg text-sm hover:bg-error-50 transition-colors shadow-sm">
+                                            Reorder
+                                        </button>
+                                    </div>
+
+                                    <div className="flex items-center justify-between p-4 bg-error-50/50 rounded-xl border border-error-100 hover:border-error-200 transition-colors group">
+                                        <div className="flex items-center gap-4">
+                                            <div className="p-2 bg-white rounded-lg shadow-sm text-error-500">
+                                                <AlertTriangle className="w-5 h-5" />
+                                            </div>
+                                            <div>
+                                                <h4 className="font-semibold text-neutral-900">Amoxicillin 250mg</h4>
+                                                <p className="text-sm text-neutral-500">Only 8 units remaining</p>
+                                            </div>
+                                        </div>
+                                        <button className="px-4 py-2 bg-white border border-error-200 text-error-700 font-medium rounded-lg text-sm hover:bg-error-50 transition-colors shadow-sm">
+                                            Reorder
+                                        </button>
+                                    </div>
+
+                                    <div className="flex items-center justify-between p-4 bg-amber-50/50 rounded-xl border border-amber-100 hover:border-amber-200 transition-colors group">
+                                        <div className="flex items-center gap-4">
+                                            <div className="p-2 bg-white rounded-lg shadow-sm text-amber-500">
+                                                <Activity className="w-5 h-5" />
+                                            </div>
+                                            <div>
+                                                <h4 className="font-semibold text-neutral-900">Vitamin C 1000mg</h4>
+                                                <p className="text-sm text-neutral-500">25 units remaining (Low)</p>
+                                            </div>
+                                        </div>
+                                        <button className="px-4 py-2 bg-white border border-amber-200 text-amber-700 font-medium rounded-lg text-sm hover:bg-amber-50 transition-colors shadow-sm">
+                                            Reorder
+                                        </button>
+                                    </div>
                                 </div>
-                                <button className="px-3 py-1 bg-red-600 text-white text-xs rounded-lg hover:bg-red-700">
-                                    Reorder
-                                </button>
-                            </div>
-                            <div className="flex items-center justify-between p-3 bg-error-50 rounded-lg border border-red-200">
-                                <div>
-                                    <p className="font-medium text-neutral-800">Amoxicillin 250mg</p>
-                                    <p className="text-xs text-neutral-500">Only 8 units left</p>
+                            ) : (
+                                <div className="text-center py-12">
+                                    <div className="inline-flex p-4 rounded-full bg-emerald-50 text-emerald-500 mb-4">
+                                        <Package className="w-8 h-8" />
+                                    </div>
+                                    <h3 className="text-lg font-medium text-neutral-900">Inventory Healthy</h3>
+                                    <p className="text-neutral-500 mt-1">No low stock items detected.</p>
                                 </div>
-                                <button className="px-3 py-1 bg-red-600 text-white text-xs rounded-lg hover:bg-red-700">
-                                    Reorder
-                                </button>
-                            </div>
-                            <div className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg border border-yellow-200">
-                                <div>
-                                    <p className="font-medium text-neutral-800">Vitamin C 1000mg</p>
-                                    <p className="text-xs text-neutral-500">25 units left</p>
-                                </div>
-                                <button className="px-3 py-1 bg-yellow-600 text-white text-xs rounded-lg hover:bg-yellow-700">
-                                    Reorder
-                                </button>
-                            </div>
-                        </div>
+                            )}
+                        </Card>
                     </div>
 
                     {/* Quick Actions */}
-                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
-                        <h2 className="text-lg font-semibold text-neutral-800 mb-4">Quick Actions</h2>
-                        <div className="space-y-3">
-                            <button className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-lg hover:from-emerald-100 hover:to-blue-100 transition-all text-left">
-                                <Package className="w-5 h-5 text-emerald-600" />
-                                <div>
-                                    <p className="font-medium text-neutral-800">Add New Product</p>
-                                    <p className="text-xs text-neutral-500">Add item to inventory</p>
-                                </div>
-                            </button>
-                            <button className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-lg hover:from-emerald-100 hover:to-blue-100 transition-all text-left">
-                                <FileText className="w-5 h-5 text-primary-500" />
-                                <div>
-                                    <p className="font-medium text-neutral-800">Process Prescription</p>
-                                    <p className="text-xs text-neutral-500">Handle new prescription</p>
-                                </div>
-                            </button>
-                            <button className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-lg hover:from-emerald-100 hover:to-blue-100 transition-all text-left">
-                                <ShoppingCart className="w-5 h-5 text-purple-600" />
-                                <div>
-                                    <p className="font-medium text-neutral-800">New Sale</p>
-                                    <p className="text-xs text-neutral-500">Record a sale transaction</p>
-                                </div>
-                            </button>
-                        </div>
+                    <div className="lg:col-span-1">
+                        <Card title="Quick Actions">
+                            <div className="space-y-3">
+                                <button className="w-full flex items-center gap-4 p-4 rounded-xl border border-neutral-200 hover:border-emerald-200 hover:bg-emerald-50/30 hover:shadow-md transition-all group text-left">
+                                    <div className="p-3 bg-emerald-100 text-emerald-600 rounded-lg group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                                        <Package className="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold text-neutral-900">Add Product</p>
+                                        <p className="text-xs text-neutral-500 mt-0.5">New inventory item</p>
+                                    </div>
+                                    <ArrowRight className="w-4 h-4 text-neutral-400 group-hover:text-emerald-500 group-hover:translate-x-1 transition-all ml-auto" />
+                                </button>
+
+                                <button className="w-full flex items-center gap-4 p-4 rounded-xl border border-neutral-200 hover:border-blue-200 hover:bg-blue-50/30 hover:shadow-md transition-all group text-left">
+                                    <div className="p-3 bg-blue-100 text-blue-600 rounded-lg group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                                        <FileText className="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold text-neutral-900">Process Rx</p>
+                                        <p className="text-xs text-neutral-500 mt-0.5">Handle prescription</p>
+                                    </div>
+                                    <ArrowRight className="w-4 h-4 text-neutral-400 group-hover:text-blue-500 group-hover:translate-x-1 transition-all ml-auto" />
+                                </button>
+
+                                <button className="w-full flex items-center gap-4 p-4 rounded-xl border border-neutral-200 hover:border-purple-200 hover:bg-purple-50/30 hover:shadow-md transition-all group text-left">
+                                    <div className="p-3 bg-purple-100 text-purple-600 rounded-lg group-hover:bg-purple-500 group-hover:text-white transition-colors">
+                                        <ShoppingCart className="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold text-neutral-900">New Sale</p>
+                                        <p className="text-xs text-neutral-500 mt-0.5">Record transaction</p>
+                                    </div>
+                                    <ArrowRight className="w-4 h-4 text-neutral-400 group-hover:text-purple-500 group-hover:translate-x-1 transition-all ml-auto" />
+                                </button>
+                            </div>
+                        </Card>
                     </div>
                 </div>
             </div>

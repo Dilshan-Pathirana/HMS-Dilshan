@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../utils/api/axios";
-import { 
-    ShoppingCart, Search, Plus, Minus, Trash2, ArrowLeft, 
+import {
+    ShoppingCart, Search, Plus, Minus, Trash2, ArrowLeft,
     User, Phone, DollarSign, CreditCard, Smartphone,
     QrCode, Save, AlertCircle, Receipt,
     Package, RefreshCw
@@ -75,7 +75,7 @@ const CashierBillingPOS = () => {
     const [isLoadingInventory, setIsLoadingInventory] = useState(false);
     const [branchInfo, setBranchInfo] = useState<BranchInfo>({ name: "", address: "", city: "", phone: "" });
     const [showCancelConfirm, setShowCancelConfirm] = useState(false);
-    const [lowStockWarning, setLowStockWarning] = useState<Array<{name: string; code: string; current_stock: number; reorder_level: number}> | null>(null);
+    const [lowStockWarning, setLowStockWarning] = useState<Array<{ name: string; code: string; current_stock: number; reorder_level: number }> | null>(null);
 
     useEffect(() => {
         checkEodStatus();
@@ -192,8 +192,8 @@ const CashierBillingPOS = () => {
                 return;
             }
             const unitPrice = existingItem.amount / (existingItem.quantity || 1);
-            setServiceItems(serviceItems.map(item => 
-                item.product_id === product.id 
+            setServiceItems(serviceItems.map(item =>
+                item.product_id === product.id
                     ? { ...item, quantity: newQty, amount: unitPrice * newQty }
                     : item
             ));
@@ -245,13 +245,13 @@ const CashierBillingPOS = () => {
 
     const addServiceItem = () => {
         const selectedProduct = (window as any).selectedProduct;
-        
+
         // Cashiers MUST select products from database - cannot manually enter items/prices
         if (!selectedProduct) {
             setError("Please select a product from the list. Manual item entry is not allowed.");
             return;
         }
-        
+
         if (!currentService.service || !currentService.amount) {
             setError("Please select a product from the list");
             return;
@@ -316,19 +316,19 @@ const CashierBillingPOS = () => {
     const updateItemQuantity = (id: string, delta: number) => {
         setServiceItems(serviceItems.map(item => {
             if (item.id !== id) return item;
-            
+
             const currentQty = item.quantity || 1;
             const newQty = currentQty + delta;
-            
+
             // Don't allow quantity below 1
             if (newQty < 1) return item;
-            
+
             // Check stock limit
             if (item.stock !== undefined && newQty > item.stock) {
                 setError(`Only ${item.stock} units available in stock`);
                 return item;
             }
-            
+
             const unitPrice = item.amount / currentQty;
             return { ...item, quantity: newQty, amount: unitPrice * newQty };
         }));
@@ -534,7 +534,7 @@ const CashierBillingPOS = () => {
         if (printWindow) {
             printWindow.document.write(receiptHTML);
             printWindow.document.close();
-            
+
             // Wait for content to load then print
             printWindow.onload = () => {
                 printWindow.focus();
@@ -544,7 +544,7 @@ const CashierBillingPOS = () => {
                     printWindow.close();
                 };
             };
-            
+
             // Fallback: trigger print after a short delay
             setTimeout(() => {
                 printWindow.print();
@@ -573,7 +573,7 @@ const CashierBillingPOS = () => {
         try {
             setIsSubmitting(true);
             const token = localStorage.getItem("authToken");
-            
+
             // Clean service details for backend
             const cleanServiceDetails = serviceItems.map(item => ({
                 id: item.id,
@@ -607,12 +607,12 @@ const CashierBillingPOS = () => {
                 const transactionData = response.data.data;
                 const invoiceNum = transactionData?.invoice_number || '';
                 const receiptNum = transactionData?.receipt_number || '';
-                
+
                 // Check for low stock warnings
                 if (response.data.low_stock_warning) {
                     setLowStockWarning(response.data.low_stock_warning);
                 }
-                
+
                 // Print receipt immediately
                 printReceipt(
                     transactionData,
@@ -622,12 +622,12 @@ const CashierBillingPOS = () => {
                     finalPatientName,
                     patientInfo.phone || ''
                 );
-                
+
                 setSuccess(`Transaction completed successfully! Invoice: ${invoiceNum}, Receipt: ${receiptNum}`);
-                
+
                 // Reload inventory to reflect updated stock
                 loadInventoryItems();
-                
+
                 // Reset form after showing success message (don't clear low stock warning immediately)
                 setTimeout(() => {
                     setPatientInfo({ name: "Walk-in Customer", phone: "" });
@@ -645,7 +645,7 @@ const CashierBillingPOS = () => {
                     setIsProductFromDB(false);
                     setCurrentService({ service: "", amount: "", quantity: "1" });
                 }, 3000);
-                
+
                 // Clear low stock warning after a longer delay
                 setTimeout(() => {
                     setLowStockWarning(null);
@@ -751,8 +751,8 @@ const CashierBillingPOS = () => {
                             <div className="space-y-1">
                                 {lowStockWarning.map((item, idx) => (
                                     <p key={idx} className="text-sm text-amber-700">
-                                        <span className="font-medium">{item.name}</span> ({item.code}) - 
-                                        Only <span className="font-bold text-error-600">{item.current_stock}</span> units left 
+                                        <span className="font-medium">{item.name}</span> ({item.code}) -
+                                        Only <span className="font-bold text-error-600">{item.current_stock}</span> units left
                                         (Reorder level: {item.reorder_level})
                                     </p>
                                 ))}
@@ -761,7 +761,7 @@ const CashierBillingPOS = () => {
                                 Notifications have been sent to relevant staff. Consider placing a restock order.
                             </p>
                         </div>
-                        <button 
+                        <button
                             type="button"
                             onClick={() => setLowStockWarning(null)}
                             className="text-amber-500 hover:text-amber-700"
@@ -784,11 +784,10 @@ const CashierBillingPOS = () => {
                                     key={type}
                                     type="button"
                                     onClick={() => setTransactionType(type)}
-                                    className={`p-4 rounded-lg border-2 transition ${
-                                        transactionType === type
-                                            ? "border-emerald-500 bg-gradient-to-br from-emerald-50 to-blue-50 text-emerald-700"
-                                            : "border-neutral-200 hover:border-neutral-300"
-                                    }`}
+                                    className={`p-4 rounded-lg border-2 transition ${transactionType === type
+                                        ? "border-emerald-500 bg-gradient-to-br from-emerald-50 to-blue-50 text-emerald-700"
+                                        : "border-neutral-200 hover:border-neutral-300"
+                                        }`}
                                 >
                                     <span className="font-medium">{type}</span>
                                 </button>
@@ -810,22 +809,20 @@ const CashierBillingPOS = () => {
                             <button
                                 type="button"
                                 onClick={() => handleWalkInToggle(false)}
-                                className={`flex-1 px-4 py-2 rounded-lg border-2 transition ${
-                                    !isWalkIn
-                                        ? "border-emerald-500 bg-gradient-to-br from-emerald-50 to-blue-50 text-emerald-700"
-                                        : "border-neutral-200 hover:border-neutral-300"
-                                }`}
+                                className={`flex-1 px-4 py-2 rounded-lg border-2 transition ${!isWalkIn
+                                    ? "border-emerald-500 bg-gradient-to-br from-emerald-50 to-blue-50 text-emerald-700"
+                                    : "border-neutral-200 hover:border-neutral-300"
+                                    }`}
                             >
                                 Registered Patient
                             </button>
                             <button
                                 type="button"
                                 onClick={() => handleWalkInToggle(true)}
-                                className={`flex-1 px-4 py-2 rounded-lg border-2 transition ${
-                                    isWalkIn
-                                        ? "border-emerald-500 bg-gradient-to-br from-emerald-50 to-blue-50 text-emerald-700"
-                                        : "border-neutral-200 hover:border-neutral-300"
-                                }`}
+                                className={`flex-1 px-4 py-2 rounded-lg border-2 transition ${isWalkIn
+                                    ? "border-emerald-500 bg-gradient-to-br from-emerald-50 to-blue-50 text-emerald-700"
+                                    : "border-neutral-200 hover:border-neutral-300"
+                                    }`}
                             >
                                 Walk-in Customer
                             </button>
@@ -915,7 +912,7 @@ const CashierBillingPOS = () => {
                             </div>
                             Purchased Items
                         </h2>
-                        
+
                         {/* Add Item Form */}
                         <div className="grid grid-cols-12 gap-3 mb-4">
                             {/* Product Search - Must select from database */}
@@ -1164,7 +1161,7 @@ const CashierBillingPOS = () => {
                     {/* Payment Summary */}
                     <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6 sticky top-6">
                         <h2 className="text-lg font-semibold text-neutral-800 mb-4">Payment Summary</h2>
-                        
+
                         <div className="space-y-3 mb-6 p-4 bg-gradient-to-r from-emerald-50 to-blue-50 rounded-xl">
                             <div className="flex justify-between text-sm">
                                 <span className="text-neutral-600">Total Amount:</span>
@@ -1188,11 +1185,10 @@ const CashierBillingPOS = () => {
                                         key={method.value}
                                         type="button"
                                         onClick={() => setPaymentMethod(method.value)}
-                                        className={`p-3 rounded-lg border-2 transition flex flex-col items-center gap-1 ${
-                                            paymentMethod === method.value
-                                                ? "border-emerald-500 bg-gradient-to-br from-emerald-50 to-blue-50"
-                                                : "border-neutral-200 hover:border-neutral-300"
-                                        }`}
+                                        className={`p-3 rounded-lg border-2 transition flex flex-col items-center gap-1 ${paymentMethod === method.value
+                                            ? "border-emerald-500 bg-gradient-to-br from-emerald-50 to-blue-50"
+                                            : "border-neutral-200 hover:border-neutral-300"
+                                            }`}
                                     >
                                         <div className={`p-2 rounded-lg ${paymentMethod === method.value ? `bg-gradient-to-br ${method.color}` : 'bg-neutral-100'}`}>
                                             <method.icon className={`h-5 w-5 ${paymentMethod === method.value ? 'text-white' : 'text-neutral-600'}`} />
@@ -1221,22 +1217,20 @@ const CashierBillingPOS = () => {
 
                         {/* Balance/Change */}
                         {paid > 0 && (
-                            <div className={`p-4 rounded-xl mb-6 ${
-                                balance < 0 
-                                    ? "bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200" 
-                                    : balance > 0 
+                            <div className={`p-4 rounded-xl mb-6 ${balance < 0
+                                ? "bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200"
+                                : balance > 0
                                     ? "bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200"
                                     : "bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200"
-                            }`}>
+                                }`}>
                                 <div className="flex justify-between items-center">
                                     <span className="text-sm font-medium">
                                         {balance < 0 ? "Change:" : balance > 0 ? "Balance Due:" : "Payment Status:"}
                                     </span>
-                                    <span className={`text-lg font-bold ${
-                                        balance < 0 ? "text-green-700" : balance > 0 ? "text-yellow-700" : "text-blue-700"
-                                    }`}>
-                                        {balance < 0 ? `Rs. ${Math.abs(balance).toLocaleString()}` : 
-                                         balance > 0 ? `Rs. ${balance.toLocaleString()}` : "Paid in Full"}
+                                    <span className={`text-lg font-bold ${balance < 0 ? "text-green-700" : balance > 0 ? "text-yellow-700" : "text-blue-700"
+                                        }`}>
+                                        {balance < 0 ? `Rs. ${Math.abs(balance).toLocaleString()}` :
+                                            balance > 0 ? `Rs. ${balance.toLocaleString()}` : "Paid in Full"}
                                     </span>
                                 </div>
                             </div>
@@ -1252,7 +1246,7 @@ const CashierBillingPOS = () => {
                                 <Save className="h-5 w-5" />
                                 {isSubmitting ? "Processing..." : "Complete Transaction"}
                             </button>
-                            
+
                             <button
                                 type="button"
                                 onClick={() => {
@@ -1301,11 +1295,10 @@ const CashierBillingPOS = () => {
                                     setPaidAmount("");
                                     setRemarks("");
                                     setShowCancelConfirm(false);
-                                    navigate("/pos/pos");
                                 }}
-                                className="flex-1 bg-error-500 text-white py-3 px-4 rounded-lg hover:bg-red-600 transition font-medium"
+                                className="flex-1 py-2.5 rounded-xl bg-red-600 text-white font-medium hover:bg-red-700 shadow-lg shadow-red-200"
                             >
-                                Yes, Cancel
+                                Yes, Clear
                             </button>
                         </div>
                     </div>

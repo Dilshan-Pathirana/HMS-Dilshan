@@ -14,6 +14,8 @@ import {
     CheckCircle,
     XCircle,
     Clock3,
+    Filter,
+    MoreHorizontal
 } from "lucide-react";
 import api from "../../../../utils/api/axios";
 import alert from "../../../../utils/alert.ts";
@@ -29,14 +31,11 @@ const DoctorScheduleCalendar: React.FC = () => {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [schedules, setSchedules] = useState<DoctorSchedule[]>([]);
-    const [cancellations, setCancellations] = useState<
-        DoctorScheduleCancellation[]
-    >([]);
+    const [cancellations, setCancellations] = useState<DoctorScheduleCancellation[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [showCancelModal, setShowCancelModal] = useState(false);
-    const [scheduleToCancel, setScheduleToCancel] =
-        useState<DoctorSchedule | null>(null);
+    const [scheduleToCancel, setScheduleToCancel] = useState<DoctorSchedule | null>(null);
     const [cancelLoading, setCancelLoading] = useState(false);
     const [isCancelingEntireDay, setIsCancelingEntireDay] = useState(false);
 
@@ -57,11 +56,7 @@ const DoctorScheduleCalendar: React.FC = () => {
         try {
             setIsLoading(true);
             setError(null);
-
-            const response = await api.get(
-                `/get-all-doctor-schedule/${currentUserId}`,
-            );
-
+            const response = await api.get(`/get-all-doctor-schedule/${currentUserId}`);
             if (response.data && response.data.doctorSchedule) {
                 setSchedules(response.data.doctorSchedule);
             } else {
@@ -69,9 +64,7 @@ const DoctorScheduleCalendar: React.FC = () => {
             }
         } catch (err: any) {
             console.error("Error fetching schedules:", err);
-            setError(
-                err.response?.data?.message || "Failed to fetch schedules",
-            );
+            setError(err.response?.data?.message || "Failed to fetch schedules");
             setSchedules([]);
         } finally {
             setIsLoading(false);
@@ -80,12 +73,8 @@ const DoctorScheduleCalendar: React.FC = () => {
 
     const fetchCancellations = async () => {
         if (!currentUserId) return;
-
         try {
-            const response = await api.get(
-                `/get-doctor-schedule-cancel/${currentUserId}`,
-            );
-
+            const response = await api.get(`/get-doctor-schedule-cancel/${currentUserId}`);
             if (response.data && response.data.doctor_schedule_cancellations) {
                 setCancellations(response.data.doctor_schedule_cancellations);
             } else {
@@ -103,26 +92,13 @@ const DoctorScheduleCalendar: React.FC = () => {
         loadData();
     }, [currentUserId]);
 
-    const getDateFromScheduleDay = (
-        dayName: string,
-        baseDate: Date,
-    ): Date[] => {
-        const dayNames = [
-            "Sunday",
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-        ];
+    const getDateFromScheduleDay = (dayName: string, baseDate: Date): Date[] => {
+        const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         const targetDayIndex = dayNames.indexOf(dayName);
-
         if (targetDayIndex === -1) return [];
 
         const year = baseDate.getFullYear();
         const month = baseDate.getMonth();
-
         const dates: Date[] = [];
         const daysInMonth = new Date(year, month + 1, 0).getDate();
 
@@ -132,14 +108,12 @@ const DoctorScheduleCalendar: React.FC = () => {
                 dates.push(date);
             }
         }
-
         return dates;
     };
 
     const calendarDates = useMemo(() => {
         const year = currentDate.getFullYear();
         const month = currentDate.getMonth();
-
         const firstDay = new Date(year, month, 1);
         const startDate = new Date(firstDay);
         startDate.setDate(startDate.getDate() - firstDay.getDay());
@@ -158,16 +132,8 @@ const DoctorScheduleCalendar: React.FC = () => {
             const dateCancellations: DoctorScheduleCancellation[] = [];
 
             schedules.forEach((schedule) => {
-                const scheduleDates = getDateFromScheduleDay(
-                    schedule.schedule_day,
-                    currentDate,
-                );
-                if (
-                    scheduleDates.some(
-                        (scheduleDate) =>
-                            scheduleDate.toDateString() === date.toDateString(),
-                    )
-                ) {
+                const scheduleDates = getDateFromScheduleDay(schedule.schedule_day, currentDate);
+                if (scheduleDates.some((scheduleDate) => scheduleDate.toDateString() === date.toDateString())) {
                     dateSchedules.push(schedule);
                 }
             });
@@ -187,7 +153,6 @@ const DoctorScheduleCalendar: React.FC = () => {
                 isToday,
             });
         }
-
         return dates;
     }, [currentDate, schedules, cancellations]);
 
@@ -208,21 +173,16 @@ const DoctorScheduleCalendar: React.FC = () => {
 
     const canCancelBasedOnDate = (date: Date | null): boolean => {
         if (!date) return false;
-
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-
         const selectedDateStart = new Date(date);
         selectedDateStart.setHours(0, 0, 0, 0);
-
         return selectedDateStart > today;
     };
 
     const handleCancelSchedule = (schedule: DoctorSchedule) => {
         if (!canCancelBasedOnDate(selectedDate)) {
-            alert.warn(
-                "You can only cancel future dates.",
-            );
+            alert.warn("You can only cancel future dates.");
             return;
         }
         setScheduleToCancel(schedule);
@@ -231,42 +191,29 @@ const DoctorScheduleCalendar: React.FC = () => {
 
     const confirmCancelSchedule = async (reason: string) => {
         if (!scheduleToCancel || !selectedDate || !currentUserId) return;
-
         try {
             setCancelLoading(true);
-
             const formattedDate = formatDateForAPI(selectedDate);
-
-            const response = await api.post(
-                "/request-cancel-doctor-appointment",
-                {
-                    doctor_id: currentUserId,
-                    branch_id: scheduleToCancel.branch_id,
-                    schedule_id: scheduleToCancel.id,
-                    date: formattedDate,
-                    reason: reason,
-                },
-            );
+            const response = await api.post("/request-cancel-doctor-appointment", {
+                doctor_id: currentUserId,
+                branch_id: scheduleToCancel.branch_id,
+                schedule_id: scheduleToCancel.id,
+                date: formattedDate,
+                reason: reason,
+            });
 
             if (response.data.status === 200) {
-                alert.success(
-                    response.data.message || "Schedule cancelled successfully!",
-                );
-
+                alert.success(response.data.message || "Schedule cancelled successfully!");
                 await Promise.all([fetchSchedules(), fetchCancellations()]);
-
                 setShowCancelModal(false);
                 setScheduleToCancel(null);
                 setSelectedDate(null);
             } else {
-                throw new Error(
-                    response.data.message || "Failed to cancel schedule",
-                );
+                throw new Error(response.data.message || "Failed to cancel schedule");
             }
         } catch (err: any) {
             console.error("Error cancelling schedule:", err);
-            const errorMessage =
-                err.response?.data?.message || "Failed to cancel schedule";
+            const errorMessage = err.response?.data?.message || "Failed to cancel schedule";
             alert.warn(`Failed to cancel schedule: ${errorMessage}`);
         } finally {
             setCancelLoading(false);
@@ -284,40 +231,27 @@ const DoctorScheduleCalendar: React.FC = () => {
 
     const confirmCancelEntireDay = async (reason: string) => {
         if (!selectedDate || !currentUserId) return;
-
         try {
             setCancelLoading(true);
-
             const formattedDate = formatDateForAPI(selectedDate);
-
-            const response = await api.post(
-                "/cancel-doctor-entire-day",
-                {
-                    doctor_id: currentUserId,
-                    date: formattedDate,
-                    reason: reason,
-                },
-            );
+            const response = await api.post("/cancel-doctor-entire-day", {
+                doctor_id: currentUserId,
+                date: formattedDate,
+                reason: reason,
+            });
 
             if (response.data.status === 200) {
-                alert.success(
-                    response.data.message || "Day cancelled successfully!",
-                );
-
+                alert.success(response.data.message || "Day cancelled successfully!");
                 await Promise.all([fetchSchedules(), fetchCancellations()]);
-
                 setShowCancelModal(false);
                 setIsCancelingEntireDay(false);
                 setSelectedDate(null);
             } else {
-                throw new Error(
-                    response.data.message || "Failed to cancel day",
-                );
+                throw new Error(response.data.message || "Failed to cancel day");
             }
         } catch (err: any) {
             console.error("Error cancelling day:", err);
-            const errorMessage =
-                err.response?.data?.message || "Failed to cancel day";
+            const errorMessage = err.response?.data?.message || "Failed to cancel day";
             alert.warn(`Failed to cancel day: ${errorMessage}`);
         } finally {
             setCancelLoading(false);
@@ -334,34 +268,10 @@ const DoctorScheduleCalendar: React.FC = () => {
 
     const getCancellationStatusInfo = (status: number) => {
         switch (status) {
-            case 0:
-                return {
-                    text: "Pending",
-                    color: "bg-yellow-500",
-                    textColor: "text-yellow-700",
-                    icon: Clock3,
-                };
-            case 1:
-                return {
-                    text: "Approved",
-                    color: "bg-green-500",
-                    textColor: "text-green-700",
-                    icon: CheckCircle,
-                };
-            case 2:
-                return {
-                    text: "Rejected",
-                    color: "bg-error-500",
-                    textColor: "text-red-700",
-                    icon: XCircle,
-                };
-            default:
-                return {
-                    text: "Unknown",
-                    color: "bg-gray-500",
-                    textColor: "text-neutral-700",
-                    icon: AlertTriangle,
-                };
+            case 0: return { text: "Pending", color: "bg-amber-500", textColor: "text-amber-700", icon: Clock3, badgeClass: "bg-amber-100 text-amber-800" };
+            case 1: return { text: "Approved", color: "bg-emerald-500", textColor: "text-emerald-700", icon: CheckCircle, badgeClass: "bg-emerald-100 text-emerald-800" };
+            case 2: return { text: "Rejected", color: "bg-red-500", textColor: "text-red-700", icon: XCircle, badgeClass: "bg-red-100 text-red-800" };
+            default: return { text: "Unknown", color: "bg-neutral-500", textColor: "text-neutral-700", icon: AlertTriangle, badgeClass: "bg-neutral-100 text-neutral-800" };
         }
     };
 
@@ -369,55 +279,32 @@ const DoctorScheduleCalendar: React.FC = () => {
         await Promise.all([fetchSchedules(), fetchCancellations()]);
     };
 
-    const monthNames = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-    ];
-
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
     if (isLoading) {
         return (
-            <div className="p-4">
-                <div className="flex items-center justify-center h-64">
-                    <div className="text-center">
-                        <Loader className="h-8 w-8 animate-spin text-primary-500 mx-auto mb-4" />
-                        <p className="text-neutral-600">
-                            Loading doctor schedules...
-                        </p>
-                    </div>
-                </div>
+            <div className="flex flex-col items-center justify-center min-h-[400px]">
+                <Loader className="h-10 w-10 animate-spin text-emerald-500 mb-4" />
+                <p className="text-neutral-500 font-medium">Loading your schedule...</p>
             </div>
         );
     }
 
     if (error) {
         return (
-            <div className="p-4">
-                <div className="bg-error-50 border border-red-200 rounded-lg p-4">
-                    <div className="flex items-center">
-                        <AlertTriangle className="h-5 w-5 text-error-600 mr-2" />
-                        <h3 className="text-lg font-medium text-red-800">
-                            Error Loading Schedules
-                        </h3>
+            <div className="p-6">
+                <div className="bg-red-50 border border-red-200 rounded-2xl p-6 text-center max-w-lg mx-auto">
+                    <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 text-red-600">
+                        <AlertTriangle className="h-8 w-8" />
                     </div>
-                    <p className="text-red-700 mt-2">{error}</p>
+                    <h3 className="text-lg font-bold text-red-900 mb-2">Unable to Load Schedule</h3>
+                    <p className="text-red-700 mb-6">{error}</p>
                     <button
                         onClick={refreshData}
-                        className="mt-3 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 flex items-center"
+                        className="px-6 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 font-medium transition-all shadow-lg shadow-red-200"
                     >
-                        <RefreshCw className="h-4 w-4 mr-2" />
-                        Retry
+                        Try Again
                     </button>
                 </div>
             </div>
@@ -425,547 +312,240 @@ const DoctorScheduleCalendar: React.FC = () => {
     }
 
     return (
-        <div className="p-4 bg-white">
-            <div className="mb-6">
-                <div className="flex items-center justify-between">
-                    <div>
-                        <h1 className="text-2xl font-bold text-neutral-900 mb-2">
-                            Doctor Schedule Calendar
-                        </h1>
-                        <p className="text-neutral-600">
-                            Manage your medical appointments and schedules
-                        </p>
-                    </div>
-                    <button
-                        onClick={refreshData}
-                        disabled={isLoading}
-                        className="flex items-center px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 transition-colors"
-                    >
-                        <RefreshCw
-                            className={`h-4 w-4 mr-2 ${isLoading ? "animate-spin" : ""}`}
-                        />
-                        Refresh
-                    </button>
+        <div className="bg-neutral-50/50 min-h-screen font-sans p-6">
+            <div className="flex justify-between items-center mb-8">
+                <div>
+                    <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-3">
+                        <div className="p-2 bg-white rounded-xl border border-neutral-200 shadow-sm">
+                            <Calendar className="w-6 h-6 text-emerald-600" />
+                        </div>
+                        Schedule Management
+                    </h1>
+                    <p className="text-neutral-500 mt-1 ml-14">View and manage your availability slots</p>
                 </div>
+                <button
+                    onClick={refreshData}
+                    disabled={isLoading}
+                    className="flex items-center gap-2 px-4 py-2 bg-white border border-neutral-200 rounded-xl text-neutral-600 hover:text-emerald-600 hover:border-emerald-200 transition-all font-medium shadow-sm hover:shadow-md disabled:opacity-50"
+                >
+                    <RefreshCw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
+                    Refresh
+                </button>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2">
-                    <div className="bg-white border border-neutral-200 rounded-lg shadow-sm">
-                        <div className="flex items-center justify-between p-4 border-b border-neutral-200">
-                            <button
-                                onClick={() => navigateMonth("prev")}
-                                className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
-                            >
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* Calendar Column */}
+                <div className="lg:col-span-2 space-y-6">
+                    <div className="bg-white rounded-3xl shadow-sm border border-neutral-200 overflow-hidden">
+                        {/* Calendar Header */}
+                        <div className="flex items-center justify-between p-6 border-b border-neutral-100 bg-white">
+                            <button onClick={() => navigateMonth("prev")} className="p-2 hover:bg-neutral-100 rounded-xl transition-colors text-neutral-600 hover:text-neutral-900">
                                 <ChevronLeft className="h-5 w-5" />
                             </button>
-
-                            <h2 className="text-lg font-semibold text-neutral-900">
-                                {monthNames[currentDate.getMonth()]}{" "}
-                                {currentDate.getFullYear()}
+                            <h2 className="text-xl font-bold text-neutral-900">
+                                {monthNames[currentDate.getMonth()]} <span className="text-neutral-400 font-normal">{currentDate.getFullYear()}</span>
                             </h2>
-
-                            <button
-                                onClick={() => navigateMonth("next")}
-                                className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
-                            >
+                            <button onClick={() => navigateMonth("next")} className="p-2 hover:bg-neutral-100 rounded-xl transition-colors text-neutral-600 hover:text-neutral-900">
                                 <ChevronRight className="h-5 w-5" />
                             </button>
                         </div>
 
-                        <div className="grid grid-cols-7 border-b border-neutral-200">
+                        {/* Days Header */}
+                        <div className="grid grid-cols-7 border-b border-neutral-100 bg-neutral-50/50">
                             {dayNames.map((day) => (
-                                <div
-                                    key={day}
-                                    className="p-3 text-center text-sm font-medium text-neutral-700 bg-neutral-50"
-                                >
+                                <div key={day} className="py-3 text-center text-xs font-bold text-neutral-400 uppercase tracking-wider">
                                     {day}
                                 </div>
                             ))}
                         </div>
 
-                        <div className="grid grid-cols-7">
-                            {calendarDates.map((calendarDate, index) => (
-                                <div
-                                    key={index}
-                                    className={`
-                                        min-h-[80px] p-2 border-r border-b border-gray-100 transition-colors
-                                        ${
-                                            !calendarDate.isCurrentMonth
-                                                ? "bg-neutral-50 text-neutral-400"
-                                                : "hover:bg-blue-50 cursor-pointer"
-                                        }
-                                        ${calendarDate.isToday ? "bg-blue-100" : ""}
-                                        ${
-                                            selectedDate?.toDateString() ===
-                                            calendarDate.date.toDateString()
-                                                ? "ring-2 ring-blue-500"
-                                                : ""
-                                        }
-                                    `}
-                                    onClick={() =>
-                                        handleDateClick(calendarDate)
-                                    }
-                                >
+                        {/* Calendar Grid */}
+                        <div className="grid grid-cols-7 bg-neutral-200 gap-px">
+                            {calendarDates.map((calendarDate, index) => {
+                                const hasSchedules = calendarDate.schedules.length > 0;
+                                const hasCancellations = calendarDate.cancellations.length > 0;
+                                const isSelected = selectedDate?.toDateString() === calendarDate.date.toDateString();
+
+                                return (
                                     <div
+                                        key={index}
+                                        onClick={() => handleDateClick(calendarDate)}
                                         className={`
-                                            text-sm font-medium mb-1
-                                            ${calendarDate.isToday ? "text-primary-500" : ""}
+                                            min-h-[100px] p-3 bg-white transition-all cursor-pointer relative group
+                                            ${!calendarDate.isCurrentMonth ? "bg-neutral-50/50 text-neutral-300" : "hover:bg-neutral-50"}
+                                            ${isSelected ? "ring-2 ring-inset ring-emerald-500 bg-emerald-50/30 z-10" : ""}
                                         `}
                                     >
-                                        {calendarDate.date.getDate()}
-                                    </div>
+                                        <div className="flex justify-between items-start mb-2">
+                                            <span className={`
+                                                text-sm font-medium w-7 h-7 flex items-center justify-center rounded-full
+                                                ${calendarDate.isToday ? "bg-emerald-600 text-white shadow-md shadow-emerald-200" : ""}
+                                                ${isSelected && !calendarDate.isToday ? "text-emerald-700 font-bold" : ""}
+                                            `}>
+                                                {calendarDate.date.getDate()}
+                                            </span>
+                                        </div>
 
-                                    <div className="space-y-1">
-                                        {calendarDate.schedules
-                                            .slice(0, 2)
-                                            .map((schedule) => (
-                                                <div
-                                                    key={schedule.id}
-                                                    className="text-xs bg-primary-500 text-white px-1.5 py-0.5 rounded truncate"
-                                                >
-                                                    {formatTime(
-                                                        schedule.start_time,
-                                                    )}
+                                        <div className="space-y-1.5">
+                                            {calendarDate.schedules.slice(0, 2).map((schedule) => (
+                                                <div key={schedule.id} className="flex items-center gap-1.5 px-2 py-1 bg-emerald-50 text-emerald-700 rounded-md text-[10px] font-bold border border-emerald-100">
+                                                    <Clock className="w-3 h-3" />
+                                                    {formatTime(schedule.start_time)}
                                                 </div>
                                             ))}
 
-                                        {calendarDate.cancellations
-                                            .slice(
-                                                0,
-                                                2 -
-                                                    calendarDate.schedules
-                                                        .length,
-                                            )
-                                            .map((cancellation) => {
-                                                const statusInfo =
-                                                    getCancellationStatusInfo(
-                                                        cancellation.status,
-                                                    );
+                                            {calendarDate.cancellations.slice(0, Math.max(0, 2 - calendarDate.schedules.length)).map((cancel) => {
+                                                const status = getCancellationStatusInfo(cancel.status);
                                                 return (
-                                                    <div
-                                                        key={`cancel-${cancellation.id}`}
-                                                        className={`text-xs ${statusInfo.color} text-white px-1.5 py-0.5 rounded truncate flex items-center`}
-                                                    >
-                                                        <X className="h-2 w-2 mr-1" />
-                                                        {formatTime(
-                                                            cancellation.start_time,
-                                                        )}
+                                                    <div key={`c-${cancel.id}`} className={`flex items-center gap-1.5 px-2 py-1 rounded-md text-[10px] font-bold border ${status.badgeClass.replace('text-', 'border-').replace('bg-', 'bg-opacity-20 ')}`}>
+                                                        <X className="w-3 h-3" />
+                                                        {formatTime(cancel.start_time)}
                                                     </div>
                                                 );
                                             })}
 
-                                        {calendarDate.schedules.length +
-                                            calendarDate.cancellations.length >
-                                            2 && (
-                                            <div className="text-xs text-primary-500 font-medium">
-                                                +
-                                                {calendarDate.schedules.length +
-                                                    calendarDate.cancellations
-                                                        .length -
-                                                    2}{" "}
-                                                more
-                                            </div>
-                                        )}
+                                            {(calendarDate.schedules.length + calendarDate.cancellations.length) > 2 && (
+                                                <div className="text-[10px] font-bold text-neutral-400 pl-1">
+                                                    +{calendarDate.schedules.length + calendarDate.cancellations.length - 2} more
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
 
-                <div className="space-y-4">
-                    <div className="bg-white border border-neutral-200 rounded-lg shadow-sm">
-                        <div className="p-4 border-b border-neutral-200">
-                            <h3 className="text-lg font-semibold text-neutral-900 flex items-center">
-                                <Calendar className="h-5 w-5 mr-2" />
-                                Schedule Details
+                {/* Details Column */}
+                <div className="space-y-6">
+                    <div className="bg-white rounded-3xl shadow-sm border border-neutral-200 overflow-hidden h-full flex flex-col">
+                        <div className="p-6 border-b border-neutral-100 bg-gradient-to-br from-white to-neutral-50">
+                            <h3 className="text-lg font-bold text-neutral-900 flex items-center gap-2">
+                                <Filter className="h-5 w-5 text-neutral-400" />
+                                Selected Date Details
                             </h3>
                         </div>
 
-                        <div className="p-4">
+                        <div className="p-6 flex-1 overflow-y-auto min-h-[400px]">
                             {selectedDate ? (
-                                <div>
-                                    <div className="mb-4">
-                                        <h4 className="font-medium text-neutral-900 mb-2">
-                                            {selectedDate.toLocaleDateString(
-                                                "en-US",
-                                                {
-                                                    weekday: "long",
-                                                    year: "numeric",
-                                                    month: "long",
-                                                    day: "numeric",
-                                                },
-                                            )}
+                                <div className="space-y-6">
+                                    <div className="flex items-center justify-between">
+                                        <h4 className="text-2xl font-bold text-neutral-900">
+                                            {selectedDate.toLocaleDateString("en-US", { weekday: "long", day: "numeric" })}
+                                            <span className="block text-sm font-medium text-neutral-500 mt-1">
+                                                {selectedDate.toLocaleDateString("en-US", { month: "long", year: "numeric" })}
+                                            </span>
                                         </h4>
                                         {canCancelBasedOnDate(selectedDate) && (
                                             <button
                                                 onClick={handleCancelEntireDay}
-                                                className="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium flex items-center justify-center"
+                                                className="px-4 py-2 bg-red-50 text-red-600 rounded-xl hover:bg-red-100 transition-colors text-xs font-bold border border-red-100"
                                             >
-                                                <X className="h-4 w-4 mr-2" />
-                                                Cancel Entire Day
+                                                Cancel All
                                             </button>
                                         )}
                                     </div>
 
-                                    {calendarDates
-                                        .find(
-                                            (cd) =>
-                                                cd.date.toDateString() ===
-                                                selectedDate.toDateString(),
-                                        )
-                                        ?.schedules.map((schedule) => {
-                                            const selectedDateFormatted =
-                                                formatDateForAPI(selectedDate);
-                                            const existingCancellation =
-                                                cancellations.find(
-                                                    (cancellation) =>
-                                                        cancellation.schedule_id ===
-                                                            schedule.id &&
-                                                        cancellation.date ===
-                                                            selectedDateFormatted,
-                                                );
-
-                                            const hasExistingCancellation =
-                                                !!existingCancellation;
-                                            const isDateTooSoon =
-                                                !canCancelBasedOnDate(
-                                                    selectedDate,
-                                                );
-                                            const canCancel =
-                                                !hasExistingCancellation &&
-                                                !isDateTooSoon;
-                                            const cancellationStatus =
-                                                existingCancellation
-                                                    ? getCancellationStatusInfo(
-                                                          existingCancellation.status,
-                                                      )
-                                                    : null;
+                                    {/* Slots List */}
+                                    <div className="space-y-4">
+                                        {calendarDates.find(cd => cd.date.toDateString() === selectedDate.toDateString())?.schedules.map((schedule) => {
+                                            const formattedDate = formatDateForAPI(selectedDate);
+                                            const cancellation = cancellations.find(c => c.schedule_id === schedule.id && c.date === formattedDate);
+                                            const status = cancellation ? getCancellationStatusInfo(cancellation.status) : null;
+                                            const isCancellable = !cancellation && canCancelBasedOnDate(selectedDate);
 
                                             return (
-                                                <div
-                                                    key={schedule.id}
-                                                    className="mb-4 p-3 bg-neutral-50 rounded-lg"
-                                                >
-                                                    <div className="flex items-start justify-between mb-2">
-                                                        <div className="flex items-center text-sm text-neutral-600">
-                                                            <Clock className="h-4 w-4 mr-1" />
-                                                            {formatTime(
-                                                                schedule.start_time,
-                                                            )}
+                                                <div key={schedule.id} className="group p-4 bg-white border border-neutral-200 rounded-2xl hover:border-emerald-200 hover:shadow-sm transition-all relative">
+                                                    <div className="flex justify-between items-start mb-3">
+                                                        <div className="flex items-center gap-2">
+                                                            <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 font-bold text-xs border border-emerald-100">
+                                                                {schedule.start_time.substring(0, 5)}
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-sm font-bold text-neutral-900">{schedule.branch_center_name}</p>
+                                                                <p className="text-xs text-neutral-500">Max {schedule.max_patients} Patients</p>
+                                                            </div>
                                                         </div>
-                                                        {canCancel ? (
-                                                            <button
-                                                                onClick={() =>
-                                                                    handleCancelSchedule(
-                                                                        schedule,
-                                                                    )
-                                                                }
-                                                                className="text-xs text-error-600 hover:text-red-800 font-medium px-2 py-1 rounded hover:bg-error-50 transition-colors"
-                                                            >
-                                                                Cancel
-                                                            </button>
-                                                        ) : hasExistingCancellation ? (
-                                                            <div className="flex items-center">
-                                                                <span
-                                                                    className={`text-xs ${cancellationStatus?.textColor} px-2 py-1 rounded border bg-white flex items-center`}
-                                                                >
-                                                                    {cancellationStatus && (
-                                                                        <cancellationStatus.icon className="h-3 w-3 mr-1" />
-                                                                    )}
-                                                                    {
-                                                                        cancellationStatus?.text
-                                                                    }
-                                                                </span>
-                                                            </div>
-                                                        ) : isDateTooSoon ? (
-                                                            <div className="flex items-center">
-                                                                <span
-                                                                    className="text-xs text-neutral-500 px-2 py-1 rounded border bg-neutral-100 flex items-center cursor-not-allowed"
-                                                                    title="Cancellation must be requested at least one day in advance"
-                                                                >
-                                                                    <AlertTriangle className="h-3 w-3 mr-1" />
-                                                                    Too Late
-                                                                </span>
-                                                            </div>
-                                                        ) : null}
-                                                    </div>
 
-                                                    <div className="space-y-1 text-sm">
-                                                        <div className="flex items-center text-neutral-700">
-                                                            <MapPin className="h-4 w-4 mr-1" />
-                                                            {
-                                                                schedule.branch_center_name
-                                                            }
-                                                        </div>
-                                                        <div className="flex items-center text-neutral-700">
-                                                            <Users className="h-4 w-4 mr-1" />
-                                                            Max{" "}
-                                                            {
-                                                                schedule.max_patients
-                                                            }{" "}
-                                                            patients
-                                                        </div>
-                                                        {existingCancellation && (
-                                                            <div className="text-neutral-600 text-xs mt-2 p-2 bg-neutral-100 rounded">
-                                                                <strong>
-                                                                    Cancellation
-                                                                    Status:
-                                                                </strong>{" "}
-                                                                {
-                                                                    cancellationStatus?.text
-                                                                }
-                                                                <br />
-                                                                <strong>
-                                                                    Reason:
-                                                                </strong>{" "}
-                                                                {
-                                                                    existingCancellation.reason
-                                                                }
-                                                            </div>
+                                                        {status && (
+                                                            <span className={`px-2 py-1 rounded-lg text-[10px] font-bold flex items-center gap-1 ${status.badgeClass}`}>
+                                                                <status.icon className="w-3 h-3" />
+                                                                {status.text}
+                                                            </span>
                                                         )}
-                                                        {isDateTooSoon &&
-                                                            !hasExistingCancellation && (
-                                                                <div className="text-neutral-500 text-xs mt-2 p-2 bg-yellow-50 border border-yellow-200 rounded">
-                                                                    <strong>
-                                                                        Notice:
-                                                                    </strong>{" "}
-                                                                    You can only
-                                                                    cancel future
-                                                                    dates.
-                                                                </div>
-                                                            )}
                                                     </div>
+
+                                                    {!cancellation && (
+                                                        <div className="flex items-center justify-between mt-3 pt-3 border-t border-neutral-100">
+                                                            <div className="flex items-center gap-2 text-xs text-neutral-500">
+                                                                <MapPin className="w-3 h-3" />
+                                                                Clinic Room 204
+                                                            </div>
+                                                            {isCancellable && (
+                                                                <button
+                                                                    onClick={() => handleCancelSchedule(schedule)}
+                                                                    className="text-xs font-bold text-red-500 hover:text-red-700 hover:bg-red-50 px-3 py-1.5 rounded-lg transition-colors"
+                                                                >
+                                                                    Request Cancel
+                                                                </button>
+                                                            )}
+                                                        </div>
+                                                    )}
+
+                                                    {cancellation && (
+                                                        <div className="mt-3 p-3 bg-neutral-50 rounded-xl text-xs space-y-1">
+                                                            <p className="font-bold text-neutral-700">Cancellation Request:</p>
+                                                            <p className="text-neutral-500 italic">"{cancellation.reason}"</p>
+                                                            {cancellation.reject_reason && (
+                                                                <p className="text-red-600 mt-1">Admin Note: {cancellation.reject_reason}</p>
+                                                            )}
+                                                        </div>
+                                                    )}
                                                 </div>
                                             );
                                         })}
 
-                                    {calendarDates
-                                        .find(
-                                            (cd) =>
-                                                cd.date.toDateString() ===
-                                                selectedDate.toDateString(),
-                                        )
-                                        ?.cancellations.map((cancellation) => {
-                                            const statusInfo =
-                                                getCancellationStatusInfo(
-                                                    cancellation.status,
-                                                );
-                                            const StatusIcon = statusInfo.icon;
-
-                                            return (
-                                                <div
-                                                    key={`cancel-detail-${cancellation.id}`}
-                                                    className="mb-4 p-3 bg-error-50 border border-red-200 rounded-lg"
-                                                >
-                                                    <div className="flex items-start justify-between mb-2">
-                                                        <div className="flex items-center text-sm text-neutral-600">
-                                                            <Clock className="h-4 w-4 mr-1" />
-                                                            {formatTime(
-                                                                cancellation.start_time,
-                                                            )}{" "}
-                                                            (Cancelled)
-                                                        </div>
-                                                        <div
-                                                            className={`flex items-center text-xs ${statusInfo.textColor} px-2 py-1 rounded-full bg-white border`}
-                                                        >
-                                                            <StatusIcon className="h-3 w-3 mr-1" />
-                                                            {statusInfo.text}
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="space-y-1 text-sm">
-                                                        <div className="flex items-center text-neutral-700">
-                                                            <MapPin className="h-4 w-4 mr-1" />
-                                                            {
-                                                                cancellation.center_name
-                                                            }
-                                                        </div>
-                                                        <div className="flex items-center text-neutral-700">
-                                                            <Users className="h-4 w-4 mr-1" />
-                                                            Max{" "}
-                                                            {
-                                                                cancellation.max_patients
-                                                            }{" "}
-                                                            patients
-                                                        </div>
-                                                        {cancellation.status ===
-                                                            2 &&
-                                                            cancellation.reject_reason && (
-                                                                <div className="text-error-600">
-                                                                    <strong>
-                                                                        Reject
-                                                                        Reason:
-                                                                    </strong>{" "}
-                                                                    {
-                                                                        cancellation.reject_reason
-                                                                    }
-                                                                </div>
-                                                            )}
-                                                    </div>
+                                        {calendarDates.find(cd => cd.date.toDateString() === selectedDate.toDateString())?.schedules.length === 0 && (
+                                            <div className="text-center py-12">
+                                                <div className="w-16 h-16 bg-neutral-50 rounded-full flex items-center justify-center mx-auto mb-3 text-neutral-300">
+                                                    <Calendar className="w-8 h-8" />
                                                 </div>
-                                            );
-                                        })}
+                                                <p className="text-neutral-900 font-medium">No schedules</p>
+                                                <p className="text-neutral-500 text-sm">No slots found for this date.</p>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             ) : (
-                                <div className="text-center py-8">
-                                    <Calendar className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-                                    <p className="text-neutral-500 text-sm">
-                                        {schedules.length > 0 ||
-                                        cancellations.length > 0
-                                            ? "Select a date with schedules to view details"
-                                            : "No schedules found for this doctor"}
-                                    </p>
+                                <div className="h-full flex flex-col items-center justify-center text-center p-6 text-neutral-400">
+                                    <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mb-6 animate-pulse">
+                                        <Calendar className="w-10 h-10 text-emerald-300" />
+                                    </div>
+                                    <h4 className="text-lg font-bold text-neutral-900 mb-2">Select a Date</h4>
+                                    <p className="text-sm max-w-[200px]">Click on any date in the calendar to view or manage schedule details.</p>
                                 </div>
                             )}
-                        </div>
-                    </div>
-
-                    <div className="bg-white border border-neutral-200 rounded-lg shadow-sm p-4">
-                        <h4 className="font-medium text-neutral-900 mb-3">
-                            Schedule Summary
-                        </h4>
-                        <div className="space-y-2 text-sm">
-                            <div className="flex justify-between">
-                                <span>Total Schedules:</span>
-                                <span className="font-medium">
-                                    {schedules.length}
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span>Total Cancellations:</span>
-                                <span className="font-medium">
-                                    {cancellations.length}
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span>Pending Cancellations:</span>
-                                <span className="font-medium text-yellow-600">
-                                    {
-                                        cancellations.filter(
-                                            (c) => c.status === 0,
-                                        ).length
-                                    }
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span>Approved Cancellations:</span>
-                                <span className="font-medium text-green-600">
-                                    {
-                                        cancellations.filter(
-                                            (c) => c.status === 1,
-                                        ).length
-                                    }
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span>Rejected Cancellations:</span>
-                                <span className="font-medium text-error-600">
-                                    {
-                                        cancellations.filter(
-                                            (c) => c.status === 2,
-                                        ).length
-                                    }
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span>This Month:</span>
-                                <span className="font-medium">
-                                    {
-                                        calendarDates.filter(
-                                            (cd) =>
-                                                cd.isCurrentMonth &&
-                                                (cd.schedules.length > 0 ||
-                                                    cd.cancellations.length >
-                                                        0),
-                                        ).length
-                                    }{" "}
-                                    days
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span>Branches:</span>
-                                <span className="font-medium">
-                                    {
-                                        new Set([
-                                            ...schedules.map(
-                                                (s) => s.branch_center_name,
-                                            ),
-                                            ...cancellations.map(
-                                                (c) => c.center_name,
-                                            ),
-                                        ]).size
-                                    }
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="bg-white border border-neutral-200 rounded-lg shadow-sm p-4">
-                        <h4 className="font-medium text-neutral-900 mb-3">
-                            Legend
-                        </h4>
-                        <div className="space-y-2 text-sm">
-                            <div className="flex items-center">
-                                <div className="w-4 h-4 bg-blue-100 rounded mr-2"></div>
-                                <span>Today</span>
-                            </div>
-                            <div className="flex items-center">
-                                <div className="w-4 h-4 bg-primary-500 rounded mr-2"></div>
-                                <span>Active appointment</span>
-                            </div>
-                            <div className="flex items-center">
-                                <div className="w-4 h-4 bg-yellow-500 rounded mr-2"></div>
-                                <span>Pending cancellation</span>
-                            </div>
-                            <div className="flex items-center">
-                                <div className="w-4 h-4 bg-green-500 rounded mr-2"></div>
-                                <span>Approved cancellation</span>
-                            </div>
-                            <div className="flex items-center">
-                                <div className="w-4 h-4 bg-error-500 rounded mr-2"></div>
-                                <span>Rejected cancellation</span>
-                            </div>
-                            <div className="flex items-center">
-                                <div className="w-4 h-4 bg-neutral-300 rounded mr-2"></div>
-                                <span>Past date (cannot cancel)</span>
-                            </div>
-                            <div className="flex items-center">
-                                <div className="w-4 h-4 ring-2 ring-blue-500 rounded mr-2"></div>
-                                <span>Selected date</span>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <CancelModal
-                isOpen={showCancelModal}
-                onClose={() => {
-                    setShowCancelModal(false);
-                    setScheduleToCancel(null);
-                    setIsCancelingEntireDay(false);
-                }}
-                onConfirm={
-                    isCancelingEntireDay
-                        ? confirmCancelEntireDay
-                        : confirmCancelSchedule
-                }
-                schedule={scheduleToCancel}
-                selectedDate={selectedDate}
-                isLoading={cancelLoading}
-                isCancelingEntireDay={isCancelingEntireDay}
-                schedulesCount={
-                    selectedDate
-                        ? calendarDates.find(
-                              (cd) =>
-                                  cd.date.toDateString() ===
-                                  selectedDate.toDateString(),
-                          )?.schedules.length || 0
-                        : 0
-                }
-            />
+            {/* Cancel Modal Integration */}
+            {showCancelModal && (
+                <CancelModal
+                    isOpen={showCancelModal}
+                    onClose={() => {
+                        setShowCancelModal(false);
+                        setScheduleToCancel(null);
+                        setIsCancelingEntireDay(false);
+                    }}
+                    onConfirm={isCancelingEntireDay ? confirmCancelEntireDay : confirmCancelSchedule}
+                    isLoading={cancelLoading}
+                    schedule={scheduleToCancel}
+                    selectedDate={selectedDate}
+                />
+            )}
         </div>
     );
 };

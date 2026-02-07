@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {
     Users, Search, Filter, Eye, Bed, AlertTriangle,
-    Heart, Activity, User, Calendar,
-    FileText, RefreshCw, Loader2, AlertCircle
+    Heart, Activity, User, Calendar, RefreshCw, Loader2,
+    AlertCircle, Stethoscope, Thermometer, Droplets, FileText, X
 } from 'lucide-react';
 import { nurseService } from '../../../services/nurseService';
 import { useNavigate } from 'react-router-dom';
@@ -105,22 +105,22 @@ export const NursePatients: React.FC = () => {
         fetchWards();
     }, [filterWard]);
 
-    // Loading component
-    const LoadingSpinner = () => (
-        <div className="flex flex-col items-center justify-center py-12">
-            <Loader2 className="w-12 h-12 text-primary-500 animate-spin mb-4" />
-            <p className="text-neutral-600">Loading patients...</p>
-        </div>
-    );
-
     const getConditionBadge = (condition: string) => {
         const styles = {
-            'critical': 'bg-error-100 text-red-800 border-red-300',
-            'observation': 'bg-yellow-100 text-yellow-800 border-yellow-300',
-            'stable': 'bg-green-100 text-green-800 border-green-300'
+            'critical': 'bg-red-100 text-red-700 border-red-200',
+            'observation': 'bg-amber-100 text-amber-700 border-amber-200',
+            'stable': 'bg-emerald-100 text-emerald-700 border-emerald-200'
         };
+        const icons = {
+            'critical': <AlertTriangle className="w-3 h-3" />,
+            'observation': <Eye className="w-3 h-3" />,
+            'stable': <Heart className="w-3 h-3" />
+        };
+        const key = condition as keyof typeof styles;
+
         return (
-            <span className={`px-3 py-1 rounded-full text-xs font-medium border ${styles[condition as keyof typeof styles]}`}>
+            <span className={`px-2.5 py-1 rounded-full text-xs font-bold border flex items-center gap-1.5 ${styles[key] || styles['stable']}`}>
+                {icons[key]}
                 {condition.toUpperCase()}
             </span>
         );
@@ -128,315 +128,389 @@ export const NursePatients: React.FC = () => {
 
     const filteredPatients = patients.filter(p => {
         const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                             p.bed_number.toLowerCase().includes(searchQuery.toLowerCase());
+            p.bed_number.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesCondition = filterCondition === 'all' || p.condition === filterCondition;
         return matchesSearch && matchesCondition;
     });
 
     return (
-        <div className="p-6 space-y-6 bg-neutral-50 min-h-screen sm:ml-64 mt-16">
-            <div>
-                {/* Header */}
-                <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
-                    <div>
-                        <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2">
-                            <Users className="w-7 h-7 text-teal-600" />
-                            My Patients
-                        </h1>
-                        <p className="text-neutral-600">Manage and monitor patients under your care</p>
-                    </div>
-                    <button
-                        onClick={fetchPatients}
-                        className="p-2 bg-teal-100 rounded-lg hover:bg-teal-200"
-                        title="Refresh"
-                    >
-                        <RefreshCw className={`w-5 h-5 text-teal-600 ${loading ? 'animate-spin' : ''}`} />
-                    </button>
+        <div className="p-6 md:p-8 space-y-8 bg-neutral-50/50 min-h-screen font-sans">
+            {/* Header */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-3">
+                        <div className="p-2 bg-white rounded-lg border border-neutral-200 shadow-sm">
+                            <Users className="w-6 h-6 text-emerald-600" />
+                        </div>
+                        My Patients
+                    </h1>
+                    <p className="text-neutral-500 mt-1 ml-12">Manage and monitor patients under your care</p>
                 </div>
+                <button
+                    onClick={fetchPatients}
+                    className="flex items-center gap-2 px-4 py-2 bg-white border border-neutral-200 rounded-xl text-neutral-600 hover:bg-neutral-50 hover:text-emerald-600 transition-colors shadow-sm"
+                >
+                    <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+                    <span className="font-medium">Refresh Data</span>
+                </button>
+            </div>
 
-                {error && (
-                    <div className="mb-6 bg-error-50 border border-red-200 rounded-lg p-4 flex items-center gap-3">
-                        <AlertCircle className="w-5 h-5 text-error-600" />
-                        <span className="text-red-800">{error}</span>
-                    </div>
-                )}
-
-                {/* Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-teal-500">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm text-neutral-600">Total Patients</p>
-                                <p className="text-2xl font-bold text-neutral-900">{patients.length}</p>
-                            </div>
-                            <Users className="w-10 h-10 text-teal-500" />
-                        </div>
-                    </div>
-                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-error-500">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm text-neutral-600">Critical</p>
-                                <p className="text-2xl font-bold text-neutral-900">
-                                    {patients.filter(p => p.condition === 'critical').length}
-                                </p>
-                            </div>
-                            <AlertTriangle className="w-10 h-10 text-error-500" />
-                        </div>
-                    </div>
-                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-yellow-500">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm text-neutral-600">Under Observation</p>
-                                <p className="text-2xl font-bold text-neutral-900">
-                                    {patients.filter(p => p.condition === 'observation').length}
-                                </p>
-                            </div>
-                            <Activity className="w-10 h-10 text-yellow-500" />
-                        </div>
-                    </div>
-                    <div className="bg-white rounded-lg shadow p-4 border-l-4 border-green-500">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-sm text-neutral-600">Stable</p>
-                                <p className="text-2xl font-bold text-neutral-900">
-                                    {patients.filter(p => p.condition === 'stable').length}
-                                </p>
-                            </div>
-                            <Heart className="w-10 h-10 text-green-500" />
-                        </div>
-                    </div>
+            {error && (
+                <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-center gap-3 text-red-800 animate-in slide-in-from-top-2">
+                    <AlertCircle className="w-5 h-5 shrink-0" />
+                    <span className="font-medium">{error}</span>
                 </div>
+            )}
 
-                {/* Filters */}
-                <div className="bg-white rounded-lg shadow p-4 mb-6">
-                    <div className="flex flex-wrap items-center gap-4">
-                        <div className="relative flex-1 min-w-[200px] max-w-md">
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400" />
-                            <input
-                                type="text"
-                                placeholder="Search by name or bed number..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
-                            />
+            {/* Stats Overview */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {[
+                    { label: 'Total Patients', value: patients.length, icon: Users, color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-100' },
+                    { label: 'Critical Condition', value: patients.filter(p => p.condition === 'critical').length, icon: AlertTriangle, color: 'text-red-600', bg: 'bg-red-50', border: 'border-red-100' },
+                    { label: 'Under Observation', value: patients.filter(p => p.condition === 'observation').length, icon: Eye, color: 'text-amber-600', bg: 'bg-amber-50', border: 'border-amber-100' },
+                    { label: 'Stable', value: patients.filter(p => p.condition === 'stable').length, icon: Heart, color: 'text-emerald-600', bg: 'bg-emerald-50', border: 'border-emerald-100' }
+                ].map((stat, idx) => (
+                    <div key={idx} className="bg-white rounded-2xl p-4 border border-neutral-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="flex items-start justify-between mb-2">
+                            <div className={`p-2 rounded-xl ${stat.bg} ${stat.color}`}>
+                                <stat.icon className="w-5 h-5" />
+                            </div>
+                            <span className={`text-2xl font-bold ${stat.color}`}>{stat.value}</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <Filter className="w-5 h-5 text-neutral-400" />
-                            <select
-                                value={filterCondition}
-                                onChange={(e) => setFilterCondition(e.target.value)}
-                                className="px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
-                            >
-                                <option value="all">All Conditions</option>
-                                <option value="critical">Critical</option>
-                                <option value="observation">Observation</option>
-                                <option value="stable">Stable</option>
-                            </select>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <Bed className="w-5 h-5 text-neutral-400" />
-                            <select
-                                value={filterWard}
-                                onChange={(e) => setFilterWard(e.target.value)}
-                                className="px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500"
-                            >
-                                <option value="all">All Wards</option>
-                                {wards.map((ward) => (
-                                    <option key={ward} value={ward}>{ward}</option>
-                                ))}
-                            </select>
-                        </div>
+                        <p className="text-sm font-medium text-neutral-600 ml-1">{stat.label}</p>
+                    </div>
+                ))}
+            </div>
+
+            {/* Filters & Search */}
+            <div className="bg-white rounded-2xl border border-neutral-200 shadow-sm p-4 flex flex-col md:flex-row gap-4 items-center">
+                <div className="relative flex-1 w-full md:w-auto">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-neutral-400" />
+                    <input
+                        type="text"
+                        placeholder="Search by name or bed number..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full pl-10 pr-4 py-2.5 border border-neutral-200 rounded-xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm"
+                    />
+                </div>
+                <div className="flex gap-3 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
+                    <div className="flex items-center gap-2 px-3 py-2.5 border border-neutral-200 rounded-xl bg-neutral-50/50 min-w-[140px]">
+                        <Filter className="w-4 h-4 text-neutral-500" />
+                        <select
+                            value={filterCondition}
+                            onChange={(e) => setFilterCondition(e.target.value)}
+                            className="bg-transparent border-none text-sm font-medium text-neutral-700 focus:ring-0 w-full cursor-pointer"
+                        >
+                            <option value="all">All Conditions</option>
+                            <option value="critical">Critical</option>
+                            <option value="observation">Observation</option>
+                            <option value="stable">Stable</option>
+                        </select>
+                    </div>
+                    <div className="flex items-center gap-2 px-3 py-2.5 border border-neutral-200 rounded-xl bg-neutral-50/50 min-w-[140px]">
+                        <Bed className="w-4 h-4 text-neutral-500" />
+                        <select
+                            value={filterWard}
+                            onChange={(e) => setFilterWard(e.target.value)}
+                            className="bg-transparent border-none text-sm font-medium text-neutral-700 focus:ring-0 w-full cursor-pointer"
+                        >
+                            <option value="all">All Wards</option>
+                            {wards.map((ward) => (
+                                <option key={ward} value={ward}>{ward}</option>
+                            ))}
+                        </select>
                     </div>
                 </div>
+            </div>
 
-                {loading ? (
-                    <LoadingSpinner />
-                ) : patients.length === 0 ? (
-                    <div className="bg-white rounded-lg shadow p-12 text-center">
-                        <Users className="w-16 h-16 mx-auto text-gray-300 mb-4" />
-                        <p className="text-neutral-500 text-lg">No patients found</p>
-                        <p className="text-neutral-400 text-sm mt-2">Patients assigned to you will appear here</p>
+            {/* Content Area */}
+            {loading ? (
+                <div className="flex flex-col items-center justify-center py-24">
+                    <Loader2 className="w-10 h-10 text-emerald-500 animate-spin mb-4" />
+                    <p className="text-neutral-500 font-medium">Loading patient records...</p>
+                </div>
+            ) : filteredPatients.length === 0 ? (
+                <div className="bg-white rounded-2xl border border-neutral-200 shadow-sm p-16 text-center">
+                    <div className="w-16 h-16 bg-neutral-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Users className="w-8 h-8 text-neutral-300" />
                     </div>
-                ) : (
-                    /* Patients Grid */
-                    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                        {filteredPatients.map((patient) => (
-                        <div key={patient.id} className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow">
-                            <div className="p-4 border-b">
-                                <div className="flex items-start justify-between mb-3">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                                            <User className="w-6 h-6 text-primary-500" />
+                    <h3 className="text-lg font-bold text-neutral-900 mb-1">No patients found</h3>
+                    <p className="text-neutral-500">
+                        {searchQuery || filterCondition !== 'all' ? 'Try adjusting your search or filters' : 'You have no assigned patients currently'}
+                    </p>
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {filteredPatients.map((patient) => (
+                        <div key={patient.id} className="bg-white rounded-2xl border border-neutral-200 shadow-sm hover:shadow-lg hover:border-emerald-200 transition-all duration-300 group flex flex-col">
+                            <div className="p-5 border-b border-neutral-100">
+                                <div className="flex items-start justify-between mb-4">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-12 h-12 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-full flex items-center justify-center border border-indigo-100 text-indigo-600 font-bold text-lg shadow-sm">
+                                            {patient.name.charAt(0)}
                                         </div>
                                         <div>
-                                            <h3 className="font-semibold text-neutral-900">{patient.name}</h3>
-                                            <p className="text-sm text-neutral-500">{patient.age}y • {patient.gender}</p>
+                                            <h3 className="font-bold text-neutral-900 group-hover:text-emerald-700 transition-colors line-clamp-1">{patient.name}</h3>
+                                            <p className="text-xs font-medium text-neutral-500">{patient.age} years • {patient.gender}</p>
                                         </div>
                                     </div>
                                     {patient.alerts > 0 && (
-                                        <span className="flex items-center gap-1 px-2 py-1 bg-error-100 text-red-800 rounded-full text-xs">
+                                        <span className="flex items-center gap-1 px-2.5 py-1 bg-red-100 text-red-700 rounded-full text-xs font-bold border border-red-200 animate-pulse">
                                             <AlertTriangle className="w-3 h-3" />
                                             {patient.alerts}
                                         </span>
                                     )}
                                 </div>
+
                                 <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-2 text-sm text-neutral-600">
-                                        <Bed className="w-4 h-4" />
-                                        <span className="font-medium">{patient.bed_number}</span>
+                                    <div className="flex items-center gap-2 bg-neutral-50 px-3 py-1.5 rounded-lg border border-neutral-100">
+                                        <Bed className="w-4 h-4 text-neutral-400" />
+                                        <span className="text-sm font-semibold text-neutral-700">{patient.bed_number}</span>
                                     </div>
                                     {getConditionBadge(patient.condition)}
                                 </div>
                             </div>
 
-                            <div className="p-4 space-y-3">
+                            <div className="p-5 space-y-4 flex-1">
                                 <div>
-                                    <p className="text-xs text-neutral-500 mb-1">Diagnosis</p>
-                                    <p className="text-sm text-neutral-900">{patient.diagnosis}</p>
-                                </div>
-                                <div className="flex items-center gap-2 text-sm text-neutral-600">
-                                    <User className="w-4 h-4" />
-                                    <span>{patient.doctor}</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-sm text-neutral-600">
-                                    <Calendar className="w-4 h-4" />
-                                    <span>Admitted: {new Date(patient.admission_date).toLocaleDateString()}</span>
+                                    <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-1.5">Primary Diagnosis</p>
+                                    <p className="text-sm font-medium text-neutral-800 line-clamp-2">{patient.diagnosis}</p>
                                 </div>
 
-                                {/* Vital Signs Summary */}
-                                <div className="pt-3 border-t">
-                                    <p className="text-xs text-neutral-500 mb-2">Last Vitals ({patient.last_vitals.time})</p>
-                                    <div className="grid grid-cols-2 gap-2 text-sm">
-                                        <div className="flex items-center gap-1">
-                                            <Activity className="w-3 h-3 text-neutral-400" />
-                                            <span className="text-neutral-600">BP: {patient.last_vitals.bp}</span>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <p className="text-xs text-neutral-400 mb-1">Doctor</p>
+                                        <div className="flex items-center gap-1.5 text-sm text-neutral-700">
+                                            <Stethoscope className="w-3.5 h-3.5 text-indigo-500" />
+                                            <span className="truncate">{patient.doctor}</span>
                                         </div>
-                                        <div className="flex items-center gap-1">
-                                            <Heart className="w-3 h-3 text-neutral-400" />
-                                            <span className="text-neutral-600">HR: {patient.last_vitals.pulse}</span>
+                                    </div>
+                                    <div>
+                                        <p className="text-xs text-neutral-400 mb-1">Admitted</p>
+                                        <div className="flex items-center gap-1.5 text-sm text-neutral-700">
+                                            <Calendar className="w-3.5 h-3.5 text-indigo-500" />
+                                            <span>{new Date(patient.admission_date).toLocaleDateString()}</span>
                                         </div>
-                                        <div className="flex items-center gap-1">
-                                            <Activity className="w-3 h-3 text-neutral-400" />
-                                            <span className="text-neutral-600">SpO2: {patient.last_vitals.spo2}</span>
+                                    </div>
+                                </div>
+
+                                {/* Mini Vitals */}
+                                <div className="pt-3 border-t border-neutral-100">
+                                    <div className="flex justify-between items-center mb-2">
+                                        <p className="text-xs font-semibold text-neutral-400 uppercase">Latest Vitals</p>
+                                        <span className="text-[10px] text-neutral-400 bg-neutral-50 px-2 py-0.5 rounded-full">{patient.last_vitals.time}</span>
+                                    </div>
+                                    <div className="grid grid-cols-4 gap-2 text-center">
+                                        <div className="bg-rose-50 rounded-lg p-1.5">
+                                            <Heart className="w-3 h-3 text-rose-500 mx-auto mb-1" />
+                                            <span className="text-xs font-bold text-rose-700">{patient.last_vitals.pulse}</span>
                                         </div>
-                                        <div className="flex items-center gap-1">
-                                            <Activity className="w-3 h-3 text-neutral-400" />
-                                            <span className="text-neutral-600">Temp: {patient.last_vitals.temperature}</span>
+                                        <div className="bg-sky-50 rounded-lg p-1.5">
+                                            <Activity className="w-3 h-3 text-sky-500 mx-auto mb-1" />
+                                            <span className="text-xs font-bold text-sky-700">{patient.last_vitals.bp}</span>
+                                        </div>
+                                        <div className="bg-teal-50 rounded-lg p-1.5">
+                                            <Droplets className="w-3 h-3 text-teal-500 mx-auto mb-1" />
+                                            <span className="text-xs font-bold text-teal-700">{patient.last_vitals.spo2}</span>
+                                        </div>
+                                        <div className="bg-amber-50 rounded-lg p-1.5">
+                                            <Thermometer className="w-3 h-3 text-amber-500 mx-auto mb-1" />
+                                            <span className="text-xs font-bold text-amber-700">{patient.last_vitals.temperature}</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="p-4 border-t flex items-center gap-2">
+                            <div className="p-4 border-t border-neutral-100 bg-neutral-50/50 rounded-b-2xl flex gap-2">
                                 <button
                                     onClick={() => setSelectedPatient(patient)}
-                                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
+                                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-neutral-900 text-white text-sm font-medium rounded-xl hover:bg-neutral-800 transition-colors shadow-lg shadow-neutral-200"
                                 >
                                     <Eye className="w-4 h-4" />
-                                    View Details
+                                    Details
                                 </button>
-                                <button 
+                                <button
                                     onClick={() => navigate('/nurse-dashboard/vital-signs')}
-                                    className="p-2 border border-neutral-300 rounded-lg hover:bg-neutral-50"
-                                    title="Record Vital Signs"
+                                    className="p-2 bg-white border border-neutral-200 rounded-xl hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-600 transition-all text-neutral-600 shadow-sm"
+                                    title="Record Vitals"
                                 >
-                                    <Heart className="w-5 h-5 text-neutral-600" />
+                                    <Activity className="w-4 h-4" />
                                 </button>
-                                <button className="p-2 border border-neutral-300 rounded-lg hover:bg-neutral-50" title="Patient Notes">
-                                    <FileText className="w-5 h-5 text-neutral-600" />
+                                <button className="p-2 bg-white border border-neutral-200 rounded-xl hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600 transition-all text-neutral-600 shadow-sm" title="Notes">
+                                    <FileText className="w-4 h-4" />
                                 </button>
                             </div>
                         </div>
                     ))}
-                    </div>
-                )}
+                </div>
+            )}
 
-                {/* Patient Detail Modal */}
-                {selectedPatient && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                        <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto">
-                            <div className="p-4 border-b flex items-center justify-between sticky top-0 bg-white">
-                                <h3 className="font-semibold text-neutral-900 flex items-center gap-2">
-                                    <User className="w-5 h-5 text-primary-500" />
-                                    Patient Details - {selectedPatient.name}
-                                </h3>
-                                <button
-                                    onClick={() => setSelectedPatient(null)}
-                                    className="text-neutral-400 hover:text-neutral-600 text-2xl"
-                                >
-                                    &times;
-                                </button>
-                            </div>
-                            <div className="p-6">
-                                <div className="grid grid-cols-2 gap-6 mb-6">
-                                    <div>
-                                        <label className="text-xs text-neutral-500 uppercase">Patient Name</label>
-                                        <p className="text-neutral-900 font-medium">{selectedPatient.name}</p>
-                                    </div>
-                                    <div>
-                                        <label className="text-xs text-neutral-500 uppercase">Bed Number</label>
-                                        <p className="text-neutral-900 font-medium">{selectedPatient.bed_number}</p>
-                                    </div>
-                                    <div>
-                                        <label className="text-xs text-neutral-500 uppercase">Age / Gender</label>
-                                        <p className="text-neutral-900">{selectedPatient.age} years • {selectedPatient.gender}</p>
-                                    </div>
-                                    <div>
-                                        <label className="text-xs text-neutral-500 uppercase">Condition</label>
-                                        <div className="mt-1">{getConditionBadge(selectedPatient.condition)}</div>
-                                    </div>
-                                    <div className="col-span-2">
-                                        <label className="text-xs text-neutral-500 uppercase">Diagnosis</label>
-                                        <p className="text-neutral-900">{selectedPatient.diagnosis}</p>
-                                    </div>
-                                    <div>
-                                        <label className="text-xs text-neutral-500 uppercase">Attending Doctor</label>
-                                        <p className="text-neutral-900">{selectedPatient.doctor}</p>
-                                    </div>
-                                    <div>
-                                        <label className="text-xs text-neutral-500 uppercase">Admission Date</label>
-                                        <p className="text-neutral-900">{new Date(selectedPatient.admission_date).toLocaleDateString()}</p>
-                                    </div>
+            {/* Premium Patient Detail Modal */}
+            {selectedPatient && (
+                <div className="fixed inset-0 bg-neutral-900/60 backdrop-blur-sm flex items-center justify-center z-[60] p-4 animate-in fade-in duration-200">
+                    <div className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
+                        {/* Modal Header */}
+                        <div className="p-6 border-b border-neutral-100 flex justify-between items-center bg-white shrink-0">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-600 border border-emerald-100">
+                                    <User className="w-6 h-6" />
                                 </div>
-
-                                <div className="border-t pt-4">
-                                    <h4 className="font-medium text-neutral-900 mb-3">Latest Vital Signs</h4>
-                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                        <div className="p-3 bg-blue-50 rounded-lg">
-                                            <p className="text-xs text-neutral-600 mb-1">Blood Pressure</p>
-                                            <p className="text-lg font-semibold text-neutral-900">{selectedPatient.last_vitals.bp}</p>
-                                        </div>
-                                        <div className="p-3 bg-error-50 rounded-lg">
-                                            <p className="text-xs text-neutral-600 mb-1">Heart Rate</p>
-                                            <p className="text-lg font-semibold text-neutral-900">{selectedPatient.last_vitals.pulse}</p>
-                                        </div>
-                                        <div className="p-3 bg-green-50 rounded-lg">
-                                            <p className="text-xs text-neutral-600 mb-1">SpO2</p>
-                                            <p className="text-lg font-semibold text-neutral-900">{selectedPatient.last_vitals.spo2}</p>
-                                        </div>
-                                        <div className="p-3 bg-yellow-50 rounded-lg">
-                                            <p className="text-xs text-neutral-600 mb-1">Temperature</p>
-                                            <p className="text-lg font-semibold text-neutral-900">{selectedPatient.last_vitals.temperature}</p>
-                                        </div>
-                                    </div>
-                                    <p className="text-xs text-neutral-500 mt-2">Recorded {selectedPatient.last_vitals.time}</p>
+                                <div>
+                                    <h2 className="text-xl font-bold text-neutral-900">{selectedPatient.name}</h2>
+                                    <p className="text-sm text-neutral-500">Patient ID: #{selectedPatient.id}</p>
                                 </div>
                             </div>
-                            <div className="p-4 border-t flex justify-end gap-3">
-                                <button
-                                    onClick={() => setSelectedPatient(null)}
-                                    className="px-4 py-2 text-neutral-600 border border-neutral-300 rounded-lg hover:bg-neutral-50"
-                                >
-                                    Close
-                                </button>
-                                <button className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600">
-                                    Update Vitals
-                                </button>
+                            <button
+                                onClick={() => setSelectedPatient(null)}
+                                className="p-2 hover:bg-neutral-100 rounded-full text-neutral-400 hover:text-neutral-600 transition-colors"
+                            >
+                                <X className="w-6 h-6" />
+                            </button>
+                        </div>
+
+                        {/* Modal Content */}
+                        <div className="flex-1 overflow-y-auto p-6 md:p-8 bg-neutral-50/30">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                                <div className="bg-white p-5 rounded-2xl border border-neutral-100 shadow-sm">
+                                    <p className="text-xs font-bold text-neutral-400 uppercase mb-2">Location</p>
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <Bed className="w-5 h-5 text-indigo-500" />
+                                        <span className="text-lg font-bold text-neutral-900">{selectedPatient.bed_number}</span>
+                                    </div>
+                                    <p className="text-sm text-neutral-500">Ward A-2</p>
+                                </div>
+                                <div className="bg-white p-5 rounded-2xl border border-neutral-100 shadow-sm">
+                                    <p className="text-xs font-bold text-neutral-400 uppercase mb-2">Status</p>
+                                    <div className="mb-1">
+                                        {getConditionBadge(selectedPatient.condition)}
+                                    </div>
+                                    <p className="text-sm text-neutral-500 mt-2">
+                                        {(selectedPatient.alerts || 0) > 0 ? `${selectedPatient.alerts} Active Alerts` : 'No Active Alerts'}
+                                    </p>
+                                </div>
+                                <div className="bg-white p-5 rounded-2xl border border-neutral-100 shadow-sm">
+                                    <p className="text-xs font-bold text-neutral-400 uppercase mb-2">Demographics</p>
+                                    <div className="flex items-baseline gap-2 mb-1">
+                                        <span className="text-lg font-bold text-neutral-900">{selectedPatient.age} Years</span>
+                                        <span className="text-sm text-neutral-500">{selectedPatient.gender}</span>
+                                    </div>
+                                    <p className="text-sm text-neutral-500 truncate">{selectedPatient.phone || 'No phone'}</p>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                                <div className="lg:col-span-2 space-y-6">
+                                    <section>
+                                        <h3 className="font-bold text-neutral-900 mb-4 flex items-center gap-2">
+                                            <Activity className="w-5 h-5 text-emerald-600" />
+                                            Clinical Information
+                                        </h3>
+                                        <div className="bg-white rounded-2xl border border-neutral-100 shadow-sm p-6 space-y-4">
+                                            <div>
+                                                <p className="text-xs font-bold text-neutral-400 uppercase mb-1">Primary Diagnosis</p>
+                                                <p className="text-neutral-900 font-medium leading-relaxed">{selectedPatient.diagnosis}</p>
+                                            </div>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-neutral-50">
+                                                <div>
+                                                    <p className="text-xs font-bold text-neutral-400 uppercase mb-1">Attending Doctor</p>
+                                                    <div className="flex items-center gap-2">
+                                                        <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 text-xs font-bold">DR</div>
+                                                        <p className="font-medium text-neutral-900">{selectedPatient.doctor}</p>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <p className="text-xs font-bold text-neutral-400 uppercase mb-1">Admission Date</p>
+                                                    <p className="font-medium text-neutral-900">{new Date(selectedPatient.admission_date).toLocaleDateString()}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <section>
+                                        <h3 className="font-bold text-neutral-900 mb-4 flex items-center gap-2">
+                                            <Heart className="w-5 h-5 text-rose-500" />
+                                            Latest Vitals
+                                            <span className="text-xs font-normal text-neutral-400 ml-auto">Recorded: {selectedPatient.last_vitals.time}</span>
+                                        </h3>
+                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                            <div className="bg-white p-4 rounded-2xl border border-neutral-200/60 shadow-sm text-center">
+                                                <p className="text-xs text-neutral-500 mb-1">Blood Pressure</p>
+                                                <p className="text-xl font-bold text-neutral-900">{selectedPatient.last_vitals.bp}</p>
+                                                <p className="text-[10px] text-neutral-400">mmHg</p>
+                                            </div>
+                                            <div className="bg-white p-4 rounded-2xl border border-neutral-200/60 shadow-sm text-center">
+                                                <p className="text-xs text-neutral-500 mb-1">Heart Rate</p>
+                                                <p className="text-xl font-bold text-neutral-900">{selectedPatient.last_vitals.pulse}</p>
+                                                <p className="text-[10px] text-neutral-400">bpm</p>
+                                            </div>
+                                            <div className="bg-white p-4 rounded-2xl border border-neutral-200/60 shadow-sm text-center">
+                                                <p className="text-xs text-neutral-500 mb-1">SpO2</p>
+                                                <p className="text-xl font-bold text-neutral-900">{selectedPatient.last_vitals.spo2}</p>
+                                                <p className="text-[10px] text-neutral-400">%</p>
+                                            </div>
+                                            <div className="bg-white p-4 rounded-2xl border border-neutral-200/60 shadow-sm text-center">
+                                                <p className="text-xs text-neutral-500 mb-1">Temperature</p>
+                                                <p className="text-xl font-bold text-neutral-900">{selectedPatient.last_vitals.temperature}</p>
+                                                <p className="text-[10px] text-neutral-400">°C</p>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+
+                                <div className="space-y-6">
+                                    <section>
+                                        <h3 className="font-bold text-neutral-900 mb-4 flex items-center gap-2">
+                                            <AlertCircle className="w-5 h-5 text-amber-500" />
+                                            Notes & alerts
+                                        </h3>
+                                        <div className="bg-amber-50 rounded-2xl p-5 border border-amber-100">
+                                            <p className="text-sm text-amber-900 leading-relaxed">
+                                                Patient requires hourly monitoring of blood pressure. Please report any spikes immediately to Dr. {selectedPatient.doctor.split(' ').pop()}.
+                                            </p>
+                                            <div className="mt-4 flex gap-2">
+                                                <span className="px-2 py-1 bg-white/50 rounded text-xs font-bold text-amber-800">Fall Risk</span>
+                                                <span className="px-2 py-1 bg-white/50 rounded text-xs font-bold text-amber-800">Allergy: Latex</span>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <div className="bg-neutral-900 rounded-2xl p-6 text-white relative overflow-hidden">
+                                        <div className="relative z-10">
+                                            <h4 className="font-bold text-lg mb-2">Quick Actions</h4>
+                                            <div className="space-y-2">
+                                                <button onClick={() => navigate('/nurse-dashboard/vital-signs')} className="w-full py-2.5 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-medium transition-colors text-left px-4 flex items-center gap-2">
+                                                    <Activity className="w-4 h-4" /> Record Vitals
+                                                </button>
+                                                <button className="w-full py-2.5 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-medium transition-colors text-left px-4 flex items-center gap-2">
+                                                    <FileText className="w-4 h-4" /> Add Nurse Note
+                                                </button>
+                                                <button className="w-full py-2.5 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-medium transition-colors text-left px-4 flex items-center gap-2">
+                                                    <AlertTriangle className="w-4 h-4" /> Report Incident
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/20 rounded-full blur-3xl -mr-10 -mt-10"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
+                        {/* Modal Footer */}
+                        <div className="p-4 border-t border-neutral-100 bg-neutral-50 shrink-0 flex justify-end gap-3">
+                            <button
+                                onClick={() => setSelectedPatient(null)}
+                                className="px-6 py-2.5 text-neutral-600 font-medium hover:bg-neutral-200 rounded-xl transition-colors"
+                            >
+                                Close
+                            </button>
+                            <button className="px-6 py-2.5 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 shadow-lg shadow-emerald-200 transition-all transform hover:scale-105">
+                                View Full Records
+                            </button>
+                        </div>
                     </div>
-                )}
-            </div>
+                </div>
+            )}
         </div>
     );
 };

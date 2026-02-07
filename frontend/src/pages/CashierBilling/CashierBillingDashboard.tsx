@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../utils/api/axios";
-import { 
-    DollarSign, ShoppingCart, TrendingUp, AlertCircle, 
+import {
+    DollarSign, ShoppingCart, TrendingUp, AlertCircle,
     FileText, PlusCircle, CheckCircle, Clock, Building2,
-    CreditCard, Smartphone, QrCode, User, MapPin, Phone, BarChart3
+    CreditCard, Smartphone, QrCode, User, MapPin, BarChart3
 } from "lucide-react";
 
 interface DashboardStats {
@@ -68,7 +68,7 @@ const CashierBillingDashboard = () => {
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center min-h-screen bg-neutral-50">
+            <div className="flex items-center justify-center min-h-screen bg-neutral-50/50">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
             </div>
         );
@@ -76,7 +76,7 @@ const CashierBillingDashboard = () => {
 
     if (error || !stats) {
         return (
-            <div className="flex items-center justify-center min-h-screen bg-neutral-50">
+            <div className="flex items-center justify-center min-h-screen bg-neutral-50/50">
                 <div className="text-center">
                     <AlertCircle className="mx-auto h-12 w-12 text-error-500 mb-4" />
                     <p className="text-neutral-600">{error || "Failed to load dashboard"}</p>
@@ -96,192 +96,154 @@ const CashierBillingDashboard = () => {
     ];
 
     return (
-        <div className="p-6 space-y-6 bg-neutral-50 min-h-screen">
+        <div className="p-6 space-y-6 bg-neutral-50/50 min-h-screen font-sans">
             {/* Branch Info Header */}
-            <div className="bg-gradient-to-r from-emerald-500 to-blue-600 rounded-xl shadow-lg p-6 text-white">
-                <div className="flex items-start justify-between flex-wrap gap-4">
-                    <div className="flex items-center gap-4">
-                        <div className="p-3 bg-white/20 rounded-lg backdrop-blur-sm">
-                            <Building2 className="w-8 h-8 text-white" />
+            <div className="relative bg-gradient-to-br from-emerald-600 to-teal-800 rounded-3xl shadow-xl p-8 text-white overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl transform -translate-y-1/2 translate-x-1/2"></div>
+
+                <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div className="flex items-center gap-6">
+                        <div className="p-4 bg-white/20 rounded-2xl backdrop-blur-md shadow-lg border border-white/10">
+                            <Building2 className="w-10 h-10 text-emerald-50" />
                         </div>
                         <div>
-                            <h2 className="text-2xl font-bold">{stats.branch.name}</h2>
-                            <div className="flex items-center gap-4 mt-2 text-emerald-100 flex-wrap">
-                                <span className="flex items-center gap-1">
+                            <h2 className="text-3xl font-bold tracking-tight">{stats.branch.name}</h2>
+                            <div className="flex flex-wrap items-center gap-4 mt-2 text-emerald-50/90 font-medium">
+                                <span className="flex items-center gap-1.5 px-3 py-1 bg-white/10 rounded-lg border border-white/5">
                                     <MapPin className="w-4 h-4" />
-                                    {stats.branch.type || 'Branch'}
+                                    {stats.branch.type || 'Main Branch'}
                                 </span>
-                                <span className="text-white/70">|</span>
-                                <span className="flex items-center gap-1">
+                                <span className="flex items-center gap-1.5 px-3 py-1 bg-white/10 rounded-lg border border-white/5">
                                     <User className="w-4 h-4" />
                                     {stats.cashier.name}
                                 </span>
                             </div>
                         </div>
                     </div>
-                    <div className="text-right">
-                        <p className="text-emerald-100 text-sm">
-                            {new Date(today_stats.date).toLocaleDateString('en-US', { 
-                                weekday: 'long', 
-                                year: 'numeric', 
-                                month: 'long', 
-                                day: 'numeric' 
-                            })}
-                        </p>
-                        <div className={`mt-2 inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${
-                            eod_status === 'OPEN' ? 'bg-green-400/30 text-green-100' :
-                            eod_status === 'SUBMITTED' ? 'bg-yellow-400/30 text-yellow-100' :
-                            'bg-gray-400/30 text-gray-100'
-                        }`}>
+
+                    <div className="flex flex-col items-center md:items-end gap-2">
+                        <div className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold shadow-lg border tracking-wide uppercase ${eod_status === 'OPEN' ? 'bg-emerald-500 text-white border-emerald-400' :
+                                eod_status === 'SUBMITTED' ? 'bg-amber-500 text-white border-amber-400' :
+                                    'bg-neutral-600 text-neutral-300 border-neutral-500'
+                            }`}>
                             {eod_status === 'OPEN' ? <CheckCircle className="w-4 h-4" /> : <Clock className="w-4 h-4" />}
                             {eod_status}
                         </div>
+                        <p className="text-emerald-100/80 text-sm font-medium">
+                            {new Date(today_stats.date).toLocaleDateString('en-US', {
+                                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                            })}
+                        </p>
                     </div>
                 </div>
             </div>
 
             {/* EOD Status Alert */}
             {is_eod_locked && (
-                <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 flex items-center gap-3">
-                    <AlertCircle className="h-5 w-5 text-yellow-600" />
-                    <p className="text-sm text-yellow-700">
-                        Today's End of Day (EOD) has been submitted and locked. No new transactions can be added.
-                    </p>
+                <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-center gap-4 shadow-sm animate-in fade-in slide-in-from-top-4">
+                    <div className="p-2 bg-amber-100 rounded-full text-amber-600">
+                        <AlertCircle className="h-6 w-6" />
+                    </div>
+                    <div>
+                        <h4 className="font-bold text-amber-900">End of Day Locked</h4>
+                        <p className="text-sm text-amber-800">
+                            Transactions are disabled as EOD has been submitted. Contact admin for unlocks.
+                        </p>
+                    </div>
                 </div>
             )}
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
-                    <div className="flex items-center justify-between mb-4">
-                        <div className="p-3 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg">
-                            <DollarSign className="w-6 h-6 text-white" />
+                {[
+                    { label: "Total Sales", value: `Rs. ${today_stats.total_sales.toLocaleString()}`, sub: `${today_stats.transaction_count} transactions`, icon: DollarSign, color: "blue", trend: true },
+                    { label: "Transactions", value: today_stats.transaction_count, sub: "Completed today", icon: ShoppingCart, color: "emerald", trend: false },
+                    { label: "Cash In", value: `Rs. ${today_stats.cash_in.toLocaleString()}`, sub: "Additional collections", icon: PlusCircle, color: "teal", trend: true },
+                    { label: "Cash Out", value: `Rs. ${today_stats.cash_out.toLocaleString()}`, sub: "Petty cash & expenses", icon: TrendingUp, color: "rose", trend: false, rotateIcon: true }
+                ].map((stat, idx) => (
+                    <div key={idx} className="bg-white rounded-2xl shadow-sm border border-neutral-200/60 p-6 hover:shadow-md transition-shadow">
+                        <div className="flex items-center justify-between mb-4">
+                            <div className={`p-3 rounded-xl bg-${stat.color}-50 text-${stat.color}-600`}>
+                                <stat.icon className={`w-6 h-6 ${stat.rotateIcon ? 'rotate-180' : ''}`} />
+                            </div>
+                            {stat.trend && <TrendingUp className="w-4 h-4 text-emerald-500" />}
                         </div>
-                        <TrendingUp className="w-5 h-5 text-green-600" />
+                        <p className="text-sm font-medium text-neutral-500">{stat.label}</p>
+                        <p className="text-2xl font-bold text-neutral-800 mt-1">{stat.value}</p>
+                        <p className={`text-xs mt-2 font-medium ${stat.color === 'rose' ? 'text-rose-600' : 'text-emerald-600'}`}>
+                            {stat.sub}
+                        </p>
                     </div>
-                    <p className="text-sm text-neutral-600 mb-1">Total Sales</p>
-                    <p className="text-3xl font-bold text-neutral-800">Rs. {today_stats.total_sales.toLocaleString()}</p>
-                    <p className="text-xs text-green-600 mt-2">{today_stats.transaction_count} transactions</p>
-                </div>
-
-                <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
-                    <div className="flex items-center justify-between mb-4">
-                        <div className="p-3 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg">
-                            <ShoppingCart className="w-6 h-6 text-white" />
-                        </div>
-                        <CheckCircle className="w-5 h-5 text-green-600" />
-                    </div>
-                    <p className="text-sm text-neutral-600 mb-1">Transactions</p>
-                    <p className="text-3xl font-bold text-neutral-800">{today_stats.transaction_count}</p>
-                    <p className="text-xs text-green-600 mt-2">Completed today</p>
-                </div>
-
-                <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
-                    <div className="flex items-center justify-between mb-4">
-                        <div className="p-3 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg">
-                            <TrendingUp className="w-6 h-6 text-white" />
-                        </div>
-                        <PlusCircle className="w-5 h-5 text-emerald-600" />
-                    </div>
-                    <p className="text-sm text-neutral-600 mb-1">Cash In</p>
-                    <p className="text-3xl font-bold text-neutral-800">Rs. {today_stats.cash_in.toLocaleString()}</p>
-                    <p className="text-xs text-emerald-600 mt-2">Additional collections</p>
-                </div>
-
-                <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
-                    <div className="flex items-center justify-between mb-4">
-                        <div className="p-3 bg-gradient-to-br from-red-500 to-pink-600 rounded-lg">
-                            <TrendingUp className="w-6 h-6 text-white transform rotate-180" />
-                        </div>
-                        <AlertCircle className="w-5 h-5 text-error-600" />
-                    </div>
-                    <p className="text-sm text-neutral-600 mb-1">Cash Out</p>
-                    <p className="text-3xl font-bold text-neutral-800">Rs. {today_stats.cash_out.toLocaleString()}</p>
-                    <p className="text-xs text-error-600 mt-2">Petty cash & expenses</p>
-                </div>
+                ))}
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
-                <h2 className="text-xl font-bold text-neutral-800 mb-4">Quick Actions</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div>
+                <h2 className="text-lg font-bold text-neutral-800 mb-4 px-1">Quick Actions</h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                     {quickActions.map(action => (
                         <button
                             key={action.id}
                             onClick={() => !action.disabled && navigate(action.path)}
                             disabled={action.disabled}
-                            className={`flex flex-col items-center gap-3 p-6 rounded-lg border-2 border-neutral-200 hover:border-primary-500 hover:shadow-lg transition-all group ${
-                                action.disabled ? 'opacity-50 cursor-not-allowed' : ''
-                            }`}
+                            className={`relative flex flex-col items-center gap-4 p-6 rounded-2xl border transition-all group overflow-hidden ${action.disabled
+                                    ? 'bg-neutral-50 border-neutral-200 opacity-60 cursor-not-allowed'
+                                    : 'bg-white border-neutral-200 hover:border-emerald-300 hover:shadow-lg hover:-translate-y-1'
+                                }`}
                         >
-                            <div className={`p-4 bg-gradient-to-br ${action.color} rounded-full text-white group-hover:scale-110 transition-transform`}>
+                            <div className={`absolute inset-0 bg-gradient-to-br ${action.color} opacity-0 group-hover:opacity-5 transition-opacity`}></div>
+                            <div className={`p-4 rounded-xl bg-gradient-to-br ${action.color} text-white shadow-md group-hover:scale-110 transition-transform duration-300`}>
                                 {action.icon}
                             </div>
-                            <span className="text-sm font-medium text-neutral-700 text-center">{action.label}</span>
+                            <span className="font-semibold text-neutral-700 text-sm">{action.label}</span>
                         </button>
                     ))}
                 </div>
             </div>
 
-            {/* Payment Mode Breakdown */}
-            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
-                <h2 className="text-xl font-bold text-neutral-800 mb-4">Payment Mode Breakdown</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="flex items-center gap-4 p-4 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl">
-                        <div className="p-3 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg">
-                            <DollarSign className="w-5 h-5 text-white" />
-                        </div>
-                        <div>
-                            <p className="text-xs text-neutral-500">Cash</p>
-                            <p className="text-lg font-bold text-neutral-800">Rs. {payment_breakdown.cash.toLocaleString()}</p>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-4 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200 rounded-xl">
-                        <div className="p-3 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg">
-                            <CreditCard className="w-5 h-5 text-white" />
-                        </div>
-                        <div>
-                            <p className="text-xs text-neutral-500">Card</p>
-                            <p className="text-lg font-bold text-neutral-800">Rs. {payment_breakdown.card.toLocaleString()}</p>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-xl">
-                        <div className="p-3 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg">
-                            <Smartphone className="w-5 h-5 text-white" />
-                        </div>
-                        <div>
-                            <p className="text-xs text-neutral-500">Online</p>
-                            <p className="text-lg font-bold text-neutral-800">Rs. {payment_breakdown.online.toLocaleString()}</p>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-4 p-4 bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-xl">
-                        <div className="p-3 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg">
-                            <QrCode className="w-5 h-5 text-white" />
-                        </div>
-                        <div>
-                            <p className="text-xs text-neutral-500">QR Code</p>
-                            <p className="text-lg font-bold text-neutral-800">Rs. {payment_breakdown.qr.toLocaleString()}</p>
-                        </div>
+            {/* Payment Mode Breakdown & EOD Status */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-neutral-200/60 p-6">
+                    <h2 className="text-lg font-bold text-neutral-800 mb-6">Payment Breakdown</h2>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        {[
+                            { label: "Cash", value: payment_breakdown.cash, icon: DollarSign, color: "emerald" },
+                            { label: "Card", value: payment_breakdown.card, icon: CreditCard, color: "blue" },
+                            { label: "Online", value: payment_breakdown.online, icon: Smartphone, color: "violet" },
+                            { label: "QR Code", value: payment_breakdown.qr, icon: QrCode, color: "amber" }
+                        ].map((mode, idx) => (
+                            <div key={idx} className={`p-4 rounded-xl border bg-${mode.color}-50/30 border-${mode.color}-100 flex flex-col items-center text-center gap-2`}>
+                                <div className={`p-2 rounded-lg bg-${mode.color}-100 text-${mode.color}-600`}>
+                                    <mode.icon className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wide">{mode.label}</p>
+                                    <p className="font-bold text-neutral-800 mt-0.5">Rs. {mode.value.toLocaleString()}</p>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
-            </div>
 
-            {/* EOD Status Card */}
-            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
-                <h2 className="text-xl font-bold text-neutral-800 mb-4">End of Day Status</h2>
-                <div className="flex items-center gap-4">
-                    <div className={`px-4 py-2 rounded-full text-sm font-medium ${
-                        eod_status === 'OPEN' ? 'bg-green-100 text-green-800' :
-                        eod_status === 'SUBMITTED' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-neutral-100 text-neutral-800'
-                    }`}>
-                        {eod_status}
+                <div className="bg-white rounded-2xl shadow-sm border border-neutral-200/60 p-6 flex flex-col justify-center relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-10 bg-neutral-50 rounded-full mix-blend-multiply filter blur-2xl opacity-50 transform translate-x-1/2 -translate-y-1/2"></div>
+                    <h2 className="text-lg font-bold text-neutral-800 mb-4 z-10">System Status</h2>
+                    <div className="space-y-4 z-10">
+                        <div className="flex justify-between items-center py-3 border-b border-neutral-100">
+                            <span className="text-sm text-neutral-500">Day Status</span>
+                            <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${eod_status === 'OPEN' ? 'bg-emerald-100 text-emerald-700' : 'bg-neutral-100 text-neutral-700'
+                                }`}>{eod_status}</span>
+                        </div>
+                        <div className="flex justify-between items-center py-3 border-b border-neutral-100">
+                            <span className="text-sm text-neutral-500">Last Synced</span>
+                            <span className="text-sm font-medium text-neutral-800">{new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                        </div>
+                        <div className="pt-2">
+                            <p className="text-xs text-neutral-400">
+                                {eod_status === 'OPEN' ? 'System ready for transactions.' : 'System locked. Please submit EOD report.'}
+                            </p>
+                        </div>
                     </div>
-                    <p className="text-sm text-neutral-600">
-                        {eod_status === 'OPEN' ? 'Day is open for transactions' :
-                         eod_status === 'SUBMITTED' ? 'EOD submitted, awaiting approval' :
-                         'Day is closed and locked'}
-                    </p>
                 </div>
             </div>
         </div>
