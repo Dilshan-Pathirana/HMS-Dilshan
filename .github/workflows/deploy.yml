@@ -2,33 +2,29 @@ name: Build & Deploy to AWS
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
+
     steps:
-      - name: Checkout repo
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build backend image
-        run: |
-          docker build -t hms-backend:latest -f backend/Dockerfile backend
+      # ---------------- BUILD IMAGES ----------------
+      - name: Build backend
+        run: docker build -t hms-backend:latest -f backend/Dockerfile backend
 
-      - name: Build frontend image
-        run: |
-          docker build -t hms-frontend:latest -f frontend/Dockerfile --build-arg VITE_API_BASE_URL="" frontend
+      - name: Build frontend
+        run: docker build -t hms-frontend:latest -f frontend/Dockerfile frontend
 
-      - name: Save docker images
-        run: |
-          docker save hms-backend:latest hms-frontend:latest | gzip > hms-images.tar.gz
+      - name: Save images
+        run: docker save hms-backend hms-frontend | gzip > hms-images.tar.gz
 
-      - name: Upload docker images and compose file to EC2
+      # ---------------- COPY TO EC2 ----------------
+      - name: Upload to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -37,8 +33,8 @@ jobs:
           source: "hms-images.tar.gz,docker-compose.ec2.yml"
           target: "/tmp"
 
-      # Deploy via SSH
-      - name: Deploy to EC2
+      # ---------------- DEPLOY ----------------
+      - name: Deploy on EC2
         uses: appleboy/ssh-action@v1.0.3
         env:
           DB_HOST: ${{ secrets.DB_HOST }}
@@ -52,139 +48,59 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           envs: DB_HOST,DB_PORT,DB_DATABASE,DB_USERNAME,DB_PASSWORD,SECRET_KEY
+
           script: |
             set -e
-            APP_DIR=${APP_DIR:-/var/www/hms}
+
+            APP_DIR=/var/www/hms
             mkdir -p $APP_DIR
 
-            echo "==== Docker Environment Check ===="
-            # Ensure Docker is installed
-            if ! command -v docker >/dev/null 2>&1; then
-              echo "Installing Docker..."
-              sudo apt-get update
-              sudo apt-get install -y docker.io
-              sudo systemctl enable --now docker
-            fi
-            docker --version
-
-            # Ensure Docker Compose plugin is installed
-            if ! docker compose version >/dev/null 2>&1; then
-              echo "Installing Docker Compose plugin..."
-              if ! apt-cache show docker-compose-plugin >/dev/null 2>&1; then
-                sudo apt-get update
-                sudo apt-get install -y ca-certificates curl gnupg lsb-release
-                sudo mkdir -p /etc/apt/keyrings
-                curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-                echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-              fi
-              sudo apt-get update
-              sudo apt-get install -y docker-compose-plugin
-            fi
-            docker compose version
-
-            echo "==== Loading Docker Images ===="
-            # Load images built on the runner
+            echo "==== Load Docker images ===="
             docker load -i /tmp/hms-images.tar.gz
 
-            # Verify images loaded
-            echo "Verifying images..."
-            docker images | grep hms-backend
-            docker images | grep hms-frontend
-
-            echo "==== Preparing Configuration ===="
-            # Prepare compose and env file
+            echo "==== Move compose file ===="
             mv -f /tmp/docker-compose.ec2.yml $APP_DIR/docker-compose.ec2.yml
-            # Using RDS: connect via the RDS endpoint from GitHub Secrets.
-            if [ -z "$DB_HOST" ]; then
-              echo "DB_HOST secret is empty; cannot connect to RDS"
-              exit 1
-            fi
-            if [ "$DB_HOST" = "db" ]; then
-              echo "DB_HOST is set to 'db' (compose service name). For RDS it must be the RDS endpoint."
-              exit 1
-            fi
-            echo "DB_HOST=$DB_HOST" > $APP_DIR/.env
-            echo "DB_PORT=$DB_PORT" >> $APP_DIR/.env
-            echo "DB_DATABASE=$DB_DATABASE" >> $APP_DIR/.env
-            echo "DB_USERNAME=$DB_USERNAME" >> $APP_DIR/.env
-            echo "DB_PASSWORD=$DB_PASSWORD" >> $APP_DIR/.env
-            echo "DATABASE_URL=mysql+asyncmy://$DB_USERNAME:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_DATABASE" >> $APP_DIR/.env
-            echo "SECRET_KEY=$SECRET_KEY" >> $APP_DIR/.env
 
-            echo "==== Effective Database Target (sanitized) ===="
-            echo "DB_HOST=$DB_HOST"
-            echo "DB_PORT=$DB_PORT"
-            echo "DB_DATABASE=$DB_DATABASE"
-            echo "DATABASE_URL=$(grep '^DATABASE_URL=' $APP_DIR/.env | sed -E 's#(mysql\+asyncmy://[^:]+:)[^@]+@#\1***@#')"
+            echo "==== Write .env ===="
+            cat > $APP_DIR/.env <<EOF
+            DB_HOST=$DB_HOST
+            DB_PORT=$DB_PORT
+            DB_DATABASE=$DB_DATABASE
+            DB_USERNAME=$DB_USERNAME
+            DB_PASSWORD=$DB_PASSWORD
+            SECRET_KEY=$SECRET_KEY
+            DATABASE_URL=mysql+asyncmy://$DB_USERNAME:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_DATABASE
+            EOF
 
-            echo "==== Running Database Migrations ===="
-            # Run migrations with timeout
-            timeout 300 docker compose -f $APP_DIR/docker-compose.ec2.yml --env-file $APP_DIR/.env run --rm backend alembic upgrade head || {
-              echo "Migration failed or timed out"
-              exit 1
-            }
+            echo "==== Remove old containers ===="
+            docker compose -f $APP_DIR/docker-compose.ec2.yml down --remove-orphans || true
 
-            echo "==== Starting Services ===="
-            # Start services
-            docker compose -f $APP_DIR/docker-compose.ec2.yml --env-file $APP_DIR/.env up -d --remove-orphans
+            echo "==== Test RDS connectivity ===="
+            sudo apt-get update -y >/dev/null 2>&1 || true
+            sudo apt-get install -y mysql-client >/dev/null 2>&1 || true
+            mysql -h $DB_HOST -u $DB_USERNAME -p$DB_PASSWORD -e "SELECT 1" && echo "RDS reachable"
 
-            echo "==== Waiting for Services to Start ===="
-            # Wait for backend to be healthy (up to 60 seconds)
-            for i in {1..30}; do
-              if docker compose -f $APP_DIR/docker-compose.ec2.yml ps | grep -q "hms-backend.*healthy"; then
-                echo "Backend is healthy!"
-                break
-              fi
-              echo "Waiting for backend... ($i/30)"
-              sleep 2
-            done
+            echo "==== Run migrations ===="
+            docker compose \
+              -f $APP_DIR/docker-compose.ec2.yml \
+              --env-file $APP_DIR/.env \
+              run --rm backend alembic upgrade head
 
-            # Check if frontend is running
-            sleep 5
-            if docker compose -f $APP_DIR/docker-compose.ec2.yml ps | grep -q "hms-frontend.*Up"; then
-              echo "Frontend is running!"
-            else
-              echo "Warning: Frontend may not be running properly"
-            fi
+            echo "==== Start services ===="
+            docker compose \
+              -f $APP_DIR/docker-compose.ec2.yml \
+              --env-file $APP_DIR/.env \
+              up -d --remove-orphans
 
-            echo "==== Container Status ===="
+            echo "==== Wait for backend ===="
+            sleep 12
             docker compose -f $APP_DIR/docker-compose.ec2.yml ps
 
-            # Show recent logs for debugging
-            echo "==== Recent Backend Logs (last 20 lines) ===="
-            docker compose -f $APP_DIR/docker-compose.ec2.yml logs --tail=20 backend || echo "Could not fetch backend logs"
-
-            echo "==== Recent Frontend Logs (last 10 lines) ===="
-            docker compose -f $APP_DIR/docker-compose.ec2.yml logs --tail=10 frontend || echo "Could not fetch frontend logs"
+            echo "==== Backend logs ===="
+            docker compose -f $APP_DIR/docker-compose.ec2.yml logs --tail=50 backend
 
             echo "==== Cleanup ===="
-            # Cleanup old images and tar file
-            docker image prune -f
             rm -f /tmp/hms-images.tar.gz
+            docker image prune -f
 
             echo "==== Deployment Complete ===="
-
-            echo "==== Verifying Services ===="
-            # Test backend health endpoint
-            sleep 3
-            if curl -f http://localhost:8000/health 2>/dev/null || curl -f http://localhost:8000/ 2>/dev/null; then
-              echo "✓ Backend is responding"
-            else
-              echo "⚠ Backend health check failed (may need more time to start)"
-            fi
-
-            # Test frontend
-            if curl -f http://localhost:80 2>/dev/null | grep -q "<!doctype html" || curl -f http://localhost 2>/dev/null | head -n 1 | grep -q "<"; then
-              echo "✓ Frontend is serving content"
-            else
-              echo "⚠ Frontend health check failed"
-            fi
-
-            echo ""
-            echo "============================================"
-            echo "🚀 Deployment Summary"
-            echo "============================================"
-            echo "App Directory: $APP_DIR"
-            echo "Backend URL: http://$(curl -s ifconfig.me):8000"
-            echo "Frontend URL: http://$(curl -s ifconfig.me)"
-            echo "============================================"
