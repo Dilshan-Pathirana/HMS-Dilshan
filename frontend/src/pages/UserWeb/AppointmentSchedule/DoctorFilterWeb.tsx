@@ -11,18 +11,15 @@ import {
 import { MultiSelect } from "react-multi-select-component";
 import api from "../../../utils/api/axios";
 import {
-    Branch,
-    Doctor,
     MultiSelectOption,
 } from "../../../utils/types/Appointment/IAppointment.ts";
 import { getAllBranches } from "../../../utils/api/branch/GetAllBranches";
 import { getAllDoctorUsers } from "../../../utils/api/dashboard/StaffAndUsers/GetAllDoctorUsers";
 import { specializationOptions } from "../../../utils/api/user/DoctorData";
-import { daysOfWeek } from "../../../utils/types/Website/dateUtils.ts";
 
 const DoctorFilterWeb = () => {
     const navigate = useNavigate();
-    const [users, setUsers] = useState<Doctor[]>([]);
+    const [users, setUsers] = useState<any[]>([]);
     const [branchOptions, setBranchOptions] = useState<MultiSelectOption[]>([]);
     const [selectedDoctors, setSelectedDoctors] = useState<MultiSelectOption[]>(
         [],
@@ -37,15 +34,18 @@ const DoctorFilterWeb = () => {
     const [doctorUsersDropDownOptions, setDoctorUsersDropDownOptions] =
         useState<MultiSelectOption[]>([]);
 
+    const hasFilters =
+        selectedDoctors.length > 0 ||
+        selectedBranches.length > 0 ||
+        selectedSpecializations.length > 0 ||
+        selectedDate !== null;
+
     useEffect(() => {
         const fetchDoctors = async () => {
             try {
-                const response = await getAllDoctorUsers();
-                if (response.status === 200) {
-                    // Check if response.data is an array (new API) or object with doctors key (legacy)
-                    const doctorsData = Array.isArray(response.data) ? response.data : response.data.doctors;
-                    setUsers(doctorsData || []);
-                }
+                // Axios interceptor unwraps response.data; backend returns Doctor[]
+                const doctorsData: any = await getAllDoctorUsers();
+                setUsers(Array.isArray(doctorsData) ? doctorsData : []);
             } catch (error) {
                 console.error("Failed to fetch doctors:", error);
             }
@@ -53,10 +53,9 @@ const DoctorFilterWeb = () => {
 
         const fetchBranches = async () => {
             try {
-                const response = await getAllBranches();
-                // Response is already IBranchData[] from axios interceptor
+                const response: any = await getAllBranches();
                 const branchOptions = (response || []).map(
-                    (branch: Branch) => ({
+                    (branch: any) => ({
                         label: branch.center_name,
                         value: branch.id,
                     }),
@@ -76,47 +75,49 @@ const DoctorFilterWeb = () => {
     }, [users]);
 
     const handleApplyFilter = async () => {
+        if (!hasFilters) {
+            alert("Please select at least one search criterion.");
+            return;
+        }
+
         const filters = {
             branch_id:
                 selectedBranches.length > 0 ? selectedBranches[0].value : null,
             doctor_id:
                 selectedDoctors.length > 0 ? selectedDoctors[0].value : null,
-            areas_of_specialization:
+            specialisation:
                 selectedSpecializations.length > 0
                     ? selectedSpecializations[0].value
                     : null,
-            date: selectedDate ? daysOfWeek[selectedDate.getDay()] : null,
+            date: selectedDate ? selectedDate.toLocaleDateString("en-CA") : null,
         };
 
         try {
-            const response = await api.get("/get-doctor-schedules", {
-                params: filters,
+            const response: any = await api.get("/appointments/search", {
+                params: Object.fromEntries(
+                    Object.entries(filters).filter(([, v]) => v),
+                ),
             });
-            if (response.status === 200) {
-                navigate("/doctor-schedule", {
-                    state: { doctorSchedules: response.data.doctorSchedules },
-                });
-            } else {
-                console.warn(
-                    "Failed to fetch schedules:",
-                    response.data.message,
-                );
-            }
+
+            navigate("/doctor-schedule", {
+                state: {
+                    searchResults: response?.results || [],
+                    searchParams: filters,
+                },
+            });
         } catch (error) {
             console.error("Error fetching schedules:", error);
         }
     };
 
     const doctorUsersCreateForSelector = (): void => {
-        const doctorUsersOptions = users.map((user) => ({
-            label: `${user.first_name} ${user.last_name}`,
-            value: user.user_id,
+        const doctorUsersOptions = (users || []).map((doctor: any) => ({
+            label: `${doctor.first_name || ""} ${doctor.last_name || ""}`.trim(),
+            value: doctor.id,
         }));
 
         setDoctorUsersDropDownOptions(doctorUsersOptions);
     };
-
-    const hasFilters = selectedDoctors.length > 0 || selectedBranches.length > 0 || selectedSpecializations.length > 0 || selectedDate !== null;
 
     const handleClearFilters = () => {
         setSelectedDoctors([]);

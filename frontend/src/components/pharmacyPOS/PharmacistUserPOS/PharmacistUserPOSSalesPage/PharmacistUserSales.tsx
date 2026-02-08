@@ -245,49 +245,59 @@ export default function PharmacistUserSalesPage() {
     };
 
     return (
-        <div className="flex flex-col min-h-screen bg-neutral-100">
+        <div className="flex flex-col min-h-screen bg-neutral-50/50">
+            {/* Header */}
             <SalesHeader
                 patientsDetails={patientsDetails}
                 customerDetails={customerDetails}
                 setCustomerDetails={setCustomerDetails}
                 setIsReachedMaximumStock={setIsReachedMaximumStock}
             />
-            <main className="flex-1 overflow-x-hidden overflow-y-auto bg-neutral-100 p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="bg-white p-4 rounded-lg shadow">
-                        <h2 className="text-lg font-medium mb-4">
-                            Product Search
-                        </h2>
-                        <div className="relative mb-4">
-                            <input
-                                type="text"
-                                placeholder="Search products..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full px-10 py-2 border rounded-lg"
-                            />
-                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-500" />
+
+            <main className="flex-1 p-6 overflow-hidden h-[calc(100vh-100px)]">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full">
+                    {/* Left Column: Product Search & Grid */}
+                    <div className="lg:col-span-7 xl:col-span-8 flex flex-col gap-6 h-full">
+                        {/* Search Bar Area */}
+                        <div className="bg-white p-4 rounded-2xl shadow-sm border border-neutral-200">
+                            <div className="relative">
+                                <input
+                                    type="text"
+                                    placeholder="Search products by name or code..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    className="w-full pl-12 pr-4 py-3.5 bg-neutral-50 border border-neutral-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all text-neutral-800 placeholder:text-neutral-400 font-medium"
+                                    autoFocus
+                                />
+                                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400" />
+                            </div>
                         </div>
 
-                        <SalesProductGrid
-                            filteredProducts={useProductFilter(
-                                products,
-                                searchTerm,
-                            )}
-                        />
+                        {/* Product Grid Area */}
+                        <div className="flex-1 bg-neutral-100/50 rounded-2xl p-1 overflow-hidden">
+                            <SalesProductGrid
+                                filteredProducts={useProductFilter(
+                                    products,
+                                    searchTerm,
+                                )}
+                            />
+                        </div>
                     </div>
 
-                    <SalesShoppingCart
-                        cart={cart}
-                        total={total}
-                        totalDiscount={totalDiscount}
-                        netTotal={netTotal}
-                        isReachedMaximumStock={isReachedMaximumStock}
-                        maximumReachedProduct={maximumReachedProduct}
-                        handleUpdateQuantity={handleUpdateQuantity}
-                        handleRemoveFromCart={handleRemoveFromCart}
-                        onProcessPayment={openPaymentModal}
-                    />
+                    {/* Right Column: Shopping Cart */}
+                    <div className="lg:col-span-5 xl:col-span-4 h-full">
+                        <SalesShoppingCart
+                            cart={cart}
+                            total={total}
+                            totalDiscount={totalDiscount}
+                            netTotal={netTotal}
+                            isReachedMaximumStock={isReachedMaximumStock}
+                            maximumReachedProduct={maximumReachedProduct}
+                            handleUpdateQuantity={handleUpdateQuantity}
+                            handleRemoveFromCart={handleRemoveFromCart}
+                            onProcessPayment={openPaymentModal}
+                        />
+                    </div>
                 </div>
             </main>
 

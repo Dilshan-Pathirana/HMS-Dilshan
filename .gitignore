@@ -149,3 +149,6 @@ req.txt
 **/gcp-credentials*.json
 single-line-key.txt
 localhost.har
+
+# Local scripts
+/scripts/

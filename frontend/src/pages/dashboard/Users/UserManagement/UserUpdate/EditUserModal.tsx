@@ -151,24 +151,19 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
                 userData: submissionData,
             });
 
-            if (response.status === 200) {
+            if (response) {
                 alert.success("User updated successfully");
                 onSuccess();
                 onClose();
             } else {
-                alert.warn(response.data.message || "Failed to update user");
+                alert.warn("Failed to update user");
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error("Update error:", error);
 
-            if (axios.isAxiosError(error) && error.response) {
-                alert.error(
-                    error.response.data.message ||
-                    "Error updating user. Please try again.",
-                );
-            } else {
-                alert.error("Error updating user. Please try again.");
-            }
+            // Check if it's a wrapper Error from UpdateUser.ts or a direct Axios error
+            const message = error.message || (error.response?.data?.message) || "Error updating user. Please try again.";
+            alert.error(message);
         } finally {
             setIsLoading(false);
         }

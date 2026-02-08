@@ -4,6 +4,8 @@ from uuid import uuid4
 from .user import User, UserRead
 
 class DoctorBase(SQLModel):
+    first_name: str
+    last_name: str
     specialization: str
     qualification: str
     contact_number: str

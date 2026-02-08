@@ -29,8 +29,8 @@ const roleIdToName: { [key: number]: string } = {
  * This component properly uses hooks at the top level to avoid
  * the "Rendered more hooks than during the previous render" error.
  */
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ 
-    children, 
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+    children,
     redirectTo = '/',
     allowedRoles
 }) => {
@@ -45,11 +45,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     if (allowedRoles && allowedRoles.length > 0) {
         // Get role name from the numeric role ID
         const userRoleName = roleIdToName[userRoleId] || '';
-        
+
         if (!allowedRoles.includes(userRoleName)) {
             // Redirect unauthorized users to their appropriate dashboard
             const dashboardRedirects: { [key: string]: string } = {
-                'super_admin': '/dashboard/branch/management',
+                'super_admin': '/dashboard/branch',
                 'branch_admin': '/branch-admin/dashboard',
                 'doctor': '/doctor/dashboard',
                 'nurse': '/nurse-dashboard',

@@ -40,9 +40,9 @@ export interface UserTableStructureProps {
     filteredUsers: IUserData[];
     paginatedUsers: IUserData[];
     refreshUsers?: () => void;
-
+    readOnly?: boolean;
 }
-export  interface UserDeleteViewModalProps {
+export interface UserDeleteViewModalProps {
     onClose: () => void;
     userId: string;
     roleAs: number;

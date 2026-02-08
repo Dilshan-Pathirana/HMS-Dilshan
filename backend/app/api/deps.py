@@ -50,3 +50,14 @@ async def get_current_active_superuser(
             status_code=400, detail="The user doesn't have enough privileges"
         )
     return current_user
+
+async def get_current_active_staff(
+    current_user: Annotated[User, Depends(get_current_user)],
+) -> User:
+    # Allow SuperAdmin (1) and BranchAdmin (2)
+    if current_user.role_as not in [1, 2]:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="The user doesn't have enough privileges"
+        )
+    return current_user

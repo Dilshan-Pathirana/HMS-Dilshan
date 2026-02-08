@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { FiEdit, FiEye, FiTrash } from "react-icons/fi";
-import { Settings } from "lucide-react";
+import { FiEdit, FiEye, FiTrash, FiSettings } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../../../../assets/Common/Spinner.tsx";
 import Pagination from "../../../../components/pharmacyPOS/Common/Pagination.tsx";
@@ -32,7 +31,11 @@ const BranchTable = ({
     const rowsPerPage = 10;
 
     const handleManageBranch = (branchId: string) => {
-        navigate(`/branch/${branchId}`);
+        navigate(`/dashboard/branches/edit/${branchId}`);
+    };
+
+    const handleViewBranch = (branchId: string) => {
+        navigate(`/dashboard/branches/${branchId}`);
     };
 
     useEffect(() => {
@@ -168,7 +171,7 @@ const BranchTable = ({
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
                                         <div className="flex items-center space-x-2">
                                             <div title="Manage Branch">
-                                                <Settings
+                                                <FiSettings
                                                     className="h-5 w-5 text-green-500 cursor-pointer hover:text-green-700"
                                                     onClick={() =>
                                                         handleManageBranch(branch.id)
@@ -178,7 +181,7 @@ const BranchTable = ({
                                             <FiEye
                                                 className="text-primary-500 cursor-pointer hover:text-blue-700"
                                                 onClick={() =>
-                                                    openViewModal(branch)
+                                                    handleViewBranch(branch.id)
                                                 }
                                                 title="View Details"
                                             />

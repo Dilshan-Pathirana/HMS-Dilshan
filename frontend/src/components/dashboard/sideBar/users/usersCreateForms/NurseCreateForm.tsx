@@ -58,7 +58,7 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
         // Check if user is Branch Admin and get their branch
         const userInfo = JSON.parse(localStorage.getItem('user') || '{}');
         const roleAs = userInfo.role_as;
-        
+
         // Role 2 is Branch Admin
         if (roleAs === 2) {
             setIsBranchAdmin(true);
@@ -72,18 +72,18 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
         // Fetch branch list (for Super Admin or if branch not auto-set)
         const fetchBranchList = async () => {
             try {
-                const response = await api.get("api/get-branches");
-                if (response.data.status === 200) {
-                    const options = response.data.branches.map((branch: IBranchData) => ({
-                        value: branch.id,
+                // Endpoint is /branches, and interceptor returns data directly (Array of branches)
+                const data = await api.get<IBranchData[]>("/branches");
+
+                if (Array.isArray(data)) {
+                    const options = data.map((branch: IBranchData) => ({
+                        value: branch.id!,
                         label: branch.center_name
                     }));
                     setBranchOptions(options);
                 }
             } catch (error) {
-                if (axios.isAxiosError(error)) {
-                    alert.warn("Failed to fetch branch list: " + error.message);
-                }
+                console.error("Failed to fetch branch list", error);
             }
         };
         fetchBranchList();
@@ -138,7 +138,7 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
 
     const validateForm = (): boolean => {
         const newErrors: Record<string, string[]> = {};
-        
+
         if (!formData.first_name.trim()) {
             newErrors.first_name = ['First name is required'];
         }
@@ -163,9 +163,6 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
         if (!formData.date_of_birth) {
             newErrors.date_of_birth = ['Date of birth is required'];
         }
-        if (!formData.branch_id) {
-            newErrors.branch_id = ['Branch is required'];
-        }
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -173,10 +170,10 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         console.log('Form submission started');
         console.log('Form data:', formData);
-        
+
         if (!validateForm()) {
             alert.warn('Please fill in all required fields');
             return;
@@ -187,17 +184,19 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
 
         try {
             const formDataToSend = new FormData();
-            
+
             // Required fields - always sent
             formDataToSend.append('first_name', formData.first_name);
             formDataToSend.append('last_name', formData.last_name);
             formDataToSend.append('email', formData.email);
             formDataToSend.append('password', formData.password);
             formDataToSend.append('date_of_birth', formData.date_of_birth);
-            formDataToSend.append('branch_id', formData.branch_id);
+            if (formData.branch_id) {
+                formDataToSend.append('branch_id', formData.branch_id);
+            }
             formDataToSend.append('employee_id', formData.employee_id || `NRS${Date.now()}`);
             formDataToSend.append('contract_type', formData.contract_type || 'full-time');
-            
+
             // Optional fields - only send if not empty
             if (formData.gender) {
                 formDataToSend.append('gender', formData.gender.toLowerCase());
@@ -244,30 +243,22 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
             if (formData.compensation_package) {
                 formDataToSend.append('compensation_package', formData.compensation_package);
             }
-            
+
             if (formData.photo) {
                 formDataToSend.append('photo', formData.photo);
             }
 
             // Use branch-admin prefixed endpoint for Branch Admin users
-            const endpoint = isBranchAdmin ? 'api/branch-admin/create-nurse' : 'api/create-nurse';
+            const endpoint = isBranchAdmin ? "branch-admin/create-nurse" : "create-nurse";
             const response = await api.post(endpoint, formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
 
-            if (response.data.status === 500) {
-                const errorMessage = response.data.message || 'Something went wrong. Please check your information and try again.';
-                alert.warn(errorMessage);
-                if (response.data.errors) {
-                    setErrors(response.data.errors);
-                }
-                return;
-            }
-
-            if (response.status === 200 || response.status === 201) {
-                alert.success(response.data.message || 'Nurse created successfully');
+            // Response is already unwrapped by axios interceptor (response.data)
+            if (response && response.message) {
+                alert.success(response.message || 'Nurse created successfully');
                 setTimeout(() => {
                     // Call onSuccess callback or navigate back based on user role
                     if (onSuccess) {
@@ -282,11 +273,22 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 const response = error.response;
-                
+
+                // Handle 400 Bad Request (email exists, etc.)
+                if (response?.status === 400) {
+                    const errorMessage = response.data?.detail || 'Bad request';
+                    if (errorMessage.includes('email already exists')) {
+                        alert.warn('This email address is already registered. Please use a different email.');
+                    } else {
+                        alert.warn(errorMessage);
+                    }
+                    return;
+                }
+
                 if (response?.status === 422) {
                     const validationErrors = response.data.errors || response.data.error || {};
                     setErrors(validationErrors);
-                    
+
                     const errorMessages = Object.entries(validationErrors)
                         .map(([field, messages]) => {
                             const messageArray = Array.isArray(messages) ? messages : [messages];
@@ -294,11 +296,11 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                             return `• ${fieldName}: ${messageArray.join(', ')}`;
                         })
                         .join('\n');
-                    
+
                     alert.warn(`Please fix the following errors:\n\n${errorMessages}`);
                     return;
                 }
-                
+
                 const errorMsg = response?.data?.message || response?.data?.error || error.message;
                 alert.warn(`Unable to create Nurse account:\n\n${errorMsg}`);
             } else {
@@ -539,7 +541,7 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
 
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
-                    Branch <span className="text-error-500">*</span>
+                    Branch (optional)
                 </label>
                 {isBranchAdmin ? (
                     <div className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm bg-neutral-100">
@@ -781,11 +783,10 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                 <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={`px-8 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-medium ${
-                        isSubmitting 
-                            ? 'bg-gray-400 text-gray-200 cursor-not-allowed' 
-                            : 'bg-primary-500 text-white hover:bg-primary-600'
-                    }`}
+                    className={`px-8 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-medium ${isSubmitting
+                        ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                        : 'bg-primary-500 text-white hover:bg-primary-600'
+                        }`}
                 >
                     {isSubmitting ? 'Creating...' : 'Create Nurse'}
                 </button>

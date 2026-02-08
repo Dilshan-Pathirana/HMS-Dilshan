@@ -151,12 +151,12 @@ export const SuperAdminMenuItems: MenuItem[] = [
     {
         label: 'Branch Management',
         icon: <Building2 className="w-5 h-5" />,
-        path: '/dashboard/branch/management'
+        path: '/dashboard/branches'
     },
     {
         label: 'Pharmacies',
         icon: <Package className="w-5 h-5" />,
-        path: '/dashboard/super-admin/pharmacies'
+        path: '/dashboard/pharmacies'
     },
     {
         label: 'User Management',

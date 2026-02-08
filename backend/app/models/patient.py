@@ -5,11 +5,12 @@ from datetime import date
 from .user import User, UserRead
 
 class PatientBase(SQLModel):
-    date_of_birth: date
-    gender: str
+    # Visitor booking flow may not collect these fields; keep them optional.
+    date_of_birth: Optional[date] = None
+    gender: Optional[str] = None
     blood_group: Optional[str] = None
     address: Optional[str] = None
-    contact_number: str
+    contact_number: Optional[str] = None
     emergency_contact: Optional[str] = None
 
 class Patient(PatientBase, table=True):

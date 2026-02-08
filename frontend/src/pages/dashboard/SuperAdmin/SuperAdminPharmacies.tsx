@@ -17,13 +17,18 @@ import {
     Settings,
     TrendingDown,
     Truck,
-    Box
+    Box,
+    User
 } from 'lucide-react';
 
 // Tab type
 type MainTab = 'pharmacies' | 'inventory' | 'suppliers';
 
 // Types
+interface Pharmacist {
+    id: string;
+    name: string;
+}
 interface Branch {
     id: string;
     center_name: string;
@@ -34,6 +39,8 @@ interface Branch {
 interface Pharmacy {
     id: number;
     branch_id: string | null;
+    pharmacist_id: string | null;
+    pharmacist_name?: string;
     name: string;
     pharmacy_code: string;
     license_number: string;
@@ -60,6 +67,7 @@ interface PharmacyFormData {
     location_in_branch: string;
     is_active: boolean;
     branch_id: string;
+    pharmacist_id: string;
 }
 
 interface InventoryItem {
@@ -206,6 +214,7 @@ const SuperAdminPharmacies: React.FC = () => {
     // State
     const [pharmacies, setPharmacies] = useState<Pharmacy[]>([]);
     const [branches, setBranches] = useState<Branch[]>([]);
+    const [availablePharmacists, setAvailablePharmacists] = useState<Pharmacist[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -235,7 +244,8 @@ const SuperAdminPharmacies: React.FC = () => {
         email: '',
         location_in_branch: '',
         is_active: true,
-        branch_id: ''
+        branch_id: '',
+        pharmacist_id: ''
     });
 
     // Allocation form
@@ -325,6 +335,7 @@ const SuperAdminPharmacies: React.FC = () => {
     useEffect(() => {
         loadPharmacies();
         loadBranches();
+        loadAvailablePharmacists();
     }, []);
 
     // Auto-dismiss messages
@@ -346,8 +357,12 @@ const SuperAdminPharmacies: React.FC = () => {
         try {
             setLoading(true);
             const response = await api.get('/pharmacies');
-            if (response.data.success) {
-                setPharmacies(response.data.data.pharmacies || []);
+            if (response.success) {
+                const loadedPharmacies = response.data.pharmacies || [];
+                setPharmacies(loadedPharmacies);
+                if (loadedPharmacies.length === 0) {
+                    setError('No pharmacies found. Please create a new pharmacy.');
+                }
             }
         } catch (err: any) {
             setError(err.response?.data?.message || 'Failed to load pharmacies');
@@ -358,16 +373,26 @@ const SuperAdminPharmacies: React.FC = () => {
 
     const loadBranches = async () => {
         try {
-            const response = await api.get('/branches');
-            if (response.data.success) {
-                // API returns data directly as array, not as data.branches
-                const branchData = Array.isArray(response.data.data)
-                    ? response.data.data
-                    : (response.data.data.branches || []);
-                setBranches(branchData);
+            const data = await api.get('/branches');
+            // Check if data is array (direct return) or object with success
+            if (Array.isArray(data)) {
+                setBranches(data);
+            } else if (data.success && Array.isArray(data.data)) {
+                setBranches(data.data);
             }
         } catch (err) {
             console.error('Failed to load branches:', err);
+        }
+    };
+
+    const loadAvailablePharmacists = async () => {
+        try {
+            const response = await api.get('/pharmacies/available-pharmacists');
+            if (response.success) {
+                setAvailablePharmacists(response.data || []);
+            }
+        } catch (err) {
+            console.error('Failed to load pharmacists:', err);
         }
     };
 
@@ -375,24 +400,25 @@ const SuperAdminPharmacies: React.FC = () => {
         try {
             setInventoryLoading(true);
             const response = await api.get(`/pharmacies/${pharmacyId}/inventory`);
-            if (response.data.success) {
-                setInventory(response.data.data || []);
+            if (response.success) {
+                setInventory(response.data || []);
             }
-        } catch (err) {
+        } catch (err: any) {
             console.error('Failed to load inventory:', err);
-            setInventory([]);
+            // toast.error('Failed to load inventory');
         } finally {
             setInventoryLoading(false);
         }
     };
+
 
     // Load global products (optionally with branch-specific stock data)
     const loadProducts = async (branchId?: string) => {
         try {
             setProductsLoading(true);
             const url = branchId
-                ? `/pharmacy/products-branch?branch_id=${branchId}`
-                : '/pharmacy/products';
+                ? `/pharmacies/products-branch?branch_id=${branchId}`
+                : '/pharmacies/products';
             const response = await api.get(url);
             if (response.data.status === 200 && response.data.products) {
                 setProducts(response.data.products);
@@ -471,7 +497,7 @@ const SuperAdminPharmacies: React.FC = () => {
     // Load suppliers for product form
     const loadSuppliers = async () => {
         try {
-            const response = await api.get('/pharmacy/suppliers');
+            const response = await api.get('/pharmacies/suppliers');
             if (response.data.status === 200 && response.data.suppliers) {
                 setSuppliers(response.data.suppliers);
             }
@@ -628,11 +654,11 @@ const SuperAdminPharmacies: React.FC = () => {
         }
     }, [activeMainTab]);
 
-    // Load suppliers for supplier tab (reuse existing suppliers state)
+    // Load suppliers for supplier tab
     const loadSuppliersForTab = async () => {
         try {
             setSuppliersLoading(true);
-            const response = await api.get('/pharmacy/suppliers');
+            const response = await api.get('/pharmacies/suppliers');
             if (response.data.status === 200 && response.data.suppliers) {
                 setSuppliers(response.data.suppliers);
             }
@@ -739,7 +765,7 @@ const SuperAdminPharmacies: React.FC = () => {
         try {
             setSuppliersLoading(true);
             const response = await api.delete(`/delete-supplier/${selectedSupplier.id}`);
-            if (response.data.status === 200) {
+            if (response.status === 200 || response.success) {
                 setSuccessMessage('Supplier deleted successfully');
                 setShowSupplierDeleteConfirm(false);
                 setSelectedSupplier(null);
@@ -813,14 +839,21 @@ const SuperAdminPharmacies: React.FC = () => {
             email: '',
             location_in_branch: '',
             is_active: true,
-            branch_id: ''
+            branch_id: '',
+            pharmacist_id: ''
         });
+        loadAvailablePharmacists();
     };
 
     // Create pharmacy
     const handleCreate = async () => {
         if (!formData.pharmacy_name || !formData.pharmacy_code) {
             setError('Pharmacy name and code are required');
+            return;
+        }
+
+        if (!formData.pharmacist_id) {
+            setError('A pharmacist must be assigned to the pharmacy');
             return;
         }
 
@@ -840,7 +873,7 @@ const SuperAdminPharmacies: React.FC = () => {
             }
 
             const response = await api.post('/pharmacies', payload);
-            if (response.data.success) {
+            if (response.success) {
                 setSuccessMessage('Pharmacy created successfully');
                 setShowCreateModal(false);
                 resetForm();
@@ -870,7 +903,7 @@ const SuperAdminPharmacies: React.FC = () => {
             };
 
             const response = await api.put(`/pharmacies/${selectedPharmacy.id}`, payload);
-            if (response.data.success) {
+            if (response.success) {
                 setSuccessMessage('Pharmacy updated successfully');
                 setShowEditModal(false);
                 setSelectedPharmacy(null);
@@ -896,7 +929,7 @@ const SuperAdminPharmacies: React.FC = () => {
             const response = await api.put(`/pharmacies/${selectedPharmacy.id}`, {
                 branch_id: allocateBranchId
             });
-            if (response.data.success) {
+            if (response.success) {
                 setSuccessMessage(`Pharmacy allocated to branch successfully`);
                 setShowAllocateModal(false);
                 setSelectedPharmacy(null);
@@ -917,7 +950,7 @@ const SuperAdminPharmacies: React.FC = () => {
             const response = await api.put(`/pharmacies/${pharmacy.id}`, {
                 is_active: newStatus === 'active'
             });
-            if (response.data.success) {
+            if (response.success) {
                 setSuccessMessage(`Pharmacy ${newStatus === 'active' ? 'activated' : 'deactivated'} successfully`);
                 loadPharmacies();
             }
@@ -940,7 +973,7 @@ const SuperAdminPharmacies: React.FC = () => {
         try {
             setLoading(true);
             const response = await api.delete(`/pharmacies/${selectedPharmacy.id}`);
-            if (response.data.success) {
+            if (response.success) {
                 setSuccessMessage('Pharmacy deleted successfully');
                 setShowDeleteConfirm(false);
                 setSelectedPharmacy(null);
@@ -965,8 +998,18 @@ const SuperAdminPharmacies: React.FC = () => {
             email: pharmacy.email || '',
             location_in_branch: pharmacy.location || '',
             is_active: pharmacy.status === 'active',
-            branch_id: pharmacy.branch_id || ''
+            branch_id: pharmacy.branch_id || '',
+            pharmacist_id: pharmacy.pharmacist_id || ''
         });
+        // Ensure current pharmacist is available in selection
+        if (pharmacy.pharmacist_id && pharmacy.pharmacist_name) {
+            setAvailablePharmacists(prev => {
+                if (!prev.find(p => p.id === pharmacy.pharmacist_id)) {
+                    return [...prev, { id: pharmacy.pharmacist_id!, name: pharmacy.pharmacist_name! }];
+                }
+                return prev;
+            });
+        }
         setShowEditModal(true);
     };
 
@@ -1009,8 +1052,8 @@ const SuperAdminPharmacies: React.FC = () => {
                     <button
                         onClick={() => setActiveMainTab('pharmacies')}
                         className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${activeMainTab === 'pharmacies'
-                                ? 'border-emerald-500 text-emerald-600'
-                                : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'
+                            ? 'border-emerald-500 text-emerald-600'
+                            : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'
                             }`}
                     >
                         <Building2 className="w-5 h-5" />
@@ -1019,8 +1062,8 @@ const SuperAdminPharmacies: React.FC = () => {
                     <button
                         onClick={() => setActiveMainTab('inventory')}
                         className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${activeMainTab === 'inventory'
-                                ? 'border-emerald-500 text-emerald-600'
-                                : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'
+                            ? 'border-emerald-500 text-emerald-600'
+                            : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'
                             }`}
                     >
                         <Box className="w-5 h-5" />
@@ -1029,8 +1072,8 @@ const SuperAdminPharmacies: React.FC = () => {
                     <button
                         onClick={() => setActiveMainTab('suppliers')}
                         className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${activeMainTab === 'suppliers'
-                                ? 'border-emerald-500 text-emerald-600'
-                                : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'
+                            ? 'border-emerald-500 text-emerald-600'
+                            : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'
                             }`}
                     >
                         <Truck className="w-5 h-5" />
@@ -1206,6 +1249,9 @@ const SuperAdminPharmacies: React.FC = () => {
                                                 Branch
                                             </th>
                                             <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
+                                                Pharmacist
+                                            </th>
+                                            <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
                                                 Status
                                             </th>
                                             <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
@@ -1241,11 +1287,21 @@ const SuperAdminPharmacies: React.FC = () => {
                                                     )}
                                                 </td>
                                                 <td className="px-6 py-4">
+                                                    {pharmacy.pharmacist_name ? (
+                                                        <div className="flex items-center gap-2">
+                                                            <User className="w-4 h-4 text-neutral-400" />
+                                                            <span className="text-neutral-700">{pharmacy.pharmacist_name}</span>
+                                                        </div>
+                                                    ) : (
+                                                        <span className="text-neutral-400 italic">No Pharmacist</span>
+                                                    )}
+                                                </td>
+                                                <td className="px-6 py-4">
                                                     <button
                                                         onClick={() => handleToggleStatus(pharmacy)}
                                                         className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${pharmacy.status === 'active'
-                                                                ? 'bg-emerald-100 text-emerald-700'
-                                                                : 'bg-neutral-100 text-neutral-600'
+                                                            ? 'bg-emerald-100 text-emerald-700'
+                                                            : 'bg-neutral-100 text-neutral-600'
                                                             }`}
                                                     >
                                                         {pharmacy.status === 'active' ? (
@@ -1518,8 +1574,8 @@ const SuperAdminPharmacies: React.FC = () => {
                                                 </td>
                                                 <td className="px-4 py-3 text-right">
                                                     <span className={`font-medium ${(product.current_stock || 0) === 0 ? 'text-error-600' :
-                                                            (product.current_stock || 0) <= (product.min_stock || 0) ? 'text-amber-600' :
-                                                                'text-neutral-900'
+                                                        (product.current_stock || 0) <= (product.min_stock || 0) ? 'text-amber-600' :
+                                                            'text-neutral-900'
                                                         }`}>
                                                         {product.current_stock || 0} {product.unit}
                                                     </span>
@@ -2109,8 +2165,8 @@ const SuperAdminPharmacies: React.FC = () => {
                                                 key={branchStock.branch_id}
                                                 onClick={() => openBranchStockEdit(branchStock)}
                                                 className={`p-4 rounded-xl border-2 cursor-pointer transition-all hover:shadow-md ${branchStock.has_stock
-                                                        ? 'border-emerald-200 bg-emerald-50/50 hover:border-emerald-400'
-                                                        : 'border-neutral-200 bg-neutral-50/50 hover:border-gray-400'
+                                                    ? 'border-emerald-200 bg-emerald-50/50 hover:border-emerald-400'
+                                                    : 'border-neutral-200 bg-neutral-50/50 hover:border-gray-400'
                                                     }`}
                                             >
                                                 <div className="flex items-center justify-between mb-2">
@@ -2131,8 +2187,8 @@ const SuperAdminPharmacies: React.FC = () => {
                                                         <div>
                                                             <p className="text-neutral-500">Stock</p>
                                                             <p className={`font-semibold ${branchStock.current_stock === 0 ? 'text-error-600' :
-                                                                    branchStock.current_stock <= branchStock.min_stock ? 'text-amber-600' :
-                                                                        'text-neutral-900'
+                                                                branchStock.current_stock <= branchStock.min_stock ? 'text-amber-600' :
+                                                                    'text-neutral-900'
                                                                 }`}>
                                                                 {branchStock.current_stock} {branchStock.unit}
                                                             </p>
@@ -2352,8 +2408,8 @@ const SuperAdminPharmacies: React.FC = () => {
                                                 </td>
                                                 <td className="px-4 py-3">
                                                     <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${supplier.supplier_type === 'pharmaceutical' ? 'bg-purple-100 text-purple-700' :
-                                                            supplier.supplier_type === 'medical' ? 'bg-emerald-100 text-emerald-700' :
-                                                                'bg-neutral-100 text-neutral-700'
+                                                        supplier.supplier_type === 'medical' ? 'bg-emerald-100 text-emerald-700' :
+                                                            'bg-neutral-100 text-neutral-700'
                                                         }`}>
                                                         {supplier.supplier_type || 'General'}
                                                     </span>
@@ -2951,6 +3007,25 @@ const SuperAdminPharmacies: React.FC = () => {
                                 />
                             </div>
 
+                            <div>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">
+                                    Assign Pharmacist <span className="text-error-500">*</span>
+                                </label>
+                                <select
+                                    value={formData.pharmacist_id}
+                                    onChange={(e) => setFormData({ ...formData, pharmacist_id: e.target.value })}
+                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                >
+                                    <option value="">Select Pharmacist</option>
+                                    {availablePharmacists.map(p => (
+                                        <option key={p.id} value={p.id}>{p.name}</option>
+                                    ))}
+                                </select>
+                                <p className="text-xs text-neutral-500 mt-1">
+                                    Only unassigned pharmacists are shown. A pharmacist can only be assigned to one pharmacy.
+                                </p>
+                            </div>
+
                             {showCreateModal && (
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">
@@ -3178,8 +3253,8 @@ const SuperAdminPharmacies: React.FC = () => {
                                                         </td>
                                                         <td className="px-4 py-3 text-right">
                                                             <span className={`font-medium ${item.quantity_in_stock === 0 ? 'text-error-600' :
-                                                                    item.quantity_in_stock <= item.reorder_level ? 'text-amber-600' :
-                                                                        'text-neutral-900'
+                                                                item.quantity_in_stock <= item.reorder_level ? 'text-amber-600' :
+                                                                    'text-neutral-900'
                                                                 }`}>
                                                                 {item.quantity_in_stock}
                                                             </span>

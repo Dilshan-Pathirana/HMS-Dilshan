@@ -6,6 +6,7 @@ interface UserTypeDropdownProps {
 }
 
 const userTypes = [
+    "Super Admin",
     "Doctor",
     "Nurse",
     "Cashier",

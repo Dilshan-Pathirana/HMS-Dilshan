@@ -62,6 +62,8 @@ const CreateQuestions = lazy(() => import("../pages/dashboard/Doctor/Patient/Cre
 const GetDoctorQuestions = lazy(() => import("../pages/dashboard/Doctor/Patient/GetDoctorQuestions.tsx"));
 const DoctorScheduleCalendar = lazy(() => import("../pages/dashboard/Doctor/DoctorAppointment/DoctorScheduleCalendar.tsx"));
 const GetDoctorSessions = lazy(() => import("../pages/DoctorDashboard/DoctorSessions/GetDoctorSessions.tsx"));
+const DoctorPatients = lazy(() => import("../pages/dashboard/Doctor/Patient/DoctorPatients.tsx"));
+const MedicalRecord = lazy(() => import("../pages/dashboard/Doctor/Patient/MedicalRecord.tsx"));
 
 // ============================================
 // LAZY LOADED BRANCH ADMIN MODULE
@@ -94,6 +96,11 @@ const BranchAdminModificationRequests = lazy(() => import("../pages/dashboard/Br
 const SuperAdminDashboard = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminDashboard.tsx").then(m => ({ default: m.SuperAdminDashboard })));
 const SuperAdminMainDashboard = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminMainDashboard.tsx"));
 const BranchManagement = lazy(() => import("../pages/dashboard/Branch/BranchManagement.tsx"));
+const BranchView = lazy(() => import("../pages/dashboard/Branch/BranchView/BranchView.tsx"));
+const BranchManage = lazy(() => import("../pages/dashboard/Branch/BranchManage.tsx"));
+const BranchAssign = lazy(() => import("../pages/dashboard/Branch/BranchAssign.tsx"));
+const BranchDetails = lazy(() => import("../pages/dashboard/Branch/BranchDetails.tsx"));
+const BranchStaffManagement = lazy(() => import("../pages/dashboard/Branch/BranchStaffManagement/BranchStaffManagement.tsx"));
 const UserManagement = lazy(() => import("../pages/dashboard/Users/UserManagement/UserManagement.tsx"));
 
 // ============================================
@@ -117,6 +124,7 @@ const SuperAdminFeedbacks = lazy(() => import("../pages/dashboard/SuperAdmin/Sup
 const SuperAdminChatbotManagement = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminChatbotManagement.tsx"));
 const SuperAdminReports = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminReports.tsx").then(m => ({ default: m.SuperAdminReports })));
 const SuperAdminAppointments = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminAppointments.tsx"));
+const SuperAdminPharmacies = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminPharmacies.tsx"));
 
 // Super Admin Staff Management
 const SuperAdminStaffDashboard = lazy(() => import("../pages/dashboard/SuperAdmin/StaffManagement").then(m => ({ default: m.SuperAdminStaffDashboard })));
@@ -173,6 +181,7 @@ const AppRoutes: React.FC = () => {
         <Suspense fallback={<PageLoadingFallback />}>
             <Routes>
                 <Route path="/" element={<Dashboard />} />
+                <Route path="/dashboard/pharmacies" element={<SuperAdminPharmacies />} />
                 <Route path="/login" element={<LoginPage />} />
                 {/* Public doctor search page - anyone can search doctors */}
                 <Route
@@ -251,11 +260,13 @@ const AppRoutes: React.FC = () => {
                     }
                 />
 
+
+
                 <Route
                     path="/dashboard/branch/management"
                     element={
                         <ProtectedRoute>
-                            <BranchManagement />
+                            <BranchStaffManagement />
                         </ProtectedRoute>
                     }
                 />
@@ -521,7 +532,7 @@ const AppRoutes: React.FC = () => {
                     path="/super-admin/staff/profiles"
                     element={
                         <ProtectedRoute>
-                            <SuperAdminStaffDashboard />
+                            <UserManagement />
                         </ProtectedRoute>
                     }
                 />
@@ -626,6 +637,72 @@ const AppRoutes: React.FC = () => {
                     element={
                         <ProtectedRoute allowedRoles={['super_admin']}>
                             <SuperAdminAppointments />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/dashboard/branches"
+                    element={
+                        <ProtectedRoute allowedRoles={['super_admin']}>
+                            <Navigate to="/dashboard/branches/view" replace />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/dashboard/branches/view"
+                    element={
+                        <ProtectedRoute allowedRoles={['super_admin']}>
+                            <BranchView />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/dashboard/branches/list"
+                    element={
+                        <ProtectedRoute allowedRoles={['super_admin']}>
+                            <BranchManagement />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/dashboard/branches/manage"
+                    element={
+                        <ProtectedRoute allowedRoles={['super_admin']}>
+                            <Navigate to="/dashboard/branches/view" replace />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/dashboard/branches/edit/:id"
+                    element={
+                        <ProtectedRoute allowedRoles={['super_admin']}>
+                            <BranchManage />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/dashboard/branches/:id/assign"
+                    element={
+                        <ProtectedRoute allowedRoles={['super_admin']}>
+                            <BranchAssign />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/dashboard/branches/:id/manage"
+                    element={
+                        <ProtectedRoute allowedRoles={['super_admin']}>
+                            <BranchManage />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/dashboard/branches/:id"
+                    element={
+                        <ProtectedRoute allowedRoles={['super_admin']}>
+                            <BranchDetails />
                         </ProtectedRoute>
                     }
                 />
@@ -869,6 +946,38 @@ const AppRoutes: React.FC = () => {
                     element={
                         <ProtectedRoute>
                             <EmployeeScheduleAcknowledgment />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/doctor/schedule"
+                    element={
+                        <ProtectedRoute allowedRoles={['doctor']}>
+                            <DoctorScheduleCalendar />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/doctor/patients"
+                    element={
+                        <ProtectedRoute allowedRoles={['doctor']}>
+                            <DoctorPatients />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/doctor/patients/:id"
+                    element={
+                        <ProtectedRoute allowedRoles={['doctor']}>
+                            <MedicalRecord />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/doctor/appointments"
+                    element={
+                        <ProtectedRoute allowedRoles={['doctor']}>
+                            <AllDoctorRelatedAppointments />
                         </ProtectedRoute>
                     }
                 />
