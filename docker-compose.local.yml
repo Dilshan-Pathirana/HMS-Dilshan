@@ -1,0 +1,21 @@
+services:
+  backend:
+    env_file:
+      - ./.env.local
+    environment:
+      # Override so backend works regardless of how nginx proxies /api paths.
+      - DATABASE_URL=mysql+asyncmy://${DB_USERNAME}:${DB_PASSWORD}@db:3306/${DB_DATABASE}
+    command: sh -c "alembic upgrade head && python seed.py && uvicorn app.main:app --host 0.0.0.0 --port 8000"
+
+  db:
+    env_file:
+      - ./.env.local
+    volumes:
+      - mysql_data_local:/var/lib/mysql
+
+  frontend:
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8000/api/v1
+
+volumes:
+  mysql_data_local:

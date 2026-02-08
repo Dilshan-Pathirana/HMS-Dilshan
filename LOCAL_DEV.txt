@@ -1,0 +1,21 @@
+Local Docker dev (clears/uses local DB only)
+
+1) Create local env:
+   - Copy .env.local.example -> .env.local
+
+2) Reset DB (optional, destroys local data):
+   - Run: local-reset.cmd
+
+3) Start:
+   - Run: local-up.cmd
+
+4) Default seeded Super Admin (local only):
+   - Email: admin@hospital.com
+   - Password: Test@123
+
+5) URLs:
+   - Frontend: http://localhost:5173
+   - Backend: http://localhost:8000 (health: /health)
+
+Stop:
+- local-down.cmd

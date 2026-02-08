@@ -31,7 +31,7 @@ EXPOSE 8000
 
 # Add wait-for-db script
 COPY wait-for-db.sh /wait-for-db.sh
-RUN chmod +x /wait-for-db.sh
+RUN sed -i 's/\r$//' /wait-for-db.sh && chmod +x /wait-for-db.sh
 
 # Command to run the app, waiting for DB
 ENTRYPOINT ["/wait-for-db.sh"]
