@@ -95,6 +95,14 @@ jobs:
             # Prepare compose and env file
             mv -f /tmp/docker-compose.ec2.yml $APP_DIR/docker-compose.ec2.yml
             # Using RDS: connect via the RDS endpoint from GitHub Secrets.
+            if [ -z "$DB_HOST" ]; then
+              echo "DB_HOST secret is empty; cannot connect to RDS"
+              exit 1
+            fi
+            if [ "$DB_HOST" = "db" ]; then
+              echo "DB_HOST is set to 'db' (compose service name). For RDS it must be the RDS endpoint."
+              exit 1
+            fi
             echo "DB_HOST=$DB_HOST" > $APP_DIR/.env
             echo "DB_PORT=$DB_PORT" >> $APP_DIR/.env
             echo "DB_DATABASE=$DB_DATABASE" >> $APP_DIR/.env
@@ -102,6 +110,12 @@ jobs:
             echo "DB_PASSWORD=$DB_PASSWORD" >> $APP_DIR/.env
             echo "DATABASE_URL=mysql+asyncmy://$DB_USERNAME:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_DATABASE" >> $APP_DIR/.env
             echo "SECRET_KEY=$SECRET_KEY" >> $APP_DIR/.env
+
+            echo "==== Effective Database Target (sanitized) ===="
+            echo "DB_HOST=$DB_HOST"
+            echo "DB_PORT=$DB_PORT"
+            echo "DB_DATABASE=$DB_DATABASE"
+            echo "DATABASE_URL=$(grep '^DATABASE_URL=' $APP_DIR/.env | sed -E 's#(mysql\+asyncmy://[^:]+:)[^@]+@#\1***@#')"
 
             echo "==== Running Database Migrations ===="
             # Run migrations with timeout
