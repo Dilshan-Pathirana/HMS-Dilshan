@@ -1,8 +1,9 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
-// Use nullish coalescing to allow empty string as valid baseURL
-// Empty string means no prefix (nginx handles /api/v1 routing)
-const baseURL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+// Allow env override; default to same-origin /api/v1.
+// Normalize to avoid accidental double slashes when callers include leading '/'.
+const rawBaseURL = import.meta.env.VITE_API_BASE_URL || "/api/v1";
+const baseURL = rawBaseURL.endsWith("/") ? rawBaseURL.slice(0, -1) : rawBaseURL;
 
 const axiosInstance = axios.create({
     baseURL,
@@ -14,7 +15,10 @@ const axiosInstance = axios.create({
 // Request Interceptor (Auth Token)
 axiosInstance.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('token');
+        const token =
+            localStorage.getItem("token") ||
+            localStorage.getItem("authToken") ||
+            localStorage.getItem("userToken");
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }

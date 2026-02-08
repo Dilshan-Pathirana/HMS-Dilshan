@@ -91,11 +91,11 @@ const BranchAdminScheduleRequests = lazy(() => import("../pages/dashboard/Branch
 const BranchAdminModificationRequests = lazy(() => import("../pages/dashboard/BranchAdmin/Requests").then(m => ({ default: m.BranchAdminModificationRequests })));
 
 // ============================================
-// LAZY LOADED SUPER ADMIN MODULE  
+// LAZY LOADED SUPER ADMIN MODULE
 // ============================================
 const SuperAdminDashboard = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminDashboard.tsx").then(m => ({ default: m.SuperAdminDashboard })));
 const SuperAdminMainDashboard = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminMainDashboard.tsx"));
-const BranchManagement = lazy(() => import("../pages/dashboard/Branch/BranchManagement.tsx"));
+
 const BranchView = lazy(() => import("../pages/dashboard/Branch/BranchView/BranchView.tsx"));
 const BranchManage = lazy(() => import("../pages/dashboard/Branch/BranchManage.tsx"));
 const BranchAssign = lazy(() => import("../pages/dashboard/Branch/BranchAssign.tsx"));
@@ -657,14 +657,7 @@ const AppRoutes: React.FC = () => {
                         </ProtectedRoute>
                     }
                 />
-                <Route
-                    path="/dashboard/branches/list"
-                    element={
-                        <ProtectedRoute allowedRoles={['super_admin']}>
-                            <BranchManagement />
-                        </ProtectedRoute>
-                    }
-                />
+
                 <Route
                     path="/dashboard/branches/manage"
                     element={

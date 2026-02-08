@@ -8,7 +8,7 @@ import { DashboardLayout as NewDashboardLayout } from "../components/common/Layo
 import { SidebarMenu, SuperAdminMenuItems, BranchAdminMenuItems } from "../components/common/Layout/SidebarMenu.tsx";
 import UsersCreatePage from "../pages/dashboard/Users/UsersCreatePage.tsx";
 import UserManagement from "../pages/dashboard/Users/UserManagement/UserManagement.tsx";
-import BranchManagement from "../pages/dashboard/Branch/BranchManagement.tsx";
+import BranchView from "../pages/dashboard/Branch/BranchView/BranchView.tsx";
 import PharmacyManagement from "../pages/dashboard/Branch/PharmacyManagement.tsx";
 import DoctorScheduleManagement from "../pages/Appoiment/DoctorSchedule/DoctorScheduleManagement.tsx";
 import DoctorAppointmentManagement from "../pages/Appoiment/AppoimentShedule/DoctorAppointmentManagement.tsx";
@@ -143,7 +143,7 @@ const DashboardLayout = () => {
                         [
                             {
                                 path: "/branch",
-                                element: <BranchManagement />,
+                                element: <BranchView />,
                             },
                             {
                                 path: "/branch/pharmacies",

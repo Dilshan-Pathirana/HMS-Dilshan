@@ -7,6 +7,7 @@ import Spinner from "../../../../assets/Common/Spinner.tsx";
 import { Search } from "lucide-react";
 import api from "../../../../utils/api/axios";
 import alert from "../../../../utils/alert.ts";
+import BranchCreateModal from "../BranchCreate/BranchCreateModal.tsx";
 
 const BranchView = () => {
     const navigate = useNavigate();
@@ -14,10 +15,13 @@ const BranchView = () => {
     const [filteredBranches, setFilteredBranches] = useState<IBranchData[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
+    const [isCreateOpen, setIsCreateOpen] = useState(false);
+    const [refreshKey, setRefreshKey] = useState(0);
 
     useEffect(() => {
         const fetchBranches = async () => {
             try {
+                setIsLoading(true);
                 const data = await getAllBranches();
                 setBranches(data || []);
                 setFilteredBranches(data || []);
@@ -28,7 +32,7 @@ const BranchView = () => {
             }
         };
         fetchBranches();
-    }, []);
+    }, [refreshKey]);
 
     useEffect(() => {
         const results = branches.filter(branch =>
@@ -69,6 +73,10 @@ const BranchView = () => {
 
     if (isLoading) return <Spinner isLoading={true} />;
 
+    const openCreate = () => setIsCreateOpen(true);
+    const closeCreate = () => setIsCreateOpen(false);
+    const onBranchCreated = () => setRefreshKey((k) => k + 1);
+
     return (
         <div className="p-8 max-w-7xl mx-auto space-y-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -77,15 +85,24 @@ const BranchView = () => {
                     <p className="text-neutral-500 mt-1">View details for all registered branches</p>
                 </div>
 
-                <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
-                    <input
-                        type="text"
-                        placeholder="Search branches..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none w-full md:w-64 transition-all"
-                    />
+                <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
+                    <div className="relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
+                        <input
+                            type="text"
+                            placeholder="Search branches..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="pl-10 pr-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none w-full md:w-64 transition-all"
+                        />
+                    </div>
+
+                    <button
+                        onClick={openCreate}
+                        className="px-6 py-2 bg-primary-500 rounded-lg hover:bg-primary-600 text-white"
+                    >
+                        Add Branch
+                    </button>
                 </div>
             </div>
 
@@ -96,6 +113,14 @@ const BranchView = () => {
                 onAssignStaff={handleAssignStaff}
                 onDeleteBranch={handleDeleteBranch}
             />
+
+            {isCreateOpen && (
+                <BranchCreateModal
+                    isOpen={isCreateOpen}
+                    closeModal={closeCreate}
+                    onBranchCreated={onBranchCreated}
+                />
+            )}
         </div>
     );
 };
