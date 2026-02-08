@@ -37,7 +37,7 @@ const CashierCreateForm: React.FC<CashierCreateFormProps> = ({ onSuccess }) => {
         // Check if user is Branch Admin and get their branch
         const userInfo = JSON.parse(localStorage.getItem('user') || '{}');
         const roleAs = userInfo.role_as;
-        
+
         // Role 2 is Branch Admin
         if (roleAs === 2) {
             setIsBranchAdmin(true);
@@ -50,24 +50,21 @@ const CashierCreateForm: React.FC<CashierCreateFormProps> = ({ onSuccess }) => {
 
         const fetchBranchList = async () => {
             try {
-                const response = await api.get("api/get-branches");
+                // Endpoint is /branches, and interceptor returns data directly (Array of branches)
+                const data = await api.get<IBranchData[]>("/branches");
 
-                if (response.data.status === 200) {
-                    const options = response.data.branches.map((branch: IBranchData) => ({
-                        value: branch.id,
+                if (Array.isArray(data)) {
+                    const options = data.map((branch: IBranchData) => ({
+                        value: branch.id!,
                         label: branch.center_name
                     }));
                     setBranchOptions(options);
                 }
             } catch (error) {
-                if (axios.isAxiosError(error)) {
-                    alert.warn("Failed to fetch branch list: " + error.message);
-                } else {
-                    alert.warn("Failed to fetch branch list.");
-                }
-
+                console.error("Failed to fetch branch list", error);
             }
         };
+
         fetchBranchList();
     }, []);
 
@@ -142,32 +139,24 @@ const CashierCreateForm: React.FC<CashierCreateFormProps> = ({ onSuccess }) => {
             alert.warn('Passwords do not match');
             return;
         }
-        if (!formData.branch_id) {
-            alert.warn('Branch is required');
-            return;
-        }
 
         try {
             const formDataToSend = appendFormData(formData);
 
-            // Use branch-admin prefixed endpoint for Branch Admin users
-            const endpoint = isBranchAdmin ? 'api/branch-admin/create-cashier' : 'api/create-cashier';
-            const response = await api.post(endpoint, formDataToSend, {
+            // Add user_type for the generic endpoint
+            formDataToSend.append('user_type', 'Cashier');
+
+            // Use generic staff endpoint
+            const response = await api.post('users/create-staff', formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
 
-            const {status, data} = response
+            // Response is already unwrapped by axios interceptor (response.data)
+            if (response && response.message) {
+                alert.success(response.message);
 
-            if (data.status === 500) {
-                alert.warn('Failed to create cashier. Please try again with correct data.');
-                return;
-            }
-
-            if (status === 200) {
-                alert.success(data.message);
-                
                 // Call onSuccess callback or redirect based on user role
                 setTimeout(() => {
                     if (onSuccess) {
@@ -180,8 +169,22 @@ const CashierCreateForm: React.FC<CashierCreateFormProps> = ({ onSuccess }) => {
                 }, 1500);
             }
         } catch (error) {
-            if (axios.isAxiosError(error) && error.response?.status === 422) {
-                setErrors(error.response.data.error || {});
+            if (axios.isAxiosError(error)) {
+                if (error.response?.status === 400) {
+                    const errorMessage = error.response.data?.detail || 'Bad request';
+                    if (errorMessage.includes('email already exists')) {
+                        alert.warn('This email address is already registered. Please use a different email.');
+                    } else {
+                        alert.warn(errorMessage);
+                    }
+                } else if (error.response?.status === 422) {
+                    setErrors(error.response.data.error || {});
+                    alert.warn('Please check the form for validation errors.');
+                } else {
+                    alert.warn(
+                        "Failed to create cashier: " + (error.response?.data?.detail || error.message),
+                    );
+                }
             } else {
                 alert.warn(
                     "Failed to create cashier: " + (error as Error).message,
@@ -234,7 +237,7 @@ const CashierCreateForm: React.FC<CashierCreateFormProps> = ({ onSuccess }) => {
 
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
-                    Branch <span className="text-error-500">*</span>
+                    Branch (optional)
                 </label>
                 {isBranchAdmin ? (
                     <div className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm bg-neutral-100">
@@ -468,7 +471,7 @@ const CashierCreateForm: React.FC<CashierCreateFormProps> = ({ onSuccess }) => {
             </div>
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
-                Contract Duration
+                    Contract Duration
                 </label>
                 <input
                     type="text"

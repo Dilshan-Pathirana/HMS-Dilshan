@@ -1,0 +1,25 @@
+{
+  "detail": "Validation Error",
+  "errors": [
+    {
+      "type": "missing",
+      "loc": [
+        "body",
+        "user_id"
+      ],
+      "msg": "Field required",
+      "input": {
+        "first_name": "Test",
+        "last_name": "Doctor",
+        "email": "doctor_zq8vlr@example.com",
+        "password": "password123",
+        "specialization": "Cardiology",
+        "qualification": "MD",
+        "contact_number": "1234567890",
+        "experience_years": 5,
+        "branch_id": null
+      },
+      "url": "https://errors.pydantic.dev/2.12/v/missing"
+    }
+  ]
+}

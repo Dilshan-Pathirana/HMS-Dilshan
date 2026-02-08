@@ -43,7 +43,20 @@ const UserTable = () => {
     }, []);
 
     useEffect(() => {
-        setAllUsers([...users, ...branch]);
+        // Doctors exist in both sources:
+        // - /users (plain auth user record)
+        // - /doctors (doctor profile + nested user)
+        // Showing both creates duplicates; prefer the richer doctor profile row.
+        const doctorIds = new Set(
+            (branch || []).map((d: any) => d?.id).filter(Boolean),
+        );
+
+        const nonDoctorUsers = (users || []).filter((u: any) => {
+            const userId = u?.id;
+            return !userId || !doctorIds.has(userId);
+        });
+
+        setAllUsers([...nonDoctorUsers, ...(branch || [])]);
     }, [users, branch]);
 
     useEffect(() => {
@@ -154,14 +167,33 @@ const UserTable = () => {
             // Handle array response or object response
             const doctors = Array.isArray(response) ? response : (response as any).doctors;
 
-            if (doctors) {
-                setDoctorUsers(doctors);
+            if (doctors && Array.isArray(doctors)) {
+                // Normalize DoctorRead -> IUserData-ish shape expected by the table
+                const normalizedDoctors: any[] = doctors.map((doctor: any) => {
+                    const user = doctor?.user;
+                    return {
+                        id: user?.id || doctor?.user_id || doctor?.id,
+                        first_name: doctor?.first_name || "",
+                        last_name: doctor?.last_name || "",
+                        email: user?.email || doctor?.email || "",
+                        // Frontend treats Doctor as role_as=3 (see UserRole enum / roleOptions)
+                        role_as: 3,
+                        user_type: "Doctor",
+                        branch_id: doctor?.branch_id || user?.branch_id || "",
+                        center_name: doctor?.center_name || "",
+                        cashier_id: doctor?.cashier_id || "",
+                        contact_number_mobile: doctor?.contact_number || doctor?.contact_number_mobile || "",
+                        branches: doctor?.branches || [],
+                    };
+                });
+                setDoctorUsers(normalizedDoctors);
             } else {
                 // If endpoint returns empty list, it might not be an error
                 setDoctorUsers([]);
             }
         } catch (error) {
-            // alert.error("Error fetching users. Please try again later.");
+            console.error("Error fetching doctors:", error);
+            setDoctorUsers([]);
         } finally {
             setIsLoading(false);
         }

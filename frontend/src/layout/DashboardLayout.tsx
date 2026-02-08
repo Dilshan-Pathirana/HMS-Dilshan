@@ -142,7 +142,7 @@ const DashboardLayout = () => {
                         permissionForAdminUser,
                         [
                             {
-                                path: "/branch/management",
+                                path: "/branch",
                                 element: <BranchManagement />,
                             },
                             {

@@ -82,7 +82,7 @@ const BranchEditModal: React.FC<EditModalProps> = ({
 
             try {
                 const response = await api.put(
-                    `/api/v1/branches/${formData.id}`,
+                    `/branches/${formData.id}`,
                     formDataToSend,
                     {
                         headers: {

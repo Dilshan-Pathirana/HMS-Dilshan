@@ -44,7 +44,7 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
         // Check if user is Branch Admin and get their branch
         const userInfo = JSON.parse(localStorage.getItem('user') || '{}');
         const roleAs = userInfo.role_as;
-        
+
         // Role 2 is Branch Admin
         if (roleAs === 2) {
             setIsBranchAdmin(true);
@@ -57,23 +57,31 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
 
         const fetchBranchList = async () => {
             try {
-                const response = await api.get("api/get-branches");
+                // Endpoint is /branches, and interceptor returns data directly (Array of branches)
+                const data = await api.get<IBranchData[]>("/branches");
 
-                if (response.data.status === 200) {
-                    const options = response.data.branches.map((branch: IBranchData) => ({
-                        value: branch.id,
+                if (Array.isArray(data)) {
+                    const options = data.map((branch: IBranchData) => ({
+                        value: branch.id!, // Ensure ID is present
                         label: branch.center_name
                     }));
                     setBranchOptions(options);
                 }
             } catch (error) {
+                console.error("Failed to fetch branch list", error);
+
+                /*
                 if (axios.isAxiosError(error)) {
-                    alert.warn("Failed to fetch branch list: " + error.message);
-                } else {
-                    alert.warn("Failed to fetch branch list.");
+                   // Optional: toast.error or existing alert
                 }
+                */
             }
         };
+
+        // Only fetch branches if NOT a branch admin (who is locked to their branch)
+        // Or fetch anyway to populate the one option?
+        // Logic below (line 49) sets userBranchId if Branch Admin.
+        // If we are Super Admin, we need the list.
         fetchBranchList();
     }, []);
 
@@ -114,25 +122,43 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Password validation
+        // Basic required fields
         const newErrors: Record<string, string[]> = {};
-        
+
+        if (!formData.first_name.trim()) {
+            newErrors.first_name = ['First name is required'];
+        }
+        if (!formData.last_name.trim()) {
+            newErrors.last_name = ['Last name is required'];
+        }
+        if (!formData.email.trim()) {
+            newErrors.email = ['Email is required'];
+        }
+
         if (!formData.password.trim()) {
             newErrors.password = ['Password is required'];
         } else if (formData.password.length < 6) {
             newErrors.password = ['Password must be at least 6 characters'];
         }
-        
+
         if (!formData.confirm_password.trim()) {
             newErrors.confirm_password = ['Please confirm your password'];
         } else if (formData.password !== formData.confirm_password) {
             newErrors.confirm_password = ['Passwords do not match'];
         }
-        
+
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
             alert.warn('Please fix the password errors before submitting');
             return;
+        }
+
+        // Branch validation
+
+        // Ensure Super Admin has no branch
+        if (userType === "Super Admin") {
+            // force clear branch_id for Super Admin just in case
+            formData.branch_id = "";
         }
 
         // Map user types to their API endpoints
@@ -161,8 +187,8 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
 
         const baseEndpoint = baseEndpointMap[userType] || 'create-user';
         // Use branch-admin prefix for Branch Admin users (except for creating other Branch Admins)
-        const endpoint = isBranchAdmin && userType !== "Branch Admin" 
-            ? `branch-admin/${baseEndpoint}` 
+        const endpoint = isBranchAdmin && userType !== "Branch Admin"
+            ? `branch-admin/${baseEndpoint}`
             : baseEndpoint;
 
         try {
@@ -170,37 +196,24 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
             Object.entries(formData).forEach(([key, value]) => {
                 // Don't send confirm_password to backend
                 if (key === 'confirm_password') return;
+                if (key === 'branch_id' && (!value || value === '')) return; // optional branch
                 if (value !== null && value !== '') {
                     formDataToSend.append(key, value);
                 }
             });
             formDataToSend.append('user_type', userType);
 
-            const response = await api.post(`api/${endpoint}`, formDataToSend, {
+            // Use generic staff endpoint for all user types
+            const response = await api.post('users/create-staff', formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
 
-            const { status, data } = response;
+            // Response is already unwrapped by axios interceptor (response.data)
+            if (response && response.message) {
+                alert.success(response.message || `${userType} created successfully`);
 
-            if (data.status === 500) {
-                const errorMessage = data.message || 'Something went wrong. Please check your information and try again.';
-                alert.warn(errorMessage);
-                
-                // Show detailed errors if available
-                if (data.errors) {
-                    const errorDetails = Object.entries(data.errors)
-                        .map(([field, messages]) => `${field}: ${Array.isArray(messages) ? messages.join(', ') : messages}`)
-                        .join('\n');
-                    alert.warn(`Please check the following:\n${errorDetails}`);
-                }
-                return;
-            }
-
-            if (status === 200 || status === 201) {
-                alert.success(data.message || `${userType} created successfully`);
-                
                 // Call onSuccess callback or redirect based on user role
                 setTimeout(() => {
                     if (onSuccess) {
@@ -215,12 +228,23 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 const response = error.response;
-                
+
+                // Handle 400 Bad Request (email exists, etc.)
+                if (response?.status === 400) {
+                    const errorMessage = response.data?.detail || 'Bad request';
+                    if (errorMessage.includes('email already exists')) {
+                        alert.warn('This email address is already registered. Please use a different email.');
+                    } else {
+                        alert.warn(errorMessage);
+                    }
+                    return;
+                }
+
                 // Handle 422 Validation Errors
                 if (response?.status === 422) {
                     const validationErrors = response.data.errors || response.data.error || {};
                     setErrors(validationErrors);
-                    
+
                     // Create a detailed error message
                     const errorMessages = Object.entries(validationErrors)
                         .map(([field, messages]) => {
@@ -229,25 +253,25 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
                             return `• ${fieldName}: ${messageArray.join(', ')}`;
                         })
                         .join('\n');
-                    
+
                     alert.warn(`Please fix the following errors:\n\n${errorMessages}`);
                     return;
                 }
-                
+
                 // Handle 404 Not Found (endpoint doesn't exist)
                 if (response?.status === 404) {
                     alert.warn(`Sorry, the system is not yet set up to create ${userType} accounts.\n\nPlease contact your system administrator for assistance.`);
                     return;
                 }
-                
+
                 // Handle 405 Method Not Allowed
                 if (response?.status === 405) {
                     alert.warn(`Sorry, the system is not yet configured to create ${userType} accounts.\n\nPlease contact your system administrator for assistance.`);
                     return;
                 }
-                
+
                 // Handle other HTTP errors
-                const errorMsg = response?.data?.message || response?.data?.error || error.message;
+                const errorMsg = response?.data?.detail || response?.data?.message || response?.data?.error || error.message;
                 alert.warn(`Unable to create ${userType} account:\n\n${errorMsg}\n\nPlease try again or contact support if the problem continues.`);
             } else {
                 alert.warn(`Unable to create ${userType} account:\n\n${(error as Error).message}\n\nPlease try again or contact support if the problem continues.`);
@@ -397,31 +421,33 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
                 )}
             </div>
 
-            <div className="col-span-1">
-                <label className="block text-sm font-medium text-neutral-700">
-                    Branch <span className="text-error-500">*</span>
-                </label>
-                {isBranchAdmin ? (
-                    <div className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm bg-neutral-100">
-                        {userBranchName}
-                        <input type="hidden" name="branch_id" value={userBranchId} />
-                    </div>
-                ) : (
-                    <Select
-                        options={branchOptions}
-                        onChange={handleBranchChange}
-                        value={branchOptions.find(opt => opt.value === formData.branch_id) || null}
-                        className="mt-1"
-                        placeholder="Select a branch"
-                        isClearable
-                    />
-                )}
-                {errors.branch_id && (
-                    <p className="text-error-500 text-sm mt-1">
-                        {errors.branch_id[0]}
-                    </p>
-                )}
-            </div>
+            {userType !== "Super Admin" && (
+                <div className="col-span-1">
+                    <label className="block text-sm font-medium text-neutral-700">
+                        Branch (optional)
+                    </label>
+                    {isBranchAdmin ? (
+                        <div className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm bg-neutral-100">
+                            {userBranchName}
+                            <input type="hidden" name="branch_id" value={userBranchId} />
+                        </div>
+                    ) : (
+                        <Select
+                            options={branchOptions}
+                            onChange={handleBranchChange}
+                            value={branchOptions.find(opt => opt.value === formData.branch_id) || null}
+                            className="mt-1"
+                            placeholder="Select a branch (Optional)"
+                            isClearable
+                        />
+                    )}
+                    {errors.branch_id && (
+                        <p className="text-error-500 text-sm mt-1">
+                            {errors.branch_id[0]}
+                        </p>
+                    )}
+                </div>
+            )}
 
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">

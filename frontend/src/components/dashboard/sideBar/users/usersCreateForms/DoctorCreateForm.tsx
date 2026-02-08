@@ -161,116 +161,90 @@ const DoctorCreateForm: React.FC<DoctorCreateFormProps> = ({ onSuccess }) => {
             alert.warn('Date of birth is required');
             return;
         }
-        if (!formData.branch_ids || formData.branch_ids.length === 0) {
-            alert.warn('Branch is required');
-            return;
-        }
 
         try {
-            const formDataToSend = new FormData();
+            // Map frontend form data to backend expected schema (DoctorUserCreateRequest)
+            const payload = {
+                first_name: formData.first_name,
+                last_name: formData.last_name,
+                email: formData.email,
+                password: formData.password,
+                specialization: formData.areas_of_specialization && formData.areas_of_specialization.length > 0
+                    ? formData.areas_of_specialization.join(', ')
+                    : 'General',
+                qualification: formData.qualifications || 'Not Specified',
+                contact_number: formData.contact_number_mobile || 'N/A',
+                experience_years: Number(formData.years_of_experience) || 0,
+                branch_id: formData.branch_ids && formData.branch_ids.length > 0 ? formData.branch_ids[0] : null
+            };
 
-            // Required fields
-            formDataToSend.append('first_name', formData.first_name);
-            formDataToSend.append('last_name', formData.last_name);
-            formDataToSend.append('email', formData.email);
-            formDataToSend.append('password', formData.password);
-            formDataToSend.append('date_of_birth', formData.date_of_birth);
-            formDataToSend.append('branch_ids', JSON.stringify(formData.branch_ids));
-            formDataToSend.append('nic_number', formData.nic_number || 'N/A');
-            formDataToSend.append('contact_number_mobile', formData.contact_number_mobile || 'N/A');
-            formDataToSend.append('contact_number_landline', formData.contact_number_landline || 'N/A');
-            formDataToSend.append('emergency_contact_info', formData.emergency_contact_info || 'N/A');
-            formDataToSend.append('contract_type', formData.contract_type || 'full-time');
+            // FastAPI route is mounted at /api/v1/doctors; our axios baseURL already includes /api/v1
+            // Branch-admin specific route does not exist in this backend.
+            const endpoint = "doctors/";
 
-            // Optional fields - only send if not empty
-            if (formData.gender) {
-                formDataToSend.append('gender', formData.gender.toLowerCase());
-            }
-            if (formData.home_address) {
-                formDataToSend.append('home_address', formData.home_address);
-            }
-            if (formData.medical_registration_number) {
-                formDataToSend.append('medical_registration_number', formData.medical_registration_number);
-            }
-            if (formData.qualifications) {
-                formDataToSend.append('qualifications', formData.qualifications);
-            }
-            if (formData.years_of_experience > 0) {
-                formDataToSend.append('years_of_experience', formData.years_of_experience.toString());
-            }
-            if (formData.areas_of_specialization && formData.areas_of_specialization.length > 0) {
-                formDataToSend.append('areas_of_specialization', JSON.stringify(formData.areas_of_specialization));
-            }
-            if (formData.previous_employment) {
-                formDataToSend.append('previous_employment', formData.previous_employment);
-            }
-            if (formData.license_validity_date) {
-                formDataToSend.append('license_validity_date', formData.license_validity_date);
-            }
-            if (formData.joining_date) {
-                formDataToSend.append('joining_date', formData.joining_date);
-            }
-            if (formData.contract_duration) {
-                formDataToSend.append('contract_duration', formData.contract_duration);
-            }
-            if (formData.probation_start_date) {
-                formDataToSend.append('probation_start_date', formData.probation_start_date);
-            }
-            if (formData.probation_end_date) {
-                formDataToSend.append('probation_end_date', formData.probation_end_date);
-            }
-            if (formData.compensation_package) {
-                formDataToSend.append('compensation_package', formData.compensation_package);
-            }
-            // Photo upload will be handled separately if needed
+            // Send as JSON
+            const response: any = await api.post(endpoint, payload);
 
-            // Use branch-admin prefixed endpoint for Branch Admin users
-            const endpoint = isBranchAdmin ? "api/branch-admin/create-doctor" : "api/create-doctor";
-            const response = await api.post(
-                endpoint,
-                formDataToSend,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                },
-            );
+            // If request succeeded, backend returns the created Doctor object (no `message` field)
+            if (response) {
+                alert.success("Doctor created successfully");
+                setErrors({});
+                setConfirmPassword("");
+                setSelectedSpecializations([]);
+                if (!isBranchAdmin) {
+                    setSelectedBranches([]);
+                }
+                setFormData(prev => ({
+                    ...doctorCreateFormInitialState,
+                    areas_of_specialization: [],
+                    branch_ids: isBranchAdmin && userBranchId ? [userBranchId] : [],
+                }));
 
-            if (response.status === 200) {
-                alert.success(response.data.message);
+                // Refresh parent list + close modal if provided
+                if (onSuccess) {
+                    onSuccess();
+                    return;
+                }
 
-                // Call onSuccess callback or redirect based on user role
-                setTimeout(() => {
-                    if (onSuccess) {
-                        onSuccess();
-                    } else if (isBranchAdmin) {
-                        navigate('/branch-admin/hrm/staff');
-                    } else {
-                        navigate('/dashboard/users/list');
-                    }
-                }, 1500);
+                // Fallback navigation when used outside modal context
+                if (isBranchAdmin) {
+                    navigate('/branch-admin/hrm/staff');
+                } else {
+                    navigate('/dashboard/users/list');
+                }
             }
         } catch (error) {
-            if (axios.isAxiosError(error) && error.response?.status === 422) {
-                const validationErrors = error.response.data.errors || {};
-                setErrors(validationErrors);
+            if (axios.isAxiosError(error)) {
+                if (error.response?.status === 400) {
+                    const errorMessage = error.response.data?.detail || 'Bad request';
+                    if (errorMessage.includes('email already exists')) {
+                        alert.warn('This email address is already registered. Please use a different email.');
+                    } else {
+                        alert.warn(errorMessage);
+                    }
+                } else if (error.response?.status === 401 || error.response?.status === 403) {
+                    alert.warn("You are not authorized to create doctors. Please login as Super Admin.");
+                } else if (error.response?.status === 422) {
+                    const validationErrors = error.response.data.errors || {};
+                    setErrors(validationErrors);
 
-                // Show user-friendly error message
-                const errorMessages = Object.entries(validationErrors)
-                    .map(([field, messages]) => {
-                        const messageArray = Array.isArray(messages) ? messages : [messages];
-                        const fieldName = field.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-                        return `• ${fieldName}: ${messageArray.join(', ')}`;
-                    })
-                    .join('\n');
+                    // Show user-friendly error message
+                    const errorMessages = Object.entries(validationErrors)
+                        .map(([field, messages]) => {
+                            const messageArray = Array.isArray(messages) ? messages : [messages];
+                            const fieldName = field.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                            return `• ${fieldName}: ${messageArray.join(', ')}`;
+                        })
+                        .join('\n');
 
-                alert.warn(`Please fix the following errors:\n\n${errorMessages}`);
-            } else {
-                alert.warn(
-                    "Failed to create doctor: " + (error as Error).message,
-                );
+                    alert.warn(`Please fix the following errors:\n\n${errorMessages}`);
+                } else {
+                    alert.warn(
+                        "Failed to create doctor: " + (error as Error).message,
+                    );
+                }
             }
-        }
+        };
     };
 
     return (
@@ -316,7 +290,7 @@ const DoctorCreateForm: React.FC<DoctorCreateFormProps> = ({ onSuccess }) => {
 
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
-                    Select Branches <span className="text-error-500">*</span>
+                    Select Branches (optional)
                 </label>
                 {isBranchAdmin ? (
                     <div className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm bg-neutral-100">

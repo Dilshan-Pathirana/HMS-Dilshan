@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { 
-    Users, 
-    Building2, 
-    Activity, 
+import {
+    Users,
+    Building2,
+    Activity,
     DollarSign,
     TrendingUp,
     TrendingDown,
@@ -143,17 +143,17 @@ const SuperAdminMainDashboard: React.FC = () => {
         }).format(value);
     };
 
-    const StatCard = ({ 
-        title, 
-        value, 
-        icon, 
+    const StatCard = ({
+        title,
+        value,
+        icon,
         gradient,
         trend,
         subtitle
-    }: { 
-        title: string; 
-        value: number | string; 
-        icon: React.ReactNode; 
+    }: {
+        title: string;
+        value: number | string;
+        icon: React.ReactNode;
         gradient: string;
         trend?: { value: number; positive: boolean };
         subtitle?: string;
@@ -241,7 +241,7 @@ const SuperAdminMainDashboard: React.FC = () => {
                     <span className="text-neutral-500 text-sm">{unit}</span>
                 </div>
                 <div className="mt-2 h-2 bg-neutral-100 rounded-full overflow-hidden">
-                    <div 
+                    <div
                         className={`h-full bg-gradient-to-r ${statusColors[status]} rounded-full transition-all duration-500`}
                         style={{ width: `${Math.min(value, 100)}%` }}
                     />
@@ -268,9 +268,9 @@ const SuperAdminMainDashboard: React.FC = () => {
                             <div className="text-right">
                                 <p className="text-sm text-neutral-500">Today's Date</p>
                                 <p className="text-lg font-semibold text-neutral-700">
-                                    {new Date().toLocaleDateString('en-US', { 
-                                        weekday: 'long', 
-                                        month: 'long', 
+                                    {new Date().toLocaleDateString('en-US', {
+                                        weekday: 'long',
+                                        month: 'long',
                                         day: 'numeric',
                                         year: 'numeric'
                                     })}
@@ -503,7 +503,7 @@ const SuperAdminMainDashboard: React.FC = () => {
                                     <h2 className="text-lg font-bold text-neutral-800">Quick Actions</h2>
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
-                                    <button 
+                                    <button
                                         onClick={() => navigate('/dashboard/users/create')}
                                         className="p-4 bg-gradient-to-br from-teal-50 to-teal-100 rounded-xl border-2 border-teal-200 hover:border-teal-400 hover:shadow-md transition-all duration-300 text-left group"
                                     >
@@ -513,8 +513,8 @@ const SuperAdminMainDashboard: React.FC = () => {
                                         <p className="font-semibold text-neutral-800">Add New User</p>
                                         <p className="text-xs text-neutral-500 mt-1">Create staff account</p>
                                     </button>
-                                    <button 
-                                        onClick={() => navigate('/dashboard/branch/management')}
+                                    <button
+                                        onClick={() => navigate('/dashboard/branch')}
                                         className="p-4 bg-gradient-to-br from-cyan-50 to-cyan-100 rounded-xl border-2 border-cyan-200 hover:border-cyan-400 hover:shadow-md transition-all duration-300 text-left group"
                                     >
                                         <div className="p-2 bg-cyan-500 rounded-lg w-fit mb-3 group-hover:scale-110 transition-transform">
@@ -523,7 +523,7 @@ const SuperAdminMainDashboard: React.FC = () => {
                                         <p className="font-semibold text-neutral-800">Manage Branches</p>
                                         <p className="text-xs text-neutral-500 mt-1">View all branches</p>
                                     </button>
-                                    <button 
+                                    <button
                                         onClick={() => navigate('/super-admin/staff/scheduling')}
                                         className="p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border-2 border-blue-200 hover:border-blue-400 hover:shadow-md transition-all duration-300 text-left group"
                                     >
@@ -533,7 +533,7 @@ const SuperAdminMainDashboard: React.FC = () => {
                                         <p className="font-semibold text-neutral-800">Staff Scheduling</p>
                                         <p className="text-xs text-neutral-500 mt-1">Manage shifts</p>
                                     </button>
-                                    <button 
+                                    <button
                                         onClick={() => navigate('/dashboard/all/appointment')}
                                         className="p-4 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl border-2 border-indigo-200 hover:border-indigo-400 hover:shadow-md transition-all duration-300 text-left group"
                                     >

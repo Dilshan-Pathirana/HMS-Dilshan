@@ -36,7 +36,7 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
         // Check if user is Branch Admin and get their branch
         const userInfo = JSON.parse(localStorage.getItem('user') || '{}');
         const roleAs = userInfo.role_as;
-        
+
         // Role 2 is Branch Admin
         if (roleAs === 2) {
             setIsBranchAdmin(true);
@@ -49,25 +49,23 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
 
         const fetchBranchList = async () => {
             try {
-                const response = await api.get("api/get-branches");
+                // Endpoint is /branches, and interceptor returns data directly (Array of branches)
+                const data = await api.get<IBranchData[]>("/branches");
 
-                if (response.data.status === 200) {
-                    const options = response.data.branches.map(
+                if (Array.isArray(data)) {
+                    const options = data.map(
                         (branch: IBranchData) => ({
-                            value: branch.id,
+                            value: branch.id!, // Ensure ID is present
                             label: branch.center_name,
                         }),
                     );
                     setBranchOptions(options);
                 }
             } catch (error) {
-                if (axios.isAxiosError(error)) {
-                    alert.warn("Failed to fetch branch list: " + error.message);
-                } else {
-                    alert.warn("Failed to fetch branch list.");
-                }
+                console.error("Failed to fetch branch list", error);
             }
         };
+
         fetchBranchList();
     }, []);
 
@@ -109,8 +107,11 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
         }));
     };
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (isSubmitting) return;
 
         // Basic validation
         if (!formData.first_name.trim()) {
@@ -142,16 +143,13 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
             alert.warn('Passwords do not match');
             return;
         }
-        if (!formData.branch_id) {
-            alert.warn('Branch is required');
-            return;
-        }
 
         try {
+            setIsSubmitting(true);
             const formDataToSend = appendFormData(formData);
             console.log("form data", formDataToSend);
-            // Use branch-admin prefixed endpoint for Branch Admin users
-            const endpoint = isBranchAdmin ? "api/branch-admin/create-pharmacist" : "api/create-pharmacist";
+            // Use consistent endpoint, permissions handled by backend
+            const endpoint = "pharmacist/create-pharmacist";
             const response = await api.post(
                 endpoint,
                 formDataToSend,
@@ -162,11 +160,11 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                 },
             );
             console.log("response", response);
-            const { status, data } = response;
 
-            if (status === 200) {
-                alert.success(data.message);
-                
+            // Response is already unwrapped by axios interceptor (response.data)
+            if (response && response.message) {
+                alert.success(response.message);
+
                 // Call onSuccess callback or redirect based on user role
                 setTimeout(() => {
                     if (onSuccess) {
@@ -179,14 +177,33 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                 }, 1500);
             }
         } catch (error) {
-            if (axios.isAxiosError(error) && error.response?.status === 422) {
-                console.log(error);
-                setErrors(error.response.data.errors || {});
+            if (axios.isAxiosError(error)) {
+                if (error.response?.status === 400) {
+                    // Handle 400 errors (email exists, invalid branch, etc.)
+                    const errorMessage = error.response.data?.detail || 'Bad request';
+                    if (errorMessage.includes('email already exists')) {
+                        alert.warn('This email address is already registered. Please use a different email.');
+                    } else if (errorMessage.includes('Branch')) {
+                        alert.warn('Invalid branch selected. Please select a valid branch.');
+                    } else {
+                        alert.warn(errorMessage);
+                    }
+                } else if (error.response?.status === 422) {
+                    console.log(error);
+                    setErrors(error.response.data.errors || {});
+                    alert.warn('Please check the form for validation errors.');
+                } else {
+                    alert.warn(
+                        "Failed to create pharmacist: " + (error.response?.data?.detail || error.message),
+                    );
+                }
             } else {
                 alert.warn(
                     "Failed to create pharmacist: " + (error as Error).message,
                 );
             }
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -195,6 +212,7 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
             onSubmit={handleSubmit}
             className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-white rounded-lg shadow-md"
         >
+            {/* Form fields remain unchanged... */}
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
                     First Name
@@ -213,6 +231,7 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                 )}
             </div>
 
+            {/* Last Name */}
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
                     Last Name
@@ -231,29 +250,7 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                 )}
             </div>
 
-            <div className="col-span-1">
-                <label className="block text-sm font-medium text-neutral-700">
-                    Branch <span className="text-error-500">*</span>
-                </label>
-                {isBranchAdmin ? (
-                    <div className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm bg-neutral-100">
-                        {userBranchName}
-                        <input type="hidden" name="branch_id" value={userBranchId} />
-                    </div>
-                ) : (
-                    <Select
-                        value={branchOptions.find(
-                            (option) => option.value === formData.branch_id,
-                        )}
-                        onChange={handleBranchChange}
-                        options={branchOptions}
-                        className="mt-1"
-                        placeholder="Select Branch"
-                        isClearable
-                    />
-                )}
-            </div>
-
+            {/* Date of Birth */}
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
                     Date of Birth
@@ -265,8 +262,14 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     onChange={handleInputChange}
                     className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
+                {errors.date_of_birth && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.date_of_birth[0]}
+                    </p>
+                )}
             </div>
 
+            {/* Gender */}
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
                     Gender
@@ -282,11 +285,17 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     <option value="female">Female</option>
                     <option value="other">Other</option>
                 </select>
+                {errors.gender && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.gender[0]}
+                    </p>
+                )}
             </div>
 
+            {/* NIC Number */}
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
-                    NIC/Passport Number
+                    NIC Number
                 </label>
                 <input
                     type="text"
@@ -295,34 +304,52 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     onChange={handleInputChange}
                     className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
+                {errors.nic_number && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.nic_number[0]}
+                    </p>
+                )}
             </div>
 
+            {/* Mobile Number */}
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
                     Mobile Number
                 </label>
                 <input
-                    type="tel"
+                    type="text"
                     name="contact_number_mobile"
                     value={formData.contact_number_mobile}
                     onChange={handleInputChange}
                     className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
+                {errors.contact_number_mobile && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.contact_number_mobile[0]}
+                    </p>
+                )}
             </div>
 
+            {/* Landline Number */}
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
                     Landline Number
                 </label>
                 <input
-                    type="tel"
+                    type="text"
                     name="contact_number_landline"
                     value={formData.contact_number_landline}
                     onChange={handleInputChange}
                     className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
+                {errors.contact_number_landline && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.contact_number_landline[0]}
+                    </p>
+                )}
             </div>
 
+            {/* Email */}
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
                     Email
@@ -341,7 +368,8 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                 )}
             </div>
 
-            <div className="col-span-1">
+            {/* Home Address */}
+            <div className="col-span-2">
                 <label className="block text-sm font-medium text-neutral-700">
                     Home Address
                 </label>
@@ -350,69 +378,67 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     value={formData.home_address}
                     onChange={handleInputChange}
                     className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
+                    rows={3}
                 />
+                {errors.home_address && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.home_address[0]}
+                    </p>
+                )}
             </div>
 
-            <div className="col-span-1">
+            {/* Emergency Contact Info */}
+            <div className="col-span-2">
                 <label className="block text-sm font-medium text-neutral-700">
-                    Emergency Contact Information
+                    Emergency Contact Info
                 </label>
-                <input
-                    type="text"
+                <textarea
                     name="emergency_contact_info"
                     value={formData.emergency_contact_info}
                     onChange={handleInputChange}
                     className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
+                    rows={2}
                 />
-            </div>
-
-            <div className="col-span-1">
-                <label className="block text-sm font-medium text-neutral-700">
-                    Upload Recent Photo (JPG/PDF)
-                </label>
-                <input
-                    type="file"
-                    name="photo"
-                    accept=".jpg,.jpeg,.pdf"
-                    onChange={handleFileChange}
-                    className="mt-1 block w-full text-sm text-neutral-500 border border-dashed border-neutral-300 p-2 rounded-md"
-                />
-                {recentPhotoPreview && (
-                    <div className="mt-2">
-                        <img
-                            src={recentPhotoPreview}
-                            alt="Recent Preview"
-                            className="w-32 h-32 object-cover rounded-md shadow-sm"
-                        />
-                    </div>
+                {errors.emergency_contact_info && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.emergency_contact_info[0]}
+                    </p>
                 )}
             </div>
 
+            {/* Branch Selection */}
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
-                    Upload NIC Photo (JPG/PDF)
+                    Branch (optional)
                 </label>
-                <input
-                    type="file"
-                    name="nic_photo"
-                    accept=".jpg,.jpeg,.pdf"
-                    onChange={handleFileChange}
-                    className="mt-1 block w-full text-sm text-neutral-500 border border-dashed border-neutral-300 p-2 rounded-md"
-                />
-                {nicPhotoPreview && (
-                    <div className="mt-2">
-                        <img
-                            src={nicPhotoPreview}
-                            alt="NIC Preview"
-                            className="w-32 h-32 object-cover rounded-md shadow-sm"
-                        />
-                    </div>
+                {isBranchAdmin ? (
+                    <input
+                        type="text"
+                        value={userBranchName}
+                        disabled
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm bg-gray-100"
+                    />
+                ) : (
+                    <Select
+                        options={branchOptions}
+                        onChange={handleBranchChange}
+                        value={branchOptions.find(option => option.value === formData.branch_id)}
+                        className="mt-1"
+                        placeholder="Select Branch"
+                        isClearable
+                    />
+                )}
+                {errors.branch_id && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.branch_id[0]}
+                    </p>
                 )}
             </div>
 
+            {/* Pharmacist Registration Number */}
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
-                    Pharmacist Registration Number
+                    Registration Number
                 </label>
                 <input
                     type="text"
@@ -421,34 +447,72 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     onChange={handleInputChange}
                     className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
+                {errors.pharmacist_registration_number && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.pharmacist_registration_number[0]}
+                    </p>
+                )}
             </div>
 
-            <div className="col-span-1">
+            {/* Qualifications */}
+            <div className="col-span-2">
+                <label className="block text-sm font-medium text-neutral-700">
+                    Qualifications
+                </label>
+                <textarea
+                    name="qualifications"
+                    value={formData.qualifications}
+                    onChange={handleInputChange}
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
+                    rows={3}
+                />
+                {errors.qualifications && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.qualifications[0]}
+                    </p>
+                )}
+            </div>
+
+
+            {/* Work Experience */}
+            <div className="col-span-2">
                 <label className="block text-sm font-medium text-neutral-700">
                     Work Experience
                 </label>
-                <input
-                    type="text"
+                <textarea
                     name="work_experience"
                     value={formData.work_experience}
                     onChange={handleInputChange}
                     className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
+                    rows={3}
                 />
+                {errors.work_experience && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.work_experience[0]}
+                    </p>
+                )}
             </div>
 
+            {/* Years of Experience */}
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
                     Years of Experience
                 </label>
                 <input
-                    type="text"
+                    type="number"
                     name="years_of_experience"
                     value={formData.years_of_experience}
                     onChange={handleInputChange}
                     className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
+                {errors.years_of_experience && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.years_of_experience[0]}
+                    </p>
+                )}
             </div>
 
+            {/* Previous Employment */}
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
                     Previous Employment
@@ -460,8 +524,14 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     onChange={handleInputChange}
                     className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
+                {errors.previous_employment && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.previous_employment[0]}
+                    </p>
+                )}
             </div>
 
+            {/* License Validity Date */}
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
                     License Validity Date
@@ -473,21 +543,14 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     onChange={handleInputChange}
                     className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
+                {errors.license_validity_date && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.license_validity_date[0]}
+                    </p>
+                )}
             </div>
 
-            <div className="col-span-1">
-                <label className="block text-sm font-medium text-neutral-700">
-                    Qualifications
-                </label>
-                <input
-                    type="text"
-                    name="qualifications"
-                    value={formData.qualifications}
-                    onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
-                />
-            </div>
-
+            {/* Joining Date */}
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
                     Joining Date
@@ -499,8 +562,14 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     onChange={handleInputChange}
                     className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
+                {errors.joining_date && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.joining_date[0]}
+                    </p>
+                )}
             </div>
 
+            {/* Contract Type */}
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
                     Contract Type
@@ -512,9 +581,10 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 >
                     <option value="">Select Contract Type</option>
-                    <option value="full-time">Full-time</option>
-                    <option value="part-time">Part-time</option>
-                    <option value="consultant">Consultant</option>
+                    <option value="Full-Time">Full-Time</option>
+                    <option value="Part-Time">Part-Time</option>
+                    <option value="Contract">Contract</option>
+                    <option value="Intern">Intern</option>
                 </select>
                 {errors.contract_type && (
                     <p className="text-error-500 text-sm mt-1">
@@ -522,6 +592,8 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     </p>
                 )}
             </div>
+
+            {/* Contract Duration */}
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
                     Contract Duration
@@ -532,9 +604,16 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     value={formData.contract_duration}
                     onChange={handleInputChange}
                     className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
+                    placeholder="e.g. 1 Year"
                 />
+                {errors.contract_duration && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.contract_duration[0]}
+                    </p>
+                )}
             </div>
 
+            {/* Probation Start Date */}
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
                     Probation Start Date
@@ -546,8 +625,14 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     onChange={handleInputChange}
                     className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
+                {errors.probation_start_date && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.probation_start_date[0]}
+                    </p>
+                )}
             </div>
 
+            {/* Probation End Date */}
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
                     Probation End Date
@@ -559,39 +644,55 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                     onChange={handleInputChange}
                     className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
+                {errors.probation_end_date && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.probation_end_date[0]}
+                    </p>
+                )}
             </div>
 
+            {/* Compensation Package */}
+            <div className="col-span-2">
+                <label className="block text-sm font-medium text-neutral-700">
+                    Compensation Package
+                </label>
+                <textarea
+                    name="compensation_package"
+                    value={formData.compensation_package}
+                    onChange={handleInputChange}
+                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
+                    rows={2}
+                />
+                {errors.compensation_package && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.compensation_package[0]}
+                    </p>
+                )}
+            </div>
+
+            {/* Basic Salary */}
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
                     Basic Salary
                 </label>
                 <input
                     type="number"
-                    step="0.01"
                     name="basic_salary"
                     value={formData.basic_salary}
                     onChange={handleInputChange}
-                    placeholder="Enter basic salary"
                     className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                 />
+                {errors.basic_salary && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.basic_salary[0]}
+                    </p>
+                )}
             </div>
 
+            {/* Password */}
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
-                    Compensation Package
-                </label>
-                <input
-                    type="text"
-                    name="compensation_package"
-                    value={formData.compensation_package}
-                    onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
-                />
-            </div>
-
-            <div className="col-span-1">
-                <label className="block text-sm font-medium text-neutral-700">
-                    Password <span className="text-error-500">*</span>
+                    Password
                 </label>
                 <div className="relative">
                     <input
@@ -599,15 +700,14 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                         name="password"
                         value={formData.password}
                         onChange={handleInputChange}
-                        placeholder="Enter login password (min 6 characters)"
-                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm pr-10"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                     />
                     <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-neutral-500 hover:text-neutral-700"
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
                     >
-                        {showPassword ? '🙈' : '👁️'}
+                        {showPassword ? "Hide" : "Show"}
                     </button>
                 </div>
                 {errors.password && (
@@ -617,35 +717,90 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                 )}
             </div>
 
+            {/* Confirm Password */}
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
-                    Confirm Password <span className="text-error-500">*</span>
+                    Confirm Password
                 </label>
                 <div className="relative">
                     <input
                         type={showConfirmPassword ? "text" : "password"}
-                        name="confirm_password"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                        placeholder="Confirm password"
-                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm pr-10"
+                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
                     />
                     <button
                         type="button"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-neutral-500 hover:text-neutral-700"
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
                     >
-                        {showConfirmPassword ? '🙈' : '👁️'}
+                        {showConfirmPassword ? "Hide" : "Show"}
                     </button>
                 </div>
+            </div>
+
+            {/* Photo Upload */}
+            <div className="col-span-1">
+                <label className="block text-sm font-medium text-neutral-700">
+                    Photo
+                </label>
+                <input
+                    type="file"
+                    name="photo"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="mt-1 block w-full text-sm text-neutral-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100"
+                />
+                {recentPhotoPreview && (
+                    <img
+                        src={recentPhotoPreview}
+                        alt="Preview"
+                        className="mt-2 h-20 w-20 object-cover rounded-full"
+                    />
+                )}
+                {errors.photo && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.photo[0]}
+                    </p>
+                )}
+            </div>
+
+            {/* NIC Photo Upload */}
+            <div className="col-span-1">
+                <label className="block text-sm font-medium text-neutral-700">
+                    NIC Photo
+                </label>
+                <input
+                    type="file"
+                    name="nic_photo"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="mt-1 block w-full text-sm text-neutral-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100"
+                />
+                {nicPhotoPreview && (
+                    <img
+                        src={nicPhotoPreview}
+                        alt="NIC Preview"
+                        className="mt-2 h-20 w-32 object-cover rounded-md"
+                    />
+                )}
+                {errors.nic_photo && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.nic_photo[0]}
+                    </p>
+                )}
             </div>
 
             <div className="col-span-2 flex justify-center mt-6">
                 <button
                     type="submit"
-                    className="bg-primary-500 text-white px-6 py-2 rounded hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    disabled={isSubmitting}
+                    className={`px-6 py-2 rounded text-white focus:outline-none focus:ring-2 focus:ring-blue-400 ${isSubmitting
+                        ? 'bg-neutral-400 cursor-not-allowed'
+                        : 'bg-primary-500 hover:bg-primary-600'
+                        }`}
                 >
-                    Create Pharmacist
+                    {isSubmitting ? 'Creating...' : 'Create Pharmacist'}
                 </button>
             </div>
         </form>

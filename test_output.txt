@@ -1,0 +1,23 @@
+﻿Step 1: Logging in...
+Login successful!
+
+Step 2: Fetching branches...
+Found branch: Test Branch 1 (ID: 3106be5c-6d4f-4c8b-a4b2-22a2be6e6167)
+
+--- Testing creation of Cashier ---
+Failed to create Cashier - The remote server returned an error: (500) Internal Server Error.
+
+--- Testing creation of Branch Admin ---
+Failed to create Branch Admin - The remote server returned an error: (500) Internal Server Error.
+
+--- Testing creation of IT Assistant ---
+Failed to create IT Assistant - The remote server returned an error: (500) Internal Server Error.
+
+--- Testing creation of Receptionist ---
+Failed to create Receptionist - The remote server returned an error: (500) Internal Server Error.
+
+--- Testing creation of Supplier ---
+Failed to create Supplier - The remote server returned an error: (500) Internal Server Error.
+
+--- Testing creation of Auditor ---
+Failed to create Auditor - The remote server returned an error: (500) Internal Server Error.

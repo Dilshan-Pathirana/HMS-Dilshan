@@ -23,4 +23,14 @@ export interface IBranchData {
     owner_contact_number: string;
     division: string;
     division_number?: string;
+    branch_admin?: any; // IUserData
+    pharmacies?: any[]; // IPharmacyData[], using any to avoid circular dependency issues for now or until I find where Pharmacy type is
+}
+
+export interface IPharmacyData {
+    id: number;
+    name: string;
+    pharmacy_code: string;
+    status: string;
+    pharmacist_id?: string;
 }

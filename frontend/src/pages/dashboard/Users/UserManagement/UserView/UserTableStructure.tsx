@@ -16,7 +16,9 @@ const UserTableStructure: React.FC<UserTableStructureProps> = ({
     isLoading,
     filteredUsers,
     paginatedUsers,
-    refreshUsers, }) => {
+    refreshUsers,
+    readOnly = false
+}) => {
     const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [openResignationModal, setOpenResignationModal] = useState(false);
@@ -28,7 +30,8 @@ const UserTableStructure: React.FC<UserTableStructureProps> = ({
     }>({ id: "", roleAs: 0, name: "" });
 
     const showUsersBranch = (userDetails: any): string => {
-        if (userDetails.role_as !== 5) {
+        // Doctor is role_as=3 in this frontend codebase
+        if (userDetails.role_as !== 3) {
             return userDetails.center_name || "N/A";
         }
 
@@ -48,7 +51,7 @@ const UserTableStructure: React.FC<UserTableStructureProps> = ({
 
     const handleEdit = (user: IUserData) => {
         const idToUse =
-            user.role_as === 5 && (user as any).user_id
+            user.role_as === 3 && (user as any).user_id
                 ? (user as any).user_id
                 : user.id;
 
@@ -57,7 +60,7 @@ const UserTableStructure: React.FC<UserTableStructureProps> = ({
     };
 
     const handleDelete = (user: IUserData) => {
-        const idToUse = user.role_as === 5 && (user as any).user_id
+        const idToUse = user.role_as === 3 && (user as any).user_id
             ? (user as any).user_id
             : user.id;
 
@@ -66,7 +69,7 @@ const UserTableStructure: React.FC<UserTableStructureProps> = ({
     };
 
     const handleResignation = (user: IUserData) => {
-        const idToUse = user.role_as === 5 && (user as any).user_id
+        const idToUse = user.role_as === 3 && (user as any).user_id
             ? (user as any).user_id
             : user.id;
 
@@ -124,9 +127,11 @@ const UserTableStructure: React.FC<UserTableStructureProps> = ({
                                     {header}
                                 </th>
                             )) : null}
-                            <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
-                                Action
-                            </th>
+                            {!readOnly && (
+                                <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                                    Action
+                                </th>
+                            )}
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -150,27 +155,29 @@ const UserTableStructure: React.FC<UserTableStructureProps> = ({
                                 <td className="px-6 py-4 text-sm">
                                     {user.contact_number_mobile || "N/A"}
                                 </td>
-                                <td className="flex m-auto p-4 items-center space-x-2">
-                                    <FiEdit
-                                        className="text-yellow-500 cursor-pointer hover:text-yellow-700"
-                                        onClick={() => handleEdit(user)}
-                                        title="Edit User"
-                                    />
-                                    <FiUserX
-                                        className="text-orange-500 cursor-pointer hover:text-orange-700"
-                                        onClick={() => handleResignation(user)}
-                                        title="Record Resignation"
-                                    />
-                                    <FiTrash
-                                        className="text-error-500 cursor-pointer hover:text-red-700"
-                                        onClick={() => handleDelete(user)}
-                                        title="Delete User"
-                                    />
-                                </td>
+                                {!readOnly && (
+                                    <td className="flex m-auto p-4 items-center space-x-2">
+                                        <FiEdit
+                                            className="text-yellow-500 cursor-pointer hover:text-yellow-700"
+                                            onClick={() => handleEdit(user)}
+                                            title="Edit User"
+                                        />
+                                        <FiUserX
+                                            className="text-orange-500 cursor-pointer hover:text-orange-700"
+                                            onClick={() => handleResignation(user)}
+                                            title="Record Resignation"
+                                        />
+                                        <FiTrash
+                                            className="text-error-500 cursor-pointer hover:text-red-700"
+                                            onClick={() => handleDelete(user)}
+                                            title="Delete User"
+                                        />
+                                    </td>
+                                )}
                             </tr>
                         )) : (
                             <tr>
-                                <td colSpan={UserTableHeader.length + 1} className="px-6 py-4 text-center text-sm text-neutral-500">
+                                <td colSpan={UserTableHeader.length + (readOnly ? 0 : 1)} className="px-6 py-4 text-center text-sm text-neutral-500">
                                     No users found
                                 </td>
                             </tr>
