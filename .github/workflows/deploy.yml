@@ -94,31 +94,14 @@ jobs:
             echo "==== Preparing Configuration ===="
             # Prepare compose and env file
             mv -f /tmp/docker-compose.ec2.yml $APP_DIR/docker-compose.ec2.yml
-            # For EC2 docker-compose, the database runs as service name `db` on the compose network.
-            echo "DB_DATABASE=$DB_DATABASE" > $APP_DIR/.env
+            # Using RDS: connect via the RDS endpoint from GitHub Secrets.
+            echo "DB_HOST=$DB_HOST" > $APP_DIR/.env
+            echo "DB_PORT=$DB_PORT" >> $APP_DIR/.env
+            echo "DB_DATABASE=$DB_DATABASE" >> $APP_DIR/.env
             echo "DB_USERNAME=$DB_USERNAME" >> $APP_DIR/.env
             echo "DB_PASSWORD=$DB_PASSWORD" >> $APP_DIR/.env
-            echo "DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD:-$DB_PASSWORD}" >> $APP_DIR/.env
-            echo "DATABASE_URL=mysql+asyncmy://$DB_USERNAME:$DB_PASSWORD@db:3306/$DB_DATABASE" >> $APP_DIR/.env
+            echo "DATABASE_URL=mysql+asyncmy://$DB_USERNAME:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_DATABASE" >> $APP_DIR/.env
             echo "SECRET_KEY=$SECRET_KEY" >> $APP_DIR/.env
-
-            echo "==== Starting Database (MySQL) ===="
-            docker compose -f $APP_DIR/docker-compose.ec2.yml --env-file $APP_DIR/.env up -d db
-
-            echo "==== Waiting for Database to be Healthy ===="
-            for i in {1..60}; do
-              if docker compose -f $APP_DIR/docker-compose.ec2.yml ps | grep -q "hms-db-mysql.*healthy"; then
-                echo "Database is healthy!"
-                break
-              fi
-              echo "Waiting for database... ($i/60)"
-              sleep 2
-              if [ "$i" -eq 60 ]; then
-                echo "Database did not become healthy in time"
-                docker compose -f $APP_DIR/docker-compose.ec2.yml logs --tail=200 db || true
-                exit 1
-              fi
-            done
 
             echo "==== Running Database Migrations ===="
             # Run migrations with timeout
