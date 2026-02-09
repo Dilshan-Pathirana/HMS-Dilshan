@@ -20,9 +20,10 @@ export const UserSignIn = createAsyncThunk<
         formData.append("password", (loginInfo as any).password);
 
 
-        const tokenData: any = await api.post("/auth/login/access-token", formData, {
+        const tokenResponse: any = await api.post("/auth/login/access-token", formData, {
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
         });
+        const tokenData = tokenResponse.data;
         const access_token = tokenData.access_token;
         if (!access_token) throw new Error("No access token returned from API");
 
@@ -30,7 +31,8 @@ export const UserSignIn = createAsyncThunk<
         localStorage.setItem('token', access_token);
 
         // Step 2: Get User Profile (with token)
-        const user: any = await api.get("/users/me");
+        const userResponse: any = await api.get("/users/me");
+        const user = userResponse.data;
 
         // Construct the payload expected by authSlice
         return {

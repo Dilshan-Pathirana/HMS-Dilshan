@@ -28,9 +28,8 @@ axiosInstance.interceptors.request.use(
 );
 
 // Response Interceptor (Error Handling)
-// This interceptor unwraps response.data automatically
 axiosInstance.interceptors.response.use(
-    (response) => response.data,
+    (response) => response,
     (error) => {
         // List of public paths where we shouldn't redirect to login on 401
         const publicPaths = [
@@ -64,14 +63,13 @@ axiosInstance.interceptors.response.use(
     }
 );
 
-// Create a typed wrapper that reflects the interceptor behavior
-// The interceptor returns response.data, so we type it as returning T directly instead of AxiosResponse<T>
+// Create a typed wrapper
 interface CustomAxiosInstance {
-    get<T = any>(url: string, config?: AxiosRequestConfig): Promise<T>;
-    post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>;
-    put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>;
-    delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<T>;
-    patch<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>;
+    get<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>;
+    post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>;
+    put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>;
+    delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>;
+    patch<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>;
 }
 
 // Export the typed instance
