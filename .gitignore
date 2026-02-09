@@ -164,6 +164,12 @@ docker/
 nginx*.conf*
 **/nginx*.conf*
 
+# --- Exceptions: required for CI/CD workflow ---
+!docker-compose.ec2.yml
+!backend/Dockerfile
+!frontend/Dockerfile
+!frontend/nginx.conf
+
 # Deployment helper scripts (often machine/environment-specific)
 verify-ec2-deployment.sh
 fix-nginx-root.sh
