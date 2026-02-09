@@ -44,9 +44,15 @@ export const SuperAdminDashboard: React.FC = () => {
     const fetchDashboardData = async () => {
         try {
             // Fetch dashboard statistics
-            const response = await api.get('/super-admin/dashboard-stats');
-            if (response.data.status === 200) {
-                setStats(response.data.data);
+            const response: any = await api.get('/super-admin/dashboard-stats');
+            // axios interceptor unwraps response.data, so response IS the data object
+            if (response.status === 200) {
+                setStats(response.data);
+            } else if (response.data) {
+                // fallback: handle both wrapped and unwrapped shapes
+                setStats(response.data);
+            } else {
+                setStats(response);
             }
 
             // Get user info

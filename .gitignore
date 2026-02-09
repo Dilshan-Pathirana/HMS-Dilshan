@@ -154,3 +154,8 @@ localhost.har
 # Local scripts
 /scripts/
 /php
+
+
+
+hospital-managment-system-tricky.zip
+*.zip
