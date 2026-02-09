@@ -27,13 +27,14 @@ export function useAuth() {
     const roleMap: Record<number, string> = {
         1: 'super_admin',
         2: 'branch_admin',
-        3: 'cashier',
-        4: 'pharmacist',
-        5: 'doctor',
-        6: 'nurse',
-        7: 'patient',
-        8: 'receptionist',
-        9: 'it_assistant',
+        3: 'doctor',
+        4: 'nurse',
+        5: 'patient',
+        6: 'cashier',
+        7: 'pharmacist',
+        8: 'it_support',
+        9: 'center_aid',
+        10: 'auditor',
     };
     
     const user = useMemo((): AuthUser | null => {
