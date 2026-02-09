@@ -4,7 +4,7 @@ import BranchCardList from "../components/BranchCardList.tsx";
 import { getAllBranches } from "../../../../utils/api/branch/GetAllBranches.ts";
 import { IBranchData } from "../../../../utils/types/Branch/IBranchData.ts";
 import Spinner from "../../../../assets/Common/Spinner.tsx";
-import { Search } from "lucide-react";
+import { Search, ArrowLeft } from "lucide-react";
 import api from "../../../../utils/api/axios";
 import alert from "../../../../utils/alert.ts";
 import BranchCreateModal from "../BranchCreate/BranchCreateModal.tsx";
@@ -79,6 +79,13 @@ const BranchView = () => {
 
     return (
         <div className="p-8 max-w-7xl mx-auto space-y-8">
+            <button
+                onClick={() => navigate("/dashboard")}
+                className="flex items-center gap-2 text-neutral-600 hover:text-neutral-900 transition-colors mb-2"
+            >
+                <ArrowLeft className="w-5 h-5" />
+                <span className="text-sm font-medium">Back to Dashboard</span>
+            </button>
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-bold text-neutral-800 tracking-tight">Branches</h1>
