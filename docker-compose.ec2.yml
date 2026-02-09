@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  backend:
+    image: hms-backend:latest
+    container_name: hms-backend
+    restart: always
+    ports:
+      - "8000:8000"
+
+    # Load all DB values from .env created by GitHub workflow
+    env_file:
+      - .env
+
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      SECRET_KEY: ${SECRET_KEY}
+
+      # Explicit DB vars so Alembic + app both work
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: 30
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 25s
+
+  frontend:
+    image: hms-frontend:latest
+    container_name: hms-frontend
+    restart: always
+    ports:
+      - "80:80"
+
+    depends_on:
+      backend:
+        condition: service_healthy
