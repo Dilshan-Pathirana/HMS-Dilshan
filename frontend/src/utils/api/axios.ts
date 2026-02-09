@@ -12,6 +12,32 @@ const axiosInstance = axios.create({
     },
 });
 
+const decorateResponseData = <T,>(response: AxiosResponse<T>): T => {
+    const data: any = response.data as any;
+
+    // Make it harder to accidentally treat AxiosResponse as data.
+    // We return the actual response body (array/object) so callers can safely
+    // do `.map`/`.filter` on lists.
+    //
+    // Back-compat: for existing code that expects Axios-style `response.data`,
+    // attach a non-enumerable `data` property pointing back to itself.
+    if (data && (typeof data === "object" || Array.isArray(data))) {
+        try {
+            if (!("data" in data)) {
+                Object.defineProperty(data, "data", {
+                    value: data,
+                    enumerable: false,
+                    configurable: true,
+                });
+            }
+        } catch {
+            // ignore defineProperty failures (frozen objects)
+        }
+    }
+
+    return data as T;
+};
+
 // Request Interceptor (Auth Token)
 axiosInstance.interceptors.request.use(
     (config) => {
@@ -28,9 +54,8 @@ axiosInstance.interceptors.request.use(
 );
 
 // Response Interceptor (Error Handling)
-// This interceptor unwraps response.data automatically
 axiosInstance.interceptors.response.use(
-    (response) => response.data,
+    (response) => decorateResponseData(response),
     (error) => {
         // List of public paths where we shouldn't redirect to login on 401
         const publicPaths = [
@@ -64,8 +89,7 @@ axiosInstance.interceptors.response.use(
     }
 );
 
-// Create a typed wrapper that reflects the interceptor behavior
-// The interceptor returns response.data, so we type it as returning T directly instead of AxiosResponse<T>
+// Create a typed wrapper
 interface CustomAxiosInstance {
     get<T = any>(url: string, config?: AxiosRequestConfig): Promise<T>;
     post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>;

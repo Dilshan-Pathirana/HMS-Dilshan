@@ -34,9 +34,7 @@ const BranchManage = () => {
         try {
             setIsLoading(true);
             const data = await api.get<IBranchData>(`/branches/${id}`);
-            if (data) {
-                setBranch(data as unknown as IBranchData);
-            }
+            setBranch(data || null);
         } catch (error) {
             console.error("Failed to fetch branch details", error);
         } finally {
@@ -47,7 +45,7 @@ const BranchManage = () => {
     const fetchBranchStaff = async () => {
         try {
             const data = await api.get<IUserData[]>(`/users/?branch_id=${id}`);
-            setStaff((data as unknown as IUserData[]) || []);
+            setStaff(Array.isArray(data) ? data : []);
         } catch (error) {
             console.error("Failed to fetch staff", error);
         }
@@ -58,7 +56,9 @@ const BranchManage = () => {
     };
 
     // Filter and Paginate Staff
-    const filteredStaff = staff.filter(user =>
+    const safeStaff = Array.isArray(staff) ? staff : [];
+
+    const filteredStaff = safeStaff.filter(user =>
         (user.first_name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
         (user.last_name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
         (user.email?.toLowerCase() || '').includes(searchTerm.toLowerCase())

@@ -53,7 +53,7 @@ export const PasswordChange: React.FC<PasswordChangeProps> = ({ userId, onSucces
         if (passwordError) {
             setError(passwordError);
             return;
-        }
+         }
 
         if (formData.new_password !== formData.confirm_password) {
             setError('New passwords do not match');

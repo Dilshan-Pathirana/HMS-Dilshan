@@ -81,7 +81,7 @@ async def create_pharmacy(
         pharmacist = await session.get(User, pharmacy_in.pharmacist_id)
         if not pharmacist:
             raise HTTPException(status_code=404, detail="Pharmacist user not found")
-        if pharmacist.role_as != 5:
+        if pharmacist.role_as != 7:
             raise HTTPException(status_code=400, detail="Selected user is not a pharmacist")
             
         # Check uniqueness in Pharmacy table
@@ -121,7 +121,7 @@ async def update_pharmacy(
             pharmacist = await session.get(User, new_pharmacist_id)
             if not pharmacist:
                 raise HTTPException(status_code=404, detail="Pharmacist user not found")
-            if pharmacist.role_as != 5:
+            if pharmacist.role_as != 7:
                 raise HTTPException(status_code=400, detail="Selected user is not a pharmacist")
 
             # Check uniqueness
@@ -177,7 +177,7 @@ async def get_available_pharmacists(
         
         # 2. Get all pharmacists (User + Pharmacist profile)
         # We need to join User and Pharmacist tables to get the name
-        query = select(User, StaffPharmacist).join(StaffPharmacist, User.id == StaffPharmacist.user_id).where(User.role_as == 5)
+        query = select(User, StaffPharmacist).join(StaffPharmacist, User.id == StaffPharmacist.user_id).where(User.role_as == 7)
         result = await session.exec(query)
         pharmacists_data = result.all()
         

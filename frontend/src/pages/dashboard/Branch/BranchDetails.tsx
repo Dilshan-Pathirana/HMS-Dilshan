@@ -46,7 +46,7 @@ const BranchDetails = () => {
 
             if (data) {
                 console.log("[BranchDetails] Valid data received, setting state.");
-                setBranch(data as unknown as IBranchData);
+                setBranch(data);
             } else {
                 console.warn("[BranchDetails] Data is null or undefined.");
                 setErrorMsg("Server returned empty data.");
@@ -79,10 +79,11 @@ const BranchDetails = () => {
         try {
             // Updated endpoint with branch_id filter
             const data = await api.get<IUserData[]>(`/users/?branch_id=${id}`);
-            setStaff((data as unknown as IUserData[]) || []);
+            const staffList = Array.isArray(data) ? data : [];
+            setStaff(staffList);
         } catch (error: any) {
             console.error("Failed to fetch staff", error);
-            // 401 handling is already done in fetchBranchDetails generally, 
+            // 401 handling is already done in fetchBranchDetails generally,
             // but redundancy helps if parallel requests fail
             if (error.response && error.response.status === 401) {
                 // Do nothing, let the other handler redirect to avoid double alert
@@ -95,7 +96,9 @@ const BranchDetails = () => {
     };
 
     // Filter and Paginate Staff
-    const filteredStaff = staff.filter(user =>
+    const safeStaff = Array.isArray(staff) ? staff : [];
+
+    const filteredStaff = safeStaff.filter(user =>
         (user.first_name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
         (user.last_name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
         (user.email?.toLowerCase() || '').includes(searchTerm.toLowerCase())

@@ -39,6 +39,48 @@ const DoctorScheduleCalendar: React.FC = () => {
     const [cancelLoading, setCancelLoading] = useState(false);
     const [isCancelingEntireDay, setIsCancelingEntireDay] = useState(false);
 
+    const weekdayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+    const normalizeScheduleDay = (dayOfWeek: number | undefined): string => {
+        if (typeof dayOfWeek !== "number") {
+            return "";
+        }
+        return weekdayNames[dayOfWeek] || "";
+    };
+
+    const mapScheduleFromApi = (schedule: any): DoctorSchedule => {
+        return {
+            id: String(schedule.id ?? ""),
+            doctor_id: String(schedule.doctor_id ?? currentUserId ?? ""),
+            user_first_name: schedule.user_first_name ?? "",
+            user_last_name: schedule.user_last_name ?? "",
+            branch_id: String(schedule.branch_id ?? ""),
+            branch_center_name:
+                schedule.branch_center_name ??
+                schedule.branch_name ??
+                schedule.branch_id ??
+                "Branch",
+            schedule_day: schedule.schedule_day ?? normalizeScheduleDay(schedule.day_of_week),
+            start_time: schedule.start_time ?? "00:00",
+            max_patients: schedule.max_patients ?? 0,
+        };
+    };
+
+    const mapCancellationStatus = (status: string | number | undefined): number => {
+        if (typeof status === "number") {
+            return status;
+        }
+        switch (status) {
+            case "approved":
+                return 1;
+            case "rejected":
+                return 2;
+            case "pending":
+            default:
+                return 0;
+        }
+    };
+
     const formatDateForAPI = (date: Date): string => {
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -56,12 +98,11 @@ const DoctorScheduleCalendar: React.FC = () => {
         try {
             setIsLoading(true);
             setError(null);
-            const response = await api.get(`/get-all-doctor-schedule/${currentUserId}`);
-            if (response.data && response.data.doctorSchedule) {
-                setSchedules(response.data.doctorSchedule);
-            } else {
-                setSchedules([]);
-            }
+            const response = await api.get(`/schedules/doctor/${currentUserId}`);
+            const rawSchedules = Array.isArray(response)
+                ? response
+                : response?.doctorSchedule ?? response?.doctorSchedules ?? response?.data?.doctorSchedule ?? response?.data?.doctorSchedules ?? [];
+            setSchedules(rawSchedules.map(mapScheduleFromApi));
         } catch (err: any) {
             console.error("Error fetching schedules:", err);
             setError(err.response?.data?.message || "Failed to fetch schedules");
@@ -74,12 +115,34 @@ const DoctorScheduleCalendar: React.FC = () => {
     const fetchCancellations = async () => {
         if (!currentUserId) return;
         try {
-            const response = await api.get(`/get-doctor-schedule-cancel/${currentUserId}`);
-            if (response.data && response.data.doctor_schedule_cancellations) {
-                setCancellations(response.data.doctor_schedule_cancellations);
-            } else {
-                setCancellations([]);
-            }
+            const response = await api.get(`/schedules/cancel/requests`, {
+                params: { doctor_id: currentUserId },
+            });
+            const rawCancellations = Array.isArray(response)
+                ? response
+                : response?.doctor_schedule_cancellations ?? response?.data?.doctor_schedule_cancellations ?? [];
+            const scheduleLookup = new Map(schedules.map((schedule) => [schedule.id, schedule]));
+            const mapped = rawCancellations.map((cancellation: any) => {
+                const schedule = scheduleLookup.get(String(cancellation.schedule_id));
+                return {
+                    id: String(cancellation.id ?? ""),
+                    schedule_id: String(cancellation.schedule_id ?? ""),
+                    doctor_id: String(cancellation.doctor_id ?? currentUserId ?? ""),
+                    branch_id: String(schedule?.branch_id ?? ""),
+                    date: cancellation.cancel_date ?? cancellation.date ?? "",
+                    reason: cancellation.reason ?? "",
+                    status: mapCancellationStatus(cancellation.status),
+                    reject_reason: cancellation.reject_reason,
+                    created_at: cancellation.created_at ?? "",
+                    doctor_first_name: cancellation.doctor_first_name ?? "",
+                    doctor_last_name: cancellation.doctor_last_name ?? "",
+                    center_name: schedule?.branch_center_name ?? "",
+                    schedule_day: schedule?.schedule_day ?? "",
+                    start_time: schedule?.start_time ?? "00:00",
+                    max_patients: schedule?.max_patients ?? 0,
+                } as DoctorScheduleCancellation;
+            });
+            setCancellations(mapped);
         } catch (err: any) {
             console.error("Error fetching cancellations:", err);
         }
@@ -194,23 +257,19 @@ const DoctorScheduleCalendar: React.FC = () => {
         try {
             setCancelLoading(true);
             const formattedDate = formatDateForAPI(selectedDate);
-            const response = await api.post("/request-cancel-doctor-appointment", {
+            await api.post("/schedules/cancel/request", {
                 doctor_id: currentUserId,
-                branch_id: scheduleToCancel.branch_id,
                 schedule_id: scheduleToCancel.id,
-                date: formattedDate,
+                cancel_date: formattedDate,
                 reason: reason,
+                cancel_type: "single_day",
             });
 
-            if (response.data.status === 200) {
-                alert.success(response.data.message || "Schedule cancelled successfully!");
-                await Promise.all([fetchSchedules(), fetchCancellations()]);
-                setShowCancelModal(false);
-                setScheduleToCancel(null);
-                setSelectedDate(null);
-            } else {
-                throw new Error(response.data.message || "Failed to cancel schedule");
-            }
+            alert.success("Cancellation request submitted.");
+            await Promise.all([fetchSchedules(), fetchCancellations()]);
+            setShowCancelModal(false);
+            setScheduleToCancel(null);
+            setSelectedDate(null);
         } catch (err: any) {
             console.error("Error cancelling schedule:", err);
             const errorMessage = err.response?.data?.message || "Failed to cancel schedule";
@@ -234,21 +293,33 @@ const DoctorScheduleCalendar: React.FC = () => {
         try {
             setCancelLoading(true);
             const formattedDate = formatDateForAPI(selectedDate);
-            const response = await api.post("/cancel-doctor-entire-day", {
-                doctor_id: currentUserId,
-                date: formattedDate,
-                reason: reason,
+            const schedulesForDate = schedules.filter((schedule) => {
+                const scheduleDates = getDateFromScheduleDay(schedule.schedule_day, selectedDate);
+                return scheduleDates.some((scheduleDate) => scheduleDate.toDateString() === selectedDate.toDateString());
             });
 
-            if (response.data.status === 200) {
-                alert.success(response.data.message || "Day cancelled successfully!");
-                await Promise.all([fetchSchedules(), fetchCancellations()]);
-                setShowCancelModal(false);
-                setIsCancelingEntireDay(false);
-                setSelectedDate(null);
-            } else {
-                throw new Error(response.data.message || "Failed to cancel day");
+            if (schedulesForDate.length === 0) {
+                alert.warn("No schedules found for the selected date.");
+                return;
             }
+
+            await Promise.all(
+                schedulesForDate.map((schedule) =>
+                    api.post("/schedules/cancel/request", {
+                        doctor_id: currentUserId,
+                        schedule_id: schedule.id,
+                        cancel_date: formattedDate,
+                        reason: reason,
+                        cancel_type: "single_day",
+                    })
+                )
+            );
+
+            alert.success("Cancellation requests submitted.");
+            await Promise.all([fetchSchedules(), fetchCancellations()]);
+            setShowCancelModal(false);
+            setIsCancelingEntireDay(false);
+            setSelectedDate(null);
         } catch (err: any) {
             console.error("Error cancelling day:", err);
             const errorMessage = err.response?.data?.message || "Failed to cancel day";
@@ -266,8 +337,9 @@ const DoctorScheduleCalendar: React.FC = () => {
         return `${displayHour}:${minutes} ${ampm}`;
     };
 
-    const getCancellationStatusInfo = (status: number) => {
-        switch (status) {
+    const getCancellationStatusInfo = (status: number | string) => {
+        const normalizedStatus = mapCancellationStatus(status);
+        switch (normalizedStatus) {
             case 0: return { text: "Pending", color: "bg-amber-500", textColor: "text-amber-700", icon: Clock3, badgeClass: "bg-amber-100 text-amber-800" };
             case 1: return { text: "Approved", color: "bg-emerald-500", textColor: "text-emerald-700", icon: CheckCircle, badgeClass: "bg-emerald-100 text-emerald-800" };
             case 2: return { text: "Rejected", color: "bg-red-500", textColor: "text-red-700", icon: XCircle, badgeClass: "bg-red-100 text-red-800" };

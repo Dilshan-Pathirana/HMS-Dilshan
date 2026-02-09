@@ -13,7 +13,7 @@ const HeroSection = () => {
                             Trusted Healthcare Provider
                         </span>
                         <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-neutral-900 leading-tight tracking-tight">
-                            Search Smart, Choose the Best,<br />
+                            Search Smart, Choose the Best<br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary-500">
                                 Your Doctor, Your Way!
                             </span>

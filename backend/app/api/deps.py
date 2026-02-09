@@ -1,8 +1,9 @@
 from typing import Annotated
+
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 import jwt
-from jwt.exceptions import InvalidTokenError
+from jwt.exceptions import ExpiredSignatureError, InvalidTokenError
 from pydantic import ValidationError
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
@@ -28,13 +29,15 @@ async def get_current_user(
              raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Could not validate credentials",
+                headers={"WWW-Authenticate": "Bearer"},
             )
-    except (jwt.InvalidTokenError, ValidationError):
+    except (ExpiredSignatureError, InvalidTokenError, ValidationError):
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
+            status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
         )
-    
+
     user = await session.get(User, token_data)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -47,7 +50,8 @@ async def get_current_active_superuser(
 ) -> User:
     if current_user.role_as != 1: # Assuming 1 is SuperAdmin
         raise HTTPException(
-            status_code=400, detail="The user doesn't have enough privileges"
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="The user doesn't have enough privileges",
         )
     return current_user
 

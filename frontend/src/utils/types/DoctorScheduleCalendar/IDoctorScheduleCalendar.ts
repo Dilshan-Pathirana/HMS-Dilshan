@@ -29,13 +29,13 @@ export interface CancelModalProps {
 }
 
 export interface DoctorScheduleCancellation {
-    id: number;
+    id: string;
     schedule_id: string;
-    doctor_id: number;
-    branch_id: number;
+    doctor_id: string;
+    branch_id: string;
     date: string;
     reason: string;
-    status: number;
+    status: number | string;
     reject_reason?: string;
     created_at: string;
     doctor_first_name: string;

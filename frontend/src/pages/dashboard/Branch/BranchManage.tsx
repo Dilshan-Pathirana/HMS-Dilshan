@@ -35,15 +35,13 @@ const BranchManage: React.FC = () => {
         }
         try {
             setIsLoading(true);
-            const data = await api.get<IBranchData>(`/branches/${id}/details`);
-            if (data) {
-                const bData = data as unknown as IBranchData;
-                setBranch(bData);
-                setFormData(bData);
-                if (bData.branch_admin) {
-                    setCurrentAdmin(bData.branch_admin);
-                    setSelectedAdminId(bData.branch_admin.id);
-                }
+            const bData = await api.get<IBranchData>(`/branches/${id}/details`);
+            if (!bData) return;
+            setBranch(bData);
+            setFormData(bData);
+            if ((bData as any).branch_admin) {
+                setCurrentAdmin((bData as any).branch_admin);
+                setSelectedAdminId((bData as any).branch_admin.id);
             }
         } catch (error: any) {
             console.error("Failed to fetch branch", error);
@@ -60,7 +58,7 @@ const BranchManage: React.FC = () => {
     const fetchAvailableAdmins = async () => {
         try {
             const data = await api.get<IUserData[]>("/users/available-branch-admins");
-            setAvailableAdmins(data as unknown as IUserData[]);
+            setAvailableAdmins(Array.isArray(data) ? data : []);
         } catch (error) {
             console.error("Failed to fetch available admins", error);
         }
@@ -119,7 +117,8 @@ const BranchManage: React.FC = () => {
     if (!branch) return <div>Branch not found</div>;
 
     const adminSearch = (searchAdmin || "").toLowerCase();
-    const filteredAdmins = availableAdmins.filter(admin => {
+    const safeAdmins = Array.isArray(availableAdmins) ? availableAdmins : [];
+    const filteredAdmins = safeAdmins.filter(admin => {
         const first = (admin?.first_name || "").toLowerCase();
         const email = (admin?.email || "").toLowerCase();
         return first.includes(adminSearch) || email.includes(adminSearch);

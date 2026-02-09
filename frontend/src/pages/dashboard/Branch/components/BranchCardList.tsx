@@ -17,7 +17,9 @@ const BranchCardList: React.FC<BranchCardListProps> = ({
     onAssignStaff,
     onDeleteBranch,
 }) => {
-    if (branches.length === 0) {
+    const safeBranches = Array.isArray(branches) ? branches : [];
+
+    if (safeBranches.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center p-12 bg-white rounded-2xl border border-dashed border-neutral-300 shadow-sm min-h-[300px]">
                 <Building2 className="w-16 h-16 text-neutral-300 mb-4" />
@@ -29,7 +31,7 @@ const BranchCardList: React.FC<BranchCardListProps> = ({
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-            {branches.map((branch) => (
+            {safeBranches.map((branch) => (
                 <div
                     key={branch.id}
                     className="group relative bg-white rounded-2xl overflow-hidden border border-neutral-200 shadow-sm hover:shadow-xl hover:border-primary-200 transition-all duration-300 flex flex-col"

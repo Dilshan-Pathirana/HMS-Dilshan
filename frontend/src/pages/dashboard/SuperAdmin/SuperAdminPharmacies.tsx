@@ -357,7 +357,7 @@ const SuperAdminPharmacies: React.FC = () => {
         try {
             setLoading(true);
             const response = await api.get('/pharmacies');
-            if (response.success) {
+            if (response.data?.success || response.data?.pharmacies) {
                 const loadedPharmacies = response.data.pharmacies || [];
                 setPharmacies(loadedPharmacies);
                 if (loadedPharmacies.length === 0) {
@@ -375,10 +375,10 @@ const SuperAdminPharmacies: React.FC = () => {
         try {
             const data = await api.get('/branches');
             // Check if data is array (direct return) or object with success
-            if (Array.isArray(data)) {
-                setBranches(data);
-            } else if (data.success && Array.isArray(data.data)) {
+            if (Array.isArray(data.data)) {
                 setBranches(data.data);
+            } else if (data.data?.success && Array.isArray(data.data?.data)) {
+                setBranches(data.data.data);
             }
         } catch (err) {
             console.error('Failed to load branches:', err);
@@ -388,8 +388,8 @@ const SuperAdminPharmacies: React.FC = () => {
     const loadAvailablePharmacists = async () => {
         try {
             const response = await api.get('/pharmacies/available-pharmacists');
-            if (response.success) {
-                setAvailablePharmacists(response.data || []);
+            if (response.data?.success || response.data) {
+                setAvailablePharmacists(response.data?.data || response.data || []);
             }
         } catch (err) {
             console.error('Failed to load pharmacists:', err);
@@ -400,8 +400,8 @@ const SuperAdminPharmacies: React.FC = () => {
         try {
             setInventoryLoading(true);
             const response = await api.get(`/pharmacies/${pharmacyId}/inventory`);
-            if (response.success) {
-                setInventory(response.data || []);
+            if (response.data?.success || response.data) {
+                setInventory(response.data?.data || response.data || []);
             }
         } catch (err: any) {
             console.error('Failed to load inventory:', err);
@@ -765,7 +765,7 @@ const SuperAdminPharmacies: React.FC = () => {
         try {
             setSuppliersLoading(true);
             const response = await api.delete(`/delete-supplier/${selectedSupplier.id}`);
-            if (response.status === 200 || response.success) {
+            if (response.status === 200 || response.data?.success) {
                 setSuccessMessage('Supplier deleted successfully');
                 setShowSupplierDeleteConfirm(false);
                 setSelectedSupplier(null);
@@ -873,7 +873,7 @@ const SuperAdminPharmacies: React.FC = () => {
             }
 
             const response = await api.post('/pharmacies', payload);
-            if (response.success) {
+            if (response.data?.success || response.status === 201 || response.status === 200) {
                 setSuccessMessage('Pharmacy created successfully');
                 setShowCreateModal(false);
                 resetForm();
@@ -903,7 +903,7 @@ const SuperAdminPharmacies: React.FC = () => {
             };
 
             const response = await api.put(`/pharmacies/${selectedPharmacy.id}`, payload);
-            if (response.success) {
+            if (response.data?.success || response.status === 200) {
                 setSuccessMessage('Pharmacy updated successfully');
                 setShowEditModal(false);
                 setSelectedPharmacy(null);
@@ -929,7 +929,7 @@ const SuperAdminPharmacies: React.FC = () => {
             const response = await api.put(`/pharmacies/${selectedPharmacy.id}`, {
                 branch_id: allocateBranchId
             });
-            if (response.success) {
+            if (response.data?.success || response.status === 200) {
                 setSuccessMessage(`Pharmacy allocated to branch successfully`);
                 setShowAllocateModal(false);
                 setSelectedPharmacy(null);
@@ -950,7 +950,7 @@ const SuperAdminPharmacies: React.FC = () => {
             const response = await api.put(`/pharmacies/${pharmacy.id}`, {
                 is_active: newStatus === 'active'
             });
-            if (response.success) {
+            if (response.data?.success || response.status === 200) {
                 setSuccessMessage(`Pharmacy ${newStatus === 'active' ? 'activated' : 'deactivated'} successfully`);
                 loadPharmacies();
             }
@@ -973,7 +973,7 @@ const SuperAdminPharmacies: React.FC = () => {
         try {
             setLoading(true);
             const response = await api.delete(`/pharmacies/${selectedPharmacy.id}`);
-            if (response.success) {
+            if (response.data?.success || response.status === 200) {
                 setSuccessMessage('Pharmacy deleted successfully');
                 setShowDeleteConfirm(false);
                 setSelectedPharmacy(null);

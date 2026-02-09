@@ -43,10 +43,25 @@ export const SuperAdminDashboard: React.FC = () => {
 
     const fetchDashboardData = async () => {
         try {
+            const token =
+                localStorage.getItem("token") ||
+                localStorage.getItem("authToken") ||
+                localStorage.getItem("userToken");
+
+            if (!token) {
+                console.warn("No authentication token found for Super Admin dashboard");
+                setLoading(false);
+                return;
+            }
+
             // Fetch dashboard statistics
-            const response = await api.get('/super-admin/dashboard-stats');
-            if (response.data.status === 200) {
-                setStats(response.data.data);
+            const response: any = await api.get("/super-admin/dashboard-stats", {
+                headers: {
+                    Authorization: token.startsWith("Bearer ") ? token : `Bearer ${token}`,
+                },
+            });
+            if (response.status === 200) {
+                setStats(response.data);
             }
 
             // Get user info

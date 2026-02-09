@@ -82,7 +82,7 @@ async def create_pharmacist(
             email=email,
             username=email, # Using email as username for simplicity
             hashed_password=hashed_password,
-            role_as=5, # Pharmacist role
+            role_as=7, # Pharmacist role
             is_active=True
         )
         

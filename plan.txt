@@ -1,0 +1,2558 @@
+# HMS Laravel → FastAPI + React Migration Ledger
+
+> Persistent memory file — all migration analysis findings are recorded here.
+> Never duplicate entries. Always append new findings below the last section.
+
+---
+
+## SCANNED_FILES
+
+### Phase 1 — Routes
+- php/routes/api.php
+- php/routes/superAdminRoutes.php
+- php/routes/branchAdminRoutes.php
+- php/routes/appointmentRoutes.php
+- php/routes/cashierRoutes.php
+- php/routes/doctorAppointmentsRoute.php
+- php/routes/hrmRoutes.php
+- php/routes/nurseRoutes.php
+- php/routes/patientRoutes.php
+- php/routes/pharmacistRoutes.php
+- php/routes/receptionistRoutes.php
+- php/routes/supplierRoutes.php
+- php/routes/medicalInsightsRoutes.php
+- php/routes/webRoutes.php
+- php/routes/web.php
+
+### Phase 1 — Controllers (~60 files)
+- php/app/Http/Controllers/Auth/*
+- php/app/Http/Controllers/SuperAdmin/* (Branches, Users, POS, Chatbot, Appointments)
+- php/app/Http/Controllers/BranchAdmin/* (Staff, POS, Requests, Feedback, Appointments)
+- php/app/Http/Controllers/Doctor/* (Schedule, Consultation, Appointments, Diseases, Sessions)
+- php/app/Http/Controllers/Patient/*
+- php/app/Http/Controllers/Pharmacist/*
+- php/app/Http/Controllers/Cashier/*
+- php/app/Http/Controllers/Nurse/*
+- php/app/Http/Controllers/Receptionist/*
+- php/app/Http/Controllers/Supplier/*
+- php/app/Http/Controllers/HRM/*
+- php/app/Http/Controllers/MedicalInsights/*
+- php/app/Http/Controllers/Dashboard/*
+- php/app/Http/Controllers/Profile/*
+- php/app/Http/Controllers/Notification/*
+- php/app/Http/Controllers/PurchaseRequest/*
+- php/app/Http/Controllers/Payment/*
+- php/app/Http/Controllers/Website/*
+
+### Phase 2 — Models (~75 files)
+- php/app/Models/AllUsers/User.php
+- php/app/Models/Branch.php (+ Hospital/Branch alias)
+- php/app/Models/Appointment/* (AppointmentBooking, DoctorSchedule, DoctorScheduleCancellation, ApprovalRequest, DoctorAvailableBranch, PatientAppointment, SlotLock)
+- php/app/Models/Cashier/* (BillingTransaction, TransactionItem, CashRegister, CashEntry, DailyCashSummary, EODReport)
+- php/app/Models/POS/* (InventoryBatch, POSDiscount, PricingControl, PriceOverrideRequest, TransactionDiscount, POSAuditLog)
+- php/app/Models/Pharmacy/* (Pharmacy, PharmacyInventory, PharmacyStockTransaction, Product, ProductStock, Supplier, DailyBill, DailyPurchaseProduct, ProductEventDetails)
+- php/app/Models/HRM/* (StaffSalary, SalaryPay, EmployeeShift, EmployeeOT, Leave, AdminLeave, LeaveType, Attendance, BankDetail)
+- php/app/Models/Doctor/* (DoctorCreatedDisease, DoctorSession, Prescription)
+- php/app/Models/Patient/* (Patient)
+- php/app/Models/Medical/* (MedicalPost, QuestionAnswer)
+- php/app/Models/PurchaseRequest.php, PurchaseRequestItem.php
+- php/app/Models/Notification.php, ChangeLog.php, SmsLog.php, Feedback.php
+- php/app/Models/Website/* (WebDoctor, WebService, ContactMessage)
+- php/app/Models/SystemSettings.php
+- php/app/Models/UserRole.php, BranchUserAssignment.php
+
+### Phase 2 — Migrations (~150 files in php/database/migrations/)
+
+### Phase 2 — Seeders (~25 files in php/database/seeders/)
+
+### Phase 3 — Services
+- php/app/Services/CorePOSService.php
+- php/app/Services/PayHereService.php
+- php/app/Services/AppointmentSmsService.php
+- php/app/Services/SmsSender.php
+- php/app/Services/AuthenticatedUserTokenGenerator.php
+- php/app/Services/EmployeeIdGenerator.php
+- php/app/Services/POSAuditService.php
+- php/app/Services/GetBranchDivisionNumberFromBranchId.php
+- php/app/Services/POS/BatchPricingService.php
+- php/app/Services/POS/DiscountService.php
+- php/app/Services/POS/PricingControlService.php
+- php/app/Services/Users/CreateUser.php
+- php/app/Services/Users/PatientUserEmailGenerator.php
+- php/app/Services/Branch/CheckBranchExisting.php
+- php/app/Services/PurchasingBills/CreateInvoiceID.php
+- php/app/Services/PurchasingBills/CreateProductPurchasingBill.php
+
+### Phase 3 — Jobs
+- php/app/Jobs/SendPurchaseApprovalEmail.php
+- php/app/Jobs/SendPurchaseRequestEmail.php
+
+### Phase 3 — Traits
+- php/app/Traits/EnforcesBranchIsolation.php
+
+### Phase 3 — Helpers
+- php/app/Helpers/SmsTemplates.php
+
+### Phase 3 — Actions (~130 files)
+- php/app/Action/DoctorAppointment/*
+- php/app/Action/DoctorDisease/*
+- php/app/Action/DoctorSchedule/* (15 files)
+- php/app/Action/DoctorScheduleCancel/*
+- php/app/Action/DoctorSession/*
+- php/app/Action/PatientAppointment/* (9 files)
+- php/app/Action/Notification/*
+- php/app/Action/Hospital/Branch/*
+- php/app/Action/Hospital/Leave/*
+- php/app/Action/EmployeeOT/*
+- php/app/Action/StaffSalary/*
+- php/app/Action/Shift/*
+- php/app/Action/Supplier/*
+- php/app/Action/User/Doctor/*
+- php/app/Action/User/Cashier/*
+- php/app/Action/User/Nurse/*
+- php/app/Action/User/Pharmacist/*
+- php/app/Action/User/Patient/*
+- php/app/Action/Pharmacy/* (25+ files)
+- php/app/Action/QuestionAnswers/*
+- php/app/Action/WebSite/*
+
+### Phase 3 — Events
+- php/app/Events/ProductStockLimitationReminder.php
+
+### Phase 3 — Mail
+- php/app/Mail/PurchaseRequestApproved.php
+- php/app/Mail/PurchaseRequestNotification.php
+
+### Phase 3 — Providers
+- php/app/Providers/AppServiceProvider.php
+- php/app/Providers/RepositoryServiceProvider.php
+
+### Phase 3 — Guards
+- php/app/Guards/GuardAuthenticatedUser.php
+
+---
+
+## Phase 1 — Controller & Route Map (COMPLETE)
+
+### Route Files Summary (15 files)
+
+| File | ~Routes | Role/Middleware |
+|------|---------|-----------------|
+| api.php | 20+ | Mixed public + auth:sanctum |
+| superAdminRoutes.php | 20+ | SuperAdminCheckMiddleware |
+| branchAdminRoutes.php | 20+ | AdminOrBranchAdminMiddleware + branch.isolation |
+| appointmentRoutes.php | 20+ | Per-role groups |
+| cashierRoutes.php | 20+ | CashierUserMiddleware |
+| doctorAppointmentsRoute.php | 20+ | DoctorUserMiddleware |
+| hrmRoutes.php | 20+ | Role sub-groups |
+| nurseRoutes.php | 19 | Custom token validation |
+| patientRoutes.php | 16 | PatientUserMiddleware |
+| pharmacistRoutes.php | 20+ | PharmacistUserMiddleware |
+| receptionistRoutes.php | 20+ | role:receptionist |
+| supplierRoutes.php | 10 | auth:sanctum |
+| medicalInsightsRoutes.php | 17 | Mixed |
+| webRoutes.php | 4 | Public |
+| web.php | 1 | Welcome view |
+
+### 30-Module Map
+
+| # | Module | Scope |
+|---|--------|-------|
+| 1 | Auth | Login/register/logout/profile (all roles) |
+| 2 | SuperAdmin – Branches | CRUD branches, view/assign staff |
+| 3 | SuperAdmin – Users | CRUD all user types |
+| 4 | SuperAdmin – POS | POS transactions, EOD, audit logs, reports (cross-branch) |
+| 5 | SuperAdmin – Chatbot | Admin chatbot settings |
+| 6 | SuperAdmin – Appointments | View/manage all appointments cross-branch |
+| 7 | BranchAdmin – Staff | CRUD staff within branch |
+| 8 | BranchAdmin – POS | POS within branch, pricing, discounts |
+| 9 | BranchAdmin – Requests | Purchase requests, approvals |
+| 10 | BranchAdmin – Feedback | View/manage feedback |
+| 11 | BranchAdmin – Appointments | Branch appointment management |
+| 12 | Doctor – Schedule | CRUD doctor schedules + approval requests |
+| 13 | Doctor – Consultation | Patient visits, prescriptions, notes |
+| 14 | Doctor – Appointments | View own appointments, mark statuses |
+| 15 | Doctor – Diseases | CRUD doctor-created disease catalog |
+| 16 | Doctor – Sessions | Doctor-patient session tracking |
+| 17 | Patient – Booking | Book/reschedule/cancel appointments, view history |
+| 18 | Pharmacist | Inventory, dispensing, stock management |
+| 19 | Cashier | POS transactions, billing, EOD reports |
+| 20 | Nurse | Patient queue, vitals, triage |
+| 21 | Receptionist | Check-in, queue management, appointment status |
+| 22 | Supplier | View purchase orders, update delivery status |
+| 23 | HRM – Leave | Leave requests, approval workflow |
+| 24 | HRM – Salary | Staff salary, pay slips, OT, bank details |
+| 25 | HRM – Shifts | Employee shift management |
+| 26 | HRM – Attendance | Attendance tracking |
+| 27 | Medical Insights | Medical posts, Q&A, doctor articles |
+| 28 | Dashboard Stats | Role-based dashboard statistics |
+| 29 | Purchase Requests | Multi-level PR workflow |
+| 30 | Payment (PayHere) | Online payment integration for appointments |
+
+### User Roles (role_as integer mapping)
+
+| role_as | Role Name |
+|---------|-----------|
+| 1 | super_admin |
+| 2 | branch_admin |
+| 3 | doctor |
+| 4 | pharmacist |
+| 5 | nurse |
+| 6 | patient / receptionist |
+| 7 | cashier |
+| 8 | supplier |
+| 9 | it_support |
+| 10 | center_aid |
+| 11 | auditor |
+
+### Middleware Stack
+
+| Middleware | Purpose |
+|-----------|---------|
+| auth:sanctum | Token-based API auth |
+| SuperAdminCheckMiddleware | role_as === 1 |
+| AdminOrBranchAdminMiddleware | role_as 1 or 2 |
+| DoctorUserMiddleware | role_as === 3 (or 5 in token mapping) |
+| PharmacistUserMiddleware | role_as === 4 (or 7 in token mapping) |
+| NurseUserMiddleware | Custom token validation |
+| CashierUserMiddleware | role_as === 7 (or 3 in some mappings) |
+| PatientUserMiddleware | role_as === 6 (or 5 in token mapping) |
+| branch.isolation | EnforcesBranchIsolation trait |
+
+> NOTE: There is a role_as inconsistency between AuthenticatedUserTokenGenerator mapping (5=doctor, 3=cashier, 4=nurse, 7=patient) vs some middleware. The token generator is considered authoritative.
+
+---
+
+## Phase 2 — Domain & Data Model Extraction (COMPLETE)
+
+### Key Entity Patterns
+
+- **UUID Primary Keys**: All major entities use Laravel `HasUuids` trait
+- **SoftDeletes Applied To**: Pharmacy, PharmacyInventory, BillingTransaction, CashEntry, MedicalPost, PurchaseRequest, LeaveType
+- **Timestamps**: All models include created_at/updated_at
+
+### Core Entities & Fields
+
+#### User (AllUsers/User.php)
+- **Fields**: first_name, last_name, email, password, role_as (int), branch_id (FK), basic_salary, phone, nic, employee_id, profile_photo, status
+- **Hidden**: password, remember_token
+- **Relationships**: belongsTo(Branch), hasMany(BranchUserAssignment), hasMany(Notification)
+- **Accessor**: `getRoleAttribute()` maps role_as integer → string name
+- **Auth**: HasApiTokens (Sanctum), HasUuids
+
+#### Branch
+- **Fields**: center_name, name, address, phone, email, registration_number, registration_document, division_number, status, operating_hours (JSON)
+- **Relationships**: hasMany(User), hasMany(Pharmacy), hasMany(BranchUserAssignment), hasMany(BillingTransaction), hasMany(AppointmentBooking), hasMany(DoctorSchedule)
+
+#### AppointmentBooking
+- **Fields**: schedule_id, patient_id, doctor_id, branch_id, appointment_date, appointment_time, slot_number, token_number, status, payment_status, payment_id, booking_fee, amount_paid, payment_date, reschedule_count, notes
+- **Constants**: 8 statuses (STATUS_PENDING=0, CONFIRMED=1, CHECKED_IN=2, IN_PROGRESS=3, COMPLETED=4, CANCELLED=5, NO_SHOW=6, RESCHEDULED=7), 4 payment statuses (pending, paid, failed, refunded)
+- **Relationships**: belongsTo(User:patient), belongsTo(User:doctor), belongsTo(Branch), belongsTo(DoctorSchedule)
+
+#### DoctorSchedule
+- **Fields**: doctor_id, branch_id, schedule_day, start_time, end_time, max_patients, is_active, consultation_fee, room_number
+- **Scopes**: forDoctor(), forBranch(), forDay(), active()
+- **Relationships**: belongsTo(User:doctor), belongsTo(Branch), hasMany(AppointmentBooking)
+
+#### BillingTransaction (SoftDeletes)
+- **Fields**: branch_id, cashier_id, transaction_type (OPD/IPD), invoice_number, receipt_number, patient_name, patient_phone, patient_id, subtotal, discount, tax, total_amount, payment_method (CASH/CARD/MOBILE/QRCODE/ONLINE), paid_amount, change_amount, status (COMPLETED/VOIDED/REFUNDED), remarks, created_by_role, voided_at, voided_by, void_reason
+- **Relationships**: belongsTo(Branch), belongsTo(User:cashier), hasMany(TransactionItem)
+
+#### Pharmacy (SoftDeletes)
+- **Fields**: branch_id, pharmacy_name, license_number, operating_hours (JSON), phone, email, status
+- **Mutator**: `setOperatingHoursAttribute()` JSON-encodes operating_hours
+- **Relationships**: belongsTo(Branch), hasMany(PharmacyInventory)
+
+#### PharmacyInventory (SoftDeletes)
+- **Fields**: pharmacy_id, product_id, quantity, reorder_level, unit_price, selling_price, expiry_date, batch_number, status
+- **Relationships**: belongsTo(Pharmacy), belongsTo(Product), hasMany(PharmacyStockTransaction)
+
+#### Product
+- **Fields**: item_code, item_name, generic_name, brand_name, category, unit, description, supplier_id, status
+- **Relationships**: belongsTo(Supplier), hasOne(ProductStock), hasMany(PharmacyInventory)
+
+#### PurchaseRequest (SoftDeletes)
+- **Fields**: pr_number, branch_id, requested_by, approved_by, status (draft/pending/approved/rejected/partially_approved), priority (low/medium/high/urgent), remarks, approved_at, rejected_at, rejection_reason
+- **Relationships**: belongsTo(Branch), belongsTo(User:requester), belongsTo(User:approver), hasMany(PurchaseRequestItem)
+
+#### Supplier
+- **Fields**: supplier_name, supplier_code, contact_person, email, contact_email, supplier_email, phone, address, payment_terms, delivery_time, return_policy, bank_name, bank_account, bank_branch, status
+- **Relationships**: hasMany(Product), hasMany(PurchaseRequestItem)
+
+#### StaffSalary
+- **Fields**: user_id, basic_salary, allowances (JSON), deductions (JSON), net_salary, payment_frequency, status
+- **Relationships**: belongsTo(User), hasMany(SalaryPay), hasOne(BankDetail)
+
+#### Leave (LeaveType has SoftDeletes)
+- **Fields**: user_id, leave_type_id, start_date, end_date, days, reason, status (Pending/Approved/Rejected), assigned_to, approved_by, approved_at, comments
+- **Relationships**: belongsTo(User), belongsTo(LeaveType), hasOne(AdminLeave)
+
+#### Notification
+- **Fields**: user_id, type, title, message, related_type, related_id, status (sent/read), channel (in_app/sms/email), sent_at, read_at
+- **Relationships**: belongsTo(User)
+
+#### ChangeLog (Audit)
+- **Fields**: user_id, branch_id, entity_type, entity_id, transaction_id, action, module, severity (info/warning/critical), before_data (JSON), after_data (JSON), changes (JSON), ip_address, user_agent
+- **Relationships**: belongsTo(User), belongsTo(Branch)
+
+#### SmsLog
+- **Fields**: type, recipient_type, recipient_id, phone_number, phone_masked, message, related_id, related_type, gateway, status (pending/sent/failed), sent_at, failed_at, failure_reason
+- **Static**: createLog(), markAsSent(), markAsFailed()
+
+#### InventoryBatch (POS)
+- **Fields**: product_id, branch_id, batch_number, original_quantity, current_quantity, purchase_price, selling_price, received_date, expiry_date, supplier_id, status
+- **Scopes**: forProduct(), forBranch(), active(), fifoOrder(), fefoOrder(), expiringSoon()
+
+#### POSDiscount
+- **Fields**: name, description, scope (item/bill/category), type (percentage/fixed), value, product_id, category, branch_id, is_global, priority, cashier_can_apply, requires_approval, min_purchase_amount, valid_from, valid_until, is_period_based, is_active
+- **Scopes**: active(), valid(), forBranch(), byPriority()
+- **Methods**: calculateDiscount(), getApplicableForProduct(), getApplicableForBill()
+
+#### PricingControl
+- **Fields**: product_id, branch_id, is_global, default_selling_price, min_selling_price, max_selling_price, max_discount_percentage, max_discount_amount, allow_manual_price, requires_approval_below_min, updated_by
+- **Methods**: validatePrice(), validateDiscount(), getForProduct()
+
+#### SystemSettings
+- **Fields**: key, value, description, category
+- **Usage**: pos_pricing_strategy, pos_max_cashier_discount_percent, pos_override_request_expiry_minutes
+
+#### Feedback
+- **Fields**: branch_id, patient_id, doctor_id, rating, comment, category, status, response, responded_by, responded_at
+- **Boot**: Auto-generates UUID
+
+#### MedicalPost (SoftDeletes)
+- **Fields**: title, slug, content, author_id, category, tags (JSON), status (draft/published), published_at, views_count
+- **Boot**: Auto-generates UUID + slug from title
+
+#### UserRole
+- **Fields**: role_name, permissions (JSON)
+- **Method**: hasPermission() with wildcard matching (e.g., `users.*`)
+
+#### BranchUserAssignment
+- **Fields**: user_id, branch_id, assigned_at, unassigned_at, is_active
+- **Method**: isCurrentlyActive()
+
+---
+
+## Phase 3 — Business Rules & Services (COMPLETE)
+
+### Services (Root Level)
+
+| Service | Functions | Rules / Triggers / Side Effects | External Calls |
+|---------|-----------|-------------------------------|----------------|
+| **CorePOSService** | `createTransaction()`, `decrementStock()`, `createLowStockNotifications()`, `updateDailySummary()`, `generateInvoiceNumber()`, `generateReceiptNumber()`, `validateTransactionData()`, `validateBranchAccess()`, `getEffectiveBranchId()` | DB transaction wrapping entire sale. Stock decrement on sale with low-stock threshold check. Low-stock notifications to branch_admin + pharmacist + super_admin (deduped 24h). Daily cash summary upsert (cash vs card tracking). Invoice format: `{BranchPrefix3}-{YYYYMMDD}-{seq}`. Payment methods: CASH, CARD, MOBILE, QRCODE, ONLINE. Branch access: super_admin=any, others=own. | Calls `POSAuditService.logTransaction()` |
+| **PayHereService** | `generatePaymentData()`, `generatePaymentDataForPreAppointment()`, `verifyNotificationSignature()`, `createPaymentForm()`, `createAppointmentFromCache()`, `updateAppointmentPaymentStatus()` | Fee = LKR 350 per slot. Pre-appointment flow: cache data 2h TTL, create booking only after webhook. Hash = `MD5(merchant_id+order_id+amount+currency+status_code+MD5(secret))`. Status map: 2=success, 0=pending, -1=canceled, -2=failed, -3=chargedback. | **PayHere gateway** (sandbox/production). Webhook at `/api/payments/payhere/webhook` |
+| **AppointmentSmsService** | `sendCancellationSms()`, `sendRescheduleSms()`, `sendPatientCredentialsSms()`, `sendAppointmentConfirmationSms()`, `sendStatusUpdateSms()`, `getPatientPhoneFromBooking()`, `getAppointmentDetailsForSms()` | SMS logged via `SmsLog` model (createLog → markAsSent/markAsFailed). **Non-blocking**: SMS failure never throws. Status update SMS only for: no_show, checked_in, completed. Phone lookup: patients table → users table fallback. | **Textware SMS**: HTTP GET `https://sms.textware.lk:5001/sms/send_sms.php` (SSL disabled) |
+| **SmsSender** | `sendSMS()` (static) | Simpler low-level SMS sender (same gateway). | Same Textware endpoint |
+| **AuthenticatedUserTokenGenerator** | `getValidToken()`, `getPassword()` | Sanctum token creation per role. 10 role mappings (1-10) with abilities like `server:super-admin`. Password generator: 4 letter-number pairs (8 chars). | None (Sanctum internal) |
+| **EmployeeIdGenerator** | `generate()` | Format: `CURE{division}{roleCode}{YY}{randomLetter}{random4digits}`. Role codes: D=doctor(5), N=nurse(4), A=admin(1), C=cashier(3), P=pharmacist(6), V=?(7). | None |
+| **POSAuditService** | `log()`, `logTransaction()`, `logVoidRefund()`, `logEODSubmit()`, `logEODReview()`, `logStockAdjustment()`, `logDiscount()`, `logDrawerOperation()`, `logReportAccess()`, `getLogs()`, `getTransactionHistory()`, `getUserActivity()` | Writes to `ChangeLog` model. Tracks: user, branch, entity, action, module, severity, before/after data, IP, user-agent. 6 modules (pos, eod, inventory, cashier, pharmacy, reports). 16+ action constants. 3 severity levels. | None |
+| **GetBranchDivisionNumberFromBranchId** | `getBranchDivisionNumber()` | Simple lookup returning `division_number` from Branch. | None |
+
+### Services (POS Subdirectory)
+
+| Service | Functions | Rules / Triggers / Side Effects | External Calls |
+|---------|-----------|-------------------------------|----------------|
+| **BatchPricingService** | `getAvailableBatches()`, `getNextBatch()`, `getBatchesForQuantity()`, `getWeightedAverageCost()`, `getWeightedAverageSellingPrice()`, `getSellingPrice()`, `deductStock()`, `getTotalStock()`, `getStockAgingReport()`, `getExpiringSoonReport()`, `getBatchProfitAnalysis()` | 3 pricing strategies from SystemSettings: FIFO (default), FEFO (expiry-based), Weighted Average. Multi-batch fulfillment for large quantities. DB transaction for deduction. Profit analysis: purchase vs selling value, margin %. Aging report: days_old, stock_value. | `POSAuditLog` writes |
+| **DiscountService** | `getApplicableDiscounts()`, `calculateBestDiscount()`, `canApplyDiscount()`, `applyDiscount()`, `applyManualDiscount()`, `getActiveOffers()`, `getDiscountImpactReport()` | Priority: item > period > bill. Non-stacking (best-per-item wins). Cashier max discount % from SystemSettings. Requires approval flag. Manual discount recording. Impact report: total savings, by type breakdown. | `POSAuditLog` writes |
+| **PricingControlService** | `validatePrice()`, `validateDiscount()`, `getPriceRange()`, `createOverrideRequest()`, `quickApproveWithPin()`, `getPendingRequests()`, `setPricingControl()`, `needsApproval()` | Min/max price enforcement. Override request workflow (pending → approved/rejected, 30min expiry from SystemSettings). Quick PIN approval by branch_admin/super_admin only. Global vs per-branch pricing controls. | `POSAuditLog` writes |
+
+### Services (User/Branch/Purchasing Subdirectories)
+
+| Service | Functions | Rules | External |
+|---------|-----------|-------|----------|
+| **CreateUser** | `newUser()` | Handles `branch_id` as JSON array (multi-branch doctors). Extracts first branch. Creates User with Hash::make password. | None |
+| **PatientUserEmailGenerator** | `generate()` | Format: `{first}{last}{rand1-100}@hms.com` | None |
+| **CheckBranchExisting** | `check()` | Simple existence check | None |
+| **CreateInvoiceID** | `execute()` | Format: `{yymmdd}{rand10000-99999}` | None |
+| **CreateProductPurchasingBill** | `create()` | Transforms Collection into bill+products array | None |
+
+### Jobs (Queued)
+
+| Job | Trigger | Side Effect | External |
+|-----|---------|-------------|----------|
+| **SendPurchaseApprovalEmail** | Dispatched on PR approval | 3 retries, 60s backoff. Resolves supplier email (contact_email, email, supplier_email). Loads PR with branch, approver, items. | **Email** via `PurchaseRequestApproved` Mailable |
+| **SendPurchaseRequestEmail** | Dispatched on PR creation | Same retry config. Sends notification to supplier. | **Email** via `PurchaseRequestNotification` Mailable |
+
+### Traits
+
+| Trait | Methods | Rules |
+|-------|---------|-------|
+| **EnforcesBranchIsolation** | `getEffectiveBranchId()`, `canAccessBranch()`, `enforceBranchIsolation()`, `isSuperAdmin()`, `isBranchAdmin()`, `applyBranchFilter()`, `getCurrentUserRole()` | Super admin: access any, specify branch via request. Others: own branch only. Violation → 403 + log. Query filter: auto-applies `where(branch_id, ...)`. Triple-check: role_as, role attribute, tokenCan. |
+
+### Helpers
+
+| Helper | Methods | Rules |
+|--------|---------|-------|
+| **SmsTemplates** | `adminAppointmentConfirmation()`, `paymentConfirmation()`, `appointmentChange()`, `calculateAppointmentTime()`, `formatDate()` | Slot-to-time calculation: 12min/slot. Pure string generators. |
+
+### Actions (~130 files across 17 subdirectories)
+
+| Domain | Key Actions | Critical Business Rules | External |
+|--------|------------|------------------------|----------|
+| **DoctorAppointment** | CheckAvailability, GetAllFiltered | Excludes stale pending_payment > 30min. Excludes cancelled/rescheduled. | None |
+| **DoctorSchedule** (15 files) | Create, RequestApproval, ApproveRequest, Cancel, CancelEntireDay, CancelAppointments | **Approval workflow** for schedule requests. 30-min buffer conflict detection. Bulk cancel appointments on schedule cancellation. | None |
+| **DoctorScheduleCancel** | ApproveCancellation, Reject | Approval → bulk cancels all related patient appointments (status=0). | None |
+| **PatientAppointment** (9 files) | CreateAdmin, CreatePatient, CreateSelf, Change, SendSms, Delete | Admin: direct create + SMS. Patient/Self: **PayHere-first flow** (cache → webhook → create). Reschedule: **max 1**, within 2 days. FindOrCreatePatient auto-creates users. | **SMS**, **PayHere** |
+| **Hospital/Branch** | AddNew, Delete, Update, GetAll | Standard CRUD with file upload for registration doc. | None |
+| **Hospital/Leave** | Create, LeaveManage, AdminLeaveManage | **Two-level approval**: assigner → admin. Notifications on each state change. Date validation (start ≤ end). | None |
+| **User/** (5 sub-types) | CreateDoctor, CreateCashier, CreateNurse, CreatePharmacist, CreatePatient | Doctor: multi-branch via `DoctorAvailableBranch`. Patient: NIC/phone uniqueness + **SMS credentials**. All: employee ID generation. | **SMS** (patient creation) |
+| **Pharmacy/** (25+ files) | CreateProduct, SyncToAllPharmacies, StockUpdate, DamagedReduce, TransferReduce, CreatePurchasing | Product syncs to all pharmacies. Stock changes create `ProductEventDetails` audit. **Low stock → WebSocket broadcast** (Pusher channel). | **WebSocket/Broadcast** |
+| **StaffSalary** | Create, CreatePay, Update, Delete | Prevents duplicate salary per user. Bank details in same transaction. | None |
+| **EmployeeOT** | Create, Update, Delete | Validates staff salary exists. Calculates OT amount = hours × rate. | None |
+
+### Events & Broadcasting
+
+| Event | Channel | Trigger |
+|-------|---------|---------|
+| **ProductStockLimitationReminder** | `vivd-firefly-891` (event: `reminder.sent`) | Stock drops below reorder level during purchase/damaged/transfer operations |
+
+### Mail
+
+| Mailable | View | Trigger |
+|----------|------|---------|
+| **PurchaseRequestApproved** | `emails.purchase-request-approved` | Via `SendPurchaseApprovalEmail` job |
+| **PurchaseRequestNotification** | `emails.purchase-request-notification` | Via `SendPurchaseRequestEmail` job |
+
+### Providers
+
+| Provider | Key Bindings |
+|----------|-------------|
+| **AppServiceProvider** | Rate limit: 60/min per user/IP |
+| **RepositoryServiceProvider** | 13 repository interface bindings (MedicalCenter, Patient, DoctorSchedule, Appointment, Session, Medication, Prescription, Invoice, Payment, Attendance, Payroll, Notification, ChangeLog) |
+
+### Guards
+
+| Guard | Rules |
+|-------|-------|
+| **GuardAuthenticatedUser** | Dual login: email OR phone. Phone → resolves Patient → User. Password: Hash::check. |
+
+### External Integration Summary
+
+| System | Protocol | Used By |
+|--------|----------|---------|
+| **Textware SMS** | HTTP GET (SSL disabled) | SmsSender, AppointmentSmsService, PatientAppointment actions |
+| **PayHere Payment** | POST form + webhook | PayHereService, PatientAppointment actions |
+| **Email (SMTP)** | Laravel Mail (queued) | Purchase request/approval jobs |
+| **WebSocket (Pusher)** | Channel `vivd-firefly-891` | ProductStockManagement on low stock |
+
+---
+
+## Phase 4 — UI & User Workflows (COMPLETE)
+
+### 4.1 React Route Map (from AppRoutes.tsx — 983 lines)
+
+#### Public Routes (no auth)
+
+| Route | Component | Purpose |
+|-------|-----------|---------|
+| `/` | Dashboard (UserWeb) | Public landing page |
+| `/login` | LoginPage | Email/phone + password login |
+| `/signup` | SignupPage | Patient self-registration |
+| `/forgot-password` | ForgotPassword | Password reset |
+| `/doctor-schedule` | WebDoctorScheduleDetails | Public doctor search & schedule view |
+| `/doctor-schedule/doctor-schedule-details` | DoctorScheduleDetails | **Protected** — booking form |
+| `/patient-appointment-date` | PatientAppoinmentChange | Reschedule appointment |
+| `/appointment-confirmation/:orderId` | AppointmentConfirmation | PayHere success callback |
+| `/appointment-cancelled/:orderId` | AppointmentCancelled | PayHere cancel callback |
+| `/medical-insights` | MedicalInsightsPage | Public blog/articles |
+| `/medical-insights/:slug` | PostDetailPage | Single article view |
+| `/why-choose-us` | WhyChooseUs | Static |
+| `/about-us` | About | Static (multi-lang: English/Sinhala/Tamil) |
+| `/about-us/mission` | Mission | Static |
+| `/privacy-policy` | PrivacyPolicy | Static |
+| `/appointment-booking-terms` | AppointmentBookingTerms | Static |
+| `/specialised-treatments/*` | 8 treatment pages | Static content pages |
+| `/shop/cart` | CartComingSoon | Placeholder |
+
+#### Super Admin Routes (role_as=1)
+
+| Route | Component | Purpose |
+|-------|-----------|---------|
+| `/dashboard` | SuperAdminDashboard | Main dashboard shell (DashboardLayout inside) |
+| `/dashboard/branches/view` | BranchView | Branch listing |
+| `/dashboard/branches/edit/:id` | BranchManage | Edit branch |
+| `/dashboard/branches/:id/assign` | BranchAssign | Assign staff to branch |
+| `/dashboard/branches/:id/manage` | BranchManage | Branch management |
+| `/dashboard/branches/:id` | BranchDetails | Branch detail view |
+| `/dashboard/branch/management` | BranchStaffManagement | Staff management per branch |
+| `/dashboard/users/list` | UserManagement | CRUD all users |
+| `/dashboard/pharmacies` | SuperAdminPharmacies | Pharmacy management |
+| `/super-admin/staff` | SuperAdminStaffDashboard | Staff overview |
+| `/super-admin/staff/scheduling` | SuperAdminStaffScheduling | Staff scheduling |
+| `/super-admin/staff/profiles` | UserManagement | User profiles |
+| `/super-admin/reports` | SuperAdminReports | Reports |
+| `/super-admin/feedbacks` | SuperAdminFeedbacks | Feedback management |
+| `/super-admin/chatbot` | SuperAdminChatbotManagement | Chatbot config |
+| `/super-admin/appointments/*` | SuperAdminAppointments | Appointments cross-branch |
+| `/super-admin/hrm` | SuperAdminHRMDashboard | HRM overview |
+| `/super-admin/hrm/policies` | HRMPolicies | HR policies |
+| `/super-admin/hrm/salary-structures` | SalaryStructures | Salary config |
+| `/super-admin/hrm/epf-etf` | EPFETFConfig | EPF/ETF (Sri Lanka statutory) |
+| `/super-admin/hrm/leave-types` | LeaveTypes | Leave type config |
+| `/super-admin/hrm/shift-templates` | ShiftTemplates | Shift templates |
+| `/super-admin/hrm/payroll` | SuperAdminPayrollManagement | Payroll mgmt |
+| `/super-admin/hrm/payroll-config` | PayrollConfig | Payroll settings |
+| `/super-admin/hrm/reports` | HRMReports | HR reports |
+| `/super-admin/hrm/audit-logs` | HRMAuditLogs | HR audit trail |
+
+#### Branch Admin Routes (role_as=2)
+
+| Route | Component | Purpose |
+|-------|-----------|---------|
+| `/branch-admin/dashboard` | BranchAdminDashboard | Branch dashboard |
+| `/branch-admin/profile` | BranchAdminProfile | Admin profile |
+| `/branch-admin/doctor-schedules` | BranchAdminDoctorSchedules | Doctor schedule mgmt |
+| `/branch-admin/appointments/*` | BranchAdminAppointments | Branch appointments |
+| `/branch-admin/reports` | BranchAdminReports | Branch reports |
+| `/branch-admin/analytics` | BranchAdminAnalytics | Branch analytics |
+| `/branch-admin/settings` | BranchAdminSettings | Branch settings |
+| `/branch-admin/feedbacks` | BranchAdminFeedbacks | Feedback view |
+| `/branch-admin/requests` | BranchAdminRequests | Requests hub |
+| `/branch-admin/requests/purchase-requests` | BranchAdminPurchaseRequests | PR management |
+| `/branch-admin/requests/eod-reports` | BranchAdminEODReports | EOD approvals |
+| `/branch-admin/requests/cash-entries` | BranchAdminCashEntries | Cash entries |
+| `/branch-admin/requests/schedule-requests` | BranchAdminScheduleRequests | Schedule approvals |
+| `/branch-admin/requests/modification-requests` | BranchAdminModificationRequests | Modification requests |
+| `/branch-admin/staff/add` | AddStaff | Add staff form |
+| `/branch-admin/hrm` | BranchAdminHRMDashboard | Branch HRM |
+| `/branch-admin/hrm/staff` | BranchHRMStaff | Staff list |
+| `/branch-admin/hrm/scheduling` | StaffScheduling | Staff scheduling |
+| `/branch-admin/hrm/staff/add` | AddStaff | Add staff |
+| `/branch-admin/hrm/leave-approvals` | BranchLeaveApprovals | Leave approvals |
+| `/branch-admin/hrm/payroll` | BranchPayrollSummary | Payroll summary |
+| `/branch-admin/hrm/attendance` | BranchAttendance | Attendance |
+| `/branch-admin/hrm/overtime` | BranchOvertime | OT management |
+| `/branch-admin/hrm/reports` | BranchHRMReports | HRM reports |
+| `/branch-admin/hrm/audit-logs` | BranchHRMAuditLogs | HRM audit |
+| `/branch-admin/hrm/service-letters` | BranchServiceLetters | Service letters |
+| `/branch/:id` | BranchDashboardSimple | Branch overview |
+| `/branch/:id/pharmacies` | BranchPharmacies | Branch pharmacies |
+| `/branch/:id/inventory` | BranchInventory | Branch inventory |
+| `/branch/:id/staff` | BranchStaff | Branch staff |
+| `/branch/:id/transactions` | BranchTransactions | Branch transactions |
+
+#### Doctor Routes (role_as=3)
+
+| Route | Component | Purpose |
+|-------|-----------|---------|
+| `/doctor/schedule` | DoctorScheduleCalendar | Schedule calendar view |
+| `/doctor/patients` | DoctorPatients | Patient list |
+| `/doctor/patients/:id` | MedicalRecord | Patient medical record |
+| `/doctor/appointments` | AllDoctorRelatedAppointments | Doctor's appointments |
+
+#### Employee Self-Service HRM Routes (all authenticated)
+
+| Route | Component | Purpose |
+|-------|-----------|---------|
+| `/dashboard/hrm` | EmployeeHRMDashboard | Employee HR home |
+| `/dashboard/hrm/profile` | EmployeeProfile | View/edit profile |
+| `/dashboard/hrm/leave` | EmployeeLeaveRequest | Request leave |
+| `/dashboard/hrm/payslips` | EmployeePayslips | View payslips |
+| `/dashboard/hrm/shifts` | EmployeeShifts | View shifts |
+| `/dashboard/hrm/overtime` | EmployeeOvertime | View OT |
+| `/dashboard/hrm/schedule-acknowledgment` | EmployeeScheduleAcknowledgment | Acknowledge schedules |
+
+#### Legacy DashboardLayout Sub-Routes (inside /dashboard shell)
+
+The `DashboardLayout` component at `/dashboard` contains an internal `<Routes>` with ~40+ additional sub-routes for:
+- User CRUD (create, manage, edit forms per role type)
+- Branch CRUD (view, create modal, edit modal)
+- Pharmacy management
+- Doctor schedule CRUD (add, edit, view table)
+- Appointment management (schedule view, all appointments, filters)
+- Doctor schedule cancellation management
+- Q&A management (create questions, view questions)
+- Doctor sessions, diseases
+- SuperAdmin dashboard, reports, analytics, settings, pharmacies
+- **POS Management** (SuperAdmin POS): dashboard, analytics, transactions, products, purchasing, damage stock, stock transfer, re-stock, discounts, price overrides, cashier management
+
+### 4.2 Page Component Inventory (~250 files)
+
+| Module | Page Count | Key Pages |
+|--------|-----------|-----------|
+| **SuperAdmin** | ~15 | MainDashboard, Appointments, Chatbot, Feedbacks, Reports, Pharmacies, StaffDashboard, StaffScheduling |
+| **BranchAdmin** | ~25 | Dashboard, Profile, DoctorSchedules, Appointments, Reports, Analytics, Settings, Feedbacks, Requests (5 sub-pages), StaffManagement (14 sub-pages) |
+| **Doctor Dashboard** | ~20 | Dashboard, DashboardNew, Appointments, Sessions, Patients, MedicalRecord, Consultation (7 sub-components: Queue, Flow, ClinicalQuestioning, DiagnosisSelection, MedicineRecommendation, ConsultationFeeStep, PatientOverviewModal), Schedules, Diseases |
+| **Patient Dashboard** | ~15 | Dashboard, DashboardNew, AppointmentBooking (Wizard, Book, MyAppointments), Modules (9: Home, Appointments, Complaints, HealthConditions, MedicalRecords, Medications, Notifications, Profile, QueueStatus) |
+| **Cashier/POS** | ~15 | CashierBillingDashboard, CashierBillingPOS, CashEntries, EODProcess, PendingConsultations, Reports, TransactionList, UnifiedPOSEntry, CashierHR (7 sub-pages) |
+| **Pharmacist** | ~20 | Dashboard, DashboardNew, Inventory, Dispensing, Prescriptions, Billing, Purchase, Reports, ADRReporting, ControlledDrugs, WardSupply, Messages, Alerts, AuditLogs, Profile, PurchaseRequest/List, Feedback, PendingConsultations |
+| **Nurse** | ~16 | Dashboard, DashboardMain, Patients, VitalSigns, Medication, Tasks, Handover, Feedback, Profile, NurseHR (7 sub-pages: Dashboard, Schedules, ScheduleRequests, Payslips, OvertimeSalary, Policies, ServiceLetters) |
+| **Receptionist** | ~8 | Dashboard, DashboardMain, Appointments, PatientRegistration, Queue, Visits, Reports, Profile |
+| **HRM** | ~25 | SuperAdmin (6), BranchAdmin (9), Employee (7), Legacy (Leave, Salary, Shift, OT) |
+| **Appointments (Legacy)** | ~12 | AllAppointmentManagement, DoctorAppointmentManagement, DoctorScheduleManagement, AddScheduleModal, EditScheduleModal, DoctorScheduleTable, PatientForm, DoctorFilter |
+| **Medical Insights** | 5 | Page, PostDetail, CreatePost, DoctorPosts, index |
+| **Branch Admin POS** | 4 | Dashboard, Analytics, CashierManagement, EODManagement |
+| **SuperAdmin POS** | 2 | POSPage, CashierManagement |
+| **UserWeb (Public)** | ~20 | Landing, About (3 langs), Mission, Treatments (8), AppointmentSchedule, DoctorSchedule, Footer, NavBar, HeroSection |
+| **Profile** | 1 | ProfilePage |
+| **Login** | 2 | LoginPage, SignupPage |
+| **Other dashboards** | ~6 | ITAssistant, Supplier, Audiologist, Paramedic, Secretary, Clerk, Director, MedicalAssistant (mostly placeholder) |
+
+### 4.3 Frontend Service Layer (API Clients)
+
+| Service File | Base URL | Endpoints | Module |
+|-------------|----------|-----------|--------|
+| `appointmentService.ts` (1115 lines) | 6 sub-base-URLs | ~55 endpoints | Appointment booking for all roles |
+| `posApi.ts` | `/api` (role-switched) | ~20 endpoints | POS/cashier billing |
+| `nurseService.ts` | `/api/nurse` | ~19 endpoints | Nurse module |
+| `receptionistService.ts` | `/api/v1/receptionist` | ~30 endpoints | Receptionist module |
+| `chatbotService.ts` | `/api/chatbot` | 3 endpoints | AI chatbot |
+| `utils/api/` (~80 files) | `/api/v1` (axios base) | ~80+ endpoints | Legacy CRUD for all modules |
+
+**Total unique API endpoints called by frontend: ~200+**
+
+### 4.4 Auth & RBAC Architecture
+
+#### Auth Flow
+1. Login via `UserSignIn` async thunk → POST `/api/login`
+2. Response: `{ token, userId, userRole, user: { branch_id, branch_name, first_name, last_name, user_type } }`
+3. Token stored in `localStorage` + Redux `authSlice`
+4. All API calls include `Authorization: Bearer {token}` header (set in axios interceptor)
+5. Logout: `UserSignOut` → POST `/api/logout` + `localStorage.clear()`
+
+#### RBAC System
+- **ProtectedRoute** component: checks `isAuthenticated` from Redux, optionally checks `allowedRoles` array
+- **useAuth hook**: provides `isSuperAdmin, isBranchAdmin, isDoctor, isNurse, isPatient, isCashier, isPharmacist`
+- **useRBAC hook**: provides granular permission checks (`canCreateTransaction, canVoidTransaction, canApplyDiscount`, etc.)
+- **rbac.ts utility**: 
+  - Role hierarchy: super_admin(100) > branch_admin(80) > pharmacist(60) > cashier/doctor(50) > nurse(40) > receptionist(30) > patient(10)
+  - 20+ permission constants (POS, EOD, Inventory, User, Reports, Audit, Branch)
+  - Role-to-permissions mapping matrix
+
+#### Role Mapping Inconsistency (CRITICAL)
+
+| role_as | ProtectedRoute | useAuth | AuthTokenGenerator (Laravel) |
+|---------|---------------|---------|------------------------------|
+| 1 | super_admin | super_admin | super_admin |
+| 2 | branch_admin | branch_admin | branch_admin |
+| 3 | doctor | **cashier** | **cashier** |
+| 4 | nurse | **pharmacist** | **nurse** |
+| 5 | patient | **doctor** | **patient** |
+| 6 | cashier | **nurse** | **cashier** |
+| 7 | pharmacist | **patient** | **pharmacist** |
+
+**Warning**: `ProtectedRoute.tsx` uses a DIFFERENT mapping (3=doctor, 4=nurse, 5=patient, 6=cashier, 7=pharmacist) than `useAuth.ts` (3=cashier, 4=pharmacist, 5=doctor, 6=nurse, 7=patient). This is a known source of bugs in the codebase.
+
+### 4.5 Layout Architecture
+
+| Layout | Used By | Features |
+|--------|---------|----------|
+| **DashboardLayout** | SuperAdmin, BranchAdmin (at `/dashboard`) | Sidebar menu (role-aware), nested routes, BranchProvider context |
+| **PharmacyDashboardLayout** | Pharmacist pages | Pharmacy-specific sidebar |
+| **POSDashboardLayout** | POS/Cashier pages | POS-specific layout |
+| **HRDashboardLayout** | HRM pages | HR-specific layout |
+| **NurseDashboardLayout** | Nurse pages | Nurse sidebar + navbar |
+| **POSLayout** | Unified POS entry | Minimal POS layout |
+
+### 4.6 Critical User Workflows
+
+#### 1. Patient Appointment Booking (Public → PayHere → SMS)
+1. Patient visits `/doctor-schedule` (public)
+2. Searches doctors by branch/specialization
+3. Selects available slot on `/doctor-schedule/doctor-schedule-details` (requires login)
+4. `CreatePatientAppointment` action → generates PayHere payment form (appointment NOT created yet)
+5. Payment data cached with 2h TTL
+6. Redirect to PayHere checkout
+7. On success: PayHere webhook → `createAppointmentFromCache()` → booking created with status=CONFIRMED, payment_status=paid
+8. Redirect to `/appointment-confirmation/:orderId`
+9. SMS confirmation sent to patient
+
+#### 2. Admin Appointment Booking (Direct)
+1. Branch admin/receptionist uses appointment form
+2. `CreateAdminPatientAppointment` action → directly creates booking (status=1, payment=paid)
+3. SMS confirmation sent
+
+#### 3. Doctor Schedule → Approval → Appointments
+1. Doctor creates schedule request → `RequestDoctorScheduleApproval`
+2. Conflict check (30-min buffer on same day)
+3. Branch admin approves → `ApproveDoctorScheduleRequest` → creates `DoctorSchedule`
+4. Schedule visible to patients for booking
+
+#### 4. Schedule Cancellation → Patient Notification
+1. Doctor requests cancellation → `CancelDoctorSchedule`
+2. Branch admin approves → `ApproveCancellation`
+3. **Side effect**: All related patient appointments bulk-cancelled (status=0)
+4. SMS sent to affected patients
+
+#### 5. POS Transaction Flow
+1. Cashier opens POS → searches products
+2. Adds items to cart, applies discounts (DiscountService validates)
+3. `CorePOSService.createTransaction()`:
+   - Creates BillingTransaction + TransactionItems
+   - Decrements stock (BatchPricingService FIFO/FEFO)
+   - Low stock → Notifications to admins + pharmacist
+   - Daily cash summary updated
+   - Audit log via POSAuditService
+4. Invoice/receipt generated
+
+#### 6. EOD (End of Day) Cash Flow
+1. Cashier submits EOD report (`submitEOD`)
+2. Branch admin reviews → approves/rejects/flags
+3. Audit trail logged
+
+#### 7. Purchase Request → Supplier Email
+1. Pharmacist/Branch admin creates PR
+2. `SendPurchaseRequestEmail` job dispatched → supplier gets email
+3. Admin approves PR → `SendPurchaseApprovalEmail` → supplier gets approved PO with items
+4. Items: 3 retries, 60s backoff
+
+#### 8. Leave Management (Two-Level)
+1. Employee creates leave request → notification to assigner
+2. Assigner approves/rejects → notification to employee + AdminLeave record
+3. Admin final approval → notification back to employee
+
+#### 9. Consultation Flow (Doctor)
+1. Doctor views today's queue (`ConsultationQueue`)
+2. Starts consultation → `ConsultationFlow`:
+   - ClinicalQuestioning
+   - DiagnosisSelection
+   - MedicineRecommendation
+   - ConsultationFeeStep
+3. Completes consultation → appointment status updated
+
+#### 10. Patient Registration (Receptionist/Admin)
+1. Receptionist registers patient
+2. `CreateNewPatientUser` action:
+   - NIC/phone uniqueness check
+   - Auto-generates email + password
+   - Employee ID generated
+   - **SMS with credentials** sent to patient's phone
+
+### 4.7 Redux State Shape
+
+```
+store.auth: {
+  loading, userId, userRole (int), userType, userToken, branchId, branchName, error, isAuthenticated
+}
+store.cart: { items, total }
+store.doctorSchedule: { schedules, loading }
+store.order: { orders }
+store.payment: { status, data }
+store.product: { products, selectedProduct }
+store.sessionAnswers: { answers }
+```
+
+### 4.8 Laravel Blade Views (Minimal — API-only backend)
+
+Only 2 Blade views exist (email templates):
+- `emails/purchase-request-approved.blade.php` — Mailable for approved POs
+- `emails/purchase-request-notification.blade.php` — Mailable for new PRs
+
+No Blade UI views — the Laravel app is **API-only**; all UI is in the React frontend.
+
+### 4.9 SCANNED_FILES (Phase 4 additions)
+
+- frontend/src/routes/AppRoutes.tsx (983 lines — full route map)
+- frontend/src/routes/AdminRoutes/* (5 guard files)
+- frontend/src/components/ProtectedRoute.tsx
+- frontend/src/hooks/useAuth.ts
+- frontend/src/hooks/useRBAC.ts
+- frontend/src/hooks/usePOSApi.ts
+- frontend/src/utils/rbac.ts (326 lines)
+- frontend/src/utils/slices/auth/authSlice.tsx
+- frontend/src/layout/DashboardLayout.tsx (204 lines)
+- frontend/src/services/* (6 files: appointmentService, chatbotService, nurseService, posApi, receptionistService, index)
+- frontend/src/context/* (2 files: POSContext, POS/BranchContext)
+- frontend/src/config/branchAdminNavigation.tsx
+- frontend/src/pages/* (~250 component files across 17 directories)
+- frontend/src/utils/api/* (~80 API utility files)
+- frontend/src/pages/DoctorDashboard/modules/consultation/* (consultation flow types + API)
+
+---
+
+## Phase 5 — FastAPI Gap Analysis
+
+> **STATUS**: COMPLETE
+
+### 5.1 — FastAPI Backend Structure
+
+**Directory layout:**
+```
+backend/app/
+├── main.py                  # App setup, CORS, routers, standalone stub endpoints
+├── __init__.py
+├── api/                     # 14 files (13 routers + deps.py)
+│   ├── __init__.py
+│   ├── appointments.py      # 2 endpoints (search, book)
+│   ├── auth.py              # 1 endpoint (login)
+│   ├── branches.py          # 12 endpoints (CRUD + staff + pharmacy assignment)
+│   ├── deps.py              # 3 auth dependencies
+│   ├── doctors.py           # 3 endpoints (CRUD)
+│   ├── nurse.py             # 1 endpoint (create-nurse)
+│   ├── patients.py          # 3 endpoints (CRUD)
+│   ├── pharmacies.py        # 10 endpoints (CRUD + inventory mocks)
+│   ├── pharmacist.py        # 1 endpoint (create-pharmacist)
+│   ├── receptionist.py      # 9 endpoints (dashboard, appointments, visits, queue)
+│   ├── staff.py             # 1 endpoint (create-staff)
+│   ├── super_admin.py       # 1 endpoint (dashboard-stats)
+│   └── users.py             # 9 endpoints (CRUD + available role queries)
+├── core/                    # 3 files
+│   ├── config.py            # pydantic-settings (DATABASE_URL, SECRET_KEY)
+│   ├── database.py          # AsyncSession + asyncmy engine
+│   └── security.py          # passlib bcrypt + PyJWT HS256
+└── models/                  # 10 SQLModel classes in 9 files
+    ├── __init__.py
+    ├── appointment.py       # Appointment
+    ├── branch.py            # Branch
+    ├── doctor.py            # Doctor
+    ├── doctor_availability.py # DoctorAvailability
+    ├── patient.py           # Patient
+    ├── pharmacy.py          # Pharmacy
+    ├── staff_pharmacist.py  # Pharmacist
+    ├── user.py              # User
+    └── visit.py             # Visit + Queue
+```
+
+### 5.2 — All FastAPI Endpoints (~53 total)
+
+#### Router Prefix Mapping (main.py)
+
+| Router | Prefix | Tags |
+|---|---|---|
+| auth | `/api/v1/auth` | auth |
+| users | `/api/v1/users` | users |
+| branches | `/api/v1/branches` | branches |
+| doctors | `/api/v1/doctors` | doctors |
+| patients | `/api/v1/patients` | patients |
+| appointments | `/api/v1/appointments` | appointments |
+| receptionist | `/api/v1/receptionist` | receptionist |
+| pharmacies | `/api/v1/pharmacies` | pharmacies |
+| pharmacist | `/api/v1/pharmacist` | pharmacist |
+| nurse | `/api/v1` | nurse |
+| staff | `/api/v1/users` | staff |
+| super_admin | `/api/v1/super-admin` | super-admin |
+
+#### Auth (auth.py) — 1 endpoint
+| Method | Path | Function | Auth |
+|---|---|---|---|
+| POST | `/api/v1/auth/login/access-token` | login_access_token | Public |
+
+#### Users (users.py) — 9 endpoints
+| Method | Path | Function | Auth |
+|---|---|---|---|
+| GET | `/api/v1/users/me` | read_user_me | get_current_user |
+| POST | `/api/v1/users/` | create_user | SuperAdmin |
+| GET | `/api/v1/users/` | read_users | SuperAdmin |
+| PUT | `/api/v1/users/{user_id}` | update_user | SuperAdmin |
+| DELETE | `/api/v1/users/{user_id}` | delete_user | SuperAdmin |
+| GET | `/api/v1/users/available-branch-admins` | get_available_branch_admins | SuperAdmin |
+| GET | `/api/v1/users/available-by-role` | get_available_users_by_role | SuperAdmin |
+| GET | `/api/v1/users/available-staff` | get_available_staff | SuperAdmin |
+| GET | `/api/v1/users/{user_id}` | read_user | SuperAdmin |
+
+#### Staff (staff.py) — 1 endpoint
+| Method | Path | Function | Auth |
+|---|---|---|---|
+| POST | `/api/v1/users/create-staff` | create_staff | Staff (SuperAdmin/BranchAdmin) |
+
+#### Branches (branches.py) — 12 endpoints
+| Method | Path | Function | Auth |
+|---|---|---|---|
+| POST | `/api/v1/branches/` | create_branch | SuperAdmin |
+| GET | `/api/v1/branches/` | read_branches | Public |
+| GET | `/api/v1/branches/{branch_id}` | read_branch | Public |
+| DELETE | `/api/v1/branches/{branch_id}` | delete_branch | SuperAdmin |
+| PUT | `/api/v1/branches/{branch_id}` | update_branch | SuperAdmin |
+| PUT | `/api/v1/branches/{branch_id}/assign-admin` | assign_branch_admin | SuperAdmin |
+| POST | `/api/v1/branches/{branch_id}/assign-staff` | assign_staff_to_branch | SuperAdmin |
+| GET | `/api/v1/branches/{branch_id}/staff` | get_branch_staff | SuperAdmin |
+| DELETE | `/api/v1/branches/{branch_id}/staff/{user_id}` | remove_staff_from_branch | SuperAdmin |
+| PUT | `/api/v1/branches/{branch_id}/pharmacies/{pharmacy_id}` | assign_pharmacy_to_branch | SuperAdmin |
+| DELETE | `/api/v1/branches/{branch_id}/pharmacies/{pharmacy_id}` | unassign_pharmacy_from_branch | SuperAdmin |
+| GET | `/api/v1/branches/{branch_id}/details` | get_branch_details_full | Own BranchAdmin or SuperAdmin |
+
+#### Doctors (doctors.py) — 3 endpoints
+| Method | Path | Function | Auth |
+|---|---|---|---|
+| POST | `/api/v1/doctors/` | create_doctor | SuperAdmin |
+| GET | `/api/v1/doctors/` | read_doctors | Public |
+| GET | `/api/v1/doctors/{doctor_id}` | read_doctor | SuperAdmin |
+
+#### Patients (patients.py) — 3 endpoints
+| Method | Path | Function | Auth |
+|---|---|---|---|
+| POST | `/api/v1/patients/` | create_patient | SuperAdmin |
+| GET | `/api/v1/patients/` | read_patients | SuperAdmin |
+| GET | `/api/v1/patients/{patient_id}` | read_patient | SuperAdmin |
+
+#### Appointments (appointments.py) — 2 endpoints
+| Method | Path | Function | Auth |
+|---|---|---|---|
+| GET | `/api/v1/appointments/search` | search_appointments | Public |
+| POST | `/api/v1/appointments/book` | book_appointment | Public |
+
+#### Receptionist (receptionist.py) — 9 endpoints
+| Method | Path | Function | Auth |
+|---|---|---|---|
+| GET | `/api/v1/receptionist/dashboard-stats` | get_dashboard_stats | Public (NO AUTH — BUG) |
+| POST | `/api/v1/receptionist/appointments` | create_appointment | Public (NO AUTH — BUG) |
+| GET | `/api/v1/receptionist/appointments` | read_appointments | Public (NO AUTH — BUG) |
+| GET | `/api/v1/receptionist/appointments/{id}` | read_appointment | Public (NO AUTH — BUG) |
+| PUT | `/api/v1/receptionist/appointments/{id}` | update_appointment | Public (NO AUTH — BUG) |
+| POST | `/api/v1/receptionist/visits` | create_visit | Public (NO AUTH — BUG) |
+| GET | `/api/v1/receptionist/visits` | read_visits | Public (NO AUTH — BUG) |
+| GET | `/api/v1/receptionist/queue` | read_queue | Public (NO AUTH — BUG) |
+| POST | `/api/v1/receptionist/queue/issue-token` | issue_token | Public (NO AUTH — BUG) |
+
+#### Pharmacies (pharmacies.py) — 10 endpoints
+| Method | Path | Function | Auth |
+|---|---|---|---|
+| GET | `/api/v1/pharmacies/` | read_pharmacies | SuperAdmin |
+| POST | `/api/v1/pharmacies/` | create_pharmacy | SuperAdmin |
+| PUT | `/api/v1/pharmacies/{pharmacy_id}` | update_pharmacy | SuperAdmin |
+| DELETE | `/api/v1/pharmacies/{pharmacy_id}` | delete_pharmacy | SuperAdmin |
+| GET | `/api/v1/pharmacies/available-pharmacists` | get_available_pharmacists | SuperAdmin |
+| GET | `/api/v1/pharmacies/products` | read_products | SuperAdmin (**MOCKED** — returns []) |
+| GET | `/api/v1/pharmacies/products-branch` | read_products_branch | SuperAdmin (**MOCKED** — returns []) |
+| GET | `/api/v1/pharmacies/suppliers` | read_suppliers | SuperAdmin (**MOCKED** — returns []) |
+| GET | `/api/v1/pharmacies/{pharmacy_id}/inventory` | read_inventory | SuperAdmin (**MOCKED** — returns []) |
+| GET | `/api/v1/pharmacies/available/for-assignment` | get_available_pharmacies | SuperAdmin |
+
+#### Pharmacist (pharmacist.py) — 1 endpoint
+| Method | Path | Function | Auth |
+|---|---|---|---|
+| POST | `/api/v1/pharmacist/create-pharmacist` | create_pharmacist | Staff (SuperAdmin/BranchAdmin) |
+
+#### Nurse (nurse.py) — 1 endpoint
+| Method | Path | Function | Auth |
+|---|---|---|---|
+| POST | `/api/v1/create-nurse` | create_nurse | Staff (SuperAdmin/BranchAdmin) |
+
+#### Super Admin (super_admin.py) — 1 endpoint
+| Method | Path | Function | Auth |
+|---|---|---|---|
+| GET | `/api/v1/super-admin/dashboard-stats` | get_dashboard_stats | SuperAdmin |
+
+#### Standalone Stubs (main.py) — 10 endpoints
+| Method | Path | Function | Auth | Note |
+|---|---|---|---|---|
+| GET | `/` | read_root | None | Welcome JSON |
+| GET | `/health` | health_check | None | OK |
+| GET | `/validate-session` | validate_session | None | **DUMMY** always valid |
+| GET | `/api/chatbot/suggestions` | chatbot_suggestions | None | **DUMMY** empty |
+| POST | `/api/chatbot/chat` | chatbot_chat | None | **DUMMY** static reply |
+| POST | `/api/chatbot/feedback` | chatbot_feedback | None | **DUMMY** |
+| GET | `/api/v1/medical-insights/posts` | medical_insights_posts | None | **DUMMY** empty |
+| GET | `/super-admin/dashboard-stats` | super_admin_dashboard_stats | None | **DUMMY** zeros |
+| GET | `/api/v1/notifications/admin/{admin_id}` | notifications_admin | None | **DUMMY** empty |
+| GET | `/super-admin/pos/branches` | super_admin_pos_branches | None | **DUMMY** empty |
+
+### 5.3 — All SQLAlchemy/SQLModel Models (10 models in 9 files)
+
+#### User — table: `user`
+| Column | Type | Constraints |
+|---|---|---|
+| id | str(36) | PK, UUID default |
+| email | str(255) | Unique, Indexed |
+| username | str(255) | Unique, Indexed |
+| hashed_password | str | Required |
+| role_as | int | Default 0 (0=User,1=SuperAdmin,2=BranchAdmin,3=Doctor,4=Nurse,5=Patient,6=Cashier,7=Pharmacist,8=ITSupport,9=CenterAid,10=Auditor) |
+| branch_id | Optional[str] | FK → branch.id |
+| is_active | bool | Default True |
+
+**⚠ BUG**: `staff.py` and `nurse.py` routes SET fields like `first_name`, `last_name`, `date_of_birth`, `gender`, `nic_number`, `contact_number_mobile` etc. that are **NOT declared** in the User model — will cause runtime errors.
+
+#### Branch — table: `branch`
+| Column | Type | Constraints |
+|---|---|---|
+| id | str(36) | PK, UUID default |
+| center_name | str(255) | Unique, Indexed |
+| register_number | Optional[str](255) | Unique |
+| center_type | Optional[str](255) | |
+| division | Optional[str](255) | |
+| division_number | Optional[str](255) | |
+| owner_type | Optional[str](255) | |
+| owner_full_name | Optional[str](255) | |
+| owner_id_number | Optional[str](255) | |
+| owner_contact_number | Optional[str](255) | |
+| register_document | Optional[str] | File path |
+| branch_admin_id | Optional[str] | FK → user.id |
+
+**Relationships:** pharmacies → Pharmacy[]
+
+#### Doctor — table: `doctor`
+| Column | Type | Constraints |
+|---|---|---|
+| id | str(36) | PK, UUID default |
+| first_name | str | |
+| last_name | str | |
+| specialization | str | |
+| qualification | str | |
+| contact_number | str | |
+| experience_years | int | |
+| user_id | str(36) | FK → user.id, Unique |
+| branch_id | Optional[str](36) | FK → branch.id |
+
+**Relationships:** user → User
+
+#### DoctorAvailability — table: `doctoravailability`
+| Column | Type | Constraints |
+|---|---|---|
+| id | str(36) | PK, UUID default |
+| doctor_id | str(36) | FK → doctor.id |
+| branch_id | str(36) | FK → branch.id |
+| specialisation | str(255) | |
+| availability_date | date | |
+| start_time | time | |
+| end_time | time | |
+| slot_minutes | int | Default 30, min=5, max=240 |
+| is_blocked | bool | Default False |
+
+#### Patient — table: `patient`
+| Column | Type | Constraints |
+|---|---|---|
+| id | str(36) | PK, UUID default |
+| user_id | str(36) | FK → user.id, Unique |
+| date_of_birth | Optional[date] | |
+| gender | Optional[str] | |
+| blood_group | Optional[str] | |
+| address | Optional[str] | |
+| contact_number | Optional[str] | |
+| emergency_contact | Optional[str] | |
+
+**Relationships:** user → User
+
+#### Appointment — table: `appointment`
+| Column | Type | Constraints |
+|---|---|---|
+| id | str(36) | PK, UUID default |
+| patient_id | str(36) | FK → patient.id |
+| doctor_id | str(36) | FK → doctor.id |
+| branch_id | str(36) | FK → branch.id |
+| appointment_date | date | |
+| appointment_time | time | |
+| appointment_number | Optional[str] | |
+| department | Optional[str] | |
+| reason | Optional[str] | |
+| notes | Optional[str] | |
+| status | str | Default "pending" |
+| created_at | datetime | default utcnow |
+| updated_at | Optional[datetime] | default utcnow |
+
+**Relationships:** patient, doctor, branch
+
+#### Visit — table: `visit`
+| Column | Type | Constraints |
+|---|---|---|
+| id | str(36) | PK, UUID default |
+| visit_number | str | |
+| patient_id | str(36) | FK → patient.id |
+| doctor_id | Optional[str](36) | FK → doctor.id |
+| branch_id | str(36) | FK → branch.id |
+| appointment_id | Optional[str](36) | FK → appointment.id |
+| visit_type | str | Default "opd" |
+| department | Optional[str] | |
+| reason / notes | Optional[str] | |
+| status | str | Default "registered" |
+| created_at / updated_at | datetime | |
+
+**Relationships:** patient, doctor, branch, appointment
+
+#### Queue — table: `queue` (in visit.py)
+| Column | Type | Constraints |
+|---|---|---|
+| id | str(36) | PK, UUID default |
+| patient_id | str(36) | FK → patient.id |
+| doctor_id | Optional[str](36) | FK → doctor.id |
+| branch_id | str(36) | FK → branch.id |
+| token_number | int | |
+| visit_type | str | Default "appointment" |
+| priority | str | Default "normal" |
+| department | Optional[str] | |
+| status | str | Default "waiting" |
+| created_at | datetime | |
+| called_at / completed_at | Optional[datetime] | |
+
+**Relationships:** patient, doctor, branch
+
+#### Pharmacy — table: `pharmacy`
+| Column | Type | Constraints |
+|---|---|---|
+| id | Optional[int] | PK, Auto-increment (**NOT UUID — inconsistent!**) |
+| name | str | Indexed |
+| pharmacy_code | str | Unique, Indexed |
+| license_number | str | |
+| license_expiry_date | Optional[date] | |
+| location / phone / email | Optional[str] | |
+| status | str | Default "active" |
+| branch_id | Optional[str] | FK → branch.id |
+| pharmacist_id | Optional[str] | FK → user.id, Unique |
+
+**Relationships:** branch → Branch
+
+#### Pharmacist — table: `pharmacist`
+| Column | Type | Constraints |
+|---|---|---|
+| id | str(36) | PK, UUID default |
+| user_id | str(36) | FK → user.id, Unique |
+| first_name / last_name | str | |
+| date_of_birth / gender / nic_number | Optional | |
+| contact_number_mobile / landline | Optional[str] | |
+| home_address / emergency_contact_info | Optional[str] | |
+| pharmacist_registration_number | Optional[str] | |
+| work_experience / years_of_experience | Optional | |
+| previous_employment | Optional[str] | |
+| license_validity_date | Optional[date] | |
+| qualifications / joining_date | Optional | |
+| contract_type / contract_duration | Optional[str] | |
+| probation_start_date / end_date | Optional[date] | |
+| basic_salary | Optional[float] | |
+| compensation_package | Optional[str] | |
+| photo_path / nic_photo_path | Optional[str] | |
+
+**Relationships:** user → User
+
+### 5.4 — Auth & Security Implementation
+
+| Aspect | Implementation |
+|---|---|
+| Password hashing | passlib with bcrypt + pbkdf2_sha256 fallback |
+| JWT tokens | PyJWT, HS256, 30-min expiry, payload: {exp, sub: user_id} |
+| Token URL | /api/v1/auth/login/access-token |
+| OAuth2 scheme | OAuth2PasswordBearer |
+| get_current_user | Decode JWT → fetch User by sub → check is_active |
+| get_current_active_superuser | Requires role_as == 1 |
+| get_current_active_staff | Requires role_as in [1, 2] |
+| CORS origins | localhost:5173, localhost:3000, localhost, 13.233.254.140 |
+
+### 5.5 — Dependencies (pyproject.toml)
+
+| Package | Version | Purpose |
+|---|---|---|
+| fastapi | ^0.109.0 | Web framework |
+| uvicorn | ^0.27.0 | ASGI server |
+| sqlmodel | ^0.0.14 | ORM (SQLAlchemy + Pydantic) |
+| alembic | ^1.13.1 | DB migrations |
+| asyncmy | ^0.2.9 | MySQL async driver |
+| cryptography | ^42.0.0 | Crypto support |
+| pyjwt | ^2.8.0 | JWT auth |
+| passlib[bcrypt] | ^1.7.4 | Password hashing |
+| bcrypt | ^4.0.0 | Bcrypt backend |
+| python-multipart | ^0.0.9 | Form data parsing |
+| pydantic-settings | ^2.1.0 | Env-based config |
+| email-validator | ^2.0.0 | Email validation |
+
+### 5.6 — BUGS & INCONSISTENCIES Found
+
+| # | Bug | Severity | Location |
+|---|---|---|---|
+| 1 | **User model missing columns**: staff.py/nurse.py set `first_name`, `last_name`, `date_of_birth`, `gender`, `nic_number`, `contact_number_mobile` etc. but these columns do NOT exist on User model | CRITICAL | backend/app/models/user.py vs backend/app/api/staff.py, nurse.py |
+| 2 | **Pharmacist role_as conflict**: pharmacist.py creates users with role_as=5 (=Patient) instead of 7 (=Pharmacist) | HIGH | backend/app/api/pharmacist.py L83, pharmacies.py L77 |
+| 3 | **Pharmacy PK is int, not UUID**: All other models use UUID str PKs, Pharmacy uses auto-increment int | MEDIUM | backend/app/models/pharmacy.py |
+| 4 | **Receptionist endpoints have NO AUTH**: All 9 receptionist endpoints are completely public | HIGH | backend/app/api/receptionist.py |
+| 5 | **validate-session is DUMMY**: Always returns valid:true regardless of input | MEDIUM | backend/app/main.py |
+| 6 | **Mocked pharmacy endpoints**: products, products-branch, suppliers, inventory all return [] | MEDIUM | backend/app/api/pharmacies.py |
+| 7 | **Nurse route prefix wrong**: Mounted at `/api/v1` so endpoint is `/api/v1/create-nurse` not `/api/v1/nurse/create-nurse` | LOW | backend/app/main.py |
+
+### 5.7 — MASTER GAP TABLE: Laravel → FastAPI
+
+#### Model/Entity Gaps (57 Laravel → 10 FastAPI)
+
+| Laravel Entity | FastAPI Model | Status |
+|---|---|---|
+| User | User | ✅ EXISTS (but missing ~10 columns) |
+| Branch | Branch | ✅ EXISTS |
+| AppointmentBooking | Appointment | ⚠️ PARTIAL (simplified, missing payment/verification fields) |
+| DoctorSchedule | DoctorAvailability | ⚠️ PARTIAL (simplified, no recurrence/cancellation) |
+| DoctorScheduleCancellation | — | ❌ MISSING |
+| ApprovalRequest | — | ❌ MISSING |
+| DoctorAvailableBranch | — | ❌ MISSING (implicit via branch_id on Doctor) |
+| PatientAppointment | Appointment | ⚠️ MERGED (Laravel has separate patient appointment view) |
+| SlotLock | — | ❌ MISSING |
+| BillingTransaction | — | ❌ MISSING |
+| TransactionItem | — | ❌ MISSING |
+| CashRegister | — | ❌ MISSING |
+| CashEntry | — | ❌ MISSING |
+| DailyCashSummary | — | ❌ MISSING |
+| EODReport | — | ❌ MISSING |
+| InventoryBatch | — | ❌ MISSING |
+| POSDiscount | — | ❌ MISSING |
+| PricingControl | — | ❌ MISSING |
+| PriceOverrideRequest | — | ❌ MISSING |
+| TransactionDiscount | — | ❌ MISSING |
+| POSAuditLog | — | ❌ MISSING |
+| Pharmacy | Pharmacy | ✅ EXISTS (PK type mismatch) |
+| PharmacyInventory | — | ❌ MISSING (endpoint mocked) |
+| PharmacyStockTransaction | — | ❌ MISSING |
+| Product | — | ❌ MISSING (endpoint mocked) |
+| ProductStock | — | ❌ MISSING |
+| Supplier | — | ❌ MISSING (endpoint mocked) |
+| DailyBill | — | ❌ MISSING |
+| DailyPurchaseProduct | — | ❌ MISSING |
+| ProductEventDetails | — | ❌ MISSING |
+| StaffSalary | — | ❌ MISSING |
+| SalaryPay | — | ❌ MISSING |
+| EmployeeShift | — | ❌ MISSING |
+| EmployeeOT | — | ❌ MISSING |
+| Leave | — | ❌ MISSING |
+| AdminLeave | — | ❌ MISSING |
+| LeaveType | — | ❌ MISSING |
+| Attendance | — | ❌ MISSING |
+| BankDetail | — | ❌ MISSING |
+| DoctorCreatedDisease | — | ❌ MISSING |
+| DoctorSession | — | ❌ MISSING |
+| Prescription | — | ❌ MISSING |
+| Patient | Patient | ✅ EXISTS |
+| MedicalPost | — | ❌ MISSING (endpoint dummy) |
+| QuestionAnswer | — | ❌ MISSING |
+| PurchaseRequest | — | ❌ MISSING |
+| PurchaseRequestItem | — | ❌ MISSING |
+| Notification | — | ❌ MISSING (endpoint dummy) |
+| ChangeLog | — | ❌ MISSING |
+| SmsLog | — | ❌ MISSING |
+| Feedback | — | ❌ MISSING |
+| WebDoctor | — | ❌ MISSING |
+| WebService | — | ❌ MISSING |
+| ContactMessage | — | ❌ MISSING |
+| SystemSettings | — | ❌ MISSING |
+| UserRole | — | ❌ MISSING (roles hardcoded in User.role_as) |
+| BranchUserAssignment | — | ❌ MISSING (uses branch_id on User instead) |
+| Doctor | Doctor | ✅ EXISTS |
+| Visit | Visit | ✅ EXISTS |
+| Queue | Queue | ✅ EXISTS |
+
+**Summary: 7 EXISTS + 3 PARTIAL + 47 MISSING = 57 entities**
+
+#### Module/Feature Gaps (30 Laravel Modules)
+
+| Laravel Module | FastAPI Coverage | Status |
+|---|---|---|
+| Auth (login/logout/register) | 1 login endpoint only | ⚠️ PARTIAL — no logout, no register, no refresh token, no Sanctum-compatible multi-device |
+| SuperAdmin – Branches | 12 endpoints (full CRUD + staff/pharmacy assign) | ✅ EXISTS |
+| SuperAdmin – Users | 9 endpoints (CRUD + available queries) | ✅ EXISTS |
+| SuperAdmin – POS | 1 dummy endpoint | ❌ MISSING (entire POS subsystem: billing, cash register, EOD, discounts, pricing) |
+| SuperAdmin – Chatbot | 3 dummy endpoints | ❌ MISSING (chatbot config, QA management) |
+| SuperAdmin – Appointments | Partial via appointments router | ⚠️ PARTIAL |
+| BranchAdmin – Staff | 1 create-staff endpoint | ⚠️ PARTIAL (no staff list, update, remove by branch admin) |
+| BranchAdmin – POS | — | ❌ MISSING |
+| BranchAdmin – Requests | — | ❌ MISSING (purchase request approval workflow) |
+| BranchAdmin – Feedback | — | ❌ MISSING |
+| BranchAdmin – Appointments | — | ❌ MISSING |
+| Doctor – Schedule | DoctorAvailability model exists but no CRUD endpoints for doctors | ⚠️ PARTIAL (model only, no API) |
+| Doctor – Consultation | — | ❌ MISSING (entire consultation flow: diagnosis, prescriptions, notes) |
+| Doctor – Appointments | — | ❌ MISSING (doctor view of appointments) |
+| Doctor – Diseases | — | ❌ MISSING |
+| Doctor – Sessions | — | ❌ MISSING |
+| Patient – Booking | 2 endpoints (search + book) | ⚠️ PARTIAL (no patient portal, no booking history, no cancellation) |
+| Pharmacist | 1 create endpoint only | ⚠️ PARTIAL (no dispense, no inventory management) |
+| Cashier | — | ❌ MISSING (entire billing/payment flow) |
+| Nurse | 1 create endpoint only | ⚠️ PARTIAL (no vitals, no patient assignment) |
+| Receptionist | 9 endpoints (appointments, visits, queue) | ⚠️ PARTIAL (no auth! basic CRUD only, no check-in workflow) |
+| Supplier | — | ❌ MISSING |
+| HRM – Leave | — | ❌ MISSING |
+| HRM – Salary | — | ❌ MISSING |
+| HRM – Shifts | — | ❌ MISSING |
+| HRM – Attendance | — | ❌ MISSING |
+| Medical Insights | 1 dummy endpoint | ❌ MISSING |
+| Dashboard Stats | 2 endpoints (receptionist + super admin) | ⚠️ PARTIAL |
+| Purchase Requests | — | ❌ MISSING |
+| Payment (PayHere) | — | ❌ MISSING |
+
+**Summary: 2 EXISTS + 9 PARTIAL + 19 MISSING = 30 modules**
+
+#### Infrastructure/Cross-Cutting Gaps
+
+| Laravel Feature | FastAPI Status | Details |
+|---|---|---|
+| Sanctum Token Auth (multi-device, abilities) | ⚠️ PARTIAL | JWT only, no refresh, no abilities, no multi-device |
+| Queued Jobs (2: email notifications) | ❌ MISSING | No task queue (Celery/ARQ) |
+| Events & Broadcasting (Pusher WebSocket) | ❌ MISSING | No WebSocket support |
+| Mail (2 Mailables + Blade templates) | ❌ MISSING | No email sending capability |
+| SMS Integration (Textware, 6 templates) | ❌ MISSING | No SMS integration |
+| Branch Isolation Trait (auto-scoping) | ❌ MISSING | No auto-scoping middleware |
+| SoftDeletes (6 models) | ❌ MISSING | No soft delete pattern |
+| Repository Pattern (13 repos) | ❌ MISSING | Direct DB queries in routes |
+| Rate Limiting (60/min) | ❌ MISSING | No rate limiting |
+| Audit Logging (ChangeLog) | ❌ MISSING | No audit trail |
+| File Uploads | ❌ MISSING | No upload handling |
+| PayHere Webhook (MD5 verification) | ❌ MISSING | |
+| FIFO/FEFO Stock Strategies | ❌ MISSING | |
+| Multi-level Approval Workflows | ❌ MISSING | |
+| Pagination | ❌ MISSING | No pagination on list endpoints |
+| Search/Filter | ❌ MISSING | Only on appointments |
+| UUID PKs consistency | ⚠️ PARTIAL | Pharmacy uses int PK |
+
+### 5.8 — Quantitative Summary
+
+| Metric | Laravel | FastAPI | Coverage |
+|---|---|---|---|
+| Models/Entities | 57 | 10 | **17.5%** |
+| API Endpoints | 200+ | 53 (10 dummy) = 43 real | **~21%** |
+| Modules | 30 | 2 full + 9 partial | **~15%** |
+| Services/Actions | 16 + 130 = 146 | 0 (all inline) | **0%** |
+| External Integrations | 4 | 0 | **0%** |
+| Queued Jobs | 2 | 0 | **0%** |
+| Events | 1 | 0 | **0%** |
+| Mailables | 2 | 0 | **0%** |
+| User Roles | 11 | 11 (defined) / 3 (enforced) | **~27%** |
+
+---
+
+## Phase 6 — React Gap Analysis
+
+> **STATUS**: COMPLETE
+
+### 6.1 — Frontend API Architecture
+
+**Axios setup** ([frontend/src/utils/api/axios.ts](frontend/src/utils/api/axios.ts)):
+- Base URL: `VITE_API_BASE_URL || "/api/v1"` (trailing slash stripped)
+- Auth: Request interceptor adds `Authorization: Bearer <token>` from localStorage (`token`, `authToken`, or `userToken`)
+- Response: Auto-unwraps `response.data`; on 401/403 on non-public pages → clears storage → redirects `/login`
+
+**API call patterns:**
+- Service layer files: `services/*.ts` (~5 files)
+- Redux thunks: `utils/api/**/*.ts` (~40+ files)
+- Direct inline calls in pages/components: ~300+ direct `api.*()` calls across ~60+ page files
+- 1 raw `axios.post()` bypassing the shared instance (SuperAdminAddDiscount.tsx)
+- No `fetch()` usage — all HTTP via axios `api` instance
+
+### 6.2 — Complete React API Endpoint Inventory (~240 unique endpoints)
+
+#### 6.2.1 — Auth & User Management (~15 endpoints)
+
+| Method | URL | Source File | FastAPI Status |
+|---|---|---|---|
+| POST | `/auth/login/access-token` | UserSignIn.ts | ✅ EXISTS |
+| GET | `/users/me` | UserSignIn.ts | ✅ EXISTS |
+| GET | `/sanctum/csrf-cookie` | UserSignOut.ts | ❌ MISSING (Sanctum-specific) |
+| POST | `/sign-out-admin` | UserSignOut.ts | ❌ MISSING |
+| POST | `/sign-out-cashier` | UserSignOut.ts | ❌ MISSING |
+| POST | `/sign-out-pharmacist` | UserSignOut.ts | ❌ MISSING |
+| POST | `/sign-out-patient` | UserSignOut.ts | ❌ MISSING |
+| POST | `/users/patients` | UserSignUp.ts | ❌ MISSING (patient registration) |
+| POST | `/auth/forgot-password` | PatientForgotPassword.ts | ❌ MISSING |
+| GET | `/check-credentials-exist` | SignupPage.tsx | ❌ MISSING |
+| POST | `/logout` | NavBar.tsx | ❌ MISSING |
+| GET | `/users/{userId}` | GetUpdateUserDetails.ts | ✅ EXISTS |
+| PUT | `/users/{userId}` | UpdateUser.ts | ✅ EXISTS |
+| DELETE | `/users/{userId}` | Deleteuser.ts | ✅ EXISTS |
+| GET | `/users/` | GetAllUsers.ts | ✅ EXISTS |
+| POST | `/change-password` | DoctorProfile.tsx | ❌ MISSING |
+| PUT | `/change-password/{userId}` | PatientProfile.tsx, PasswordChange.tsx | ❌ MISSING |
+| PUT | `/update-contact-info/{userId}` | ContactInfoEdit.tsx | ❌ MISSING |
+| POST | `/upload-profile-picture/{userId}` | ProfilePictureUpload.tsx | ❌ MISSING |
+| DELETE | `/remove-profile-picture/{userId}` | ProfilePictureUpload.tsx | ❌ MISSING |
+| POST | `/api/resignations` | ResignationModal.tsx | ❌ MISSING |
+
+**Gap: 6 EXISTS / 15 MISSING = 29% coverage**
+
+#### 6.2.2 — Appointment System (~60 endpoints)
+
+**Public Appointment API (appointmentService.ts)**
+| Method | URL | FastAPI Status |
+|---|---|---|
+| GET | `/api/appointments/branches` | ❌ MISSING |
+| GET | `/api/appointments/specializations` | ❌ MISSING |
+| GET | `/api/appointments/doctors/search` | ❌ MISSING (FastAPI has `/api/v1/appointments/search` but different contract) |
+| GET | `/api/appointments/doctors/{doctorId}/slots` | ❌ MISSING |
+| GET | `/api/appointments/cities` | ❌ MISSING |
+| POST | `/api/appointments/doctors/slots-with-times` | ❌ MISSING |
+
+**Patient Appointment API**
+| Method | URL | FastAPI Status |
+|---|---|---|
+| POST | `/api/patient/appointments/book` | ❌ MISSING (FastAPI has `/api/v1/appointments/book` — different path) |
+| POST | `/api/patient/appointments/{id}/confirm-payment` | ❌ MISSING |
+| GET | `/api/patient/appointments/my-appointments` | ❌ MISSING |
+| GET | `/api/patient/appointments/{id}` | ❌ MISSING |
+| POST | `/api/patient/appointments/{id}/cancel` | ❌ MISSING |
+| GET | `/api/patient/appointments/{id}/reschedule-eligibility` | ❌ MISSING |
+| POST | `/api/patient/appointments/{id}/reschedule` | ❌ MISSING |
+| POST | `/api/patient/appointments/{id}/prepare-payment` | ❌ MISSING (PayHere integration) |
+
+**Doctor Appointment API**
+| Method | URL | FastAPI Status |
+|---|---|---|
+| GET | `/api/doctor/appointments/` | ❌ MISSING |
+| GET | `/api/doctor/appointments/today-queue` | ❌ MISSING |
+| GET | `/api/doctor/appointments/statistics` | ❌ MISSING |
+| POST | `/api/doctor/appointments/{id}/check-in` | ❌ MISSING |
+| POST | `/api/doctor/appointments/{id}/start-session` | ❌ MISSING |
+| POST | `/api/doctor/appointments/{id}/complete` | ❌ MISSING |
+| POST | `/api/doctor/appointments/{id}/no-show` | ❌ MISSING |
+
+**Receptionist Appointment API**
+| Method | URL | FastAPI Status |
+|---|---|---|
+| POST | `/api/receptionist/appointments/walk-in` | ❌ MISSING |
+| GET | `/api/receptionist/appointments/` | ⚠️ PARTIAL (exists but no auth) |
+| GET | `/api/receptionist/appointments/patients/search` | ❌ MISSING |
+| GET | `/api/receptionist/appointments/doctors/available` | ❌ MISSING |
+| POST | `/api/receptionist/appointments/{id}/check-in` | ❌ MISSING |
+| POST | `/api/receptionist/appointments/{id}/cancel` | ❌ MISSING |
+| POST | `/api/receptionist/appointments/{id}/payment` | ❌ MISSING |
+
+**Branch Admin Appointment API (appointmentService.ts — 20 endpoints)**
+| Method | URL | FastAPI Status |
+|---|---|---|
+| GET | `/api/branch-admin/appointments/dashboard` | ❌ MISSING |
+| GET | `/api/branch-admin/appointments/` | ❌ MISSING |
+| GET | `/api/branch-admin/appointments/statistics` | ❌ MISSING |
+| GET | `/api/branch-admin/appointments/doctors` | ❌ MISSING |
+| PUT | `/api/branch-admin/appointments/{id}` | ❌ MISSING |
+| POST | `/api/branch-admin/appointments/{id}/cancel` | ❌ MISSING |
+| GET | `/api/branch-admin/appointments/{id}/details` | ❌ MISSING |
+| GET | `/api/branch-admin/appointments/specializations` | ❌ MISSING |
+| GET | `/api/branch-admin/appointments/patients/search` | ❌ MISSING |
+| POST | `/api/branch-admin/appointments/{id}/payment` | ❌ MISSING |
+| GET | `/api/branch-admin/appointments/available-slots` | ❌ MISSING |
+| POST | `/api/branch-admin/appointments/create` | ❌ MISSING |
+| POST | `/api/branch-admin/appointments/register-patient` | ❌ MISSING |
+| POST | `/api/branch-admin/appointments/create-with-patient` | ❌ MISSING |
+| POST | `/api/branch-admin/appointments/{id}/reschedule` | ❌ MISSING |
+| POST | `/api/branch-admin/appointments/{id}/status` | ❌ MISSING |
+| GET | `/api/branch-admin/appointments/{id}/logs` | ❌ MISSING |
+| GET | `/api/branch-admin/appointments/audit-logs` | ❌ MISSING |
+| GET/PUT | `/api/branch-admin/appointments/settings` | ❌ MISSING |
+
+**Super Admin Appointment API (appointmentService.ts — 15 endpoints)**
+| Method | URL | FastAPI Status |
+|---|---|---|
+| GET | `/api/super-admin/appointments/` | ❌ MISSING |
+| GET | `/api/super-admin/appointments/statistics` | ❌ MISSING |
+| GET | `/api/super-admin/appointments/branches` | ❌ MISSING |
+| GET | `/api/super-admin/appointments/doctors` | ❌ MISSING |
+| GET | `/api/super-admin/appointments/audit-logs` | ❌ MISSING |
+| GET/PUT | `/api/super-admin/appointments/branch-settings` | ❌ MISSING |
+| GET | `/api/super-admin/appointments/available-slots` | ❌ MISSING |
+| POST | `/api/super-admin/appointments/create` | ❌ MISSING |
+| POST | `/api/super-admin/appointments/create-with-patient` | ❌ MISSING |
+| POST | `/api/super-admin/appointments/{id}/cancel` | ❌ MISSING |
+| POST | `/api/super-admin/appointments/{id}/reschedule` | ❌ MISSING |
+| POST | `/api/super-admin/appointments/{id}/status` | ❌ MISSING |
+| GET | `/api/super-admin/appointments/search-patients` | ❌ MISSING |
+| POST | `/api/super-admin/appointments/register-patient` | ❌ MISSING |
+
+**Legacy Appointment API (pages + utils/api)**
+| Method | URL | FastAPI Status |
+|---|---|---|
+| POST | `/api/create-patient-appointment` | ❌ MISSING |
+| DELETE | `/api/delete-appointment/{id}` | ❌ MISSING |
+| GET | `/api/get-all-doctor-schedule` | ❌ MISSING |
+| GET | `/api/get-all-patient-appointment` | ❌ MISSING |
+| GET | `/get-filter-appointment` | ❌ MISSING |
+| POST | `/appointments` | ❌ MISSING (different from /appointments/book) |
+| GET | `/get-patient-appointments/{userId}` | ❌ MISSING |
+| PUT | `/change-appointment-date/{userId}` | ❌ MISSING |
+| PUT | `/update-appointment-status/{patientId}` | ❌ MISSING |
+| POST | `/api/appointments/status` | ❌ MISSING |
+
+**Gap: 1 PARTIAL / ~59 MISSING = ~2% coverage**
+
+#### 6.2.3 — Doctor Schedule & Consultation (~35 endpoints)
+
+| Method | URL | FastAPI Status |
+|---|---|---|
+| POST | `/schedules` | ❌ MISSING |
+| POST | `/schedules/check-availability` | ❌ MISSING |
+| PUT | `/update-doctor-schedule/{id}` | ❌ MISSING |
+| DELETE | `/api/delete-doctor-schedule/{id}` | ❌ MISSING |
+| POST | `/schedules/cancel/approve/{id}` | ❌ MISSING |
+| POST | `/schedules/cancel/reject/{id}` | ❌ MISSING |
+| GET | `/get-all-cancel-schedules` | ❌ MISSING |
+| GET | `/get-doctor-all-schedule/{userId}` | ❌ MISSING |
+| GET | `/get-all-doctor-schedule/{userId}` | ❌ MISSING |
+| GET | `/get-doctor-schedule-requests/{userId}` | ❌ MISSING |
+| POST | `/request-cancel-doctor-appointment` | ❌ MISSING |
+| DELETE | `/cancel-doctor-schedule-request/{userId}/{id}` | ❌ MISSING |
+| POST | `/doctor-create-schedule` | ❌ MISSING |
+| DELETE | `/doctor-delete-schedule/{id}` | ❌ MISSING |
+| GET | `/get-schedule-request/{id}` | ❌ MISSING |
+| PUT | `/update-doctor-schedule-request/{id}` | ❌ MISSING |
+| GET/POST/PUT/DELETE | `/schedule-modifications/**` | ❌ MISSING |
+| GET | `/doctor/dashboard-stats` | ❌ MISSING |
+| PUT | `/doctor/{userId}/profile` | ❌ MISSING |
+| GET | `/doctor-sessions/{doctorId}` | ❌ MISSING |
+| GET | `/get-doctor-questions/{doctorId}` | ❌ MISSING |
+| GET | `/get-question-answers-doctor/{questionId}` | ❌ MISSING |
+| GET | `/consultation/queue/{doctorId}` | ❌ MISSING |
+| GET | `/consultation/appointments/{doctorId}/{date}` | ❌ MISSING |
+| GET | `/consultation/patient/{patientId}` | ❌ MISSING |
+| POST | `/consultation/start` | ❌ MISSING |
+| GET | `/consultation/{consultationId}` | ❌ MISSING |
+| POST | `/consultation/{consultationId}/submit` | ❌ MISSING |
+| GET | `/consultation/questions/bank` | ❌ MISSING |
+| POST | `/consultation/{consultationId}/questions` | ❌ MISSING |
+| GET | `/consultation/diagnoses/list` | ❌ MISSING |
+| POST | `/consultation/diagnoses/add` | ❌ MISSING |
+| POST | `/consultation/{consultationId}/diagnoses` | ❌ MISSING |
+| GET | `/consultation/medicines/list` | ❌ MISSING |
+| POST | `/consultation/{consultationId}/prescriptions` | ❌ MISSING |
+| GET | `/consultation/{consultationId}/audit` | ❌ MISSING |
+| POST | `/create-prescription` | ❌ MISSING |
+| POST | `/order-investigation` | ❌ MISSING |
+
+**Gap: 0 EXISTS / 38 MISSING = 0% coverage**
+
+#### 6.2.4 — Receptionist Module (~30 endpoints)
+
+| Method | URL | FastAPI Status |
+|---|---|---|
+| GET | `/receptionist/dashboard-stats` | ⚠️ EXISTS (no auth) |
+| GET | `/receptionist/branches` | ❌ MISSING |
+| GET | `/receptionist/patients` (paginated) | ❌ MISSING |
+| GET | `/receptionist/patients/search` | ❌ MISSING |
+| POST | `/receptionist/patients` | ❌ MISSING |
+| GET | `/receptionist/patients/{id}` | ❌ MISSING |
+| PUT | `/receptionist/patients/{id}` | ❌ MISSING |
+| GET | `/receptionist/appointments` | ⚠️ EXISTS (no auth) |
+| POST | `/receptionist/appointments` | ⚠️ EXISTS (no auth) |
+| GET | `/receptionist/appointments/{id}` | ⚠️ EXISTS (no auth) |
+| PUT | `/receptionist/appointments/{id}` | ⚠️ EXISTS (no auth) |
+| POST | `/receptionist/appointments/{id}/cancel` | ❌ MISSING |
+| POST | `/receptionist/appointments/{id}/reschedule` | ❌ MISSING |
+| GET | `/receptionist/doctors` | ❌ MISSING |
+| GET | `/receptionist/doctors/{id}/availability` | ❌ MISSING |
+| GET | `/receptionist/departments` | ❌ MISSING |
+| GET | `/receptionist/queue` | ⚠️ EXISTS (no auth) |
+| POST | `/receptionist/queue/issue-token` | ⚠️ EXISTS (no auth) |
+| PUT | `/receptionist/queue/{id}/status` | ❌ MISSING |
+| GET | `/receptionist/queue/stats` | ❌ MISSING |
+| GET | `/receptionist/visits` | ⚠️ EXISTS (no auth) |
+| POST | `/receptionist/visits` | ⚠️ EXISTS (no auth) |
+| GET | `/receptionist/visits/{id}` | ❌ MISSING |
+| PUT | `/receptionist/visits/{id}` | ❌ MISSING |
+| GET | `/receptionist/visits/{id}/print-slip` | ❌ MISSING |
+| GET | `/receptionist/reports/daily-registrations` | ❌ MISSING |
+| GET | `/receptionist/reports/appointments` | ❌ MISSING |
+| GET | `/receptionist/reports/no-shows` | ❌ MISSING |
+| GET | `/receptionist/reports/walk-ins` | ❌ MISSING |
+| GET | `/receptionist/profile` | ❌ MISSING |
+| PUT | `/receptionist/profile` | ❌ MISSING |
+| PUT | `/receptionist/profile/password` | ❌ MISSING |
+
+**Gap: 9 PARTIAL (no auth) / 23 MISSING = ~29% coverage (all broken due to missing auth)**
+
+#### 6.2.5 — Nurse Module (~19 endpoints)
+
+| Method | URL | FastAPI Status |
+|---|---|---|
+| GET | `/api/nurse/dashboard-stats` | ❌ MISSING |
+| GET | `/api/nurse/patients` | ❌ MISSING |
+| GET | `/api/nurse/patients/all` | ❌ MISSING |
+| GET | `/api/nurse/patients/{id}` | ❌ MISSING |
+| GET/POST/PUT | `/api/nurse/vital-signs` | ❌ MISSING |
+| GET | `/api/nurse/shifts` | ❌ MISSING |
+| GET | `/api/nurse/shifts/current` | ❌ MISSING |
+| POST | `/api/nurse/shifts/{id}/start` | ❌ MISSING |
+| POST | `/api/nurse/shifts/{id}/end` | ❌ MISSING |
+| GET/POST | `/api/nurse/handovers` | ❌ MISSING |
+| POST | `/api/nurse/handovers/{id}/acknowledge` | ❌ MISSING |
+| GET/PUT | `/api/nurse/profile` | ❌ MISSING |
+| PUT | `/api/nurse/profile/password` | ❌ MISSING |
+| GET | `/api/nurse/wards` | ❌ MISSING |
+| GET | `/api/nurse/nurses-list` | ❌ MISSING |
+
+**Gap: 0 EXISTS / 19 MISSING = 0% coverage** (only create-nurse exists in FastAPI)
+
+#### 6.2.6 — POS / Cashier Billing (~25 endpoints)
+
+| Method | URL | FastAPI Status |
+|---|---|---|
+| GET | `/api/{role}/pos/dashboard-stats` | ❌ MISSING (dummy exists at different path) |
+| GET | `/api/{role}/pos/analytics` | ❌ MISSING |
+| POST | `/api/{role}/pos/transactions` | ❌ MISSING |
+| GET | `/api/{role}/pos/transactions` | ❌ MISSING |
+| GET | `/api/{role}/pos/products` | ❌ MISSING |
+| GET | `/api/cashier-search-products` | ❌ MISSING |
+| POST/GET | `/api/cashier-billing/cash-entries` | ❌ MISSING |
+| GET | `/api/cashier-billing/cash-summary` | ❌ MISSING |
+| GET | `/api/cashier-billing/eod-summary` | ❌ MISSING |
+| POST | `/api/cashier-billing/eod-submit` | ❌ MISSING |
+| GET | `/api/cashier-billing/eod-history` | ❌ MISSING |
+| GET | `/api/super-admin/pos/branches` | ❌ MISSING (dummy returns []) |
+| GET | `/api/{role}/cashiers` | ❌ MISSING |
+| GET | `/api/{role}/cashiers/eod-status` | ❌ MISSING |
+| GET | `/api/cashier-billing/sales-report` | ❌ MISSING |
+| GET | `/api/cashier-billing/daily-sales-trend` | ❌ MISSING |
+| GET | `/api/{role}/audit/logs` | ❌ MISSING |
+| GET | `/api/cashier-profile` | ❌ MISSING |
+| PUT | `/api/cashier-profile` | ❌ MISSING |
+| GET | `/api/super-admin/pos/inventory-list` | ❌ MISSING |
+| GET | `/api/super-admin/enhanced-pos/discounts/**` | ❌ MISSING |
+| GET | `/api/super-admin/enhanced-pos/price-overrides/**` | ❌ MISSING |
+
+**Gap: 0 EXISTS / 25 MISSING = 0% coverage**
+
+#### 6.2.7 — Pharmacy & Products (~40 endpoints)
+
+| Method | URL | FastAPI Status |
+|---|---|---|
+| GET | `/api/get-products` | ❌ MISSING (mocked endpoint returns []) |
+| GET | `/api/get-product-item-name` | ❌ MISSING |
+| POST | `/api/create-product` | ❌ MISSING |
+| POST | `/api/update-product/{id}` | ❌ MISSING |
+| DELETE | `/delete-product/{id}` | ❌ MISSING |
+| GET | `/api/get-suppliers` | ❌ MISSING (mocked) |
+| POST | `/api/create-supplier` | ❌ MISSING |
+| POST | `/api/update-supplier/{id}` | ❌ MISSING |
+| DELETE | `/delete-supplier/{id}` | ❌ MISSING |
+| GET | `/api/pharmacist-user-get-products` | ❌ MISSING |
+| GET | `/api/get-pharmacist-suppliers` | ❌ MISSING |
+| GET/POST | `/api/purchasing-product` | ❌ MISSING |
+| GET/POST | `/api/add-product-transfer-stock` | ❌ MISSING |
+| GET/POST | `/api/add-product-damaged-stock` | ❌ MISSING |
+| POST | `/api/update-product-stock` | ❌ MISSING |
+| GET | `/api/get-product-renewed-stock` | ❌ MISSING |
+| GET/DELETE | `/api/get-product-discount` | ❌ MISSING |
+| POST | `/api/add-product-discount` | ❌ MISSING |
+| GET | `/api/dashboard-details` | ❌ MISSING |
+| GET/POST/PUT/DELETE | `/pharmacy-inventory/**` | ❌ MISSING |
+| GET | `/pharmacist/consultations/pending` | ❌ MISSING |
+| POST | `/pharmacist/consultations/{id}/dispense` | ❌ MISSING |
+
+**Gap: 0 EXISTS / ~40 MISSING = 0% coverage**
+
+#### 6.2.8 — Chatbot (~3 endpoints)
+
+| Method | URL | FastAPI Status |
+|---|---|---|
+| POST | `/api/chatbot/chat` | ⚠️ DUMMY (static reply) |
+| POST | `/api/chatbot/feedback` | ⚠️ DUMMY |
+| GET | `/api/chatbot/suggestions` | ⚠️ DUMMY |
+| CRUD | `/api/super-admin/chatbot/faqs/**` | ❌ MISSING |
+| CRUD | `/api/super-admin/chatbot/disease-mappings/**` | ❌ MISSING |
+| GET | `/api/super-admin/chatbot/logs` | ❌ MISSING |
+| GET | `/api/super-admin/chatbot/analytics` | ❌ MISSING |
+
+**Gap: 3 DUMMY / 7 MISSING = 0% real coverage**
+
+#### 6.2.9 — Notifications (~15 endpoints)
+
+| Method | URL | FastAPI Status |
+|---|---|---|
+| GET | `/notifications/admin/{userId}` | ⚠️ DUMMY (1 endpoint for admin only, returns []) |
+| GET | `/notifications/{role}/{userId}` (7 roles) | ❌ MISSING |
+| GET | `/notifications/{role}/unread-count/{userId}` | ❌ MISSING |
+| POST | `/notifications/{role}/mark-read` | ❌ MISSING |
+| POST | `/admin-user-notifications/mark-read` | ❌ MISSING |
+| POST | `/cashier-user-notifications/mark-read` | ❌ MISSING |
+| POST | `/pharmacist-user-notifications/mark-read` | ❌ MISSING |
+| PUT | `/patient/notifications/{id}/read` | ❌ MISSING |
+| PUT | `/patient/notifications/mark-all-read` | ❌ MISSING |
+| DELETE | `/patient/notifications/{id}` | ❌ MISSING |
+| DELETE | `/patient/notifications/clear-read` | ❌ MISSING |
+
+**Gap: 1 DUMMY / 14 MISSING = 0% real coverage**
+
+#### 6.2.10 — HRM: Leave Management (~15 endpoints)
+
+| Method | URL | FastAPI Status |
+|---|---|---|
+| POST | `/hr/leave` | ❌ MISSING |
+| GET | `/api/get-cashier-user-leaves/{userId}` | ❌ MISSING |
+| GET | `/api/get-pharmacist-user-leaves/{userId}` | ❌ MISSING |
+| POST | `/hr/leave/approve` | ❌ MISSING |
+| POST | `/hr/leave/reject` | ❌ MISSING |
+| POST | `/api/admin-user-leave-reject` | ❌ MISSING |
+| POST | `/api/cashier-user-leave-reject` | ❌ MISSING |
+| GET | `/api/get-admin-user-leaves-request` | ❌ MISSING |
+| GET | `/api/get-cashier-user-leaves-request/{id}` | ❌ MISSING |
+| GET | `/api/get-pharmacist-user-leaves-request/{id}` | ❌ MISSING |
+| GET | `/api/cashier-get-all-users` | ❌ MISSING |
+| GET | `/api/pharmacist-get-all-users` | ❌ MISSING |
+| GET | `/hrm/branch-admin/pending-leaves` | ❌ MISSING |
+| PUT | `/hrm/branch-admin/leave/{id}/approve` | ❌ MISSING |
+
+**Gap: 0 EXISTS / 15 MISSING = 0% coverage**
+
+#### 6.2.11 — HRM: Salary & Overtime (~12 endpoints)
+
+| Method | URL | FastAPI Status |
+|---|---|---|
+| POST | `/hr/overtime` | ❌ MISSING |
+| GET | `/hr/overtime` | ❌ MISSING |
+| PUT | `/update-employee-ot/{id}` | ❌ MISSING |
+| DELETE | `/api/delete-employee-ot/{id}` | ❌ MISSING |
+| GET | `/api/get-all-users-with-salary` | ❌ MISSING |
+| POST | `/hr/salary` | ❌ MISSING |
+| GET | `/api/get-all-staff-salary` | ❌ MISSING |
+| GET | `/api/get-all-staff-salary-pay` | ❌ MISSING |
+| GET | `/hr/salary/payments` | ❌ MISSING |
+| PUT | `/update-staff-salary/{id}` | ❌ MISSING |
+| PUT | `/update-staff-salary-pay/{id}` | ❌ MISSING |
+| DELETE | `/api/delete-staff-salary/{id}` | ❌ MISSING |
+
+**Gap: 0 EXISTS / 12 MISSING = 0% coverage**
+
+#### 6.2.12 — HRM: Shifts & Schedules (~15 endpoints)
+
+| Method | URL | FastAPI Status |
+|---|---|---|
+| GET | `/api/get-all-shifts` | ❌ MISSING |
+| POST | `/hr/shifts` | ❌ MISSING |
+| PUT | `/update-shift/{id}` | ❌ MISSING |
+| DELETE | `/api/delete-shift/{id}` | ❌ MISSING |
+| GET | `/get-all-cashier-user-shifts/{userId}` | ❌ MISSING |
+| GET | `/get-all-pharmacist-user-shifts/{userId}` | ❌ MISSING |
+| GET | `/hrm/cashier/schedules` | ❌ MISSING |
+| POST | `/hrm/cashier/acknowledge-shift` | ❌ MISSING |
+| POST | `/hrm/cashier/respond-interchange` | ❌ MISSING |
+| GET | `/hrm/cashier/schedule-change-requests` | ❌ MISSING |
+| POST | `/hrm/cashier/schedule-change-request` | ❌ MISSING |
+| GET | `/hrm/cashier/shift-types` | ❌ MISSING |
+| POST | `/hrm/cashier/respond-swap-request` | ❌ MISSING |
+| GET | `/hrm/branch-admin/schedule-requests` | ❌ MISSING |
+| CRUD | `/hrm/branch-admin/holidays/**` | ❌ MISSING |
+| GET | `/hrm/employee/shifts` | ❌ MISSING |
+
+**Gap: 0 EXISTS / ~16 MISSING = 0% coverage**
+
+#### 6.2.13 — HRM: Payroll, Service Letters, Policies (~15 endpoints)
+
+| Method | URL | FastAPI Status |
+|---|---|---|
+| GET | `/hrm/cashier/payslips` | ❌ MISSING |
+| GET | `/hrm/cashier/salary-structure` | ❌ MISSING |
+| GET | `/hrm/cashier/payslip/{id}/download` | ❌ MISSING |
+| GET | `/hrm/cashier/overtime` | ❌ MISSING |
+| GET | `/hrm/cashier/dashboard-stats` | ❌ MISSING |
+| GET | `/hrm/cashier/policies` | ❌ MISSING |
+| GET/POST | `/hrm/cashier/service-letter-requests` | ❌ MISSING |
+| GET | `/hrm/cashier/service-letter-requests/{id}/content` | ❌ MISSING |
+| GET | `/hrm/branch-admin/payroll` | ❌ MISSING |
+| POST | `/hrm/branch-admin/generate-payslips` | ❌ MISSING |
+| GET | `/hrm/branch-admin/letter-requests` | ❌ MISSING |
+| GET | `/hrm/branch-admin/audit-logs` | ❌ MISSING |
+| CRUD | `/hrm/branch-admin/overtime/**` | ❌ MISSING |
+| GET | `/hrm/super-admin/stats` | ❌ MISSING |
+| GET | `/hrm/super-admin/payroll` | ❌ MISSING |
+| CRUD | `/hrm/super-admin/salary-structures/**` | ❌ MISSING |
+| CRUD | `/hrm/super-admin/shift-templates/**` | ❌ MISSING |
+| CRUD | `/hrm/super-admin/leave-types/**` | ❌ MISSING |
+| CRUD | `/hrm/super-admin/policies/**` | ❌ MISSING |
+| CRUD | `/hrm/super-admin/epf-etf-config/**` | ❌ MISSING |
+
+**Gap: 0 EXISTS / ~20 MISSING = 0% coverage**
+
+#### 6.2.14 — Medical Insights (~12 endpoints)
+
+| Method | URL | FastAPI Status |
+|---|---|---|
+| GET | `/medical-insights/posts` | ⚠️ DUMMY (returns []) |
+| GET | `/medical-insights/posts/{slug}` | ❌ MISSING |
+| POST | `/medical-insights/posts/{id}/like` | ❌ MISSING |
+| POST | `/medical-insights/posts/{id}/rate` | ❌ MISSING |
+| POST | `/medical-insights/posts/{id}/comments` | ❌ MISSING |
+| POST | `/medical-insights/posts/{id}/questions` | ❌ MISSING |
+| GET | `/medical-insights/doctor/posts` | ❌ MISSING |
+| GET | `/medical-insights/doctor/questions/pending` | ❌ MISSING |
+| DELETE | `/medical-insights/doctor/posts/{id}` | ❌ MISSING |
+| POST | `/medical-insights/doctor/posts` | ❌ MISSING |
+| POST | `/medical-insights/doctor/posts/{id}` (update) | ❌ MISSING |
+
+**Gap: 1 DUMMY / 11 MISSING = 0% real coverage**
+
+#### 6.2.15 — Patient Dashboard (~20 endpoints)
+
+| Method | URL | FastAPI Status |
+|---|---|---|
+| GET | `/patient/notifications/unread-count/{userId}` | ❌ MISSING |
+| GET | `/patient/notifications/{userId}` | ❌ MISSING |
+| PUT | `/patient/profile/{userId}` | ❌ MISSING |
+| GET | `/patient/medications/{userId}` | ❌ MISSING |
+| GET | `/patient/visits/{userId}` | ❌ MISSING |
+| GET | `/patient/lab-reports/{userId}` | ❌ MISSING |
+| GET/POST/DELETE | `/patient/health-conditions/**` | ❌ MISSING |
+| GET | `/patient/my-feedbacks` | ❌ MISSING |
+| POST | `/submit-feedback` | ❌ MISSING |
+| GET | `/patient/dashboard-stats` | ❌ MISSING |
+
+**Gap: 0 EXISTS / ~20 MISSING = 0% coverage**
+
+#### 6.2.16 — Branch Admin Dashboard & Management (~15 endpoints)
+
+| Method | URL | FastAPI Status |
+|---|---|---|
+| GET | `/branch-admin/dashboard-stats` | ❌ MISSING |
+| GET | `/branch-admin/requests/stats` | ❌ MISSING |
+| CRUD | `/branch-admin/purchase-requests/**` | ❌ MISSING |
+| GET | `/branch-admin/suppliers` | ❌ MISSING |
+| CRUD | `/branch-admin/feedbacks/**` | ❌ MISSING |
+| CRUD | `/branch-admin/requests/eod-reports/**` | ❌ MISSING |
+| GET | `/branch-admin/notifications/{userId}` | ❌ MISSING |
+| GET | `/branch-staff?branch_id=...` | ❌ MISSING |
+| POST | `/branch-staff` | ❌ MISSING |
+| DELETE/PUT | `/branch-staff/{id}` | ❌ MISSING |
+
+**Gap: 0 EXISTS / ~15 MISSING = 0% coverage**
+
+#### 6.2.17 — Branches (CRUD) (~5 endpoints)
+
+| Method | URL | FastAPI Status |
+|---|---|---|
+| GET | `/branches` | ✅ EXISTS |
+| GET | `/branches/{id}` | ✅ EXISTS |
+| POST | `/branches` | ✅ EXISTS |
+| PUT | `/branches/{id}` | ✅ EXISTS |
+| DELETE | `/branches/{id}` | ✅ EXISTS |
+| PUT | `/branches/{id}/assign-admin` | ✅ EXISTS |
+| POST | `/branches/{id}/assign-staff` | ✅ EXISTS |
+| GET | `/branches/{id}/staff` | ✅ EXISTS |
+| GET | `/branches/{id}/details` | ✅ EXISTS |
+
+**Gap: 9 EXISTS / 0 MISSING = 100% coverage** ✅
+
+#### 6.2.18 — Pharmacies CRUD (~6 endpoints)
+
+| Method | URL | FastAPI Status |
+|---|---|---|
+| GET | `/pharmacies` | ✅ EXISTS |
+| POST | `/pharmacies` | ✅ EXISTS |
+| PUT | `/pharmacies/{id}` | ✅ EXISTS |
+| DELETE | `/pharmacies/{id}` | ✅ EXISTS |
+
+**Gap: 4 EXISTS = ~100% CRUD coverage** ✅ (but inventory/products/suppliers all missing)
+
+#### 6.2.19 — Dashboard Stats (per-role) (~12 endpoints)
+
+| Method | URL | FastAPI Status |
+|---|---|---|
+| GET | `/super-admin/dashboard-stats` | ✅ EXISTS (also a dummy at different path) |
+| GET | `/doctor/dashboard-stats` | ❌ MISSING |
+| GET | `/pharmacist/dashboard-stats` | ❌ MISSING |
+| GET | `/cashier/dashboard-stats` | ❌ MISSING |
+| GET | `/nurse/dashboard-stats` | ❌ MISSING |
+| GET | `/patient/dashboard-stats` | ❌ MISSING |
+| GET | `/secretary/dashboard-stats` | ❌ MISSING |
+| GET | `/supplier/dashboard-stats` | ❌ MISSING |
+| GET | `/branch-admin/dashboard-stats` | ❌ MISSING |
+| GET | `/receptionist/dashboard-stats` | ⚠️ EXISTS (no auth) |
+| GET | `/hrm/cashier/dashboard-stats` | ❌ MISSING |
+| GET | `/hrm/employee/stats` | ❌ MISSING |
+
+**Gap: 2 EXISTS / 10 MISSING = ~17% coverage**
+
+#### 6.2.20 — Purchase Requests (~8 endpoints)
+
+| Method | URL | FastAPI Status |
+|---|---|---|
+| GET/POST | `/purchase-requests` | ❌ MISSING |
+| GET | `/purchase-requests/{id}` | ❌ MISSING |
+| PUT | `/purchase-requests/{id}/resubmit` | ❌ MISSING |
+| GET | `/purchase-requests/search-items` | ❌ MISSING |
+| PUT | `/branch-admin/purchase-requests/{id}/approve` | ❌ MISSING |
+| PUT | `/branch-admin/purchase-requests/{id}/reject` | ❌ MISSING |
+| PUT | `/branch-admin/purchase-requests/{id}/clarify` | ❌ MISSING |
+| PUT | `/branch-admin/purchase-requests/{id}/update` | ❌ MISSING |
+
+**Gap: 0 EXISTS / 8 MISSING = 0% coverage**
+
+#### 6.2.21 — SMS (1 external endpoint)
+
+| Method | URL | FastAPI Status |
+|---|---|---|
+| POST | `https://sms.textware.lk:5001/sms/send_sms.php` | N/A (direct external call from frontend — should be proxied through backend) |
+
+**Note**: Frontend calls SMS API directly with hardcoded credentials — security risk. Should be a backend-proxied call.
+
+### 6.3 — Aggregate Gap Summary
+
+| Domain | React Expects | FastAPI Provides | Coverage |
+|---|---|---|---|
+| Auth & Users | ~21 | 6 | **29%** |
+| Appointments (all roles) | ~60 | 1 partial | **~2%** |
+| Doctor Schedule & Consultation | ~38 | 0 | **0%** |
+| Receptionist | ~32 | 9 (no auth) | **28% (broken)** |
+| Nurse | ~19 | 0 (only create) | **0%** |
+| POS / Cashier Billing | ~25 | 0 | **0%** |
+| Pharmacy & Products | ~40 | 0 (mocked) | **0%** |
+| Chatbot | ~7 | 3 dummy | **0% real** |
+| Notifications | ~15 | 1 dummy | **0% real** |
+| HRM: Leave | ~15 | 0 | **0%** |
+| HRM: Salary/OT | ~12 | 0 | **0%** |
+| HRM: Shifts/Schedules | ~16 | 0 | **0%** |
+| HRM: Payroll/Letters/Policies | ~20 | 0 | **0%** |
+| Medical Insights | ~12 | 1 dummy | **0% real** |
+| Patient Dashboard | ~20 | 0 | **0%** |
+| Branch Admin Dashboard | ~15 | 0 | **0%** |
+| Branches CRUD | ~9 | 9 | **100%** ✅ |
+| Pharmacies CRUD | ~4 | 4 | **100%** ✅ |
+| Dashboard Stats (per-role) | ~12 | 2 | **17%** |
+| Purchase Requests | ~8 | 0 | **0%** |
+| **TOTAL** | **~400** | **~43 real** | **~11%** |
+
+### 6.4 — Critical Frontend→Backend Path Mismatches
+
+The React frontend and FastAPI backend use **different URL patterns**. Key mismatches:
+
+| React Expects | FastAPI Has | Issue |
+|---|---|---|
+| `/api/appointments/branches` | No equivalent | Different appointment API structure |
+| `/api/patient/appointments/book` | `/api/v1/appointments/book` | Path mismatch + no patient auth |
+| `/api/doctor/appointments/**` | Nothing | Entire doctor appointment API absent |
+| `/api/receptionist/**` | `/api/v1/receptionist/**` | Base URL handled by axios, but no auth |
+| `/api/branch-admin/**` | Nothing | Entire branch-admin API absent |
+| `/api/nurse/**` | Only `/api/v1/create-nurse` | Wrong mount point + missing module |
+| `/api/cashier-billing/**` | Nothing | Entire cashier billing API absent |
+| `/api/super-admin/pos/**` | Dummy stubs only | Returns empty arrays |
+| `/api/chatbot/**` | Dummy stubs | Returns static responses |
+| `/api/v1/notifications/**` | 1 dummy stub | Returns empty array |
+| `/api/medical-insights/**` | 1 dummy stub | Returns empty array |
+| `/hr/**`, `/hrm/**` | Nothing | Entire HRM API absent |
+| `/api/super-admin/chatbot/**` | Nothing | Chatbot management absent |
+| `/schedules/**` | Nothing | Doctor schedule API absent |
+| `/consultation/**` | Nothing | Consultation API absent |
+
+### 6.5 — Frontend Bugs & Security Issues Found
+
+| # | Issue | Severity | Location |
+|---|---|---|---|
+| 1 | **SMS credentials hardcoded in frontend**: `smsService.ts` sends SMS directly from browser with hardcoded username/password to external API | CRITICAL | frontend/src/utils/api/SMS/smsService.ts |
+| 2 | **Role mapping mismatch**: `ProtectedRoute.tsx` maps role_as 3=doctor,4=nurse,5=patient vs `useAuth.ts` maps 3=cashier,4=pharmacist,5=doctor | CRITICAL | frontend/src/routes/ProtectedRoute.tsx vs frontend/src/hooks/useAuth.ts |
+| 3 | **Multiple localStorage keys for token**: Code reads from `token`, `authToken`, AND `userToken` — inconsistent | HIGH | frontend/src/utils/api/axios.ts |
+| 4 | **Sanctum CSRF call in logout**: `UserSignOut.ts` calls `/sanctum/csrf-cookie` which doesn't exist in FastAPI | MEDIUM | frontend/src/utils/api/user/UserSignOut.ts |
+| 5 | **4 different role-specific logout endpoints**: Should be 1 generic `/logout` | LOW | frontend/src/utils/api/user/UserSignOut.ts |
+| 6 | **Raw axios import**: `SuperAdminAddDiscount.tsx` imports `axios` directly instead of shared instance, bypassing auth interceptor | MEDIUM | frontend/src/components/.../SuperAdminAddDiscount.tsx |
+| 7 | **Mixed URL patterns**: Some calls use `api/` prefix, others use `/api/`, others use no prefix — inconsistent | MEDIUM | Throughout `utils/api/` files |
+
+### 6.6 — Files Scanned for Phase 6
+
+- frontend/src/services/appointmentService.ts
+- frontend/src/services/chatbotService.ts
+- frontend/src/services/nurseService.ts
+- frontend/src/services/posApi.ts
+- frontend/src/services/receptionistService.ts
+- frontend/src/utils/api/axios.ts
+- frontend/src/utils/api/user/*.ts (6 files)
+- frontend/src/utils/api/Appointment/*.ts (8 files)
+- frontend/src/utils/api/DoctorSceduleCancel/*.ts (3 files)
+- frontend/src/utils/api/branch/*.ts
+- frontend/src/utils/api/dashboard/StaffAndUsers/*.ts (6 files)
+- frontend/src/utils/api/notification/*.ts (2 files)
+- frontend/src/utils/api/leave/**/*.ts (12 files)
+- frontend/src/utils/api/OT/*.ts (5 files)
+- frontend/src/utils/api/Sallary/*.ts (6 files)
+- frontend/src/utils/api/SMS/smsService.ts
+- frontend/src/utils/api/pharmacy/**/*.ts (14 files)
+- frontend/src/utils/api/PatientAppointment/*.ts (2 files)
+- frontend/src/utils/api/appointmentStatus.ts
+- frontend/src/hooks/useAuth.ts
+- frontend/src/hooks/usePOSApi.ts
+- frontend/src/hooks/useRBAC.ts
+- frontend/src/context/POSContext.tsx
+- frontend/src/context/POS/BranchContext.tsx
+- frontend/src/store.tsx
+- frontend/src/App.tsx
+- frontend/src/routes/*.tsx (6 files)
+- frontend/src/config/branchAdminNavigation.tsx
+- ~60+ page/component files with direct API calls
+
+---
+
+## Phase 7 — Patch Plan
+
+> **STATUS**: COMPLETE
+
+### 7.0 — Executive Summary
+
+| Current State | Target State |
+|---|---|
+| 10 models (17.5% of 57) | 57 models (100%) |
+| 43 real endpoints (11% of ~400) | ~400 endpoints (100%) |
+| 0 services (0% of 146) | Service layer with domain isolation |
+| 0 integrations (0% of 4) | SMS, PayHere, Email, WebSocket |
+| 7 critical bugs | 0 bugs |
+| No pagination, no soft-delete, no audit | Full cross-cutting infra |
+
+**Estimated total effort**: ~35–45 dev-weeks (1 senior dev) or ~12–15 weeks (team of 3)
+
+---
+
+### 7.1 — TIER 0: Critical Bug Fixes (Do First — before any new features)
+
+> **Effort: 1–2 days | Dependencies: None | Risk: PRODUCTION-BREAKING**
+
+#### Patch 0.1 — Fix User Model Missing Columns [✓ Implemented]
+**Problem**: `staff.py`, `nurse.py` set `first_name`, `last_name`, `date_of_birth`, `gender`, `nic_number`, `contact_number_mobile` on User but these columns DON'T EXIST → runtime crash on any staff/nurse creation.
+
+**Action**:
+1. Add to `backend/app/models/user.py`:
+   - `first_name: Optional[str]`, `last_name: Optional[str]`
+   - `date_of_birth: Optional[date]`, `gender: Optional[str]`
+   - `nic_number: Optional[str]`, `contact_number_mobile: Optional[str]`
+   - `contact_number_landline: Optional[str]`, `home_address: Optional[str]`
+   - `emergency_contact_info: Optional[str]`, `photo_path: Optional[str]`
+   - `nic_photo_path: Optional[str]`
+2. Create Alembic migration: `alembic revision --autogenerate -m "add_missing_user_columns"`
+3. Run migration: `alembic upgrade head`
+
+#### Patch 0.2 — Fix Pharmacist role_as Conflict [✓ Implemented]
+**Problem**: `pharmacist.py` creates pharmacist users with `role_as=5` (=Patient) instead of `role_as=7` (=Pharmacist). Same in `pharmacies.py`.
+
+**Action**:
+1. In `backend/app/api/pharmacist.py` ~L83: change `role_as=5` → `role_as=7`
+2. In `backend/app/api/pharmacies.py` ~L77: change `role_as=5` → `role_as=7`
+3. Fix any existing DB records: `UPDATE user SET role_as=7 WHERE id IN (SELECT user_id FROM pharmacist)`
+
+#### Patch 0.3 — Add Auth to Receptionist Endpoints [✓ Implemented]
+**Problem**: All 9 receptionist endpoints are completely PUBLIC — anyone can create appointments, issue tokens, modify visits.
+
+**Action**:
+1. In `backend/app/api/receptionist.py`: add `current_user: User = Depends(get_current_user)` to all route functions
+2. Add role check: receptionist role_as should be verified (or at minimum require authenticated user)
+
+#### Patch 0.4 — Fix Pharmacy PK Type [✓ Implemented]
+**Problem**: `Pharmacy.id` is `int` (auto-increment) while all other models use UUID `str(36)` — causes join/FK inconsistencies.
+
+**Action**:
+1. Change `Pharmacy.id` to `str(36)` with UUID default (matching all other models)
+2. Update `pharmacist_id` FK type if needed
+3. Alembic migration to alter column type (may need data migration if records exist)
+
+#### Patch 0.5 — Fix Nurse Router Mount [✓ Implemented]
+**Problem**: Nurse router mounted at `/api/v1` so endpoint is `/api/v1/create-nurse` instead of `/api/v1/nurse/create-nurse`.
+
+**Action**: In `main.py`, change nurse router prefix from `/api/v1` to `/api/v1/nurse`
+
+#### Patch 0.6 — Fix validate-session Dummy [✓ Implemented]
+**Problem**: `/validate-session` always returns `{valid: true}` regardless of input — security hole.
+
+**Action**: Implement real JWT validation: decode token, check expiry, verify user exists & is_active
+
+#### Patch 0.7 — Fix Frontend Role Mapping Mismatch [✓ Implemented]
+**Problem**: `ProtectedRoute.tsx` maps `role_as: 3=doctor, 4=nurse, 5=patient` but `useAuth.ts` maps `3=cashier, 4=pharmacist, 5=doctor`. One must match the backend's canonical mapping (3=Doctor, 4=Nurse, 5=Patient per User model).
+
+**Action**: 
+1. Backend is source of truth: `3=Doctor, 4=Nurse, 5=Patient, 6=Cashier, 7=Pharmacist`
+2. Fix `useAuth.ts` to match backend enum
+3. Verify `ProtectedRoute.tsx` matches
+4. Test all role-based route guards
+
+---
+
+### 7.2 — TIER 1: Auth & Core Infrastructure (Foundation)
+
+> **Effort: 1.5–2 weeks | Dependencies: Tier 0 | Risk: Blocks everything**
+
+#### Patch 1.1 — Complete Auth System [✓ Implemented]
+**Models**: None new (User exists)
+**Endpoints needed** (8):
+
+| Method | Path | Purpose |
+|---|---|---|
+| POST | `/api/v1/auth/register` | Patient self-registration |
+| POST | `/api/v1/auth/logout` | Invalidate token (add to blacklist) |
+| POST | `/api/v1/auth/forgot-password` | Send reset email |
+| POST | `/api/v1/auth/reset-password` | Reset with token |
+| POST | `/api/v1/auth/refresh-token` | Refresh JWT |
+| GET | `/api/v1/auth/validate-session` | Real session validation |
+| POST | `/api/v1/auth/change-password` | Authenticated password change |
+| GET | `/api/v1/auth/check-credentials` | Check email/phone uniqueness |
+
+**Business logic**:
+- Token blacklist (Redis or DB table) for logout
+- Password reset flow with time-limited token
+- Rate limiting on login (5 attempts/15 min)
+
+**Dependencies**: Redis (optional, can use DB table for token blacklist)
+
+#### Patch 1.2 — Cross-Cutting Infrastructure [✓ Implemented]
+**New files to create**:
+
+| File | Purpose |
+|---|---|
+| `backend/app/core/pagination.py` | Reusable paginator: `skip`, `limit`, `total`, `pages` |
+| `backend/app/core/soft_delete.py` | Mixin: `is_deleted: bool`, `deleted_at: Optional[datetime]` |
+| `backend/app/core/audit.py` | Middleware: log create/update/delete to `ChangeLog` table |
+| `backend/app/core/branch_scope.py` | Dependency: auto-filter queries by `branch_id` for branch-scoped roles |
+| `backend/app/core/file_upload.py` | `UploadFile` handler: validate type/size, store to disk/S3 |
+| `backend/app/core/rate_limit.py` | `slowapi` integration: 60 req/min per user |
+| `backend/app/core/permissions.py` | Role-based permission checker (beyond simple role_as check) |
+
+**New models** (2):
+| Model | Table | Columns |
+|---|---|---|
+| `TokenBlacklist` | `token_blacklist` | id, token_jti, user_id, expires_at, created_at |
+| `ChangeLog` | `change_log` | id, user_id, action (create/update/delete), model_name, record_id, before_data (JSON), after_data (JSON), ip_address, user_agent, created_at |
+
+#### Patch 1.3 — Service Layer Architecture [✓ Implemented]
+**Purpose**: Move business logic out of route handlers into reusable service classes.
+
+**Create directory**: `backend/app/services/`
+
+| Service File | Methods |
+|---|---|
+| `auth_service.py` | register, login, logout, refresh, forgot_password, reset_password, validate_session |
+| `user_service.py` | create_user, update_user, delete_user, change_password, upload_avatar |
+| `branch_service.py` | create, update, delete, assign_admin, assign_staff, get_staff, get_details |
+
+**Pattern**: Each service takes `AsyncSession` via DI, returns domain objects. Routes become thin wrappers.
+
+---
+
+### 7.3 — TIER 2: High-Value Daily Workflows
+
+> **Effort: 3–4 weeks | Dependencies: Tier 1 | Priority: Used every day by all roles**
+
+#### Patch 2.1 — Doctor Schedule System [✓ Implemented]
+**New models** (4):
+
+| Model | Table | Key Columns |
+|---|---|---|
+| `DoctorSchedule` | `doctor_schedule` | id, doctor_id, branch_id, day_of_week, start_time, end_time, slot_duration_minutes, max_patients, status (active/inactive), recurrence_type, valid_from, valid_until |
+| `DoctorScheduleCancellation` | `doctor_schedule_cancellation` | id, doctor_id, schedule_id, cancel_date, reason, status (pending/approved/rejected), approved_by, type (single_day/range) |
+| `SlotLock` | `slot_lock` | id, doctor_id, schedule_id, slot_date, slot_time, locked_by, locked_at, expires_at, appointment_id |
+| `ScheduleModification` | `schedule_modification` | id, doctor_id, schedule_id, modification_type, old_value (JSON), new_value (JSON), status, created_at |
+
+**Endpoints** (~20):
+
+| Method | Path | Purpose |
+|---|---|---|
+| POST | `/api/v1/schedules` | Create schedule |
+| GET | `/api/v1/schedules/doctor/{doctor_id}` | Get doctor's schedules |
+| PUT | `/api/v1/schedules/{id}` | Update schedule |
+| DELETE | `/api/v1/schedules/{id}` | Delete schedule |
+| POST | `/api/v1/schedules/check-availability` | Check date availability |
+| POST | `/api/v1/schedules/cancel/request` | Request cancellation |
+| POST | `/api/v1/schedules/cancel/approve/{id}` | Approve cancellation |
+| POST | `/api/v1/schedules/cancel/reject/{id}` | Reject cancellation |
+| GET | `/api/v1/schedules/cancel/requests` | List cancellation requests |
+| GET/POST/PUT/DELETE | `/api/v1/schedule-modifications/**` | Schedule modifications CRUD |
+| GET | `/api/v1/doctor/dashboard-stats` | Doctor dashboard stats |
+| PUT | `/api/v1/doctor/{userId}/profile` | Update doctor profile |
+
+**Service**: `doctor_schedule_service.py` — slot generation, conflict detection, recurrence expansion, lock management
+
+#### Patch 2.2 — Full Appointment System (All Roles) [✓ Implemented]
+**Update existing models**: Expand `Appointment` with payment fields, verification_code, payment_status
+
+**New models** (2):
+
+| Model | Table | Key Columns |
+|---|---|---|
+| `AppointmentAuditLog` | `appointment_audit_log` | id, appointment_id, action, changed_by, old_data (JSON), new_data (JSON), created_at |
+| `AppointmentSettings` | `appointment_settings` | id, branch_id, max_daily_appointments, slot_duration, booking_advance_days, cancellation_deadline_hours, payment_required |
+
+**Endpoints** (~60, organized by role-prefix):
+
+| Router Prefix | Endpoint Count | Key Operations |
+|---|---|---|
+| `/api/v1/appointments` (public) | 6 | search, branches, specializations, doctors, slots, book |
+| `/api/v1/patient/appointments` | 8 | book, confirm-payment, my-appointments, cancel, reschedule, reschedule-eligibility |
+| `/api/v1/doctor/appointments` | 7 | list, today-queue, statistics, check-in, start-session, complete, no-show |
+| `/api/v1/receptionist/appointments` | 7 | walk-in, list, search-patients, available-doctors, check-in, cancel, payment |
+| `/api/v1/branch-admin/appointments` | 20 | dashboard, list, statistics, CRUD, create-with-patient, reschedule, audit-logs, settings |
+| `/api/v1/super-admin/appointments` | 15 | list, statistics, global-search, create, cancel-override, settings-per-branch |
+
+**Service**: `appointment_service.py` — booking flow (check availability → lock slot → create appointment → confirm payment → release lock), cancellation with refund logic, status transitions state machine
+
+#### Patch 2.3 — Receptionist Module (Complete) [✓ Implemented]
+**Expand existing router** `receptionist.py` from 9 → ~32 endpoints:
+
+| Category | Endpoints to Add |
+|---|---|
+| Patient management | search, register, get details, update |
+| Doctors | list, availability check |
+| Queue management | update status, stats |
+| Visit management | get detail, update, print slip |
+| Reports | daily registrations, appointments, no-shows, walk-ins |
+| Profile | get, update, change password |
+
+**Priority**: Add AUTH to all existing endpoints first (Patch 0.3)
+
+#### Patch 2.4 — Patient Dashboard API [✓ Implemented]
+**New models** (2):
+
+| Model | Table | Key Columns |
+|---|---|---|
+| `HealthCondition` | `health_condition` | id, patient_id, condition_name, severity, diagnosed_date, notes, is_active |
+| `Feedback` | `feedback` | id, user_id, branch_id, doctor_id, subject, message, category, status (pending/reviewed/resolved), admin_response, created_at |
+
+**Endpoints** (~20):
+
+| Method | Path | Purpose |
+|---|---|---|
+| GET | `/api/v1/patient/dashboard-stats` | Patient stats |
+| GET | `/api/v1/patient/notifications/{userId}` | Notifications |
+| GET | `/api/v1/patient/notifications/unread-count/{userId}` | Unread count |
+| PUT | `/api/v1/patient/notifications/{id}/read` | Mark read |
+| PUT | `/api/v1/patient/notifications/mark-all-read` | Mark all read |
+| DELETE | `/api/v1/patient/notifications/{id}` | Delete notification |
+| PUT | `/api/v1/patient/profile/{userId}` | Update profile |
+| GET | `/api/v1/patient/medications/{userId}` | Medications |
+| GET | `/api/v1/patient/visits/{userId}` | Visit history |
+| GET | `/api/v1/patient/lab-reports/{userId}` | Lab reports |
+| GET/POST/DELETE | `/api/v1/patient/health-conditions/**` | Health conditions CRUD |
+| GET | `/api/v1/patient/my-feedbacks` | My feedbacks |
+| POST | `/api/v1/submit-feedback` | Submit feedback |
+| GET | `/api/v1/patient/appointments/{id}/reschedule-eligibility` | Check reschedule |
+| POST | `/api/v1/patient/appointments/{id}/reschedule` | Reschedule |
+
+---
+
+### 7.4 — TIER 3: Consultation, Pharmacy & Notifications
+
+> **Effort: 3–4 weeks | Dependencies: Tier 2 | Priority: Core clinical + operational**
+
+#### Patch 3.1 — Consultation System
+**New models** (5):
+
+| Model | Table | Key Columns |
+|---|---|---|
+| `Consultation` | `consultation` | id, appointment_id, doctor_id, patient_id, branch_id, status (in_progress/completed), chief_complaint, history, examination, notes, started_at, completed_at |
+| `ConsultationDiagnosis` | `consultation_diagnosis` | id, consultation_id, diagnosis_code, diagnosis_name, type (primary/secondary), notes |
+| `ConsultationPrescription` | `consultation_prescription` | id, consultation_id, medicine_name, dosage, frequency, duration, instructions, quantity |
+| `ConsultationQuestion` | `consultation_question` | id, consultation_id, question_text, answer_text, question_bank_id |
+| `Investigation` | `investigation` | id, consultation_id, patient_id, investigation_type, description, status, results, ordered_by, ordered_at |
+
+**Endpoints** (~15):
+
+| Method | Path | Purpose |
+|---|---|---|
+| GET | `/api/v1/consultation/queue/{doctorId}` | Patient queue |
+| GET | `/api/v1/consultation/appointments/{doctorId}/{date}` | Day's appointments |
+| GET | `/api/v1/consultation/patient/{patientId}` | Patient info + history |
+| POST | `/api/v1/consultation/start` | Start consultation |
+| GET | `/api/v1/consultation/{id}` | Get consultation |
+| POST | `/api/v1/consultation/{id}/submit` | Complete consultation |
+| GET | `/api/v1/consultation/questions/bank` | Question templates |
+| POST | `/api/v1/consultation/{id}/questions` | Add Q&A |
+| GET | `/api/v1/consultation/diagnoses/list` | Diagnosis catalog |
+| POST | `/api/v1/consultation/{id}/diagnoses` | Link diagnoses |
+| GET | `/api/v1/consultation/medicines/list` | Medicine catalog |
+| POST | `/api/v1/consultation/{id}/prescriptions` | Add prescriptions |
+| POST | `/api/v1/consultation/{id}/investigations` | Order investigation |
+| GET | `/api/v1/consultation/{id}/audit` | Audit trail |
+
+**Service**: `consultation_service.py` — state machine (queue → in_progress → completed), auto-link to appointment, generate printable summary
+
+#### Patch 3.2 — Pharmacy & Inventory System
+**New models** (8):
+
+| Model | Table | Key Columns |
+|---|---|---|
+| `Product` | `product` | id, name, generic_name, category, unit, description, requires_prescription, is_active |
+| `ProductStock` | `product_stock` | id, product_id, branch_id, pharmacy_id, quantity, batch_number, expiry_date, purchase_price, selling_price, reorder_level |
+| `PharmacyInventory` | `pharmacy_inventory` | id, pharmacy_id, product_id, quantity, batch_no, expiry_date, purchase_price, selling_price, status |
+| `Supplier` | `supplier` | id, name, contact_person, phone, email, address, payment_terms, is_active |
+| `InventoryBatch` | `inventory_batch` | id, product_id, pharmacy_id, batch_no, received_date, expiry_date, quantity_received, quantity_remaining, cost_price, supplier_id |
+| `PharmacyStockTransaction` | `pharmacy_stock_transaction` | id, pharmacy_id, product_id, transaction_type (purchase/transfer/damage/return/dispense), quantity, reference_id, performed_by, notes, created_at |
+| `DailyPurchaseProduct` | `daily_purchase_product` | id, product_id, supplier_id, quantity, unit_price, total, purchase_date, invoice_no |
+| `Prescription` | `prescription` | id, consultation_id, patient_id, doctor_id, items (JSON), status (pending/dispensed/partial), dispensed_by, dispensed_at |
+
+**Endpoints** (~40):
+
+| Category | Endpoint Count | Key Operations |
+|---|---|---|
+| Products CRUD | 6 | create, list, get, update, delete, search |
+| Suppliers CRUD | 6 | create, list, get, update, delete |
+| Inventory management | 10 | stock-in, transfer, damage, renew, reorder, batch-list, stock-level-report |
+| Pharmacy dashboard | 3 | dashboard-stats, low-stock-alerts, expiry-alerts |
+| Purchasing | 5 | create-purchase, list, filter-by-date, purchasing-details |
+| Discounts | 4 | create, list, delete, update |
+| Pharmacist dispensing | 4 | pending-consultations, dispense, dispense-history, verify-prescription |
+
+**Service**: `pharmacy_service.py` — FIFO/FEFO stock strategies (configurable via SystemSettings), auto-reorder alerts, batch tracking
+
+#### Patch 3.3 — Notification System
+**New models** (1):
+
+| Model | Table | Key Columns |
+|---|---|---|
+| `Notification` | `notification` | id, user_id, role, title, message, type (info/warning/alert), is_read, data (JSON for deep-link), created_at, read_at |
+
+**Endpoints** (~12):
+
+| Method | Path | Purpose |
+|---|---|---|
+| GET | `/api/v1/notifications/{role}/{userId}` | Get notifications by role |
+| GET | `/api/v1/notifications/{role}/unread-count/{userId}` | Unread count |
+| POST | `/api/v1/notifications/{role}/mark-read` | Mark as read |
+| PUT | `/api/v1/notifications/mark-all-read` | Mark all read |
+| DELETE | `/api/v1/notifications/{id}` | Delete notification |
+| DELETE | `/api/v1/notifications/clear-read` | Clear read notifications |
+
+**Service**: `notification_service.py` — create notification (called by other services on events), batch send, cleanup old notifications
+
+#### Patch 3.4 — Nurse Module (Complete)
+**New models** (2):
+
+| Model | Table | Key Columns |
+|---|---|---|
+| `VitalSign` | `vital_sign` | id, patient_id, nurse_id, blood_pressure, heart_rate, temperature, weight, height, spo2, notes, recorded_at |
+| `NurseHandover` | `nurse_handover` | id, from_nurse_id, to_nurse_id, shift_id, notes, patient_summaries (JSON), acknowledged, acknowledged_at |
+
+**Endpoints** (~19): Full nurse API matching `nurseService.ts` — dashboard-stats, patients, vital-signs CRUD, shifts, handovers, profile
+
+---
+
+### 7.5 — TIER 4: POS, HRM & Branch Admin
+
+> **Effort: 5–6 weeks | Dependencies: Tier 3 | Priority: Operational backbone**
+
+#### Patch 4.1 — POS / Cashier Billing System
+**New models** (7):
+
+| Model | Table | Key Columns |
+|---|---|---|
+| `BillingTransaction` | `billing_transaction` | id, branch_id, patient_id, cashier_id, transaction_type, total_amount, discount_amount, net_amount, payment_method, status, invoice_number, created_at |
+| `TransactionItem` | `transaction_item` | id, transaction_id, product_id, description, quantity, unit_price, discount, total |
+| `CashRegister` | `cash_register` | id, branch_id, cashier_id, opened_at, closed_at, opening_balance, closing_balance, status |
+| `CashEntry` | `cash_entry` | id, register_id, entry_type (sale/refund/adjustment), amount, reference, notes, created_at |
+| `DailyCashSummary` | `daily_cash_summary` | id, register_id, date, total_sales, total_refunds, total_adjustments, expected_balance, actual_balance, discrepancy |
+| `EODReport` | `eod_report` | id, branch_id, cashier_id, report_date, summary (JSON), status (draft/submitted/approved), submitted_at |
+| `POSAuditLog` | `pos_audit_log` | id, user_id, action, entity, entity_id, details (JSON), ip_address, created_at |
+
+**Endpoints** (~25): Dashboard-stats, transactions CRUD, cash-entries, cash-summary, EOD submit/history, sales-report, daily-trends, audit-logs — all with role-prefix support (super-admin/branch-admin/cashier)
+
+**Service**: `pos_service.py`, `billing_service.py` — invoice generation, cash reconciliation, EOD workflow
+
+#### Patch 4.2 — HRM: Leave Management
+**New models** (3):
+
+| Model | Table | Key Columns |
+|---|---|---|
+| `LeaveType` | `leave_type` | id, name, max_days_per_year, is_paid, requires_approval, is_active |
+| `Leave` | `leave` | id, user_id, branch_id, leave_type_id, start_date, end_date, reason, status (pending/approved/rejected), approved_by, approved_at, level (1/2) |
+| `AdminLeave` | `admin_leave` | id, leave_id, admin_id, action, notes, actioned_at |
+
+**Endpoints** (~15): Apply leave, list my leaves, approve/reject (2-level), leave requests by role, leave balance
+
+#### Patch 4.3 — HRM: Salary & Payroll
+**New models** (3):
+
+| Model | Table | Key Columns |
+|---|---|---|
+| `StaffSalary` | `staff_salary` | id, user_id, basic_salary, allowances (JSON), deductions (JSON), epf_rate, etf_rate, effective_from |
+| `SalaryPay` | `salary_pay` | id, salary_id, user_id, month, year, gross, deductions, net, status (pending/paid), paid_at |
+| `EmployeeOT` | `employee_ot` | id, user_id, date, hours, rate_multiplier, approved_by, status |
+
+**Endpoints** (~12): Salary CRUD, salary payments, OT CRUD, payroll generation, payslip download
+
+#### Patch 4.4 — HRM: Shifts & Attendance
+**New models** (3):
+
+| Model | Table | Key Columns |
+|---|---|---|
+| `EmployeeShift` | `employee_shift` | id, user_id, branch_id, shift_date, start_time, end_time, shift_type, status (scheduled/acknowledged/completed), acknowledged_at |
+| `Attendance` | `attendance` | id, user_id, date, check_in, check_out, status (present/absent/late/half-day), notes |
+| `BankDetail` | `bank_detail` | id, user_id, bank_name, branch_name, account_number, account_type |
+
+**Endpoints** (~16): Shift CRUD, shift templates, schedule-change-requests, swap-requests, acknowledge-shift, attendance CRUD, colleagues list
+
+#### Patch 4.5 — HRM: Payroll Config & Policies (Super Admin)
+**New models** (2):
+
+| Model | Table | Key Columns |
+|---|---|---|
+| `HRPolicy` | `hr_policy` | id, title, content, category, is_active, effective_from |
+| `ServiceLetterRequest` | `service_letter_request` | id, user_id, purpose, status (pending/approved/generated), content, approved_by, created_at |
+
+**Endpoints** (~20): Super admin payroll config, salary structures CRUD, shift templates, leave types CRUD, policies CRUD, EPF/ETF config, analytics, audit logs, service letter requests
+
+#### Patch 4.6 — Branch Admin Dashboard & Management
+**Endpoints** (~15):
+
+| Method | Path | Purpose |
+|---|---|---|
+| GET | `/api/v1/branch-admin/dashboard-stats` | Dashboard with summary |
+| GET | `/api/v1/branch-admin/requests/stats` | Request statistics |
+| CRUD | `/api/v1/branch-admin/feedbacks/**` | Feedback management (4 endpoints) |
+| CRUD | `/api/v1/branch-admin/requests/eod-reports/**` | EOD report review (4 endpoints) |
+| GET | `/api/v1/branch-admin/notifications/{userId}` | Notifications |
+| GET | `/api/v1/branch-staff` | Branch staff list |
+| POST | `/api/v1/branch-staff` | Assign staff |
+| PUT/DELETE | `/api/v1/branch-staff/{id}` | Manage assignment |
+
+---
+
+### 7.6 — TIER 5: Advanced Features & External Integrations
+
+> **Effort: 3–4 weeks | Dependencies: Tiers 2–4 | Priority: Completing the system**
+
+#### Patch 5.1 — Purchase Request Workflow
+**New models** (2):
+
+| Model | Table | Key Columns |
+|---|---|---|
+| `PurchaseRequest` | `purchase_request` | id, branch_id, requested_by, status (draft/submitted/approved/rejected/clarification_needed/fulfilled), total_amount, supplier_id, notes, approved_by |
+| `PurchaseRequestItem` | `purchase_request_item` | id, request_id, product_id, quantity, unit_price, total, notes |
+
+**Endpoints** (~8): CRUD, submit, approve/reject/clarify (branch admin), resubmit, search-items
+
+**Service**: `purchase_request_service.py` — approval state machine, email notifications on status change
+
+#### Patch 5.2 — Medical Insights (Blog/Q&A)
+**New models** (3):
+
+| Model | Table | Key Columns |
+|---|---|---|
+| `MedicalPost` | `medical_post` | id, doctor_id, title, slug, content, summary, category, status (draft/published), likes_count, rating_avg, published_at |
+| `PostComment` | `post_comment` | id, post_id, user_id, content, created_at |
+| `QuestionAnswer` | `question_answer` | id, post_id, asked_by, question_text, answer_text, answered_by, is_answered, created_at |
+
+**Endpoints** (~12): Public list/detail, like, rate, comment, ask question; Doctor: my-posts CRUD, pending questions, answer question
+
+#### Patch 5.3 — Doctor Sessions & Diseases
+**New models** (2):
+
+| Model | Table | Key Columns |
+|---|---|---|
+| `DoctorSession` | `doctor_session` | id, doctor_id, patient_id, session_date, notes, diagnosis, prescriptions (JSON), status |
+| `DoctorCreatedDisease` | `doctor_created_disease` | id, doctor_id, disease_name, description, symptoms (JSON), created_at |
+
+**Endpoints** (~8): Sessions CRUD for doctor, diseases CRUD, Q&A per doctor
+
+#### Patch 5.4 — Chatbot Backend
+**New models** (2):
+
+| Model | Table | Key Columns |
+|---|---|---|
+| `ChatbotFAQ` | `chatbot_faq` | id, question, answer, category, language, is_active |
+| `ChatbotLog` | `chatbot_log` | id, session_id, question, response, was_helpful, language, created_at |
+
+**Endpoints** (~7): Replace dummy stubs with real: chat (NLP/FAQ matching), suggestions, feedback; Admin: FAQ CRUD, disease-mappings, logs, analytics
+
+#### Patch 5.5 — SMS Integration (Textware)
+**New service**: `backend/app/services/sms_service.py`
+
+**Implementation**:
+1. HTTP client to `sms.textware.lk:5001/sms/send_sms.php`
+2. 6 SMS templates: appointment confirmation, cancellation, patient credentials, schedule change, payment receipt, queue notification
+3. SmsLog model for audit trail
+4. **CRITICAL**: Move SMS credentials from frontend to backend `.env` file
+5. Proxy endpoint: `POST /api/v1/sms/send` (authenticated, rate-limited)
+
+**New model**: `SmsLog` — id, recipient, message, template_type, status, provider_response, created_at
+
+#### Patch 5.6 — PayHere Payment Integration
+**New service**: `backend/app/services/payment_service.py`
+
+**Implementation**:
+1. `POST /api/v1/payments/initiate` — Generate PayHere form data + MD5 hash
+2. `POST /api/v1/payments/notify` — Webhook callback (verify MD5 signature, update appointment payment status)
+3. `GET /api/v1/payments/status/{appointment_id}` — Check payment status
+4. Cache slot reservation during payment window (5-minute TTL)
+
+**Config**: PayHere merchant_id, merchant_secret, sandbox/production mode in `.env`
+
+#### Patch 5.7 — Email System
+**Install**: `fastapi-mail` package
+
+**New service**: `backend/app/services/email_service.py`
+
+**Templates** (2):
+1. Purchase request notification to supplier
+2. Purchase request approval notification
+
+**Implementation**: Background task via FastAPI `BackgroundTasks` (sufficient for low volume; upgrade to Celery if >100 emails/day)
+
+#### Patch 5.8 — WebSocket Real-Time Alerts
+**Install**: FastAPI WebSocket support (built-in) or `python-socketio`
+
+**Implementation**:
+1. WebSocket endpoint: `ws://host/ws/alerts`
+2. Channel: low-stock-alerts (broadcast to branch admin + super admin when product stock < reorder_level)
+3. Channel: queue-updates (broadcast to receptionist when queue status changes)
+
+**Note**: Replaces Pusher dependency with native WebSocket — cost savings
+
+#### Patch 5.9 — Dashboard Stats (Per-Role)
+**Endpoints** (~10): One dashboard-stats endpoint per role:
+
+| Path | Stats Returned |
+|---|---|
+| `/api/v1/super-admin/dashboard-stats` | Already exists — enhance with real counts |
+| `/api/v1/branch-admin/dashboard-stats` | Staff count, today's appointments, pending requests, revenue |
+| `/api/v1/doctor/dashboard-stats` | Today's patients, upcoming schedules, pending consultations |
+| `/api/v1/nurse/dashboard-stats` | Assigned patients, pending vitals, active shifts |
+| `/api/v1/pharmacist/dashboard-stats` | Pending dispensations, low stock count, today's transactions |
+| `/api/v1/cashier/dashboard-stats` | Today's sales, pending EOD, transaction count |
+| `/api/v1/patient/dashboard-stats` | Upcoming appointments, recent visits, unread notifications |
+| `/api/v1/receptionist/dashboard-stats` | Already exists — add auth + enhance |
+
+#### Patch 5.10 — System Settings & Public Website
+**New models** (3):
+
+| Model | Table | Key Columns |
+|---|---|---|
+| `SystemSettings` | `system_settings` | id, key, value, category, description |
+| `WebDoctor` | `web_doctor` | id, doctor_id, display_name, photo, bio, specialization, display_order |
+| `WebService` | `web_service` | id, title, description, icon, display_order, is_active |
+| `ContactMessage` | `contact_message` | id, name, email, phone, subject, message, status, responded_at |
+
+**Endpoints**: Settings CRUD (super admin), public website doctors/services, contact form submit
+
+---
+
+### 7.7 — Implementation Roadmap
+
+```
+WEEK  1     ████ TIER 0: Bug fixes (0.1–0.7)
+WEEK  2-3   ████████ TIER 1: Auth + Infrastructure (1.1–1.3)
+WEEK  4-5   ████████ TIER 2a: Doctor Schedules + Appointments (2.1–2.2)
+WEEK  6-7   ████████ TIER 2b: Receptionist + Patient Dashboard (2.3–2.4)
+WEEK  8-9   ████████ TIER 3a: Consultation + Pharmacy (3.1–3.2)
+WEEK 10     ████ TIER 3b: Notifications + Nurse (3.3–3.4)
+WEEK 11-12  ████████ TIER 4a: POS + Leave (4.1–4.2)
+WEEK 13-14  ████████ TIER 4b: Salary + Shifts + Branch Admin (4.3–4.6)
+WEEK 15-16  ████████ TIER 5a: Purchase Requests + Medical Insights + Sessions (5.1–5.3)
+WEEK 17-18  ████████ TIER 5b: Integrations (SMS, PayHere, Email, WebSocket) (5.4–5.8)
+WEEK 19     ████ TIER 5c: Dashboard Stats + System Settings (5.9–5.10)
+WEEK 20     ████ Integration testing + Frontend URL alignment
+```
+
+### 7.8 — New Models Summary (Total to Create)
+
+| Tier | New Models | Count |
+|---|---|---|
+| Tier 0 | (fix existing) | 0 new |
+| Tier 1 | TokenBlacklist, ChangeLog | 2 |
+| Tier 2 | DoctorSchedule, DoctorScheduleCancellation, SlotLock, ScheduleModification, AppointmentAuditLog, AppointmentSettings, HealthCondition, Feedback | 8 |
+| Tier 3 | Consultation, ConsultationDiagnosis, ConsultationPrescription, ConsultationQuestion, Investigation, Product, ProductStock, PharmacyInventory, Supplier, InventoryBatch, PharmacyStockTransaction, DailyPurchaseProduct, Prescription, Notification, VitalSign, NurseHandover | 16 |
+| Tier 4 | BillingTransaction, TransactionItem, CashRegister, CashEntry, DailyCashSummary, EODReport, POSAuditLog, LeaveType, Leave, AdminLeave, StaffSalary, SalaryPay, EmployeeOT, EmployeeShift, Attendance, BankDetail, HRPolicy, ServiceLetterRequest | 18 |
+| Tier 5 | PurchaseRequest, PurchaseRequestItem, MedicalPost, PostComment, QuestionAnswer, DoctorSession, DoctorCreatedDisease, ChatbotFAQ, ChatbotLog, SmsLog, SystemSettings, WebDoctor, WebService, ContactMessage | 14 |
+| **TOTAL** | | **58 new models** (+ 10 existing = 68 total) |
+
+### 7.9 — New Endpoints Summary (Total to Create)
+
+| Tier | New Endpoints | Running Total |
+|---|---|---|
+| Existing | 43 real + 10 dummy | 43 |
+| Tier 0 | Fix 7 bugs (no new endpoints) | 43 |
+| Tier 1 | ~8 auth + infrastructure | 51 |
+| Tier 2 | ~20 schedules + ~60 appointments + ~23 receptionist + ~20 patient | 174 |
+| Tier 3 | ~15 consultation + ~40 pharmacy + ~12 notifications + ~19 nurse | 260 |
+| Tier 4 | ~25 POS + ~15 leave + ~12 salary + ~16 shifts + ~20 HRM admin + ~15 branch admin | 363 |
+| Tier 5 | ~8 purchase + ~12 insights + ~8 sessions + ~7 chatbot + ~2 SMS + ~3 payment + ~2 email + ~2 WS + ~10 stats + ~6 settings | ~423 |
+| **TOTAL** | | **~423 endpoints** |
+
+### 7.10 — Frontend Alignment Tasks (Post-Backend)
+
+After each tier, the frontend axios interceptor base URL and endpoint paths must be verified. Key alignment work:
+
+| Issue | Action |
+|---|---|
+| Mixed URL prefixes (`api/` vs `/api/` vs `/api/v1/`) in frontend | Standardize all to use shared `api` instance (already configured with `/api/v1` base) |
+| Legacy endpoints (e.g., `api/get-all-doctor-schedule`) | Create FastAPI aliases OR update frontend calls |
+| Role-specific logout endpoints (4 separate) | Consolidate to single `POST /api/v1/auth/logout` |
+| SMS credentials in frontend | Remove from `smsService.ts`, call backend proxy instead |
+| Role mapping mismatch (`useAuth.ts` vs `ProtectedRoute.tsx`) | Fix in Tier 0 (Patch 0.7) |
+| Multiple localStorage token keys | Standardize to single `token` key |
+
+### 7.11 — Risk Register
+
+| Risk | Impact | Mitigation |
+|---|---|---|
+| Alembic migration conflicts during parallel development | HIGH | Use single migration branch; squash after each tier |
+| Frontend breaks during URL realignment | HIGH | Create redirect/alias endpoints for old URLs during transition |
+| PayHere sandbox → production difference | MEDIUM | Test with sandbox first; env-flag for production |
+| Performance at 68 models with async queries | LOW | Add connection pooling, query optimization, indexes |
+| SMS provider rate limits or downtime | LOW | Queue SMS sends, implement retry logic with exponential backoff |
+| Role enum expansion (currently int) | MEDIUM | Consider migrating to string enum for readability |
+
+---
+
+### END OF MIGRATION LEDGER
+
+> All 7 phases complete. This document serves as the authoritative reference for the Laravel → FastAPI + React migration.
+>
+> **Phase 1** — Controller & Route Map ✅
+> **Phase 2** — Domain & Data Model Extraction ✅
+> **Phase 3** — Business Rules & Services ✅
+> **Phase 4** — UI & User Workflows ✅
+> **Phase 5** — FastAPI Gap Analysis ✅
+> **Phase 6** — React Gap Analysis ✅
+> **Phase 7** — Patch Plan ✅

@@ -153,3 +153,25 @@ localhost.har
 
 # Local scripts
 /scripts/
+/php
+
+# Docker / deployment / production artifacts (developer-specific)
+docker-compose*.yml
+**/Dockerfile
+docker/
+
+# Nginx / reverse-proxy configs
+nginx*.conf*
+**/nginx*.conf*
+
+# Deployment helper scripts (often machine/environment-specific)
+verify-ec2-deployment.sh
+fix-nginx-root.sh
+manual-frontend-rebuild.sh
+scripts/deploy-frontend.*
+scripts/ec2-*.sh
+
+
+
+hospital-managment-system-tricky.zip
+*.zip
