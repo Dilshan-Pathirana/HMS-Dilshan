@@ -110,6 +110,11 @@ class AdminCancel(BaseModel):
     reason: Optional[str] = None
 
 
+class AppointmentStatusUpdate(BaseModel):
+    status: str
+    reason: Optional[str] = None
+
+
 class PaymentUpdate(BaseModel):
     payment_status: str
     amount: Optional[float] = None
@@ -203,6 +208,31 @@ async def cancel(
 ):
     return await svc.change_status(session, appointment_id, "cancelled", current_user.id, payload.reason)
 
+
+@router.post("/{appointment_id}/status")
+async def update_appointment_status(
+    appointment_id: str,
+    payload: AppointmentStatusUpdate,
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+):
+    """Update appointment status (branch admin).
+
+    This endpoint exists to align with frontend expectations.
+    """
+    status = payload.status
+    # Normalize a few common frontend variants.
+    status_map = {
+        "pending_payment": "pending",
+        "in_session": "in_progress",
+    }
+    normalized = status_map.get(status, status)
+
+    try:
+        await svc.change_status(session, appointment_id, normalized, current_user.id, payload.reason)
+        return {"message": "Status updated successfully", "new_status": normalized}
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 @router.post("/{appointment_id}/payment")
 async def update_payment(

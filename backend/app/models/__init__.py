@@ -198,6 +198,14 @@ from .sms_log import (
     SmsLogCreate,
     SmsLogRead,
 )
+
+from .doctor_main_question import (
+    DoctorMainQuestion,
+    DoctorMainQuestionCreate,
+    DoctorMainQuestionUpdate,
+    DoctorMainQuestionAnswer,
+    DoctorMainQuestionAnswerCreate,
+)
 from .website import (
     SystemSettings,
     SystemSettingsCreate,

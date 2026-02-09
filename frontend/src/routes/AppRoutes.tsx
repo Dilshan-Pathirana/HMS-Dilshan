@@ -51,6 +51,8 @@ const VascularDisorders = lazy(() => import("../pages/UserWeb/Treatments/Vascula
 const PatientDashboard = lazy(() => import("../pages/PatientDashboard/PatientDashboard.tsx"));
 const PatientDashboardNew = lazy(() => import("../pages/PatientDashboard/PatientDashboardNew.tsx"));
 const PatientAppoinmentChange = lazy(() => import("../pages/PatientDashboard/PatientAppointment/PatientAppointmentTable/PatientAppoinmentChange.tsx"));
+const PatientCreateQuestions = lazy(() => import("../pages/dashboard/Users/Patient/CreateQuestions.tsx"));
+const PatientAllQuestions = lazy(() => import("../pages/dashboard/Users/Patient/GetAllQuestions.tsx"));
 
 // ============================================
 // LAZY LOADED DOCTOR MODULE
@@ -61,9 +63,11 @@ const AllDoctorRelatedAppointments = lazy(() => import("../pages/dashboard/Docto
 const CreateQuestions = lazy(() => import("../pages/dashboard/Doctor/Patient/CreateQuestions.tsx"));
 const GetDoctorQuestions = lazy(() => import("../pages/dashboard/Doctor/Patient/GetDoctorQuestions.tsx"));
 const DoctorScheduleCalendar = lazy(() => import("../pages/dashboard/Doctor/DoctorAppointment/DoctorScheduleCalendar.tsx"));
+const ScheduleManagementPage = lazy(() => import("../pages/dashboard/Doctor/DoctorAppointment/ScheduleManagementPage.tsx"));
 const GetDoctorSessions = lazy(() => import("../pages/DoctorDashboard/DoctorSessions/GetDoctorSessions.tsx"));
 const DoctorPatients = lazy(() => import("../pages/dashboard/Doctor/Patient/DoctorPatients.tsx"));
 const MedicalRecord = lazy(() => import("../pages/dashboard/Doctor/Patient/MedicalRecord.tsx"));
+const DoctorSessionCreate = lazy(() => import("../pages/dashboard/DoctorSession/DoctorSessionCreate.tsx"));
 
 // ============================================
 // LAZY LOADED BRANCH ADMIN MODULE
@@ -258,6 +262,44 @@ const AppRoutes: React.FC = () => {
                             <SuperAdminDashboard />
                         </ProtectedRoute>
                     }
+                />
+
+                <Route
+                    path="/dashboard/patient/create-questions"
+                    element={
+                        <ProtectedRoute>
+                            <PatientCreateQuestions />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/dashboard/patient/all-questions"
+                    element={
+                        <ProtectedRoute>
+                            <PatientAllQuestions />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/dashboard/doctor/schedule"
+                    element={
+                        <ProtectedRoute allowedRoles={['doctor', 'super_admin']}>
+                            <ScheduleManagementPage />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/dashboard/doctor/doctor-schedule-details"
+                    element={<Navigate to="/dashboard/doctor/schedule" replace />}
+                />
+                <Route
+                    path="/dashboard/doctor/schedule/cancel-request"
+                    element={<Navigate to="/dashboard/doctor/schedule" replace />}
+                />
+                <Route
+                    path="/dashboard/doctor/create-session"
+                    element={<Navigate to="/dashboard/doctor/schedule" replace />}
                 />
 
 

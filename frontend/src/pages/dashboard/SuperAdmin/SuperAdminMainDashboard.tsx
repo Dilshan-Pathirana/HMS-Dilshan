@@ -105,7 +105,10 @@ const SuperAdminMainDashboard: React.FC = () => {
     const fetchDashboardData = async () => {
         try {
             // Check if user is authenticated
-            const token = localStorage.getItem('token');
+            const token =
+                localStorage.getItem("token") ||
+                localStorage.getItem("authToken") ||
+                localStorage.getItem("userToken");
             if (!token) {
                 console.warn('No authentication token found, redirecting to login');
                 navigate('/');
@@ -117,9 +120,13 @@ const SuperAdminMainDashboard: React.FC = () => {
             setUserName(`${userInfo.first_name || 'Admin'}`);
 
             // Fetch dashboard statistics
-            const response = await api.get('/super-admin/dashboard-stats');
-            if (response.data.status === 200) {
-                setStats(prev => ({ ...prev, ...response.data.data }));
+            const response: any = await api.get("/super-admin/dashboard-stats", {
+                headers: {
+                    Authorization: token.startsWith("Bearer ") ? token : `Bearer ${token}`,
+                },
+            });
+            if (response.status === 200) {
+                setStats((prev) => ({ ...prev, ...response.data }));
             }
         } catch (error: any) {
             console.error('Error fetching dashboard data:', error);

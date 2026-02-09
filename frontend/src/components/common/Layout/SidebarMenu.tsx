@@ -121,7 +121,7 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ items }) => {
                                 }
                             >
                                 <span className={`flex-shrink-0 transition-colors ${
-                                    // Hacky way to check isActive inside the children 
+                                    // Hacky way to check isActive inside the children
                                     location.pathname === item.path ? 'text-white' : 'text-neutral-400 group-hover:text-neutral-600'
                                     }`}>
                                     {item.icon}
@@ -180,13 +180,7 @@ export const SuperAdminMenuItems: MenuItem[] = [
     {
         label: 'Doctor Section',
         icon: <Stethoscope className="w-5 h-5" />,
-        path: '/dashboard/doctor',
-        children: [
-            { label: 'Doctor Schedule', path: '/dashboard/doctor/schedule' },
-            { label: 'Schedule Details', path: '/dashboard/doctor/doctor-schedule-details' },
-            { label: 'Cancel Requests', path: '/dashboard/doctor/schedule/cancel-request' },
-            { label: 'Create Session', path: '/dashboard/doctor/create-session' },
-        ]
+        path: '/dashboard/doctor/schedule'
     },
     {
         label: 'Doctor Diseases',

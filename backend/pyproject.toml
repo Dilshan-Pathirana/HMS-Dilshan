@@ -15,7 +15,7 @@ asyncmy = "^0.2.9"
 cryptography = "^42.0.0"
 pyjwt = "^2.8.0"
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
-bcrypt = "^4.0.0"
+bcrypt = ">=3.2.0,<4.0.0"
 python-multipart = "^0.0.9"
 pydantic-settings = "^2.1.0"
 email-validator = "^2.0.0"

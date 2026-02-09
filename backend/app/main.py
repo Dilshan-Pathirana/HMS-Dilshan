@@ -1,5 +1,7 @@
 from fastapi import FastAPI, Request, Depends, HTTPException
 from app.api import auth, users, branches, doctors, patients, receptionist, pharmacies, pharmacist, super_admin, nurse, staff, appointments, schedules
+from app.api import super_admin_appointments
+from app.api import doctor_main_questions
 from app.api import patient_appointments, doctor_appointments, admin_appointments, patient_dashboard, consultation, pharmacy_inventory, notifications, pos, hrm_leave, hrm_salary, hrm_shift, hrm_admin, branch_admin, purchase_requests, medical_insights, doctor_sessions, chatbot, sms, payments, email, websocket_alerts, dashboard_stats, website
 import traceback
 import sys
@@ -79,6 +81,8 @@ app.include_router(pharmacist.router, prefix="/api/v1/pharmacist", tags=["pharma
 app.include_router(nurse.router, prefix="/api/v1/nurse", tags=["nurse"])
 app.include_router(staff.router, prefix="/api/v1/users", tags=["staff"])
 app.include_router(super_admin.router, prefix="/api/v1/super-admin", tags=["super-admin"])
+app.include_router(super_admin_appointments.router, prefix="/api/v1/super-admin/appointments", tags=["super-admin-appointments"])
+app.include_router(doctor_main_questions.router, prefix="/api/v1", tags=["doctor-main-questions"])
 app.include_router(schedules.router, prefix="/api/v1/schedules", tags=["schedules"])
 app.include_router(patient_appointments.router, prefix="/api/v1/patient/appointments", tags=["patient-appointments"])
 app.include_router(doctor_appointments.router, prefix="/api/v1/doctor/appointments", tags=["doctor-appointments"])

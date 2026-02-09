@@ -1,7 +1,7 @@
 import api from "../axios";
 import { IBranchData } from "../../types/Branch/IBranchData";
 
-// Axios interceptor unwraps response.data, so this returns the data directly
-export const getAllBranches = (): Promise<IBranchData[]> => {
-    return api.get(`/branches`);
+export const getAllBranches = async (): Promise<IBranchData[]> => {
+    const data = await api.get<IBranchData[]>("/branches/");
+    return Array.isArray(data) ? data : [];
 };

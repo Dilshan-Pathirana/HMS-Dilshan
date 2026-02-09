@@ -25,13 +25,20 @@ const CreateQuestions = () => {
             try {
                 const response = await api.get("api/get-doctors");
                 if (response.status === 200) {
-                    const options = response.data.doctors.map(
-                        (doctor: any) => ({
-                            value: doctor.user_id,
-                            label: `Dr. ${doctor.first_name} ${doctor.last_name}`,
-                        }),
-                    );
+                    const doctors = Array.isArray(response.data?.doctors)
+                        ? response.data.doctors
+                        : [];
+
+                    const options = doctors.map((doctor: any) => ({
+                        value: doctor.user_id,
+                        label: `Dr. ${doctor.first_name} ${doctor.last_name}`,
+                    }));
+
                     setDoctorOptions(options);
+
+                    if (options.length === 0) {
+                        alert.warn("No doctors found");
+                    }
                 }
             } catch (error) {
                 if (axios.isAxiosError(error)) {

@@ -49,7 +49,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
         if (!allowedRoles.includes(userRoleName)) {
             // Redirect unauthorized users to their appropriate dashboard
             const dashboardRedirects: { [key: string]: string } = {
-                'super_admin': '/dashboard/branch',
+                'super_admin': '/dashboard',
                 'branch_admin': '/branch-admin/dashboard',
                 'doctor': '/doctor/dashboard',
                 'nurse': '/nurse-dashboard',
