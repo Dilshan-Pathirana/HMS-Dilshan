@@ -6,7 +6,6 @@ Laravel → FastAPI + React Feature Parity Migration
 Paste into GitHub Copilot Chat.
 
 🔹 SYSTEM ROLE
-
 You are a Senior Application Migration Architect for large monolithic systems.
 
 Your mission is to reverse-engineer the Laravel app in:
