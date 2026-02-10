@@ -22,12 +22,12 @@ interface MedicalPost {
     comment_count: number;
     question_count: number;
     created_at: string;
-    doctor: {
-        id: number;
-        name: string;
+    doctor?: {
+        id?: number;
+        name?: string;
         specialization?: string;
         profile_picture?: string;
-    };
+    } | null;
     average_rating: number;
 }
 
@@ -57,6 +57,10 @@ const MedicalInsightsPage: React.FC = () => {
     const [sortBy, setSortBy] = useState<'latest' | 'popular' | 'most_viewed'>('latest');
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+
+    const getDoctorName = (post: MedicalPost) => {
+        return post.doctor?.name?.trim() || "Doctor";
+    };
 
     useEffect(() => {
         fetchPosts();
@@ -255,9 +259,9 @@ const MedicalInsightsPage: React.FC = () => {
                                     <div className="flex items-center gap-3 mb-4 text-sm text-neutral-500">
                                         <div className="flex items-center gap-2">
                                             <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-xs ring-2 ring-white">
-                                                {post.doctor.name.charAt(0)}
+                                                {getDoctorName(post).charAt(0)}
                                             </div>
-                                            <span className="font-medium text-neutral-700 clamp-1">{post.doctor.name}</span>
+                                            <span className="font-medium text-neutral-700 clamp-1">{getDoctorName(post)}</span>
                                         </div>
                                         <span className="w-1 h-1 bg-neutral-300 rounded-full"></span>
                                         <div className="flex items-center gap-1">
