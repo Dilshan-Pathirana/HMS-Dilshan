@@ -151,6 +151,11 @@ const SuperAdminScheduleCalendar: React.FC = () => {
     const [selectedBranchId, setSelectedBranchId] = useState<string>("");
     const [selectedDoctorId, setSelectedDoctorId] = useState<string>("");
 
+    const [branchDefaults, setBranchDefaults] = useState<{
+        maxPatients: number;
+        timePerPatient: number;
+    } | null>(null);
+
     const [slotsByDate, setSlotsByDate] = useState<Record<string, ScheduleCalendarSlot[]>>({});
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -195,6 +200,25 @@ const SuperAdminScheduleCalendar: React.FC = () => {
         }
     }, []);
 
+    const loadBranchDefaults = useCallback(async (branchId: string) => {
+        try {
+            const res = await appointmentSuperAdminApi.getBranchSettings();
+            if (res.status === 200) {
+                const match = (res.branches || []).find((b) => b.branch_id === branchId);
+                if (match?.settings) {
+                    setBranchDefaults({
+                        maxPatients: Number(match.settings.default_max_patients_per_session ?? 20),
+                        timePerPatient: Number(match.settings.default_time_per_patient ?? 30),
+                    });
+                    return;
+                }
+            }
+        } catch (e) {
+            console.error(e);
+        }
+        setBranchDefaults(null);
+    }, []);
+
     useEffect(() => {
         loadBranches();
         loadDoctors();
@@ -205,10 +229,12 @@ const SuperAdminScheduleCalendar: React.FC = () => {
         setSelectedDoctorId("");
         if (selectedBranchId) {
             loadDoctors(selectedBranchId);
+            loadBranchDefaults(selectedBranchId);
         } else {
             loadDoctors();
+            setBranchDefaults(null);
         }
-    }, [selectedBranchId, loadDoctors]);
+    }, [selectedBranchId, loadDoctors, loadBranchDefaults]);
 
     const calendarRange = useMemo(() => {
         const year = currentDate.getFullYear();
@@ -369,15 +395,17 @@ const SuperAdminScheduleCalendar: React.FC = () => {
     };
 
     const resetFormDefaults = useCallback(() => {
+        const defaultSlotDuration = branchDefaults?.timePerPatient ?? 30;
+        const defaultMaxPatients = branchDefaults?.maxPatients ?? 20;
         setFormStartTime("09:00");
         setFormEndTime("12:00");
-        setFormSlotDuration(30);
-        setFormMaxPatients(20);
+        setFormSlotDuration(defaultSlotDuration);
+        setFormMaxPatients(defaultMaxPatients);
         setFormRecurrence("weekly");
         setFormStatus("active");
         setFormValidFrom(selectedDate ? toIsoDate(selectedDate) : "");
         setFormValidUntil("");
-    }, [selectedDate]);
+    }, [selectedDate, branchDefaults]);
 
     const openCreate = () => {
         if (!selectedDate) {
@@ -611,61 +639,64 @@ const SuperAdminScheduleCalendar: React.FC = () => {
                 </div>
             </div>
 
-            <div className="bg-white rounded-3xl shadow-sm border border-neutral-200 p-4 mb-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                        <label className="block text-xs font-medium text-neutral-500 mb-1">Branch</label>
-                        <div className="flex items-center gap-2">
-                            <Building2 className="w-4 h-4 text-neutral-400" />
-                            <select
-                                value={selectedBranchId}
-                                onChange={(e) => setSelectedBranchId(e.target.value)}
-                                className="flex-1 border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
-                            >
-                                <option value="">All Branches</option>
-                                {branches.map((b) => (
-                                    <option key={b.id} value={b.id}>
-                                        {b.name}
-                                    </option>
-                                ))}
-                            </select>
+            {activeTab !== "create_session" && (
+                <div className="bg-white rounded-3xl shadow-sm border border-neutral-200 p-4 mb-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label className="block text-xs font-medium text-neutral-500 mb-1">Branch</label>
+                            <div className="flex items-center gap-2">
+                                <Building2 className="w-4 h-4 text-neutral-400" />
+                                <select
+                                    value={selectedBranchId}
+                                    onChange={(e) => setSelectedBranchId(e.target.value)}
+                                    className="flex-1 border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+                                >
+                                    <option value="">All Branches</option>
+                                    {branches.map((b) => (
+                                        <option key={b.id} value={b.id}>
+                                            {b.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
-                    </div>
 
-                    <div>
-                        <label className="block text-xs font-medium text-neutral-500 mb-1">Doctor</label>
-                        <div className="flex items-center gap-2">
-                            <User className="w-4 h-4 text-neutral-400" />
-                            <select
-                                value={selectedDoctorId}
-                                onChange={(e) => setSelectedDoctorId(e.target.value)}
-                                className="flex-1 border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
-                            >
-                                <option value="">All Doctors</option>
-                                {doctors.map((d, idx) => (
-                                    <option key={`${d.doctor_id}-${d.branch_id ?? idx}`} value={d.doctor_id}>
-                                        {d.name}
+                        <div>
+                            <label className="block text-xs font-medium text-neutral-500 mb-1">Doctor</label>
+                            <div className="flex items-center gap-2">
+                                <User className="w-4 h-4 text-neutral-400" />
+                                <select
+                                    value={selectedDoctorId}
+                                    onChange={(e) => setSelectedDoctorId(e.target.value)}
+                                    className="flex-1 border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+                                    disabled={!selectedBranchId}
+                                >
+                                    <option value="">
+                                        {selectedBranchId ? "All Doctors" : "Select Branch First"}
                                     </option>
-                                ))}
-                            </select>
+                                    {doctors.map((d, idx) => (
+                                        <option key={`${d.doctor_id}-${d.branch_id ?? idx}`} value={d.doctor_id}>
+                                            {d.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="flex items-end">
-                        {activeTab !== "create_session" ? (
-                            <button
-                                onClick={openCreate}
-                                className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 font-medium shadow-sm"
-                            >
-                                <Plus className="w-4 h-4" />
-                                Create Schedule
-                            </button>
-                        ) : (
-                            <div className="w-full text-xs text-neutral-500">Use the form below to create a session.</div>
-                        )}
+                        <div className="flex items-end">
+                            {activeTab === "management" && (
+                                <button
+                                    onClick={openCreate}
+                                    className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 font-medium shadow-sm"
+                                >
+                                    <Plus className="w-4 h-4" />
+                                    Create Schedule
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
 
             {activeTab === "management" && (
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -956,7 +987,6 @@ const SuperAdminScheduleCalendar: React.FC = () => {
                 <div className="bg-white rounded-3xl shadow-sm border border-neutral-200 overflow-hidden">
                     <div className="p-6 border-b border-neutral-100 bg-gradient-to-br from-white to-neutral-50">
                         <h3 className="text-lg font-bold text-neutral-900">Create Session</h3>
-                        <p className="text-sm text-neutral-500">Create a session for a doctor</p>
                     </div>
                     <div className="p-6">
                         <DoctorSessionCreate />

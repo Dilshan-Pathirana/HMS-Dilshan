@@ -14,18 +14,14 @@ const DoctorSessionCreate = () => {
     const [formData, setFormData] = useState<IDoctorSessionFormTypes>({
         branch_id: "",
         doctor_id: "",
-        patient_id: "",
     });
 
     const [branchOptions, setBranchOptions] = useState<IDropdownOption[]>([]);
     const [doctorOptions, setDoctorOptions] = useState<IDropdownOption[]>([]);
-    const [patientOptions, setPatientOptions] = useState<IDropdownOption[]>([]);
 
     const [selectedBranch, setSelectedBranch] =
         useState<IDropdownOption | null>(null);
     const [selectedDoctor, setSelectedDoctor] =
-        useState<IDropdownOption | null>(null);
-    const [selectedPatient, setSelectedPatient] =
         useState<IDropdownOption | null>(null);
 
     const [errors, setErrors] = useState<Record<string, string[]>>({});
@@ -53,7 +49,7 @@ const DoctorSessionCreate = () => {
                     const regNo = doctor?.user?.medical_registration_number;
                     const regSuffix = regNo ? ` (${regNo})` : "";
                     return {
-                        value: doctor.user_id,
+                        value: doctor.id,
                         label: `Dr. ${doctor.first_name} ${doctor.last_name}${regSuffix}`,
                     };
                 });
@@ -62,22 +58,6 @@ const DoctorSessionCreate = () => {
                     alert.info("No doctors found.");
                 }
 
-                const patientResponse = await api.get<any[]>("/patients/");
-                const patientList = Array.isArray(patientResponse)
-                    ? patientResponse
-                    : [];
-                const patientOpts = patientList.map((patient) => {
-                    const firstName = patient?.user?.first_name || "Unknown";
-                    const lastName = patient?.user?.last_name || "Patient";
-                    return {
-                        value: patient.id,
-                        label: `${firstName} ${lastName}`,
-                    };
-                });
-                setPatientOptions(patientOpts);
-                if (patientOpts.length === 0) {
-                    alert.info("No patients found.");
-                }
             } catch (error) {
                 if (axios.isAxiosError(error)) {
                     alert.warn("Failed to fetch data: " + error.message);
@@ -108,22 +88,10 @@ const DoctorSessionCreate = () => {
         }));
     };
 
-    const handlePatientChange = (selectedOption: IDropdownOption | null) => {
-        setSelectedPatient(selectedOption);
-        setFormData((prev) => ({
-            ...prev,
-            patient_id: selectedOption?.value || "",
-        }));
-    };
-
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (
-            !formData.branch_id ||
-            !formData.doctor_id ||
-            !formData.patient_id
-        ) {
+        if (!formData.branch_id || !formData.doctor_id) {
             alert.warn("Please select all required fields.");
             return;
         }
@@ -148,11 +116,9 @@ const DoctorSessionCreate = () => {
                 setFormData({
                     branch_id: "",
                     doctor_id: "",
-                    patient_id: "",
                 });
                 setSelectedBranch(null);
                 setSelectedDoctor(null);
-                setSelectedPatient(null);
                 setErrors({});
             }
         } catch (error) {
@@ -185,10 +151,10 @@ const DoctorSessionCreate = () => {
             >
                 <div className="text-center mb-4">
                     <h2 className="text-2xl font-bold text-neutral-800">
-                        Create Doctor Session
+                        Create Session
                     </h2>
                     <p className="text-neutral-600 mt-2">
-                        Schedule a new appointment session
+                        Open a session (patients can book after creation)
                     </p>
                 </div>
                 <div className="flex items-center gap-4 flex-wrap">
@@ -203,7 +169,10 @@ const DoctorSessionCreate = () => {
                             placeholder="Choose a branch..."
                             isClearable
                             isSearchable
-                            className="text-sm"
+                            className="text-sm react-select-container"
+                            classNamePrefix="react-select"
+                            menuPortalTarget={document.body}
+                            styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
                         />
                         {errors.branch_id && (
                             <p className="text-error-500 text-sm mt-1">
@@ -223,31 +192,14 @@ const DoctorSessionCreate = () => {
                             placeholder="Choose a doctor..."
                             isClearable
                             isSearchable
-                            className="text-sm"
+                            className="text-sm react-select-container"
+                            classNamePrefix="react-select"
+                            menuPortalTarget={document.body}
+                            styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
                         />
                         {errors.doctor_id && (
                             <p className="text-error-500 text-sm mt-1">
                                 {errors.doctor_id[0]}
-                            </p>
-                        )}
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-neutral-700 mb-2">
-                            Select Patient *
-                        </label>
-                        <Select
-                            value={selectedPatient}
-                            onChange={handlePatientChange}
-                            options={patientOptions}
-                            placeholder="Choose a patient..."
-                            isClearable
-                            isSearchable
-                            className="text-sm"
-                        />
-                        {errors.patient_id && (
-                            <p className="text-error-500 text-sm mt-1">
-                                {errors.patient_id[0]}
                             </p>
                         )}
                     </div>
@@ -264,7 +216,7 @@ const DoctorSessionCreate = () => {
                         >
                             {isLoading
                                 ? "Creating Session..."
-                                : "Create Doctor Session"}
+                                : "Create Session"}
                         </button>
                     </div>
                 </div>

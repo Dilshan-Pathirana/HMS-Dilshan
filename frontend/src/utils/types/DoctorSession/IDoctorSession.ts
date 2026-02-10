@@ -1,7 +1,6 @@
 export interface IDoctorSessionFormTypes {
     branch_id: string;
     doctor_id: string;
-    patient_id: string;
 }
 
 export interface IDropdownOption {

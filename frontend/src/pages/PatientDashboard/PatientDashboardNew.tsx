@@ -253,7 +253,14 @@ const PatientDashboardNew: React.FC = () => {
 
                     <div className="flex items-center gap-3">
                         <NavLink
-                            to="notifications"
+                            to="/"
+                            className="flex items-center gap-2 px-3 py-2 bg-emerald-50 text-emerald-700 rounded-lg hover:bg-emerald-100 transition-colors"
+                        >
+                            <Home className="w-4 h-4" />
+                            <span className="text-sm font-medium">Home</span>
+                        </NavLink>
+                        <NavLink
+                            to="/patient-dashboard/notifications"
                             className="relative p-2 hover:bg-neutral-100 rounded-lg"
                         >
                             <Bell className="w-5 h-5 text-neutral-600" />
@@ -264,7 +271,7 @@ const PatientDashboardNew: React.FC = () => {
                             )}
                         </NavLink>
                         <NavLink
-                            to="profile"
+                            to="/patient-dashboard/profile"
                             className="flex items-center gap-2 px-3 py-2 hover:bg-neutral-100 rounded-lg"
                         >
                             <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 font-medium">
@@ -274,6 +281,13 @@ const PatientDashboardNew: React.FC = () => {
                                 {userDetails?.firstName}
                             </span>
                         </NavLink>
+                        <button
+                            onClick={handleSignOut}
+                            className="flex items-center gap-2 px-3 py-2 bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-100 transition-colors"
+                        >
+                            <LogOut className="w-4 h-4" />
+                            <span className="text-sm font-medium">Logout</span>
+                        </button>
                     </div>
                 </header>
 
