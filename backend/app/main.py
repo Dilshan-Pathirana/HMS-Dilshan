@@ -149,6 +149,7 @@ async def get_patient_appointments_compat(
     if current_user.role_as != 1 and current_user.id != user_id:
         raise HTTPException(status_code=403, detail="Not enough privileges")
 
+    from sqlmodel import select
     from app.models.patient import Patient
     from app.models.appointment import Appointment
     from app.models.doctor import Doctor
@@ -195,7 +196,7 @@ async def get_patient_appointments_compat(
                 "areas_of_specialization": doctor.specialization if doctor else "",
                 "center_name": branch.center_name if branch else "",
                 "date": appt.appointment_date,
-                "start_time": appt.appointment_time.strftime("%H:%M"),
+                "start_time": appt.appointment_time.strftime("%H:%M") if appt.appointment_time else None,
                 "slot": appt.queue_number or 0,
                 "branch_id": appt.branch_id,
                 "schedule_id": appt.schedule_id,
