@@ -21,6 +21,8 @@ class DoctorAvailabilityBase(SQLModel):
 
 
 class DoctorAvailability(DoctorAvailabilityBase, table=True):
+    __tablename__ = "doctor_availability"
+
     id: str = Field(
         default_factory=lambda: str(uuid4()),
         primary_key=True,

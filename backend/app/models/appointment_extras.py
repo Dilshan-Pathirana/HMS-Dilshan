@@ -14,7 +14,7 @@ from sqlalchemy import Text
 class AppointmentAuditLogBase(SQLModel):
     appointment_id: str = Field(foreign_key="appointment.id", max_length=36, index=True)
     action: str = Field(max_length=50)  # created, status_changed, cancelled, rescheduled, payment_updated
-    changed_by: str = Field(max_length=36)
+    changed_by: str = Field(foreign_key="user.id", max_length=36)
     old_data: Optional[str] = Field(default=None, sa_column=Column(Text))  # JSON
     new_data: Optional[str] = Field(default=None, sa_column=Column(Text))  # JSON
 
@@ -33,7 +33,7 @@ class AppointmentAuditLogRead(AppointmentAuditLogBase):
 # ---------- AppointmentSettings ----------
 
 class AppointmentSettingsBase(SQLModel):
-    branch_id: str = Field(foreign_key="branch.id", max_length=36, index=True)
+    branch_id: str = Field(foreign_key="branch.id", max_length=36, index=True, unique=True)
     max_daily_appointments: int = Field(default=50)
     slot_duration: int = Field(default=30)
     booking_advance_days: int = Field(default=30)

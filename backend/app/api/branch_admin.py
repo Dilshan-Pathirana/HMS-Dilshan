@@ -108,6 +108,64 @@ async def list_feedbacks(
     return list(result.all())
 
 
+@router.get("/feedbacks/stats")
+async def feedback_stats(
+    branch_id: Optional[str] = None,
+    session: AsyncSession = Depends(get_session),
+    user=Depends(get_current_user),
+):
+    """Stats endpoint used by SuperAdmin/BranchAdmin feedback dashboards."""
+    from app.models.patient_dashboard import Feedback
+
+    base_filters = []
+    if branch_id and branch_id != "all":
+        base_filters.append(Feedback.branch_id == branch_id)
+
+    total_q = select(func.count(Feedback.id))
+    if base_filters:
+        total_q = total_q.where(*base_filters)
+    total = (await session.exec(total_q)).one() or 0
+
+    pending = (await session.exec(
+        select(func.count(Feedback.id)).where(*(base_filters + [Feedback.status == "pending"]))
+    )).one() or 0
+
+    # Model uses: pending / reviewed / resolved
+    in_review = (await session.exec(
+        select(func.count(Feedback.id)).where(*(base_filters + [Feedback.status == "reviewed"]))
+    )).one() or 0
+
+    resolved = (await session.exec(
+        select(func.count(Feedback.id)).where(*(base_filters + [Feedback.status == "resolved"]))
+    )).one() or 0
+
+    # Not present in current schema; keep for UI shape.
+    responded = 0
+    flagged = 0
+
+    by_category_rows = await session.exec(
+        select(Feedback.category, func.count(Feedback.id))
+        .where(*base_filters) if base_filters else select(Feedback.category, func.count(Feedback.id))
+        .group_by(Feedback.category)
+    )
+    by_category = {str(cat or "general"): int(cnt or 0) for cat, cnt in (by_category_rows.all() or [])}
+
+    return {
+        "status": 200,
+        "stats": {
+            "total": int(total),
+            "pending": int(pending),
+            "in_review": int(in_review),
+            "responded": int(responded),
+            "resolved": int(resolved),
+            "flagged": int(flagged),
+            "by_category": by_category,
+            "by_user_type": {},
+            "average_rating": 0,
+        },
+    }
+
+
 @router.get("/feedbacks/{feedback_id}")
 async def get_feedback(
     feedback_id: str,

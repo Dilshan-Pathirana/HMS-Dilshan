@@ -422,7 +422,7 @@ from app.models.pharmacy import Pharmacy
 @router.put("/{branch_id}/pharmacies/{pharmacy_id}")
 async def assign_pharmacy_to_branch(
     branch_id: str,
-    pharmacy_id: int,
+    pharmacy_id: str,
     session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_active_superuser)
 ):
@@ -451,7 +451,7 @@ async def assign_pharmacy_to_branch(
 @router.delete("/{branch_id}/pharmacies/{pharmacy_id}")
 async def unassign_pharmacy_from_branch(
     branch_id: str,
-    pharmacy_id: int,
+    pharmacy_id: str,
     session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_active_superuser)
 ):

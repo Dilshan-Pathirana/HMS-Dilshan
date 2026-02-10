@@ -41,6 +41,13 @@ const decorateResponseData = <T,>(response: AxiosResponse<T>): T => {
 // Request Interceptor (Auth Token)
 axiosInstance.interceptors.request.use(
     (config) => {
+        // Normalize legacy callers that prefix paths with `/api/...` even though
+        // our baseURL already contains `/api/v1`.
+        // Example: `/api/super-admin/pos/dashboard-stats` -> `/super-admin/pos/dashboard-stats`
+        if (typeof config.url === "string" && config.url.startsWith("/api/")) {
+            config.url = config.url.slice(4);
+        }
+
         const token =
             localStorage.getItem("token") ||
             localStorage.getItem("authToken") ||

@@ -51,6 +51,10 @@ const success = (msg: string, options?: Partial<AlertOptions>): Id => {
     return toast.success(msg, { ...defaultOptions, ...options });
 };
 
+const info = (msg: string, options?: Partial<AlertOptions>): Id => {
+    return toast.info(msg, { ...defaultOptions, ...options });
+};
+
 const inputValidation = (msg: string, options?: Partial<AlertOptions>): Id => {
     return toast.info(msg, { ...inputValidationOptions, ...options });
 };
@@ -75,6 +79,7 @@ const alert = {
     warn,
     warning,
     success,
+    info,
     inputValidation,
     loading,
     dismiss,

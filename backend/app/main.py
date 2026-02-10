@@ -2,7 +2,8 @@ from fastapi import FastAPI, Request, Depends, HTTPException
 from app.api import auth, users, branches, doctors, patients, receptionist, pharmacies, pharmacist, super_admin, nurse, staff, appointments, schedules
 from app.api import super_admin_appointments
 from app.api import doctor_main_questions
-from app.api import patient_appointments, doctor_appointments, admin_appointments, patient_dashboard, consultation, pharmacy_inventory, notifications, pos, hrm_leave, hrm_salary, hrm_shift, hrm_admin, branch_admin, purchase_requests, medical_insights, doctor_sessions, chatbot, sms, payments, email, websocket_alerts, dashboard_stats, website
+from app.api import patient_appointments, doctor_appointments, admin_appointments, patient_dashboard, consultation, pharmacy_inventory, notifications, pos, hrm_leave, hrm_salary, hrm_shift, hrm_admin, hrm_super_admin, branch_admin, purchase_requests, medical_insights, doctor_sessions, chatbot, sms, payments, email, websocket_alerts, dashboard_stats, website
+from app.api import super_admin_pos, legacy_pos_pharmacy
 import traceback
 import sys
 from fastapi.responses import JSONResponse
@@ -10,6 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel.ext.asyncio.session import AsyncSession
 from app.core.database import get_session
 from app.models.user import User
+from app.api.deps import get_current_user
 from app.core.config import settings
 
 app = FastAPI(
@@ -92,21 +94,300 @@ app.include_router(consultation.router, prefix="/api/v1/consultation", tags=["co
 app.include_router(pharmacy_inventory.router, prefix="/api/v1/pharmacy-inventory", tags=["pharmacy-inventory"])
 app.include_router(notifications.router, prefix="/api/v1/notifications", tags=["notifications"])
 app.include_router(pos.router, prefix="/api/v1/pos", tags=["pos"])
+app.include_router(super_admin_pos.router, prefix="/api/v1/super-admin/pos", tags=["super-admin-pos"])
+app.include_router(super_admin_pos.enhanced_router, prefix="/api/v1/super-admin/enhanced-pos", tags=["super-admin-pos"])
+app.include_router(legacy_pos_pharmacy.router, prefix="/api/v1/api", tags=["legacy-pos-pharmacy"])
 app.include_router(hrm_leave.router, prefix="/api/v1/hrm", tags=["hrm-leave"])
 app.include_router(hrm_salary.router, prefix="/api/v1/hrm", tags=["hrm-salary"])
 app.include_router(hrm_shift.router, prefix="/api/v1/hrm", tags=["hrm-shift"])
 app.include_router(hrm_admin.router, prefix="/api/v1/hrm", tags=["hrm-admin"])
+app.include_router(hrm_super_admin.router, prefix="/api/v1/hrm/super-admin", tags=["hrm-super-admin"])
 app.include_router(branch_admin.router, prefix="/api/v1/branch-admin", tags=["branch-admin-mgmt"])
 app.include_router(purchase_requests.router, prefix="/api/v1", tags=["purchase-requests"])
 app.include_router(medical_insights.router, prefix="/api/v1/medical-insights", tags=["medical-insights"])
 app.include_router(doctor_sessions.router, prefix="/api/v1/doctor", tags=["doctor-sessions"])
 app.include_router(chatbot.router, prefix="/api/v1/chatbot", tags=["chatbot"])
+app.include_router(chatbot.router, prefix="/api/v1/api/chatbot", tags=["chatbot-legacy"])
 app.include_router(sms.router, prefix="/api/v1/sms", tags=["sms"])
 app.include_router(payments.router, prefix="/api/v1/payments", tags=["payments"])
 app.include_router(email.router, prefix="/api/v1/email", tags=["email"])
 app.include_router(websocket_alerts.router, tags=["websocket"])
 app.include_router(dashboard_stats.router, prefix="/api/v1", tags=["dashboard-stats"])
 app.include_router(website.router, prefix="/api/v1", tags=["website-settings"])
+
+
+@app.get("/api/v1/get-branches")
+@app.get("/api/v1/api/get-branches")
+async def get_branches_compat(session: AsyncSession = Depends(get_session)):
+    """Compatibility endpoint used by multiple frontend modules."""
+    from app.models.branch import Branch
+    from sqlmodel import select
+
+    result = await session.exec(select(Branch).order_by(Branch.center_name))
+    items = result.all() or []
+    return {
+        "status": 200,
+        "branches": [
+            {
+                "id": b.id,
+                "center_name": b.center_name,
+                "division": b.division,
+            }
+            for b in items
+        ],
+    }
+
+
+def _doctor_disease_payload(disease, doctor_user: User) -> dict:
+    first_name = doctor_user.first_name or "Unknown"
+    last_name = doctor_user.last_name or "Doctor"
+    return {
+        "id": disease.id,
+        "doctor_id": disease.doctor_id,
+        "disease_name": disease.disease_name,
+        "description": disease.description,
+        "priority": None,
+        "doctor_first_name": first_name,
+        "doctor_last_name": last_name,
+    }
+
+
+@app.get("/api/v1/get-all-doctor-disease")
+@app.get("/api/v1/api/get-all-doctor-disease")
+async def get_all_doctor_disease_compat(
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+):
+    from app.models.doctor_session import DoctorCreatedDisease
+    from sqlmodel import select
+
+    query = select(DoctorCreatedDisease).where(DoctorCreatedDisease.doctor_id == current_user.id)
+    result = await session.exec(query)
+    items = result.all() or []
+    return {
+        "status": 200,
+        "doctor_diseases": [_doctor_disease_payload(d, current_user) for d in items],
+    }
+
+
+@app.post("/api/v1/create-doctor-disease")
+@app.post("/api/v1/api/create-doctor-disease")
+async def create_doctor_disease_compat(
+    payload: dict,
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+):
+    from app.models.doctor_session import DoctorCreatedDisease
+
+    disease = DoctorCreatedDisease(
+        doctor_id=current_user.id,
+        disease_name=payload.get("disease_name", ""),
+        description=payload.get("description"),
+        symptoms=payload.get("symptoms"),
+    )
+    session.add(disease)
+    await session.commit()
+    await session.refresh(disease)
+    return {
+        "status": 200,
+        "message": "Doctor disease created successfully.",
+        "doctor_disease": _doctor_disease_payload(disease, current_user),
+    }
+
+
+@app.put("/api/v1/update-doctor-disease/{disease_id}")
+@app.put("/api/v1/api/update-doctor-disease/{disease_id}")
+async def update_doctor_disease_compat(
+    disease_id: str,
+    payload: dict,
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+):
+    from app.models.doctor_session import DoctorCreatedDisease
+
+    disease = await session.get(DoctorCreatedDisease, disease_id)
+    if not disease or disease.doctor_id != current_user.id:
+        raise HTTPException(status_code=404, detail="Disease not found")
+
+    for key in ("disease_name", "description", "symptoms"):
+        if key in payload:
+            setattr(disease, key, payload[key])
+
+    session.add(disease)
+    await session.commit()
+    await session.refresh(disease)
+    return {
+        "status": 200,
+        "message": "Disease updated successfully.",
+        "doctor_disease": _doctor_disease_payload(disease, current_user),
+    }
+
+
+@app.delete("/api/v1/delete-doctor-disease/{disease_id}")
+@app.delete("/api/v1/api/delete-doctor-disease/{disease_id}")
+async def delete_doctor_disease_compat(
+    disease_id: str,
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+):
+    from app.models.doctor_session import DoctorCreatedDisease
+
+    disease = await session.get(DoctorCreatedDisease, disease_id)
+    if not disease or disease.doctor_id != current_user.id:
+        raise HTTPException(status_code=404, detail="Disease not found")
+
+    await session.delete(disease)
+    await session.commit()
+    return {
+        "status": 200,
+        "message": "Disease deleted successfully.",
+    }
+
+
+def _is_super_admin(user: User) -> bool:
+    # Matches checks used across the codebase (role_as == 1)
+    return getattr(user, "role_as", None) == 1 or getattr(user, "role", None) == "super_admin"
+
+
+@app.get("/api/v1/api/super-admin/chatbot/faqs")
+async def legacy_super_admin_chatbot_faqs_list(
+    category: str | None = None,
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+):
+    """Legacy endpoint consumed by SuperAdminChatbotManagement page."""
+    if not _is_super_admin(current_user):
+        raise HTTPException(status_code=403, detail="Admin only")
+
+    from app.models.chatbot import ChatbotFAQ
+    from sqlmodel import select
+    q = select(ChatbotFAQ)
+    if category:
+        q = q.where(ChatbotFAQ.category == category)
+    q = q.order_by(ChatbotFAQ.created_at.desc())
+    result = await session.exec(q)
+    items = result.all() or []
+
+    def _map(faq: ChatbotFAQ) -> dict:
+        question_en = faq.question if faq.language == "en" else ""
+        answer_en = faq.answer if faq.language == "en" else ""
+        question_si = faq.question if faq.language == "si" else ""
+        answer_si = faq.answer if faq.language == "si" else ""
+        return {
+            "id": faq.id,
+            "category": faq.category or "general_homeopathy",
+            "question_en": question_en,
+            "answer_en": answer_en,
+            "question_si": question_si,
+            "answer_si": answer_si,
+            "keywords": [],
+            "is_active": bool(faq.is_active),
+            "priority": 50,
+            "created_at": faq.created_at.isoformat() if getattr(faq, "created_at", None) else "",
+            "updated_at": faq.updated_at.isoformat() if getattr(faq, "updated_at", None) else "",
+        }
+
+    return {"status": 200, "data": [_map(f) for f in items]}
+
+
+@app.post("/api/v1/api/super-admin/chatbot/faqs")
+async def legacy_super_admin_chatbot_faqs_create(
+    payload: dict,
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+):
+    if not _is_super_admin(current_user):
+        raise HTTPException(status_code=403, detail="Admin only")
+    from app.models.chatbot import ChatbotFAQ
+
+    question = payload.get("question_en") or payload.get("question") or ""
+    answer = payload.get("answer_en") or payload.get("answer") or ""
+    category = payload.get("category")
+    is_active = payload.get("is_active", True)
+
+    faq = ChatbotFAQ(
+        question=question,
+        answer=answer,
+        category=category,
+        language="en",
+        is_active=bool(is_active),
+    )
+    session.add(faq)
+    await session.commit()
+    await session.refresh(faq)
+    return {"status": 200, "data": {"id": faq.id}}
+
+
+@app.put("/api/v1/api/super-admin/chatbot/faqs/{faq_id}")
+async def legacy_super_admin_chatbot_faqs_update(
+    faq_id: str,
+    payload: dict,
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+):
+    if not _is_super_admin(current_user):
+        raise HTTPException(status_code=403, detail="Admin only")
+    from app.models.chatbot import ChatbotFAQ
+
+    faq = await session.get(ChatbotFAQ, faq_id)
+    if not faq:
+        raise HTTPException(status_code=404, detail="FAQ not found")
+
+    if "category" in payload:
+        faq.category = payload.get("category")
+    if "is_active" in payload:
+        faq.is_active = bool(payload.get("is_active"))
+    # Prefer English fields (legacy UI)
+    if payload.get("question_en") is not None:
+        faq.question = payload.get("question_en") or ""
+        faq.language = "en"
+    elif payload.get("question") is not None:
+        faq.question = payload.get("question") or ""
+    if payload.get("answer_en") is not None:
+        faq.answer = payload.get("answer_en") or ""
+    elif payload.get("answer") is not None:
+        faq.answer = payload.get("answer") or ""
+
+    session.add(faq)
+    await session.commit()
+    return {"status": 200}
+
+
+@app.delete("/api/v1/api/super-admin/chatbot/faqs/{faq_id}")
+async def legacy_super_admin_chatbot_faqs_delete(
+    faq_id: str,
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+):
+    if not _is_super_admin(current_user):
+        raise HTTPException(status_code=403, detail="Admin only")
+    from app.models.chatbot import ChatbotFAQ
+
+    faq = await session.get(ChatbotFAQ, faq_id)
+    if not faq:
+        raise HTTPException(status_code=404, detail="FAQ not found")
+    await session.delete(faq)
+    await session.commit()
+    return {"status": 200}
+
+
+@app.patch("/api/v1/api/super-admin/chatbot/faqs/{faq_id}/toggle-status")
+async def legacy_super_admin_chatbot_faqs_toggle(
+    faq_id: str,
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+):
+    if not _is_super_admin(current_user):
+        raise HTTPException(status_code=403, detail="Admin only")
+    from app.models.chatbot import ChatbotFAQ
+
+    faq = await session.get(ChatbotFAQ, faq_id)
+    if not faq:
+        raise HTTPException(status_code=404, detail="FAQ not found")
+    faq.is_active = not bool(faq.is_active)
+    session.add(faq)
+    await session.commit()
+    return {"status": 200, "is_active": bool(faq.is_active)}
 
 # --- MISSING ENDPOINT STUBS ---
 from fastapi import Request
@@ -202,6 +483,7 @@ def read_root():
 
 # --- Import for aliases below ---
 from app.api.deps import get_current_user as _get_current_user
+from app.api.deps import get_current_user
 
 # --- Submit feedback alias (frontend calls /api/v1/submit-feedback) ---
 @app.post("/api/v1/submit-feedback")

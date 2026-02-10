@@ -47,7 +47,7 @@ class LeaveBase(SQLModel):
     end_date: date
     reason: Optional[str] = Field(default=None, sa_column=Column(Text))
     status: str = Field(default="pending", max_length=20)  # pending/approved/rejected
-    approved_by: Optional[str] = Field(default=None, max_length=36)
+    approved_by: Optional[str] = Field(default=None, foreign_key="user.id", max_length=36)
     approved_at: Optional[datetime] = None
     level: int = Field(default=1)  # 1=first-level, 2=final approval
 
@@ -71,7 +71,7 @@ class LeaveRead(LeaveBase):
 
 class AdminLeaveBase(SQLModel):
     leave_id: str = Field(foreign_key="leave.id", max_length=36, index=True)
-    admin_id: str = Field(max_length=36)
+    admin_id: str = Field(foreign_key="user.id", max_length=36)
     action: str = Field(max_length=20)  # approved/rejected
     notes: Optional[str] = Field(default=None, sa_column=Column(Text))
 

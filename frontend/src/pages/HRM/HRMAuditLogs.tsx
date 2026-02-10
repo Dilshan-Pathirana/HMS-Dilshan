@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from "../../utils/api/axios";
-import { 
-    ArrowLeft, 
-    FileText, 
-    Search, 
-    Filter, 
-    Download, 
+import {
+    ArrowLeft,
+    FileText,
+    Search,
+    Filter,
+    Download,
     RefreshCw,
     Calendar,
     User,
@@ -74,7 +74,7 @@ interface PaginationMeta {
     total: number;
 }
 
-const API_BASE = '/api/hrm/super-admin';
+const API_BASE = '/hrm/super-admin';
 
 const HRMAuditLogs: React.FC = () => {
     const navigate = useNavigate();
@@ -202,8 +202,8 @@ const HRMAuditLogs: React.FC = () => {
     const convertToCSV = (data: unknown[]) => {
         if (data.length === 0) return '';
         const headers = Object.keys(data[0] as object).join(',');
-        const rows = data.map(row => 
-            Object.values(row as object).map(v => 
+        const rows = data.map(row =>
+            Object.values(row as object).map(v =>
                 typeof v === 'string' ? `"${v.replace(/"/g, '""')}"` : v
             ).join(',')
         );
@@ -408,8 +408,8 @@ const HRMAuditLogs: React.FC = () => {
                 <button
                     onClick={() => setActiveTab('logs')}
                     className={`px-4 py-2 rounded-lg font-medium transition ${
-                        activeTab === 'logs' 
-                            ? 'bg-purple-600 text-white' 
+                        activeTab === 'logs'
+                            ? 'bg-purple-600 text-white'
                             : 'bg-white text-neutral-600 hover:bg-neutral-100'
                     }`}
                 >
@@ -419,8 +419,8 @@ const HRMAuditLogs: React.FC = () => {
                 <button
                     onClick={() => setActiveTab('stats')}
                     className={`px-4 py-2 rounded-lg font-medium transition ${
-                        activeTab === 'stats' 
-                            ? 'bg-purple-600 text-white' 
+                        activeTab === 'stats'
+                            ? 'bg-purple-600 text-white'
                             : 'bg-white text-neutral-600 hover:bg-neutral-100'
                     }`}
                 >
@@ -508,8 +508,8 @@ const HRMAuditLogs: React.FC = () => {
                                         <span className="text-neutral-700">{formatEntityType(item.entity_type)}</span>
                                         <div className="flex items-center gap-2">
                                             <div className="w-32 bg-neutral-200 rounded-full h-2">
-                                                <div 
-                                                    className="bg-purple-600 h-2 rounded-full" 
+                                                <div
+                                                    className="bg-purple-600 h-2 rounded-full"
                                                     style={{ width: `${Math.min((item.count / stats.total_logs) * 100, 100)}%` }}
                                                 />
                                             </div>
@@ -823,8 +823,8 @@ const HRMAuditLogs: React.FC = () => {
                         <div className="text-sm text-blue-800">
                             <p className="font-medium">About Audit Logs</p>
                             <p className="mt-1">
-                                Audit logs automatically track all HR-related activities including salary changes, leave approvals, 
-                                payroll generation, and configuration updates. This ensures compliance and provides a complete 
+                                Audit logs automatically track all HR-related activities including salary changes, leave approvals,
+                                payroll generation, and configuration updates. This ensures compliance and provides a complete
                                 trail of all HR operations.
                             </p>
                         </div>

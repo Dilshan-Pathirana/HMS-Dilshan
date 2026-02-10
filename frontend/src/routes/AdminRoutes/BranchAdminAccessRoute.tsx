@@ -13,7 +13,7 @@ type RouteDefinition = { path: string; element: React.ReactNode };
 
 /**
  * Branch Admin POS Access Routes
- * 
+ *
  * Branch Admin can access POS functionality for their own branch only.
  * - Dashboard: Overview of branch POS performance
  * - Analytics: Branch-specific sales analytics
@@ -32,37 +32,37 @@ const BranchAdminAccessRoutes: RouteDefinition[] = [
     },
     // Analytics - Branch-specific sales analytics
     {
-        path: "/analytics",
+        path: "analytics",
         element: <BranchAdminPOSAnalytics />,
     },
     // Point of Sale - Create new billing transactions
     {
-        path: "/pos",
+        path: "pos",
         element: <CashierBillingPOS />,
     },
     // Cashier Management - View and manage branch cashiers
     {
-        path: "/cashiers",
+        path: "cashiers",
         element: <BranchAdminCashierManagement />,
     },
     // Cash Entries - Record cash in/out
     {
-        path: "/cash-entries",
+        path: "cash-entries",
         element: <CashierCashEntries />,
     },
     // Transactions - View all transactions for branch
     {
-        path: "/transactions",
+        path: "transactions",
         element: <CashierTransactionList />,
     },
     // End of Day - Review and approve cashier EOD submissions
     {
-        path: "/eod",
+        path: "eod",
         element: <BranchAdminEODManagement />,
     },
     // Reports - Branch-specific sales reports
     {
-        path: "/reports",
+        path: "reports",
         element: <CashierReports />,
     },
 ];

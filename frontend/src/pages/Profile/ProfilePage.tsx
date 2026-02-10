@@ -24,18 +24,35 @@ export const ProfilePage: React.FC = () => {
     }, []);
 
     const fetchUserInfo = async () => {
-        try {
-            const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+        const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
 
-            // Fetch full user details
-            const response = await api.get(`/users/${storedUser.id}`);
-            if (response.data.status === 200) {
-                setUserInfo(response.data.data.update_user_details);
+        const hasStoredUser = storedUser && typeof storedUser === 'object' && Object.keys(storedUser).length > 0;
+        if (!hasStoredUser || !storedUser.id) {
+            setUserInfo(hasStoredUser ? storedUser : null);
+            setLoading(false);
+            return;
+        }
+
+        try {
+            // NOTE: our axios wrapper returns the response body (not AxiosResponse)
+            const payload: any = await api.get(`/users/${storedUser.id}`);
+
+            const status = payload?.status;
+            const apiUser =
+                payload?.data?.update_user_details ??
+                payload?.data?.user ??
+                payload?.data ??
+                payload?.update_user_details ??
+                null;
+
+            if (status === 200 && apiUser) {
+                setUserInfo({ ...storedUser, ...apiUser });
+            } else {
+                // Safe fallback if backend response shape differs
+                setUserInfo(storedUser);
             }
         } catch (error) {
             console.error('Error fetching user info:', error);
-            // Fallback to localStorage
-            const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
             setUserInfo(storedUser);
         } finally {
             setLoading(false);
@@ -99,9 +116,10 @@ export const ProfilePage: React.FC = () => {
         );
     }
 
+    const roleAs = Number(userInfo.role_as ?? userInfo.roleAs ?? UserRole.SuperAdmin);
     const userName = `${userInfo.first_name || ''} ${userInfo.last_name || ''}`.trim() || 'User';
-    const roleName = getRoleName(userInfo.role_as);
-    const menuItems = getMenuItemsByRole(userInfo.role_as);
+    const roleName = getRoleName(roleAs);
+    const menuItems = getMenuItemsByRole(roleAs);
 
     return (
         <DashboardLayout

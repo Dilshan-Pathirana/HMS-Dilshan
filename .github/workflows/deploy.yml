@@ -86,6 +86,27 @@ jobs:
               --env-file $APP_DIR/.env \
               run --rm backend alembic upgrade head
 
+            echo "==== Truncate RDS data ===="
+            cat > /tmp/trunc.sql <<EOF
+            SET FOREIGN_KEY_CHECKS=0;
+            SELECT CONCAT('TRUNCATE TABLE `', table_name, '`;')
+            FROM information_schema.tables
+            WHERE table_schema='${DB_DATABASE}'
+              AND table_type='BASE TABLE'
+              AND table_name != 'alembic_version';
+            SET FOREIGN_KEY_CHECKS=1;
+            EOF
+
+            mysql -h $DB_HOST -P $DB_PORT -u $DB_USERNAME -p$DB_PASSWORD $DB_DATABASE -N < /tmp/trunc.sql > /tmp/trunc.out
+            cat /tmp/trunc.out | mysql -h $DB_HOST -P $DB_PORT -u $DB_USERNAME -p$DB_PASSWORD $DB_DATABASE
+            echo "RDS truncate complete"
+
+            echo "==== Seed database ===="
+            docker compose \
+              -f $APP_DIR/docker-compose.ec2.yml \
+              --env-file $APP_DIR/.env \
+              run --rm backend python comprehensive_seed.py
+
             echo "==== Start services ===="
             docker compose \
               -f $APP_DIR/docker-compose.ec2.yml \
@@ -101,6 +122,7 @@ jobs:
 
             echo "==== Cleanup ===="
             rm -f /tmp/hms-images.tar.gz
+            rm -f /tmp/trunc.sql /tmp/trunc.out
             docker image prune -f
 
             echo "==== Deployment Complete ===="

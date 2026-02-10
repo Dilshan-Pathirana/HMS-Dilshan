@@ -25,59 +25,59 @@ const AdminAccessRoutes: RouteDefinition[] = [
         element: <SuperAdminPOSDashboardEnhanced />,
     },
     {
-        path: "/analytics",
+        path: "analytics",
         element: <SuperAdminPOSAnalytics />,
     },
     {
-        path: "/pos",
+        path: "pos",
         element: <SuperAdminPOSPage />,
     },
     {
-        path: "/cashiers",
+        path: "cashiers",
         element: <SuperAdminCashierManagement />,
     },
     {
-        path: "/sales",
+        path: "sales",
         element: <SuperAdminSalesPage />,
     },
     {
-        path: "/inventory",
+        path: "inventory",
         element: <SuperAdminInventoryPage />,
     },
     {
-        path: "/purchasing",
+        path: "purchasing",
         element: <SuperAdminPurchasingPage />,
     },
     {
-        path: "/damage-stock/view",
+        path: "damage-stock/view",
         element: <SuperAdminDamageStockListPage />,
     },
     {
-        path: "/damage-stock/add",
+        path: "damage-stock/add",
         element: <SuperAdminAddDamageStock />,
     },
     {
-        path: "/stock-movement/transfer",
+        path: "stock-movement/transfer",
         element: <SuperAdminStockTransfer />,
     },
     {
-        path: "/stock-movement/history",
+        path: "stock-movement/history",
         element: <SuperAdminStockTransferListPage />,
     },
     {
-        path: "/re-order-stock/list",
+        path: "re-order-stock/list",
         element: <SuperAdminReOrderListPage />,
     },
     {
-        path: "/re-order-stock/add",
+        path: "re-order-stock/add",
         element: <SuperAdminAddReStock />,
     },
     {
-        path: "/product-discount/add",
+        path: "product-discount/add",
         element: <SuperAdminAddDiscount />,
     },
     {
-        path: "/product-discount/list",
+        path: "product-discount/list",
         element: <ProductDiscountList />,
     },
 ];

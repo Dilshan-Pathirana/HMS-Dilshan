@@ -1,7 +1,7 @@
 @echo off
 setlocal
 REM Local dev up: backend + mysql + frontend (docker)
-REM Uses docker-compose.local.yml and .env.local
+REM Uses docker-compose.yml and .env.local
 
 IF NOT EXIST .env.local (
   echo Missing .env.local
@@ -12,4 +12,4 @@ IF NOT EXIST .env.local (
 REM Provide DB_PORT for compose interpolation (if needed)
 if "%DB_PORT%"=="" set DB_PORT=3306
 
-docker compose --env-file .env.local -f docker-compose.yml -f docker-compose.local.yml up -d --build
+docker compose --env-file .env.local -f docker-compose.yml up -d --build

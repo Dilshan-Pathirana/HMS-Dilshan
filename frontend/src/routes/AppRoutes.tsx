@@ -29,6 +29,8 @@ const PrivacyPolicy = lazy(() => import("../pages/UserWeb/PrivacyPolicy.tsx"));
 const AppointmentBookingTerms = lazy(() => import("../pages/UserWeb/AppointmentBookingTerms .tsx"));
 const CartComingSoon = lazy(() => import("../pages/UserWeb/CartComingSoon.tsx"));
 
+const ProfilePage = lazy(() => import("../pages/Profile/ProfilePage.tsx").then(m => ({ default: m.ProfilePage })));
+
 // Doctor Schedule Pages
 const WebDoctorScheduleDetails = lazy(() => import("../pages/UserWeb/AppointmentSchedule/WebDoctorSchedule/WebDoctorScheduleDetails.tsx"));
 const DoctorScheduleDetails = lazy(() => import("../pages/UserWeb/AppointmentSchedule/DoctorScheduleDetails.tsx"));
@@ -51,8 +53,7 @@ const VascularDisorders = lazy(() => import("../pages/UserWeb/Treatments/Vascula
 const PatientDashboard = lazy(() => import("../pages/PatientDashboard/PatientDashboard.tsx"));
 const PatientDashboardNew = lazy(() => import("../pages/PatientDashboard/PatientDashboardNew.tsx"));
 const PatientAppoinmentChange = lazy(() => import("../pages/PatientDashboard/PatientAppointment/PatientAppointmentTable/PatientAppoinmentChange.tsx"));
-const PatientCreateQuestions = lazy(() => import("../pages/dashboard/Users/Patient/CreateQuestions.tsx"));
-const PatientAllQuestions = lazy(() => import("../pages/dashboard/Users/Patient/GetAllQuestions.tsx"));
+const PatientQuestionsPage = lazy(() => import("../pages/dashboard/Users/Patient/PatientQuestionsPage.tsx"));
 
 // ============================================
 // LAZY LOADED DOCTOR MODULE
@@ -68,6 +69,7 @@ const GetDoctorSessions = lazy(() => import("../pages/DoctorDashboard/DoctorSess
 const DoctorPatients = lazy(() => import("../pages/dashboard/Doctor/Patient/DoctorPatients.tsx"));
 const MedicalRecord = lazy(() => import("../pages/dashboard/Doctor/Patient/MedicalRecord.tsx"));
 const DoctorSessionCreate = lazy(() => import("../pages/dashboard/DoctorSession/DoctorSessionCreate.tsx"));
+const DoctorDiseasesPage = lazy(() => import("../pages/dashboard/DoctorDiseases/DoctorDiseasesPage.tsx"));
 
 // ============================================
 // LAZY LOADED BRANCH ADMIN MODULE
@@ -127,6 +129,8 @@ const StaffFeedback = lazy(() => import("../pages/dashboard/BranchAdmin/StaffMan
 const SuperAdminFeedbacks = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminFeedbacks.tsx").then(m => ({ default: m.SuperAdminFeedbacks })));
 const SuperAdminChatbotManagement = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminChatbotManagement.tsx"));
 const SuperAdminReports = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminReports.tsx").then(m => ({ default: m.SuperAdminReports })));
+const SuperAdminAnalytics = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminAnalytics.tsx").then(m => ({ default: m.SuperAdminAnalytics })));
+const SuperAdminSettings = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminSettings.tsx").then(m => ({ default: m.SuperAdminSettings })));
 const SuperAdminAppointments = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminAppointments.tsx"));
 const SuperAdminPharmacies = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminPharmacies.tsx"));
 
@@ -163,6 +167,11 @@ const EmployeePayslips = lazy(() => import("../pages/dashboard/HRM").then(m => (
 const EmployeeShifts = lazy(() => import("../pages/dashboard/HRM").then(m => ({ default: m.EmployeeShifts })));
 const EmployeeOvertime = lazy(() => import("../pages/dashboard/HRM").then(m => ({ default: m.EmployeeOvertime })));
 const EmployeeScheduleAcknowledgment = lazy(() => import("../pages/dashboard/HRM").then(m => ({ default: m.EmployeeScheduleAcknowledgment })));
+
+// HRM shared shells (ensures HRM sidebar shows on all HRM subpages)
+const SuperAdminHrmShell = lazy(() => import("../pages/dashboard/HRM").then(m => ({ default: m.SuperAdminHrmShell })));
+const BranchAdminHrmShell = lazy(() => import("../pages/dashboard/HRM").then(m => ({ default: m.BranchAdminHrmShell })));
+const EmployeeHrmShell = lazy(() => import("../pages/dashboard/HRM").then(m => ({ default: m.EmployeeHrmShell })));
 
 // ============================================
 // LAZY LOADED MEDICAL INSIGHTS MODULE
@@ -254,6 +263,32 @@ const AppRoutes: React.FC = () => {
                 {/* Shopping Cart - Coming Soon */}
                 <Route path="/shop/cart" element={<CartComingSoon />} />
 
+                {/* POS + HR legacy entry points (used by sidebar/buttons) */}
+                <Route
+                    path="/pos/*"
+                    element={
+                        <ProtectedRoute>
+                            <POSDashboardLayout />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/dashboard/pos/*"
+                    element={
+                        <ProtectedRoute>
+                            <POSDashboardLayout />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/hr-dashboard/*"
+                    element={
+                        <ProtectedRoute>
+                            <HRDashboardLayout />
+                        </ProtectedRoute>
+                    }
+                />
+
                 {/* Super Admin Dashboard - Role 1 */}
                 <Route
                     path="/dashboard"
@@ -268,7 +303,7 @@ const AppRoutes: React.FC = () => {
                     path="/dashboard/patient/create-questions"
                     element={
                         <ProtectedRoute>
-                            <PatientCreateQuestions />
+                            <PatientQuestionsPage initialTab="create" />
                         </ProtectedRoute>
                     }
                 />
@@ -276,7 +311,7 @@ const AppRoutes: React.FC = () => {
                     path="/dashboard/patient/all-questions"
                     element={
                         <ProtectedRoute>
-                            <PatientAllQuestions />
+                            <PatientQuestionsPage initialTab="all" />
                         </ProtectedRoute>
                     }
                 />
@@ -286,6 +321,23 @@ const AppRoutes: React.FC = () => {
                     element={
                         <ProtectedRoute allowedRoles={['doctor', 'super_admin']}>
                             <ScheduleManagementPage />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/dashboard/doctor/create-diseases"
+                    element={
+                        <ProtectedRoute allowedRoles={['super_admin']}>
+                            <DoctorDiseasesPage initialTab="create" />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/dashboard/doctor/all-diseases"
+                    element={
+                        <ProtectedRoute allowedRoles={['super_admin']}>
+                            <DoctorDiseasesPage initialTab="all" />
                         </ProtectedRoute>
                     }
                 />
@@ -658,6 +710,58 @@ const AppRoutes: React.FC = () => {
                         </ProtectedRoute>
                     }
                 />
+
+                <Route
+                    path="/dashboard/super-admin/reports"
+                    element={
+                        <ProtectedRoute>
+                            <SuperAdminReports />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/super-admin/analytics"
+                    element={
+                        <ProtectedRoute>
+                            <SuperAdminAnalytics />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/dashboard/super-admin/analytics"
+                    element={
+                        <ProtectedRoute>
+                            <SuperAdminAnalytics />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/super-admin/settings"
+                    element={
+                        <ProtectedRoute>
+                            <SuperAdminSettings />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/dashboard/super-admin/settings"
+                    element={
+                        <ProtectedRoute>
+                            <SuperAdminSettings />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/profile"
+                    element={
+                        <ProtectedRoute>
+                            <ProfilePage />
+                        </ProtectedRoute>
+                    }
+                />
                 <Route
                     path="/super-admin/feedbacks"
                     element={
@@ -768,7 +872,9 @@ const AppRoutes: React.FC = () => {
                     path="/super-admin/hrm/policies"
                     element={
                         <ProtectedRoute allowedRoles={['super_admin']}>
-                            <HRMPolicies />
+                            <SuperAdminHrmShell>
+                                <HRMPolicies />
+                            </SuperAdminHrmShell>
                         </ProtectedRoute>
                     }
                 />
@@ -776,7 +882,9 @@ const AppRoutes: React.FC = () => {
                     path="/super-admin/hrm/salary-structures"
                     element={
                         <ProtectedRoute allowedRoles={['super_admin']}>
-                            <SalaryStructures />
+                            <SuperAdminHrmShell>
+                                <SalaryStructures />
+                            </SuperAdminHrmShell>
                         </ProtectedRoute>
                     }
                 />
@@ -784,7 +892,9 @@ const AppRoutes: React.FC = () => {
                     path="/super-admin/hrm/epf-etf"
                     element={
                         <ProtectedRoute allowedRoles={['super_admin']}>
-                            <EPFETFConfig />
+                            <SuperAdminHrmShell>
+                                <EPFETFConfig />
+                            </SuperAdminHrmShell>
                         </ProtectedRoute>
                     }
                 />
@@ -792,7 +902,9 @@ const AppRoutes: React.FC = () => {
                     path="/super-admin/hrm/leave-types"
                     element={
                         <ProtectedRoute allowedRoles={['super_admin']}>
-                            <LeaveTypes />
+                            <SuperAdminHrmShell>
+                                <LeaveTypes />
+                            </SuperAdminHrmShell>
                         </ProtectedRoute>
                     }
                 />
@@ -800,7 +912,9 @@ const AppRoutes: React.FC = () => {
                     path="/super-admin/hrm/shift-templates"
                     element={
                         <ProtectedRoute allowedRoles={['super_admin']}>
-                            <ShiftTemplates />
+                            <SuperAdminHrmShell>
+                                <ShiftTemplates />
+                            </SuperAdminHrmShell>
                         </ProtectedRoute>
                     }
                 />
@@ -808,7 +922,9 @@ const AppRoutes: React.FC = () => {
                     path="/super-admin/hrm/payroll"
                     element={
                         <ProtectedRoute allowedRoles={['super_admin']}>
-                            <SuperAdminPayrollManagement />
+                            <SuperAdminHrmShell>
+                                <SuperAdminPayrollManagement />
+                            </SuperAdminHrmShell>
                         </ProtectedRoute>
                     }
                 />
@@ -816,7 +932,9 @@ const AppRoutes: React.FC = () => {
                     path="/super-admin/hrm/payroll-config"
                     element={
                         <ProtectedRoute allowedRoles={['super_admin']}>
-                            <PayrollConfig />
+                            <SuperAdminHrmShell>
+                                <PayrollConfig />
+                            </SuperAdminHrmShell>
                         </ProtectedRoute>
                     }
                 />
@@ -824,7 +942,9 @@ const AppRoutes: React.FC = () => {
                     path="/super-admin/hrm/reports"
                     element={
                         <ProtectedRoute allowedRoles={['super_admin']}>
-                            <HRMReports />
+                            <SuperAdminHrmShell>
+                                <HRMReports />
+                            </SuperAdminHrmShell>
                         </ProtectedRoute>
                     }
                 />
@@ -832,7 +952,9 @@ const AppRoutes: React.FC = () => {
                     path="/super-admin/hrm/audit-logs"
                     element={
                         <ProtectedRoute allowedRoles={['super_admin']}>
-                            <HRMAuditLogs />
+                            <SuperAdminHrmShell>
+                                <HRMAuditLogs />
+                            </SuperAdminHrmShell>
                         </ProtectedRoute>
                     }
                 />
@@ -850,7 +972,9 @@ const AppRoutes: React.FC = () => {
                     path="/branch-admin/hrm/staff"
                     element={
                         <ProtectedRoute allowedRoles={['branch_admin']}>
-                            <BranchHRMStaff />
+                            <BranchAdminHrmShell>
+                                <BranchHRMStaff />
+                            </BranchAdminHrmShell>
                         </ProtectedRoute>
                     }
                 />
@@ -874,7 +998,9 @@ const AppRoutes: React.FC = () => {
                     path="/branch-admin/hrm/leave-approvals"
                     element={
                         <ProtectedRoute allowedRoles={['branch_admin']}>
-                            <BranchLeaveApprovals />
+                            <BranchAdminHrmShell>
+                                <BranchLeaveApprovals />
+                            </BranchAdminHrmShell>
                         </ProtectedRoute>
                     }
                 />
@@ -882,7 +1008,9 @@ const AppRoutes: React.FC = () => {
                     path="/branch-admin/hrm/payroll"
                     element={
                         <ProtectedRoute allowedRoles={['branch_admin']}>
-                            <BranchPayrollSummary />
+                            <BranchAdminHrmShell>
+                                <BranchPayrollSummary />
+                            </BranchAdminHrmShell>
                         </ProtectedRoute>
                     }
                 />
@@ -890,7 +1018,9 @@ const AppRoutes: React.FC = () => {
                     path="/branch-admin/hrm/attendance"
                     element={
                         <ProtectedRoute allowedRoles={['branch_admin']}>
-                            <BranchAttendance />
+                            <BranchAdminHrmShell>
+                                <BranchAttendance />
+                            </BranchAdminHrmShell>
                         </ProtectedRoute>
                     }
                 />
@@ -898,7 +1028,9 @@ const AppRoutes: React.FC = () => {
                     path="/branch-admin/hrm/overtime"
                     element={
                         <ProtectedRoute allowedRoles={['branch_admin']}>
-                            <BranchOvertime />
+                            <BranchAdminHrmShell>
+                                <BranchOvertime />
+                            </BranchAdminHrmShell>
                         </ProtectedRoute>
                     }
                 />
@@ -906,7 +1038,9 @@ const AppRoutes: React.FC = () => {
                     path="/branch-admin/hrm/reports"
                     element={
                         <ProtectedRoute allowedRoles={['branch_admin']}>
-                            <BranchHRMReports />
+                            <BranchAdminHrmShell>
+                                <BranchHRMReports />
+                            </BranchAdminHrmShell>
                         </ProtectedRoute>
                     }
                 />
@@ -914,7 +1048,9 @@ const AppRoutes: React.FC = () => {
                     path="/branch-admin/hrm/audit-logs"
                     element={
                         <ProtectedRoute allowedRoles={['branch_admin']}>
-                            <BranchHRMAuditLogs />
+                            <BranchAdminHrmShell>
+                                <BranchHRMAuditLogs />
+                            </BranchAdminHrmShell>
                         </ProtectedRoute>
                     }
                 />
@@ -922,7 +1058,9 @@ const AppRoutes: React.FC = () => {
                     path="/branch-admin/hrm/service-letters"
                     element={
                         <ProtectedRoute allowedRoles={['branch_admin']}>
-                            <BranchServiceLetters />
+                            <BranchAdminHrmShell>
+                                <BranchServiceLetters />
+                            </BranchAdminHrmShell>
                         </ProtectedRoute>
                     }
                 />
@@ -940,7 +1078,9 @@ const AppRoutes: React.FC = () => {
                     path="/dashboard/hrm/profile"
                     element={
                         <ProtectedRoute>
-                            <EmployeeProfile />
+                            <EmployeeHrmShell>
+                                <EmployeeProfile />
+                            </EmployeeHrmShell>
                         </ProtectedRoute>
                     }
                 />
@@ -948,7 +1088,9 @@ const AppRoutes: React.FC = () => {
                     path="/dashboard/hrm/leave"
                     element={
                         <ProtectedRoute>
-                            <EmployeeLeaveRequest />
+                            <EmployeeHrmShell>
+                                <EmployeeLeaveRequest />
+                            </EmployeeHrmShell>
                         </ProtectedRoute>
                     }
                 />
@@ -956,7 +1098,9 @@ const AppRoutes: React.FC = () => {
                     path="/dashboard/hrm/payslips"
                     element={
                         <ProtectedRoute>
-                            <EmployeePayslips />
+                            <EmployeeHrmShell>
+                                <EmployeePayslips />
+                            </EmployeeHrmShell>
                         </ProtectedRoute>
                     }
                 />
@@ -964,7 +1108,9 @@ const AppRoutes: React.FC = () => {
                     path="/dashboard/hrm/shifts"
                     element={
                         <ProtectedRoute>
-                            <EmployeeShifts />
+                            <EmployeeHrmShell>
+                                <EmployeeShifts />
+                            </EmployeeHrmShell>
                         </ProtectedRoute>
                     }
                 />
@@ -972,7 +1118,9 @@ const AppRoutes: React.FC = () => {
                     path="/dashboard/hrm/overtime"
                     element={
                         <ProtectedRoute>
-                            <EmployeeOvertime />
+                            <EmployeeHrmShell>
+                                <EmployeeOvertime />
+                            </EmployeeHrmShell>
                         </ProtectedRoute>
                     }
                 />

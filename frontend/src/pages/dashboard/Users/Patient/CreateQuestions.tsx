@@ -9,7 +9,11 @@ import {
 import CreateQuestionForm from "../../../../components/Patient/CreateQuestionForm.tsx";
 import {questionFormInitialState} from "../../../../utils/form/formFieldsAttributes/QuestionsCreate.ts";
 
-const CreateQuestions = () => {
+interface CreateQuestionsProps {
+    onCreated?: () => void;
+}
+
+const CreateQuestions: React.FC<CreateQuestionsProps> = ({ onCreated }) => {
     const [formData, setFormData] = useState<IQuestionFormData>(
         questionFormInitialState,
     );
@@ -95,6 +99,7 @@ const CreateQuestions = () => {
                 setFormData(questionFormInitialState);
                 setSelectedDoctor(null);
                 setErrors({});
+                onCreated?.();
             }
         } catch (error) {
             if (axios.isAxiosError(error) && (error as any).response?.status === 422) {

@@ -129,7 +129,7 @@ class InvestigationBase(SQLModel):
     description: Optional[str] = Field(default=None, sa_column=Column(Text))
     status: str = Field(default="ordered", max_length=20)  # ordered / in_progress / completed
     results: Optional[str] = Field(default=None, sa_column=Column(Text))
-    ordered_by: str = Field(max_length=36)
+    ordered_by: str = Field(foreign_key="user.id", max_length=36)
     ordered_at: datetime = Field(default_factory=datetime.utcnow)
 
 
