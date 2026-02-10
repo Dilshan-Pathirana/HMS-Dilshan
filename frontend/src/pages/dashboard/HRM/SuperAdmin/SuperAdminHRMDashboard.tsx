@@ -4,7 +4,7 @@ import api from "../../../../utils/api/axios";
 import {
     Building2, Users, DollarSign, FileText, Shield,
     Settings, Calendar, Clock, BarChart3, Briefcase,
-    CreditCard, FileCheck, Loader2
+    CreditCard, FileCheck, Loader2, LayoutDashboard
 } from 'lucide-react';
 import { DashboardLayout } from '../../../../components/common/Layout/DashboardLayout';
 import { SidebarMenu } from '../../../../components/common/Layout/SidebarMenu';
@@ -153,6 +153,7 @@ const SuperAdminHRMDashboard: React.FC = () => {
     ];
 
     const hrmMenuItems = [
+        { label: 'Main Dashboard', path: '/dashboard', icon: <LayoutDashboard className="w-5 h-5" /> },
         { label: 'Dashboard', path: '/super-admin/hrm', icon: <Building2 className="w-5 h-5" /> },
         { label: 'HR Policies', path: '/super-admin/hrm/policies', icon: <FileText className="w-5 h-5" /> },
         { label: 'Salary Structures', path: '/super-admin/hrm/salary-structures', icon: <DollarSign className="w-5 h-5" /> },

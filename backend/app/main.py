@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request, Depends, HTTPException
 from app.api import auth, users, branches, doctors, patients, receptionist, pharmacies, pharmacist, super_admin, nurse, staff, appointments, schedules
 from app.api import super_admin_appointments
 from app.api import doctor_main_questions
-from app.api import patient_appointments, doctor_appointments, admin_appointments, patient_dashboard, consultation, pharmacy_inventory, notifications, pos, hrm_leave, hrm_salary, hrm_shift, hrm_admin, hrm_super_admin, branch_admin, purchase_requests, medical_insights, doctor_sessions, chatbot, sms, payments, email, websocket_alerts, dashboard_stats, website
+from app.api import patient_appointments, doctor_appointments, admin_appointments, patient_dashboard, consultation, pharmacy_inventory, notifications, pos, hrm_leave, hrm_salary, hrm_shift, hrm_admin, hrm_super_admin, branch_admin, purchase_requests, medical_insights, doctor_sessions, chatbot, sms, payments, email, websocket_alerts, dashboard_stats, website, patient_sessions
 from app.api import super_admin_pos, legacy_pos_pharmacy
 import traceback
 import sys
@@ -106,6 +106,7 @@ app.include_router(branch_admin.router, prefix="/api/v1/branch-admin", tags=["br
 app.include_router(purchase_requests.router, prefix="/api/v1", tags=["purchase-requests"])
 app.include_router(medical_insights.router, prefix="/api/v1/medical-insights", tags=["medical-insights"])
 app.include_router(doctor_sessions.router, prefix="/api/v1/doctor", tags=["doctor-sessions"])
+app.include_router(patient_sessions.router, prefix="/api/v1", tags=["patient-sessions"])
 app.include_router(chatbot.router, prefix="/api/v1/chatbot", tags=["chatbot"])
 app.include_router(chatbot.router, prefix="/api/v1/api/chatbot", tags=["chatbot-legacy"])
 app.include_router(sms.router, prefix="/api/v1/sms", tags=["sms"])

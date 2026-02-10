@@ -10,6 +10,10 @@ import NurseMedication from "../../pages/dashboard/Nurse/NurseMedication";
 import NurseTasks from "../../pages/dashboard/Nurse/NurseTasks";
 import NurseHandover from "../../pages/dashboard/Nurse/NurseHandover";
 import NurseFeedback from "../../pages/dashboard/Nurse/NurseFeedback";
+import PatientSessionsList from "../../pages/dashboard/PatientSessions/PatientSessionsList";
+import PatientProfilesList from "../../pages/dashboard/PatientProfiles/PatientProfilesList";
+import PatientProfileDetails from "../../pages/dashboard/PatientProfiles/PatientProfileDetails";
+import PatientSessionDetails from "../../pages/dashboard/PatientSessions/PatientSessionDetails";
 
 // HR Module imports
 import NurseHRDashboard from "../../pages/dashboard/Nurse/NurseHR/NurseHRDashboard";
@@ -42,7 +46,11 @@ const NurseDashboardLayout: React.FC = () => {
                 <Route path="/tasks" element={<NurseTasks />} />
                 <Route path="/handover" element={<NurseHandover />} />
                 <Route path="/feedback" element={<NurseFeedback />} />
-                
+                <Route path="/patient-sessions" element={<PatientSessionsList />} />
+                <Route path="/patient-sessions/:sessionId" element={<PatientSessionDetails />} />
+                <Route path="/patient-profiles" element={<PatientProfilesList />} />
+                <Route path="/patient-profiles/:patientId" element={<PatientProfileDetails />} />
+
                 {/* HR Module Routes */}
                 <Route path="/hr" element={<NurseHRDashboard />} />
                 <Route path="/hr/schedules" element={<NurseSchedules />} />
@@ -51,7 +59,7 @@ const NurseDashboardLayout: React.FC = () => {
                 <Route path="/hr/payslips" element={<NursePayslips />} />
                 <Route path="/hr/service-letters" element={<NurseServiceLetters />} />
                 <Route path="/hr/policies" element={<NursePolicies />} />
-                
+
                 <Route path="*" element={<Navigate to="/nurse-dashboard" replace />} />
             </Routes>
         </>

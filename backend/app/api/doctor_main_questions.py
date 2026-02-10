@@ -40,7 +40,7 @@ router = APIRouter()
 
 
 def _require_staff_or_self_doctor(current_user: User, doctor_user_id: str) -> None:
-    if current_user.role_as in (1, 2):
+    if current_user.role_as == 1:
         return
     if current_user.role_as == 3 and current_user.id == doctor_user_id:
         return
@@ -95,12 +95,13 @@ async def add_main_question(
     if current_user.role_as == 3:
         doctor_id = current_user.id
 
-    if current_user.role_as not in (1, 2, 3):
+    if current_user.role_as not in (1, 3):
         raise HTTPException(status_code=403, detail="Not enough privileges")
 
     q = DoctorMainQuestion(
         doctor_id=doctor_id,
         question=payload.question,
+        category=payload.category,
         description=payload.description,
         order=payload.order,
         status=payload.status,

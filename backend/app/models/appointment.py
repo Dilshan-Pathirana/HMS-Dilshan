@@ -11,6 +11,8 @@ class AppointmentBase(SQLModel):
     patient_id: str = Field(foreign_key="patient.id", max_length=36)
     doctor_id: str = Field(foreign_key="doctor.id", max_length=36)
     branch_id: str = Field(foreign_key="branch.id", max_length=36)
+    schedule_id: Optional[str] = Field(default=None, foreign_key="doctor_schedule.id", max_length=36)
+    schedule_session_id: Optional[str] = Field(default=None, foreign_key="schedule_session.id", max_length=36)
     appointment_date: date
     appointment_time: time
     appointment_number: Optional[str] = None

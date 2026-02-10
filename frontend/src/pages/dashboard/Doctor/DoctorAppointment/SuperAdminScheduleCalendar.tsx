@@ -139,7 +139,7 @@ const ModalShell: React.FC<{
 };
 
 const SuperAdminScheduleCalendar: React.FC = () => {
-    type TabKey = "management" | "details" | "cancel_requests" | "create_session";
+    type TabKey = "management" | "cancel_requests" | "create_session";
 
     const [activeTab, setActiveTab] = useState<TabKey>("management");
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -591,12 +591,11 @@ const SuperAdminScheduleCalendar: React.FC = () => {
 
             <div className="bg-white rounded-3xl shadow-sm border border-neutral-200 p-3 mb-6">
                 <div className="flex flex-wrap gap-2">
-                    {([
-                        { key: "management", label: "Schedule Management" },
-                        { key: "details", label: "Schedule Details" },
-                        { key: "cancel_requests", label: "Cancel Requests" },
-                        { key: "create_session", label: "Create Session" },
-                    ] as Array<{ key: TabKey; label: string }>).map((t) => (
+                        {([
+                            { key: "management", label: "Schedule Management" },
+                            { key: "cancel_requests", label: "Cancel Requests" },
+                            { key: "create_session", label: "Create Session" },
+                        ] as Array<{ key: TabKey; label: string }>).map((t) => (
                         <button
                             key={t.key}
                             onClick={() => setActiveTab(t.key)}
@@ -863,81 +862,6 @@ const SuperAdminScheduleCalendar: React.FC = () => {
                                 )}
                             </div>
                         </div>
-                    </div>
-                </div>
-            )}
-
-            {activeTab === "details" && (
-                <div className="bg-white rounded-3xl shadow-sm border border-neutral-200 overflow-hidden">
-                    <div className="p-6 border-b border-neutral-100 bg-gradient-to-br from-white to-neutral-50 flex items-center justify-between gap-3">
-                        <div>
-                            <h3 className="text-lg font-bold text-neutral-900">Schedule Details</h3>
-                            <p className="text-sm text-neutral-500">Details of the selected day sessions</p>
-                        </div>
-                        <input
-                            type="date"
-                            value={selectedDate ? toIsoDate(selectedDate) : ""}
-                            onChange={(e) => setSelectedDate(e.target.value ? new Date(e.target.value) : null)}
-                            className="border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
-                        />
-                    </div>
-                    <div className="p-6">
-                        {!selectedDate ? (
-                            <div className="text-neutral-500">Select a date to see session details.</div>
-                        ) : (
-                            <div className="space-y-4">
-                                <div className="flex items-center justify-between">
-                                    <div className="text-sm text-neutral-600">
-                                        {selectedDate.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
-                                    </div>
-                                    <button
-                                        onClick={cancelAllForSelectedDay}
-                                        className="px-4 py-2 bg-red-50 text-red-700 rounded-xl hover:bg-red-100 transition-colors text-xs font-bold border border-red-100"
-                                    >
-                                        Cancel All
-                                    </button>
-                                </div>
-                                {selectedSlots.map((slot) => (
-                                    <div
-                                        key={`${slot.schedule_id}-${slot.doctor_id}-${slot.start_time}-details`}
-                                        className="p-4 bg-white border border-neutral-200 rounded-2xl"
-                                    >
-                                        <div className="flex items-start justify-between gap-3">
-                                            <div className="min-w-0">
-                                                <div className="text-sm font-bold text-neutral-900 truncate">{slot.doctor_name}</div>
-                                                <div className="text-xs text-neutral-500 truncate">{slot.branch_name}</div>
-                                                <div className="mt-2 flex flex-wrap items-center gap-2">
-                                                    <span className="inline-flex items-center gap-1 text-xs text-neutral-600">
-                                                        <Clock className="w-3 h-3" />
-                                                        {parseTimeLabel(slot.start_time)} - {parseTimeLabel(slot.end_time)}
-                                                    </span>
-                                                    <span className="inline-flex items-center gap-1 text-xs text-neutral-600">
-                                                        <Users className="w-3 h-3" />
-                                                        {slot.booked_count}/{slot.max_patients}
-                                                    </span>
-                                                    <span className={`px-2 py-1 rounded-lg text-[10px] font-bold border ${statusBadge(slot.status)}`}>
-                                                        {slot.status.toUpperCase()}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div className="flex items-center gap-2">
-                                                <button
-                                                    onClick={() => blockOccurrence(slot)}
-                                                    disabled={slot.status === "blocked"}
-                                                    className="px-3 py-2 rounded-xl border border-neutral-200 text-neutral-700 hover:bg-neutral-50 text-xs font-bold disabled:opacity-50"
-                                                    title="Cancel (block) this schedule"
-                                                >
-                                                    <Ban className="w-4 h-4" />
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                                {selectedSlots.length === 0 && (
-                                    <div className="text-neutral-500">No schedules for this date.</div>
-                                )}
-                            </div>
-                        )}
                     </div>
                 </div>
             )}

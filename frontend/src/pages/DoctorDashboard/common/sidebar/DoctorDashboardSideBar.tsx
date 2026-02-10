@@ -50,7 +50,7 @@ const DoctorDashboardSideBar: React.FC<SidebarProps> = ({
             id="doctor-sidebar"
             className={`fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform ${
                 isOpenSidebarMenu ? "translate-x-0" : "-translate-x-full"
-            } sm:translate-x-0 bg-white border-r border-neutral-200 dark:bg-neutral-800 dark:border-gray-700`}
+            } bg-white border-r border-neutral-200 dark:bg-neutral-800 dark:border-gray-700`}
             aria-label="Doctor Sidebar"
         >
             <div className="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-neutral-800">

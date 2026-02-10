@@ -6,6 +6,7 @@ export interface IDoctorOption {
 export interface IQuestionFormData {
     doctor_id: string;
     question: string;
+    category: string;
     description: string;
     order: string;
     status: string;
@@ -39,6 +40,7 @@ export interface CreateDoctorQuestionFormProps {
 export interface DoctorQuestionFormData {
     doctor_id: string;
     question: string;
+    category: string;
     description: string;
     order: string;
     status: string;

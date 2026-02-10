@@ -185,6 +185,20 @@ from .doctor_session import (
     DoctorCreatedDiseaseCreate,
     DoctorCreatedDiseaseRead,
 )
+from .patient_session import (
+    ScheduleSession,
+    ScheduleSessionCreate,
+    ScheduleSessionRead,
+    PatientProfile,
+    PatientProfileCreate,
+    PatientProfileRead,
+    PatientSession,
+    PatientSessionCreate,
+    PatientSessionRead,
+    PatientQuestionAnswer,
+    PatientQuestionAnswerCreate,
+    PatientQuestionAnswerRead,
+)
 from .chatbot import (
     ChatbotFAQ,
     ChatbotFAQCreate,

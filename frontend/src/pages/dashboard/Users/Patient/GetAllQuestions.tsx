@@ -176,6 +176,7 @@ const GetAllQuestions = ({
                                     {[
                                         "Doctor Name",
                                         "Question",
+                                        "Category",
                                         "Description",
                                         "Order",
                                         "Status",
@@ -202,6 +203,9 @@ const GetAllQuestions = ({
                                         </td>
                                         <td className="px-6 py-4 text-sm text-neutral-900 max-w-xs truncate">
                                             {question.question}
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-neutral-900 max-w-xs truncate">
+                                            {question.category || "Uncategorized"}
                                         </td>
                                         <td className="px-6 py-4 text-sm text-neutral-900 max-w-xs truncate">
                                             {question.description}

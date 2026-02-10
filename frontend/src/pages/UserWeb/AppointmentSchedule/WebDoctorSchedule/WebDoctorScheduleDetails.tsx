@@ -1,8 +1,10 @@
-import { useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Footer from "../../Footer.tsx";
 import NavBar from "../../NavBar.tsx";
 import DoctorFilterWeb from "../DoctorFilterWeb.tsx";
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../store";
 import Spinner from "../../../../assets/Common/Spinner.tsx";
 import api from "../../../../utils/api/axios";
 import alert from "../../../../utils/alert.ts";
@@ -26,6 +28,8 @@ type SearchParams = {
 
 const WebDoctorScheduleDetails = () => {
     const location = useLocation();
+    const navigate = useNavigate();
+    const { isAuthenticated, userRole } = useSelector((state: RootState) => state.auth);
     const searchResults: AvailabilityResult[] =
         location.state?.searchResults || [];
     const searchParams: SearchParams | undefined =
@@ -51,6 +55,7 @@ const WebDoctorScheduleDetails = () => {
         address: "",
     });
     const [isBooking, setIsBooking] = useState(false);
+    const canBook = isAuthenticated && userRole === 5;
 
     useEffect(() => {
         setTimeout(() => {
@@ -70,6 +75,10 @@ const WebDoctorScheduleDetails = () => {
     };
 
     const handleBook = async () => {
+        if (!canBook) {
+            navigate("/login");
+            return;
+        }
         if (!selected) return;
 
         if (!patient.first_name.trim() || !patient.last_name.trim() || !patient.phone.trim()) {
@@ -135,6 +144,28 @@ const WebDoctorScheduleDetails = () => {
 
         content = (
             <div className="mt-8 space-y-6">
+                {!canBook && (
+                    <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-amber-900">
+                        <div className="font-semibold">Log in as a patient to book</div>
+                        <div className="text-sm mt-1">
+                            You can browse doctors and available sessions, but booking is only for registered patients.
+                        </div>
+                        <div className="mt-3 flex flex-wrap gap-2">
+                            <Link
+                                to="/login"
+                                className="px-4 py-2 rounded-md bg-primary-600 text-white"
+                            >
+                                Log in
+                            </Link>
+                            <Link
+                                to="/signup"
+                                className="px-4 py-2 rounded-md border border-amber-300 text-amber-900"
+                            >
+                                Sign up
+                            </Link>
+                        </div>
+                    </div>
+                )}
                 {hasDateFilter ? (
                     dates.map((d) => {
                         const dateItems = byDate[d];
@@ -168,8 +199,13 @@ const WebDoctorScheduleDetails = () => {
                                                                             <button
                                                                                 key={t}
                                                                                 type="button"
-                                                                                className="px-3 py-1.5 text-sm border border-neutral-200 rounded-md hover:bg-neutral-50"
+                                                                                className={`px-3 py-1.5 text-sm border rounded-md ${
+                                                                                    canBook
+                                                                                        ? "border-neutral-200 hover:bg-neutral-50"
+                                                                                        : "border-neutral-200 text-neutral-400 cursor-not-allowed"
+                                                                                }`}
                                                                                 onClick={() =>
+                                                                                    canBook &&
                                                                                     setSelected({
                                                                                         date: d,
                                                                                         branch_id: bid,
@@ -180,6 +216,7 @@ const WebDoctorScheduleDetails = () => {
                                                                                         time: t,
                                                                                     })
                                                                                 }
+                                                                                disabled={!canBook}
                                                                             >
                                                                                 {t}
                                                                             </button>
@@ -222,8 +259,13 @@ const WebDoctorScheduleDetails = () => {
                                                         <button
                                                             key={t}
                                                             type="button"
-                                                            className="px-3 py-1.5 text-sm border border-neutral-200 rounded-md hover:bg-neutral-50"
+                                                            className={`px-3 py-1.5 text-sm border rounded-md ${
+                                                                canBook
+                                                                    ? "border-neutral-200 hover:bg-neutral-50"
+                                                                    : "border-neutral-200 text-neutral-400 cursor-not-allowed"
+                                                            }`}
                                                             onClick={() =>
+                                                                canBook &&
                                                                 setSelected({
                                                                     date: it.date,
                                                                     branch_id: bid,
@@ -234,6 +276,7 @@ const WebDoctorScheduleDetails = () => {
                                                                     time: t,
                                                                 })
                                                             }
+                                                            disabled={!canBook}
                                                         >
                                                             {t}
                                                         </button>
@@ -248,7 +291,7 @@ const WebDoctorScheduleDetails = () => {
                     })()
                 )}
 
-                {selected && (
+                {selected && canBook && (
                     <div className="bg-white rounded-xl border border-neutral-200 p-4">
                         <div className="font-bold text-neutral-900">Confirm Appointment</div>
                         <div className="text-sm text-neutral-600 mt-1">

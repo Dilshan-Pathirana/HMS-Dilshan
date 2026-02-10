@@ -65,18 +65,26 @@ const SuperAdminPOSAnalytics = () => {
     const fetchAnalytics = async () => {
         try {
             setIsLoading(true);
-            const token = localStorage.getItem("authToken");
-            let url = `/api/super-admin/pos/analytics?range=${dateRange}`;
+            const token = localStorage.getItem("token") || localStorage.getItem("authToken") || localStorage.getItem("userToken");
+            let url = `/super-admin/pos/analytics?range=${dateRange}`;
             if (selectedBranchId) {
                 url += `&branch_id=${selectedBranchId}`;
             }
-            
-            const response = await api.get(url, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
 
-            if (response.data.status === 200) {
-                setAnalytics(response.data.data);
+            const response = await api.get(url, token ? {
+                headers: { Authorization: `Bearer ${token}` },
+            } : undefined);
+
+            const payload = (response as any)?.data ?? response;
+            const analyticsData = payload?.data ?? payload?.analytics ?? payload;
+            const isOk = payload?.status === 200 || payload?.status === "success" || payload?.success === true;
+
+            if (isOk && analyticsData?.summary) {
+                setAnalytics(analyticsData);
+            } else if (analyticsData?.summary) {
+                setAnalytics(analyticsData);
+            } else {
+                setError("Failed to load analytics data");
             }
         } catch (err) {
             console.error("Error fetching analytics:", err);
@@ -115,8 +123,8 @@ const SuperAdminPOSAnalytics = () => {
                 <div>
                     <h1 className="text-2xl font-bold text-neutral-900">POS Analytics</h1>
                     <p className="text-neutral-500">
-                        {selectedBranchId 
-                            ? branches.find(b => b.id === selectedBranchId)?.name 
+                        {selectedBranchId
+                            ? branches.find(b => b.id === selectedBranchId)?.name
                             : "All Branches"} - Sales Performance
                     </p>
                 </div>

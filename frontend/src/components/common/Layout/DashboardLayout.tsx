@@ -1,5 +1,5 @@
 import React, { ReactNode, useState, useEffect, useRef } from 'react';
-import { LogOut, Settings, Bell, X, MessageSquare, AlertCircle } from 'lucide-react';
+import { LogOut, Settings, Bell, X, MessageSquare, AlertCircle, Menu } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, persistor } from '../../../store';
@@ -82,6 +82,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
     const [notificationCount, setNotificationCount] = useState(0);
     const [showNotifications, setShowNotifications] = useState(false);
     const notificationRef = useRef<HTMLDivElement>(null);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
     // Fetch notifications on component mount
     useEffect(() => {
@@ -167,6 +168,13 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             <nav className="bg-white/80 backdrop-blur-xl border-b border-white/20 shadow-glass sticky top-0 z-50">
                 <div className="px-6 py-4 flex items-center justify-between">
                     <div className="flex items-center gap-4">
+                        <button
+                            onClick={() => setIsSidebarOpen((prev) => !prev)}
+                            className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+                            aria-label={isSidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
+                        >
+                            <Menu className="w-6 h-6 text-slate-600" />
+                        </button>
                         <a href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer">
                             {branchLogo ? (
                                 <img
@@ -271,6 +279,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                             <Settings className="w-6 h-6 text-slate-600" />
                         </button>
 
+
                         {/* User Profile */}
                         <div className="flex items-center gap-3 pl-4 border-l border-slate-200">
                             <div className="text-right">
@@ -305,8 +314,16 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             {/* Main Content Area */}
             <div className="flex">
                 {/* Sidebar with Glassmorphism */}
-                <aside className="w-64 min-h-[calc(100vh-73px)] bg-white/80 backdrop-blur-xl shadow-glass border-r border-white/20 flex-shrink-0">
-                    {sidebarContent}
+                <aside
+                    className={`min-h-[calc(100vh-73px)] bg-white/80 backdrop-blur-xl shadow-glass flex-shrink-0 transition-all duration-300 ${
+                        isSidebarOpen
+                            ? 'w-64 border-r border-white/20'
+                            : 'w-0 border-r-0 opacity-0 pointer-events-none'
+                    }`}
+                >
+                    <div className="w-64">
+                        {sidebarContent}
+                    </div>
                 </aside>
 
                 {/* Main Content */}

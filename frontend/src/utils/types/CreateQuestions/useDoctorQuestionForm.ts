@@ -10,6 +10,7 @@ export const useDoctorQuestionForm = (questionData: any, isOpen: boolean) => {
             return {
                 doctor_id: currentUserId,
                 question: questionData.question || "",
+                category: questionData.category || "",
                 description: questionData.description || "",
                 order: questionData.order?.toString() || "",
                 status: questionData.status?.toString() || "",
@@ -18,6 +19,7 @@ export const useDoctorQuestionForm = (questionData: any, isOpen: boolean) => {
         return {
             doctor_id: "",
             question: "",
+            category: "",
             description: "",
             order: "",
             status: "",

@@ -10,6 +10,7 @@ from sqlmodel import Field, SQLModel
 class DoctorMainQuestionBase(SQLModel):
     doctor_id: str = Field(max_length=36, index=True)
     question: str
+    category: Optional[str] = Field(default=None, max_length=100)
     description: str = ""
     order: int = 0
     status: int = 1  # 1=active, 0=inactive
@@ -30,6 +31,7 @@ class DoctorMainQuestionCreate(DoctorMainQuestionBase):
 class DoctorMainQuestionUpdate(SQLModel):
     doctor_id: Optional[str] = None
     question: Optional[str] = None
+    category: Optional[str] = None
     description: Optional[str] = None
     order: Optional[int] = None
     status: Optional[int] = None

@@ -6,6 +6,7 @@ import {
 export const questionFormInitialState: IQuestionFormData = {
     doctor_id: "",
     question: "",
+    category: "",
     description: "",
     order: "",
     status: "1",

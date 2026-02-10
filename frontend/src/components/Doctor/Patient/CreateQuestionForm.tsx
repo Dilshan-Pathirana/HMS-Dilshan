@@ -55,6 +55,25 @@ const CreateQuestionForm: React.FC<CreateDoctorQuestionFormProps> = ({
 
                 <div>
                     <label className="block text-sm font-medium text-neutral-700 mb-2">
+                        Category
+                    </label>
+                    <input
+                        type="text"
+                        name="category"
+                        value={formData.category}
+                        onChange={onInputChange}
+                        className="w-full p-3 border border-neutral-300 rounded-md shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                        placeholder="Optional category"
+                    />
+                    {errors.category && (
+                        <p className="text-error-500 text-sm mt-1">
+                            {errors.category[0]}
+                        </p>
+                    )}
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-neutral-700 mb-2">
                         Order *
                     </label>
                     <input
