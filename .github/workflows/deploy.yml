@@ -168,7 +168,7 @@ jobs:
             docker compose \
               -f $APP_DIR/docker-compose.ec2.yml \
               --env-file $APP_DIR/.env \
-              run --rm backend python comprehensive_seed.py
+              run --rm backend python seed.py
 
             echo "==== Start services ===="
             docker compose \
