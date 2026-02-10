@@ -8,6 +8,7 @@ import PatientForm from "./Schedule/PatientForm.tsx";
 import NavBar from "../NavBar.tsx";
 import Footer from "../Footer.tsx";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import useFetchPatientDetails from "../../../utils/api/PatientAppointment/FetchPatientDetails.ts";
 import { RootState } from "../../../store.tsx";
 import { daysOfWeek } from "../../../utils/types/Website/dateUtils.ts";
@@ -17,7 +18,9 @@ const DoctorScheduleDetails: React.FC = () => {
     const schedule = useSelector(
         (state: RootState) => state.doctorSchedule.selectedSchedule,
     );
-    const userId = useSelector((state: RootState) => state.auth.userId);
+    const authState = useSelector((state: RootState) => state.auth);
+    const userId = authState.userId;
+    const canBook = authState.isAuthenticated && authState.userRole === 5;
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [allSlots, setAllSlots] = useState<number[]>([]);
     const [bookedSlots, setBookedSlots] = useState<string[]>([]);
@@ -192,23 +195,46 @@ const DoctorScheduleDetails: React.FC = () => {
                         />
                     </div>
                     <div className="flex-1">
-                        <PatientForm
-                            userDetails={userDetails}
-                            handleInputChange={handleInputChange}
-                            timer={timer}
-                            formatTimer={formatTimer}
-                            appointmentData={
-                                schedule && selectedDate && selectedSlot
-                                    ? {
-                                        doctorId: schedule.doctor_id,
-                                        scheduleId: schedule.id,
-                                        branchId: schedule.branch_id,
-                                        date: selectedDate.toLocaleDateString("en-CA"),
-                                        slot: selectedSlot
-                                    }
-                                    : undefined
-                            }
-                        />
+                        {canBook ? (
+                            <PatientForm
+                                userDetails={userDetails}
+                                handleInputChange={handleInputChange}
+                                timer={timer}
+                                formatTimer={formatTimer}
+                                appointmentData={
+                                    schedule && selectedDate && selectedSlot
+                                        ? {
+                                            doctorId: schedule.doctor_id,
+                                            scheduleId: schedule.id,
+                                            branchId: schedule.branch_id,
+                                            date: selectedDate.toLocaleDateString("en-CA"),
+                                            slot: selectedSlot
+                                        }
+                                        : undefined
+                                }
+                            />
+                        ) : (
+                            <div className="bg-amber-50 border border-amber-200 rounded-xl p-5">
+                                <div className="text-lg font-semibold text-amber-900">Log in as a patient to book</div>
+                                <div className="text-sm text-amber-800 mt-1">
+                                    You can browse available sessions, but booking is only for registered patients.
+                                </div>
+                                <div className="mt-4 flex flex-wrap gap-2">
+                                    <Link
+                                        to="/login"
+                                        className="px-4 py-2 rounded-md bg-primary-600 text-white"
+                                    >
+                                        Log in
+                                    </Link>
+                                    <Link
+                                        to="/signup"
+                                        className="px-4 py-2 rounded-md border border-amber-300 text-amber-900"
+                                    >
+                                        Sign up
+                                    </Link>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

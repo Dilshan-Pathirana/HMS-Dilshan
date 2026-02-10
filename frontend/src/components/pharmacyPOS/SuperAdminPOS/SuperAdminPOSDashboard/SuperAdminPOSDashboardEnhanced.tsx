@@ -56,17 +56,25 @@ const SuperAdminPOSDashboardEnhanced = () => {
     const fetchDashboardStats = async () => {
         try {
             setIsLoading(true);
-            const token = localStorage.getItem("authToken");
-            const url = selectedBranchId 
-                ? `/api/super-admin/pos/dashboard-stats?branch_id=${selectedBranchId}`
-                : "/api/super-admin/pos/dashboard-stats";
-            
-            const response = await api.get(url, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
+            const token = localStorage.getItem("token") || localStorage.getItem("authToken") || localStorage.getItem("userToken");
+            const url = selectedBranchId
+                ? `/super-admin/pos/dashboard-stats?branch_id=${selectedBranchId}`
+                : "/super-admin/pos/dashboard-stats";
 
-            if (response.data.status === 200) {
-                setStats(response.data.data);
+            const response = await api.get(url, token ? {
+                headers: { Authorization: `Bearer ${token}` },
+            } : undefined);
+
+            const payload = (response as any)?.data ?? response;
+            const statsData = payload?.data ?? payload?.stats ?? payload;
+            const isOk = payload?.status === 200 || payload?.status === "success" || payload?.success === true;
+
+            if (isOk && statsData?.today_stats) {
+                setStats(statsData);
+            } else if (statsData?.today_stats) {
+                setStats(statsData);
+            } else {
+                setError("Failed to load dashboard data");
             }
         } catch (err) {
             console.error("Error fetching dashboard stats:", err);
@@ -118,7 +126,7 @@ const SuperAdminPOSDashboardEnhanced = () => {
                             <p className="text-blue-100 mt-1">Super Admin POS Dashboard</p>
                         </div>
                     </div>
-                    
+
                     {/* Branch Filter */}
                     <div className="flex items-center gap-3">
                         <Filter className="w-5 h-5 text-blue-200" />
@@ -143,7 +151,7 @@ const SuperAdminPOSDashboardEnhanced = () => {
                         </button>
                     </div>
                 </div>
-                
+
                 <div className="mt-4 text-right">
                     <p className="text-blue-100 text-sm">
                         {new Date(today_stats.date).toLocaleDateString('en-US', {
@@ -269,8 +277,8 @@ const SuperAdminPOSDashboardEnhanced = () => {
                     {branch_performance && branch_performance.length > 0 ? (
                         <div className="space-y-3 max-h-[300px] overflow-y-auto">
                             {branch_performance.map((branch, index) => (
-                                <div 
-                                    key={branch.id} 
+                                <div
+                                    key={branch.id}
                                     className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors ${
                                         selectedBranchId === branch.id ? 'bg-blue-50 border border-blue-200' : 'bg-neutral-50 hover:bg-neutral-100'
                                     }`}

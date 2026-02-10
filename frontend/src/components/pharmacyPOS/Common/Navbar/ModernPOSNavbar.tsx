@@ -80,9 +80,9 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
 
     const handleLogout = async () => {
         try {
-            await dispatch(UserSignOut({ 
-                accessToken: authState.userToken || localStorage.getItem('token') || '', 
-                userRole: authState.userRole 
+            await dispatch(UserSignOut({
+                accessToken: authState.userToken || localStorage.getItem('token') || '',
+                userRole: authState.userRole
             }));
         } catch (error) {
             console.error('Logout API error:', error);
@@ -108,11 +108,11 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
                 <div className="flex items-center gap-4">
                     <button
                         onClick={toggleSidebar}
-                        className="p-2 hover:bg-neutral-100 rounded-lg transition-colors lg:hidden"
+                        className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                     >
                         <Menu className="w-5 h-5 text-neutral-600" />
                     </button>
-                    
+
                     <div className="flex items-center gap-3">
                         <div className="w-9 h-9 bg-gradient-to-br from-emerald-500 to-primary-500 rounded-lg flex items-center justify-center text-white font-bold text-sm shadow-md">
                             {branchName.charAt(0).toUpperCase()}
@@ -129,8 +129,8 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
                 {/* Center Section - Quick Navigation (Desktop) */}
                 <div className="hidden lg:flex items-center gap-2">
                     {userRole === 1 && (
-                        <Link 
-                            to="/dashboard" 
+                        <Link
+                            to="/dashboard"
                             className="flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg shadow-md hover:shadow-lg hover:from-indigo-600 hover:to-purple-700 transition-all duration-200"
                         >
                             <LayoutDashboard className="w-4 h-4" />
@@ -138,8 +138,8 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
                         </Link>
                     )}
                     {userRole === 2 && (
-                        <Link 
-                            to="/branch-admin/dashboard" 
+                        <Link
+                            to="/branch-admin/dashboard"
                             className="flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-lg shadow-md hover:shadow-lg hover:from-purple-600 hover:to-indigo-700 transition-all duration-200"
                         >
                             <Building2 className="w-4 h-4" />
@@ -147,8 +147,8 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
                         </Link>
                     )}
                     {(userRole === 1 || userRole === 7) && (
-                        <Link 
-                            to="/pharmacy-dashboard" 
+                        <Link
+                            to="/pharmacy-dashboard"
                             className="flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg shadow-md hover:shadow-lg hover:from-emerald-600 hover:to-teal-700 transition-all duration-200"
                         >
                             <Pill className="w-4 h-4" />
@@ -161,14 +161,14 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
                 <div className="flex items-center gap-2 lg:gap-4">
                     {/* Notifications */}
                     <div className="relative">
-                        <button 
+                        <button
                             onClick={() => setShowNotifications(!showNotifications)}
                             className="relative p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
                             <Bell className="w-5 h-5 text-neutral-600" />
                             <span className="absolute top-1 right-1 w-2 h-2 bg-error-500 rounded-full"></span>
                         </button>
-                        
+
                         {showNotifications && (
                             <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-gray-100 z-50">
                                 <div className="p-4 border-b border-gray-100">
@@ -182,7 +182,7 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
                     </div>
 
                     {/* Settings */}
-                    <button 
+                    <button
                         onClick={() => navigate('/pos/settings')}
                         className="p-2 hover:bg-neutral-100 rounded-lg transition-colors hidden sm:block"
                     >
@@ -191,7 +191,7 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
 
                     {/* User Menu */}
                     <div className="relative">
-                        <button 
+                        <button
                             onClick={() => setShowUserMenu(!showUserMenu)}
                             className="flex items-center gap-2 pl-3 pr-2 py-1.5 border border-neutral-200 rounded-full hover:bg-neutral-50 transition-colors"
                         >
@@ -201,10 +201,10 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
                             </div>
                             <div className="w-8 h-8 rounded-full overflow-hidden bg-gradient-to-br from-emerald-100 to-blue-100 flex items-center justify-center border-2 border-white shadow-sm">
                                 {profileImage ? (
-                                    <img 
-                                        src={getImageUrl(profileImage)} 
-                                        alt="Profile" 
-                                        className="w-full h-full object-cover" 
+                                    <img
+                                        src={getImageUrl(profileImage)}
+                                        alt="Profile"
+                                        className="w-full h-full object-cover"
                                     />
                                 ) : (
                                     <DefaultAvatar gender={userGender} />
@@ -222,7 +222,7 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
                                         {getRoleName()}
                                     </span>
                                 </div>
-                                
+
                                 <div className="p-2">
                                     <button
                                         onClick={() => {
@@ -252,7 +252,7 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
                                         Settings
                                     </button>
                                 </div>
-                                
+
                                 <div className="p-2 border-t border-gray-100">
                                     <button
                                         onClick={handleLogout}
@@ -267,11 +267,11 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
                     </div>
                 </div>
             </div>
-            
+
             {/* Click outside to close menus */}
             {(showUserMenu || showNotifications) && (
-                <div 
-                    className="fixed inset-0 z-40" 
+                <div
+                    className="fixed inset-0 z-40"
                     onClick={() => {
                         setShowUserMenu(false);
                         setShowNotifications(false);

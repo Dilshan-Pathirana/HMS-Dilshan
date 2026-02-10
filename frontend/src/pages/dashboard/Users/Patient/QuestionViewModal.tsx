@@ -96,6 +96,15 @@ const QuestionViewModal: React.FC<QuestionViewModalProps> = ({
                         </p>
                     </div>
 
+                    <div className="bg-neutral-50 p-4 rounded-lg">
+                        <h3 className="text-sm font-medium text-neutral-500 uppercase tracking-wide">
+                            Category
+                        </h3>
+                        <p className="mt-1 text-lg text-neutral-900 whitespace-pre-wrap">
+                            {question.category || "Uncategorized"}
+                        </p>
+                    </div>
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="bg-neutral-50 p-4 rounded-lg">
                             <h3 className="text-sm font-medium text-neutral-500 uppercase tracking-wide">

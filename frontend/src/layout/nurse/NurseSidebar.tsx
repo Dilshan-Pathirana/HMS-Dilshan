@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
-    Activity, User, Users, CheckSquare, RefreshCw, MessageSquare, 
+    Activity, User, Users, CheckSquare, RefreshCw, MessageSquare,
     Heart, Pill, FileText, Briefcase, ChevronDown, ChevronUp,
-    Calendar, Clock, DollarSign, CreditCard, BookOpen
+    Calendar, Clock, DollarSign, CreditCard, BookOpen, ClipboardList
 } from "lucide-react";
 
 interface SidebarProps {
@@ -58,6 +58,16 @@ const NurseSidebar: React.FC<SidebarProps> = ({ isOpenSidebarMenu }) => {
             label: "Tasks",
             icon: <CheckSquare className="w-5 h-5" />,
             link: "/nurse-dashboard/tasks",
+        },
+        {
+            label: "Patient Session Management",
+            icon: <ClipboardList className="w-5 h-5" />,
+            link: "/nurse-dashboard/patient-sessions",
+        },
+        {
+            label: "Patient Profiles",
+            icon: <Users className="w-5 h-5" />,
+            link: "/nurse-dashboard/patient-profiles",
         },
         {
             label: "Handover",
@@ -122,7 +132,7 @@ const NurseSidebar: React.FC<SidebarProps> = ({ isOpenSidebarMenu }) => {
         <aside
             className={`fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform ${
                 isOpenSidebarMenu ? "translate-x-0" : "-translate-x-full"
-            } sm:translate-x-0 bg-gradient-to-b from-teal-600 to-cyan-700 text-white`}
+            } bg-gradient-to-b from-teal-600 to-cyan-700 text-white`}
             aria-label="Sidebar"
         >
             <div className="h-full px-3 pb-4 overflow-y-auto">
@@ -176,7 +186,7 @@ const NurseSidebar: React.FC<SidebarProps> = ({ isOpenSidebarMenu }) => {
                             )}
                         </button>
                     </li>
-                    
+
                     {isHRExpanded && (
                         <div className="ml-4 space-y-1">
                             {hrSubItems.map((item, index) => (

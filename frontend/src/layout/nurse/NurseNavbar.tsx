@@ -14,7 +14,7 @@ interface NurseNavbarProps {
 const NurseNavbar: React.FC<NurseNavbarProps> = ({ toggleSidebar }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
-    
+
     // Get branch name from Redux state or localStorage
     const authState = useSelector((state: RootState) => state.auth);
     const userInfo = JSON.parse(localStorage.getItem('user') || '{}');
@@ -50,7 +50,7 @@ const NurseNavbar: React.FC<NurseNavbarProps> = ({ toggleSidebar }) => {
                             data-drawer-toggle="logo-sidebar"
                             aria-controls="logo-sidebar"
                             type="button"
-                            className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 min-h-[44px] min-w-[44px] flex-shrink-0"
+                            className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 min-h-[44px] min-w-[44px] flex-shrink-0"
                             onClick={toggleSidebar}
                         >
                             <span className="sr-only">Open sidebar</span>

@@ -18,6 +18,7 @@ from app.models.doctor import Doctor
 from app.models.doctor_availability import DoctorAvailability
 from app.models.patient import Patient
 from app.models.user import User
+from app.services.appointment_service import AppointmentService
 
 
 router = APIRouter()
@@ -252,21 +253,19 @@ async def book_appointment(
         await session.refresh(patient)
 
     # Create appointment with slot lock
-    appointment = Appointment(
-        patient_id=patient.id,
-        doctor_id=payload.doctor_id,
-        branch_id=payload.branch_id,
-        appointment_date=payload.date,
-        appointment_time=appointment_time,
-        department=payload.specialisation,
-        status="confirmed",
-        reason=payload.patient.nic,
-        notes=None,
-    )
-    session.add(appointment)
     try:
-        await session.commit()
-        await session.refresh(appointment)
+        appointment = await AppointmentService.book(
+            session,
+            patient.id,
+            payload.doctor_id,
+            payload.branch_id,
+            payload.date,
+            appointment_time,
+            user.id,
+            reason=payload.patient.nic,
+            department=payload.specialisation,
+            is_walk_in=False,
+        )
     except IntegrityError:
         await session.rollback()
         raise HTTPException(status_code=409, detail="Selected slot is no longer available")

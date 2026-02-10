@@ -16,9 +16,11 @@ from sqlalchemy.orm import selectinload
 from app.models.appointment import Appointment
 from app.models.appointment_extras import AppointmentAuditLog, AppointmentSettings
 from app.models.doctor import Doctor
+from app.models.doctor_schedule import DoctorSchedule
 from app.models.patient import Patient
 from app.models.branch import Branch
 from app.models.user import User
+from app.models.patient_session import ScheduleSession
 
 
 def _verification_code() -> str:
@@ -60,6 +62,94 @@ class AppointmentService:
             new_data=json.dumps(new_data, default=str) if new_data else None,
         )
         session.add(log)
+
+    # ---- Schedule session helper ----
+    @staticmethod
+    def _schedule_valid_on(schedule: DoctorSchedule, appt_date: date) -> bool:
+        if schedule.valid_from is not None and appt_date < schedule.valid_from:
+            return False
+        if schedule.valid_until is not None and appt_date > schedule.valid_until:
+            return False
+        if schedule.recurrence_type == "once":
+            if schedule.valid_from and schedule.valid_from != appt_date:
+                return False
+        elif schedule.recurrence_type == "biweekly":
+            if schedule.valid_from:
+                weeks = (appt_date - schedule.valid_from).days // 7
+                if weeks % 2 != 0:
+                    return False
+        return True
+
+    @staticmethod
+    async def _find_matching_schedule(
+        session: AsyncSession,
+        doctor_id: str,
+        branch_id: str,
+        appt_date: date,
+        appt_time: time,
+    ) -> Optional[DoctorSchedule]:
+        q = select(DoctorSchedule).where(
+            DoctorSchedule.doctor_id == doctor_id,
+            DoctorSchedule.branch_id == branch_id,
+            DoctorSchedule.status == "active",
+            DoctorSchedule.day_of_week == appt_date.weekday(),
+        )
+        result = await session.exec(q)
+        schedules = [
+            s for s in result.all() or []
+            if AppointmentService._schedule_valid_on(s, appt_date)
+            and s.start_time <= appt_time < s.end_time
+        ]
+        if not schedules:
+            return None
+        schedules.sort(key=lambda s: s.start_time)
+        return schedules[0]
+
+    @staticmethod
+    async def _get_or_create_schedule_session(
+        session: AsyncSession,
+        doctor_id: str,
+        branch_id: str,
+        appt_date: date,
+        appt_time: time,
+        created_by: str,
+    ) -> ScheduleSession:
+        schedule = await AppointmentService._find_matching_schedule(
+            session, doctor_id, branch_id, appt_date, appt_time
+        )
+
+        if schedule:
+            session_key = f"{schedule.id}:{appt_date.isoformat()}"
+            start_time = schedule.start_time
+            end_time = schedule.end_time
+            schedule_id = schedule.id
+        else:
+            session_key = f"adhoc:{doctor_id}:{branch_id}:{appt_date.isoformat()}:{appt_time.strftime('%H:%M')}"
+            start_time = appt_time
+            end_time = appt_time
+            schedule_id = None
+
+        existing = await session.exec(
+            select(ScheduleSession).where(ScheduleSession.session_key == session_key)
+        )
+        schedule_session = existing.first()
+        if schedule_session:
+            return schedule_session
+
+        schedule_session = ScheduleSession(
+            schedule_id=schedule_id,
+            doctor_id=doctor_id,
+            branch_id=branch_id,
+            session_date=appt_date,
+            start_time=start_time,
+            end_time=end_time,
+            status="active",
+            session_key=session_key,
+            created_by=created_by,
+        )
+        session.add(schedule_session)
+        await session.flush()
+        return schedule_session
 
     # ---- Core booking ----
     @staticmethod
@@ -104,15 +194,20 @@ class AppointmentService:
             verification_code=_verification_code(),
             is_walk_in=is_walk_in,
         )
+        schedule_session = await AppointmentService._get_or_create_schedule_session(
+            session, doctor_id, branch_id, appt_date, appt_time, booked_by
+        )
+        appt.schedule_id = schedule_session.schedule_id
+        appt.schedule_session_id = schedule_session.id
+
         session.add(appt)
-        await session.commit()
-        await session.refresh(appt)
 
         await AppointmentService._audit(
             session, appt.id, "created", booked_by,
             new_data={"status": "confirmed", "date": str(appt_date), "time": str(appt_time)},
         )
         await session.commit()
+        await session.refresh(appt)
         return appt
 
     # ---- Status transitions ----
@@ -184,6 +279,11 @@ class AppointmentService:
         old_data = {"date": str(appt.appointment_date), "time": str(appt.appointment_time)}
         appt.appointment_date = new_date
         appt.appointment_time = new_time
+        schedule_session = await AppointmentService._get_or_create_schedule_session(
+            session, appt.doctor_id, appt.branch_id, new_date, new_time, changed_by
+        )
+        appt.schedule_id = schedule_session.schedule_id
+        appt.schedule_session_id = schedule_session.id
         appt.updated_at = datetime.utcnow()
         session.add(appt)
 

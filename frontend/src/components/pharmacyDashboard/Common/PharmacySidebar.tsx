@@ -140,7 +140,7 @@ const PharmacySidebar: React.FC<SidebarProps> = ({ isOpenSidebarMenu }) => {
             <aside
                 className={`fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform ${
                     isOpenSidebarMenu ? "translate-x-0" : "-translate-x-full"
-                } sm:translate-x-0 bg-gradient-to-b from-primary-500 to-cyan-700 text-white`}
+                } bg-gradient-to-b from-primary-500 to-cyan-700 text-white`}
                 aria-label="Sidebar"
             >
                 <div className="h-full px-3 pb-4 overflow-y-auto">

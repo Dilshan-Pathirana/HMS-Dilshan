@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { DashboardLayout } from '../../../components/common/Layout/DashboardLayout';
 import { SidebarMenu } from '../../../components/common/Layout/SidebarMenu';
-import { 
-    Activity, 
-    Users, 
+import {
+    Activity,
+    Users,
     ClipboardList,
     Heart,
     Syringe,
@@ -13,7 +13,8 @@ import {
     User,
     CheckSquare,
     RefreshCw,
-    MessageSquare
+    MessageSquare,
+    Clipboard
 } from 'lucide-react';
 import { nurseService } from '../../../services/nurseService';
 import NurseDashboardMain from './NurseDashboardMain';
@@ -31,6 +32,8 @@ const NurseMenuItems = [
     { label: 'Patients', icon: <Users className="w-5 h-5" />, path: '/nurse-dashboard/patients' },
     { label: 'Tasks', icon: <CheckSquare className="w-5 h-5" />, path: '/nurse-dashboard/tasks' },
     { label: 'Handover', icon: <RefreshCw className="w-5 h-5" />, path: '/nurse-dashboard/handover' },
+    { label: 'Patient Session Management', icon: <Clipboard className="w-5 h-5" />, path: '/nurse-dashboard/patient-sessions' },
+    { label: 'Patient Profiles', icon: <Users className="w-5 h-5" />, path: '/nurse-dashboard/patient-profiles' },
     { label: 'Feedback', icon: <MessageSquare className="w-5 h-5" />, path: '/nurse-dashboard/feedback' },
 ];
 
@@ -67,7 +70,7 @@ export const NurseDashboard: React.FC = () => {
                     criticalAlerts: data.criticalAlerts || 0
                 });
             }
-            
+
             const userInfo = JSON.parse(localStorage.getItem('user') || '{}');
             setUserName(`${userInfo.first_name || ''} ${userInfo.last_name || ''}`);
             setProfileImage(userInfo.profile_picture || '');
@@ -78,15 +81,15 @@ export const NurseDashboard: React.FC = () => {
         }
     };
 
-    const StatCard = ({ 
-        title, 
-        value, 
-        icon, 
-        color 
-    }: { 
-        title: string; 
-        value: number; 
-        icon: React.ReactNode; 
+    const StatCard = ({
+        title,
+        value,
+        icon,
+        color
+    }: {
+        title: string;
+        value: number;
+        icon: React.ReactNode;
         color: string;
     }) => (
         <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 hover:shadow-md transition-shadow">

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 import {
     FaUser,
     FaStethoscope,
@@ -19,6 +21,8 @@ import { specializationOptions } from "../../../utils/api/user/DoctorData";
 
 const DoctorFilterWeb = () => {
     const navigate = useNavigate();
+    const { isAuthenticated, userRole } = useSelector((state: RootState) => state.auth);
+    const isPatient = isAuthenticated && userRole === 5;
     const [users, setUsers] = useState<any[]>([]);
     const [branchOptions, setBranchOptions] = useState<MultiSelectOption[]>([]);
     const [selectedDoctors, setSelectedDoctors] = useState<MultiSelectOption[]>(
@@ -137,8 +141,14 @@ const DoctorFilterWeb = () => {
                     <FaCalendarAlt className="w-5 h-5" />
                 </div>
                 <div>
-                    <h3 className="text-xl font-bold text-neutral-900">Book an Appointment</h3>
-                    <p className="text-sm text-neutral-500">Find the right doctor for you</p>
+                    <h3 className="text-xl font-bold text-neutral-900">
+                        {isAuthenticated && !isPatient ? "Browse Doctors & Sessions" : "Book an Appointment"}
+                    </h3>
+                    <p className="text-sm text-neutral-500">
+                        {isAuthenticated && !isPatient
+                            ? "Log in as a patient to book an appointment."
+                            : "Find the right doctor for you"}
+                    </p>
                 </div>
             </div>
 

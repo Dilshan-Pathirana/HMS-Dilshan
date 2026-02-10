@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Route, Routes } from "react-router-dom";
 import { useUserRole } from "../utils/state/checkAuthenticatedUserStates.ts";
 import { accessForAdmin } from "../utils/state/GivePermissionForUserRole.tsx";
@@ -79,7 +80,11 @@ const getRoleName = (roleId: number | null): string => {
     }
 };
 
-const DashboardLayout = () => {
+type DashboardLayoutProps = {
+    children?: ReactNode;
+};
+
+const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     const userRole = useUserRole();
     const permissionForAdminUser = accessForAdmin(userRole);
     const authState = useSelector((state: RootState) => state.auth);
@@ -107,7 +112,10 @@ const DashboardLayout = () => {
                 sidebarContent={<SidebarMenu items={getMenuItems()} />}
                 branchName="Hospital Management"
             >
-                <Routes>
+                {children ? (
+                    children
+                ) : (
+                    <Routes>
                     {/* Default dashboard route */}
                     <Route index element={<SuperAdminMainDashboard />} />
                     <Route path="super-admin/reports" element={<SuperAdminReportsContent />} />
@@ -194,7 +202,8 @@ const DashboardLayout = () => {
                         ],
                         NonAdminAccessRedirectRoutes,
                     )}
-                </Routes>
+                    </Routes>
+                )}
             </NewDashboardLayout>
         </BranchProvider>
     );

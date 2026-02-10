@@ -17,6 +17,7 @@ const QuestionEditModal: React.FC<QuestionEditModalProps> = ({
     const [formData, setFormData] = useState<IQuestionFormData>({
         doctor_id: "",
         question: "",
+        category: "",
         description: "",
         order: "",
         status: "",
@@ -54,6 +55,7 @@ const QuestionEditModal: React.FC<QuestionEditModalProps> = ({
             setFormData({
                 doctor_id: questionData.doctor_id || "",
                 question: questionData.question || "",
+                category: questionData.category || "",
                 description: questionData.description || "",
                 order: questionData.order?.toString() || "",
                 status: questionData.status?.toString() || "",
@@ -204,6 +206,29 @@ const QuestionEditModal: React.FC<QuestionEditModalProps> = ({
                             {errors.description && (
                                 <p className="text-red-700">
                                     {errors.description[0]}
+                                </p>
+                            )}
+                        </div>
+
+                        <div>
+                            <label
+                                htmlFor="category"
+                                className="block text-neutral-700 font-bold mb-2"
+                            >
+                                Category
+                            </label>
+                            <input
+                                type="text"
+                                id="category"
+                                name="category"
+                                value={formData.category}
+                                onChange={handleInputChange}
+                                className="w-full p-2 border border-neutral-300 rounded"
+                                placeholder="Optional category"
+                            />
+                            {errors.category && (
+                                <p className="text-red-700">
+                                    {errors.category[0]}
                                 </p>
                             )}
                         </div>

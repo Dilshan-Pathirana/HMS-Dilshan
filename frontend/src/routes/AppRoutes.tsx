@@ -54,6 +54,10 @@ const PatientDashboard = lazy(() => import("../pages/PatientDashboard/PatientDas
 const PatientDashboardNew = lazy(() => import("../pages/PatientDashboard/PatientDashboardNew.tsx"));
 const PatientAppoinmentChange = lazy(() => import("../pages/PatientDashboard/PatientAppointment/PatientAppointmentTable/PatientAppoinmentChange.tsx"));
 const PatientQuestionsPage = lazy(() => import("../pages/dashboard/Users/Patient/PatientQuestionsPage.tsx"));
+const PatientSessionsList = lazy(() => import("../pages/dashboard/PatientSessions/PatientSessionsList.tsx"));
+const PatientSessionDetails = lazy(() => import("../pages/dashboard/PatientSessions/PatientSessionDetails.tsx"));
+const PatientProfilesList = lazy(() => import("../pages/dashboard/PatientProfiles/PatientProfilesList.tsx"));
+const PatientProfileDetails = lazy(() => import("../pages/dashboard/PatientProfiles/PatientProfileDetails.tsx"));
 
 // ============================================
 // LAZY LOADED DOCTOR MODULE
@@ -188,18 +192,61 @@ const ShiftManagement = lazy(() => import("../pages/dashboard/Users/ShiftManagem
 const ITAssistantDashboard = lazy(() => import("../pages/dashboard/ITAssistant/ITAssistantDashboard.tsx").then(m => ({ default: m.ITAssistantDashboard })));
 const ReceptionistDashboard = lazy(() => import("../pages/dashboard/Receptionist/ReceptionistDashboard.tsx"));
 
+const withDashboardLayout = (content: React.ReactNode) => (
+    <DashboardLayout>{content}</DashboardLayout>
+);
+
 
 const AppRoutes: React.FC = () => {
     return (
         <Suspense fallback={<PageLoadingFallback />}>
             <Routes>
                 <Route path="/" element={<Dashboard />} />
-                <Route path="/dashboard/pharmacies" element={<SuperAdminPharmacies />} />
+                <Route
+                    path="/dashboard/pharmacies"
+                    element={
+                        <ProtectedRoute>
+                            {withDashboardLayout(<SuperAdminPharmacies />)}
+                        </ProtectedRoute>
+                    }
+                />
                 <Route path="/login" element={<LoginPage />} />
                 {/* Public doctor search page - anyone can search doctors */}
                 <Route
                     path="/doctor-schedule"
                     element={<WebDoctorScheduleDetails />}
+                />
+                <Route
+                    path="/branch-admin/patient-sessions"
+                    element={
+                        <ProtectedRoute allowedRoles={['branch_admin']}>
+                            <PatientSessionsList />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/branch-admin/patient-sessions/:sessionId"
+                    element={
+                        <ProtectedRoute allowedRoles={['branch_admin']}>
+                            <PatientSessionDetails />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/branch-admin/patient-profiles"
+                    element={
+                        <ProtectedRoute allowedRoles={['branch_admin']}>
+                            <PatientProfilesList />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/branch-admin/patient-profiles/:patientId"
+                    element={
+                        <ProtectedRoute allowedRoles={['branch_admin']}>
+                            <PatientProfileDetails />
+                        </ProtectedRoute>
+                    }
                 />
                 <Route path="/why-choose-us" element={<WhyChooseUs />} />
                 <Route path="/about-us" element={<About />} />
@@ -253,7 +300,14 @@ const AppRoutes: React.FC = () => {
                 />
                 <Route path="/signup" element={<SignupPage />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/appointment-confirmation/:orderId" element={<AppointmentConfirmation />} />
+                <Route
+                    path="/appointment-confirmation/:orderId"
+                    element={
+                        <ProtectedRoute allowedRoles={['patient']} redirectTo="/login">
+                            <AppointmentConfirmation />
+                        </ProtectedRoute>
+                    }
+                />
                 <Route path="/appointment-cancelled/:orderId" element={<AppointmentCancelled />} />
 
                 {/* Medical Insights Module - Public Routes */}
@@ -288,6 +342,14 @@ const AppRoutes: React.FC = () => {
                         </ProtectedRoute>
                     }
                 />
+                <Route
+                    path="/nurse-dashboard/*"
+                    element={
+                        <ProtectedRoute allowedRoles={['nurse']}>
+                            <NurseDashboardLayout />
+                        </ProtectedRoute>
+                    }
+                />
 
                 {/* Super Admin Dashboard - Role 1 */}
                 <Route
@@ -303,7 +365,7 @@ const AppRoutes: React.FC = () => {
                     path="/dashboard/patient/create-questions"
                     element={
                         <ProtectedRoute>
-                            <PatientQuestionsPage initialTab="create" />
+                            {withDashboardLayout(<PatientQuestionsPage initialTab="create" />)}
                         </ProtectedRoute>
                     }
                 />
@@ -311,7 +373,39 @@ const AppRoutes: React.FC = () => {
                     path="/dashboard/patient/all-questions"
                     element={
                         <ProtectedRoute>
-                            <PatientQuestionsPage initialTab="all" />
+                            {withDashboardLayout(<PatientQuestionsPage initialTab="all" />)}
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/dashboard/patient-sessions"
+                    element={
+                        <ProtectedRoute allowedRoles={['super_admin', 'branch_admin', 'doctor', 'nurse']}>
+                            {withDashboardLayout(<PatientSessionsList />)}
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/dashboard/patient-sessions/:sessionId"
+                    element={
+                        <ProtectedRoute allowedRoles={['super_admin', 'branch_admin', 'doctor', 'nurse']}>
+                            {withDashboardLayout(<PatientSessionDetails />)}
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/dashboard/patient-profiles"
+                    element={
+                        <ProtectedRoute allowedRoles={['super_admin', 'branch_admin', 'doctor', 'nurse']}>
+                            {withDashboardLayout(<PatientProfilesList />)}
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/dashboard/patient-profiles/:patientId"
+                    element={
+                        <ProtectedRoute allowedRoles={['super_admin', 'branch_admin', 'doctor', 'nurse']}>
+                            {withDashboardLayout(<PatientProfileDetails />)}
                         </ProtectedRoute>
                     }
                 />
@@ -320,7 +414,7 @@ const AppRoutes: React.FC = () => {
                     path="/dashboard/doctor/schedule"
                     element={
                         <ProtectedRoute allowedRoles={['doctor', 'super_admin']}>
-                            <ScheduleManagementPage />
+                            {withDashboardLayout(<ScheduleManagementPage />)}
                         </ProtectedRoute>
                     }
                 />
@@ -329,7 +423,7 @@ const AppRoutes: React.FC = () => {
                     path="/dashboard/doctor/create-diseases"
                     element={
                         <ProtectedRoute allowedRoles={['super_admin']}>
-                            <DoctorDiseasesPage initialTab="create" />
+                            {withDashboardLayout(<DoctorDiseasesPage initialTab="create" />)}
                         </ProtectedRoute>
                     }
                 />
@@ -337,7 +431,7 @@ const AppRoutes: React.FC = () => {
                     path="/dashboard/doctor/all-diseases"
                     element={
                         <ProtectedRoute allowedRoles={['super_admin']}>
-                            <DoctorDiseasesPage initialTab="all" />
+                            {withDashboardLayout(<DoctorDiseasesPage initialTab="all" />)}
                         </ProtectedRoute>
                     }
                 />
@@ -360,7 +454,7 @@ const AppRoutes: React.FC = () => {
                     path="/dashboard/branch/management"
                     element={
                         <ProtectedRoute>
-                            <BranchStaffManagement />
+                            {withDashboardLayout(<BranchStaffManagement />)}
                         </ProtectedRoute>
                     }
                 />
@@ -799,7 +893,7 @@ const AppRoutes: React.FC = () => {
                     path="/dashboard/branches/view"
                     element={
                         <ProtectedRoute allowedRoles={['super_admin']}>
-                            <BranchView />
+                            {withDashboardLayout(<BranchView />)}
                         </ProtectedRoute>
                     }
                 />
@@ -816,7 +910,7 @@ const AppRoutes: React.FC = () => {
                     path="/dashboard/branches/edit/:id"
                     element={
                         <ProtectedRoute allowedRoles={['super_admin']}>
-                            <BranchManage />
+                            {withDashboardLayout(<BranchManage />)}
                         </ProtectedRoute>
                     }
                 />
@@ -824,7 +918,7 @@ const AppRoutes: React.FC = () => {
                     path="/dashboard/branches/:id/assign"
                     element={
                         <ProtectedRoute allowedRoles={['super_admin']}>
-                            <BranchAssign />
+                            {withDashboardLayout(<BranchAssign />)}
                         </ProtectedRoute>
                     }
                 />
@@ -832,7 +926,7 @@ const AppRoutes: React.FC = () => {
                     path="/dashboard/branches/:id/manage"
                     element={
                         <ProtectedRoute allowedRoles={['super_admin']}>
-                            <BranchManage />
+                            {withDashboardLayout(<BranchManage />)}
                         </ProtectedRoute>
                     }
                 />
@@ -841,7 +935,7 @@ const AppRoutes: React.FC = () => {
                     path="/dashboard/branches/:id"
                     element={
                         <ProtectedRoute allowedRoles={['super_admin']}>
-                            <BranchDetails />
+                            {withDashboardLayout(<BranchDetails />)}
                         </ProtectedRoute>
                     }
                 />
@@ -850,7 +944,7 @@ const AppRoutes: React.FC = () => {
                     path="/dashboard/users/list"
                     element={
                         <ProtectedRoute allowedRoles={['super_admin']}>
-                            <UserManagement />
+                            {withDashboardLayout(<UserManagement />)}
                         </ProtectedRoute>
                     }
                 />
@@ -1161,6 +1255,46 @@ const AppRoutes: React.FC = () => {
                     element={
                         <ProtectedRoute allowedRoles={['doctor']}>
                             <AllDoctorRelatedAppointments />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/doctor/patient-sessions"
+                    element={
+                        <ProtectedRoute allowedRoles={['doctor']}>
+                            <PatientSessionsList />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/doctor/patient-sessions/:sessionId"
+                    element={
+                        <ProtectedRoute allowedRoles={['doctor']}>
+                            <PatientSessionDetails />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/doctor/patient-profiles"
+                    element={
+                        <ProtectedRoute allowedRoles={['doctor']}>
+                            <PatientProfilesList />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/doctor/patient-profiles/:patientId"
+                    element={
+                        <ProtectedRoute allowedRoles={['doctor']}>
+                            <PatientProfileDetails />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/patient/profile"
+                    element={
+                        <ProtectedRoute allowedRoles={['patient']}>
+                            <PatientProfileDetails />
                         </ProtectedRoute>
                     }
                 />

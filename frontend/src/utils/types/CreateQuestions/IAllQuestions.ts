@@ -4,6 +4,7 @@ export interface IQuestionData {
     doctor_first_name: string;
     doctor_last_name: string;
     question: string;
+    category?: string;
     description: string;
     order: number;
     status: string;

@@ -174,6 +174,16 @@ export const SuperAdminMenuItems: MenuItem[] = [
         path: '/dashboard/patient/all-questions'
     },
     {
+        label: 'Patient Session Management',
+        icon: <Clipboard className="w-5 h-5" />,
+        path: '/dashboard/patient-sessions'
+    },
+    {
+        label: 'Patient Profiles',
+        icon: <Users className="w-5 h-5" />,
+        path: '/dashboard/patient-profiles'
+    },
+    {
         label: 'Doctor Section',
         icon: <Stethoscope className="w-5 h-5" />,
         path: '/dashboard/doctor/schedule'
@@ -231,6 +241,8 @@ export const DoctorMenuItems: MenuItem[] = [
     { label: 'Patients', icon: <Users className="w-5 h-5" />, path: '/doctor/patients' },
     { label: 'Prescriptions', icon: <Clipboard className="w-5 h-5" />, path: '/doctor/prescriptions' },
     { label: 'Schedule', icon: <Calendar className="w-5 h-5" />, path: '/doctor/schedule' },
+    { label: 'Patient Session Management', icon: <Clipboard className="w-5 h-5" />, path: '/doctor/patient-sessions' },
+    { label: 'Patient Profiles', icon: <Users className="w-5 h-5" />, path: '/doctor/patient-profiles' },
     { label: 'Profile', icon: <User className="w-5 h-5" />, path: '/profile' },
 ];
 
@@ -258,6 +270,7 @@ export const PatientMenuItems: MenuItem[] = [
     { label: 'Medical History', icon: <Clipboard className="w-5 h-5" />, path: '/patient/medical-history' },
     { label: 'Prescriptions', icon: <FileText className="w-5 h-5" />, path: '/patient/prescriptions' },
     { label: 'Payments', icon: <DollarSign className="w-5 h-5" />, path: '/patient/payments' },
+    { label: 'Patient Profile', icon: <Users className="w-5 h-5" />, path: '/patient/profile' },
     { label: 'Profile', icon: <User className="w-5 h-5" />, path: '/profile' },
 ];
 
@@ -375,6 +388,16 @@ export const BranchAdminMenuItems: MenuItem[] = [
         label: 'Appointments',
         icon: <Calendar className="w-5 h-5" />,
         path: '/branch-admin/appointments'
+    },
+    {
+        label: 'Patient Session Management',
+        icon: <Clipboard className="w-5 h-5" />,
+        path: '/branch-admin/patient-sessions'
+    },
+    {
+        label: 'Patient Profiles',
+        icon: <Users className="w-5 h-5" />,
+        path: '/branch-admin/patient-profiles'
     },
     {
         label: 'Patient Section',
