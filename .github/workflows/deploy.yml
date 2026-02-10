@@ -87,18 +87,14 @@ jobs:
               run --rm backend alembic upgrade head
 
             echo "==== Truncate RDS data ===="
-            cat > /tmp/trunc.sql <<EOF
-            SET FOREIGN_KEY_CHECKS=0;
-            SELECT CONCAT('TRUNCATE TABLE `', table_name, '`;')
-            FROM information_schema.tables
-            WHERE table_schema='${DB_DATABASE}'
-              AND table_type='BASE TABLE'
-              AND table_name != 'alembic_version';
-            SET FOREIGN_KEY_CHECKS=1;
-            EOF
+            mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USERNAME" -p"$DB_PASSWORD" -N \
+              -e "SELECT CONCAT('TRUNCATE TABLE ', table_name, ';') FROM information_schema.tables WHERE table_schema='$DB_DATABASE' AND table_type='BASE TABLE' AND table_name != 'alembic_version';" \
+              > /tmp/trunc.out || true
 
-            mysql -h $DB_HOST -P $DB_PORT -u $DB_USERNAME -p$DB_PASSWORD $DB_DATABASE -N < /tmp/trunc.sql > /tmp/trunc.out
-            cat /tmp/trunc.out | mysql -h $DB_HOST -P $DB_PORT -u $DB_USERNAME -p$DB_PASSWORD $DB_DATABASE
+            if [ -s /tmp/trunc.out ]; then
+              { echo "SET FOREIGN_KEY_CHECKS=0;"; cat /tmp/trunc.out; echo "SET FOREIGN_KEY_CHECKS=1;"; } | \
+                mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USERNAME" -p"$DB_PASSWORD" "$DB_DATABASE"
+            fi
             echo "RDS truncate complete"
 
             echo "==== Seed database ===="
