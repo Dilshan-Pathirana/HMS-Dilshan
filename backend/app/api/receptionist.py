@@ -2,7 +2,7 @@ from typing import List, Optional
 from datetime import date, datetime
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
-from sqlmodel import select, func, or_
+from sqlmodel import select, func, or_, col
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.core.database import get_session
@@ -299,7 +299,11 @@ async def list_doctors(
 ):
     q = select(Doctor)
     if branch_id:
-        q = q.where(Doctor.branch_id == branch_id)
+        from app.models.doctor_branch_link import DoctorBranchLink
+        q = (
+            q.join(DoctorBranchLink, col(DoctorBranchLink.doctor_id) == Doctor.id)
+            .where(DoctorBranchLink.branch_id == branch_id)
+        )
     result = await session.exec(q)
     return result.all()
 

@@ -243,10 +243,21 @@ async def read_users(
     current_user: User = Depends(get_current_active_superuser)
 ):
     query = select(User)
-    if branch_id:
-        query = query.where(User.branch_id == branch_id)
-    if role_as is not None:
-        query = query.where(User.role_as == role_as)
+    if branch_id and role_as == 3:
+        from app.models.doctor import Doctor
+        from app.models.doctor_branch_link import DoctorBranchLink
+
+        query = (
+            select(User)
+            .join(Doctor, col(Doctor.user_id) == User.id)
+            .join(DoctorBranchLink, col(DoctorBranchLink.doctor_id) == Doctor.id)
+            .where(DoctorBranchLink.branch_id == branch_id)
+        )
+    else:
+        if branch_id:
+            query = query.where(User.branch_id == branch_id)
+        if role_as is not None:
+            query = query.where(User.role_as == role_as)
     query = query.offset(skip).limit(limit)
     result = await session.exec(query)
     return result.all()
@@ -402,7 +413,11 @@ async def get_available_users_by_role(
     For Pharmacist (role_as=7), also exclude users already referenced by Pharmacy.pharmacist_id.
     """
 
-    query = select(User).where(User.role_as == role_as).where(User.branch_id == None)
+    if role_as == 3:
+        query = select(User).where(User.role_as == role_as)
+    else:
+        query = select(User).where(User.role_as == role_as).where(User.branch_id == None)
+
     result = await session.exec(query)
     users = result.all() or []
 

@@ -14,7 +14,7 @@ export interface ISignUpFormFields {
     blood_type: string;
     emergency_contact_name: string;
     emergency_contact_phone: string;
-    branch_id: string;
+    branch_ids: string[];
 }
 
 export interface ISignupFormProps {

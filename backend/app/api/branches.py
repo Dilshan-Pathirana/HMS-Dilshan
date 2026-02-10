@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 from sqlmodel.ext.asyncio.session import AsyncSession
-from sqlmodel import select
+from sqlmodel import select, col
 
 from app.core.database import get_session
 from app.models.branch import Branch, BranchCreate
@@ -148,6 +148,7 @@ async def delete_branch(
     from app.models.user import User as UserModel
     from app.models.pharmacy import Pharmacy
     from app.models.doctor import Doctor
+    from app.models.doctor_branch_link import DoctorBranchLink
     from app.models.doctor_availability import DoctorAvailability
 
     unassigned_users = 0
@@ -167,10 +168,11 @@ async def delete_branch(
         session.add(p)
         unassigned_pharmacies += 1
 
-    doctor_result = await session.exec(select(Doctor).where(Doctor.branch_id == branch_id))
-    for d in doctor_result.all() or []:
-        d.branch_id = None
-        session.add(d)
+    doctor_link_result = await session.exec(
+        select(DoctorBranchLink).where(DoctorBranchLink.branch_id == branch_id)
+    )
+    for link in doctor_link_result.all() or []:
+        await session.delete(link)
         unassigned_doctors += 1
 
     availability_result = await session.exec(
@@ -328,14 +330,32 @@ async def assign_staff_to_branch(
         raise HTTPException(status_code=404, detail="User not found")
 
     # Role-aware assignment
-    # Always assign user to the branch via user.branch_id
-    user.branch_id = branch_id
-    session.add(user)
+    if assignment.role == "doctor":
+        from app.models.doctor import Doctor
+        from app.models.doctor_branch_link import DoctorBranchLink
 
-    # If assigning a Branch Admin, also update Branch.branch_admin_id
-    if assignment.role == "branch_admin":
-        branch.branch_admin_id = assignment.user_id
-        session.add(branch)
+        doctor_result = await session.exec(select(Doctor).where(Doctor.user_id == user.id))
+        doctor = doctor_result.first()
+        if not doctor:
+            raise HTTPException(status_code=404, detail="Doctor profile not found for user")
+
+        link_result = await session.exec(
+            select(DoctorBranchLink)
+            .where(DoctorBranchLink.doctor_id == doctor.id)
+            .where(DoctorBranchLink.branch_id == branch_id)
+        )
+        existing_link = link_result.first()
+        if not existing_link:
+            session.add(DoctorBranchLink(doctor_id=doctor.id, branch_id=branch_id))
+    else:
+        # Always assign non-doctor staff via user.branch_id
+        user.branch_id = branch_id
+        session.add(user)
+
+        # If assigning a Branch Admin, also update Branch.branch_admin_id
+        if assignment.role == "branch_admin":
+            branch.branch_admin_id = assignment.user_id
+            session.add(branch)
     try:
         await session.commit()
         await session.refresh(user)
@@ -370,9 +390,25 @@ async def get_branch_staff(
     # Let's return all users linked to this branch.
     query = select(User).where(User.branch_id == branch_id)
     result = await session.exec(query)
-    staff_members = result.all()
+    staff_members = result.all() or []
 
-    return staff_members
+    # Add doctors assigned via the doctor-branch link table
+    from app.models.doctor import Doctor
+    from app.models.doctor_branch_link import DoctorBranchLink
+
+    doctor_users_result = await session.exec(
+        select(User)
+        .join(Doctor, col(Doctor.user_id) == User.id)
+        .join(DoctorBranchLink, col(DoctorBranchLink.doctor_id) == Doctor.id)
+        .where(DoctorBranchLink.branch_id == branch_id)
+    )
+    doctor_users = doctor_users_result.all() or []
+
+    combined = {u.id: u for u in staff_members}
+    for u in doctor_users:
+        combined[u.id] = u
+
+    return list(combined.values())
 
 
 @router.delete("/{branch_id}/staff/{user_id}")
@@ -394,17 +430,38 @@ async def remove_staff_from_branch(
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
 
-    if user.branch_id != branch_id:
-        raise HTTPException(status_code=400, detail="User is not assigned to this branch")
+    if user.role_as == 3:
+        from app.models.doctor import Doctor
+        from app.models.doctor_branch_link import DoctorBranchLink
 
-    # If this user is the branch admin, clear that link too
-    if getattr(branch, "branch_admin_id", None) == user_id:
-        branch.branch_admin_id = None
-        session.add(branch)
+        doctor_result = await session.exec(select(Doctor).where(Doctor.user_id == user.id))
+        doctor = doctor_result.first()
+        if not doctor:
+            raise HTTPException(status_code=404, detail="Doctor profile not found for user")
 
-    # Unassign user from branch
-    user.branch_id = None
-    session.add(user)
+        link_result = await session.exec(
+            select(DoctorBranchLink)
+            .where(DoctorBranchLink.doctor_id == doctor.id)
+            .where(DoctorBranchLink.branch_id == branch_id)
+        )
+        link = link_result.first()
+        if not link:
+            raise HTTPException(status_code=400, detail="Doctor is not assigned to this branch")
+
+        await session.delete(link)
+    else:
+        if user.branch_id != branch_id:
+            raise HTTPException(status_code=400, detail="User is not assigned to this branch")
+
+        # If this user is the branch admin, clear that link too
+        if getattr(branch, "branch_admin_id", None) == user_id:
+            branch.branch_admin_id = None
+            session.add(branch)
+
+        # Unassign user from branch
+        user.branch_id = None
+        session.add(user)
+
     await session.commit()
 
     return {

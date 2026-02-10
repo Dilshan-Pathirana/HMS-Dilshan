@@ -25,7 +25,7 @@ class DoctorCreateRequest(BaseModel):
     qualification: str
     contact_number: str
     experience_years: int
-    branch_id: Optional[str] = None
+    branch_ids: Optional[list[str]] = None
 
 @router.post("/", response_model=DoctorRead)
 async def create_doctor(
@@ -49,8 +49,7 @@ async def create_doctor(
         hashed_password=get_password_hash(doctor_in.password),
         # Frontend expects Doctor to be role_as=3 (see frontend UserRole enum)
         role_as=3,
-        is_active=True,
-        branch_id=doctor_in.branch_id
+        is_active=True
     )
     session.add(user)
 
@@ -70,14 +69,23 @@ async def create_doctor(
         qualification=doctor_in.qualification,
         contact_number=doctor_in.contact_number,
         experience_years=doctor_in.experience_years,
-        user_id=user.id,
-        branch_id=doctor_in.branch_id
+        user_id=user.id
     )
     session.add(doctor)
 
     try:
         await session.commit()
         await session.refresh(doctor)
+        # Assign branches if provided
+        if doctor_in.branch_ids:
+            # Attach branches via relationship
+            branch_query = select(Branch).where(Branch.id.in_(doctor_in.branch_ids))
+            result = await session.exec(branch_query)
+            branches = result.all()
+            doctor.branches = branches
+            session.add(doctor)
+            await session.commit()
+            await session.refresh(doctor)
         # Load user for response
         doctor.user = user
         return doctor

@@ -1,6 +1,8 @@
+
 from typing import Optional, List
 from sqlmodel import SQLModel, Field, Relationship
 from uuid import uuid4
+from .doctor_branch_link import DoctorBranchLink
 
 class BranchBase(SQLModel):
     center_name: str = Field(index=True, unique=True, max_length=255)
@@ -17,8 +19,12 @@ class BranchBase(SQLModel):
 
 class Branch(BranchBase, table=True):
     id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True, max_length=36)
-    
+
     pharmacies: List["Pharmacy"] = Relationship(back_populates="branch")
+    doctors: List["Doctor"] = Relationship(back_populates="branches", link_model=DoctorBranchLink)
+
+# For forward references
+from .doctor import Doctor
 
 class BranchCreate(BranchBase):
     pass
