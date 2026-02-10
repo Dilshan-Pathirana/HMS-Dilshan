@@ -104,7 +104,12 @@ async def read_doctors(
     limit: int = 100,
     session: AsyncSession = Depends(get_session),
 ):
-    query = select(Doctor).options(selectinload(Doctor.user)).offset(skip).limit(limit)
+    query = (
+        select(Doctor)
+        .options(selectinload(Doctor.user), selectinload(Doctor.branches))
+        .offset(skip)
+        .limit(limit)
+    )
     result = await session.exec(query)
     return result.all()
 
@@ -114,7 +119,11 @@ async def read_doctor(
     session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_active_superuser)
 ):
-    query = select(Doctor).options(selectinload(Doctor.user)).where(Doctor.id == doctor_id)
+    query = (
+        select(Doctor)
+        .options(selectinload(Doctor.user), selectinload(Doctor.branches))
+        .where(Doctor.id == doctor_id)
+    )
     result = await session.exec(query)
     doctor = result.first()
     if not doctor:
