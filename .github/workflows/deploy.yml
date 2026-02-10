@@ -23,6 +23,9 @@ jobs:
       - name: Install Poetry
         run: pip install poetry
 
+      - name: Install aiosqlite
+        run: pip install aiosqlite
+
       - name: Install backend dependencies
         working-directory: backend
         run: poetry install --no-interaction --no-ansi
