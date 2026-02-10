@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../../../utils/api/axios";
 import Select from "react-select";
 import { getAllBranches } from "../../../utils/api/branch/GetAllBranches.ts";
@@ -15,6 +16,7 @@ type DoctorSessionCreateProps = {
 };
 
 const DoctorSessionCreate: React.FC<DoctorSessionCreateProps> = ({ onCreated }) => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState<IDoctorSessionFormTypes>({
         branch_id: "",
         doctor_id: "",
@@ -190,7 +192,7 @@ const DoctorSessionCreate: React.FC<DoctorSessionCreateProps> = ({ onCreated }) 
             );
 
             if (response.status === 200) {
-                alert.success("Session created");
+                alert.success("Session created.");
                 setFormData({
                     branch_id: "",
                     doctor_id: "",
@@ -207,6 +209,7 @@ const DoctorSessionCreate: React.FC<DoctorSessionCreateProps> = ({ onCreated }) 
                 setSelectedDoctor(null);
                 setErrors({});
                 onCreated?.();
+                navigate("/dashboard/doctor/schedule");
             }
         } catch (error) {
             if (axios.isAxiosError(error)) {
