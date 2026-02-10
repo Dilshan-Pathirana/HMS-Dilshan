@@ -21,6 +21,7 @@ import {
 } from 'react-icons/fa';
 import api from "../../../utils/api/axios";
 import { RootState } from '../../../store';
+import useFetchPatientDetails from '../../../utils/api/PatientAppointment/FetchPatientDetails';
 
 // User role constants - Staff roles that can use "Pay at Clinic" option
 const STAFF_ROLES = [1, 2]; // Super Admin (1), Branch Admin (2)
@@ -100,6 +101,7 @@ const AppointmentWizard: React.FC = () => {
   const userId = useSelector((state: RootState) => state.auth.userId);
   const userRole = useSelector((state: RootState) => state.auth.userRole);
   const token = localStorage.getItem('token');
+  const { userDetails } = useFetchPatientDetails(userId);
 
   // Check if user is staff (can use Pay at Clinic option)
   // Staff users: Super Admin (1), Branch Admin (2)
@@ -133,6 +135,27 @@ const AppointmentWizard: React.FC = () => {
   const MAX_SLOTS = 5;
   const [bookingFeePerSlot, setBookingFeePerSlot] = useState<number>(350); // Default fee (Rs. 350), updated from system settings API
 
+  const formatDateLocal = (dateValue: Date) => {
+    const year = dateValue.getFullYear();
+    const month = String(dateValue.getMonth() + 1).padStart(2, '0');
+    const day = String(dateValue.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const parseTimeToMinutes = (timeValue: string): number => {
+    const parts = (timeValue || '').split(':');
+    const hours = Number(parts[0] || 0);
+    const minutes = Number(parts[1] || 0);
+    return hours * 60 + minutes;
+  };
+
+  const addMinutesToTime = (timeValue: string, minutesToAdd: number): string => {
+    const total = parseTimeToMinutes(timeValue) + minutesToAdd;
+    const hours = Math.floor(total / 60) % 24;
+    const minutes = total % 60;
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+  };
+
   // Step 4: Payment & Confirmation
   const [appointmentType, setAppointmentType] = useState('consultation');
   const [notes, setNotes] = useState('');
@@ -141,7 +164,7 @@ const AppointmentWizard: React.FC = () => {
   const [paymentProcessing, setPaymentProcessing] = useState(false);
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
   const [_payhereData, setPayhereData] = useState<any>(null); // Used for storing payment data
-  
+
   // Terms & Conditions
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
@@ -226,20 +249,57 @@ const AppointmentWizard: React.FC = () => {
       setLoading(true);
       setError(null);
 
-      const response = await api.post('/appointments/doctors/slots-with-times', {
-        doctor_id: selectedDoctor.doctor_id,
-        branch_id: selectedBranch,
-        date: date,
+      const response = await api.get('/availability', {
+        params: {
+          doctor_id: selectedDoctor.doctor_id,
+          branch_id: selectedBranch,
+          date: date,
+        },
       });
 
-      if (response.data.status === 200) {
-        setAvailabilityData(response.data.data);
-        // Update booking fee from settings
-        if (response.data.data.booking_fee_per_slot) {
-          setBookingFeePerSlot(response.data.data.booking_fee_per_slot);
-        }
-      } else {
-        setError(response.data.message || 'Failed to load slots');
+      const payload = (response as any)?.data ? (response as any).data : response;
+      const rawSlots = Array.isArray(payload?.slots) ? payload.slots : [];
+      const durationFromPayload = Number(payload?.slot_duration_minutes || 0);
+      const durationFromSlots = rawSlots.length >= 2
+        ? parseTimeToMinutes(rawSlots[1].time) - parseTimeToMinutes(rawSlots[0].time)
+        : 0;
+      const slotDuration = durationFromPayload || durationFromSlots || 0;
+
+      const mappedSlots: SlotInfo[] = rawSlots.map((slot: any) => ({
+        slot_number: Number(slot.slot_index || 0),
+        estimated_time: String(slot.time || ''),
+        estimated_end_time: slotDuration ? addMinutesToTime(String(slot.time || ''), slotDuration) : String(slot.time || ''),
+        is_available: Boolean(slot.available),
+        is_booked: !slot.available,
+      }));
+
+      const summary = {
+        total_slots: mappedSlots.length,
+        available: mappedSlots.filter((s) => s.is_available).length,
+        booked: mappedSlots.filter((s) => s.is_booked).length,
+      };
+
+      const sessionStart = payload?.session_start_time || mappedSlots[0]?.estimated_time || '';
+      const sessionEnd = payload?.session_end_time
+        || (mappedSlots.length > 0 && slotDuration
+          ? addMinutesToTime(mappedSlots[mappedSlots.length - 1].estimated_time, slotDuration)
+          : mappedSlots[mappedSlots.length - 1]?.estimated_time || '');
+
+      setAvailabilityData({
+        date: date,
+        day: new Date(date).toLocaleDateString('en-US', { weekday: 'long' }),
+        session: {
+          start_time: sessionStart,
+          end_time: sessionEnd,
+          time_per_patient: slotDuration,
+        },
+        slots: mappedSlots,
+        summary,
+        disclaimer: 'Times are estimates and may vary based on consultation duration.',
+      });
+
+      if (mappedSlots.length === 0) {
+        setError('No slots available');
       }
     } catch (err: any) {
       console.error('Failed to load slots:', err);
@@ -259,10 +319,10 @@ const AppointmentWizard: React.FC = () => {
   // Handle slot selection (toggle, max 5)
   const handleSlotSelect = (slot: SlotInfo) => {
     if (!slot.is_available) return;
-    
+
     setSelectedSlots(prev => {
       const isAlreadySelected = prev.some(s => s.slot_number === slot.slot_number);
-      
+
       if (isAlreadySelected) {
         // Remove if already selected
         return prev.filter(s => s.slot_number !== slot.slot_number);
@@ -285,7 +345,7 @@ const AppointmentWizard: React.FC = () => {
 
   // Create booking (supports multiple slots)
   const createBooking = async () => {
-    if (!selectedDoctor || selectedSlots.length === 0 || !selectedDate || !userId) {
+    if (!selectedDoctor || selectedSlots.length === 0 || !selectedDate || !userDetails.patientId) {
       setError('Missing required booking information');
       return;
     }
@@ -294,65 +354,57 @@ const AppointmentWizard: React.FC = () => {
       setLoading(true);
       setError(null);
 
-      // Calculate total amount based on number of slots
-      const totalAmount = selectedSlots.length * bookingFeePerSlot;
+      const bookedItems = [] as Array<{ id: string; slot_number: number; appointment_time: string }>;
 
-      const response = await api.post(
-        '/patient/appointments/book',
-        {
-          patient_id: userId,
+      for (const slot of selectedSlots) {
+        const response = await api.post('/appointments', {
           doctor_id: selectedDoctor.doctor_id,
           branch_id: selectedBranch,
-          appointment_date: selectedDate,
-          slot_numbers: selectedSlots.map(s => s.slot_number), // Array of slot numbers
-          appointment_type: appointmentType,
-          notes: notes,
-          total_amount: totalAmount,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+          date: selectedDate,
+          slot_index: slot.slot_number,
+          patient_id: userDetails.patientId,
+        });
 
-      if (response.data.status === 201 || response.data.status === 200) {
-        setBookingResult(response.data.booking);
-        
-        if (response.data.booking.payment_required && paymentMethod === 'payhere') {
-          // Store PayHere data and initiate payment
-          if (response.data.payment_data) {
-            setPayhereData(response.data.payment_data);
-            initiatePayHerePayment(response.data.payment_data);
-          } else {
-            // Fallback - fetch payment data separately
-            await fetchPayHereData(response.data.booking);
-          }
-        } else {
-          // Booking confirmed without online payment (cash at clinic)
-          setBookingConfirmed(true);
-        }
+        const payload = (response as any)?.data ? (response as any).data : response;
+        const appointment = payload?.appointment || {};
+        bookedItems.push({
+          id: String(appointment.id || ''),
+          slot_number: slot.slot_number,
+          appointment_time: String(appointment.appointment_time || slot.estimated_time || ''),
+        });
       }
+
+      setBookingResult({
+        id: bookedItems[0]?.id || '',
+        token_number: bookedItems[0]?.slot_number || 0,
+        appointment_date: selectedDate,
+        appointment_time: bookedItems[0]?.appointment_time || '',
+        slot_number: bookedItems[0]?.slot_number || 0,
+        status: 'confirmed',
+        payment_required: false,
+        booking_fee: bookingFeePerSlot,
+        bookings: bookedItems.map((item) => ({
+          id: item.id,
+          token_number: item.slot_number,
+          slot_number: item.slot_number,
+          appointment_time: item.appointment_time,
+        })),
+        total_amount: selectedSlots.length * bookingFeePerSlot,
+      });
+      setBookingConfirmed(true);
     } catch (err: any) {
       console.error('Booking failed:', err);
-      
-      // Check if slots became unavailable (race condition)
-      if (err.response?.data?.slot_conflict || err.response?.data?.unavailable_slots) {
-        const unavailableSlots = err.response?.data?.unavailable_slots || [];
-        // Reset selected slots that are no longer available
-        if (unavailableSlots.length > 0) {
-          setSelectedSlots(prev => prev.filter(slot => !unavailableSlots.includes(slot)));
-        }
-        // Refresh availability data
+
+      if (err.response?.status === 409) {
+        setError('Selected slot is already booked. Please choose another slot.');
         if (selectedDoctor && selectedDate) {
           loadSlots(selectedDate);
         }
-        setError(err.response?.data?.message || 'The selected slot(s) are no longer available. Please select different slots.');
         setLoading(false);
         return;
       }
-      
-      setError(err.response?.data?.message || 'Failed to create booking. Please try again.');
+
+      setError(err.response?.data?.detail || err.response?.data?.message || 'Failed to create booking. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -385,7 +437,7 @@ const AppointmentWizard: React.FC = () => {
   // PayHere payment initiation
   const initiatePayHerePayment = (paymentData: any) => {
     setPaymentProcessing(true);
-    
+
     // Create and submit a form to PayHere
     const form = document.createElement('form');
     form.method = 'POST';
@@ -450,7 +502,7 @@ const AppointmentWizard: React.FC = () => {
 
       if (dayName === scheduleDay) {
         dates.push({
-          date: date.toISOString().split('T')[0],
+          date: formatDateLocal(date),
           day: dayName,
           label: date.toLocaleDateString('en-US', {
             weekday: 'short',
@@ -805,7 +857,7 @@ const AppointmentWizard: React.FC = () => {
                   <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-3 mb-4 flex items-start">
                     <FaInfoCircle className="text-indigo-600 mr-2 mt-0.5 flex-shrink-0" />
                     <p className="text-sm text-indigo-800">
-                      <strong>Multi-slot booking:</strong> You can select up to {MAX_SLOTS} slots at a time. 
+                      <strong>Multi-slot booking:</strong> You can select up to {MAX_SLOTS} slots at a time.
                       Each slot costs Rs. {bookingFeePerSlot.toFixed(2)}. Click a slot to select/deselect.
                     </p>
                   </div>
@@ -820,14 +872,18 @@ const AppointmentWizard: React.FC = () => {
                       </div>
                       <div
                         className={`px-3 py-1 rounded-full text-sm font-medium ${
-                          availabilityData.summary.available === 0
+                          availabilityData.summary.total_slots === 0
+                            ? 'bg-neutral-200 text-neutral-600'
+                            : availabilityData.summary.available === 0
                             ? 'bg-error-100 text-red-700'
                             : availabilityData.summary.available <= 3
                             ? 'bg-yellow-100 text-yellow-700'
                             : 'bg-green-100 text-green-700'
                         }`}
                       >
-                        {availabilityData.summary.available === 0
+                        {availabilityData.summary.total_slots === 0
+                          ? 'No Slots'
+                          : availabilityData.summary.available === 0
                           ? 'Full'
                           : availabilityData.summary.available <= 3
                           ? 'Nearly Full'
@@ -835,37 +891,46 @@ const AppointmentWizard: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Slot Grid with multi-select */}
-                    <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-2">
-                      {availabilityData.slots.map((slot) => {
-                        const isSelected = selectedSlots.some(s => s.slot_number === slot.slot_number);
-                        const isMaxReached = selectedSlots.length >= MAX_SLOTS && !isSelected;
-                        
-                        return (
-                          <button
-                            key={slot.slot_number}
-                            disabled={!slot.is_available || isMaxReached}
-                            onClick={() => handleSlotSelect(slot)}
-                            className={`p-3 rounded-lg text-center transition-all ${
-                              isSelected
-                                ? 'bg-indigo-600 text-white border-2 border-indigo-700 ring-2 ring-indigo-300'
-                                : slot.is_available && !isMaxReached
-                                ? 'bg-white border-2 border-green-200 hover:border-green-500 hover:shadow cursor-pointer'
-                                : 'bg-neutral-200 text-neutral-400 cursor-not-allowed'
-                            }`}
-                          >
-                            <p className="font-bold text-lg">#{slot.slot_number}</p>
-                            <p className="text-xs">{slot.estimated_time}</p>
-                            {isSelected && <FaCheck className="mx-auto mt-1 text-sm" />}
-                          </button>
-                        );
-                      })}
-                    </div>
+                    {availabilityData.summary.total_slots === 0 ? (
+                      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-yellow-700 text-sm flex items-start">
+                        <FaExclamationTriangle className="w-5 h-5 mr-2 flex-shrink-0" />
+                        No slots available for this date.
+                      </div>
+                    ) : (
+                      <>
+                        {/* Slot Grid with multi-select */}
+                        <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-2">
+                          {availabilityData.slots.map((slot) => {
+                            const isSelected = selectedSlots.some(s => s.slot_number === slot.slot_number);
+                            const isMaxReached = selectedSlots.length >= MAX_SLOTS && !isSelected;
 
-                    <p className="mt-4 text-xs text-neutral-500 flex items-center">
-                      <FaInfoCircle className="mr-1" />
-                      {availabilityData.disclaimer}
-                    </p>
+                            return (
+                              <button
+                                key={slot.slot_number}
+                                disabled={!slot.is_available || isMaxReached}
+                                onClick={() => handleSlotSelect(slot)}
+                                className={`p-3 rounded-lg text-center transition-all ${
+                                  isSelected
+                                    ? 'bg-indigo-600 text-white border-2 border-indigo-700 ring-2 ring-indigo-300'
+                                    : slot.is_available && !isMaxReached
+                                    ? 'bg-white border-2 border-green-200 hover:border-green-500 hover:shadow cursor-pointer'
+                                    : 'bg-neutral-200 text-neutral-400 cursor-not-allowed'
+                                }`}
+                              >
+                                <p className="font-bold text-lg">#{slot.slot_number}</p>
+                                <p className="text-xs">{slot.estimated_time}</p>
+                                {isSelected && <FaCheck className="mx-auto mt-1 text-sm" />}
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        <p className="mt-4 text-xs text-neutral-500 flex items-center">
+                          <FaInfoCircle className="mr-1" />
+                          {availabilityData.disclaimer}
+                        </p>
+                      </>
+                    )}
                   </div>
 
                   {/* Selected Slots Summary & Continue Button */}
@@ -879,7 +944,7 @@ const AppointmentWizard: React.FC = () => {
                       </div>
                       <div className="flex flex-wrap gap-2 mb-4">
                         {selectedSlots.map(slot => (
-                          <span 
+                          <span
                             key={slot.slot_number}
                             className="inline-flex items-center px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm font-medium"
                           >
@@ -959,7 +1024,7 @@ const AppointmentWizard: React.FC = () => {
                   <span className="text-sm text-neutral-500">Selected Token{selectedSlots.length > 1 ? 's' : ''} ({selectedSlots.length})</span>
                   <div className="flex flex-wrap gap-3 mt-2">
                     {selectedSlots.map((slot) => (
-                      <div 
+                      <div
                         key={slot.slot_number}
                         className="bg-white rounded-lg p-3 border border-indigo-200 text-center min-w-[100px]"
                       >
@@ -1129,7 +1194,7 @@ const AppointmentWizard: React.FC = () => {
                     <div>
                       <p className="text-sm text-green-700 font-medium">Secure Payment Gateway</p>
                       <p className="text-xs text-green-600 mt-1">
-                        You will be redirected to PayHere's secure payment page. We accept Visa, MasterCard, 
+                        You will be redirected to PayHere's secure payment page. We accept Visa, MasterCard,
                         American Express, eZ Cash, mCash, and direct bank transfers.
                       </p>
                     </div>
@@ -1179,7 +1244,7 @@ const AppointmentWizard: React.FC = () => {
                   </>
                 )}
               </button>
-              
+
               {!termsAccepted && (
                 <p className="text-center text-sm text-amber-600 mt-2">
                   Please accept the terms and conditions to proceed
@@ -1219,8 +1284,8 @@ const AppointmentWizard: React.FC = () => {
               </div>
 
               <h2 className="text-2xl font-bold text-neutral-800 mb-2">
-                {bookingResult.bookings && bookingResult.bookings.length > 1 
-                  ? `${bookingResult.bookings.length} Appointments Confirmed!` 
+                {bookingResult.bookings && bookingResult.bookings.length > 1
+                  ? `${bookingResult.bookings.length} Appointments Confirmed!`
                   : 'Appointment Confirmed!'}
               </h2>
               <p className="text-neutral-600 mb-8">
@@ -1235,7 +1300,7 @@ const AppointmentWizard: React.FC = () => {
                       <span className="text-sm text-neutral-500">Your Token Numbers</span>
                       <div className="flex flex-wrap justify-center gap-3 mt-2">
                         {bookingResult.bookings.map((booking) => (
-                          <div 
+                          <div
                             key={booking.id}
                             className="bg-white rounded-lg px-4 py-3 border border-indigo-200 text-center"
                           >
@@ -1327,7 +1392,7 @@ const AppointmentWizard: React.FC = () => {
               <h2 className="text-xl font-bold text-white">Payment Terms & Conditions</h2>
               <p className="text-indigo-100 text-sm mt-1">Please read carefully before proceeding</p>
             </div>
-            
+
             {/* Modal Body */}
             <div className="p-6 overflow-y-auto max-h-[60vh]">
               {/* Non-Refundable Policy */}
@@ -1337,7 +1402,7 @@ const AppointmentWizard: React.FC = () => {
                   Non-Refundable Policy
                 </h3>
                 <p className="text-red-700 mt-2 text-sm">
-                  All appointment booking fees are <strong>strictly non-refundable</strong>. Once payment is completed, 
+                  All appointment booking fees are <strong>strictly non-refundable</strong>. Once payment is completed,
                   the booking fee cannot be refunded under any circumstances, including but not limited to:
                 </p>
                 <ul className="list-disc list-inside text-red-700 text-sm mt-2 space-y-1">
@@ -1353,7 +1418,7 @@ const AppointmentWizard: React.FC = () => {
                 <div>
                   <h4 className="font-semibold text-neutral-800 mb-2">1. Booking Confirmation</h4>
                   <p>
-                    Your appointment is confirmed only after successful payment processing. You will receive a 
+                    Your appointment is confirmed only after successful payment processing. You will receive a
                     confirmation with your token number and estimated consultation time.
                   </p>
                 </div>
@@ -1361,7 +1426,7 @@ const AppointmentWizard: React.FC = () => {
                 <div>
                   <h4 className="font-semibold text-neutral-800 mb-2">2. Appointment Timing</h4>
                   <p>
-                    The estimated time provided is approximate and may vary based on the actual consultation duration 
+                    The estimated time provided is approximate and may vary based on the actual consultation duration
                     of previous patients. Please arrive at least 15 minutes before your estimated time.
                   </p>
                 </div>
@@ -1369,7 +1434,7 @@ const AppointmentWizard: React.FC = () => {
                 <div>
                   <h4 className="font-semibold text-neutral-800 mb-2">3. Rescheduling Policy</h4>
                   <p>
-                    Rescheduling requests must be made at least 24 hours before the appointment time. Rescheduling 
+                    Rescheduling requests must be made at least 24 hours before the appointment time. Rescheduling
                     is subject to doctor availability and may require an additional fee.
                   </p>
                 </div>
@@ -1377,7 +1442,7 @@ const AppointmentWizard: React.FC = () => {
                 <div>
                   <h4 className="font-semibold text-neutral-800 mb-2">4. Doctor Unavailability</h4>
                   <p>
-                    In the rare event that the doctor is unavailable due to emergency or unforeseen circumstances, 
+                    In the rare event that the doctor is unavailable due to emergency or unforeseen circumstances,
                     you will be offered a rescheduled appointment or a credit for future bookings.
                   </p>
                 </div>
@@ -1385,7 +1450,7 @@ const AppointmentWizard: React.FC = () => {
                 <div>
                   <h4 className="font-semibold text-neutral-800 mb-2">5. Consultation Fees</h4>
                   <p>
-                    The booking fee covers the appointment slot reservation only. The doctor's consultation fee 
+                    The booking fee covers the appointment slot reservation only. The doctor's consultation fee
                     and any additional charges for treatments, medications, or investigations are payable separately.
                   </p>
                 </div>
@@ -1393,7 +1458,7 @@ const AppointmentWizard: React.FC = () => {
                 <div>
                   <h4 className="font-semibold text-neutral-800 mb-2">6. Payment Security</h4>
                   <p>
-                    All payments are processed through PayHere, a secure payment gateway. Your payment information 
+                    All payments are processed through PayHere, a secure payment gateway. Your payment information
                     is encrypted and never stored on our servers.
                   </p>
                 </div>
@@ -1401,7 +1466,7 @@ const AppointmentWizard: React.FC = () => {
                 <div>
                   <h4 className="font-semibold text-neutral-800 mb-2">7. Medical Disclaimer</h4>
                   <p>
-                    This booking system is for appointment scheduling only. It does not constitute medical advice. 
+                    This booking system is for appointment scheduling only. It does not constitute medical advice.
                     In case of medical emergencies, please call emergency services immediately.
                   </p>
                 </div>
@@ -1410,7 +1475,7 @@ const AppointmentWizard: React.FC = () => {
               {/* Agreement Notice */}
               <div className="mt-6 p-4 bg-amber-50 rounded-lg border border-amber-200">
                 <p className="text-amber-800 text-sm">
-                  <strong>By checking the agreement box,</strong> you acknowledge that you have read, understood, 
+                  <strong>By checking the agreement box,</strong> you acknowledge that you have read, understood,
                   and agree to these terms and conditions, including the non-refundable policy for appointment booking fees.
                 </p>
               </div>

@@ -129,12 +129,21 @@ const HrNavbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
                     </div>
 
                     <div className="flex items-center relative gap-1 sm:gap-2 flex-shrink-0">
+                        <Link
+                            to="/"
+                            className="hidden sm:inline-flex text-xs sm:text-sm px-2 sm:px-4 py-2 font-medium text-primary-600 bg-primary-50 rounded-lg hover:bg-primary-100 focus:outline-none focus:ring-4 focus:ring-blue-100 whitespace-nowrap"
+                        >
+                            Home
+                        </Link>
                         <button
                             onClick={handleBackClick}
                             className="hidden sm:inline-flex text-xs sm:text-sm px-2 sm:px-4 py-2 font-medium text-white bg-primary-500 rounded-lg hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-primary-500 dark:hover:bg-primary-500 dark:focus:ring-blue-800 whitespace-nowrap"
                         >
                             Main Dashboard
                         </button>
+                        <div className="hidden sm:flex items-center">
+                            <SignOutButton />
+                        </div>
                         <div
                             className="relative flex items-center"
                             ref={notificationDropdownRef}

@@ -6,6 +6,7 @@ import PharmacyNavbarDropDown from "./PharmacyNavbarDropDown.tsx";
 import ProfileButton from "./ProfileButton.tsx";
 import "../../../../assets/Styles/navbar-styles.css";
 import { NavbarProps } from "../../../../utils/types/pharmacy/PharcacyDashboardLayout";
+import SignOutButton from "../../../dashboard/sideBar/common/SignOutButton.tsx";
 
 const PharmacyNavbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -39,6 +40,15 @@ const PharmacyNavbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
                         </Link>
                     </div>
                     <div className="flex items-center relative gap-1 sm:gap-2 flex-shrink-0">
+                        <Link
+                            to="/"
+                            className="hidden sm:inline-flex text-xs sm:text-sm px-2 sm:px-4 py-2 font-medium text-primary-600 bg-primary-50 rounded-lg hover:bg-primary-100 focus:outline-none focus:ring-4 focus:ring-blue-100 whitespace-nowrap"
+                        >
+                            Home
+                        </Link>
+                        <div className="hidden sm:flex items-center">
+                            <SignOutButton />
+                        </div>
                         <div className="flex items-center gap-1 sm:gap-2">
                             <ProfileButton toggleDropdown={toggleDropdown} />
                             <PharmacyNavbarDropDown

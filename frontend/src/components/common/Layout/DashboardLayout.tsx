@@ -1,5 +1,5 @@
 import React, { ReactNode, useState, useEffect, useRef } from 'react';
-import { LogOut, Settings, Bell, X, MessageSquare, AlertCircle, Menu } from 'lucide-react';
+import { LogOut, Settings, Bell, X, MessageSquare, AlertCircle, Menu, Home } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, persistor } from '../../../store';
@@ -272,6 +272,14 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                         </div>
 
                         {/* Settings */}
+                        <button
+                            onClick={() => navigate('/')}
+                            className="flex items-center gap-2 px-3 py-2 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition-all"
+                        >
+                            <Home className="w-4 h-4" />
+                            <span className="text-sm font-medium">Home</span>
+                        </button>
+
                         <button
                             onClick={() => navigate('/profile/settings')}
                             className="p-2 hover:bg-slate-100 rounded-lg transition-colors"

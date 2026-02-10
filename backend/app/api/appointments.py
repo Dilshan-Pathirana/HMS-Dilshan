@@ -1,13 +1,15 @@
 from __future__ import annotations
 
 from datetime import date, datetime, time, timedelta
-from typing import Dict, List, Optional
+import logging
+from typing import Any, Dict, List, Optional
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel, Field as PydanticField
 from sqlalchemy.exc import IntegrityError
-from sqlmodel import select
+from sqlalchemy import or_
+from sqlmodel import col, select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.core.database import get_session
@@ -16,12 +18,16 @@ from app.models.appointment import Appointment
 from app.models.branch import Branch
 from app.models.doctor import Doctor
 from app.models.doctor_availability import DoctorAvailability
+from app.models.doctor_schedule import DoctorSchedule
 from app.models.patient import Patient
 from app.models.user import User
 from app.services.appointment_service import AppointmentService
+from app.services.doctor_schedule_service import DoctorScheduleService
 
 
 router = APIRouter()
+availability_router = APIRouter()
+logger = logging.getLogger(__name__)
 
 
 class AppointmentSearchResult(BaseModel):
@@ -42,6 +48,18 @@ def _time_to_str(t: time) -> str:
     return t.strftime("%H:%M")
 
 
+def _parse_time_value(value: str) -> time:
+    raw = (value or "").strip()
+    for fmt in ("%H:%M:%S", "%H:%M"):
+        try:
+            return datetime.strptime(raw, fmt).time()
+        except ValueError:
+            continue
+    if raw:
+        return datetime.strptime(raw[:5], "%H:%M").time()
+    return time(0, 0)
+
+
 def _iter_slots(start: time, end: time, minutes: int) -> List[time]:
     start_dt = datetime.combine(date(2000, 1, 1), start)
     end_dt = datetime.combine(date(2000, 1, 1), end)
@@ -54,6 +72,21 @@ def _iter_slots(start: time, end: time, minutes: int) -> List[time]:
         out.append(current.time())
         current += step
     return out
+
+
+def _weekday_name(day_index: int) -> str:
+    names = [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+    ]
+    if 0 <= day_index < len(names):
+        return names[day_index]
+    return ""
 
 
 @router.get("/search", response_model=AppointmentSearchResponse)
@@ -116,18 +149,18 @@ async def search_appointments(
     doctor_ids = list({w.doctor_id for w in windows})
     branch_ids = list({w.branch_id for w in windows})
 
-    doctors_result = await session.exec(select(Doctor).where(Doctor.id.in_(doctor_ids)))
+    doctors_result = await session.exec(select(Doctor).where(col(Doctor.id).in_(doctor_ids)))
     doctors = {d.id: d for d in doctors_result.all()}
 
-    branches_result = await session.exec(select(Branch).where(Branch.id.in_(branch_ids)))
+    branches_result = await session.exec(select(Branch).where(col(Branch.id).in_(branch_ids)))
     branches = {b.id: b for b in branches_result.all()}
 
     # Fetch booked slots for all relevant (doctor, branch, date)
     dates = list({w.availability_date for w in windows})
     appt_query = select(Appointment).where(
-        Appointment.doctor_id.in_(doctor_ids),
-        Appointment.branch_id.in_(branch_ids),
-        Appointment.appointment_date.in_(dates),
+        col(Appointment.doctor_id).in_(doctor_ids),
+        col(Appointment.branch_id).in_(branch_ids),
+        col(Appointment.appointment_date).in_(dates),
         Appointment.status != "cancelled",
     )
     appt_result = await session.exec(appt_query)
@@ -171,6 +204,128 @@ async def search_appointments(
     return AppointmentSearchResponse(results=results)
 
 
+@router.get("/cities")
+async def list_appointment_cities(
+    session: AsyncSession = Depends(get_session),
+):
+    branches_res = await session.exec(select(Branch))
+    branches = branches_res.all() or []
+    cities = sorted({(b.division or b.center_name).strip() for b in branches if (b.division or b.center_name)})
+    return {"status": 200, "cities": cities}
+
+
+@router.get("/specializations")
+async def list_appointment_specializations(
+    session: AsyncSession = Depends(get_session),
+):
+    doctors_res = await session.exec(select(Doctor))
+    doctors = doctors_res.all() or []
+    specs = sorted({d.specialization.strip() for d in doctors if d.specialization})
+    return {"status": 200, "specializations": specs}
+
+
+@router.get("/branches")
+async def list_appointment_branches(
+    session: AsyncSession = Depends(get_session),
+):
+    branches_res = await session.exec(select(Branch))
+    branches = branches_res.all() or []
+    payload = [
+        {
+            "id": b.id,
+            "name": b.center_name,
+            "location": b.division,
+            "address": None,
+        }
+        for b in branches
+    ]
+    return {"status": 200, "branches": payload}
+
+
+@router.get("/doctors/search")
+async def search_doctors(
+    branch_id: Optional[str] = None,
+    specialization: Optional[str] = None,
+    doctor_name: Optional[str] = None,
+    date_: Optional[date] = Query(default=None, alias="date"),
+    session: AsyncSession = Depends(get_session),
+):
+    schedules_query = (
+        select(DoctorSchedule, Doctor, Branch)
+        .join(Doctor, col(Doctor.id) == DoctorSchedule.doctor_id)
+        .join(Branch, col(Branch.id) == DoctorSchedule.branch_id)
+        .where(DoctorSchedule.status == "active")
+    )
+
+    if branch_id:
+        schedules_query = schedules_query.where(DoctorSchedule.branch_id == branch_id)
+    if specialization:
+        schedules_query = schedules_query.where(Doctor.specialization == specialization)
+    if doctor_name:
+        term = f"%{doctor_name.strip()}%"
+        schedules_query = schedules_query.where(
+            or_(
+                col(Doctor.first_name).ilike(term),
+                col(Doctor.last_name).ilike(term),
+            )
+        )
+    if date_:
+        weekday = date_.weekday()
+        schedules_query = schedules_query.where(DoctorSchedule.day_of_week == weekday)
+        schedules_query = schedules_query.where(
+            or_(col(DoctorSchedule.valid_from).is_(None), col(DoctorSchedule.valid_from) <= date_),
+            or_(col(DoctorSchedule.valid_until).is_(None), col(DoctorSchedule.valid_until) >= date_),
+        )
+
+    result = await session.exec(schedules_query)
+    rows = result.all()
+
+    doctors: Dict[str, Dict[str, Any]] = {}
+    for schedule, doctor, branch in rows:
+        if doctor.id not in doctors:
+            full_name = f"{doctor.first_name} {doctor.last_name}".strip()
+            doctors[doctor.id] = {
+                "doctor_id": doctor.id,
+                "first_name": doctor.first_name,
+                "last_name": doctor.last_name,
+                "full_name": full_name,
+                "name": full_name,
+                "specialization": doctor.specialization,
+                "qualification": doctor.qualification,
+                "profile_picture": None,
+                "schedules": [],
+            }
+
+        doctors[doctor.id]["schedules"].append(
+            {
+                "id": schedule.id,
+                "schedule_id": schedule.id,
+                "branch_id": schedule.branch_id,
+                "branch_name": branch.center_name if branch else "",
+                "branch_city": branch.division if branch else None,
+                "schedule_day": _weekday_name(schedule.day_of_week),
+                "start_time": _time_to_str(schedule.start_time),
+                "end_time": _time_to_str(schedule.end_time),
+                "max_patients": schedule.max_patients,
+                "time_per_patient": schedule.slot_duration_minutes,
+            }
+        )
+
+    for doctor in doctors.values():
+        schedules_list = doctor.get("schedules") or []
+        doctor["schedules"] = sorted(
+            schedules_list,
+            key=lambda s: (str(s.get("schedule_day", "")), str(s.get("start_time", ""))),
+        )
+
+    sorted_doctors = sorted(
+        doctors.values(),
+        key=lambda d: str(d.get("full_name") or d.get("name") or ""),
+    )
+
+    return {"status": 200, "doctors": sorted_doctors}
+
+
 class VisitorPatientDetails(BaseModel):
     first_name: str = PydanticField(min_length=1)
     last_name: str = PydanticField(min_length=1)
@@ -191,6 +346,20 @@ class AppointmentBookRequest(BaseModel):
 
 class AppointmentBookResponse(BaseModel):
     appointment_id: str
+
+
+class SlotsWithTimesRequest(BaseModel):
+    doctor_id: str
+    branch_id: str
+    date: date
+
+
+class AppointmentSlotBookPayload(BaseModel):
+    doctor_id: str
+    branch_id: str
+    date: date
+    slot_index: int
+    patient_id: str
 
 
 @router.post("/book", response_model=AppointmentBookResponse)
@@ -274,3 +443,248 @@ async def book_appointment(
         raise HTTPException(status_code=500, detail=f"Failed to book appointment: {str(e)}")
 
     return AppointmentBookResponse(appointment_id=appointment.id)
+
+
+@availability_router.get("/availability")
+async def get_availability(
+    doctor_id: str,
+    branch_id: str,
+    date_: date = Query(alias="date"),
+    session: AsyncSession = Depends(get_session),
+):
+    logger.info(
+        "availability request params doctor_id=%s branch_id=%s date=%s",
+        doctor_id,
+        branch_id,
+        date_.isoformat(),
+    )
+
+    weekday = date_.weekday()
+    schedule_query = select(DoctorSchedule).where(
+        DoctorSchedule.doctor_id == doctor_id,
+        DoctorSchedule.branch_id == branch_id,
+        DoctorSchedule.day_of_week == weekday,
+        DoctorSchedule.status == "active",
+        or_(col(DoctorSchedule.valid_from).is_(None), col(DoctorSchedule.valid_from) <= date_),
+        or_(col(DoctorSchedule.valid_until).is_(None), col(DoctorSchedule.valid_until) >= date_),
+    )
+
+    schedule_result = await session.exec(schedule_query)
+    schedules = schedule_result.all() or []
+    if not schedules:
+        logger.info("availability session found=False slot_count=0")
+        return {"slots": []}
+
+    appt_query = select(Appointment).where(
+        Appointment.doctor_id == doctor_id,
+        Appointment.branch_id == branch_id,
+        Appointment.appointment_date == date_,
+        Appointment.status != "cancelled",
+    )
+    appt_result = await session.exec(appt_query)
+    booked_times = {a.appointment_time for a in appt_result.all()}
+
+    slot_map: Dict[str, Dict[str, object]] = {}
+    session_start: Optional[time] = None
+    session_end: Optional[time] = None
+    slot_duration_minutes: Optional[int] = None
+
+    for sched in schedules:
+        slots = _iter_slots(sched.start_time, sched.end_time, sched.slot_duration_minutes)
+        if slot_duration_minutes is None:
+            slot_duration_minutes = sched.slot_duration_minutes
+        if session_start is None or sched.start_time < session_start:
+            session_start = sched.start_time
+        if session_end is None or sched.end_time > session_end:
+            session_end = sched.end_time
+
+        for slot_time in slots:
+            slot_key = _time_to_str(slot_time)
+            if slot_key in slot_map:
+                continue
+            slot_map[slot_key] = {
+                "slot_index": 0,
+                "time": slot_key,
+                "available": slot_time not in booked_times,
+            }
+
+    sorted_times = sorted(slot_map.keys())
+    slots_out: List[Dict[str, object]] = []
+    for idx, slot_key in enumerate(sorted_times, start=1):
+        entry = slot_map[slot_key]
+        entry["slot_index"] = idx
+        slots_out.append(entry)
+
+    logger.info("availability session found=True slot_count=%s", len(slots_out))
+
+    return {
+        "session_id": schedules[0].id,
+        "slot_duration_minutes": slot_duration_minutes or 0,
+        "session_start_time": _time_to_str(session_start) if session_start else "",
+        "session_end_time": _time_to_str(session_end) if session_end else "",
+        "slots": slots_out,
+    }
+
+
+@router.post("", status_code=200)
+async def book_slot(
+    payload: AppointmentSlotBookPayload,
+    session: AsyncSession = Depends(get_session),
+):
+    patient = await session.get(Patient, payload.patient_id)
+    if not patient:
+        raise HTTPException(status_code=404, detail="Patient not found")
+
+    weekday = payload.date.weekday()
+    schedule_query = select(DoctorSchedule).where(
+        DoctorSchedule.doctor_id == payload.doctor_id,
+        DoctorSchedule.branch_id == payload.branch_id,
+        DoctorSchedule.day_of_week == weekday,
+        DoctorSchedule.status == "active",
+        or_(col(DoctorSchedule.valid_from).is_(None), col(DoctorSchedule.valid_from) <= payload.date),
+        or_(col(DoctorSchedule.valid_until).is_(None), col(DoctorSchedule.valid_until) >= payload.date),
+    )
+    schedule_result = await session.exec(schedule_query)
+    schedules = schedule_result.all() or []
+    if not schedules:
+        raise HTTPException(status_code=404, detail="Session not found")
+
+    slots = _iter_slots(schedules[0].start_time, schedules[0].end_time, schedules[0].slot_duration_minutes)
+    if payload.slot_index < 1 or payload.slot_index > len(slots):
+        raise HTTPException(status_code=422, detail="Invalid slot_index")
+
+    target_time = slots[payload.slot_index - 1]
+    try:
+        lock_query = (
+            select(Appointment)
+            .where(
+                Appointment.doctor_id == payload.doctor_id,
+                Appointment.branch_id == payload.branch_id,
+                Appointment.appointment_date == payload.date,
+                Appointment.appointment_time == target_time,
+                Appointment.status != "cancelled",
+            )
+            .with_for_update()
+        )
+        lock_result = await session.exec(lock_query)
+        existing = lock_result.first()
+        if existing:
+            raise HTTPException(status_code=409, detail="Slot already booked")
+
+        appointment = Appointment(
+            patient_id=payload.patient_id,
+            doctor_id=payload.doctor_id,
+            branch_id=payload.branch_id,
+            schedule_id=schedules[0].id,
+            appointment_date=payload.date,
+            appointment_time=target_time,
+            status="confirmed",
+        )
+        session.add(appointment)
+        await session.commit()
+        await session.refresh(appointment)
+    except HTTPException:
+        await session.rollback()
+        raise
+    except Exception as exc:
+        await session.rollback()
+        raise HTTPException(status_code=500, detail=f"Failed to book appointment: {exc}")
+    return {
+        "status": 200,
+        "appointment": {
+            "id": appointment.id,
+            "appointment_date": str(appointment.appointment_date),
+            "appointment_time": appointment.appointment_time.strftime("%H:%M"),
+            "slot_index": payload.slot_index,
+            "status": appointment.status,
+        },
+    }
+
+
+@router.post("/doctors/slots-with-times")
+async def slots_with_times(
+    payload: SlotsWithTimesRequest,
+    session: AsyncSession = Depends(get_session),
+):
+    doctor = await session.get(Doctor, payload.doctor_id)
+    if not doctor:
+        return {"status": 404, "message": "Doctor not found", "data": None}
+
+    branch = await session.get(Branch, payload.branch_id)
+    if not branch:
+        return {"status": 404, "message": "Branch not found", "data": None}
+
+    blocks = await DoctorScheduleService.check_availability(
+        session,
+        doctor_id=payload.doctor_id,
+        check_date=payload.date,
+        branch_id=payload.branch_id,
+    )
+
+    if not blocks:
+        return {
+            "status": 404,
+            "message": "No schedule found for selected date",
+            "data": None,
+        }
+
+    slots: List[Dict[str, object]] = []
+    start_times: List[time] = []
+    end_times: List[time] = []
+    slot_duration: Optional[int] = None
+
+    for block in blocks:
+        start_time = _parse_time_value(str(block.get("start_time") or ""))
+        end_time = _parse_time_value(str(block.get("end_time") or ""))
+        duration = int(block.get("slot_duration_minutes") or 30)
+        available_set = set(block.get("available_slots") or [])
+
+        if slot_duration is None:
+            slot_duration = duration
+
+        start_times.append(start_time)
+        end_times.append(end_time)
+
+        all_slots = DoctorScheduleService.generate_slots(start_time, end_time, duration)
+        for slot_time in all_slots:
+            slot_label = slot_time.strftime("%H:%M")
+            slot_end = (datetime.combine(date(2000, 1, 1), slot_time) + timedelta(minutes=duration)).time()
+            slots.append(
+                {
+                    "slot_number": 0,
+                    "estimated_time": slot_label,
+                    "estimated_end_time": slot_end.strftime("%H:%M"),
+                    "is_available": slot_label in available_set,
+                    "is_booked": slot_label not in available_set,
+                }
+            )
+
+    slots.sort(key=lambda s: str(s.get("estimated_time") or ""))
+    for idx, slot in enumerate(slots):
+        slot["slot_number"] = idx + 1
+
+    total_slots = len(slots)
+    available_slots = sum(1 for s in slots if s.get("is_available"))
+    booked_slots = total_slots - available_slots
+
+    session_start = min(start_times).strftime("%H:%M") if start_times else ""
+    session_end = max(end_times).strftime("%H:%M") if end_times else ""
+
+    data = {
+        "date": payload.date.isoformat(),
+        "day": payload.date.strftime("%A"),
+        "session": {
+            "start_time": session_start,
+            "end_time": session_end,
+            "time_per_patient": slot_duration or 30,
+        },
+        "slots": slots,
+        "summary": {
+            "total_slots": total_slots,
+            "available": available_slots,
+            "booked": booked_slots,
+        },
+        "disclaimer": "Times are estimates and may vary based on consultation duration.",
+    }
+
+    return {"status": 200, "data": data}

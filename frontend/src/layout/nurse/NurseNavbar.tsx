@@ -72,6 +72,15 @@ const NurseNavbar: React.FC<NurseNavbarProps> = ({ toggleSidebar }) => {
                         </div>
                     </div>
                     <div className="flex items-center relative gap-1 sm:gap-2 flex-shrink-0">
+                        <Link
+                            to="/"
+                            className="hidden sm:inline-flex text-xs sm:text-sm px-2 sm:px-4 py-2 font-medium text-teal-700 bg-teal-50 rounded-lg hover:bg-teal-100 focus:outline-none focus:ring-4 focus:ring-teal-100 whitespace-nowrap"
+                        >
+                            Home
+                        </Link>
+                        <div className="hidden sm:flex items-center">
+                            <SignOutButton />
+                        </div>
                         <div
                             className="flex items-center"
                             ref={dropdownRef}

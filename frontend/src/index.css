@@ -184,6 +184,17 @@
     }
 }
 
+/* React Select dropdown layering */
+.react-select__menu,
+.react-select__menu-portal {
+    z-index: 9999;
+}
+
+.react-select-container {
+    position: relative;
+    z-index: 50;
+}
+
 /* Custom Scrollbar Styles - Desktop only */
 @media (hover: hover) and (pointer: fine) {
     ::-webkit-scrollbar {
@@ -256,4 +267,15 @@
 
 .scrollbar-hide::-webkit-scrollbar {
     display: none;
+}
+
+/* React Select dropdown layering */
+.react-select__menu,
+.react-select__menu-portal {
+    z-index: 9999;
+}
+
+.react-select-container {
+    position: relative;
+    z-index: 50;
 }

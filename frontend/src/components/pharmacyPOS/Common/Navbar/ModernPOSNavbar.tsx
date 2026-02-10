@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LogOut, Settings, Bell, Menu, ChevronDown, User, Building2, LayoutDashboard, Pill } from 'lucide-react';
+import { LogOut, Settings, Bell, Menu, ChevronDown, User, Building2, LayoutDashboard, Pill, Home } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, persistor } from '../../../../store';
@@ -159,6 +159,13 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
 
                 {/* Right Section */}
                 <div className="flex items-center gap-2 lg:gap-4">
+                    <Link
+                        to="/"
+                        className="hidden sm:flex items-center gap-2 px-3 py-2 bg-emerald-50 text-emerald-700 rounded-lg hover:bg-emerald-100 transition-colors"
+                    >
+                        <Home className="w-4 h-4" />
+                        <span className="text-sm font-medium">Home</span>
+                    </Link>
                     {/* Notifications */}
                     <div className="relative">
                         <button
@@ -187,6 +194,13 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
                         className="p-2 hover:bg-neutral-100 rounded-lg transition-colors hidden sm:block"
                     >
                         <Settings className="w-5 h-5 text-neutral-600" />
+                    </button>
+                    <button
+                        onClick={handleLogout}
+                        className="hidden sm:flex items-center gap-2 px-3 py-2 bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-100 transition-colors"
+                    >
+                        <LogOut className="w-4 h-4" />
+                        <span className="text-sm font-medium">Logout</span>
                     </button>
 
                     {/* User Menu */}

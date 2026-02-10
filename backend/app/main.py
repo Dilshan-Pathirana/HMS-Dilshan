@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request, Depends, HTTPException
+from datetime import datetime
 from app.api import auth, users, branches, doctors, patients, receptionist, pharmacies, pharmacist, super_admin, nurse, staff, appointments, schedules
 from app.api import super_admin_appointments
 from app.api import doctor_main_questions
@@ -77,6 +78,7 @@ app.include_router(branches.router, prefix="/api/v1/branches", tags=["branches"]
 app.include_router(doctors.router, prefix="/api/v1/doctors", tags=["doctors"])
 app.include_router(patients.router, prefix="/api/v1/patients", tags=["patients"])
 app.include_router(appointments.router, prefix="/api/v1/appointments", tags=["appointments"])
+app.include_router(appointments.availability_router, prefix="/api/v1", tags=["availability"])
 app.include_router(receptionist.router, prefix="/api/v1/receptionist", tags=["receptionist"])
 app.include_router(pharmacies.router, prefix="/api/v1/pharmacies", tags=["pharmacies"])
 app.include_router(pharmacist.router, prefix="/api/v1/pharmacist", tags=["pharmacist"])
@@ -122,7 +124,9 @@ app.include_router(website.router, prefix="/api/v1", tags=["website-settings"])
 async def get_branches_compat(session: AsyncSession = Depends(get_session)):
     """Compatibility endpoint used by multiple frontend modules."""
     from app.models.branch import Branch
-    from sqlmodel import select
+    from app.models.doctor_schedule import DoctorSchedule
+    from sqlmodel import col
+    from sqlmodel import col, select
 
     result = await session.exec(select(Branch).order_by(Branch.center_name))
     items = result.all() or []
@@ -149,11 +153,12 @@ async def get_patient_appointments_compat(
     if current_user.role_as != 1 and current_user.id != user_id:
         raise HTTPException(status_code=403, detail="Not enough privileges")
 
-    from sqlmodel import select
+    from sqlmodel import col, select
     from app.models.patient import Patient
     from app.models.appointment import Appointment
     from app.models.doctor import Doctor
     from app.models.branch import Branch
+    from app.models.doctor_schedule import DoctorSchedule
 
     patient_res = await session.exec(select(Patient).where(Patient.user_id == user_id))
     patient = patient_res.first()
@@ -170,18 +175,32 @@ async def get_patient_appointments_compat(
 
     doctor_map = {}
     branch_map = {}
+    schedule_map = {}
     if doctor_ids:
         doctor_res = await session.exec(select(Doctor).where(Doctor.id.in_(doctor_ids)))
         doctor_map = {d.id: d for d in doctor_res.all()}
     if branch_ids:
         branch_res = await session.exec(select(Branch).where(Branch.id.in_(branch_ids)))
         branch_map = {b.id: b for b in branch_res.all()}
+    schedule_ids = {a.schedule_id for a in appts if a.schedule_id}
+    if schedule_ids:
+        schedule_res = await session.exec(select(DoctorSchedule).where(col(DoctorSchedule.id).in_(schedule_ids)))
+        schedule_map = {s.id: s for s in schedule_res.all()}
 
     user = await session.get(User, user_id)
     appointments = []
     for appt in appts:
         doctor = doctor_map.get(appt.doctor_id)
         branch = branch_map.get(appt.branch_id)
+        slot_number = appt.queue_number or 0
+        schedule = schedule_map.get(appt.schedule_id) if appt.schedule_id else None
+        if schedule and appt.appointment_time:
+            start_dt = datetime.combine(datetime.min.date(), schedule.start_time)
+            appt_dt = datetime.combine(datetime.min.date(), appt.appointment_time)
+            delta_minutes = int((appt_dt - start_dt).total_seconds() // 60)
+            if delta_minutes >= 0 and schedule.slot_duration_minutes > 0:
+                slot_number = (delta_minutes // schedule.slot_duration_minutes) + 1
+
         appointments.append(
             {
                 "id": appt.id,
@@ -197,7 +216,7 @@ async def get_patient_appointments_compat(
                 "center_name": branch.center_name if branch else "",
                 "date": appt.appointment_date,
                 "start_time": appt.appointment_time.strftime("%H:%M") if appt.appointment_time else None,
-                "slot": appt.queue_number or 0,
+                "slot": slot_number,
                 "branch_id": appt.branch_id,
                 "schedule_id": appt.schedule_id,
                 "user_id": user_id,

@@ -85,7 +85,7 @@ const AppointmentsList: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState<'all' | 'upcoming' | 'past' | 'cancelled'>('upcoming');
     const [searchTerm, setSearchTerm] = useState('');
-    
+
     // Cancel modal state
     const [showCancelModal, setShowCancelModal] = useState(false);
     const [cancellingAppointment, setCancellingAppointment] = useState<Appointment | null>(null);
@@ -112,7 +112,7 @@ const AppointmentsList: React.FC = () => {
 
     const cancelAppointment = async (appointmentId: string) => {
         if (!cancelReason.trim() || !confirmCancellation) return;
-        
+
         try {
             setCancelLoading(true);
             await api.post(`/patient/appointments/${appointmentId}/cancel`, {
@@ -140,7 +140,7 @@ const AppointmentsList: React.FC = () => {
             setCancelLoading(false);
         }
     };
-    
+
     const openCancelModal = (apt: Appointment) => {
         setCancellingAppointment(apt);
         setCancelReason('');
@@ -167,7 +167,7 @@ const AppointmentsList: React.FC = () => {
                 break;
         }
 
-        const matchesSearch = searchTerm === '' || 
+        const matchesSearch = searchTerm === '' ||
             `${apt.doctor_first_name} ${apt.doctor_last_name}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
             apt.areas_of_specialization?.toLowerCase().includes(searchTerm.toLowerCase());
 
@@ -313,7 +313,7 @@ const AppointmentsList: React.FC = () => {
                                     {/* Status & Actions */}
                                     <div className="flex items-center gap-2 sm:gap-3">
                                         {getStatusBadge(apt.status || 'confirmed', apt.date)}
-                                        
+
                                         {(apt.status || 'confirmed') !== 'cancelled' && new Date(apt.date) >= new Date() && (
                                             <div className="flex gap-1 sm:gap-2">
                                                 <Link
@@ -350,9 +350,9 @@ const AppointmentsList: React.FC = () => {
                                 <AlertCircle className="text-error-600 w-6 h-6 sm:w-8 sm:h-8" />
                             </div>
                         </div>
-                        
+
                         <h3 className="text-lg sm:text-xl font-bold text-red-700 text-center mb-2">Cancel Appointment</h3>
-                        
+
                         {/* Strong Warning Message */}
                         <div className="bg-error-50 border-2 border-red-300 rounded-lg p-3 sm:p-4 mb-3 sm:mb-4">
                             <p className="text-red-800 text-center font-medium text-sm sm:text-base">
@@ -459,16 +459,16 @@ const AppointmentsList: React.FC = () => {
 export const BookAppointment: React.FC = () => {
     const userId = useSelector((state: RootState) => state.auth.userId);
     const { userDetails: patientDetails } = useFetchPatientDetails(userId);
-    
+
     const [step, setStep] = useState(1);
     const [branches, setBranches] = useState<Branch[]>([]);
     const [doctorSchedules, setDoctorSchedules] = useState<DoctorSchedule[]>([]);
     const [loading, setLoading] = useState(false);
-    
+
     const [selectedBranch, setSelectedBranch] = useState('');
     const [selectedSchedule, setSelectedSchedule] = useState<DoctorSchedule | null>(null);
     const [selectedSlotNumber, setSelectedSlotNumber] = useState<number | null>(null);
-    
+
     // Payment state
     const [showPaymentModal, setShowPaymentModal] = useState(false);
     const [paymentData, setPaymentData] = useState<any>(null);
@@ -525,7 +525,7 @@ export const BookAppointment: React.FC = () => {
 
     const handleProceedToPayment = async () => {
         if (!selectedSchedule || selectedSlotNumber === null) return;
-        
+
         setLoading(true);
         setPaymentError('');
 
@@ -545,7 +545,7 @@ export const BookAppointment: React.FC = () => {
             };
 
             const response = await api.post('/appointments', payload);
-            
+
             if (response.data.status === 200 && response.data.data) {
                 setPaymentData(response.data.data);
                 setShowPaymentModal(true);
@@ -563,7 +563,7 @@ export const BookAppointment: React.FC = () => {
 
     const handlePayNow = () => {
         if (!paymentData) return;
-        
+
         setPaymentStatus('processing');
 
         // Create a form element and submit it programmatically
@@ -732,7 +732,7 @@ export const BookAppointment: React.FC = () => {
                 {step === 3 && selectedSchedule && (
                     <div>
                         <h2 className="text-lg font-semibold text-neutral-800 mb-4">Select Your Time Slot</h2>
-                        
+
                         {/* Selected Schedule Summary */}
                         <div className="bg-neutral-50 rounded-lg p-4 mb-6">
                             <div className="flex items-center gap-3">
@@ -789,7 +789,7 @@ export const BookAppointment: React.FC = () => {
                 {step === 4 && selectedSchedule && selectedSlotNumber !== null && (
                     <div>
                         <h2 className="text-lg font-semibold text-neutral-800 mb-4">Confirm & Pay</h2>
-                        
+
                         {/* Appointment Summary */}
                         <div className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl p-5 mb-6">
                             <h3 className="font-medium text-neutral-800 mb-4">Appointment Details</h3>
@@ -918,7 +918,7 @@ export const BookAppointment: React.FC = () => {
                 {step === 5 && showPaymentModal && paymentData && (
                     <div>
                         <h2 className="text-lg font-semibold text-neutral-800 mb-4 text-center">Complete Your Payment</h2>
-                        
+
                         <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-6 text-center">
                             <CreditCard className="w-16 h-16 text-primary-500 mx-auto mb-4" />
                             <p className="text-neutral-700 mb-2">Amount to Pay</p>
@@ -1017,7 +1017,7 @@ interface DoctorSchedule {
 const RescheduleAppointment: React.FC = () => {
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
-    
+
     // State management
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -1040,12 +1040,12 @@ const RescheduleAppointment: React.FC = () => {
             reschedule_advance_hours: number;
         };
     } | null>(null);
-    
+
     // Doctor schedules for branch selection
     const [doctorSchedules, setDoctorSchedules] = useState<DoctorSchedule[]>([]);
     const [selectedBranchId, setSelectedBranchId] = useState<string>('');
     const [selectedSchedule, setSelectedSchedule] = useState<DoctorSchedule | null>(null);
-    
+
     // Form state
     const [newDate, setNewDate] = useState('');
     const [availabilityData, setAvailabilityData] = useState<AvailabilityData | null>(null);
@@ -1060,7 +1060,7 @@ const RescheduleAppointment: React.FC = () => {
         appointment_time: string;
         branch_name?: string;
     } | null>(null);
-    
+
     // Appointment details state
     const [appointmentDetails, setAppointmentDetails] = useState<{
         doctor_name: string;
@@ -1070,33 +1070,40 @@ const RescheduleAppointment: React.FC = () => {
         current_time: string;
     } | null>(null);
 
+    const formatDateLocal = (dateValue: Date) => {
+        const year = dateValue.getFullYear();
+        const month = String(dateValue.getMonth() + 1).padStart(2, '0');
+        const day = String(dateValue.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
     // Fetch eligibility and doctor schedules on mount
     useEffect(() => {
         const fetchEligibility = async () => {
             if (!id) return;
-            
+
             try {
                 setLoading(true);
                 setError(null);
-                
+
                 const token = localStorage.getItem('token');
                 const response = await api.get(`/patient/appointments/${id}/reschedule-eligibility`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                
+
                 if (response.data.status === 200) {
                     setEligibility(response.data);
                     const doctorId = response.data.appointment_details.doctor_id;
                     const branchId = response.data.appointment_details.branch_id;
-                    
+
                     // Set initial branch
                     setSelectedBranchId(branchId);
-                    
+
                     // Also fetch appointment details
                     const detailsResponse = await api.get(`/patient/appointments/${id}`, {
                         headers: { Authorization: `Bearer ${token}` }
                     });
-                    
+
                     if (detailsResponse.data.status === 200 && detailsResponse.data.appointment) {
                         const apt = detailsResponse.data.appointment;
                         setAppointmentDetails({
@@ -1107,7 +1114,7 @@ const RescheduleAppointment: React.FC = () => {
                             current_time: apt.appointment_time,
                         });
                     }
-                    
+
                     // Fetch doctor's schedules for branch selection
                     try {
                         const schedulesResponse = await api.get(`/appointments/doctors/${doctorId}/schedules`);
@@ -1133,7 +1140,7 @@ const RescheduleAppointment: React.FC = () => {
                 setLoading(false);
             }
         };
-        
+
         fetchEligibility();
     }, [id]);
 
@@ -1151,19 +1158,19 @@ const RescheduleAppointment: React.FC = () => {
     // Get available dates for selected schedule
     const getAvailableDates = (): { date: string; day: string; label: string }[] => {
         if (!selectedSchedule) return [];
-        
+
         const dates: { date: string; day: string; label: string }[] = [];
         const maxDays = eligibility?.settings?.max_advance_booking_days || 30;
         const scheduleDay = selectedSchedule.schedule_day.toLowerCase();
-        
+
         for (let i = 1; i <= maxDays; i++) {
             const date = new Date();
             date.setDate(date.getDate() + i);
             const dayName = date.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase();
-            
+
             if (dayName === scheduleDay) {
                 dates.push({
-                    date: date.toISOString().split('T')[0],
+                    date: formatDateLocal(date),
                     day: dayName,
                     label: date.toLocaleDateString('en-US', {
                         weekday: 'short',
@@ -1173,25 +1180,25 @@ const RescheduleAppointment: React.FC = () => {
                 });
             }
         }
-        
+
         return dates;
     };
 
     // Fetch available slots when date changes (using new API)
     const loadSlots = async (date: string) => {
         if (!eligibility || !date || !selectedBranchId) return;
-        
+
         try {
             setLoadingSlots(true);
             setAvailabilityData(null);
             setSelectedSlot(null);
-            
+
             const response = await api.post('/appointments/doctors/slots-with-times', {
                 doctor_id: eligibility.appointment_details.doctor_id,
                 branch_id: selectedBranchId,
                 date: date,
             });
-            
+
             if (response.data.status === 200) {
                 setAvailabilityData(response.data.data);
             } else {
@@ -1222,17 +1229,17 @@ const RescheduleAppointment: React.FC = () => {
         if (!id || !newDate || !selectedSlot || !selectedBranchId) {
             return;
         }
-        
+
         // Check if user has confirmed the reschedule
         if (!confirmed) {
             alert('Please confirm that you want to reschedule this appointment by checking the confirmation checkbox.');
             return;
         }
-        
+
         try {
             setSubmitting(true);
             setError(null);
-            
+
             const token = localStorage.getItem('token');
             const response = await api.post(`/patient/appointments/${id}/reschedule`, {
                 new_date: newDate,
@@ -1243,7 +1250,7 @@ const RescheduleAppointment: React.FC = () => {
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            
+
             if (response.data.status === 200) {
                 const branchName = selectedSchedule?.branch_name || appointmentDetails?.branch_name || 'Branch';
                 setSuccess({
@@ -1294,7 +1301,7 @@ const RescheduleAppointment: React.FC = () => {
                         <h2 className="text-lg sm:text-xl font-semibold text-green-700">Successfully Rescheduled</h2>
                         <p className="text-neutral-600 mt-2 text-sm sm:text-base">Your appointment has been moved to the new date and time.</p>
                     </div>
-                    
+
                     <div className="bg-green-50 border border-green-200 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6">
                         <h3 className="font-semibold text-green-800 mb-2 sm:mb-3 text-sm sm:text-base">New Appointment Details</h3>
                         <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
@@ -1318,11 +1325,11 @@ const RescheduleAppointment: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    
+
                     <p className="text-xs sm:text-sm text-neutral-500 text-center mb-4 sm:mb-6">
                         You will receive an SMS confirmation shortly.
                     </p>
-                    
+
                     <button
                         onClick={() => navigate('/patient-dashboard/appointments')}
                         className="w-full py-2.5 sm:py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 font-medium text-sm sm:text-base"
@@ -1354,7 +1361,7 @@ const RescheduleAppointment: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    
+
                     <div className="bg-neutral-50 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6">
                         <h4 className="font-semibold text-neutral-700 mb-2 flex items-center gap-2 text-sm sm:text-base">
                             <Info className="w-4 h-4 sm:w-5 sm:h-5 text-primary-500" />
@@ -1366,7 +1373,7 @@ const RescheduleAppointment: React.FC = () => {
                             <li>• Admin-cancelled appointments allow 2 reschedules</li>
                         </ul>
                     </div>
-                    
+
                     <button
                         onClick={() => navigate('/patient-dashboard/appointments')}
                         className="w-full py-2.5 sm:py-3 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200 font-medium text-sm sm:text-base"
@@ -1377,7 +1384,7 @@ const RescheduleAppointment: React.FC = () => {
             </div>
         );
     }
-    
+
     return (
         <div className="max-w-3xl mx-auto px-3 sm:px-0">
             <div className="mb-4 sm:mb-6">
@@ -1404,7 +1411,7 @@ const RescheduleAppointment: React.FC = () => {
                 {eligibility?.is_admin_cancelled && (
                     <div className="bg-amber-50 border-2 border-amber-300 rounded-lg p-3 mb-6">
                         <p className="text-amber-800 text-sm">
-                            <strong>ℹ️ Doctor-Cancelled Appointment:</strong> This appointment was cancelled by the branch on doctor's request. 
+                            <strong>ℹ️ Doctor-Cancelled Appointment:</strong> This appointment was cancelled by the branch on doctor's request.
                             You have <strong>{eligibility.remaining_attempts}</strong> reschedule attempts available.
                         </p>
                     </div>
@@ -1454,7 +1461,7 @@ const RescheduleAppointment: React.FC = () => {
                         </label>
                         <div className="grid gap-3">
                             {doctorSchedules
-                                .filter((schedule, index, self) => 
+                                .filter((schedule, index, self) =>
                                     index === self.findIndex(s => s.branch_id === schedule.branch_id)
                                 )
                                 .map((schedule) => (
@@ -1494,14 +1501,14 @@ const RescheduleAppointment: React.FC = () => {
                             <Calendar className="w-4 h-4 inline mr-1" />
                             Select New Date <span className="text-error-500">*</span>
                         </label>
-                        
+
                         <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3">
                             <p className="text-sm text-blue-700">
                                 <Info className="w-4 h-4 inline mr-1" />
                                 Dr. {appointmentDetails?.doctor_name} is available at {selectedSchedule.branch_name} on <strong>{selectedSchedule.schedule_day}s</strong> ({selectedSchedule.start_time} - {selectedSchedule.end_time})
                             </p>
                         </div>
-                        
+
                         {getAvailableDates().length > 0 ? (
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
                                 {getAvailableDates().map((dateOption) => (
@@ -1534,7 +1541,7 @@ const RescheduleAppointment: React.FC = () => {
                             <Clock className="w-4 h-4 inline mr-1" />
                             Select Time Slot <span className="text-error-500">*</span>
                         </label>
-                        
+
                         {loadingSlots ? (
                             <div className="text-center py-8 bg-neutral-50 rounded-lg">
                                 <Loader2 className="w-8 h-8 animate-spin text-emerald-600 mx-auto" />
@@ -1561,8 +1568,8 @@ const RescheduleAppointment: React.FC = () => {
                                         </p>
                                     </div>
                                     <div className={`px-3 py-1 rounded-full text-sm font-medium ${
-                                        availabilityData.summary.available <= 3 
-                                            ? 'bg-yellow-100 text-yellow-700' 
+                                        availabilityData.summary.available <= 3
+                                            ? 'bg-yellow-100 text-yellow-700'
                                             : 'bg-green-100 text-green-700'
                                     }`}>
                                         {availabilityData.summary.available <= 3 ? 'Nearly Full' : 'Available'}
@@ -1589,7 +1596,7 @@ const RescheduleAppointment: React.FC = () => {
                                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2">
                                     {availabilityData.slots.map((slot) => {
                                         const isSelected = selectedSlot?.slot_number === slot.slot_number;
-                                        
+
                                         return (
                                             <button
                                                 key={slot.slot_number}
