@@ -1,14 +1,37 @@
-from typing import List
+from typing import List, Optional
+from uuid import uuid4
+
 from fastapi import APIRouter, Depends, HTTPException, Query
+from pydantic import BaseModel
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlmodel import select, col
 
 from app.core.database import get_session
 from app.models.user import User, UserCreate, UserRead, UserUpdate
+from app.models.patient import Patient
 from app.api.deps import get_current_active_superuser, get_current_user
 from app.core.security import get_password_hash
+from app.core.config import settings
+from app.services.sms_service import SmsService
 
 router = APIRouter()
+
+
+class PatientSignupRequest(BaseModel):
+    first_name: str
+    last_name: str
+    phone: str
+    NIC: str
+    password: Optional[str] = None
+    email: Optional[str] = None
+    address: Optional[str] = None
+    city: Optional[str] = None
+    date_of_birth: Optional[str] = None
+    gender: Optional[str] = None
+    blood_type: Optional[str] = None
+    emergency_contact_name: Optional[str] = None
+    emergency_contact_phone: Optional[str] = None
+    branch_id: Optional[str] = None
 
 @router.get("/me", response_model=UserRead)
 async def read_user_me(
@@ -38,6 +61,177 @@ async def create_user(
     await session.commit()
     await session.refresh(user)
     return user
+
+
+@router.post("/patients")
+async def register_patient_user(
+    payload: PatientSignupRequest,
+    session: AsyncSession = Depends(get_session),
+):
+    email = (payload.email or "").strip().lower()
+    phone = (payload.phone or "").strip()
+    nic = (payload.NIC or "").strip()
+    branch_id = (payload.branch_id or "").strip() or None
+    if not email:
+        email = f"patient_{uuid4().hex[:8]}@guest.local"
+
+    home_address = payload.address or None
+    if payload.city:
+        home_address = f"{payload.address or ''}{', ' if payload.address else ''}{payload.city}"
+
+    emergency_contact = None
+    if payload.emergency_contact_name or payload.emergency_contact_phone:
+        name = payload.emergency_contact_name or ""
+        phone = payload.emergency_contact_phone or ""
+        emergency_contact = f"{name} {phone}".strip()
+
+    existing_user: Optional[User] = None
+    if email:
+        existing_email = await session.exec(select(User).where(User.email == email))
+        existing_user = existing_email.first()
+
+    if phone:
+        existing_phone = await session.exec(
+            select(User).where(User.contact_number_mobile == phone)
+        )
+        user_by_phone = existing_phone.first()
+        if user_by_phone and existing_user and user_by_phone.id != existing_user.id:
+            raise HTTPException(status_code=400, detail="Phone number already registered")
+        existing_user = existing_user or user_by_phone
+
+    if nic:
+        existing_nic = await session.exec(
+            select(User).where(User.nic_number == nic)
+        )
+        user_by_nic = existing_nic.first()
+        if user_by_nic and existing_user and user_by_nic.id != existing_user.id:
+            raise HTTPException(status_code=400, detail="NIC already registered")
+        existing_user = existing_user or user_by_nic
+
+    if existing_user:
+        if existing_user.role_as != 5:
+            raise HTTPException(status_code=400, detail="Credentials already registered")
+        if payload.first_name:
+            existing_user.first_name = payload.first_name
+        if payload.last_name:
+            existing_user.last_name = payload.last_name
+        if phone:
+            existing_user.contact_number_mobile = phone
+        if nic:
+            existing_user.nic_number = nic
+        if payload.date_of_birth:
+            existing_user.date_of_birth = payload.date_of_birth
+        if payload.gender:
+            existing_user.gender = payload.gender
+        if home_address:
+            existing_user.home_address = home_address
+        if emergency_contact:
+            existing_user.emergency_contact_info = emergency_contact
+        if branch_id:
+            existing_user.branch_id = branch_id
+        session.add(existing_user)
+        patient_res = await session.exec(select(Patient).where(Patient.user_id == existing_user.id))
+        patient = patient_res.first()
+        if not patient:
+            patient = Patient(
+                user_id=existing_user.id,
+                gender=payload.gender,
+                blood_group=payload.blood_type,
+                address=home_address or payload.address,
+                contact_number=phone or None,
+                emergency_contact=emergency_contact or payload.emergency_contact_phone,
+            )
+            session.add(patient)
+        else:
+            if payload.gender:
+                patient.gender = payload.gender
+            if payload.blood_type:
+                patient.blood_group = payload.blood_type
+            if home_address:
+                patient.address = home_address
+            if phone:
+                patient.contact_number = phone
+            if emergency_contact:
+                patient.emergency_contact = emergency_contact
+            session.add(patient)
+        await session.commit()
+        await session.refresh(patient)
+        return {
+            "status": 200,
+            "message": "Account already exists",
+            "user_id": existing_user.id,
+            "patient_id": patient.id,
+        }
+
+    generated_password = uuid4().hex[:10]
+    if payload.password and payload.password.strip():
+        generated_password = payload.password.strip()
+    user = User(
+        email=email,
+        username=email,
+        hashed_password=get_password_hash(generated_password),
+        role_as=5,
+        is_active=True,
+        first_name=payload.first_name,
+        last_name=payload.last_name,
+        contact_number_mobile=phone or None,
+        nic_number=nic or None,
+        date_of_birth=payload.date_of_birth,
+        gender=payload.gender,
+        home_address=home_address,
+        emergency_contact_info=emergency_contact,
+        branch_id=branch_id,
+    )
+    session.add(user)
+    await session.commit()
+    await session.refresh(user)
+
+    patient = Patient(
+        user_id=user.id,
+        gender=payload.gender,
+        blood_group=payload.blood_type,
+        address=home_address or payload.address,
+        contact_number=payload.phone,
+        emergency_contact=emergency_contact or payload.emergency_contact_phone,
+    )
+    session.add(patient)
+    await session.commit()
+    await session.refresh(patient)
+
+    sms_status = None
+    sms_log_id = None
+    sms_error = None
+    if phone:
+        try:
+            log = await SmsService.send_templated_sms(
+                session,
+                phone,
+                "credentials",
+                hospital_name=settings.PROJECT_NAME,
+                email=user.email,
+                password=generated_password,
+            )
+            sms_status = log.status
+            sms_log_id = log.id
+        except ValueError as exc:
+            sms_status = "failed"
+            sms_error = str(exc)
+
+    return {
+        "status": 200,
+        "message": "Account created successfully",
+        "user_id": user.id,
+        "patient_id": patient.id,
+        "credentials": {
+            "email": user.email,
+            "password": generated_password,
+        },
+        "sms": {
+            "status": sms_status,
+            "log_id": sms_log_id,
+            "error": sms_error,
+        },
+    }
 
 @router.get("/", response_model=List[UserRead])
 async def read_users(

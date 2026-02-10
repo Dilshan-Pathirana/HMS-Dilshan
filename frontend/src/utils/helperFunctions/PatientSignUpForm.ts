@@ -6,6 +6,7 @@ export const checkIsFiledEmpty = (signupInfo: ISignUpFormFields) => {
         "last_name",
         "phone",
         "NIC",
+        "password",
         "branch_id",
     ] as const;
 

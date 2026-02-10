@@ -43,11 +43,15 @@ jobs:
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          SMS_USER: ${{ secrets.SMS_USER }}
+          SMS_PASSWORD: ${{ secrets.SMS_PASSWORD }}
+          SMS_URL: ${{ secrets.SMS_URL }}
+          SMS_SENDER_ID: ${{ secrets.SMS_SENDER_ID }}
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          envs: DB_HOST,DB_PORT,DB_DATABASE,DB_USERNAME,DB_PASSWORD,SECRET_KEY
+          envs: DB_HOST,DB_PORT,DB_DATABASE,DB_USERNAME,DB_PASSWORD,SECRET_KEY,SMS_USER,SMS_PASSWORD,SMS_URL,SMS_SENDER_ID
 
           script: |
             set -e
@@ -69,6 +73,10 @@ jobs:
             DB_USERNAME=$DB_USERNAME
             DB_PASSWORD=$DB_PASSWORD
             SECRET_KEY=$SECRET_KEY
+            SMS_USER=$SMS_USER
+            SMS_PASSWORD=$SMS_PASSWORD
+            SMS_URL=$SMS_URL
+            SMS_SENDER_ID=$SMS_SENDER_ID
             DATABASE_URL=mysql+asyncmy://$DB_USERNAME:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_DATABASE
             EOF
 

@@ -6,16 +6,19 @@ Endpoints: login, register, logout, forgot-password, reset-password,
 from datetime import datetime, timedelta, timezone
 from typing import Annotated, Optional
 from uuid import uuid4
+import random
+import re
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import BaseModel, EmailStr
-from sqlmodel import select
+from sqlmodel import select, col
 from sqlmodel.ext.asyncio.session import AsyncSession
 import jwt as pyjwt
 
 from app.core.database import get_session
 from app.core.security import create_access_token, verify_password, get_password_hash
+from app.services.sms_service import SmsService
 from app.core.config import settings
 from app.models.user import User, UserCreate
 from app.models.patient import Patient
@@ -42,6 +45,11 @@ class RegisterRequest(BaseModel):
 class ForgotPasswordRequest(BaseModel):
     email: Optional[str] = None
     phone: Optional[str] = None
+
+
+class VerifyForgotPasswordOtpRequest(BaseModel):
+    otp_token: str
+    otp: str
 
 
 class ResetPasswordRequest(BaseModel):
@@ -94,6 +102,43 @@ def _create_token_pair(user_id: str) -> dict:
         "refresh_token": refresh_token,
         "token_type": "bearer",
     }
+
+
+def _create_password_reset_token(user_id: str) -> str:
+    reset_payload = {
+        "sub": user_id,
+        "exp": datetime.now(timezone.utc) + timedelta(minutes=15),
+        "type": "password_reset",
+        "jti": _make_jti(),
+    }
+    return pyjwt.encode(reset_payload, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+
+
+def _create_password_reset_otp_token(user_id: str, phone: str, otp_hash: str) -> str:
+    otp_payload = {
+        "sub": user_id,
+        "phone": phone,
+        "otp_hash": otp_hash,
+        "exp": datetime.now(timezone.utc) + timedelta(minutes=10),
+        "type": "password_reset_otp",
+        "jti": _make_jti(),
+    }
+    return pyjwt.encode(otp_payload, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+
+
+def _phone_variants(phone: str) -> list[str]:
+    raw = (phone or "").strip()
+    digits = re.sub(r"\D", "", raw)
+    variants: set[str] = set()
+    if raw:
+        variants.add(raw)
+    if digits:
+        variants.add(digits)
+    if digits.startswith("94") and len(digits) >= 11:
+        variants.add(f"0{digits[2:]}")
+    if digits.startswith("0") and len(digits) == 10:
+        variants.add(f"94{digits[1:]}")
+    return [v for v in variants if v]
 
 
 # ──────────────────────────────────────────────
@@ -210,36 +255,87 @@ async def forgot_password(
     body: ForgotPasswordRequest,
     session: AsyncSession = Depends(get_session),
 ):
-    """Generate a password-reset token. In production this would be emailed/SMS'd."""
-    query = select(User)
+    """Send a password reset OTP via SMS and return a short-lived OTP token."""
+    target_phone = (body.phone or "").strip()
+    user: Optional[User] = None
+    patient_phone: Optional[str] = None
     if body.email:
-        query = query.where(User.email == body.email)
-    elif body.phone:
-        query = query.where(User.contact_number_mobile == body.phone)
+        result = await session.exec(select(User).where(User.email == body.email))
+        user = result.first()
+    elif target_phone:
+        variants = _phone_variants(target_phone)
+        result = await session.exec(
+            select(User).where(col(User.contact_number_mobile).in_(variants))
+        )
+        user = result.first()
+        if not user:
+            patient_res = await session.exec(
+                select(Patient).where(col(Patient.contact_number).in_(variants))
+            )
+            patient = patient_res.first()
+            if patient:
+                patient_phone = patient.contact_number
+                user = await session.get(User, patient.user_id)
     else:
         raise HTTPException(status_code=400, detail="Provide email or phone")
 
-    result = await session.exec(query)
-    user = result.first()
-
     # Don't reveal whether user exists — always return success
     if not user:
-        return {"message": "If the account exists, a reset link has been sent."}
+        return {"message": "If the account exists, an OTP has been sent."}
 
-    # Create a short-lived reset token (15 min)
-    reset_payload = {
-        "sub": user.id,
-        "exp": datetime.now(timezone.utc) + timedelta(minutes=15),
-        "type": "password_reset",
-        "jti": _make_jti(),
-    }
-    reset_token = pyjwt.encode(reset_payload, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+    if not target_phone:
+        target_phone = (user.contact_number_mobile or patient_phone or "").strip()
 
-    # TODO: Send email/SMS with reset_token link
-    # For now, return it in response (dev only)
+    if not target_phone:
+        raise HTTPException(status_code=400, detail="No phone number on file for this account")
+
+    otp = f"{random.randint(100000, 999999)}"
+    otp_hash = get_password_hash(otp)
+    otp_token = _create_password_reset_otp_token(user.id, target_phone, otp_hash)
+
+    log = await SmsService.send_sms(
+        session,
+        target_phone,
+        f"Your password reset code is {otp}. It expires in 10 minutes.",
+    )
+
     return {
-        "message": "If the account exists, a reset link has been sent.",
-        "reset_token": reset_token,  # Remove in production
+        "message": "If the account exists, an OTP has been sent.",
+        "otp_token": otp_token,
+        "sms": {
+            "status": log.status,
+            "log_id": log.id,
+        },
+    }
+
+
+@router.post("/forgot-password/verify-otp")
+async def verify_forgot_password_otp(
+    body: VerifyForgotPasswordOtpRequest,
+    session: AsyncSession = Depends(get_session),
+):
+    try:
+        payload = _decode_token(body.otp_token)
+    except pyjwt.ExpiredSignatureError:
+        raise HTTPException(status_code=400, detail="OTP has expired")
+    except pyjwt.InvalidTokenError:
+        raise HTTPException(status_code=400, detail="Invalid OTP token")
+
+    if payload.get("type") != "password_reset_otp":
+        raise HTTPException(status_code=400, detail="Invalid token type")
+
+    otp_hash = payload.get("otp_hash", "")
+    if not verify_password(body.otp, otp_hash):
+        raise HTTPException(status_code=400, detail="Invalid OTP")
+
+    user = await session.get(User, payload.get("sub"))
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    reset_token = _create_password_reset_token(user.id)
+    return {
+        "message": "OTP verified",
+        "reset_token": reset_token,
     }
 
 

@@ -29,7 +29,7 @@ const BLOOD_TYPES = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 const PatientProfile: React.FC = () => {
     const userId = useSelector((state: RootState) => state.auth.userId);
     const { userDetails: fetchedPatient } = useFetchPatientDetails(userId);
-    
+
     const [isEditing, setIsEditing] = useState(false);
     const [showPasswordModal, setShowPasswordModal] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -94,7 +94,7 @@ const PatientProfile: React.FC = () => {
 
         try {
             const response = await api.put(`/patient/profile/${userId}`, editedProfile);
-            if (response.data.status === 200) {
+            if (response.status === 200) {
                 setProfile(editedProfile);
                 setIsEditing(false);
                 setSaveSuccess(true);
@@ -383,7 +383,7 @@ const PatientProfile: React.FC = () => {
                                 />
                             ) : (
                                 <p className="text-neutral-800 py-2">
-                                    {profile.date_of_birth 
+                                    {profile.date_of_birth
                                         ? new Date(profile.date_of_birth).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
                                         : '-'
                                     }

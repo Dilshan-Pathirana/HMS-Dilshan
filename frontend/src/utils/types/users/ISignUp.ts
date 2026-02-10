@@ -5,6 +5,7 @@ export interface ISignUpFormFields {
     last_name: string;
     phone: string;
     NIC: string;
+    password: string;
     email: string;
     address: string;
     city: string;

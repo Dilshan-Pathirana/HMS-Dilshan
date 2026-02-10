@@ -139,6 +139,77 @@ async def get_branches_compat(session: AsyncSession = Depends(get_session)):
     }
 
 
+@app.get("/api/v1/get-patient-appointments/{user_id}")
+async def get_patient_appointments_compat(
+    user_id: str,
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+):
+    """Compatibility endpoint for patient dashboard appointment lists."""
+    if current_user.role_as != 1 and current_user.id != user_id:
+        raise HTTPException(status_code=403, detail="Not enough privileges")
+
+    from app.models.patient import Patient
+    from app.models.appointment import Appointment
+    from app.models.doctor import Doctor
+    from app.models.branch import Branch
+
+    patient_res = await session.exec(select(Patient).where(Patient.user_id == user_id))
+    patient = patient_res.first()
+    if not patient:
+        return {"status": 200, "appointments": []}
+
+    appt_res = await session.exec(select(Appointment).where(Appointment.patient_id == patient.id))
+    appts = appt_res.all() or []
+    if not appts:
+        return {"status": 200, "appointments": []}
+
+    doctor_ids = {a.doctor_id for a in appts}
+    branch_ids = {a.branch_id for a in appts}
+
+    doctor_map = {}
+    branch_map = {}
+    if doctor_ids:
+        doctor_res = await session.exec(select(Doctor).where(Doctor.id.in_(doctor_ids)))
+        doctor_map = {d.id: d for d in doctor_res.all()}
+    if branch_ids:
+        branch_res = await session.exec(select(Branch).where(Branch.id.in_(branch_ids)))
+        branch_map = {b.id: b for b in branch_res.all()}
+
+    user = await session.get(User, user_id)
+    appointments = []
+    for appt in appts:
+        doctor = doctor_map.get(appt.doctor_id)
+        branch = branch_map.get(appt.branch_id)
+        appointments.append(
+            {
+                "id": appt.id,
+                "patient_first_name": user.first_name if user else "",
+                "patient_last_name": user.last_name if user else "",
+                "phone": user.contact_number_mobile if user else None,
+                "NIC": user.nic_number if user else None,
+                "email": user.email if user else None,
+                "doctor_first_name": doctor.first_name if doctor else "",
+                "doctor_last_name": doctor.last_name if doctor else "",
+                "doctor_id": appt.doctor_id,
+                "areas_of_specialization": doctor.specialization if doctor else "",
+                "center_name": branch.center_name if branch else "",
+                "date": appt.appointment_date,
+                "start_time": appt.appointment_time.strftime("%H:%M"),
+                "slot": appt.queue_number or 0,
+                "branch_id": appt.branch_id,
+                "schedule_id": appt.schedule_id,
+                "user_id": user_id,
+                "address": patient.address,
+                "reschedule_count": 0,
+                "status": appt.status,
+                "branch_name": branch.center_name if branch else "",
+            }
+        )
+
+    return {"status": 200, "appointments": appointments}
+
+
 def _doctor_disease_payload(disease, doctor_user: User) -> dict:
     first_name = doctor_user.first_name or "Unknown"
     last_name = doctor_user.last_name or "Doctor"

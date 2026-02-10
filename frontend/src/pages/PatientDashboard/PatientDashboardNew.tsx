@@ -49,7 +49,7 @@ const PatientDashboardNew: React.FC = () => {
     const userToken = useSelector((state: RootState) => state.auth.userToken);
     const userRole = useSelector((state: RootState) => state.auth.userRole);
     const { userDetails, loading: _userLoading } = useFetchPatientDetails(userId);
-    
+
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [notificationCount, setNotificationCount] = useState(0);
@@ -72,14 +72,12 @@ const PatientDashboardNew: React.FC = () => {
         const fetchNotificationCount = async () => {
             try {
                 const response = await api.get(`/patient/notifications/unread-count/${userId}`);
-                if (response.data.status === 200) {
-                    setNotificationCount(response.data.count || 0);
-                }
+                setNotificationCount(response.data?.count || 0);
             } catch (error) {
                 console.error('Failed to fetch notifications:', error);
             }
         };
-        
+
         if (userId) {
             fetchNotificationCount();
         }
@@ -88,9 +86,9 @@ const PatientDashboardNew: React.FC = () => {
     const handleSignOut = async () => {
         try {
             // Use the Redux thunk for proper sign out with token
-            await dispatch(UserSignOut({ 
-                accessToken: userToken || localStorage.getItem('token') || '', 
-                userRole: userRole 
+            await dispatch(UserSignOut({
+                accessToken: userToken || localStorage.getItem('token') || '',
+                userRole: userRole
             }));
         } catch (error) {
             console.error('Sign out failed:', error);
@@ -116,7 +114,7 @@ const PatientDashboardNew: React.FC = () => {
         <div className="min-h-screen bg-neutral-50 flex">
             {/* Mobile Menu Overlay */}
             {mobileMenuOpen && (
-                <div 
+                <div
                     className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
                     onClick={() => setMobileMenuOpen(false)}
                 />
@@ -125,7 +123,7 @@ const PatientDashboardNew: React.FC = () => {
             {/* Sidebar */}
             <aside className={`
                 fixed lg:static inset-y-0 left-0 z-50
-                ${sidebarOpen ? 'w-64' : 'w-20'} 
+                ${sidebarOpen ? 'w-64' : 'w-20'}
                 ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
                 bg-gradient-to-b from-emerald-600 to-teal-700 text-white
                 transition-all duration-300 ease-in-out
@@ -145,13 +143,13 @@ const PatientDashboardNew: React.FC = () => {
                                 </div>
                             </div>
                         )}
-                        <button 
+                        <button
                             onClick={() => setSidebarOpen(!sidebarOpen)}
                             className="p-2 hover:bg-white/10 rounded-lg hidden lg:block"
                         >
                             <Menu className="w-5 h-5" />
                         </button>
-                        <button 
+                        <button
                             onClick={() => setMobileMenuOpen(false)}
                             className="p-2 hover:bg-white/10 rounded-lg lg:hidden"
                         >
@@ -217,7 +215,7 @@ const PatientDashboardNew: React.FC = () => {
                         <HelpCircle className="w-5 h-5" />
                         {sidebarOpen && <span>Help & Support</span>}
                     </button>
-                    <button 
+                    <button
                         onClick={handleSignOut}
                         className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-300 hover:bg-error-500/20 hover:text-red-200 transition-all"
                     >
@@ -232,7 +230,7 @@ const PatientDashboardNew: React.FC = () => {
                 {/* Top Header */}
                 <header className="bg-white border-b border-neutral-200 px-4 py-3 flex items-center justify-between sticky top-0 z-30">
                     <div className="flex items-center gap-4">
-                        <button 
+                        <button
                             onClick={() => setMobileMenuOpen(true)}
                             className="p-2 hover:bg-neutral-100 rounded-lg lg:hidden"
                         >
@@ -243,18 +241,18 @@ const PatientDashboardNew: React.FC = () => {
                                 Welcome back, {userDetails?.firstName || 'Patient'}!
                             </h2>
                             <p className="text-sm text-neutral-500">
-                                {new Date().toLocaleDateString('en-US', { 
-                                    weekday: 'long', 
-                                    year: 'numeric', 
-                                    month: 'long', 
-                                    day: 'numeric' 
+                                {new Date().toLocaleDateString('en-US', {
+                                    weekday: 'long',
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
                                 })}
                             </p>
                         </div>
                     </div>
 
                     <div className="flex items-center gap-3">
-                        <NavLink 
+                        <NavLink
                             to="notifications"
                             className="relative p-2 hover:bg-neutral-100 rounded-lg"
                         >
@@ -265,7 +263,7 @@ const PatientDashboardNew: React.FC = () => {
                                 </span>
                             )}
                         </NavLink>
-                        <NavLink 
+                        <NavLink
                             to="profile"
                             className="flex items-center gap-2 px-3 py-2 hover:bg-neutral-100 rounded-lg"
                         >

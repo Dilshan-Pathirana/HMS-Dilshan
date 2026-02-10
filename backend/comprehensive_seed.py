@@ -18,9 +18,9 @@ import asyncio
 import json
 from datetime import date, time, datetime, timedelta, timezone
 from uuid import uuid4
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional, TypedDict
 
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.asyncio import async_sessionmaker
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
@@ -155,8 +155,21 @@ SPECIALIZATIONS = [
 
 
 # ── Branches ─────────────────────────────────────────────────────
+class BranchSeedData(TypedDict):
+    id: str
+    center_name: str
+    register_number: str
+    center_type: str
+    division: str
+    division_number: str
+    owner_type: str
+    owner_full_name: str
+    owner_id_number: str
+    owner_contact_number: str
+
+
 def get_branches() -> List[Branch]:
-    data = [
+    data: List[BranchSeedData] = [
         {
             "id": BRANCH_IDS[0],
             "center_name": "CURE Medical Center - Colombo",
@@ -206,13 +219,13 @@ def _user(
     first_name: str,
     last_name: str,
     *,
-    branch_id: str = None,
+    branch_id: Optional[str] = None,
     gender: str = "Male",
-    contact: str = None,
-    basic_salary: float = None,
-    employee_id: str = None,
-    qualifications: str = None,
-    years_of_experience: int = None,
+    contact: Optional[str] = None,
+    basic_salary: Optional[float] = None,
+    employee_id: Optional[str] = None,
+    qualifications: Optional[str] = None,
+    years_of_experience: Optional[int] = None,
 ) -> User:
     return User(
         id=id,
@@ -935,7 +948,7 @@ def get_attendance() -> List[Attendance]:
         d = today - timedelta(days=day_offset)
         for user_id in all_staff:
             status = "present" if hash(user_id + str(d)) % 10 > 1 else "late"
-            records.append(Attendance(
+            records.append(Attendance(  # type: ignore[call-arg]
                 id=uid(),
                 user_id=user_id,
                 attendance_date=d,
@@ -1334,7 +1347,7 @@ def get_doctor_diseases() -> List[DoctorCreatedDisease]:
 #  MAIN SEED RUNNER
 # ══════════════════════════════════════════════════════════════════
 async def seed():
-    async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+    async_session = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
     async with async_session() as session:
         # ── Idempotency check ─────────────────────────────────────
