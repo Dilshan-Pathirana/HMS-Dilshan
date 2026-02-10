@@ -75,3 +75,4 @@ class UserUpdate(SQLModel):
     compensation_package: Optional[str] = None
     photo_path: Optional[str] = None
     nic_photo_path: Optional[str] = None
+    branch_ids: Optional[list[str]] = None

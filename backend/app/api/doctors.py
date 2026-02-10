@@ -8,6 +8,7 @@ from pydantic import BaseModel
 from app.core.database import get_session
 from app.models.doctor import Doctor, DoctorRead
 from app.models.user import User
+from app.models.branch import Branch
 from app.api.deps import get_current_active_superuser
 from app.core.security import get_password_hash
 
@@ -49,7 +50,10 @@ async def create_doctor(
         hashed_password=get_password_hash(doctor_in.password),
         # Frontend expects Doctor to be role_as=3 (see frontend UserRole enum)
         role_as=3,
-        is_active=True
+        is_active=True,
+        first_name=doctor_in.first_name,
+        last_name=doctor_in.last_name,
+        contact_number_mobile=doctor_in.contact_number,
     )
     session.add(user)
 

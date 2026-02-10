@@ -147,28 +147,8 @@ jobs:
             sudo apt-get install -y mysql-client >/dev/null 2>&1 || true
             mysql -h $DB_HOST -u $DB_USERNAME -p$DB_PASSWORD -e "SELECT 1" && echo "RDS reachable"
 
-            echo "==== Run migrations ===="
-            docker compose \
-              -f $APP_DIR/docker-compose.ec2.yml \
-              --env-file $APP_DIR/.env \
-              run --rm backend alembic upgrade heads
-
-            echo "==== Truncate RDS data ===="
-            mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USERNAME" -p"$DB_PASSWORD" -N \
-              -e "SELECT CONCAT('TRUNCATE TABLE ', CHAR(96), table_name, CHAR(96), ';') FROM information_schema.tables WHERE table_schema='$DB_DATABASE' AND table_type='BASE TABLE' AND table_name != 'alembic_version';" \
-              > /tmp/trunc.out || true
-
-            if [ -s /tmp/trunc.out ]; then
-              { echo "SET FOREIGN_KEY_CHECKS=0;"; cat /tmp/trunc.out; echo "SET FOREIGN_KEY_CHECKS=1;"; } | \
-                mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USERNAME" -p"$DB_PASSWORD" "$DB_DATABASE"
-            fi
-            echo "RDS truncate complete"
-
-            echo "==== Seed database ===="
-            docker compose \
-              -f $APP_DIR/docker-compose.ec2.yml \
-              --env-file $APP_DIR/.env \
-              run --rm backend python seed.py
+            echo "==== Skip RDS migrations/seed/truncate ===="
+            echo "RDS data preserved as requested"
 
             echo "==== Start services ===="
             docker compose \

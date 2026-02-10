@@ -286,6 +286,69 @@ async def update_user(
     if user_in.password is not None:
         user.hashed_password = get_password_hash(user_in.password)
 
+    if user_in.first_name is not None:
+        user.first_name = user_in.first_name
+    if user_in.last_name is not None:
+        user.last_name = user_in.last_name
+    if user_in.date_of_birth is not None:
+        user.date_of_birth = user_in.date_of_birth
+    if user_in.gender is not None:
+        user.gender = user_in.gender
+    if user_in.nic_number is not None:
+        user.nic_number = user_in.nic_number
+    if user_in.contact_number_mobile is not None:
+        user.contact_number_mobile = user_in.contact_number_mobile
+    if user_in.contact_number_landline is not None:
+        user.contact_number_landline = user_in.contact_number_landline
+    if user_in.home_address is not None:
+        user.home_address = user_in.home_address
+    if user_in.emergency_contact_info is not None:
+        user.emergency_contact_info = user_in.emergency_contact_info
+    if user_in.qualifications is not None:
+        user.qualifications = user_in.qualifications
+    if user_in.years_of_experience is not None:
+        user.years_of_experience = user_in.years_of_experience
+    if user_in.medical_registration_number is not None:
+        user.medical_registration_number = user_in.medical_registration_number
+    if user_in.license_validity_date is not None:
+        user.license_validity_date = user_in.license_validity_date
+    if user_in.joining_date is not None:
+        user.joining_date = user_in.joining_date
+    if user_in.employee_id is not None:
+        user.employee_id = user_in.employee_id
+    if user_in.contract_type is not None:
+        user.contract_type = user_in.contract_type
+    if user_in.contract_duration is not None:
+        user.contract_duration = user_in.contract_duration
+    if user_in.probation_start_date is not None:
+        user.probation_start_date = user_in.probation_start_date
+    if user_in.probation_end_date is not None:
+        user.probation_end_date = user_in.probation_end_date
+    if user_in.basic_salary is not None:
+        user.basic_salary = user_in.basic_salary
+    if user_in.compensation_package is not None:
+        user.compensation_package = user_in.compensation_package
+    if user_in.photo_path is not None:
+        user.photo_path = user_in.photo_path
+    if user_in.nic_photo_path is not None:
+        user.nic_photo_path = user_in.nic_photo_path
+
+    if user_in.branch_ids is not None:
+        from app.models.doctor import Doctor
+        from app.models.doctor_branch_link import DoctorBranchLink
+
+        doctor_result = await session.exec(select(Doctor).where(Doctor.user_id == user.id))
+        doctor = doctor_result.first()
+        if doctor:
+            existing_links_result = await session.exec(
+                select(DoctorBranchLink).where(DoctorBranchLink.doctor_id == doctor.id)
+            )
+            existing_links = existing_links_result.all() or []
+            for link in existing_links:
+                await session.delete(link)
+            for branch_id in user_in.branch_ids:
+                session.add(DoctorBranchLink(doctor_id=doctor.id, branch_id=branch_id))
+
     session.add(user)
     try:
         await session.commit()
