@@ -88,7 +88,7 @@ jobs:
 
             echo "==== Truncate RDS data ===="
             mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USERNAME" -p"$DB_PASSWORD" -N \
-              -e "SELECT CONCAT('TRUNCATE TABLE ', table_name, ';') FROM information_schema.tables WHERE table_schema='$DB_DATABASE' AND table_type='BASE TABLE' AND table_name != 'alembic_version';" \
+              -e "SELECT CONCAT('TRUNCATE TABLE ', CHAR(96), table_name, CHAR(96), ';') FROM information_schema.tables WHERE table_schema='$DB_DATABASE' AND table_type='BASE TABLE' AND table_name != 'alembic_version';" \
               > /tmp/trunc.out || true
 
             if [ -s /tmp/trunc.out ]; then
