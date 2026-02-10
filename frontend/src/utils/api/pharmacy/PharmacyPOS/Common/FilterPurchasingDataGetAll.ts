@@ -1,4 +1,5 @@
 import api from "../../../axios";
+import alert from "../../../../alert";
 
 export const getAllFilterPurchasingData = (
     userRole: number,
@@ -29,5 +30,11 @@ export const getAllFilterPurchasingData = (
         endpoint += `?date=${selectedDate}`;
     }
 
-    return api.get(endpoint);
+    return api.get(endpoint).then((res: any) => {
+        const list = res?.purchasing ?? res?.data?.purchasing;
+        if (Array.isArray(list) && list.length === 0) {
+            alert.warn("No purchasing records available/found");
+        }
+        return res;
+    });
 };

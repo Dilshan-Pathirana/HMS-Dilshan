@@ -55,28 +55,13 @@ export const getUnreadNotificationCount = async (
         return 0;
     }
 
-    let endpoint = "";
-
-    switch (userRole) {
-        case 2: // Branch Admin
-            endpoint = `/notifications/branch-admin/unread-count`;
-            break;
-        case 3: // Doctor
-            endpoint = `/notifications/doctor/unread-count/${userId}`;
-            break;
-        case 6: // Receptionist
-            endpoint = `/notifications/receptionist/unread-count/${userId}`;
-            break;
-        case 7: // Patient
-            endpoint = `/notifications/patient/unread-count/${userId}`;
-            break;
-        default:
-            return 0;
-    }
+    // Backend exposes a generic per-user endpoint (no role-specific routes required).
+    // See backend: GET /api/v1/notifications/unread-count
+    const endpoint = `/notifications/unread-count`;
 
     try {
         const response = await api.get(endpoint);
-        return response.data?.unread_count || response.data?.count || 0;
+        return response.data?.unread || 0;
     } catch {
         return 0;
     }

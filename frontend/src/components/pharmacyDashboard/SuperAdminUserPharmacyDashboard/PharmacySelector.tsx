@@ -45,7 +45,7 @@ const PharmacySelector: React.FC<PharmacySelectorProps> = ({ onSelectPharmacy, s
 
             const [pharmaciesRes, branchesRes] = await Promise.all([
                 api.get('/pharmacies', { headers }),
-                api.get('/api/get-branches', { headers }),
+                api.get('/get-branches', { headers }),
             ]);
 
             if (pharmaciesRes.data.success) {
@@ -62,8 +62,8 @@ const PharmacySelector: React.FC<PharmacySelectorProps> = ({ onSelectPharmacy, s
         }
     };
 
-    const filteredPharmacies = selectedBranch === 'all' 
-        ? pharmacies 
+    const filteredPharmacies = selectedBranch === 'all'
+        ? pharmacies
         : pharmacies.filter(p => p.branch_id?.toString() === selectedBranch);
 
     if (loading) {
@@ -143,8 +143,8 @@ const PharmacySelector: React.FC<PharmacySelectorProps> = ({ onSelectPharmacy, s
                                         <Store className="w-6 h-6 text-primary-500" />
                                     </div>
                                     <span className={`px-3 py-1 text-xs font-semibold rounded-full ${
-                                        pharmacy.status === 'active' 
-                                            ? 'bg-green-100 text-green-800' 
+                                        pharmacy.status === 'active'
+                                            ? 'bg-green-100 text-green-800'
                                             : 'bg-error-100 text-red-800'
                                     }`}>
                                         {pharmacy.status}
@@ -153,7 +153,7 @@ const PharmacySelector: React.FC<PharmacySelectorProps> = ({ onSelectPharmacy, s
 
                                 <h3 className="text-xl font-bold text-neutral-900 mb-1">{pharmacy.name}</h3>
                                 <p className="text-sm text-primary-500 font-medium mb-2">{pharmacy.pharmacy_code}</p>
-                                
+
                                 {pharmacy.branch?.center_name && (
                                     <p className="text-sm text-neutral-500 flex items-center gap-1 mb-3">
                                         <Building2 className="w-4 h-4" />

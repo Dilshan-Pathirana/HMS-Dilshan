@@ -155,7 +155,7 @@ const PayrollConfig: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<string>('pay-period');
-    
+
     // Copy modal
     const [showCopyModal, setShowCopyModal] = useState(false);
     const [copyTargetBranch, setCopyTargetBranch] = useState('');
@@ -197,12 +197,12 @@ const PayrollConfig: React.FC = () => {
                 headers: { Authorization: `Bearer ${token}` }
             });
             if (response.data.status === 200) {
-                const configData = response.data.config;
+                const configData = response.data?.config ?? null;
                 setConfig({
                     ...defaultConfig,
-                    ...configData,
-                    night_shift_start: configData.night_shift_start?.substring(0, 5) || '22:00',
-                    night_shift_end: configData.night_shift_end?.substring(0, 5) || '06:00',
+                    ...(configData ?? {}),
+                    night_shift_start: configData?.night_shift_start?.substring(0, 5) || '22:00',
+                    night_shift_end: configData?.night_shift_end?.substring(0, 5) || '06:00',
                 });
                 setIsDefault(response.data.isDefault || false);
             }
@@ -220,14 +220,14 @@ const PayrollConfig: React.FC = () => {
             setIsSaving(true);
             setError(null);
             const token = localStorage.getItem('token');
-            
+
             await api.post('/hrm/super-admin/payroll-config', {
                 ...config,
                 branch_id: selectedBranch === 'global' ? '' : selectedBranch,
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            
+
             setSuccess('Payroll configuration saved successfully');
             setIsDefault(false);
             fetchConfig();
@@ -242,13 +242,13 @@ const PayrollConfig: React.FC = () => {
         try {
             setIsSaving(true);
             const token = localStorage.getItem('token');
-            
+
             await api.post('/hrm/super-admin/payroll-config/reset', {
                 branch_id: selectedBranch === 'global' ? '' : selectedBranch,
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            
+
             setSuccess('Configuration reset to Sri Lanka defaults');
             fetchConfig();
         } catch (error: any) {
@@ -267,14 +267,14 @@ const PayrollConfig: React.FC = () => {
         try {
             setIsSaving(true);
             const token = localStorage.getItem('token');
-            
+
             await api.post('/hrm/super-admin/payroll-config/copy-to-branch', {
                 source_branch_id: selectedBranch === 'global' ? '' : selectedBranch,
                 target_branch_id: copyTargetBranch,
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            
+
             setSuccess('Configuration copied successfully');
             setShowCopyModal(false);
             setCopyTargetBranch('');
@@ -295,7 +295,7 @@ const PayrollConfig: React.FC = () => {
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            
+
             if (response.data.status === 200) {
                 setCalcResult(response.data.calculations);
             }
@@ -742,7 +742,7 @@ const PayrollConfig: React.FC = () => {
                             {activeTab === 'components' && (
                                 <div className="space-y-6">
                                     <h3 className="text-lg font-medium text-neutral-900">Salary Component Settings</h3>
-                                    
+
                                     <div className="space-y-4">
                                         <div className="flex items-center justify-between p-4 bg-neutral-50 rounded-lg">
                                             <div>
@@ -840,7 +840,7 @@ const PayrollConfig: React.FC = () => {
                             {activeTab === 'payslip' && (
                                 <div className="space-y-6">
                                     <h3 className="text-lg font-medium text-neutral-900">Payslip Settings</h3>
-                                    
+
                                     <div>
                                         <label className="block text-sm font-medium text-neutral-700 mb-1">Payslip Template</label>
                                         <select
@@ -910,7 +910,7 @@ const PayrollConfig: React.FC = () => {
                             {activeTab === 'approval' && (
                                 <div className="space-y-6">
                                     <h3 className="text-lg font-medium text-neutral-900">Approval Settings</h3>
-                                    
+
                                     <div className="flex items-center justify-between p-4 bg-neutral-50 rounded-lg">
                                         <div>
                                             <p className="font-medium text-neutral-900">Require Payroll Approval</p>

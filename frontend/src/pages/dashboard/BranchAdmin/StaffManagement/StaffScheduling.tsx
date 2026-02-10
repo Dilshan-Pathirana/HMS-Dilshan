@@ -1537,8 +1537,8 @@ export const StaffScheduling: React.FC = () => {
                                                         )}
                                                     </div>
                                                     <p className="text-sm text-neutral-500">
-                                                        {request.department} • {request.date}
-                                                        {request.shiftType && ` • ${request.shiftType}`}
+                                                        {request.department} ï¿½ {request.date}
+                                                        {request.shiftType && ` ï¿½ ${request.shiftType}`}
                                                         {request.startTime && request.endTime && ` (${request.startTime} - ${request.endTime})`}
                                                     </p>
                                                     <p className="text-sm text-neutral-600 mt-1">
@@ -1841,15 +1841,16 @@ export const StaffScheduling: React.FC = () => {
                                                     return todaysShifts.map((shift, index) => {
                                                         const staffName = `${shift.user_first_name || ''} ${shift.user_last_name || ''}`.trim() || 'Unknown';
                                                         const roleAs = shift.user_role_as;
-                                                        const roleName = roleAs === 2 ? 'Doctor' :
-                                                            roleAs === 3 ? 'Nurse' :
-                                                                roleAs === 4 ? 'Pharmacist' :
-                                                                    roleAs === 5 ? 'Cashier' :
-                                                                        roleAs === 6 ? 'Receptionist' :
-                                                                            roleAs === 7 ? 'IT Support' :
-                                                                                roleAs === 8 ? 'Center Aid' :
-                                                                                    roleAs === 9 ? 'Auditor' :
-                                                                                        roleAs === 10 ? 'Branch Admin' : 'Staff';
+                                                        const roleName = roleAs === 1 ? 'Super Admin' :
+                                                            roleAs === 2 ? 'Branch Admin' :
+                                                                roleAs === 3 ? 'Doctor' :
+                                                                    roleAs === 4 ? 'Nurse' :
+                                                                        roleAs === 6 ? 'Cashier' :
+                                                                            roleAs === 7 ? 'Pharmacist' :
+                                                                                roleAs === 8 ? 'IT Support' :
+                                                                                    roleAs === 9 ? 'Center Aid' :
+                                                                                        roleAs === 10 ? 'Auditor' :
+                                                                                            roleAs === 5 ? 'Patient' : 'Staff';
 
                                                         const formatTime = (time: string) => {
                                                             if (!time) return '-';
@@ -1886,10 +1887,10 @@ export const StaffScheduling: React.FC = () => {
                                                                     </div>
                                                                 </td>
                                                                 <td className="px-4 py-3">
-                                                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${roleAs === 2 ? 'bg-blue-100 text-blue-700' :
-                                                                            roleAs === 3 ? 'bg-pink-100 text-pink-700' :
-                                                                                roleAs === 4 ? 'bg-purple-100 text-purple-700' :
-                                                                                    roleAs === 10 ? 'bg-orange-100 text-orange-700' :
+                                                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${roleAs === 3 ? 'bg-blue-100 text-blue-700' :
+                                                                            roleAs === 4 ? 'bg-pink-100 text-pink-700' :
+                                                                                roleAs === 7 ? 'bg-purple-100 text-purple-700' :
+                                                                                    roleAs === 2 ? 'bg-orange-100 text-orange-700' :
                                                                                         'bg-neutral-100 text-neutral-700'
                                                                         }`}>
                                                                         {roleName}
@@ -1971,15 +1972,16 @@ export const StaffScheduling: React.FC = () => {
                                             return activeShifts.map((shift, index) => {
                                                 const staffName = `${shift.user_first_name || ''} ${shift.user_last_name || ''}`.trim() || 'Unknown';
                                                 const roleAs = shift.user_role_as;
-                                                const roleName = roleAs === 2 ? 'Doctor' :
-                                                    roleAs === 3 ? 'Nurse' :
-                                                        roleAs === 4 ? 'Pharmacist' :
-                                                            roleAs === 5 ? 'Cashier' :
-                                                                roleAs === 6 ? 'Receptionist' :
-                                                                    roleAs === 7 ? 'IT Support' :
-                                                                        roleAs === 8 ? 'Center Aid' :
-                                                                            roleAs === 9 ? 'Auditor' :
-                                                                                roleAs === 10 ? 'Branch Admin' : 'Staff';
+                                                const roleName = roleAs === 1 ? 'Super Admin' :
+                                                    roleAs === 2 ? 'Branch Admin' :
+                                                        roleAs === 3 ? 'Doctor' :
+                                                            roleAs === 4 ? 'Nurse' :
+                                                                roleAs === 6 ? 'Cashier' :
+                                                                    roleAs === 7 ? 'Pharmacist' :
+                                                                        roleAs === 8 ? 'IT Support' :
+                                                                            roleAs === 9 ? 'Center Aid' :
+                                                                                roleAs === 10 ? 'Auditor' :
+                                                                                    roleAs === 5 ? 'Patient' : 'Staff';
                                                 const phone = shift.user_phone || 'N/A';
 
                                                 return (

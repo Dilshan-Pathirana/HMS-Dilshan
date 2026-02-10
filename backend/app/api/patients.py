@@ -2,6 +2,7 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlmodel import select
+from sqlalchemy.orm import selectinload
 
 from app.core.database import get_session
 from app.models.patient import Patient, PatientCreate, PatientRead
@@ -40,7 +41,12 @@ async def read_patients(
     session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_active_superuser)
 ):
-    query = select(Patient).offset(skip).limit(limit)
+    query = (
+        select(Patient)
+        .options(selectinload(Patient.user))
+        .offset(skip)
+        .limit(limit)
+    )
     result = await session.exec(query)
     return result.all()
 
@@ -50,7 +56,9 @@ async def read_patient(
     session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_active_superuser)
 ):
-    patient = await session.get(Patient, patient_id)
+    query = select(Patient).options(selectinload(Patient.user)).where(Patient.id == patient_id)
+    result = await session.exec(query)
+    patient = result.first()
     if not patient:
         raise HTTPException(status_code=404, detail="Patient not found")
     return patient

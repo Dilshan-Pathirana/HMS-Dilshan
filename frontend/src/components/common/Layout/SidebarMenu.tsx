@@ -171,11 +171,7 @@ export const SuperAdminMenuItems: MenuItem[] = [
     {
         label: 'Patient Section',
         icon: <HeartPulse className="w-5 h-5" />,
-        path: '/dashboard/patient',
-        children: [
-            { label: 'Create Questions', path: '/dashboard/patient/create-questions' },
-            { label: 'All Questions', path: '/dashboard/patient/all-questions' },
-        ]
+        path: '/dashboard/patient/all-questions'
     },
     {
         label: 'Doctor Section',
@@ -185,11 +181,7 @@ export const SuperAdminMenuItems: MenuItem[] = [
     {
         label: 'Doctor Diseases',
         icon: <Activity className="w-5 h-5" />,
-        path: '/dashboard/doctor-diseases',
-        children: [
-            { label: 'Create Diseases', path: '/dashboard/doctor/create-diseases' },
-            { label: 'All Diseases', path: '/dashboard/doctor/all-diseases' },
-        ]
+        path: '/dashboard/doctor/all-diseases'
     },
     {
         label: 'POS Management',

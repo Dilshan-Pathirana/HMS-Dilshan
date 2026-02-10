@@ -27,76 +27,76 @@ const CashierUserAccessRoutes: RouteDefinition[] = [
     },
     // Point of Sale - Create new billing transactions
     {
-        path: "/pos",
+        path: "pos",
         element: <CashierBillingPOS />,
     },
     // Cash Entries - Record cash in/out
     {
-        path: "/cash-entries",
+        path: "cash-entries",
         element: <CashierCashEntries />,
     },
     // Transactions - View all transactions
     {
-        path: "/transactions",
+        path: "transactions",
         element: <CashierTransactionList />,
     },
     // End of Day - Daily reconciliation
     {
-        path: "/eod",
+        path: "eod",
         element: <CashierEODProcess />,
     },
     // Reports - Sales and transaction reports
     {
-        path: "/reports",
+        path: "reports",
         element: <CashierReports />,
     },
     // Profile - Edit personal profile
     {
-        path: "/profile",
+        path: "profile",
         element: <POSProfile />,
     },
     // Settings - User settings
     {
-        path: "/settings",
+        path: "settings",
         element: <POSSettings />,
     },
     // Feedback - Submit feedback and complaints
     {
-        path: "/feedback",
+        path: "feedback",
         element: <CashierFeedback />,
     },
     // HR Module - HR self-service portal
     {
-        path: "/hr",
+        path: "hr",
         element: <CashierHRDashboard />,
     },
     {
-        path: "/hr/schedules",
+        path: "hr/schedules",
         element: <CashierSchedules />,
     },
     {
-        path: "/hr/schedule-requests",
+        path: "hr/schedule-requests",
         element: <CashierScheduleRequests />,
     },
     {
-        path: "/hr/overtime-salary",
+        path: "hr/overtime-salary",
         element: <CashierOvertimeAndSalary />,
     },
     {
-        path: "/hr/payslips",
+        path: "hr/payslips",
         element: <CashierPayslips />,
     },
     {
-        path: "/hr/service-letters",
+        path: "hr/service-letters",
         element: <CashierServiceLetters />,
     },
     {
-        path: "/hr/policies",
+        path: "hr/policies",
         element: <CashierPolicies />,
     },
     // Consultations - View pending consultation payments
     {
-        path: "/consultations",
+        path: "consultations",
         element: <CashierPendingConsultations />,
     },
 ];

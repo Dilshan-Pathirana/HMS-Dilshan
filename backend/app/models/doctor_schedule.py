@@ -51,7 +51,7 @@ class DoctorScheduleCancellationBase(SQLModel):
     cancel_end_date: Optional[date] = None  # for range cancellations
     reason: Optional[str] = Field(default=None, sa_column=Column(Text))
     status: str = Field(default="pending", max_length=20)  # pending / approved / rejected
-    approved_by: Optional[str] = Field(default=None, max_length=36)
+    approved_by: Optional[str] = Field(default=None, foreign_key="user.id", max_length=36)
     cancel_type: str = Field(default="single_day", max_length=20)  # single_day / range
 
 
@@ -77,10 +77,10 @@ class SlotLockBase(SQLModel):
     schedule_id: Optional[str] = Field(default=None, foreign_key="doctor_schedule.id", max_length=36)
     slot_date: date
     slot_time: time
-    locked_by: str = Field(max_length=36)
+    locked_by: str = Field(foreign_key="user.id", max_length=36)
     locked_at: datetime = Field(default_factory=datetime.utcnow)
     expires_at: datetime
-    appointment_id: Optional[str] = Field(default=None, max_length=36)
+    appointment_id: Optional[str] = Field(default=None, foreign_key="appointment.id", max_length=36)
 
 
 class SlotLock(SlotLockBase, table=True):
@@ -105,7 +105,7 @@ class ScheduleModificationBase(SQLModel):
     old_value: Optional[str] = Field(default=None, sa_column=Column(Text))  # JSON
     new_value: Optional[str] = Field(default=None, sa_column=Column(Text))  # JSON
     status: str = Field(default="pending", max_length=20)  # pending / approved / rejected
-    approved_by: Optional[str] = Field(default=None, max_length=36)
+    approved_by: Optional[str] = Field(default=None, foreign_key="user.id", max_length=36)
 
 
 class ScheduleModification(ScheduleModificationBase, table=True):

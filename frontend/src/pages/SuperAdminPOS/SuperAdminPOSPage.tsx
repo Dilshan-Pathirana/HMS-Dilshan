@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../../utils/api/axios";
+import alert from "../../utils/alert";
 import {
     ShoppingCart, Search, Plus, Minus, Trash2,
     User, DollarSign, CreditCard, Smartphone,
@@ -191,8 +192,11 @@ const SuperAdminPOSPage = () => {
                 url,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-            if (response.data) {
+            if (response?.data) {
                 setInventoryItems(response.data);
+                if (Array.isArray(response.data) && response.data.length === 0) {
+                    alert.warn("No inventory items available/found");
+                }
             }
         } catch (err) {
             console.error("Error loading inventory:", err);
@@ -340,6 +344,9 @@ const SuperAdminPOSPage = () => {
             });
             if (response.data.success) {
                 setActiveOffers(response.data.data || []);
+                if (Array.isArray(response.data.data) && response.data.data.length === 0) {
+                    alert.warn("No active offers available/found");
+                }
             }
         } catch (err) {
             console.error("Error loading active offers:", err);

@@ -9,7 +9,11 @@ import {
 } from "../../../utils/types/DoctorSession/IDoctorSession.ts";
 import { IDoctorCreatedDiseaseFormTypes } from "../../../utils/types/DoctorDisease/DoctorDisease.ts";
 
-const DoctorCreatedDisease = () => {
+interface DoctorCreatedDiseaseProps {
+    onCreated?: () => void;
+}
+
+const DoctorCreatedDisease: React.FC<DoctorCreatedDiseaseProps> = ({ onCreated }) => {
     const [formData, setFormData] = useState<IDoctorCreatedDiseaseFormTypes>({
         doctor_id: "",
         disease_name: "",
@@ -129,6 +133,7 @@ const DoctorCreatedDisease = () => {
                 setSelectedDoctor(null);
                 setSelectedPriority(null);
                 setErrors({});
+                onCreated?.();
             }
         } catch (error) {
             if (axios.isAxiosError(error) && error.response?.status === 422) {

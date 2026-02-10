@@ -18,46 +18,45 @@ const PharmacistUserAccessRoutes: RouteDefinition[] = [
         element: <PharmacistUserDashboard />,
     },
     {
-        path: "/sales",
+        path: "sales",
         element: <PharmacistUserSalesPage />,
     },
     {
-        path: "/inventory",
+        path: "inventory",
         element: <PharmacistUserInventoryPage />,
     },
     {
-        path: "/purchasing",
+        path: "purchasing",
         element: <PharmacistUserPurchasingPage />,
     },
     {
-        path: "/damage-stock/view",
+        path: "damage-stock/view",
         element: <PharmacistUserDamageStockListPage />,
     },
     {
-        path: "/damage-stock/add",
+        path: "damage-stock/add",
         element: <PharmacistUserAddDamageStock />,
     },
     {
-        path: "/stock-movement/transfer",
+        path: "stock-movement/transfer",
         element: <PharmacistUserStockTransfer />,
     },
     {
-        path: "/stock-movement/history",
+        path: "stock-movement/history",
         element: <PharmacistUserStockTransferListPage />,
     },
     {
-        path: "/re-order-stock/list",
+        path: "re-order-stock/list",
         element: <PharmacistUserReOrderListPage />,
     },
     {
-        path: "/re-order-stock/add",
+        path: "re-order-stock/add",
         element: <PharmacistUserAddReStock />,
     },
     // Consultations - View paid consultations for medicine dispensing
     {
-        path: "/consultations",
+        path: "consultations",
         element: <PharmacistPendingConsultations />,
     },
 ];
-
 export default PharmacistUserAccessRoutes;

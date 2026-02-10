@@ -8,8 +8,6 @@ import alert from "../../../utils/alert";
 import {
     IDoctorSessionFormTypes,
     IDropdownOption,
-    IDoctorData,
-    IPatientData,
 } from "../../../utils/types/DoctorSession/IDoctorSession.ts";
 
 const DoctorSessionCreate = () => {
@@ -47,28 +45,38 @@ const DoctorSessionCreate = () => {
                 );
                 setBranchOptions(branchOpts);
 
-                const doctorResponse = await api.get("api/get-doctors");
-                if (doctorResponse.data.status === 200) {
-                    const doctorOpts = doctorResponse.data.doctors.map(
-                        (doctor: IDoctorData) => ({
-                            value: doctor.user_id,
-                            label: `Dr. ${doctor.first_name} ${doctor.last_name} (${doctor.medical_registration_number})`,
-                        }),
-                    );
-                    setDoctorOptions(doctorOpts);
+                const doctorResponse = await api.get<any[]>("/doctors/");
+                const doctorList = Array.isArray(doctorResponse)
+                    ? doctorResponse
+                    : [];
+                const doctorOpts = doctorList.map((doctor) => {
+                    const regNo = doctor?.user?.medical_registration_number;
+                    const regSuffix = regNo ? ` (${regNo})` : "";
+                    return {
+                        value: doctor.user_id,
+                        label: `Dr. ${doctor.first_name} ${doctor.last_name}${regSuffix}`,
+                    };
+                });
+                setDoctorOptions(doctorOpts);
+                if (doctorOpts.length === 0) {
+                    alert.info("No doctors found.");
                 }
 
-                const patientResponse = await api.get(
-                    "api/get-patients-details",
-                );
-                if (patientResponse.data.status === 200) {
-                    const patientOpts = patientResponse.data.patients.map(
-                        (patient: IPatientData) => ({
-                            value: patient.id,
-                            label: `${patient.first_name} ${patient.last_name}`,
-                        }),
-                    );
-                    setPatientOptions(patientOpts);
+                const patientResponse = await api.get<any[]>("/patients/");
+                const patientList = Array.isArray(patientResponse)
+                    ? patientResponse
+                    : [];
+                const patientOpts = patientList.map((patient) => {
+                    const firstName = patient?.user?.first_name || "Unknown";
+                    const lastName = patient?.user?.last_name || "Patient";
+                    return {
+                        value: patient.id,
+                        label: `${firstName} ${lastName}`,
+                    };
+                });
+                setPatientOptions(patientOpts);
+                if (patientOpts.length === 0) {
+                    alert.info("No patients found.");
                 }
             } catch (error) {
                 if (axios.isAxiosError(error)) {

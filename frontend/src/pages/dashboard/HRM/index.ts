@@ -31,3 +31,6 @@ export { default as EmployeePayslips } from './Employee/EmployeePayslips';
 export { default as EmployeeShifts } from './Employee/EmployeeShifts';
 export { default as EmployeeOvertime } from './Employee/EmployeeOvertime';
 export { default as EmployeeScheduleAcknowledgment } from './Employee/EmployeeScheduleAcknowledgment';
+
+// Shared HRM layout shells
+export { SuperAdminHrmShell, BranchAdminHrmShell, EmployeeHrmShell } from './HrmShell';

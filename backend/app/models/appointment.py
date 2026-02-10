@@ -25,7 +25,7 @@ class AppointmentBase(SQLModel):
     payment_method: Optional[str] = Field(default=None, max_length=50)  # cash, card, online
     payment_reference: Optional[str] = Field(default=None, max_length=100)
     cancellation_reason: Optional[str] = Field(default=None, sa_column=Column(Text))
-    cancelled_by: Optional[str] = Field(default=None, max_length=36)
+    cancelled_by: Optional[str] = Field(default=None, foreign_key="user.id", max_length=36)
     check_in_time: Optional[datetime] = Field(default=None)
     consultation_start: Optional[datetime] = Field(default=None)
     consultation_end: Optional[datetime] = Field(default=None)

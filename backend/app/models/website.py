@@ -10,7 +10,7 @@ import uuid
 # ---------- SystemSettings ----------
 
 class SystemSettingsBase(SQLModel):
-    key: str = Field(max_length=100, index=True)
+    key: str = Field(max_length=100, index=True, unique=True)
     value: Optional[str] = Field(default=None, sa_column=sa.Column(sa.Text, nullable=True))
     category: Optional[str] = Field(default=None, max_length=50)
     description: Optional[str] = Field(default=None, max_length=500)
@@ -33,7 +33,7 @@ class SystemSettingsRead(SystemSettingsBase):
 # ---------- WebDoctor ----------
 
 class WebDoctorBase(SQLModel):
-    doctor_id: Optional[str] = Field(default=None, max_length=36, index=True)
+    doctor_id: Optional[str] = Field(default=None, foreign_key="doctor.id", max_length=36, index=True)
     display_name: str = Field(max_length=200)
     photo: Optional[str] = Field(default=None, max_length=500)
     bio: Optional[str] = Field(default=None, sa_column=sa.Column(sa.Text, nullable=True))

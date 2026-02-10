@@ -10,4 +10,4 @@ IF NOT EXIST .env.local (
 
 if "%DB_PORT%"=="" set DB_PORT=3306
 
-docker compose --env-file .env.local -f docker-compose.yml -f docker-compose.local.yml down -v
+docker compose --env-file .env.local -f docker-compose.yml down -v

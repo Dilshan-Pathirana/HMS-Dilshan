@@ -18,7 +18,7 @@ from sqlalchemy import Text
 class BillingTransactionBase(SQLModel):
     branch_id: str = Field(foreign_key="branch.id", max_length=36, index=True)
     patient_id: Optional[str] = Field(default=None, foreign_key="patient.id", max_length=36, index=True)
-    cashier_id: str = Field(max_length=36, index=True)
+    cashier_id: str = Field(foreign_key="user.id", max_length=36, index=True)
     transaction_type: str = Field(max_length=30)  # consultation/pharmacy/lab/other
     total_amount: float = Field(default=0)
     discount_amount: float = Field(default=0)
@@ -49,7 +49,7 @@ class BillingTransactionRead(BillingTransactionBase):
 
 class TransactionItemBase(SQLModel):
     transaction_id: str = Field(foreign_key="billing_transaction.id", max_length=36, index=True)
-    product_id: Optional[str] = Field(default=None, max_length=36)
+    product_id: Optional[str] = Field(default=None, foreign_key="product.id", max_length=36)
     description: str = Field(max_length=255)
     quantity: int = Field(default=1)
     unit_price: float = Field(default=0)
@@ -74,7 +74,7 @@ class TransactionItemRead(TransactionItemBase):
 
 class CashRegisterBase(SQLModel):
     branch_id: str = Field(foreign_key="branch.id", max_length=36, index=True)
-    cashier_id: str = Field(max_length=36, index=True)
+    cashier_id: str = Field(foreign_key="user.id", max_length=36, index=True)
     opening_balance: float = Field(default=0)
     closing_balance: Optional[float] = None
     status: str = Field(default="open", max_length=20)  # open/closed
@@ -154,7 +154,7 @@ class DailyCashSummaryRead(DailyCashSummaryBase):
 
 class EODReportBase(SQLModel):
     branch_id: str = Field(foreign_key="branch.id", max_length=36, index=True)
-    cashier_id: str = Field(max_length=36)
+    cashier_id: str = Field(foreign_key="user.id", max_length=36)
     report_date: date
     summary: Optional[str] = Field(default=None, sa_column=Column(Text))  # JSON
     status: str = Field(default="draft", max_length=20)  # draft/submitted/approved
@@ -179,7 +179,7 @@ class EODReportRead(EODReportBase):
 # ---------- POSAuditLog ----------
 
 class POSAuditLogBase(SQLModel):
-    user_id: str = Field(max_length=36, index=True)
+    user_id: str = Field(foreign_key="user.id", max_length=36, index=True)
     action: str = Field(max_length=50)
     entity: str = Field(max_length=50)
     entity_id: Optional[str] = Field(default=None, max_length=36)

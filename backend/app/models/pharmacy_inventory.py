@@ -74,7 +74,7 @@ class SupplierRead(SupplierBase):
 class ProductStockBase(SQLModel):
     product_id: str = Field(foreign_key="product.id", max_length=36, index=True)
     branch_id: str = Field(foreign_key="branch.id", max_length=36, index=True)
-    pharmacy_id: Optional[str] = Field(default=None, max_length=36)
+    pharmacy_id: Optional[str] = Field(default=None, foreign_key="pharmacy.id", max_length=36)
     quantity: int = Field(default=0)
     batch_number: Optional[str] = Field(default=None, max_length=100)
     expiry_date: Optional[date] = None
@@ -102,7 +102,7 @@ class ProductStockRead(ProductStockBase):
 # ---------- PharmacyInventory ----------
 
 class PharmacyInventoryBase(SQLModel):
-    pharmacy_id: Optional[str] = Field(default=None, max_length=36)
+    pharmacy_id: Optional[str] = Field(default=None, foreign_key="pharmacy.id", max_length=36)
     product_id: str = Field(foreign_key="product.id", max_length=36, index=True)
     quantity: int = Field(default=0)
     batch_no: Optional[str] = Field(default=None, max_length=100)
@@ -131,7 +131,7 @@ class PharmacyInventoryRead(PharmacyInventoryBase):
 
 class InventoryBatchBase(SQLModel):
     product_id: str = Field(foreign_key="product.id", max_length=36, index=True)
-    pharmacy_id: Optional[str] = Field(default=None, max_length=36)
+    pharmacy_id: Optional[str] = Field(default=None, foreign_key="pharmacy.id", max_length=36)
     batch_no: str = Field(max_length=100)
     received_date: date
     expiry_date: Optional[date] = None
@@ -159,12 +159,12 @@ class InventoryBatchRead(InventoryBatchBase):
 # ---------- PharmacyStockTransaction ----------
 
 class PharmacyStockTransactionBase(SQLModel):
-    pharmacy_id: Optional[str] = Field(default=None, max_length=36)
+    pharmacy_id: Optional[str] = Field(default=None, foreign_key="pharmacy.id", max_length=36)
     product_id: str = Field(foreign_key="product.id", max_length=36, index=True)
     transaction_type: str = Field(max_length=30)  # purchase/transfer/damage/return/dispense
     quantity: int
     reference_id: Optional[str] = Field(default=None, max_length=36)
-    performed_by: str = Field(max_length=36)
+    performed_by: str = Field(foreign_key="user.id", max_length=36)
     notes: Optional[str] = Field(default=None, sa_column=Column(Text))
 
 
@@ -218,7 +218,7 @@ class PrescriptionBase(SQLModel):
     doctor_id: str = Field(foreign_key="doctor.id", max_length=36)
     items: Optional[str] = Field(default=None, sa_column=Column(Text))  # JSON
     status: str = Field(default="pending", max_length=20)  # pending / dispensed / partial
-    dispensed_by: Optional[str] = Field(default=None, max_length=36)
+    dispensed_by: Optional[str] = Field(default=None, foreign_key="user.id", max_length=36)
     dispensed_at: Optional[datetime] = None
 
 

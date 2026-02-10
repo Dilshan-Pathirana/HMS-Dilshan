@@ -50,13 +50,9 @@ const LoginPage: React.FC = () => {
             navigate("/patient-dashboard");
         }
 
-        // Role 6 is Cashier (includes Receptionist)
+        // Role 6 is Cashier
         if (isAuthenticated && userRole === 6) {
-            if (userType?.toLowerCase() === 'receptionist') {
-                navigate("/receptionist-dashboard");
-            } else {
-                navigate("/pos");
-            }
+            navigate("/pos");
         }
 
         if (isAuthenticated && userRole === 7) {

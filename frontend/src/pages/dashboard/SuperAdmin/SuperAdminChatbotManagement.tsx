@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { DashboardLayout } from '../../../components/common/Layout/DashboardLayout';
 import { SidebarMenu, SuperAdminMenuItems } from '../../../components/common/Layout/SidebarMenu';
 import {
@@ -85,17 +86,19 @@ const SuperAdminChatbotManagement: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('');
-    
+
+    const [hasNotifiedEmptyFaqs, setHasNotifiedEmptyFaqs] = useState(false);
+
     // User info
     const [userName, setUserName] = useState('Super Admin');
     const [profileImage, setProfileImage] = useState('');
-    
+
     // Modal states
     const [showFaqModal, setShowFaqModal] = useState(false);
     const [showMappingModal, setShowMappingModal] = useState(false);
     const [editingFaq, setEditingFaq] = useState<FAQ | null>(null);
     const [editingMapping, setEditingMapping] = useState<DiseaseMapping | null>(null);
-    
+
     // Form states
     const [faqForm, setFaqForm] = useState({
         category: 'general_homeopathy',
@@ -106,7 +109,7 @@ const SuperAdminChatbotManagement: React.FC = () => {
         keywords: '',
         priority: 50
     });
-    
+
     const [mappingForm, setMappingForm] = useState({
         disease_name: '',
         specialization: '',
@@ -129,14 +132,30 @@ const SuperAdminChatbotManagement: React.FC = () => {
             const params = new URLSearchParams();
             if (searchTerm) params.append('search', searchTerm);
             if (categoryFilter) params.append('category', categoryFilter);
-            
+
             const response = await api.get(`${API_BASE}/api/super-admin/chatbot/faqs?${params}`, {
                 headers: getAuthHeaders()
             });
-            setFaqs(response.data.data || []);
+            const items = response?.data?.data || [];
+            setFaqs(items);
             setError(null);
+
+            if (!hasNotifiedEmptyFaqs && !searchTerm && !categoryFilter && items.length === 0) {
+                toast.info('No FAQs created yet. Add your first FAQ.');
+                setHasNotifiedEmptyFaqs(true);
+            }
         } catch (err: any) {
-            setError(err.response?.data?.message || 'Failed to fetch FAQs');
+            const status = err?.response?.status;
+            if (status === 404) {
+                setFaqs([]);
+                setError(null);
+                if (!hasNotifiedEmptyFaqs && !searchTerm && !categoryFilter) {
+                    toast.info('No FAQs created yet. Add your first FAQ.');
+                    setHasNotifiedEmptyFaqs(true);
+                }
+            } else {
+                setError(err.response?.data?.message || 'Failed to fetch FAQs');
+            }
         } finally {
             setLoading(false);
         }
@@ -221,7 +240,7 @@ const SuperAdminChatbotManagement: React.FC = () => {
                     headers: getAuthHeaders()
                 });
             }
-            
+
             setShowFaqModal(false);
             setEditingFaq(null);
             resetFaqForm();
@@ -234,7 +253,7 @@ const SuperAdminChatbotManagement: React.FC = () => {
     // Delete FAQ
     const deleteFaq = async (id: string) => {
         if (!confirm('Are you sure you want to delete this FAQ?')) return;
-        
+
         try {
             await api.delete(`${API_BASE}/api/super-admin/chatbot/faqs/${id}`, {
                 headers: getAuthHeaders()
@@ -269,7 +288,7 @@ const SuperAdminChatbotManagement: React.FC = () => {
                     headers: getAuthHeaders()
                 });
             }
-            
+
             setShowMappingModal(false);
             setEditingMapping(null);
             resetMappingForm();
@@ -282,7 +301,7 @@ const SuperAdminChatbotManagement: React.FC = () => {
     // Delete Disease Mapping
     const deleteMapping = async (id: string) => {
         if (!confirm('Are you sure you want to delete this mapping?')) return;
-        
+
         try {
             await api.delete(`${API_BASE}/api/super-admin/chatbot/disease-mappings/${id}`, {
                 headers: getAuthHeaders()
@@ -490,8 +509,8 @@ const SuperAdminChatbotManagement: React.FC = () => {
                                             <div className="flex-1">
                                                 <div className="flex items-center gap-2 mb-1">
                                                     <span className={`px-2 py-0.5 text-xs font-medium rounded ${
-                                                        faq.is_active 
-                                                            ? 'bg-green-100 text-green-700' 
+                                                        faq.is_active
+                                                            ? 'bg-green-100 text-green-700'
                                                             : 'bg-neutral-100 text-neutral-600'
                                                     }`}>
                                                         {faq.is_active ? 'Active' : 'Inactive'}
@@ -595,8 +614,8 @@ const SuperAdminChatbotManagement: React.FC = () => {
                                                 <td className="px-4 py-3 text-neutral-600 max-w-xs truncate">{mapping.safe_response}</td>
                                                 <td className="px-4 py-3">
                                                     <span className={`px-2 py-0.5 text-xs font-medium rounded ${
-                                                        mapping.is_active 
-                                                            ? 'bg-green-100 text-green-700' 
+                                                        mapping.is_active
+                                                            ? 'bg-green-100 text-green-700'
                                                             : 'bg-neutral-100 text-neutral-600'
                                                     }`}>
                                                         {mapping.is_active ? 'Active' : 'Inactive'}
@@ -660,8 +679,8 @@ const SuperAdminChatbotManagement: React.FC = () => {
                                                     </span>
                                                     {log.was_helpful !== null && (
                                                         <span className={`px-2 py-0.5 text-xs rounded flex items-center gap-1 ${
-                                                            log.was_helpful 
-                                                                ? 'bg-green-100 text-green-700' 
+                                                            log.was_helpful
+                                                                ? 'bg-green-100 text-green-700'
                                                                 : 'bg-error-100 text-red-700'
                                                         }`}>
                                                             {log.was_helpful ? (
@@ -760,7 +779,7 @@ const SuperAdminChatbotManagement: React.FC = () => {
                                                 <span className="text-neutral-900 font-medium">{count} ({percentage.toFixed(1)}%)</span>
                                             </div>
                                             <div className="h-2 bg-neutral-100 rounded-full overflow-hidden">
-                                                <div 
+                                                <div
                                                     className="h-full bg-primary-500 rounded-full transition-all"
                                                     style={{ width: `${percentage}%` }}
                                                 />
@@ -801,7 +820,7 @@ const SuperAdminChatbotManagement: React.FC = () => {
                                         ))}
                                     </select>
                                 </div>
-                                
+
                                 {/* English Section */}
                                 <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
                                     <h4 className="font-medium text-blue-900 mb-3 flex items-center gap-2">

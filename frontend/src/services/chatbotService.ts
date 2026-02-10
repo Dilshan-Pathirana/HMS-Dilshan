@@ -3,7 +3,7 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 const chatbotApi = axios.create({
-    baseURL: `${API_BASE_URL}/api/chatbot`,
+    baseURL: `${API_BASE_URL}/chatbot`,
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
