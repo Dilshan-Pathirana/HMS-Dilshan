@@ -7,8 +7,11 @@ export const checkIsFiledEmpty = (signupInfo: ISignUpFormFields) => {
         "phone",
         "NIC",
         "password",
-        "branch_id",
     ] as const;
 
-    return requiredFields.some((field) => signupInfo[field] === "");
+    // Check all required fields are filled
+    const anyEmpty = requiredFields.some((field) => signupInfo[field] === "");
+    // Check at least one branch selected
+    const noBranch = !signupInfo.branch_ids || signupInfo.branch_ids.length === 0;
+    return anyEmpty || noBranch;
 };

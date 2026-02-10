@@ -125,7 +125,8 @@ const BranchStaff: React.FC = () => {
 
     // Check if user is already assigned to another branch
     const selectedUser = allUsers.find(u => u.id === formData.user_id);
-    if (selectedUser?.branch_id && selectedUser.branch_id !== parseInt(id || '0')) {
+    const isDoctor = selectedUser?.role === 'Doctor' || String(selectedUser?.role) === '3';
+    if (!isDoctor && selectedUser?.branch_id && String(selectedUser.branch_id) !== String(id)) {
       const confirmMessage = `This user is currently assigned to ${selectedUser.branch_name}.\n\nAre you sure you want to reassign them to ${branchName}?`;
       if (!confirm(confirmMessage)) {
         return;

@@ -12,5 +12,5 @@ export const SignUpFormFieldsAttributes = {
     blood_type: "",
     emergency_contact_name: "",
     emergency_contact_phone: "",
-    branch_id: "",
+    branch_ids: [],
 };

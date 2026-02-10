@@ -3,9 +3,47 @@ name: Build & Deploy to AWS
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 jobs:
+  backend-migrations-and-seed:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Poetry
+        run: pip install poetry
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: poetry install --no-interaction --no-ansi
+
+      - name: Run Alembic migrations
+        working-directory: backend
+        env:
+          DATABASE_URL: sqlite+aiosqlite:///./ci.db
+        run: |
+          if [ -f alembic.ini ]; then
+            poetry run alembic upgrade head
+          else
+            echo "No alembic.ini found; skipping migrations."
+          fi
+
+      - name: Seed database
+        working-directory: backend
+        env:
+          DATABASE_URL: sqlite+aiosqlite:///./ci.db
+        run: poetry run python seed.py
+
   build-and-deploy:
     runs-on: ubuntu-latest
 

@@ -66,9 +66,7 @@ const SignupForm: React.FC<ISignupFormProps> = ({
     phoneExistsError,
 }) => {
     const [branchOptions, setBranchOptions] = useState<MultiSelectOption[]>([]);
-    const [selectedBranches, setSelectedBranches] = useState<
-        MultiSelectOption[]
-    >([]);
+    const [selectedBranches, setSelectedBranches] = useState<MultiSelectOption[]>([]);
 
     useEffect(() => {
         fetchBranches().then();
@@ -91,17 +89,12 @@ const SignupForm: React.FC<ISignupFormProps> = ({
     };
 
     const handleBranchChange = (selected: MultiSelectOption[]) => {
-        if (selected.length > 0) {
-            const lastSelected = selected.slice(-1)[0];
-            setSelectedBranches([lastSelected]);
-            setSignupInfo((prev) => ({
-                ...prev,
-                branch_id: lastSelected.value,
-            }));
-        } else {
-            setSignupInfo((prev) => ({ ...prev, branch_id: "" }));
-        }
-    };
+        setSelectedBranches(selected);
+        setSignupInfo((prev) => ({
+            ...prev,
+            branch_ids: selected.map((b) => b.value),
+        }));
+    }
 
     return (
         <>
@@ -280,18 +273,18 @@ const SignupForm: React.FC<ISignupFormProps> = ({
                         <div className="w-full">
                             <label className="flex items-center text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">
                                 <FaMapMarkerAlt className="text-primary-500 mr-2" />
-                                Select Branch
+                                Select Branch(es)
                             </label>
                             <MultiSelect
                                 options={branchOptions}
                                 value={selectedBranches}
                                 onChange={handleBranchChange}
-                                labelledBy="Select Branch"
+                                labelledBy="Select Branch(es)"
                                 className="w-full"
                             />
-                            {errors.branch_id && (
+                            {errors.branch_ids && (
                                 <p className="mt-1.5 text-xs text-error-600 font-medium animate-slide-down">
-                                    {errors.branch_id}
+                                    {errors.branch_ids}
                                 </p>
                             )}
                         </div>

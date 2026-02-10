@@ -135,21 +135,53 @@ async def doctors(
     session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_active_superuser),
 ):
+    from app.models.doctor_branch_link import DoctorBranchLink
+
     q = select(Doctor)
     if branch_id:
-        q = q.where(Doctor.branch_id == branch_id)
+        q = (
+            q.join(DoctorBranchLink, col(DoctorBranchLink.doctor_id) == Doctor.id)
+            .where(DoctorBranchLink.branch_id == branch_id)
+        )
     q = q.order_by(Doctor.first_name, Doctor.last_name)
     result = await session.exec(q)
     items = result.all() or []
+
+    branch_name_map: dict[str, str] = {}
+    branch_id_map: dict[str, str] = {}
+    if not branch_id and items:
+        doctor_ids = [d.id for d in items]
+        link_result = await session.exec(
+            select(DoctorBranchLink).where(col(DoctorBranchLink.doctor_id).in_(doctor_ids))
+        )
+        links = link_result.all() or []
+        first_links: dict[str, str] = {}
+        for link in links:
+            if link.doctor_id not in first_links:
+                first_links[link.doctor_id] = link.branch_id
+        branch_id_map = first_links
+
+        if branch_id_map:
+            branch_ids = list({bid for bid in branch_id_map.values() if bid})
+            branch_result = await session.exec(select(Branch).where(col(Branch.id).in_(branch_ids)))
+            branches = branch_result.all() or []
+            branch_name_map = {b.id: b.center_name for b in branches}
+
     doctor_list = []
     for d in items:
+        selected_branch_id = branch_id or branch_id_map.get(d.id)
+        selected_branch_name = None
+        if selected_branch_id:
+            selected_branch_name = branch_name_map.get(selected_branch_id)
+            if not selected_branch_name and branch_id:
+                selected_branch_name = await _get_branch_name(session, selected_branch_id)
         doctor_list.append(
             {
                 "doctor_id": d.id,
                 "name": _full_name(d.first_name, d.last_name),
                 "specialization": d.specialization,
-                "branch_id": d.branch_id,
-                "branch_name": await _get_branch_name(session, d.branch_id) if d.branch_id else None,
+                "branch_id": selected_branch_id,
+                "branch_name": selected_branch_name,
                 "profile_picture": None,
             }
         )
