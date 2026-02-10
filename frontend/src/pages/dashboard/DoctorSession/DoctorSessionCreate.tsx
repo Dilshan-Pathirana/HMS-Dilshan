@@ -10,10 +10,22 @@ import {
     IDropdownOption,
 } from "../../../utils/types/DoctorSession/IDoctorSession.ts";
 
-const DoctorSessionCreate = () => {
+type DoctorSessionCreateProps = {
+    onCreated?: () => void;
+};
+
+const DoctorSessionCreate: React.FC<DoctorSessionCreateProps> = ({ onCreated }) => {
     const [formData, setFormData] = useState<IDoctorSessionFormTypes>({
         branch_id: "",
         doctor_id: "",
+        start_time: "",
+        end_time: "",
+        slot_duration_minutes: 30,
+        max_patients: 20,
+        recurrence_type: "weekly",
+        status: "active",
+        valid_from: "",
+        valid_until: "",
     });
 
     const [branchOptions, setBranchOptions] = useState<IDropdownOption[]>([]);
@@ -26,6 +38,39 @@ const DoctorSessionCreate = () => {
 
     const [errors, setErrors] = useState<Record<string, string[]>>({});
     const [isLoading, setIsLoading] = useState(false);
+
+    const mapApiErrors = (data: any) => {
+        if (!data) {
+            return {};
+        }
+
+        if (data.errors && typeof data.errors === "object") {
+            return data.errors;
+        }
+
+        if (Array.isArray(data.detail)) {
+            const mapped: Record<string, string[]> = {};
+            data.detail.forEach((item: any) => {
+                const loc = Array.isArray(item.loc) ? item.loc : [];
+                const field = loc.find((part: any) => typeof part === "string");
+                if (!field) {
+                    return;
+                }
+                const message = typeof item.msg === "string" ? item.msg : "Invalid value";
+                if (!mapped[field]) {
+                    mapped[field] = [];
+                }
+                mapped[field].push(message);
+            });
+            return mapped;
+        }
+
+        if (typeof data.detail === "string") {
+            return { form: [data.detail] };
+        }
+
+        return {};
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -96,11 +141,47 @@ const DoctorSessionCreate = () => {
             return;
         }
 
+        if (!formData.start_time || !formData.end_time) {
+            alert.warn("Please provide a valid start and end time.");
+            return;
+        }
+
+        if (!formData.valid_from) {
+            alert.warn("Please select a valid start date.");
+            return;
+        }
+
+        if (formData.start_time && formData.end_time) {
+            const startMinutes = timeToMinutes(formData.start_time);
+            const endMinutes = timeToMinutes(formData.end_time);
+            if (endMinutes <= startMinutes) {
+                setErrors({ end_time: ["End time must be after start time."] });
+                alert.warn("End time must be after start time.");
+                return;
+            }
+        }
+
+        if (formData.valid_from && formData.valid_until) {
+            const startDate = new Date(formData.valid_from);
+            const endDate = new Date(formData.valid_until);
+            if (endDate < startDate) {
+                setErrors({ valid_until: ["Valid until must be on or after valid from."] });
+                alert.warn("Valid until must be on or after valid from.");
+                return;
+            }
+        }
+
+        const payload = {
+            ...formData,
+            valid_from: formData.valid_from || undefined,
+            valid_until: formData.valid_until || undefined,
+        };
+
         setIsLoading(true);
         try {
             const response = await api.post(
-                "api/create-doctor-session",
-                formData,
+                "/sessions",
+                payload,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -109,21 +190,30 @@ const DoctorSessionCreate = () => {
             );
 
             if (response.status === 200) {
-                alert.success(
-                    response.data.message ||
-                        "Doctor session created successfully!",
-                );
+                alert.success("Session created");
                 setFormData({
                     branch_id: "",
                     doctor_id: "",
+                    start_time: "",
+                    end_time: "",
+                    slot_duration_minutes: 30,
+                    max_patients: 20,
+                    recurrence_type: "weekly",
+                    status: "active",
+                    valid_from: "",
+                    valid_until: "",
                 });
                 setSelectedBranch(null);
                 setSelectedDoctor(null);
                 setErrors({});
+                onCreated?.();
             }
         } catch (error) {
-            if (axios.isAxiosError(error) && error.response?.status === 422) {
-                setErrors(error.response.data.errors || {});
+            if (axios.isAxiosError(error)) {
+                const mappedErrors = mapApiErrors(error.response?.data);
+                if (Object.keys(mappedErrors).length > 0) {
+                    setErrors(mappedErrors);
+                }
             } else {
                 alert.warn(
                     "Failed to create doctor session: " +
@@ -133,6 +223,13 @@ const DoctorSessionCreate = () => {
         } finally {
             setIsLoading(false);
         }
+    };
+
+    const timeToMinutes = (value: string) => {
+        const parts = value.split(":");
+        const hours = Number(parts[0] || 0);
+        const minutes = Number(parts[1] || 0);
+        return hours * 60 + minutes;
     };
 
     if (isLoading && branchOptions.length === 0) {
@@ -156,6 +253,11 @@ const DoctorSessionCreate = () => {
                     <p className="text-neutral-600 mt-2">
                         Open a session (patients can book after creation)
                     </p>
+                    {errors.form && (
+                        <p className="text-error-500 text-sm mt-3">
+                            {errors.form[0]}
+                        </p>
+                    )}
                 </div>
                 <div className="flex items-center gap-4 flex-wrap">
                     <div>
@@ -200,6 +302,188 @@ const DoctorSessionCreate = () => {
                         {errors.doctor_id && (
                             <p className="text-error-500 text-sm mt-1">
                                 {errors.doctor_id[0]}
+                            </p>
+                        )}
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
+                            Start Time *
+                        </label>
+                        <input
+                            type="time"
+                            value={formData.start_time}
+                            onChange={(e) =>
+                                setFormData((prev) => ({
+                                    ...prev,
+                                    start_time: e.target.value,
+                                }))
+                            }
+                            className="w-44 rounded-md border border-neutral-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            required
+                        />
+                        {errors.start_time && (
+                            <p className="text-error-500 text-sm mt-1">
+                                {errors.start_time[0]}
+                            </p>
+                        )}
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
+                            End Time *
+                        </label>
+                        <input
+                            type="time"
+                            value={formData.end_time}
+                            onChange={(e) =>
+                                setFormData((prev) => ({
+                                    ...prev,
+                                    end_time: e.target.value,
+                                }))
+                            }
+                            className="w-44 rounded-md border border-neutral-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            required
+                        />
+                        {errors.end_time && (
+                            <p className="text-error-500 text-sm mt-1">
+                                {errors.end_time[0]}
+                            </p>
+                        )}
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
+                            Slot Duration (min) *
+                        </label>
+                        <input
+                            type="number"
+                            min={5}
+                            max={240}
+                            value={formData.slot_duration_minutes}
+                            onChange={(e) =>
+                                setFormData((prev) => ({
+                                    ...prev,
+                                    slot_duration_minutes: Number(e.target.value),
+                                }))
+                            }
+                            className="w-44 rounded-md border border-neutral-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            required
+                        />
+                        {errors.slot_duration_minutes && (
+                            <p className="text-error-500 text-sm mt-1">
+                                {errors.slot_duration_minutes[0]}
+                            </p>
+                        )}
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
+                            Max Patients *
+                        </label>
+                        <input
+                            type="number"
+                            min={1}
+                            value={formData.max_patients}
+                            onChange={(e) =>
+                                setFormData((prev) => ({
+                                    ...prev,
+                                    max_patients: Number(e.target.value),
+                                }))
+                            }
+                            className="w-44 rounded-md border border-neutral-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            required
+                        />
+                        {errors.max_patients && (
+                            <p className="text-error-500 text-sm mt-1">
+                                {errors.max_patients[0]}
+                            </p>
+                        )}
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
+                            Recurrence *
+                        </label>
+                        <select
+                            value={formData.recurrence_type}
+                            onChange={(e) =>
+                                setFormData((prev) => ({
+                                    ...prev,
+                                    recurrence_type: e.target.value,
+                                }))
+                            }
+                            className="w-44 rounded-md border border-neutral-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            required
+                        >
+                            <option value="weekly">Weekly</option>
+                            <option value="biweekly">Biweekly</option>
+                            <option value="daily">Daily</option>
+                            <option value="once">Once</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
+                            Status *
+                        </label>
+                        <select
+                            value={formData.status}
+                            onChange={(e) =>
+                                setFormData((prev) => ({
+                                    ...prev,
+                                    status: e.target.value,
+                                }))
+                            }
+                            className="w-44 rounded-md border border-neutral-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            required
+                        >
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
+                            Valid From *
+                        </label>
+                        <input
+                            type="date"
+                            value={formData.valid_from}
+                            onChange={(e) =>
+                                setFormData((prev) => ({
+                                    ...prev,
+                                    valid_from: e.target.value,
+                                }))
+                            }
+                            className="w-44 rounded-md border border-neutral-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            required
+                        />
+                        {errors.valid_from && (
+                            <p className="text-error-500 text-sm mt-1">
+                                {errors.valid_from[0]}
+                            </p>
+                        )}
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-neutral-700 mb-2">
+                            Valid Until
+                        </label>
+                        <input
+                            type="date"
+                            value={formData.valid_until}
+                            onChange={(e) =>
+                                setFormData((prev) => ({
+                                    ...prev,
+                                    valid_until: e.target.value,
+                                }))
+                            }
+                            className="w-44 rounded-md border border-neutral-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        />
+                        {errors.valid_until && (
+                            <p className="text-error-500 text-sm mt-1">
+                                {errors.valid_until[0]}
                             </p>
                         )}
                     </div>

@@ -1,6 +1,14 @@
 export interface IDoctorSessionFormTypes {
     branch_id: string;
     doctor_id: string;
+    start_time: string;
+    end_time: string;
+    slot_duration_minutes: number;
+    max_patients: number;
+    recurrence_type: string;
+    status: string;
+    valid_from: string;
+    valid_until: string;
 }
 
 export interface IDropdownOption {

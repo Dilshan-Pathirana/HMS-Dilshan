@@ -4,8 +4,9 @@ from datetime import date, time, datetime
 from typing import Dict, List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
-from pydantic import BaseModel
+from pydantic import BaseModel, Field as PydanticField
 from sqlmodel import select, col
+from sqlalchemy.exc import IntegrityError
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.api.deps import get_current_user
@@ -13,6 +14,7 @@ from app.core.database import get_session
 from app.models.user import User
 from app.models.branch import Branch
 from app.models.doctor import Doctor
+from app.models.doctor_schedule import DoctorSchedule
 from app.models.patient import Patient
 from app.models.appointment import Appointment
 from app.models.doctor_main_question import DoctorMainQuestion, DoctorMainQuestionAnswer
@@ -23,6 +25,7 @@ from app.models.patient_session import (
     PatientQuestionAnswer,
 )
 from app.services.appointment_service import AppointmentService
+from app.services.doctor_schedule_service import DoctorScheduleService
 
 router = APIRouter()
 
@@ -52,6 +55,19 @@ class SessionDetail(BaseModel):
     branch_name: str
     appointment_count: int
     status: str
+
+
+class SessionCreatePayload(BaseModel):
+    branch_id: str
+    doctor_id: str
+    start_time: time
+    end_time: time
+    slot_duration_minutes: int = PydanticField(ge=5, le=240)
+    max_patients: int = PydanticField(ge=1)
+    recurrence_type: str = "weekly"
+    status: Optional[str] = "active"
+    valid_from: Optional[date] = None
+    valid_until: Optional[date] = None
 
 
 class SessionPatientItem(BaseModel):
@@ -118,6 +134,85 @@ async def _doctor_for_user(session: AsyncSession, user_id: str) -> Optional[Doct
 def _require_roles(current_user: User, allowed: List[int]) -> None:
     if current_user.role_as not in allowed:
         raise HTTPException(status_code=403, detail="Not enough privileges")
+
+
+@router.post("/sessions", response_model=SessionDetail, status_code=200)
+async def create_schedule_session(
+    payload: SessionCreatePayload,
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+):
+    _require_roles(current_user, [1, 2, 3])
+
+    doctor = await session.get(Doctor, payload.doctor_id)
+    if not doctor:
+        raise HTTPException(status_code=404, detail="Doctor not found")
+
+    branch = await session.get(Branch, payload.branch_id)
+    if not branch:
+        raise HTTPException(status_code=404, detail="Branch not found")
+
+    if payload.end_time <= payload.start_time:
+        raise HTTPException(status_code=422, detail="End time must be after start time")
+
+    recurrence_raw = (payload.recurrence_type or "weekly").strip().lower()
+    recurrence_key = recurrence_raw.replace("-", " ").replace("_", " ")
+    if recurrence_key in ("bi weekly", "biweekly"):
+        recurrence_type = "biweekly"
+    elif recurrence_key in ("daily", "everyday"):
+        recurrence_type = "daily"
+    elif recurrence_key in ("once", "one time"):
+        recurrence_type = "once"
+    else:
+        recurrence_type = "weekly"
+
+    day_source = payload.valid_from or date.today()
+    day_of_week = day_source.weekday()
+
+    days_to_create = list(range(7)) if recurrence_type == "daily" else [day_of_week]
+    stored_recurrence = "weekly" if recurrence_type == "daily" else recurrence_type
+
+    created_schedule: Optional[DoctorSchedule] = None
+    for day in days_to_create:
+        data = {
+            "doctor_id": payload.doctor_id,
+            "branch_id": payload.branch_id,
+            "day_of_week": day,
+            "start_time": payload.start_time,
+            "end_time": payload.end_time,
+            "slot_duration_minutes": payload.slot_duration_minutes,
+            "max_patients": payload.max_patients,
+            "status": payload.status or "active",
+            "recurrence_type": stored_recurrence,
+            "valid_from": payload.valid_from,
+            "valid_until": payload.valid_until,
+        }
+        try:
+            created = await DoctorScheduleService.create_schedule(session, data)
+            if created_schedule is None:
+                created_schedule = created
+        except HTTPException:
+            raise
+        except IntegrityError:
+            await session.rollback()
+            raise HTTPException(status_code=409, detail="Schedule already exists")
+
+    if not created_schedule:
+        raise HTTPException(status_code=500, detail="Failed to create session")
+
+    return SessionDetail(
+        id=created_schedule.id,
+        schedule_id=created_schedule.id,
+        session_date=payload.valid_from or date.today(),
+        start_time=created_schedule.start_time,
+        end_time=created_schedule.end_time,
+        doctor_id=created_schedule.doctor_id,
+        doctor_name=f"Dr. {_full_name(doctor.first_name, doctor.last_name)}",
+        branch_id=created_schedule.branch_id,
+        branch_name=branch.center_name,
+        appointment_count=0,
+        status=created_schedule.status,
+    )
 
 
 async def _ensure_session_access(

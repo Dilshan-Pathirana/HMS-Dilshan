@@ -669,10 +669,9 @@ const SuperAdminScheduleCalendar: React.FC = () => {
                                     value={selectedDoctorId}
                                     onChange={(e) => setSelectedDoctorId(e.target.value)}
                                     className="flex-1 border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
-                                    disabled={!selectedBranchId}
                                 >
                                     <option value="">
-                                        {selectedBranchId ? "All Doctors" : "Select Branch First"}
+                                        All Doctors
                                     </option>
                                     {doctors.map((d, idx) => (
                                         <option key={`${d.doctor_id}-${d.branch_id ?? idx}`} value={d.doctor_id}>
@@ -989,7 +988,12 @@ const SuperAdminScheduleCalendar: React.FC = () => {
                         <h3 className="text-lg font-bold text-neutral-900">Create Session</h3>
                     </div>
                     <div className="p-6">
-                        <DoctorSessionCreate />
+                        <DoctorSessionCreate
+                            onCreated={() => {
+                                setActiveTab("management");
+                                fetchCalendar();
+                            }}
+                        />
                     </div>
                 </div>
             )}
