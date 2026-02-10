@@ -20,7 +20,7 @@ class ScheduleSessionBase(SQLModel):
 
 
 class ScheduleSession(ScheduleSessionBase, table=True):
-    __tablename__ = "schedule_session"
+    __tablename__ = "schedule_session"  # type: ignore[assignment]
     __table_args__ = (sa.UniqueConstraint("session_key", name="uq_schedule_session_key"),)
 
     id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True, max_length=36)
@@ -49,7 +49,7 @@ class PatientProfileBase(SQLModel):
 
 
 class PatientProfile(PatientProfileBase, table=True):
-    __tablename__ = "patient_profile"
+    __tablename__ = "patient_profile"  # type: ignore[assignment]
 
     id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True, max_length=36)
     created_by: Optional[str] = Field(default=None, foreign_key="user.id", max_length=36)
@@ -84,7 +84,7 @@ class PatientSessionBase(SQLModel):
 
 
 class PatientSession(PatientSessionBase, table=True):
-    __tablename__ = "patient_session"
+    __tablename__ = "patient_session"  # type: ignore[assignment]
 
     id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True, max_length=36)
     created_at: datetime = Field(default_factory=datetime.utcnow)
@@ -112,7 +112,7 @@ class PatientQuestionAnswerBase(SQLModel):
 
 
 class PatientQuestionAnswer(PatientQuestionAnswerBase, table=True):
-    __tablename__ = "patient_question_answer"
+    __tablename__ = "patient_question_answer"  # type: ignore[assignment]
 
     id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True, max_length=36)
     created_at: datetime = Field(default_factory=datetime.utcnow)

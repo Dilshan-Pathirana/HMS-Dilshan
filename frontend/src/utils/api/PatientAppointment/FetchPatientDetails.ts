@@ -29,36 +29,44 @@ const useFetchPatientDetails = (userId: string | null) => {
         }
     }, [userId]);
 
-    const fetchPatientDetails = async (userId: string) => {
+    const fetchPatientDetails = async (_userId: string) => {
         setLoading(true);
         setError(null);
 
         try {
             const response = await api.get(
-                `/patients/${userId}`,
+                `/patients/me`,
+                { params: { include_profile: true } },
             );
-            if (response.data.status === 200) {
-                const patientData = response.data.data;
-                setUserDetails({
-                    firstName: patientData.first_name || "",
-                    lastName: patientData.last_name || "",
-                    phone: patientData.phone || "",
-                    nic: patientData.NIC || "",
-                    email: patientData.email || "",
-                    address: patientData.address || "",
-                    patientId: patientData.patient_id || "",
-                    branchId: patientData.branch_id || "",
-                    city: patientData.city || "",
-                    dateOfBirth: patientData.date_of_birth || "",
-                    gender: patientData.gender || "",
-                    bloodType: patientData.blood_type || "",
-                    emergencyContactName: patientData.emergency_contact_name || "",
-                    emergencyContactPhone: patientData.emergency_contact_phone || "",
-                });
-            } else {
-                setError("Failed to fetch patient details");
-                console.error("Error fetching patient details:", response.data);
-            }
+
+            const patientData = response.data || {};
+            const userData = patientData.user || {};
+            const address = patientData.address || userData.home_address || "";
+            const addressParts = typeof address === "string" ? address.split(",") : [];
+            const city = addressParts.length > 1 ? addressParts[addressParts.length - 1].trim() : "";
+            const emergencyInfo = userData.emergency_contact_info || patientData.emergency_contact || "";
+            const emergencyParts = typeof emergencyInfo === "string" ? emergencyInfo.trim().split(" ") : [];
+            const emergencyPhone = emergencyParts.length > 1 ? emergencyParts[emergencyParts.length - 1] : "";
+            const emergencyName = emergencyPhone
+                ? emergencyParts.slice(0, -1).join(" ")
+                : emergencyInfo;
+
+            setUserDetails({
+                firstName: userData.first_name || "",
+                lastName: userData.last_name || "",
+                phone: userData.contact_number_mobile || patientData.contact_number || "",
+                nic: userData.nic_number || "",
+                email: userData.email || "",
+                address: address || "",
+                patientId: patientData.id || "",
+                branchId: userData.branch_id || "",
+                city: city,
+                dateOfBirth: userData.date_of_birth || "",
+                gender: patientData.gender || userData.gender || "",
+                bloodType: patientData.blood_group || "",
+                emergencyContactName: emergencyName || "",
+                emergencyContactPhone: emergencyPhone || "",
+            });
         } catch (error) {
             setError("An error occurred while fetching patient details.");
             console.error("Failed to fetch patient details", error);

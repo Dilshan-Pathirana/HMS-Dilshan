@@ -310,6 +310,15 @@ const AppRoutes: React.FC = () => {
                 />
                 <Route path="/appointment-cancelled/:orderId" element={<AppointmentCancelled />} />
 
+                <Route
+                    path="/patient-dashboard/*"
+                    element={
+                        <ProtectedRoute allowedRoles={['patient']} redirectTo="/login">
+                            <PatientDashboardNew />
+                        </ProtectedRoute>
+                    }
+                />
+
                 {/* Medical Insights Module - Public Routes */}
                 <Route path="/medical-insights" element={<MedicalInsightsPage />} />
                 <Route path="/medical-insights/:slug" element={<PostDetailPage />} />

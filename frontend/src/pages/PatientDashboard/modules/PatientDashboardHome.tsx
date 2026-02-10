@@ -65,7 +65,7 @@ const PatientDashboardHome: React.FC = () => {
                 const appointmentsRes = await api.get(`/get-patient-appointments/${userId}`);
                 if (appointmentsRes.data.status === 200) {
                     const appointments = appointmentsRes.data.appointments || [];
-                    const upcoming = appointments.filter((apt: any) => 
+                    const upcoming = appointments.filter((apt: any) =>
                         new Date(apt.date) >= new Date() && apt.status !== 'cancelled'
                     ).slice(0, 3);
                     setUpcomingAppointments(upcoming.map((apt: any) => ({
@@ -86,14 +86,12 @@ const PatientDashboardHome: React.FC = () => {
                 // Fetch notifications
                 try {
                     const notificationsRes = await api.get(`/patient/notifications/${userId}`);
-                    if (notificationsRes.data.status === 200) {
-                        const notifications = notificationsRes.data.notifications || [];
-                        setRecentNotifications(notifications.slice(0, 5));
-                        setStats(prev => ({
-                            ...prev,
-                            unreadNotifications: notifications.filter((n: any) => !n.is_read).length
-                        }));
-                    }
+                    const notifications = notificationsRes.data?.notifications || [];
+                    setRecentNotifications(notifications.slice(0, 5));
+                    setStats(prev => ({
+                        ...prev,
+                        unreadNotifications: notifications.filter((n: any) => !n.is_read).length
+                    }));
                 } catch (e) {
                     // Notifications API might not exist yet
                 }
@@ -214,7 +212,7 @@ const PatientDashboardHome: React.FC = () => {
                             View All <ChevronRight className="w-4 h-4" />
                         </Link>
                     </div>
-                    
+
                     {upcomingAppointments.length === 0 ? (
                         <div className="text-center py-8">
                             <Calendar className="w-12 h-12 text-gray-300 mx-auto mb-3" />
@@ -259,7 +257,7 @@ const PatientDashboardHome: React.FC = () => {
                             View All <ChevronRight className="w-4 h-4" />
                         </Link>
                     </div>
-                    
+
                     {recentNotifications.length === 0 ? (
                         <div className="text-center py-8">
                             <Bell className="w-12 h-12 text-gray-300 mx-auto mb-3" />
@@ -268,11 +266,11 @@ const PatientDashboardHome: React.FC = () => {
                     ) : (
                         <div className="space-y-3">
                             {recentNotifications.map((notification) => (
-                                <div 
-                                    key={notification.id} 
+                                <div
+                                    key={notification.id}
                                     className={`p-3 rounded-lg border-l-4 ${
-                                        notification.is_read 
-                                            ? 'bg-neutral-50 border-neutral-300' 
+                                        notification.is_read
+                                            ? 'bg-neutral-50 border-neutral-300'
                                             : 'bg-blue-50 border-primary-500'
                                     }`}
                                 >
@@ -297,7 +295,7 @@ const PatientDashboardHome: React.FC = () => {
                     <div>
                         <h3 className="font-semibold text-neutral-800 mb-1">Daily Health Tip</h3>
                         <p className="text-neutral-600 text-sm">
-                            Remember to stay hydrated! Drinking at least 8 glasses of water a day helps maintain 
+                            Remember to stay hydrated! Drinking at least 8 glasses of water a day helps maintain
                             your body's fluid balance, supports digestion, and keeps your skin healthy.
                         </p>
                     </div>

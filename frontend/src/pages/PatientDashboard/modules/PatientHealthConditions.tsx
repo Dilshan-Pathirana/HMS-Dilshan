@@ -31,13 +31,13 @@ interface HealthCondition {
 }
 
 const ALLERGY_OPTIONS = [
-    'Penicillin', 'Aspirin', 'Ibuprofen', 'Sulfa drugs', 'Latex', 
+    'Penicillin', 'Aspirin', 'Ibuprofen', 'Sulfa drugs', 'Latex',
     'Peanuts', 'Tree nuts', 'Shellfish', 'Eggs', 'Milk', 'Soy', 'Wheat',
     'Bee stings', 'Dust mites', 'Pollen', 'Pet dander', 'Mold', 'Other'
 ];
 
 const CHRONIC_CONDITIONS = [
-    'Diabetes Type 1', 'Diabetes Type 2', 'Hypertension', 'Asthma', 
+    'Diabetes Type 1', 'Diabetes Type 2', 'Hypertension', 'Asthma',
     'COPD', 'Heart Disease', 'Arthritis', 'Thyroid Disorder',
     'Depression', 'Anxiety', 'Epilepsy', 'Kidney Disease', 'Other'
 ];
@@ -63,10 +63,22 @@ const PatientHealthConditions: React.FC = () => {
     useEffect(() => {
         const fetchConditions = async () => {
             try {
-                const response = await api.get(`/patient/health-conditions/${userId}`);
-                if (response.data.status === 200) {
-                    setConditions(response.data.conditions || []);
-                }
+                const response = await api.get(`/patient/health-conditions`);
+                const items = Array.isArray(response.data)
+                    ? response.data
+                    : (response.data?.conditions || []);
+                const mapped = items.map((item: any) => ({
+                    id: item.id,
+                    name: item.condition_name || item.name || "",
+                    type: 'other',
+                    diagnosed_date: item.diagnosed_date,
+                    diagnosed_by: item.diagnosed_by,
+                    severity: item.severity,
+                    notes: item.notes,
+                    is_active: item.is_active ?? true,
+                    self_reported: true,
+                }));
+                setConditions(mapped);
             } catch (error) {
                 // Mock data for demo
                 setConditions([
@@ -146,8 +158,12 @@ const PatientHealthConditions: React.FC = () => {
 
         try {
             await api.post(`/patient/health-conditions`, {
-                user_id: userId,
-                ...condition
+                patient_id: userId,
+                condition_name: condition.name,
+                severity: condition.severity,
+                diagnosed_date: condition.diagnosed_date || null,
+                notes: condition.notes || null,
+                is_active: true,
             });
         } catch (error) {
             // Continue with local update
@@ -176,7 +192,7 @@ const PatientHealthConditions: React.FC = () => {
         setConditions(conditions.filter(c => c.id !== id));
     };
 
-    const filteredConditions = conditions.filter(c => 
+    const filteredConditions = conditions.filter(c =>
         activeTab === 'all' || c.type === activeTab
     );
 
@@ -318,7 +334,7 @@ const PatientHealthConditions: React.FC = () => {
                 <div className="space-y-4">
                     {filteredConditions.map((condition) => (
                         <div key={condition.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                            <div 
+                            <div
                                 className="p-5 cursor-pointer hover:bg-neutral-50 transition-colors"
                                 onClick={() => setExpandedId(expandedId === condition.id ? null : condition.id)}
                             >
@@ -379,10 +395,10 @@ const PatientHealthConditions: React.FC = () => {
                                                 <Calendar className="w-4 h-4 text-neutral-400" />
                                                 <span className="text-neutral-500">Diagnosed:</span>
                                                 <span className="text-neutral-700">
-                                                    {new Date(condition.diagnosed_date).toLocaleDateString('en-US', { 
-                                                        month: 'long', 
-                                                        day: 'numeric', 
-                                                        year: 'numeric' 
+                                                    {new Date(condition.diagnosed_date).toLocaleDateString('en-US', {
+                                                        month: 'long',
+                                                        day: 'numeric',
+                                                        year: 'numeric'
                                                     })}
                                                 </span>
                                             </div>
@@ -417,7 +433,7 @@ const PatientHealthConditions: React.FC = () => {
                     <div>
                         <h4 className="font-medium text-blue-800">Keep Your Records Updated</h4>
                         <p className="mt-1 text-sm text-blue-700">
-                            Maintaining accurate health information helps your doctors provide better care. 
+                            Maintaining accurate health information helps your doctors provide better care.
                             Always inform your healthcare provider about any new conditions or allergies.
                         </p>
                     </div>

@@ -195,7 +195,7 @@ async def list_sessions(
     session_ids = list({sid for sid in session_ids})
 
     sessions_res = await session.exec(
-        select(ScheduleSession).where(ScheduleSession.id.in_(session_ids))
+        select(ScheduleSession).where(col(ScheduleSession.id).in_(session_ids))
     )
     sessions = sessions_res.all() or []
 
@@ -205,10 +205,10 @@ async def list_sessions(
     doctor_map: Dict[str, Doctor] = {}
     branch_map: Dict[str, Branch] = {}
     if doctor_ids:
-        doctor_res = await session.exec(select(Doctor).where(Doctor.id.in_(doctor_ids)))
+        doctor_res = await session.exec(select(Doctor).where(col(Doctor.id).in_(doctor_ids)))
         doctor_map = {d.id: d for d in doctor_res.all()}
     if branch_ids:
-        branch_res = await session.exec(select(Branch).where(Branch.id.in_(branch_ids)))
+        branch_res = await session.exec(select(Branch).where(col(Branch.id).in_(branch_ids)))
         branch_map = {b.id: b for b in branch_res.all()}
 
     appt_counts: Dict[str, int] = {}
@@ -290,20 +290,20 @@ async def list_session_patients(
     appt_res = await session.exec(
         select(Appointment)
         .where(Appointment.schedule_session_id == session_id)
-        .order_by(Appointment.appointment_time)
+        .order_by(col(Appointment.appointment_time))
     )
     appts = appt_res.all() or []
     if not appts:
         return []
 
     patient_ids = {a.patient_id for a in appts}
-    patient_res = await session.exec(select(Patient).where(Patient.id.in_(patient_ids)))
+    patient_res = await session.exec(select(Patient).where(col(Patient.id).in_(patient_ids)))
     patients = patient_res.all() or []
     user_ids = {p.user_id for p in patients}
 
     user_map: Dict[str, User] = {}
     if user_ids:
-        user_res = await session.exec(select(User).where(User.id.in_(user_ids)))
+        user_res = await session.exec(select(User).where(col(User.id).in_(user_ids)))
         user_map = {u.id: u for u in user_res.all()}
 
     patient_map: Dict[str, Patient] = {p.id: p for p in patients}
@@ -431,7 +431,7 @@ async def list_questions(
     session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_user),
 ):
-    q_res = await session.exec(select(DoctorMainQuestion).order_by(DoctorMainQuestion.order))
+    q_res = await session.exec(select(DoctorMainQuestion).order_by(col(DoctorMainQuestion.order)))
     questions = q_res.all() or []
 
     if not questions:
@@ -439,7 +439,7 @@ async def list_questions(
 
     q_ids = [q.id for q in questions]
     ans_res = await session.exec(
-        select(DoctorMainQuestionAnswer).where(DoctorMainQuestionAnswer.question_id.in_(q_ids))
+        select(DoctorMainQuestionAnswer).where(col(DoctorMainQuestionAnswer.question_id).in_(q_ids))
     )
     answers = ans_res.all() or []
 

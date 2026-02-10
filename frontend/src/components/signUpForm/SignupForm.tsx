@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaUser, FaIdCard, FaEnvelope, FaMapMarkerAlt, FaCalendarAlt, FaVenusMars, FaTint, FaPhoneAlt, FaUserShield, FaCity } from "react-icons/fa";
+import { FaUser, FaIdCard, FaEnvelope, FaMapMarkerAlt, FaCalendarAlt, FaTint, FaPhoneAlt, FaUserShield, FaCity, FaLock } from "react-icons/fa";
 import HeroImage from "../../assets/heroImage.png";
 import NavBar from "../../pages/UserWeb/NavBar.tsx";
 import Footer from "../../pages/UserWeb/Footer.tsx";
@@ -173,6 +173,17 @@ const SignupForm: React.FC<ISignupFormProps> = ({
                         />
 
                         <Input
+                            label="Password"
+                            leftIcon={<FaLock className="h-4 w-4" />}
+                            type="password"
+                            name="password"
+                            value={signupInfo.password}
+                            onChange={handleChange}
+                            placeholder="Create a password"
+                            error={errors.password}
+                        />
+
+                        <Input
                             label="Home Address"
                             leftIcon={<FaMapMarkerAlt className="h-4 w-4" />}
                             name="address"
@@ -267,7 +278,7 @@ const SignupForm: React.FC<ISignupFormProps> = ({
                         </div>
 
                         <div className="w-full">
-                            <label className="block text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2 flex items-center">
+                            <label className="flex items-center text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">
                                 <FaMapMarkerAlt className="text-primary-500 mr-2" />
                                 Select Branch
                             </label>
@@ -289,7 +300,7 @@ const SignupForm: React.FC<ISignupFormProps> = ({
                             type="submit"
                             disabled={isSubmitting}
                             isLoading={isSubmitting}
-                            className="w-full shadow-lg shadow-primary hover:shadow-primary-hover"
+                            className="w-full shadow-primary hover:shadow-primary-hover"
                             size="lg"
                         >
                             Create Account

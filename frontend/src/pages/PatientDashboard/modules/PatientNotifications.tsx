@@ -51,9 +51,8 @@ const PatientNotifications: React.FC = () => {
         const fetchNotifications = async () => {
             try {
                 const response = await api.get(`/patient/notifications/${userId}`);
-                if (response.data.status === 200) {
-                    setNotifications(response.data.notifications || []);
-                }
+                const items = response.data?.notifications || [];
+                setNotifications(items);
             } catch (error) {
                 // Mock data for demo
                 setNotifications([
@@ -137,7 +136,7 @@ const PatientNotifications: React.FC = () => {
         } catch (error) {
             // Continue with local update
         }
-        setNotifications(notifications.map(n => 
+        setNotifications(notifications.map(n =>
             n.id === id ? { ...n, is_read: true } : n
         ));
     };
@@ -216,9 +215,9 @@ const PatientNotifications: React.FC = () => {
     };
 
     const filteredNotifications = notifications.filter(n => {
-        const matchesReadFilter = 
-            filter === 'all' || 
-            (filter === 'unread' && !n.is_read) || 
+        const matchesReadFilter =
+            filter === 'all' ||
+            (filter === 'unread' && !n.is_read) ||
             (filter === 'read' && n.is_read);
         const matchesTypeFilter = typeFilter === 'all' || n.type === typeFilter;
         return matchesReadFilter && matchesTypeFilter;
@@ -241,7 +240,7 @@ const PatientNotifications: React.FC = () => {
                 <div>
                     <h1 className="text-2xl font-bold text-neutral-800">Notifications</h1>
                     <p className="text-neutral-500">
-                        {unreadCount > 0 
+                        {unreadCount > 0
                             ? `You have ${unreadCount} unread notification${unreadCount > 1 ? 's' : ''}`
                             : 'You\'re all caught up!'
                         }
@@ -379,8 +378,8 @@ const PatientNotifications: React.FC = () => {
                     <Bell className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                     <h3 className="text-lg font-medium text-neutral-800 mb-2">No notifications</h3>
                     <p className="text-neutral-500">
-                        {filter === 'unread' 
-                            ? 'You have no unread notifications' 
+                        {filter === 'unread'
+                            ? 'You have no unread notifications'
                             : 'You have no notifications yet'}
                     </p>
                 </div>

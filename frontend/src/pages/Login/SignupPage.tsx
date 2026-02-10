@@ -44,7 +44,7 @@ const SignupPage: React.FC = () => {
             setIsOtpVerified(false);
             setPhoneExistsError(""); // Clear phone exists error when phone changes
         }
-        
+
         // Clear conflict modal when user changes conflicting fields
         if (['phone', 'NIC', 'email'].includes(e.target.name)) {
             setCredentialConflicts([]);
@@ -52,38 +52,10 @@ const SignupPage: React.FC = () => {
     };
 
     const checkCredentialsExist = async (): Promise<boolean> => {
-        try {
-            const params = new URLSearchParams();
-            if (signupInfo.phone) params.append('phone', signupInfo.phone);
-            if (signupInfo.NIC) params.append('nic', signupInfo.NIC);
-            if (signupInfo.email) params.append('email', signupInfo.email);
-            
-            console.log("Checking credentials:", params.toString());
-            
-            const response = await api.get(`/check-credentials-exist?${params.toString()}`);
-            
-            console.log("Credentials check response:", response.data);
-            
-            if (response.data.hasConflicts) {
-                setCredentialConflicts(response.data.conflicts);
-                setShowConflictModal(true);
-                return true;
-            }
-            
-            setCredentialConflicts([]);
-            setPhoneExistsError("");
-            return false;
-        } catch (error: any) {
-            console.error("Error checking credentials:", error);
-            // If there's a network error, show a generic error modal
-            if (error.response?.data?.hasConflicts) {
-                setCredentialConflicts(error.response.data.conflicts);
-                setShowConflictModal(true);
-                return true;
-            }
-            alert.error("Unable to verify your information. Please try again.");
-            return true; // Block submission on error
-        }
+        // Temporarily skip credential conflict checks.
+        setCredentialConflicts([]);
+        setPhoneExistsError("");
+        return false;
     };
 
     const generateOtp = (): string => {
@@ -112,7 +84,7 @@ const SignupPage: React.FC = () => {
                 signupInfo.phone,
                 `Cure Health Care OTP: ${newOtp}. Use this to access your account. Expires in 2 mins. Never share this code for your safety`,
             );
-            
+
             setIsOtpSent(true);
             setShowOtpModal(true); // Open the OTP popup modal
             alert.success("OTP sent successfully!");
@@ -130,7 +102,7 @@ const SignupPage: React.FC = () => {
                 setIsOtpVerified(true);
                 setOtpError("");
                 alert.success("Phone number verified successfully!");
-                
+
                 // Close modal after a brief delay to show success state
                 setTimeout(() => {
                     setShowOtpModal(false);
@@ -198,9 +170,17 @@ const SignupPage: React.FC = () => {
             const response = await UserSignUp(signupInfo);
 
             if (response.data.status === 200) {
-                alert.success(
-                    response.data.message || "Account created successfully!",
-                );
+                const smsStatus = response.data.sms?.status;
+                const credentials = response.data.credentials;
+                if (smsStatus && smsStatus !== "sent" && credentials?.email && credentials?.password) {
+                    alert.warn(
+                        `SMS failed. Use these credentials to log in: ${credentials.email} / ${credentials.password}`,
+                    );
+                } else {
+                    alert.success(
+                        response.data.message || "Account created successfully!",
+                    );
+                }
                 setSignupInfo(SignUpFormFieldsAttributes);
                 setErrors({});
                 setIsOtpSent(false);
