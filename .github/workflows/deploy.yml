@@ -92,7 +92,7 @@ jobs:
             docker compose \
               -f $APP_DIR/docker-compose.ec2.yml \
               --env-file $APP_DIR/.env \
-              run --rm backend alembic upgrade head
+              run --rm backend alembic upgrade heads
 
             echo "==== Truncate RDS data ===="
             mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USERNAME" -p"$DB_PASSWORD" -N \
