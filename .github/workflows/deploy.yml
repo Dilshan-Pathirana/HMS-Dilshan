@@ -23,12 +23,13 @@ jobs:
       - name: Install Poetry
         run: pip install poetry
 
-      - name: Install aiosqlite
-        run: pip install aiosqlite
-
       - name: Install backend dependencies
         working-directory: backend
         run: poetry install --no-interaction --no-ansi
+
+      - name: Install aiosqlite
+        working-directory: backend
+        run: poetry run pip install aiosqlite
 
       - name: Run Alembic migrations
         working-directory: backend
