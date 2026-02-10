@@ -31,6 +31,7 @@ jobs:
         working-directory: backend
         env:
           DATABASE_URL: sqlite+aiosqlite:///./ci.db
+          SECRET_KEY: ci-secret-key
         run: |
           if [ -f alembic.ini ]; then
             poetry run alembic upgrade head
@@ -42,6 +43,7 @@ jobs:
         working-directory: backend
         env:
           DATABASE_URL: sqlite+aiosqlite:///./ci.db
+          SECRET_KEY: ci-secret-key
         run: poetry run python seed.py
 
   build-and-deploy:
