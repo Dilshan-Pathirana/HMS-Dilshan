@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import alert from "../../../../../utils/alert.ts";
 import { IBranchData } from "../../../../../utils/types/Branch/IBranchData.ts";
 import Select, { SingleValue } from 'react-select';
+import FileUploadField from "../../../../common/FileUploadField";
 
 interface GenericUserCreateFormProps {
     userType: string;
@@ -30,8 +31,6 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
         photo: null as File | null,
         nic_photo: null as File | null,
     });
-    const [recentPhotoPreview, setRecentPhotoPreview] = useState<string | null>(null);
-    const [nicPhotoPreview, setNicPhotoPreview] = useState<string | null>(null);
     const [errors, setErrors] = useState<Record<string, string[]>>({});
     const [branchOptions, setBranchOptions] = useState<{ value: string; label: string; }[]>([]);
     const [isBranchAdmin, setIsBranchAdmin] = useState(false);
@@ -93,23 +92,6 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
             ...formData,
             [name]: value,
         });
-    };
-
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, files } = event.target;
-        if (files && files.length > 0) {
-            const file = files[0];
-            setFormData({
-                ...formData,
-                [name]: file,
-            });
-
-            if (name === "photo") {
-                setRecentPhotoPreview(URL.createObjectURL(file));
-            } else if (name === "nic_photo") {
-                setNicPhotoPreview(URL.createObjectURL(file));
-            }
-        }
     };
 
     const handleBranchChange = (selectedOption: SingleValue<{ value: string; label: string }>) => {
@@ -565,55 +547,23 @@ const GenericUserCreateForm: React.FC<GenericUserCreateFormProps> = ({ userType,
                 )}
             </div>
 
-            <div className="col-span-1">
-                <label className="block text-sm font-medium text-neutral-700">
-                    Recent Photo
-                </label>
-                <input
-                    type="file"
-                    name="photo"
-                    onChange={handleFileChange}
-                    accept="image/*"
-                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
-                />
-                {recentPhotoPreview && (
-                    <img
-                        src={recentPhotoPreview}
-                        alt="Recent Photo Preview"
-                        className="mt-2 w-32 h-32 object-cover rounded-md"
-                    />
-                )}
-                {errors.photo && (
-                    <p className="text-error-500 text-sm mt-1">
-                        {errors.photo[0]}
-                    </p>
-                )}
-            </div>
+            <FileUploadField
+                label="Recent Photo"
+                name="photo"
+                accept=".jpg,.jpeg,.png"
+                maxSizeMB={2}
+                error={errors.photo?.[0]}
+                onFileSelect={(_, file) => setFormData(prev => ({ ...prev, photo: file }))}
+            />
 
-            <div className="col-span-1">
-                <label className="block text-sm font-medium text-neutral-700">
-                    NIC Photo
-                </label>
-                <input
-                    type="file"
-                    name="nic_photo"
-                    onChange={handleFileChange}
-                    accept="image/*"
-                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
-                />
-                {nicPhotoPreview && (
-                    <img
-                        src={nicPhotoPreview}
-                        alt="NIC Photo Preview"
-                        className="mt-2 w-32 h-32 object-cover rounded-md"
-                    />
-                )}
-                {errors.nic_photo && (
-                    <p className="text-error-500 text-sm mt-1">
-                        {errors.nic_photo[0]}
-                    </p>
-                )}
-            </div>
+            <FileUploadField
+                label="NIC Photo"
+                name="nic_photo"
+                accept=".jpg,.jpeg,.png,.pdf"
+                maxSizeMB={5}
+                error={errors.nic_photo?.[0]}
+                onFileSelect={(_, file) => setFormData(prev => ({ ...prev, nic_photo: file }))}
+            />
 
             <div className="col-span-1 md:col-span-2">
                 <button

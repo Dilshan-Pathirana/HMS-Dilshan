@@ -13,6 +13,7 @@ import Select, { MultiValue } from "react-select";
 import { IBranchData } from "../../../../../utils/types/Branch/IBranchData.ts";
 import { getAllBranches } from "../../../../../utils/api/branch/GetAllBranches.ts";
 import { IDoctorUserFormTypes } from "../../../../../utils/types/users/IDoctorUserFormTypes.ts";
+import FileUploadField from "../../../../common/FileUploadField";
 
 interface DoctorCreateFormProps {
     onSuccess?: () => void;
@@ -41,6 +42,9 @@ const DoctorCreateForm: React.FC<DoctorCreateFormProps> = ({ onSuccess }) => {
     const [confirmPassword, setConfirmPassword] = useState<string>('');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [photoFile, setPhotoFile] = useState<File | null>(null);
+    const [nicPhotoFile, setNicPhotoFile] = useState<File | null>(null);
 
     useEffect(() => {
         // Check if user is Branch Admin and get their branch
@@ -127,65 +131,131 @@ const DoctorCreateForm: React.FC<DoctorCreateFormProps> = ({ onSuccess }) => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        // Basic validation
+        // Comprehensive frontend validation — collect ALL errors before returning
+        const validationErrors: Record<string, string[]> = {};
+
+        // First Name
         if (!formData.first_name.trim()) {
-            alert.warn('First name is required');
-            return;
+            validationErrors.first_name = ['First name is required'];
+        } else if (formData.first_name.trim().length < 2) {
+            validationErrors.first_name = ['First name must be at least 2 characters'];
         }
+
+        // Last Name
         if (!formData.last_name.trim()) {
-            alert.warn('Last name is required');
-            return;
+            validationErrors.last_name = ['Last name is required'];
+        } else if (formData.last_name.trim().length < 2) {
+            validationErrors.last_name = ['Last name must be at least 2 characters'];
         }
+
+        // Email
         if (!formData.email.trim()) {
-            alert.warn('Email is required');
-            return;
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            alert.warn('Please enter a valid email address');
-            return;
+            validationErrors.email = ['Email is required'];
+        } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email)) {
+            validationErrors.email = ['Please enter a valid email address'];
         }
-        if (!formData.password.trim()) {
-            alert.warn('Password is required');
-            return;
-        } else if (formData.password.length < 6) {
-            alert.warn('Password must be at least 6 characters');
-            return;
+
+        // Mobile Number
+        if (!formData.contact_number_mobile.trim()) {
+            validationErrors.contact_number_mobile = ['Mobile number is required'];
+        } else {
+            const cleaned = formData.contact_number_mobile.replace(/[\s\-\(\)]/g, '');
+            if (!/^\+?[0-9]{7,15}$/.test(cleaned)) {
+                validationErrors.contact_number_mobile = ['Invalid phone number format'];
+            }
         }
-        if (!confirmPassword.trim()) {
-            alert.warn('Please confirm your password');
-            return;
-        } else if (formData.password !== confirmPassword) {
-            alert.warn('Passwords do not match');
-            return;
-        }
+
+        // Date of Birth
         if (!formData.date_of_birth) {
-            alert.warn('Date of birth is required');
+            validationErrors.date_of_birth = ['Date of birth is required'];
+        }
+
+        // Gender
+        if (!formData.gender) {
+            validationErrors.gender = ['Gender is required'];
+        }
+
+        // Specialization
+        if (!formData.areas_of_specialization || formData.areas_of_specialization.length === 0) {
+            validationErrors.areas_of_specialization = ['At least one specialization is required'];
+        }
+
+        // Qualification
+        if (!formData.qualifications) {
+            validationErrors.qualifications = ['Qualification is required'];
+        }
+
+        // Password
+        if (!formData.password.trim()) {
+            validationErrors.password = ['Password is required'];
+        } else if (formData.password.length < 6) {
+            validationErrors.password = ['Password must be at least 6 characters'];
+        }
+
+        // Confirm Password
+        if (!confirmPassword.trim()) {
+            validationErrors.confirm_password = ['Please confirm your password'];
+        } else if (formData.password !== confirmPassword) {
+            validationErrors.confirm_password = ['Passwords do not match'];
+        }
+
+        // If ANY validation errors exist, show them all and stop
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            const errorMessages = Object.entries(validationErrors)
+                .map(([field, messages]) => {
+                    const fieldName = field.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                    return `• ${fieldName}: ${messages.join(', ')}`;
+                })
+                .join('\n');
+            alert.warn(`Please fix the following errors:\n\n${errorMessages}`);
             return;
         }
+
+        // Clear previous errors
+        setErrors({});
+        setIsSubmitting(true);
 
         try {
-            // Map frontend form data to backend expected schema (DoctorUserCreateRequest)
+            // Upload files first if provided
+            let photoPath: string | undefined;
+            let nicPhotoPath: string | undefined;
+
+            if (photoFile) {
+                const photoFormData = new FormData();
+                photoFormData.append('photo', photoFile);
+                const photoRes: any = await api.post('uploads/upload-photo', photoFormData, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                });
+                photoPath = photoRes.data?.path || photoRes.path;
+            }
+
+            if (nicPhotoFile) {
+                const nicFormData = new FormData();
+                nicFormData.append('id_document', nicPhotoFile);
+                const nicRes: any = await api.post('uploads/upload-id-document', nicFormData, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                });
+                nicPhotoPath = nicRes.data?.path || nicRes.path;
+            }
+
             const payload = {
-                first_name: formData.first_name,
-                last_name: formData.last_name,
-                email: formData.email,
+                first_name: formData.first_name.trim(),
+                last_name: formData.last_name.trim(),
+                email: formData.email.trim().toLowerCase(),
                 password: formData.password,
-                specialization: formData.areas_of_specialization && formData.areas_of_specialization.length > 0
-                    ? formData.areas_of_specialization.join(', ')
-                    : 'General',
-                qualification: formData.qualifications || 'Not Specified',
-                contact_number: formData.contact_number_mobile || 'N/A',
+                specialization: formData.areas_of_specialization.join(', '),
+                qualification: formData.qualifications,
+                contact_number: formData.contact_number_mobile.trim(),
                 experience_years: Number(formData.years_of_experience) || 0,
-                branch_id: formData.branch_ids && formData.branch_ids.length > 0 ? formData.branch_ids[0] : null
+                branch_ids: formData.branch_ids && formData.branch_ids.length > 0 ? formData.branch_ids : undefined,
+                photo_path: photoPath,
+                nic_photo_path: nicPhotoPath,
             };
 
-            // FastAPI route is mounted at /api/v1/doctors; our axios baseURL already includes /api/v1
-            // Branch-admin specific route does not exist in this backend.
             const endpoint = "doctors/";
-
-            // Send as JSON
             const response: any = await api.post(endpoint, payload);
 
-            // If request succeeded, backend returns the created Doctor object (no `message` field)
             if (response) {
                 alert.success("Doctor created successfully");
                 setErrors({});
@@ -194,19 +264,19 @@ const DoctorCreateForm: React.FC<DoctorCreateFormProps> = ({ onSuccess }) => {
                 if (!isBranchAdmin) {
                     setSelectedBranches([]);
                 }
+                setPhotoFile(null);
+                setNicPhotoFile(null);
                 setFormData(prev => ({
                     ...doctorCreateFormInitialState,
                     areas_of_specialization: [],
                     branch_ids: isBranchAdmin && userBranchId ? [userBranchId] : [],
                 }));
 
-                // Refresh parent list + close modal if provided
                 if (onSuccess) {
                     onSuccess();
                     return;
                 }
 
-                // Fallback navigation when used outside modal context
                 if (isBranchAdmin) {
                     navigate('/branch-admin/hrm/staff');
                 } else {
@@ -215,36 +285,76 @@ const DoctorCreateForm: React.FC<DoctorCreateFormProps> = ({ onSuccess }) => {
             }
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                if (error.response?.status === 400) {
-                    const errorMessage = error.response.data?.detail || 'Bad request';
+                const status = error.response?.status;
+                const detail = error.response?.data?.detail;
+
+                if (status === 422) {
+                    // Pydantic validation errors from backend
+                    const pydanticErrors = error.response?.data?.detail;
+                    if (Array.isArray(pydanticErrors)) {
+                        const fieldErrors: Record<string, string[]> = {};
+                        pydanticErrors.forEach((err: any) => {
+                            const fieldName = err.loc?.[err.loc.length - 1] || 'general';
+                            // Map backend field names to frontend field names
+                            const fieldMap: Record<string, string> = {
+                                'contact_number': 'contact_number_mobile',
+                                'specialization': 'areas_of_specialization',
+                                'qualification': 'qualifications',
+                            };
+                            const mappedField = fieldMap[fieldName] || fieldName;
+                            if (!fieldErrors[mappedField]) fieldErrors[mappedField] = [];
+                            fieldErrors[mappedField].push(err.msg?.replace('Value error, ', '') || 'Invalid value');
+                        });
+                        setErrors(fieldErrors);
+                        const errorMessages = Object.entries(fieldErrors)
+                            .map(([field, messages]) => {
+                                const fieldName = field.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                                return `• ${fieldName}: ${messages.join(', ')}`;
+                            })
+                            .join('\n');
+                        alert.warn(`Validation errors:\n\n${errorMessages}`);
+                    } else {
+                        alert.warn('Validation failed. Please check your input.');
+                    }
+                } else if (status === 400 && detail?.errors) {
+                    // Structured error response from backend
+                    const backendErrors: Record<string, string[]> = {};
+                    Object.entries(detail.errors).forEach(([field, message]) => {
+                        const fieldMap: Record<string, string> = {
+                            'contact_number': 'contact_number_mobile',
+                            'specialization': 'areas_of_specialization',
+                            'qualification': 'qualifications',
+                        };
+                        const mappedField = fieldMap[field] || field;
+                        backendErrors[mappedField] = [message as string];
+                    });
+                    setErrors(backendErrors);
+                    const errorMessages = Object.entries(backendErrors)
+                        .map(([field, messages]) => {
+                            const fieldName = field.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                            return `• ${fieldName}: ${messages.join(', ')}`;
+                        })
+                        .join('\n');
+                    alert.warn(`${errorMessages}`);
+                } else if (status === 400) {
+                    const errorMessage = typeof detail === 'string' ? detail : 'Bad request';
                     if (errorMessage.includes('email already exists')) {
+                        setErrors({ email: ['This email address is already registered'] });
                         alert.warn('This email address is already registered. Please use a different email.');
                     } else {
                         alert.warn(errorMessage);
                     }
-                } else if (error.response?.status === 401 || error.response?.status === 403) {
+                } else if (status === 401 || status === 403) {
                     alert.warn("You are not authorized to create doctors. Please login as Super Admin.");
-                } else if (error.response?.status === 422) {
-                    const validationErrors = error.response.data.errors || {};
-                    setErrors(validationErrors);
-
-                    // Show user-friendly error message
-                    const errorMessages = Object.entries(validationErrors)
-                        .map(([field, messages]) => {
-                            const messageArray = Array.isArray(messages) ? messages : [messages];
-                            const fieldName = field.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-                            return `• ${fieldName}: ${messageArray.join(', ')}`;
-                        })
-                        .join('\n');
-
-                    alert.warn(`Please fix the following errors:\n\n${errorMessages}`);
                 } else {
-                    alert.warn(
-                        "Failed to create doctor: " + (error as Error).message,
-                    );
+                    alert.warn("Failed to create doctor: " + (error as Error).message);
                 }
+            } else {
+                alert.warn("An unexpected error occurred. Please try again.");
             }
-        };
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -254,14 +364,14 @@ const DoctorCreateForm: React.FC<DoctorCreateFormProps> = ({ onSuccess }) => {
         >
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
-                    First Name
+                    First Name <span className="text-error-500">*</span>
                 </label>
                 <input
                     type="text"
                     name="first_name"
                     value={formData.first_name}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
+                    className={`mt-1 p-2 block w-full border rounded-md shadow-sm ${errors.first_name ? 'border-red-500 bg-red-50' : 'border-neutral-300'}`}
                 />
                 {errors.first_name && (
                     <p className="text-error-500 text-sm mt-1">
@@ -272,14 +382,14 @@ const DoctorCreateForm: React.FC<DoctorCreateFormProps> = ({ onSuccess }) => {
 
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
-                    Last Name
+                    Last Name <span className="text-error-500">*</span>
                 </label>
                 <input
                     type="text"
                     name="last_name"
                     value={formData.last_name}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
+                    className={`mt-1 p-2 block w-full border rounded-md shadow-sm ${errors.last_name ? 'border-red-500 bg-red-50' : 'border-neutral-300'}`}
                 />
                 {errors.last_name && (
                     <p className="text-error-500 text-sm mt-1">
@@ -290,7 +400,7 @@ const DoctorCreateForm: React.FC<DoctorCreateFormProps> = ({ onSuccess }) => {
 
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
-                    Select Branches (optional)
+                    Select Branches
                 </label>
                 {isBranchAdmin ? (
                     <div className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm bg-neutral-100">
@@ -317,14 +427,14 @@ const DoctorCreateForm: React.FC<DoctorCreateFormProps> = ({ onSuccess }) => {
 
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
-                    Date of Birth
+                    Date of Birth <span className="text-error-500">*</span>
                 </label>
                 <input
                     type="date"
                     name="date_of_birth"
                     value={formData.date_of_birth}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
+                    className={`mt-1 p-2 block w-full border rounded-md shadow-sm ${errors.date_of_birth ? 'border-red-500 bg-red-50' : 'border-neutral-300'}`}
                 />
                 {errors.date_of_birth && (
                     <p className="text-error-500 text-sm mt-1">
@@ -335,13 +445,13 @@ const DoctorCreateForm: React.FC<DoctorCreateFormProps> = ({ onSuccess }) => {
 
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
-                    Gender
+                    Gender <span className="text-error-500">*</span>
                 </label>
                 <select
                     name="gender"
                     value={formData.gender}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
+                    className={`mt-1 p-2 block w-full border rounded-md shadow-sm ${errors.gender ? 'border-red-500 bg-red-50' : 'border-neutral-300'}`}
                 >
                     <option value="">Select Gender</option>
                     <option value="male">Male</option>
@@ -375,14 +485,14 @@ const DoctorCreateForm: React.FC<DoctorCreateFormProps> = ({ onSuccess }) => {
 
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
-                    Mobile Number
+                    Mobile Number <span className="text-error-500">*</span>
                 </label>
                 <input
                     type="tel"
                     name="contact_number_mobile"
                     value={formData.contact_number_mobile}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
+                    className={`mt-1 p-2 block w-full border rounded-md shadow-sm ${errors.contact_number_mobile ? 'border-red-500 bg-red-50' : 'border-neutral-300'}`}
                 />
                 {errors.contact_number_mobile && (
                     <p className="text-error-500 text-sm mt-1">
@@ -411,14 +521,14 @@ const DoctorCreateForm: React.FC<DoctorCreateFormProps> = ({ onSuccess }) => {
 
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
-                    Email
+                    Email <span className="text-error-500">*</span>
                 </label>
                 <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
+                    className={`mt-1 p-2 block w-full border rounded-md shadow-sm ${errors.email ? 'border-red-500 bg-red-50' : 'border-neutral-300'}`}
                 />
                 {errors.email && (
                     <p className="text-error-500 text-sm mt-1">
@@ -518,13 +628,13 @@ const DoctorCreateForm: React.FC<DoctorCreateFormProps> = ({ onSuccess }) => {
             </div>
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
-                    Qualifications
+                    Qualifications <span className="text-error-500">*</span>
                 </label>
                 <select
                     name="qualifications"
                     value={formData.qualifications}
                     onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
+                    className={`mt-1 p-2 block w-full border rounded-md shadow-sm ${errors.qualifications ? 'border-red-500 bg-red-50' : 'border-neutral-300'}`}
                 >
                     <option value="">Select Qualification</option>
                     {qualificationsOptions.map((qualification, index) => (
@@ -532,17 +642,17 @@ const DoctorCreateForm: React.FC<DoctorCreateFormProps> = ({ onSuccess }) => {
                             {qualification}
                         </option>
                     ))}
-                    {errors.qualifications && (
-                        <p className="text-error-500 text-sm mt-1">
-                            {errors.qualifications[0]}
-                        </p>
-                    )}
                 </select>
+                {errors.qualifications && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.qualifications[0]}
+                    </p>
+                )}
             </div>
 
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
-                    Areas of Specialization
+                    Areas of Specialization <span className="text-error-500">*</span>
                 </label>
                 <Select
                     isMulti
@@ -689,6 +799,29 @@ const DoctorCreateForm: React.FC<DoctorCreateFormProps> = ({ onSuccess }) => {
                 )}
             </div>
 
+            {/* Photo & ID Upload Section */}
+            <div className="col-span-2">
+                <h3 className="text-lg font-semibold text-neutral-800 border-b pb-2 mb-2">Photo & ID Upload</h3>
+            </div>
+
+            <FileUploadField
+                label="Profile Photo"
+                name="photo"
+                accept=".jpg,.jpeg,.png"
+                maxSizeMB={2}
+                error={errors.photo?.[0]}
+                onFileSelect={(_, file) => setPhotoFile(file)}
+            />
+
+            <FileUploadField
+                label="NIC / ID Document"
+                name="nic_photo"
+                accept=".jpg,.jpeg,.png,.pdf"
+                maxSizeMB={5}
+                error={errors.nic_photo?.[0]}
+                onFileSelect={(_, file) => setNicPhotoFile(file)}
+            />
+
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
                     Password <span className="text-error-500">*</span>
@@ -700,7 +833,7 @@ const DoctorCreateForm: React.FC<DoctorCreateFormProps> = ({ onSuccess }) => {
                         value={formData.password}
                         onChange={handleInputChange}
                         placeholder="Enter login password (min 6 characters)"
-                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm pr-10"
+                        className={`mt-1 p-2 block w-full border rounded-md shadow-sm pr-10 ${errors.password ? 'border-red-500 bg-red-50' : 'border-neutral-300'}`}
                     />
                     <button
                         type="button"
@@ -728,7 +861,7 @@ const DoctorCreateForm: React.FC<DoctorCreateFormProps> = ({ onSuccess }) => {
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         placeholder="Confirm password"
-                        className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm pr-10"
+                        className={`mt-1 p-2 block w-full border rounded-md shadow-sm pr-10 ${errors.confirm_password ? 'border-red-500 bg-red-50' : 'border-neutral-300'}`}
                     />
                     <button
                         type="button"
@@ -738,14 +871,20 @@ const DoctorCreateForm: React.FC<DoctorCreateFormProps> = ({ onSuccess }) => {
                         {showConfirmPassword ? '🙈' : '👁️'}
                     </button>
                 </div>
+                {errors.confirm_password && (
+                    <p className="text-error-500 text-sm mt-1">
+                        {errors.confirm_password[0]}
+                    </p>
+                )}
             </div>
 
             <div className="col-span-2 flex justify-center mt-6">
                 <button
                     type="submit"
-                    className="bg-primary-500 text-white px-6 py-2 rounded hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    disabled={isSubmitting}
+                    className={`text-white px-6 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-primary-500 hover:bg-primary-600'}`}
                 >
-                    Create Doctor
+                    {isSubmitting ? 'Creating...' : 'Create Doctor'}
                 </button>
             </div>
         </form>

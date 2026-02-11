@@ -1,4 +1,4 @@
-export const doctorCreateFormInitialState = {
+﻿export const doctorCreateFormInitialState = {
     first_name: "",
     last_name: "",
     password: "",
@@ -43,18 +43,91 @@ export const qualificationsOptions: string[] = [
 ];
 
 export const specializationOptions: { label: string; value: string }[] = [
+    // General & Family Homeopathy
+    { label: "General Homeopathic Practice", value: "General Homeopathic Practice" },
+    { label: "Family Medicine (Homeopathy)", value: "Family Medicine Homeopathy" },
+    { label: "Chronic Disease Management", value: "Chronic Disease Management" },
+    { label: "Acute Disease Treatment", value: "Acute Disease Treatment" },
+
+    // Skin & Hair Disorders
+    { label: "Skin Diseases (Eczema, Psoriasis, Acne, Vitiligo)", value: "Skin Diseases" },
+    { label: "Hair & Scalp Disorders (Hair Fall, Alopecia, Dandruff)", value: "Hair Scalp Disorders" },
+    { label: "Allergic Skin Conditions", value: "Allergic Skin Conditions" },
+
+    // Respiratory & Allergy
+    { label: "Asthma & Bronchial Disorders", value: "Asthma Bronchial Disorders" },
+    { label: "Allergic Rhinitis (Sinus, Hay Fever)", value: "Allergic Rhinitis" },
+    { label: "Chronic Cough & Cold", value: "Chronic Cough Cold" },
+    { label: "Tonsillitis & Throat Infections", value: "Tonsillitis Throat Infections" },
+
+    // Digestive & Metabolic
+    { label: "Gastritis & Acidity", value: "Gastritis Acidity" },
+    { label: "IBS & Constipation", value: "IBS Constipation" },
+    { label: "Liver Disorders", value: "Liver Disorders" },
+    { label: "Diabetes (Supportive Care)", value: "Diabetes Supportive" },
+    { label: "Thyroid Disorders", value: "Thyroid Disorders" },
+
+    // Women's Health & Hormonal
+    { label: "PCOS & Menstrual Disorders", value: "PCOS Menstrual Disorders" },
+    { label: "Infertility (Female)", value: "Female Infertility" },
+    { label: "Menopause Management", value: "Menopause Management" },
+    { label: "Uterine Fibroids", value: "Uterine Fibroids" },
+    { label: "Leucorrhoea", value: "Leucorrhoea" },
+
+    // Men's Health
+    { label: "Prostate Disorders", value: "Prostate Disorders" },
+    { label: "Male Infertility", value: "Male Infertility" },
+    { label: "Sexual Health Disorders", value: "Sexual Health Disorders" },
+
+    // Pediatrics (Children's Diseases)
+    { label: "Recurrent Infections (Pediatric)", value: "Recurrent Infections Pediatric" },
+    { label: "Growth & Development Disorders", value: "Growth Development Disorders" },
+    { label: "Bedwetting (Enuresis)", value: "Bedwetting Enuresis" },
+    { label: "ADHD & Learning Difficulties", value: "ADHD Learning Difficulties" },
+
+    // Mental & Emotional Health
+    { label: "Anxiety Disorders", value: "Anxiety Disorders" },
+    { label: "Depression", value: "Depression" },
+    { label: "Stress & Sleep Disorders", value: "Stress Sleep Disorders" },
+    { label: "Phobias", value: "Phobias" },
+    { label: "Behavioral Disorders", value: "Behavioral Disorders" },
+
+    // Musculoskeletal & Pain
+    { label: "Arthritis", value: "Arthritis" },
+    { label: "Back Pain & Sciatica", value: "Back Pain Sciatica" },
+    { label: "Joint Pain", value: "Joint Pain" },
+    { label: "Rheumatism", value: "Rheumatism" },
+
+    // Neurological & Nerve Disorders
+    { label: "Migraine & Headache", value: "Migraine Headache" },
+    { label: "Vertigo", value: "Vertigo" },
+    { label: "Epilepsy (Supportive)", value: "Epilepsy Supportive" },
+    { label: "Parkinson's (Supportive)", value: "Parkinsons Supportive" },
+
+    // ENT & Eye
+    { label: "Sinusitis", value: "Sinusitis" },
+    { label: "Hearing Disorders", value: "Hearing Disorders" },
+    { label: "Tinnitus", value: "Tinnitus" },
+    { label: "Eye Strain & Vision Complaints", value: "Eye Strain Vision" },
+
+    // Lifestyle & Wellness
+    { label: "Obesity Management", value: "Obesity Management" },
+    { label: "Smoking & Alcohol De-addiction", value: "Smoking Alcohol Deaddiction" },
+    { label: "Immunity Boosting", value: "Immunity Boosting" },
+    { label: "Stress Management", value: "Stress Management" },
+
+    // Chronic & Autoimmune (Supportive)
+    { label: "Rheumatoid Arthritis", value: "Rheumatoid Arthritis" },
+    { label: "Psoriasis", value: "Psoriasis" },
+    { label: "Lupus", value: "Lupus" },
+    { label: "Ulcerative Colitis", value: "Ulcerative Colitis" },
+
+    // Legacy / General Medical Specializations
     { label: "Pediatrics (Child Health)", value: "Pediatrics" },
-    {
-        label: "Dermatology (Skin, Hair, and Nail Health)",
-        value: "Dermatology",
-    },
-    { label: "Skin Care", value: "Skin Care" },
-    { label: "Hair Care", value: "Hair Care" },
-    { label: "Nail Health", value: "Nail Health" },
-    { label: "Women’s Health and Gynecology", value: "Womens Health" },
+    { label: "Dermatology (Skin, Hair, and Nail Health)", value: "Dermatology" },
+    { label: "Women's Health and Gynecology", value: "Womens Health" },
     { label: "Geriatrics (Elderly Health)", value: "Geriatrics" },
     { label: "Psychiatry and Mental Health", value: "Psychiatry" },
-    { label: "Musculoskeletal Health", value: "Musculoskeletal" },
     { label: "Gastroenterology (Digestive Health)", value: "Gastroenterology" },
     { label: "Respiratory Medicine", value: "Respiratory Medicine" },
     { label: "Endocrinology (Hormonal Health)", value: "Endocrinology" },
@@ -64,29 +137,17 @@ export const specializationOptions: { label: string; value: string }[] = [
     { label: "Addiction and Substance Abuse Treatment", value: "Addiction" },
     { label: "Homeopathic Dentistry", value: "Dentistry" },
     { label: "Neurology (Nervous System Disorders)", value: "Neurology" },
-    { label: "Migraines", value: "Migraines" },
-    { label: "Epilepsy", value: "Epilepsy" },
-    { label: "Parkinson’s", value: "Parkinsons" },
     { label: "Obstetrics and Midwifery", value: "Obstetrics" },
     { label: "Sports Medicine", value: "Sports Medicine" },
     { label: "Urology (Urinary and Reproductive System)", value: "Urology" },
-    {
-        label: "Homeopathic Surgery (Post-Surgical Recovery Support)",
-        value: "Surgery",
-    },
+    { label: "Homeopathic Surgery (Post-Surgical Recovery Support)", value: "Surgery" },
     { label: "Rheumatology", value: "Rheumatology" },
     { label: "Infertility and Reproductive Health", value: "Infertility" },
-    {
-        label: "Chronic Fatigue Syndrome and Fibromyalgia",
-        value: "Chronic Fatigue",
-    },
+    { label: "Chronic Fatigue Syndrome and Fibromyalgia", value: "Chronic Fatigue" },
     { label: "Environmental Medicine", value: "Environmental Medicine" },
-    { label: "Chronic Inflammatory Response Syndrome (CIRS)", value: "CIRS" },
-    { label: "Electromagnetic Hypersensitivity Syndrome (EHS)", value: "EHS" },
     { label: "Aesthetic Homeopathy", value: "Aesthetic Homeopathy" },
     { label: "Therapy", value: "Therapy" },
 ];
-
 export const workingBranches: {
     branch_id: number;
     branch_location: string;
