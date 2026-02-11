@@ -12,7 +12,7 @@ import { Input } from "../ui/Input";
 import { Button } from "../ui/Button";
 import { Select } from "../ui/Select";
 
-const BLOOD_TYPES = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+const BLOOD_TYPES = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-', 'Unknown'];
 const GENDER_OPTIONS = [
     { value: 'male', label: 'Male' },
     { value: 'female', label: 'Female' },
