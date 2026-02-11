@@ -9,6 +9,8 @@ import { AiOutlineClose } from "react-icons/ai";
 import api from "../../../../utils/api/axios";
 import axios from "axios";
 import alert from "../../../../utils/alert.ts";
+import DivisionSearchSelect from "../../../../components/common/DivisionSearchSelect";
+import { DivisionalSecretariat } from "../../../../utils/data/sriLankaDivisions";
 
 interface EditModalProps {
     isOpen: boolean;
@@ -319,13 +321,17 @@ const BranchEditModal: React.FC<EditModalProps> = ({
                                 >
                                     Division
                                 </label>
-                                <input
-                                    type="text"
-                                    id="division"
-                                    name="division"
-                                    value={formData.division}
-                                    onChange={handleChange}
-                                    className="w-full p-2 border border-neutral-300 rounded"
+                                <DivisionSearchSelect
+                                    value={formData.division || ""}
+                                    onChange={(div: DivisionalSecretariat | null) => {
+                                        if (formData) {
+                                            setFormData({
+                                                ...formData,
+                                                division: div?.name || "",
+                                                division_number: div?.divisionNumber || "",
+                                            });
+                                        }
+                                    }}
                                     required
                                 />
                             </div>
@@ -340,9 +346,9 @@ const BranchEditModal: React.FC<EditModalProps> = ({
                                     type="text"
                                     id="division_number"
                                     name="division_number"
-                                    value={formData.division_number}
-                                    onChange={handleChange}
-                                    className="w-full p-2 border border-neutral-300 rounded"
+                                    value={formData.division_number || ""}
+                                    readOnly
+                                    className="w-full p-2 border border-neutral-300 rounded bg-neutral-100 cursor-not-allowed"
                                     required
                                 />
                             </div>

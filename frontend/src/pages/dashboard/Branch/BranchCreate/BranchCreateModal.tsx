@@ -9,6 +9,8 @@ import {
 } from "../../../../utils/api/branch/BranchesData.ts";
 import { appendFormData } from "../../../../utils/formUtils.ts";
 import { IoDocument } from "react-icons/io5";
+import DivisionSearchSelect from "../../../../components/common/DivisionSearchSelect";
+import { DivisionalSecretariat } from "../../../../utils/data/sriLankaDivisions";
 
 interface BranchCreateModalProps {
     isOpen: boolean;
@@ -327,13 +329,16 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
                             >
                                 Division
                             </label>
-                            <input
-                                type="text"
-                                id="division"
-                                name="division"
-                                value={formData.division}
-                                onChange={handleChange}
-                                className="w-full p-2 border border-neutral-300 rounded"
+                            <DivisionSearchSelect
+                                value={formData.division || ""}
+                                onChange={(div: DivisionalSecretariat | null) => {
+                                    setFormData({
+                                        ...formData,
+                                        division: div?.name || "",
+                                        division_number: div?.divisionNumber || "",
+                                    });
+                                }}
+                                required
                             />
                         </div>
                         <div>
@@ -347,9 +352,9 @@ const BranchCreateModal: React.FC<BranchCreateModalProps> = ({
                                 type="text"
                                 id="division_number"
                                 name="division_number"
-                                value={formData.division_number}
-                                onChange={handleChange}
-                                className="w-full p-2 border border-neutral-300 rounded"
+                                value={formData.division_number || ""}
+                                readOnly
+                                className="w-full p-2 border border-neutral-300 rounded bg-neutral-100 cursor-not-allowed"
                             />
                         </div>
                     </div>

@@ -91,6 +91,12 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
         try {
             setIsLoading(true);
             const submissionData = { ...userDetails } as any;
+
+            // Super Admin should not have a branch assigned
+            if (roleAs === UserRole.SuperAdmin) {
+                delete submissionData.branch_id;
+            }
+
             if (roleAs === UserRole.Doctor) {
                 if (submissionData.doctors_areas_of_specialization) {
                     if (
@@ -255,6 +261,7 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
                 branchOptions,
                 handleInputChange,
                 handleBranchChange,
+                roleAs,
             };
             return <StaffEditForm {...formProps} />;
         }

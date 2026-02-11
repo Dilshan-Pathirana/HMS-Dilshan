@@ -7,6 +7,8 @@ import { IBranchData } from "../../../utils/types/Branch/IBranchData.ts";
 import { centerTypes, ownerTypes } from "../../../utils/api/branch/BranchesData.ts";
 import alert from "../../../utils/alert.ts";
 import { IUserData } from "../../../utils/types/users/Iuser.ts";
+import DivisionSearchSelect from "../../../components/common/DivisionSearchSelect";
+import { DivisionalSecretariat } from "../../../utils/data/sriLankaDivisions";
 
 const BranchManage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -180,11 +182,24 @@ const BranchManage: React.FC = () => {
                         </div>
                         <div className="space-y-2">
                             <label className="text-sm font-medium text-neutral-700">Division</label>
-                            <input
-                                name="division"
+                            <DivisionSearchSelect
                                 value={formData.division || ""}
-                                onChange={handleChange}
-                                className="w-full p-2.5 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none"
+                                onChange={(div: DivisionalSecretariat | null) => {
+                                    setFormData({
+                                        ...formData,
+                                        division: div?.name || "",
+                                        division_number: div?.divisionNumber || "",
+                                    });
+                                }}
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium text-neutral-700">Division Number</label>
+                            <input
+                                name="division_number"
+                                value={formData.division_number || ""}
+                                readOnly
+                                className="w-full p-2.5 border border-neutral-300 rounded-lg bg-neutral-100 cursor-not-allowed"
                             />
                         </div>
                         <div className="space-y-2">
