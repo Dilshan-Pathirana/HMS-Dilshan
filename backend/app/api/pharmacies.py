@@ -201,15 +201,150 @@ async def get_available_pharmacists(
 @router.get("/products", response_model=Dict[str, Any])
 async def read_products(
     branch_id: Optional[str] = None,
+    session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_active_superuser),
 ):
-    """
-    Get products (Mocked for now as Product model not found).
-    """
+    """Get all products."""
+    from app.models.pharmacy_inventory import Product as ProductModel
+    result = await session.exec(select(ProductModel).where(ProductModel.is_active == True))  # noqa
+    products = result.all()
     return {
         "status": 200,
-        "products": [] # Return empty list for now
+        "products": [
+            {
+                "id": p.id,
+                "supplier_id": p.supplier_id or "",
+                "item_code": p.item_code or "",
+                "barcode": p.barcode or "",
+                "item_name": p.name,
+                "generic_name": p.generic_name or "",
+                "brand_name": p.brand_name or "",
+                "category": p.category or "",
+                "unit": p.unit or "pcs",
+                "current_stock": p.current_stock or 0,
+                "min_stock": p.min_stock or 0,
+                "reorder_level": p.reorder_level or 0,
+                "reorder_quantity": p.reorder_quantity or 0,
+                "unit_cost": float(p.unit_cost or 0),
+                "unit_selling_price": float(p.unit_selling_price or 0),
+                "expiry_date": p.expiry_date or "",
+                "product_store_location": p.product_store_location or "",
+                "warranty_serial": p.warranty_serial or "",
+                "warranty_duration": p.warranty_duration or "",
+                "warranty_type": p.warranty_type or "",
+                "requires_prescription": p.requires_prescription,
+                "is_active": p.is_active,
+                "created_at": str(p.created_at),
+            }
+            for p in products
+        ],
     }
+
+
+def _map_frontend_to_product(data: dict) -> dict:
+    """Map frontend product field names to DB column names."""
+    return {
+        "name": data.get("item_name", ""),
+        "generic_name": data.get("generic_name", ""),
+        "category": data.get("category", ""),
+        "unit": data.get("unit", "pcs"),
+        "supplier_id": data.get("supplier_id") or None,
+        "item_code": data.get("item_code", ""),
+        "barcode": data.get("barcode", ""),
+        "brand_name": data.get("brand_name", ""),
+        "current_stock": int(data.get("current_stock", 0) or 0),
+        "min_stock": int(data.get("min_stock", 0) or 0),
+        "reorder_level": int(data.get("reorder_level", 0) or 0),
+        "reorder_quantity": int(data.get("reorder_quantity", 0) or 0),
+        "unit_cost": float(data.get("unit_cost", 0) or 0),
+        "unit_selling_price": float(data.get("unit_selling_price", 0) or 0),
+        "expiry_date": data.get("expiry_date", ""),
+        "product_store_location": data.get("product_store_location", ""),
+        "warranty_serial": data.get("warranty_serial", ""),
+        "warranty_duration": data.get("warranty_duration", ""),
+        "warranty_type": data.get("warranty_type", ""),
+    }
+
+
+@router.post("/products", response_model=Dict[str, Any])
+async def create_product(
+    payload: Dict[str, Any],
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_active_superuser),
+):
+    """Create a new product and assign stock to selected pharmacies (each linked to a branch)."""
+    from app.models.pharmacy_inventory import Product as ProductModel, ProductStock
+    from app.models.pharmacy import Pharmacy
+
+    target_pharmacy_ids = payload.pop("target_pharmacy_ids", [])
+    # Remove legacy field if frontend still sends it
+    payload.pop("target_branch_ids", None)
+
+    mapped = _map_frontend_to_product(payload)
+    if not mapped["name"]:
+        raise HTTPException(status_code=400, detail="Item name is required")
+
+    product = ProductModel(**mapped)
+    session.add(product)
+    await session.flush()  # get product.id
+
+    # Create product_stock entries for each target pharmacy
+    if target_pharmacy_ids:
+        for pid in target_pharmacy_ids:
+            pharmacy = await session.get(Pharmacy, pid)
+            stock = ProductStock(
+                product_id=product.id,
+                branch_id=pharmacy.branch_id if pharmacy else None,
+                pharmacy_id=pid,
+                quantity=int(mapped.get("current_stock") or 0),
+                purchase_price=float(mapped.get("unit_cost") or 0),
+                selling_price=float(mapped.get("unit_selling_price") or 0),
+                reorder_level=int(mapped.get("reorder_level") or 0),
+                expiry_date=mapped.get("expiry_date") or None,
+            )
+            session.add(stock)
+
+    await session.commit()
+    await session.refresh(product)
+    return {"status": 200, "message": "Product created successfully", "product_id": product.id}
+
+
+@router.post("/products/{product_id}", response_model=Dict[str, Any])
+async def update_product(
+    product_id: str,
+    payload: Dict[str, Any],
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_active_superuser),
+):
+    """Update an existing product."""
+    from app.models.pharmacy_inventory import Product as ProductModel
+    product = await session.get(ProductModel, product_id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    mapped = _map_frontend_to_product(payload)
+    for key, value in mapped.items():
+        setattr(product, key, value)
+    session.add(product)
+    await session.commit()
+    await session.refresh(product)
+    return {"status": 200, "message": "Product updated successfully"}
+
+
+@router.delete("/products/{product_id}", response_model=Dict[str, Any])
+async def delete_product(
+    product_id: str,
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_active_superuser),
+):
+    """Soft-delete a product."""
+    from app.models.pharmacy_inventory import Product as ProductModel
+    product = await session.get(ProductModel, product_id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    product.is_active = False
+    session.add(product)
+    await session.commit()
+    return {"success": True, "status": 200, "message": "Product deleted successfully"}
 
 @router.get("/products-branch", response_model=Dict[str, Any])
 async def read_products_branch(
@@ -226,15 +361,40 @@ async def read_products_branch(
 
 @router.get("/suppliers", response_model=Dict[str, Any])
 async def read_suppliers(
+    session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_active_superuser),
 ):
-    """
-    Get suppliers (Mocked for now).
-    """
+    """Get all suppliers."""
+    from app.models.pharmacy_inventory import Supplier as SupplierModel
+    result = await session.exec(select(SupplierModel).where(SupplierModel.is_active == True))  # noqa
+    suppliers = result.all()
     return {
         "status": 200,
-        "suppliers": []
+        "suppliers": [
+            {
+                "id": s.id,
+                "supplier_name": s.name,
+                "contact_person": s.contact_person or "",
+                "contact_number": s.phone or "",
+                "contact_email": s.email or "",
+                "supplier_address": s.address or "",
+                "supplier_city": s.supplier_city or "",
+                "supplier_country": s.supplier_country or "",
+                "supplier_type": s.supplier_type or "",
+                "products_supplied": s.products_supplied or "",
+                "delivery_time": s.delivery_time or "",
+                "payment_terms": s.payment_terms or "",
+                "bank_details": s.bank_details or "",
+                "rating": s.rating or "",
+                "discounts_agreements": s.discounts_agreements or "",
+                "return_policy": s.return_policy or "",
+                "note": s.note or "",
+                "created_at": str(s.created_at),
+            }
+            for s in suppliers
+        ],
     }
+
 
 @router.get("/{pharmacy_id}/inventory", response_model=Dict[str, Any])
 async def read_inventory(
@@ -262,3 +422,83 @@ async def get_available_pharmacies_for_assignment(
     pharmacies = result.all()
     
     return {"success": True, "data": pharmacies}
+
+
+# ──────────────── Supplier CRUD ────────────────
+
+def _map_frontend_to_supplier(data: dict) -> dict:
+    """Map frontend field names to DB column names."""
+    return {
+        "name": data.get("supplier_name", ""),
+        "contact_person": data.get("contact_person", ""),
+        "phone": data.get("contact_number", ""),
+        "email": data.get("contact_email", ""),
+        "address": data.get("supplier_address", ""),
+        "supplier_city": data.get("supplier_city", ""),
+        "supplier_country": data.get("supplier_country", ""),
+        "supplier_type": data.get("supplier_type", ""),
+        "products_supplied": data.get("products_supplied", ""),
+        "delivery_time": data.get("delivery_time", ""),
+        "payment_terms": data.get("payment_terms", ""),
+        "bank_details": data.get("bank_details", ""),
+        "rating": data.get("rating", ""),
+        "discounts_agreements": data.get("discounts_agreements", ""),
+        "return_policy": data.get("return_policy", ""),
+        "note": data.get("note", ""),
+    }
+
+
+@router.post("/suppliers", response_model=Dict[str, Any])
+async def create_supplier(
+    payload: Dict[str, Any],
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_active_superuser),
+):
+    """Create a new supplier."""
+    from app.models.pharmacy_inventory import Supplier as SupplierModel
+    mapped = _map_frontend_to_supplier(payload)
+    if not mapped["name"]:
+        raise HTTPException(status_code=400, detail="Supplier name is required")
+    supplier = SupplierModel(**mapped)
+    session.add(supplier)
+    await session.commit()
+    await session.refresh(supplier)
+    return {"status": 200, "message": "Supplier created successfully", "supplier_id": supplier.id}
+
+
+@router.post("/suppliers/{supplier_id}", response_model=Dict[str, Any])
+async def update_supplier(
+    supplier_id: str,
+    payload: Dict[str, Any],
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_active_superuser),
+):
+    """Update an existing supplier."""
+    from app.models.pharmacy_inventory import Supplier as SupplierModel
+    supplier = await session.get(SupplierModel, supplier_id)
+    if not supplier:
+        raise HTTPException(status_code=404, detail="Supplier not found")
+    mapped = _map_frontend_to_supplier(payload)
+    for key, value in mapped.items():
+        setattr(supplier, key, value)
+    session.add(supplier)
+    await session.commit()
+    await session.refresh(supplier)
+    return {"status": 200, "message": "Supplier updated successfully"}
+
+
+@router.delete("/suppliers/{supplier_id}", response_model=Dict[str, Any])
+async def delete_supplier(
+    supplier_id: str,
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_active_superuser),
+):
+    """Soft-delete a supplier (mark inactive)."""
+    from app.models.pharmacy_inventory import Supplier as SupplierModel
+    supplier = await session.get(SupplierModel, supplier_id)
+    if not supplier:
+        raise HTTPException(status_code=404, detail="Supplier not found")
+    supplier.is_active = False
+    session.add(supplier)
+    await session.commit()
+    return {"success": True, "status": 200, "message": "Supplier deleted successfully"}

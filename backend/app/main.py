@@ -107,6 +107,7 @@ app.include_router(appointments.router, prefix="/api/v1/appointments", tags=["ap
 app.include_router(appointments.availability_router, prefix="/api/v1", tags=["availability"])
 app.include_router(receptionist.router, prefix="/api/v1/receptionist", tags=["receptionist"])
 app.include_router(pharmacies.router, prefix="/api/v1/pharmacies", tags=["pharmacies"])
+app.include_router(pharmacies.router, prefix="/api/v1/pharmacy", tags=["pharmacy"])
 app.include_router(pharmacist.router, prefix="/api/v1/pharmacist", tags=["pharmacist"])
 app.include_router(nurse.router, prefix="/api/v1/nurse", tags=["nurse"])
 app.include_router(staff.router, prefix="/api/v1/users", tags=["staff"])
@@ -143,6 +144,22 @@ app.include_router(email.router, prefix="/api/v1/email", tags=["email"])
 app.include_router(websocket_alerts.router, tags=["websocket"])
 app.include_router(dashboard_stats.router, prefix="/api/v1", tags=["dashboard-stats"])
 app.include_router(website.router, prefix="/api/v1", tags=["website-settings"])
+
+
+# ──── Legacy supplier delete route ────
+@app.delete("/api/v1/delete-supplier/{supplier_id}", tags=["pharmacies"])
+async def delete_supplier_compat(
+    supplier_id: str,
+    session: AsyncSession = Depends(get_session),
+):
+    from app.models.pharmacy_inventory import Supplier as SupplierModel
+    supplier = await session.get(SupplierModel, supplier_id)
+    if not supplier:
+        raise HTTPException(status_code=404, detail="Supplier not found")
+    supplier.is_active = False
+    session.add(supplier)
+    await session.commit()
+    return {"success": True, "status": 200, "message": "Supplier deleted successfully"}
 
 
 @app.get("/api/v1/get-branches")

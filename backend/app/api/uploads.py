@@ -1,87 +1,84 @@
-"""
-File upload endpoints for user photos and ID documents.
-Handles validation, storage, and cleanup.
-"""
+"""File upload utilities and router."""
+from __future__ import annotations
+
 import os
 import uuid
-import shutil
-from typing import Optional
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
-from app.models.user import User
-from app.api.deps import get_current_active_staff
+from pathlib import Path
+from typing import List, Optional
+
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
+from starlette.responses import JSONResponse
 
 router = APIRouter()
 
-UPLOAD_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "uploads")
-
-PHOTO_ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png"}
-PHOTO_MAX_SIZE = 2 * 1024 * 1024  # 2 MB
+# ─── Constants ────────────────────────────────────────
+PHOTO_ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".gif", ".webp"}
+PHOTO_MAX_SIZE = 5 * 1024 * 1024  # 5 MB
 
 ID_ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".pdf"}
-ID_MAX_SIZE = 5 * 1024 * 1024  # 5 MB
+ID_MAX_SIZE = 10 * 1024 * 1024  # 10 MB
+
+UPLOADS_DIR = Path(__file__).resolve().parent.parent.parent / "uploads"
 
 
-def validate_file(file: UploadFile, allowed_extensions: set, max_size: int, field_name: str) -> str:
-    """Validate file type and size. Returns the file extension."""
+# ─── Helpers ──────────────────────────────────────────
+def validate_file(
+    file: UploadFile,
+    allowed_extensions: set,
+    max_size: int,
+    label: str = "file",
+) -> str:
+    """Validate extension and size.  Returns the file extension (e.g. '.jpg')."""
     if not file.filename:
-        raise HTTPException(status_code=400, detail={
-            "success": False,
-            "errors": {field_name: "No filename provided"}
-        })
+        raise HTTPException(status_code=400, detail=f"{label}: filename is required")
 
     ext = os.path.splitext(file.filename)[1].lower()
     if ext not in allowed_extensions:
-        raise HTTPException(status_code=400, detail={
-            "success": False,
-            "errors": {field_name: f"Invalid file type '{ext}'. Allowed: {', '.join(allowed_extensions)}"}
-        })
+        raise HTTPException(
+            status_code=400,
+            detail=f"{label}: extension '{ext}' not allowed. Allowed: {allowed_extensions}",
+        )
 
-    # Read content to check size
+    # Read content to check size, then seek back
     content = file.file.read()
-    if len(content) > max_size:
-        max_mb = max_size / (1024 * 1024)
-        raise HTTPException(status_code=400, detail={
-            "success": False,
-            "errors": {field_name: f"File too large. Maximum size is {max_mb:.0f} MB"}
-        })
-
-    # Reset file pointer for later use
     file.file.seek(0)
+    if len(content) > max_size:
+        raise HTTPException(
+            status_code=400,
+            detail=f"{label}: file size ({len(content)} bytes) exceeds limit ({max_size} bytes)",
+        )
     return ext
 
 
 def save_file(file: UploadFile, subfolder: str, ext: str) -> str:
-    """Save file to disk and return the relative path."""
-    folder_path = os.path.join(UPLOAD_DIR, subfolder)
-    os.makedirs(folder_path, exist_ok=True)
+    """Save an uploaded file and return its relative path (from uploads root)."""
+    dest_dir = UPLOADS_DIR / subfolder
+    dest_dir.mkdir(parents=True, exist_ok=True)
 
     filename = f"{uuid.uuid4().hex}{ext}"
-    file_path = os.path.join(folder_path, filename)
+    dest_path = dest_dir / filename
 
-    with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+    content = file.file.read()
+    file.file.seek(0)
+    with open(dest_path, "wb") as f:
+        f.write(content)
 
-    # Return relative path from uploads dir
-    return f"/uploads/{subfolder}/{filename}"
-
-
-@router.post("/upload-photo")
-async def upload_photo(
-    photo: UploadFile = File(...),
-    current_user: User = Depends(get_current_active_staff),
-):
-    """Upload a profile photo. Returns the stored file path."""
-    ext = validate_file(photo, PHOTO_ALLOWED_EXTENSIONS, PHOTO_MAX_SIZE, "photo")
-    path = save_file(photo, "photos", ext)
-    return {"success": True, "path": path}
+    # Return path relative to uploads root so it can be served via /uploads/...
+    return f"{subfolder}/{filename}"
 
 
-@router.post("/upload-id-document")
-async def upload_id_document(
-    id_document: UploadFile = File(...),
-    current_user: User = Depends(get_current_active_staff),
-):
-    """Upload an ID document (NIC/passport). Returns the stored file path."""
-    ext = validate_file(id_document, ID_ALLOWED_EXTENSIONS, ID_MAX_SIZE, "id_document")
-    path = save_file(id_document, "id_documents", ext)
-    return {"success": True, "path": path}
+# ─── Router endpoints ────────────────────────────────
+@router.post("/photo")
+async def upload_photo(file: UploadFile = File(...)):
+    """Upload a photo file."""
+    ext = validate_file(file, PHOTO_ALLOWED_EXTENSIONS, PHOTO_MAX_SIZE, "photo")
+    path = save_file(file, "photos", ext)
+    return {"success": True, "path": f"/uploads/{path}"}
+
+
+@router.post("/document")
+async def upload_document(file: UploadFile = File(...)):
+    """Upload an ID / document file."""
+    ext = validate_file(file, ID_ALLOWED_EXTENSIONS, ID_MAX_SIZE, "document")
+    path = save_file(file, "id_documents", ext)
+    return {"success": True, "path": f"/uploads/{path}"}
