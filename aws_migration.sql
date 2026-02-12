@@ -64,7 +64,46 @@ CALL add_column_if_missing('supplier', 'discounts_agreements', 'TEXT DEFAULT NUL
 CALL add_column_if_missing('supplier', 'return_policy', 'TEXT DEFAULT NULL');
 CALL add_column_if_missing('supplier', 'note', 'TEXT DEFAULT NULL');
 
+-- ----- APPOINTMENT TABLE: add 3 missing columns -----
+CALL add_column_if_missing('appointment', 'reschedule_count', 'INT NOT NULL DEFAULT 0');
+CALL add_column_if_missing('appointment', 'original_appointment_date', 'DATETIME DEFAULT NULL');
+CALL add_column_if_missing('appointment', 'nurse_assessment_status', 'VARCHAR(20) DEFAULT NULL');
+
+-- ----- DOCTOR SCHEDULE CLEANUP: normalize malformed legacy rows -----
+-- Keep durations and capacities within valid ranges
+UPDATE doctor_schedule
+SET slot_duration_minutes = 30
+WHERE slot_duration_minutes IS NULL
+  OR slot_duration_minutes <= 0
+  OR slot_duration_minutes > 240;
+
+UPDATE doctor_schedule
+SET max_patients = 20
+WHERE max_patients IS NULL
+  OR max_patients <= 0;
+
+-- Normalize recurrence + status defaults when blank/null
+UPDATE doctor_schedule
+SET recurrence_type = 'weekly'
+WHERE recurrence_type IS NULL
+  OR TRIM(recurrence_type) = '';
+
+UPDATE doctor_schedule
+SET status = 'active'
+WHERE status IS NULL
+  OR TRIM(status) = '';
+
+-- Disable impossible schedules that cannot produce valid slots
+UPDATE doctor_schedule
+SET status = 'inactive'
+WHERE start_time IS NULL
+  OR end_time IS NULL
+  OR end_time <= start_time
+  OR day_of_week IS NULL
+  OR day_of_week < 0
+  OR day_of_week > 6;
+
 DROP PROCEDURE IF EXISTS add_column_if_missing;
 
 -- Done!
-SELECT 'Migration complete — product and supplier tables updated.' AS status;
+SELECT 'Migration complete — product/supplier/appointment schema updated and doctor_schedule normalized.' AS status;

@@ -61,19 +61,41 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 async def log_exception_handler(request: Request, exc: Exception):
     print("\n--- Unhandled Exception ---", file=sys.stderr)
     traceback.print_exc()
+    # Attach CORS headers so the browser doesn't mask the real error as a CORS failure
+    origin = request.headers.get("origin", "")
+    headers = {}
+    if origin and (origin in origins or "*" in origins):
+        headers["Access-Control-Allow-Origin"] = origin
+        headers["Access-Control-Allow-Credentials"] = "true"
     return JSONResponse(
         status_code=500,
         content={"detail": "Internal Server Error", "error_type": type(exc).__name__, "error_message": str(exc)},
+        headers=headers,
     )
 
-# CORS Configuration
-origins = [
-    "http://localhost:5173",  # React Dev Server
-    "http://localhost:3000",
-    "http://localhost",
-    "http://13.233.254.140",  # AWS EC2 Production
-    "http://13.233.254.140:80",
-]
+# CORS Configuration – configurable via env var, with sensible defaults
+import os as _os
+_env_origins = _os.environ.get("BACKEND_CORS_ORIGINS", "")
+origins = (
+    [o.strip() for o in _env_origins.split(",") if o.strip()]
+    if _env_origins
+    else [
+        "http://localhost:5173",  # React Dev Server
+        "http://localhost:3000",
+        "http://localhost",
+        "http://13.233.254.140",  # AWS EC2 Production
+        "http://13.233.254.140:80",
+    ]
+)
+
+# Register log middleware FIRST so it is innermost;
+# CORSMiddleware registered AFTER (below) becomes outermost and always runs.
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    print(f"DEBUG: Middleware received request: {request.method} {request.url.path}", flush=True)
+    response = await call_next(request)
+    print(f"DEBUG: Middleware response status: {response.status_code}", flush=True)
+    return response
 
 app.add_middleware(
     CORSMiddleware,
@@ -82,13 +104,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-@app.middleware("http")
-async def log_requests(request: Request, call_next):
-    print(f"DEBUG: Middleware received request: {request.method} {request.url.path}", flush=True)
-    response = await call_next(request)
-    print(f"DEBUG: Middleware response status: {response.status_code}", flush=True)
-    return response
 
 # Static file serving for uploads
 import os
@@ -238,11 +253,18 @@ async def get_patient_appointments_compat(
         slot_number = appt.queue_number or 0
         schedule = schedule_map.get(appt.schedule_id) if appt.schedule_id else None
         if schedule and appt.appointment_time:
-            start_dt = datetime.combine(datetime.min.date(), schedule.start_time)
-            appt_dt = datetime.combine(datetime.min.date(), appt.appointment_time)
-            delta_minutes = int((appt_dt - start_dt).total_seconds() // 60)
-            if delta_minutes >= 0 and schedule.slot_duration_minutes > 0:
-                slot_number = (delta_minutes // schedule.slot_duration_minutes) + 1
+            try:
+                if schedule.start_time and schedule.end_time:
+                    duration_minutes = int(schedule.slot_duration_minutes or 30)
+                    if duration_minutes <= 0:
+                        duration_minutes = 30
+                    start_dt = datetime.combine(datetime.min.date(), schedule.start_time)
+                    appt_dt = datetime.combine(datetime.min.date(), appt.appointment_time)
+                    delta_minutes = int((appt_dt - start_dt).total_seconds() // 60)
+                    if delta_minutes >= 0:
+                        slot_number = (delta_minutes // duration_minutes) + 1
+            except Exception:
+                slot_number = appt.queue_number or 0
 
         appointments.append(
             {

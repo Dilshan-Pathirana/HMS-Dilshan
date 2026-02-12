@@ -86,7 +86,16 @@ def _parse_time_value(value: str) -> time:
     return time(0, 0)
 
 
+def _normalize_slot_duration(value: Any, default: int = 30) -> int:
+    try:
+        minutes = int(value)
+    except (TypeError, ValueError):
+        return default
+    return minutes if minutes > 0 else default
+
+
 def _iter_slots(start: time, end: time, minutes: int) -> List[time]:
+    minutes = _normalize_slot_duration(minutes)
     start_dt = datetime.combine(date(2000, 1, 1), start)
     end_dt = datetime.combine(date(2000, 1, 1), end)
     if end_dt <= start_dt:
@@ -135,113 +144,119 @@ async def search_appointments(
             detail="Please select at least one search criterion.",
         )
 
-    today = date.today()
-    if date_:
-        search_start = date_ if date_ >= today else today
-        search_end = date_
-    else:
-        search_start = today
-        search_end = today + timedelta(days=14)
+    try:
+        today = date.today()
+        if date_:
+            search_start = date_ if date_ >= today else today
+            search_end = date_
+        else:
+            search_start = today
+            search_end = today + timedelta(days=14)
 
-    # 1. Fetch active schedules
-    schedule_query = select(DoctorSchedule).where(DoctorSchedule.status == "active")
-    if doctor_id:
-        schedule_query = schedule_query.where(DoctorSchedule.doctor_id == doctor_id)
-    if branch_id:
-        schedule_query = schedule_query.where(DoctorSchedule.branch_id == branch_id)
+        # 1. Fetch active schedules
+        schedule_query = select(DoctorSchedule).where(DoctorSchedule.status == "active")
+        if doctor_id:
+            schedule_query = schedule_query.where(DoctorSchedule.doctor_id == doctor_id)
+        if branch_id:
+            schedule_query = schedule_query.where(DoctorSchedule.branch_id == branch_id)
 
-    schedule_result = await session.exec(schedule_query)
-    schedules = list(schedule_result.all())
-    if not schedules:
-        return AppointmentSearchResponse(results=[])
-
-    # 2. Preload doctors (for name + specialisation filter)
-    all_doctor_ids = list({s.doctor_id for s in schedules})
-    doctors_result = await session.exec(select(Doctor).where(col(Doctor.id).in_(all_doctor_ids)))
-    doctors = {d.id: d for d in doctors_result.all()}
-
-    if specialisation:
-        matching_doc_ids = {
-            d.id for d in doctors.values()
-            if specialisation.lower() in (d.specialization or "").lower()
-        }
-        schedules = [s for s in schedules if s.doctor_id in matching_doc_ids]
+        schedule_result = await session.exec(schedule_query)
+        schedules = list(schedule_result.all())
         if not schedules:
             return AppointmentSearchResponse(results=[])
 
-    # 3. Preload branches
-    all_branch_ids = list({s.branch_id for s in schedules})
-    branches_result = await session.exec(select(Branch).where(col(Branch.id).in_(all_branch_ids)))
-    branches = {b.id: b for b in branches_result.all()}
+        # 2. Preload doctors (for name + specialisation filter)
+        all_doctor_ids = list({s.doctor_id for s in schedules})
+        doctors_result = await session.exec(select(Doctor).where(col(Doctor.id).in_(all_doctor_ids)))
+        doctors = {d.id: d for d in doctors_result.all()}
 
-    # 4. Fetch approved cancellations in the date range
-    from app.models.doctor_schedule import DoctorScheduleCancellation
-    cancel_q = select(DoctorScheduleCancellation).where(
-        DoctorScheduleCancellation.status == "approved",
-        DoctorScheduleCancellation.cancel_date <= search_end,
-    )
-    cancel_result = await session.exec(cancel_q)
-    cancelled_set: set = set()
-    for c in cancel_result.all():
-        c_end = c.cancel_end_date or c.cancel_date
-        d = c.cancel_date
-        while d <= c_end:
-            cancelled_set.add((c.schedule_id, d))
-            d += timedelta(days=1)
+        if specialisation:
+            matching_doc_ids = {
+                d.id for d in doctors.values()
+                if specialisation.lower() in (d.specialization or "").lower()
+            }
+            schedules = [s for s in schedules if s.doctor_id in matching_doc_ids]
+            if not schedules:
+                return AppointmentSearchResponse(results=[])
 
-    # 5. Fetch booked appointments in the date range
-    appt_q = select(Appointment).where(
-        Appointment.appointment_date >= search_start,
-        Appointment.appointment_date <= search_end,
-        Appointment.status != "cancelled",
-    )
-    appt_result = await session.exec(appt_q)
-    booked_set = {
-        (a.doctor_id, a.branch_id, a.appointment_date, _time_to_str(a.appointment_time))
-        for a in appt_result.all()
-    }
+        # 3. Preload branches
+        all_branch_ids = list({s.branch_id for s in schedules})
+        branches_result = await session.exec(select(Branch).where(col(Branch.id).in_(all_branch_ids)))
+        branches = {b.id: b for b in branches_result.all()}
 
-    # 6. Expand recurring schedules into concrete dates
-    results: List[AppointmentSearchResult] = []
-    for sched in schedules:
-        d = search_start
-        while d <= search_end:
-            if d.weekday() != sched.day_of_week:
+        # 4. Fetch approved cancellations in the date range
+        from app.models.doctor_schedule import DoctorScheduleCancellation
+        cancel_q = select(DoctorScheduleCancellation).where(
+            DoctorScheduleCancellation.status == "approved",
+            DoctorScheduleCancellation.cancel_date <= search_end,
+        )
+        cancel_result = await session.exec(cancel_q)
+        cancelled_set: set = set()
+        for c in cancel_result.all():
+            c_end = c.cancel_end_date or c.cancel_date
+            d = c.cancel_date
+            while d <= c_end:
+                cancelled_set.add((c.schedule_id, d))
                 d += timedelta(days=1)
-                continue
-            if sched.valid_from and d < sched.valid_from:
-                d += timedelta(days=1)
-                continue
-            if sched.valid_until and d > sched.valid_until:
-                d += timedelta(days=1)
-                continue
-            if (sched.id, d) in cancelled_set:
-                d += timedelta(days=1)
-                continue
 
-            all_slots = _iter_slots(sched.start_time, sched.end_time, sched.slot_duration_minutes)
-            available = [
-                _time_to_str(t) for t in all_slots
-                if (sched.doctor_id, sched.branch_id, d, _time_to_str(t)) not in booked_set
-            ]
-            if available:
-                doctor = doctors.get(sched.doctor_id)
-                branch = branches.get(sched.branch_id)
-                results.append(
-                    AppointmentSearchResult(
-                        date=d,
-                        branch_id=sched.branch_id,
-                        branch_name=branch.center_name if branch else "",
-                        doctor_id=sched.doctor_id,
-                        doctor_name=f"{doctor.first_name} {doctor.last_name}" if doctor else "",
-                        specialisation=doctor.specialization if doctor else "",
-                        time_slots=available,
+        # 5. Fetch booked appointments in the date range
+        appt_q = select(Appointment).where(
+            Appointment.appointment_date >= search_start,
+            Appointment.appointment_date <= search_end,
+            Appointment.status != "cancelled",
+        )
+        appt_result = await session.exec(appt_q)
+        booked_set = {
+            (a.doctor_id, a.branch_id, a.appointment_date, _time_to_str(a.appointment_time))
+            for a in appt_result.all()
+        }
+
+        # 6. Expand recurring schedules into concrete dates
+        results: List[AppointmentSearchResult] = []
+        for sched in schedules:
+            d = search_start
+            while d <= search_end:
+                if d.weekday() != sched.day_of_week:
+                    d += timedelta(days=1)
+                    continue
+                if sched.valid_from and d < sched.valid_from:
+                    d += timedelta(days=1)
+                    continue
+                if sched.valid_until and d > sched.valid_until:
+                    d += timedelta(days=1)
+                    continue
+                if (sched.id, d) in cancelled_set:
+                    d += timedelta(days=1)
+                    continue
+
+                all_slots = _iter_slots(sched.start_time, sched.end_time, sched.slot_duration_minutes)
+                available = [
+                    _time_to_str(t) for t in all_slots
+                    if (sched.doctor_id, sched.branch_id, d, _time_to_str(t)) not in booked_set
+                ]
+                if available:
+                    doctor = doctors.get(sched.doctor_id)
+                    branch = branches.get(sched.branch_id)
+                    results.append(
+                        AppointmentSearchResult(
+                            date=d,
+                            branch_id=sched.branch_id,
+                            branch_name=branch.center_name if branch else "",
+                            doctor_id=sched.doctor_id,
+                            doctor_name=f"{doctor.first_name} {doctor.last_name}" if doctor else "",
+                            specialisation=doctor.specialization if doctor else "",
+                            time_slots=available,
+                        )
                     )
-                )
-            d += timedelta(days=1)
+                d += timedelta(days=1)
 
-    results.sort(key=lambda r: (r.date, r.branch_name, r.doctor_name, r.specialisation))
-    return AppointmentSearchResponse(results=results)
+        results.sort(key=lambda r: (r.date, r.branch_name, r.doctor_name, r.specialisation))
+        return AppointmentSearchResponse(results=results)
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.exception("search_appointments failed")
+        raise HTTPException(status_code=500, detail=f"Search failed: {str(e)}")
 
 
 @router.get("/cities")
@@ -531,9 +546,19 @@ async def get_availability(
     slot_duration_minutes: Optional[int] = None
 
     for sched in schedules:
-        slots = _iter_slots(sched.start_time, sched.end_time, sched.slot_duration_minutes)
+        if not sched.start_time or not sched.end_time:
+            logger.warning(
+                "Skipping malformed schedule id=%s doctor_id=%s branch_id=%s due to missing time window",
+                sched.id,
+                doctor_id,
+                branch_id,
+            )
+            continue
+
+        duration_minutes = _normalize_slot_duration(sched.slot_duration_minutes)
+        slots = _iter_slots(sched.start_time, sched.end_time, duration_minutes)
         if slot_duration_minutes is None:
-            slot_duration_minutes = sched.slot_duration_minutes
+            slot_duration_minutes = duration_minutes
         if session_start is None or sched.start_time < session_start:
             session_start = sched.start_time
         if session_end is None or sched.end_time > session_end:
@@ -604,7 +629,12 @@ async def book_slot(
     if not schedules:
         raise HTTPException(status_code=404, detail="Session not found")
 
-    slots = _iter_slots(schedules[0].start_time, schedules[0].end_time, schedules[0].slot_duration_minutes)
+    valid_schedule = next((s for s in schedules if s.start_time and s.end_time), None)
+    if not valid_schedule:
+        raise HTTPException(status_code=404, detail="Session not found")
+
+    duration_minutes = _normalize_slot_duration(valid_schedule.slot_duration_minutes)
+    slots = _iter_slots(valid_schedule.start_time, valid_schedule.end_time, duration_minutes)
     if payload.slot_index < 1 or payload.slot_index > len(slots):
         raise HTTPException(status_code=422, detail="Invalid slot_index")
 
@@ -632,7 +662,7 @@ async def book_slot(
             patient_id=payload.patient_id,
             doctor_id=payload.doctor_id,
             branch_id=payload.branch_id,
-            schedule_id=schedules[0].id,
+            schedule_id=valid_schedule.id,
             appointment_date=payload.date,
             appointment_time=target_time,
             status=initial_status,

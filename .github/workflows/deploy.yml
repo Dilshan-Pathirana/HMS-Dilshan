@@ -140,6 +140,7 @@ jobs:
             SMS_URL=$SMS_URL
             SMS_SENDER_ID=$SMS_SENDER_ID
             DATABASE_URL=mysql+asyncmy://$DB_USERNAME:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_DATABASE
+            BACKEND_CORS_ORIGINS=http://13.233.254.140,http://13.233.254.140:80,http://localhost
             EOF
 
             echo "==== Remove old containers ===="
