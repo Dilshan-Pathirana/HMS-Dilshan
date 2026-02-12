@@ -14,6 +14,9 @@ export interface Branch {
     city: string;
     address: string;
     phone: string;
+    pharmacy_id?: string;
+    pharmacy_name?: string;
+    pharmacy_code?: string;
 }
 
 export interface BranchContextType {

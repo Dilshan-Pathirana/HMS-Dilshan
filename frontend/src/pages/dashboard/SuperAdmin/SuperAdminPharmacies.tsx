@@ -263,6 +263,7 @@ const SuperAdminPharmacies: React.FC = () => {
     const [showProductModal, setShowProductModal] = useState(false);
     const [showProductEditModal, setShowProductEditModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [targetPharmacyIds, setTargetPharmacyIds] = useState<string[]>(['all']);
     const [suppliers, setSuppliers] = useState<Supplier[]>([]);
     const [productFormData, setProductFormData] = useState<ProductFormData>({
         supplier_id: '',
@@ -560,6 +561,7 @@ const SuperAdminPharmacies: React.FC = () => {
             warranty_duration: '',
             warranty_type: ''
         });
+        setTargetPharmacyIds(['all']);
     };
 
     // Create new product
@@ -571,7 +573,13 @@ const SuperAdminPharmacies: React.FC = () => {
 
         try {
             setProductsLoading(true);
-            const response = await api.post('/pharmacy/products', productFormData);
+            const payload = {
+                ...productFormData,
+                target_pharmacy_ids: targetPharmacyIds.includes('all')
+                    ? pharmacies.map(p => String(p.id))
+                    : targetPharmacyIds,
+            };
+            const response = await api.post('/pharmacy/products', payload);
             if (response.data.status === 200) {
                 setSuccessMessage('Product created successfully and synced to all pharmacies');
                 setShowProductModal(false);
@@ -1646,9 +1654,71 @@ const SuperAdminPharmacies: React.FC = () => {
                     <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto m-4">
                         <div className="p-6 border-b border-neutral-200">
                             <h2 className="text-xl font-bold text-neutral-900">Add New Inventory Item</h2>
-                            <p className="text-sm text-neutral-500 mt-1">This item will be available across all pharmacies</p>
+                            <p className="text-sm text-neutral-500 mt-1">Add item and assign stock to a pharmacy in a branch</p>
                         </div>
                         <div className="p-6 space-y-4">
+                            {/* Pharmacy Assignment (grouped by branch) */}
+                            <div>
+                                <label className="block text-sm font-medium text-neutral-700 mb-1">
+                                    Assign to Pharmacy <span className="text-error-500">*</span>
+                                </label>
+                                <div className="space-y-2">
+                                    <label className="flex items-center gap-2 cursor-pointer">
+                                        <input
+                                            type="checkbox"
+                                            checked={targetPharmacyIds.includes('all')}
+                                            onChange={(e) => {
+                                                if (e.target.checked) {
+                                                    setTargetPharmacyIds(['all']);
+                                                } else {
+                                                    setTargetPharmacyIds([]);
+                                                }
+                                            }}
+                                            className="w-4 h-4 rounded border-neutral-300 text-emerald-500 focus:ring-emerald-500"
+                                        />
+                                        <span className="text-sm font-medium text-neutral-700">All Pharmacies</span>
+                                    </label>
+                                    {!targetPharmacyIds.includes('all') && (
+                                        <div className="ml-6 space-y-3 p-3 bg-neutral-50 rounded-lg border border-neutral-200 max-h-56 overflow-y-auto">
+                                            {branches.map(branch => {
+                                                const branchPharmacies = pharmacies.filter(p => p.branch_id === branch.id);
+                                                if (branchPharmacies.length === 0) return null;
+                                                return (
+                                                    <div key={branch.id}>
+                                                        <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wide mb-1">
+                                                            {branch.center_name}{branch.city ? ` — ${branch.city}` : ''}
+                                                        </p>
+                                                        <div className="grid grid-cols-2 gap-1 ml-2">
+                                                            {branchPharmacies.map(pharm => (
+                                                                <label key={pharm.id} className="flex items-center gap-2 cursor-pointer">
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        checked={targetPharmacyIds.includes(String(pharm.id))}
+                                                                        onChange={(e) => {
+                                                                            const pid = String(pharm.id);
+                                                                            if (e.target.checked) {
+                                                                                setTargetPharmacyIds([...targetPharmacyIds, pid]);
+                                                                            } else {
+                                                                                setTargetPharmacyIds(targetPharmacyIds.filter(id => id !== pid));
+                                                                            }
+                                                                        }}
+                                                                        className="w-4 h-4 rounded border-neutral-300 text-emerald-500 focus:ring-emerald-500"
+                                                                    />
+                                                                    <span className="text-sm text-neutral-700">{pharm.name}</span>
+                                                                </label>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                            {pharmacies.length === 0 && (
+                                                <p className="text-sm text-neutral-400">No pharmacies available. Create a pharmacy first.</p>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
                             {/* Supplier Selection */}
                             <div>
                                 <label className="block text-sm font-medium text-neutral-700 mb-1">
@@ -1751,6 +1821,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                         <option value="strip">Strip</option>
                                         <option value="tablet">Tablet</option>
                                         <option value="capsule">Capsule</option>
+                                        <option value="drops">Drops</option>
                                         <option value="ml">ML</option>
                                         <option value="kg">KG</option>
                                         <option value="g">Gram</option>
@@ -1919,6 +1990,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                         <option value="strip">Strip</option>
                                         <option value="tablet">Tablet</option>
                                         <option value="capsule">Capsule</option>
+                                        <option value="drops">Drops</option>
                                         <option value="ml">ML</option>
                                         <option value="kg">KG</option>
                                         <option value="g">Gram</option>
@@ -2123,6 +2195,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                                 <option value="strip">Strip</option>
                                                 <option value="tablet">Tablet</option>
                                                 <option value="capsule">Capsule</option>
+                                                <option value="drops">Drops</option>
                                                 <option value="ml">ML</option>
                                                 <option value="kg">KG</option>
                                                 <option value="g">Gram</option>

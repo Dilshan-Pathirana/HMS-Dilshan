@@ -8,7 +8,7 @@ from uuid import uuid4
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel, Field as PydanticField
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import or_
+from sqlalchemy import or_, func
 from sqlmodel import col, select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
@@ -28,6 +28,32 @@ from app.services.doctor_schedule_service import DoctorScheduleService
 router = APIRouter()
 availability_router = APIRouter()
 logger = logging.getLogger(__name__)
+
+MAX_APPOINTMENTS_PER_PATIENT_PER_DAY = 5
+
+
+@router.get("/daily-count")
+async def daily_appointment_count(
+    patient_id: str = Query(...),
+    date: date = Query(...),
+    session: AsyncSession = Depends(get_session),
+):
+    """Return how many active appointments a patient has on a given date."""
+    from datetime import date as date_type
+    q = select(func.count()).select_from(Appointment).where(
+        Appointment.patient_id == patient_id,
+        Appointment.appointment_date == date,
+        Appointment.status.in_(["pending", "confirmed", "pending_payment", "in_progress"]),
+    )
+    result = await session.exec(q)
+    count = result.one()
+    return {
+        "patient_id": patient_id,
+        "date": str(date),
+        "count": count,
+        "max": MAX_APPOINTMENTS_PER_PATIENT_PER_DAY,
+        "remaining": max(0, MAX_APPOINTMENTS_PER_PATIENT_PER_DAY - count),
+    }
 
 
 class AppointmentSearchResult(BaseModel):
@@ -549,6 +575,20 @@ async def book_slot(
     patient = await session.get(Patient, payload.patient_id)
     if not patient:
         raise HTTPException(status_code=404, detail="Patient not found")
+
+    # ── Daily booking limit check ──
+    count_q = select(func.count()).select_from(Appointment).where(
+        Appointment.patient_id == payload.patient_id,
+        Appointment.appointment_date == payload.date,
+        Appointment.status.in_(["pending", "confirmed", "pending_payment", "in_progress"]),
+    )
+    count_result = await session.exec(count_q)
+    existing_count = count_result.one()
+    if existing_count >= MAX_APPOINTMENTS_PER_PATIENT_PER_DAY:
+        raise HTTPException(
+            status_code=409,
+            detail=f"Daily appointment limit reached (max {MAX_APPOINTMENTS_PER_PATIENT_PER_DAY} per day).",
+        )
 
     weekday = payload.date.weekday()
     schedule_query = select(DoctorSchedule).where(

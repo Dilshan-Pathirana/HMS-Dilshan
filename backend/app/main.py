@@ -107,6 +107,7 @@ app.include_router(appointments.router, prefix="/api/v1/appointments", tags=["ap
 app.include_router(appointments.availability_router, prefix="/api/v1", tags=["availability"])
 app.include_router(receptionist.router, prefix="/api/v1/receptionist", tags=["receptionist"])
 app.include_router(pharmacies.router, prefix="/api/v1/pharmacies", tags=["pharmacies"])
+app.include_router(pharmacies.router, prefix="/api/v1/pharmacy", tags=["pharmacy"])
 app.include_router(pharmacist.router, prefix="/api/v1/pharmacist", tags=["pharmacist"])
 app.include_router(nurse.router, prefix="/api/v1/nurse", tags=["nurse"])
 app.include_router(staff.router, prefix="/api/v1/users", tags=["staff"])
@@ -143,6 +144,22 @@ app.include_router(email.router, prefix="/api/v1/email", tags=["email"])
 app.include_router(websocket_alerts.router, tags=["websocket"])
 app.include_router(dashboard_stats.router, prefix="/api/v1", tags=["dashboard-stats"])
 app.include_router(website.router, prefix="/api/v1", tags=["website-settings"])
+
+
+# ──── Legacy supplier delete route ────
+@app.delete("/api/v1/delete-supplier/{supplier_id}", tags=["pharmacies"])
+async def delete_supplier_compat(
+    supplier_id: str,
+    session: AsyncSession = Depends(get_session),
+):
+    from app.models.pharmacy_inventory import Supplier as SupplierModel
+    supplier = await session.get(SupplierModel, supplier_id)
+    if not supplier:
+        raise HTTPException(status_code=404, detail="Supplier not found")
+    supplier.is_active = False
+    session.add(supplier)
+    await session.commit()
+    return {"success": True, "status": 200, "message": "Supplier deleted successfully"}
 
 
 @app.get("/api/v1/get-branches")
@@ -247,7 +264,7 @@ async def get_patient_appointments_compat(
                 "schedule_id": appt.schedule_id,
                 "user_id": user_id,
                 "address": patient.address,
-                "reschedule_count": 0,
+                "reschedule_count": appt.reschedule_count if hasattr(appt, 'reschedule_count') else 0,
                 "status": appt.status,
                 "branch_name": branch.center_name if branch else "",
             }
@@ -573,27 +590,32 @@ async def notifications_admin(admin_id: str):
     return {"notifications": ["Welcome!", "System update"]}
 
 @app.get("/super-admin/pos/branches")
-async def super_admin_pos_branches():
-    # Dummy branches with all required fields
-    branches = [
-        {
-            "id": "1",
-            "name": "Main Branch",
-            "center_name": "Alpha Center",
-            "city": "Kurunegala",
-            "address": "123 Main St",
-            "phone": "555-1234"
-        },
-        {
-            "id": "2",
-            "name": "Sub Branch",
-            "center_name": "Beta Center",
-            "city": "Kurunegala",
-            "address": "456 Side St",
-            "phone": "555-5678"
-        }
-    ]
-    return {"branches": branches}
+async def super_admin_pos_branches(session: AsyncSession = Depends(get_session)):
+    """Return branches with their associated pharmacy info for the POS system."""
+    from sqlmodel import select
+    from app.models.pharmacy import Pharmacy
+    from app.models.branch import Branch
+    result = await session.exec(select(Branch))
+    branches = result.all()
+    enriched = []
+    for b in branches:
+        # Find pharmacy linked to this branch
+        pharm_result = await session.exec(
+            select(Pharmacy).where(Pharmacy.branch_id == b.id)
+        )
+        pharmacy = pharm_result.first()
+        enriched.append({
+            "id": b.id,
+            "name": b.center_name or "Branch",
+            "center_name": b.center_name,
+            "city": getattr(b, 'division', '') or "",
+            "address": getattr(b, 'division_number', '') or "",
+            "phone": getattr(b, 'owner_contact_number', '') or "",
+            "pharmacy_id": pharmacy.id if pharmacy else None,
+            "pharmacy_name": pharmacy.name if pharmacy else None,
+            "pharmacy_code": pharmacy.pharmacy_code if pharmacy else None,
+        })
+    return {"branches": enriched}
 
 @app.get("/")
 def read_root():

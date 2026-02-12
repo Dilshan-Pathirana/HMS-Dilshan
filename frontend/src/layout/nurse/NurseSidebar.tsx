@@ -50,6 +50,11 @@ const NurseSidebar: React.FC<SidebarProps> = ({ isOpenSidebarMenu }) => {
             link: "/nurse-dashboard/vital-signs",
         },
         {
+            label: "Pre-Assessment",
+            icon: <ClipboardList className="w-5 h-5" />,
+            link: "/nurse-dashboard/pre-assessment",
+        },
+        {
             label: "Medication",
             icon: <Pill className="w-5 h-5" />,
             link: "/nurse-dashboard/medication",

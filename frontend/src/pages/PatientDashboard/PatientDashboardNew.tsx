@@ -85,7 +85,6 @@ const PatientDashboardNew: React.FC = () => {
 
     const handleSignOut = async () => {
         try {
-            // Use the Redux thunk for proper sign out with token
             await dispatch(UserSignOut({
                 accessToken: userToken || localStorage.getItem('token') || '',
                 userRole: userRole
@@ -93,9 +92,9 @@ const PatientDashboardNew: React.FC = () => {
         } catch (error) {
             console.error('Sign out failed:', error);
         } finally {
-            // Always clear local storage and navigate to login
             localStorage.clear();
             navigate('/login');
+            window.location.reload();
         }
     };
 

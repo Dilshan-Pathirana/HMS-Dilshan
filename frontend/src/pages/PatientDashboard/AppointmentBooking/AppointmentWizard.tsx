@@ -143,6 +143,11 @@ const AppointmentWizard: React.FC = () => {
   const MAX_SLOTS = 5;
   const [bookingFeePerSlot, setBookingFeePerSlot] = useState<number>(350); // Default fee (Rs. 350), updated from system settings API
 
+  // Daily booking limit
+  const [dailyBookingCount, setDailyBookingCount] = useState<number>(0);
+  const [dailyLimitReached, setDailyLimitReached] = useState<boolean>(false);
+  const DAILY_LIMIT = 5;
+
   const formatDateLocal = (dateValue: Date) => {
     const year = dateValue.getFullYear();
     const month = String(dateValue.getMonth() + 1).padStart(2, '0');
@@ -377,15 +382,32 @@ const AppointmentWizard: React.FC = () => {
   };
 
   // Handle date selection
-  const handleDateSelect = (date: string) => {
+  const handleDateSelect = async (date: string) => {
     setSelectedDate(date);
     setSelectedSlots([]);
     loadSlots(date);
+
+    // Check daily booking limit
+    if (userDetails.patientId) {
+      try {
+        const res = await api.get(`/appointments/daily-count?patient_id=${userDetails.patientId}&date=${date}`);
+        const payload = (res as any)?.data ? (res as any).data : res;
+        const count = payload?.count ?? 0;
+        const remaining = payload?.remaining ?? (DAILY_LIMIT - count);
+        setDailyBookingCount(count);
+        setDailyLimitReached(remaining <= 0);
+      } catch {
+        setDailyBookingCount(0);
+        setDailyLimitReached(false);
+      }
+    }
   };
 
-  // Handle slot selection (toggle, max 5)
+  // Handle slot selection (toggle, max allowed based on daily limit)
   const handleSlotSelect = (slot: SlotInfo) => {
-    if (!slot.is_available) return;
+    if (!slot.is_available || dailyLimitReached) return;
+
+    const allowedSlots = Math.max(0, DAILY_LIMIT - dailyBookingCount);
 
     setSelectedSlots(prev => {
       const isAlreadySelected = prev.some(s => s.slot_number === slot.slot_number);
@@ -393,11 +415,11 @@ const AppointmentWizard: React.FC = () => {
       if (isAlreadySelected) {
         // Remove if already selected
         return prev.filter(s => s.slot_number !== slot.slot_number);
-      } else if (prev.length < MAX_SLOTS) {
-        // Add if not at max
+      } else if (prev.length < allowedSlots) {
+        // Add if not at daily limit
         return [...prev, slot].sort((a, b) => a.slot_number - b.slot_number);
       } else {
-        // Max reached
+        // Daily limit reached
         return prev;
       }
     });
@@ -490,7 +512,13 @@ const AppointmentWizard: React.FC = () => {
       console.error('Booking failed:', err);
 
       if (err.response?.status === 409) {
-        setError('Selected slot is already booked. Please choose another slot.');
+        const detail = err.response?.data?.detail || '';
+        if (detail.toString().toLowerCase().includes('daily appointment limit')) {
+          setError(detail);
+          setDailyLimitReached(true);
+        } else {
+          setError('Selected slot is already booked. Please choose another slot.');
+        }
         if (selectedDoctor && selectedDate) {
           loadSlots(selectedDate);
         }
@@ -990,14 +1018,28 @@ const AppointmentWizard: React.FC = () => {
                     </div>
                   </div>
 
+                  {/* Daily limit warning */}
+                  {dailyLimitReached && (
+                    <div className="bg-red-50 border border-red-300 rounded-lg p-3 mb-4 flex items-start">
+                      <FaInfoCircle className="text-red-600 mr-2 mt-0.5 flex-shrink-0" />
+                      <p className="text-sm text-red-800">
+                        <strong>Daily limit reached:</strong> You already have {dailyBookingCount} appointment(s) on this date.
+                        Maximum {DAILY_LIMIT} appointments per day allowed. Please choose a different date.
+                      </p>
+                    </div>
+                  )}
+
                   {/* Multi-slot info banner */}
+                  {!dailyLimitReached && (
                   <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-3 mb-4 flex items-start">
                     <FaInfoCircle className="text-indigo-600 mr-2 mt-0.5 flex-shrink-0" />
                     <p className="text-sm text-indigo-800">
-                      <strong>Multi-slot booking:</strong> You can select up to {MAX_SLOTS} slots at a time.
-                      Each slot costs Rs. {bookingFeePerSlot.toFixed(2)}. Click a slot to select/deselect.
+                      <strong>Multi-slot booking:</strong> You can select up to {Math.max(0, DAILY_LIMIT - dailyBookingCount)} slot(s) today.
+                      {dailyBookingCount > 0 && ` (${dailyBookingCount} already booked)`}
+                      {' '}Each slot costs Rs. {bookingFeePerSlot.toFixed(2)}. Click a slot to select/deselect.
                     </p>
                   </div>
+                  )}
 
                   <div className="bg-neutral-50 rounded-lg p-4">
                     <div className="flex items-center justify-between mb-4">

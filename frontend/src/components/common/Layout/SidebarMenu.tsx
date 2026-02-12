@@ -214,6 +214,11 @@ export const SuperAdminMenuItems: MenuItem[] = [
         path: '/super-admin/chatbot'
     },
     {
+        label: 'Consultation Monitor',
+        icon: <Activity className="w-5 h-5" />,
+        path: '/dashboard/super-admin/consultation-monitor'
+    },
+    {
         label: 'Reports',
         icon: <FileText className="w-5 h-5" />,
         path: '/dashboard/super-admin/reports'
@@ -403,6 +408,11 @@ export const BranchAdminMenuItems: MenuItem[] = [
         label: 'Patient Section',
         icon: <HeartPulse className="w-5 h-5" />,
         path: '/branch-admin/patients'
+    },
+    {
+        label: 'Consultation Monitor',
+        icon: <Activity className="w-5 h-5" />,
+        path: '/branch-admin/consultation-monitor'
     },
     {
         label: 'Reports',

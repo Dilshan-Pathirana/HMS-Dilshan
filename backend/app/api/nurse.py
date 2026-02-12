@@ -3,6 +3,7 @@ from datetime import date, datetime
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, Query, status
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlmodel import select, func
+from pydantic import BaseModel
 from app.core.database import get_session
 from app.models.user import User
 from app.core.security import get_password_hash
@@ -11,6 +12,7 @@ from app.models.nurse_domain import (
     VitalSign, VitalSignCreate, VitalSignRead,
     NurseHandover, NurseHandoverCreate, NurseHandoverRead,
 )
+from app.models.appointment import Appointment
 import logging
 
 router = APIRouter()
@@ -343,3 +345,124 @@ async def nurse_patients(
     q = q.offset(skip).limit(limit)
     result = await session.exec(q)
     return list(result.all())
+
+
+# ──────────────────── Today's Queue for Nurse ────────────────────
+
+@router.get("/todays-queue")
+async def todays_queue(
+    branch_id: Optional[str] = None,
+    session: AsyncSession = Depends(get_session),
+    user=Depends(get_current_user),
+):
+    """Get today's appointments for nurse pre-assessment.
+    Shows all confirmed/pending appointments with nurse assessment status."""
+    today = date.today()
+    q = select(Appointment).where(
+        Appointment.appointment_date == today,
+        Appointment.status.in_(["confirmed", "pending", "in_progress"]),
+    )
+    if branch_id:
+        q = q.where(Appointment.branch_id == branch_id)
+    elif user.branch_id:
+        q = q.where(Appointment.branch_id == user.branch_id)
+    q = q.order_by(Appointment.appointment_time)  # type: ignore
+    result = await session.exec(q)
+    appointments = list(result.all())
+
+    enriched = []
+    for appt in appointments:
+        data = appt.model_dump()
+        # Get patient name
+        from app.models.patient import Patient
+        patient = await session.get(Patient, appt.patient_id) if appt.patient_id else None
+        if patient:
+            puser = await session.get(User, patient.user_id)
+            data["patient_name"] = f"{puser.first_name} {puser.last_name}" if puser else "Unknown"
+        else:
+            data["patient_name"] = "Unknown"
+
+        # Check if vitals already recorded for this appointment
+        vs_result = await session.exec(
+            select(VitalSign).where(VitalSign.appointment_id == appt.id)
+        )
+        existing_vitals = vs_result.first()
+        data["vitals_recorded"] = existing_vitals is not None
+        data["nurse_assessment_status"] = getattr(appt, "nurse_assessment_status", None)
+
+        enriched.append(data)
+    return {"queue": enriched}
+
+
+# ──────────────────── Pre-Assessment ────────────────────
+
+class PreAssessmentPayload(BaseModel):
+    """Nurse pre-assessment for an appointment."""
+    temperature: Optional[float] = None
+    blood_pressure_systolic: Optional[int] = None
+    blood_pressure_diastolic: Optional[int] = None
+    pulse_rate: Optional[int] = None
+    respiratory_rate: Optional[int] = None
+    oxygen_saturation: Optional[float] = None
+    weight: Optional[float] = None
+    height: Optional[float] = None
+    bmi: Optional[float] = None
+    blood_sugar: Optional[float] = None
+    chief_complaint: Optional[str] = None
+    allergies: Optional[str] = None
+    chronic_diseases: Optional[str] = None
+    sleep_quality: Optional[int] = None
+    appetite: Optional[str] = None
+    lifestyle_notes: Optional[str] = None
+    notes: Optional[str] = None
+
+
+@router.post("/pre-assessment/{appointment_id}", response_model=VitalSignRead)
+async def submit_pre_assessment(
+    appointment_id: str,
+    payload: PreAssessmentPayload,
+    session: AsyncSession = Depends(get_session),
+    user=Depends(get_current_user),
+):
+    """Submit nurse pre-assessment for an appointment.
+    Records vitals and marks appointment as nurse-assessed."""
+    appt = await session.get(Appointment, appointment_id)
+    if not appt:
+        raise HTTPException(404, "Appointment not found")
+
+    # Create vital sign record
+    data = payload.model_dump(exclude_unset=True)
+    data["patient_id"] = appt.patient_id
+    data["nurse_id"] = user.id
+    data["appointment_id"] = appointment_id
+    # Auto-calc BMI if weight & height given
+    if data.get("weight") and data.get("height") and data["height"] > 0:
+        data["bmi"] = round(data["weight"] / ((data["height"] / 100) ** 2), 1)
+
+    vs = VitalSign(**data)
+    session.add(vs)
+
+    # Mark appointment nurse assessment as completed
+    appt.nurse_assessment_status = "completed"
+    session.add(appt)
+
+    await session.commit()
+    await session.refresh(vs)
+    return vs
+
+
+@router.get("/pre-assessment/{appointment_id}")
+async def get_pre_assessment(
+    appointment_id: str,
+    session: AsyncSession = Depends(get_session),
+    user=Depends(get_current_user),
+):
+    """Get pre-assessment vitals for a specific appointment."""
+    result = await session.exec(
+        select(VitalSign).where(VitalSign.appointment_id == appointment_id)
+        .order_by(VitalSign.recorded_at.desc())  # type: ignore
+    )
+    vs = result.first()
+    if not vs:
+        return {"vitals": None, "assessed": False}
+    return {"vitals": vs.model_dump(), "assessed": True}

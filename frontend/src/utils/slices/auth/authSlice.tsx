@@ -58,6 +58,20 @@ const authSlice = createSlice({
                 state.branchId = "";
                 state.branchName = "";
                 state.isAuthenticated = false;
+                state.userId = "";
+                state.error = null;
+            })
+            .addCase(UserSignOut.rejected, (state) => {
+                localStorage.clear();
+                state.loading = false;
+                state.userRole = 0;
+                state.userType = "";
+                state.userToken = "";
+                state.branchId = "";
+                state.branchName = "";
+                state.isAuthenticated = false;
+                state.userId = "";
+                state.error = null;
             });
     },
 });

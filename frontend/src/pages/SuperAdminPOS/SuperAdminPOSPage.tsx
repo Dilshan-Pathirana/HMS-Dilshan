@@ -611,7 +611,7 @@ const SuperAdminPOSPage = () => {
                 headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
             });
 
-            setSuccess(`Transaction #${response.data.transaction?.invoice_number || ''} created successfully for ${selectedBranch?.name || selectedBranch?.center_name || 'branch'}`);
+            setSuccess(`Transaction #${response.data.transaction?.invoice_number || ''} created successfully for ${selectedBranch?.pharmacy_name || selectedBranch?.name || 'pharmacy'}`);
 
             // Reset discounts
             setBillDiscount(null);
@@ -655,7 +655,7 @@ const SuperAdminPOSPage = () => {
             <div className="bg-white rounded-xl shadow-sm p-4 mb-6">
                 <div className="flex items-center mb-4">
                     <Building2 className="w-5 h-5 text-primary-500 mr-2" />
-                    <h2 className="text-lg font-semibold">Select Branch & Cashier</h2>
+                    <h2 className="text-lg font-semibold">Select Pharmacy & Cashier</h2>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <BranchSelector showLabel={true} />
@@ -679,7 +679,7 @@ const SuperAdminPOSPage = () => {
                 {selectedBranch && (
                     <div className="mt-3 p-3 bg-blue-50 rounded-lg">
                         <p className="text-sm text-blue-800">
-                            <strong>Branch:</strong> {selectedBranch.name || selectedBranch.center_name} |
+                            <strong>Pharmacy:</strong> {selectedBranch.pharmacy_name || selectedBranch.name} |
                             <strong> Address:</strong> {selectedBranch.address}, {selectedBranch.city} |
                             <strong> Phone:</strong> {selectedBranch.phone}
                         </p>

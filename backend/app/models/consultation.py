@@ -20,11 +20,30 @@ class ConsultationBase(SQLModel):
     doctor_id: str = Field(foreign_key="doctor.id", max_length=36, index=True)
     patient_id: str = Field(foreign_key="patient.id", max_length=36, index=True)
     branch_id: str = Field(foreign_key="branch.id", max_length=36, index=True)
-    status: str = Field(default="in_progress", max_length=20)  # in_progress / completed
+    status: str = Field(default="in_progress", max_length=30)  # in_progress / awaiting_opinion / completed / payment_pending / paid / medicines_issued
     chief_complaint: Optional[str] = Field(default=None, sa_column=Column(Text))
     history: Optional[str] = Field(default=None, sa_column=Column(Text))
     examination: Optional[str] = Field(default=None, sa_column=Column(Text))
     notes: Optional[str] = Field(default=None, sa_column=Column(Text))
+    clinical_notes: Optional[str] = Field(default=None, sa_column=Column(Text))
+    follow_up_instructions: Optional[str] = Field(default=None, sa_column=Column(Text))
+    consultation_fee: float = Field(default=0)
+    # Auto-summary fields
+    symptom_summary: Optional[str] = Field(default=None, sa_column=Column(Text))
+    modalities: Optional[str] = Field(default=None, sa_column=Column(Text))
+    mental_emotional: Optional[str] = Field(default=None, sa_column=Column(Text))
+    physical_generals: Optional[str] = Field(default=None, sa_column=Column(Text))
+    keynotes: Optional[str] = Field(default=None, sa_column=Column(Text))
+    # Second opinion
+    requires_second_opinion: bool = Field(default=False)
+    second_opinion_doctor_id: Optional[str] = Field(default=None, max_length=36)
+    second_opinion_status: Optional[str] = Field(default=None, max_length=20)  # pending / approved / rejected
+    second_opinion_comment: Optional[str] = Field(default=None, sa_column=Column(Text))
+    # Payment/pharmacy tracking
+    payment_collected_at: Optional[datetime] = None
+    payment_collected_by: Optional[str] = Field(default=None, max_length=36)
+    medicines_issued_at: Optional[datetime] = None
+    medicines_issued_by: Optional[str] = Field(default=None, max_length=36)
 
 
 class Consultation(ConsultationBase, table=True):
@@ -103,6 +122,11 @@ class ConsultationQuestionBase(SQLModel):
     question_text: str = Field(sa_column=Column(Text))
     answer_text: Optional[str] = Field(default=None, sa_column=Column(Text))
     question_bank_id: Optional[str] = Field(default=None, max_length=36)
+    answer_type: str = Field(default="text", max_length=20)  # text / yes_no / scale / multiple_choice
+    options: Optional[str] = Field(default=None, sa_column=Column(Text))  # JSON options for multi-choice
+    category: Optional[str] = Field(default=None, max_length=50)  # general_symptoms / mental_state / physical_symptoms / modalities
+    is_custom: bool = Field(default=False)
+    display_order: int = Field(default=0)
 
 
 class ConsultationQuestion(ConsultationQuestionBase, table=True):
@@ -146,3 +170,85 @@ class InvestigationCreate(InvestigationBase):
 class InvestigationRead(InvestigationBase):
     id: str
     completed_at: Optional[datetime] = None
+
+
+# ---------- DoctorOpinion (Second Opinion) ----------
+
+class DoctorOpinionBase(SQLModel):
+    consultation_id: str = Field(foreign_key="consultation.id", max_length=36, index=True)
+    requesting_doctor_id: str = Field(max_length=36)  # doctor who requested
+    reviewing_doctor_id: str = Field(max_length=36)   # doctor asked to review
+    status: str = Field(default="pending", max_length=20)  # pending / approved / rejected / commented
+    comment: Optional[str] = Field(default=None, sa_column=Column(Text))
+    suggestion: Optional[str] = Field(default=None, sa_column=Column(Text))
+
+
+class DoctorOpinion(DoctorOpinionBase, table=True):
+    __tablename__ = "doctor_opinion"
+    id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True, max_length=36)
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    responded_at: Optional[datetime] = None
+
+
+class DoctorOpinionCreate(DoctorOpinionBase):
+    pass
+
+
+class DoctorOpinionRead(DoctorOpinionBase):
+    id: str
+    created_at: datetime
+    responded_at: Optional[datetime] = None
+
+
+# ---------- IssuedMedicine (Pharmacy dispensing) ----------
+
+class IssuedMedicineBase(SQLModel):
+    consultation_id: str = Field(foreign_key="consultation.id", max_length=36, index=True)
+    prescription_id: str = Field(foreign_key="consultation_prescription.id", max_length=36)
+    medicine_name: str = Field(max_length=255)
+    quantity_issued: int
+    batch_number: Optional[str] = Field(default=None, max_length=100)
+    issued_by: str = Field(max_length=36)  # pharmacist user_id
+    notes: Optional[str] = Field(default=None, sa_column=Column(Text))
+
+
+class IssuedMedicine(IssuedMedicineBase, table=True):
+    __tablename__ = "issued_medicine"
+    id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True, max_length=36)
+    issued_at: datetime = Field(default_factory=datetime.utcnow)
+
+
+class IssuedMedicineCreate(IssuedMedicineBase):
+    pass
+
+
+class IssuedMedicineRead(IssuedMedicineBase):
+    id: str
+    issued_at: datetime
+
+
+# ---------- QuestionBank (Materia Medica) ----------
+
+class QuestionBankBase(SQLModel):
+    category: str = Field(max_length=50)  # general_symptoms / mental_state / physical_symptoms / modalities
+    sub_category: Optional[str] = Field(default=None, max_length=100)
+    question_text: str = Field(sa_column=Column(Text))
+    answer_type: str = Field(default="text", max_length=20)  # text / yes_no / true_false / scale / multiple_choice
+    options: Optional[str] = Field(default=None, sa_column=Column(Text))  # JSON array for choices
+    is_required: bool = Field(default=False)
+    display_order: int = Field(default=0)
+
+
+class QuestionBank(QuestionBankBase, table=True):
+    __tablename__ = "question_bank"
+    id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True, max_length=36)
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+
+class QuestionBankCreate(QuestionBankBase):
+    pass
+
+
+class QuestionBankRead(QuestionBankBase):
+    id: str
+    created_at: datetime

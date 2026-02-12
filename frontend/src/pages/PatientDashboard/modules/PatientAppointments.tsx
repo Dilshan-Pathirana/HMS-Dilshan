@@ -185,10 +185,13 @@ const AppointmentsList: React.FC = () => {
         if (aptDate < today) {
             return <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-neutral-100 text-neutral-700"><CheckCircle className="w-3 h-3" /> Completed</span>;
         }
-        if (status === 'confirmed') {
+        if (status === 'pending_payment') {
+            return <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700"><CreditCard className="w-3 h-3" /> Pending Payment</span>;
+        }
+        if (status === 'confirmed' || status === 'pending') {
             return <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700"><CheckCircle className="w-3 h-3" /> Confirmed</span>;
         }
-        return <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700"><Clock className="w-3 h-3" /> Pending</span>;
+        return <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700"><CheckCircle className="w-3 h-3" /> Confirmed</span>;
     };
 
     if (loading) {
@@ -316,13 +319,44 @@ const AppointmentsList: React.FC = () => {
 
                                         {(apt.status || 'confirmed') !== 'cancelled' && new Date(apt.date) >= new Date() && (
                                             <div className="flex gap-1 sm:gap-2">
-                                                <Link
-                                                    to={`reschedule/${apt.id}`}
-                                                    className="p-1.5 sm:p-2 text-primary-500 hover:bg-blue-50 rounded-lg transition-colors"
-                                                    title="Reschedule"
-                                                >
-                                                    <RefreshCw className="w-4 h-4 sm:w-5 sm:h-5" />
-                                                </Link>
+                                                {/* Reschedule: hide if already rescheduled or within 24h */}
+                                                {(() => {
+                                                    const alreadyRescheduled = (apt.reschedule_count ?? 0) >= 1;
+                                                    const aptDateTime = new Date(apt.date);
+                                                    const now = new Date();
+                                                    const hoursUntil = (aptDateTime.getTime() - now.getTime()) / (1000 * 60 * 60);
+                                                    const within24h = hoursUntil < 24;
+
+                                                    if (alreadyRescheduled) {
+                                                        return (
+                                                            <span
+                                                                className="p-1.5 sm:p-2 text-neutral-400 cursor-not-allowed"
+                                                                title="Already rescheduled once"
+                                                            >
+                                                                <RefreshCw className="w-4 h-4 sm:w-5 sm:h-5" />
+                                                            </span>
+                                                        );
+                                                    }
+                                                    if (within24h) {
+                                                        return (
+                                                            <span
+                                                                className="p-1.5 sm:p-2 text-neutral-400 cursor-not-allowed"
+                                                                title="Must reschedule at least 24 hours before appointment"
+                                                            >
+                                                                <RefreshCw className="w-4 h-4 sm:w-5 sm:h-5" />
+                                                            </span>
+                                                        );
+                                                    }
+                                                    return (
+                                                        <Link
+                                                            to={`reschedule/${apt.id}`}
+                                                            className="p-1.5 sm:p-2 text-primary-500 hover:bg-blue-50 rounded-lg transition-colors"
+                                                            title="Reschedule"
+                                                        >
+                                                            <RefreshCw className="w-4 h-4 sm:w-5 sm:h-5" />
+                                                        </Link>
+                                                    );
+                                                })()}
                                                 <button
                                                     onClick={() => openCancelModal(apt)}
                                                     className="p-1.5 sm:p-2 text-error-600 hover:bg-error-50 rounded-lg transition-colors"
@@ -1262,7 +1296,8 @@ const RescheduleAppointment: React.FC = () => {
             }
         } catch (err: any) {
             console.error('Reschedule failed:', err);
-            setError(err.response?.data?.message || 'Failed to reschedule appointment');
+            const detail = err.response?.data?.detail || err.response?.data?.message || 'Failed to reschedule appointment';
+            setError(detail);
         } finally {
             setSubmitting(false);
         }
@@ -1368,9 +1403,8 @@ const RescheduleAppointment: React.FC = () => {
                             Reschedule Rules
                         </h4>
                         <ul className="text-xs sm:text-sm text-neutral-600 space-y-1">
-                            <li>• Rescheduling requires 24-hour advance notice</li>
-                            <li>• You can reschedule once per appointment</li>
-                            <li>• Admin-cancelled appointments allow 2 reschedules</li>
+                            <li>• Rescheduling requires at least 24-hour advance notice</li>
+                            <li>• Each appointment can only be rescheduled once</li>
                         </ul>
                     </div>
 

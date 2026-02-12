@@ -36,7 +36,7 @@ const BranchSelector: React.FC<BranchSelectorProps> = ({
                 {showLabel && (
                     <label className="block text-sm font-medium text-neutral-700 mb-1">
                         <Building2 className="w-4 h-4 inline-block mr-1" />
-                        Select Branch
+                        Select Pharmacy
                     </label>
                 )}
                 <select
@@ -50,10 +50,10 @@ const BranchSelector: React.FC<BranchSelectorProps> = ({
                         compact ? "px-2 py-1 text-sm" : "px-3 py-2"
                     } ${isLoadingBranches ? "bg-neutral-100" : "bg-white"} w-full`}
                 >
-                    <option value="">-- Select Branch --</option>
+                    <option value="">-- Select Pharmacy --</option>
                     {branches.map(branch => (
                         <option key={branch.id} value={branch.id}>
-                            {branch.center_name || branch.name} - {branch.city}
+                            {branch.pharmacy_name || branch.name}{branch.city ? ` - ${branch.city}` : ''}
                         </option>
                     ))}
                 </select>
@@ -72,7 +72,7 @@ const BranchSelector: React.FC<BranchSelectorProps> = ({
             {showLabel && (
                 <label className="block text-sm font-medium text-neutral-700 mb-1">
                     <Building2 className="w-4 h-4 inline-block mr-1" />
-                    Your Branch
+                    Your Pharmacy
                 </label>
             )}
             <div className={`flex items-center border rounded-lg bg-neutral-50 ${
@@ -80,7 +80,7 @@ const BranchSelector: React.FC<BranchSelectorProps> = ({
             }`}>
                 <Lock className="w-4 h-4 text-neutral-400 mr-2" />
                 <span className={`text-neutral-700 font-medium ${compact ? "text-sm" : ""}`}>
-                    {selectedBranch?.name || userBranchName || "No Branch Assigned"}
+                    {selectedBranch?.pharmacy_name || selectedBranch?.name || userBranchName || "No Pharmacy Assigned"}
                 </span>
             </div>
             {!compact && (

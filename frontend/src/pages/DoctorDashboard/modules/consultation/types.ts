@@ -18,6 +18,35 @@ export interface QueuePatient {
     consultation_id: string | null;
     consultation_status: string | null;
     display_status: 'Waiting' | 'Checked In' | 'In Consultation' | 'Completed';
+    // Enhanced queue fields
+    nurse_assessment_status: string | null;
+    queue_status: 'waiting_nurse' | 'ready_for_doctor' | 'in_consultation';
+    queue_color: 'yellow' | 'green' | 'blue';
+}
+
+export interface VitalSigns {
+    id: string;
+    patient_id: string;
+    nurse_id: string;
+    appointment_id: string | null;
+    temperature: number | null;
+    blood_pressure_systolic: number | null;
+    blood_pressure_diastolic: number | null;
+    pulse_rate: number | null;
+    respiratory_rate: number | null;
+    oxygen_saturation: number | null;
+    weight: number | null;
+    height: number | null;
+    bmi: number | null;
+    blood_sugar: number | null;
+    chief_complaint: string | null;
+    allergies: string | null;
+    chronic_diseases: string | null;
+    sleep_quality: number | null;
+    appetite: string | null;
+    lifestyle_notes: string | null;
+    notes: string | null;
+    recorded_at: string;
 }
 
 export interface PatientOverview {
@@ -39,6 +68,7 @@ export interface PatientOverview {
     past_consultations: PastConsultation[];
     all_diagnoses: DiagnosisRecord[];
     medication_history: MedicationRecord[];
+    latest_vitals: VitalSigns | null;
 }
 
 export interface PastConsultation {
@@ -83,13 +113,25 @@ export interface Consultation {
     patient_id: string;
     doctor_id: string;
     branch_id: string;
-    status: 'in_progress' | 'completed' | 'payment_pending' | 'paid' | 'medicines_issued';
+    status: 'in_progress' | 'awaiting_opinion' | 'completed' | 'payment_pending' | 'paid' | 'medicines_issued';
     started_at: string;
     completed_at: string | null;
     chief_complaint: string | null;
     clinical_notes: string | null;
     follow_up_instructions: string | null;
     consultation_fee: number;
+    // Auto-summary fields
+    symptom_summary: string | null;
+    modalities: string | null;
+    mental_emotional: string | null;
+    physical_generals: string | null;
+    keynotes: string | null;
+    // Second opinion
+    requires_second_opinion: boolean;
+    second_opinion_doctor_id: string | null;
+    second_opinion_status: 'pending' | 'approved' | 'rejected' | null;
+    second_opinion_comment: string | null;
+    // Payment/pharmacy tracking
     payment_collected_at: string | null;
     payment_collected_by: string | null;
     medicines_issued_at: string | null;
@@ -101,8 +143,8 @@ export interface QuestionBankItem {
     category: 'general_symptoms' | 'mental_state' | 'physical_symptoms' | 'modalities';
     sub_category: string | null;
     question_text: string;
-    answer_type: 'text' | 'yes_no' | 'scale' | 'multiple_choice';
-    options: string[] | null;
+    answer_type: 'text' | 'yes_no' | 'true_false' | 'scale' | 'multiple_choice';
+    options: string | null;  // JSON string of options
     is_required: boolean;
     display_order: number;
 }
@@ -113,7 +155,11 @@ export interface ConsultationQuestion {
     question_bank_id: string | null;
     question_text: string;
     answer_text: string;
+    answer_type: string;
+    options: string | null;
+    category: string | null;
     is_custom: boolean;
+    display_order: number;
 }
 
 export interface Diagnosis {
@@ -150,6 +196,73 @@ export interface Prescription {
     duration: string;
     quantity: number;
     instructions: string;
+}
+
+// Second Opinion
+export interface DoctorOpinion {
+    id: string;
+    consultation_id: string;
+    requesting_doctor_id: string;
+    reviewing_doctor_id: string;
+    status: 'pending' | 'approved' | 'rejected' | 'commented';
+    comment: string | null;
+    suggestion: string | null;
+    created_at: string;
+    responded_at: string | null;
+}
+
+// Auto-Summary
+export interface AutoSummary {
+    symptom_summary: string;
+    modalities: string;
+    mental_emotional: string;
+    physical_generals: string;
+    keynotes: string;
+}
+
+// Issued Medicine (Pharmacy)
+export interface IssuedMedicine {
+    id: string;
+    consultation_id: string;
+    prescription_id: string;
+    medicine_name: string;
+    quantity_issued: number;
+    batch_number: string | null;
+    issued_by: string;
+    notes: string | null;
+    issued_at: string;
+}
+
+// Pharmacy Queue Item
+export interface PharmacyQueueItem {
+    id: string;
+    patient_id: string;
+    doctor_id: string;
+    branch_id: string;
+    status: string;
+    completed_at: string;
+    patient_name: string;
+    prescriptions: {
+        id: string;
+        medicine_name: string;
+        dosage: string | null;
+        frequency: string | null;
+        duration: string | null;
+        instructions: string | null;
+        quantity: number | null;
+    }[];
+}
+
+// Nurse Queue Item
+export interface NurseQueueItem {
+    id: string;
+    patient_id: string;
+    appointment_date: string;
+    appointment_time: string;
+    status: string;
+    patient_name: string;
+    vitals_recorded: boolean;
+    nurse_assessment_status: string | null;
 }
 
 export interface ConsultationFlowState {

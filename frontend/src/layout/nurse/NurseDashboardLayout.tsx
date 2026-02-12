@@ -23,6 +23,7 @@ import NurseOvertimeSalary from "../../pages/dashboard/Nurse/NurseHR/NurseOverti
 import NursePayslips from "../../pages/dashboard/Nurse/NurseHR/NursePayslips";
 import NurseServiceLetters from "../../pages/dashboard/Nurse/NurseHR/NurseServiceLetters";
 import NursePolicies from "../../pages/dashboard/Nurse/NurseHR/NursePolicies";
+import NursePreAssessment from "../../pages/dashboard/Nurse/NursePreAssessment";
 
 const NurseDashboardLayout: React.FC = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -45,6 +46,7 @@ const NurseDashboardLayout: React.FC = () => {
                 <Route path="/medication" element={<NurseMedication />} />
                 <Route path="/tasks" element={<NurseTasks />} />
                 <Route path="/handover" element={<NurseHandover />} />
+                <Route path="/pre-assessment" element={<NursePreAssessment />} />
                 <Route path="/feedback" element={<NurseFeedback />} />
                 <Route path="/patient-sessions" element={<PatientSessionsList />} />
                 <Route path="/patient-sessions/:sessionId" element={<PatientSessionDetails />} />
