@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    ArrowLeft,
     BarChart3,
     Briefcase,
     Building2,
@@ -56,6 +57,7 @@ const superAdminHrmMenuItems = [
 ];
 
 const branchAdminHrmMenuItems = [
+    { label: 'Back to Dashboard', path: '/branch-admin/dashboard', icon: <ArrowLeft className="w-5 h-5" /> },
     { label: 'Dashboard', path: '/branch-admin/hrm', icon: <Briefcase className="w-5 h-5" /> },
     { label: 'Staff', path: '/branch-admin/hrm/staff', icon: <Users className="w-5 h-5" /> },
     { label: 'Scheduling', path: '/branch-admin/hrm/scheduling', icon: <CalendarDays className="w-5 h-5" /> },

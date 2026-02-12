@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Calendar, Filter, RefreshCw } from "lucide-react";
+import { ArrowLeft, Calendar, Filter, RefreshCw } from "lucide-react";
 import api from "../../../utils/api/axios";
 import { RootState } from "../../../store";
 
@@ -33,6 +33,7 @@ interface PatientItem {
 
 const PatientProfilesList: React.FC = () => {
     const userRole = useSelector((state: RootState) => state.auth.userRole);
+    const navigate = useNavigate();
     const [patients, setPatients] = useState<PatientItem[]>([]);
     const [branches, setBranches] = useState<BranchItem[]>([]);
     const [doctors, setDoctors] = useState<DoctorItem[]>([]);
@@ -104,9 +105,20 @@ const PatientProfilesList: React.FC = () => {
     return (
         <div className="p-6">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
-                <div>
-                    <h1 className="text-2xl font-bold text-neutral-900">Patient Profiles</h1>
-                    <p className="text-sm text-neutral-500">Search and review patient profiles</p>
+                <div className="flex items-center gap-3">
+                    {userRole === 2 && (
+                        <button
+                            onClick={() => navigate('/branch-admin/dashboard')}
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
+                            title="Back to Dashboard"
+                        >
+                            <ArrowLeft className="w-5 h-5 text-neutral-500" />
+                        </button>
+                    )}
+                    <div>
+                        <h1 className="text-2xl font-bold text-neutral-900">Patient Profiles</h1>
+                        <p className="text-sm text-neutral-500">Search and review patient profiles</p>
+                    </div>
                 </div>
                 <button
                     onClick={fetchPatients}

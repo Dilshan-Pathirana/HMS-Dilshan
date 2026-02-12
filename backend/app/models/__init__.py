@@ -206,6 +206,9 @@ from .chatbot import (
     ChatbotLog,
     ChatbotLogCreate,
     ChatbotLogRead,
+    DiseaseMapping,
+    DiseaseMappingCreate,
+    DiseaseMappingRead,
 )
 from .sms_log import (
     SmsLog,

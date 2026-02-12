@@ -226,7 +226,7 @@ const AppRoutes: React.FC = () => {
                     path="/branch-admin/patient-sessions"
                     element={
                         <ProtectedRoute allowedRoles={['branch_admin']}>
-                            <PatientSessionsList />
+                            {withDashboardLayout(<PatientSessionsList />)}
                         </ProtectedRoute>
                     }
                 />
@@ -234,7 +234,7 @@ const AppRoutes: React.FC = () => {
                     path="/branch-admin/patient-sessions/:sessionId"
                     element={
                         <ProtectedRoute allowedRoles={['branch_admin']}>
-                            <PatientSessionDetails />
+                            {withDashboardLayout(<PatientSessionDetails />)}
                         </ProtectedRoute>
                     }
                 />
@@ -242,7 +242,7 @@ const AppRoutes: React.FC = () => {
                     path="/branch-admin/patient-profiles"
                     element={
                         <ProtectedRoute allowedRoles={['branch_admin']}>
-                            <PatientProfilesList />
+                            {withDashboardLayout(<PatientProfilesList />)}
                         </ProtectedRoute>
                     }
                 />
@@ -250,7 +250,7 @@ const AppRoutes: React.FC = () => {
                     path="/branch-admin/patient-profiles/:patientId"
                     element={
                         <ProtectedRoute allowedRoles={['branch_admin']}>
-                            <PatientProfileDetails />
+                            {withDashboardLayout(<PatientProfileDetails />)}
                         </ProtectedRoute>
                     }
                 />
