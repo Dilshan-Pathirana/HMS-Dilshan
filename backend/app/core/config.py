@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str
     SECRET_KEY: str
     ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 480  # 8 hours
     SMS_USER: str | None = None
     SMS_PASSWORD: str | None = None
     SMS_URL: str | None = None

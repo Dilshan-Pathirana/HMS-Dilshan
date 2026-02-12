@@ -1,4 +1,4 @@
-"""File upload utilities and router."""
+docker exec -i <mysql-container> mysql -uhms -phms hms_local < aws_migration.sql"""File upload utilities and router."""
 from __future__ import annotations
 
 import os
