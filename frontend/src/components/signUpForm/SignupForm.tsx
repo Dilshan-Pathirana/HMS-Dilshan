@@ -172,8 +172,19 @@ const SignupForm: React.FC<ISignupFormProps> = ({
                             name="password"
                             value={signupInfo.password}
                             onChange={handleChange}
-                            placeholder="Create a password"
+                            placeholder="Create a password (min 6 characters)"
                             error={errors.password}
+                        />
+
+                        <Input
+                            label="Confirm Password"
+                            leftIcon={<FaLock className="h-4 w-4" />}
+                            type="password"
+                            name="confirm_password"
+                            value={signupInfo.confirm_password}
+                            onChange={handleChange}
+                            placeholder="Re-enter your password"
+                            error={errors.confirm_password}
                         />
 
                         <Input

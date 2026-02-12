@@ -49,12 +49,14 @@ export const UserSignIn = createAsyncThunk<
         } as any;
 
     } catch (error: any) {
-        if (error.response?.data) {
-            setErrorCallback(error.response.data);
-        } else {
-            console.error("Login error:", error);
-            setSignInError("Invalid credentials or server error.");
-        }
+        const detail =
+            error.response?.data?.detail ||
+            error.response?.data?.message ||
+            (typeof error.response?.data === "string" ? error.response.data : null) ||
+            error.message ||
+            "Login failed. Please try again.";
+
+        setSignInError(detail);
         return undefined;
     }
 });

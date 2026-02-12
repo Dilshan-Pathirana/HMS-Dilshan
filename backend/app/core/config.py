@@ -12,6 +12,10 @@ class Settings(BaseSettings):
     SMS_PASSWORD: str | None = None
     SMS_URL: str | None = None
     SMS_SENDER_ID: str | None = None
+    PAYHERE_MERCHANT_ID: str = ""
+    PAYHERE_MERCHANT_SECRET: str = ""
+    PAYHERE_CURRENCY: str = "LKR"
+    PAYHERE_SANDBOX: bool = True
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 

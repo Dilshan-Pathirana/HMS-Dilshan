@@ -36,7 +36,7 @@ const PharmacyViewModal: React.FC<PharmacyViewModalProps> = ({ pharmacy, onClose
               onClick={onClose}
               className="text-neutral-400 hover:text-neutral-600 text-2xl"
             >
-              ×
+              ï¿½
             </button>
           </div>
 
@@ -179,7 +179,7 @@ const PharmacyEditModal: React.FC<PharmacyEditModalProps> = ({ pharmacy, onClose
               onClick={onClose}
               className="text-neutral-400 hover:text-neutral-600 text-2xl"
             >
-              ×
+              ï¿½
             </button>
           </div>
 
@@ -324,9 +324,21 @@ const PharmacyCreateModal: React.FC<PharmacyCreateModalProps> = ({ onClose, onUp
 
     try {
       const token = localStorage.getItem('token');
+      const payload: any = {
+        name: formData.name,
+        pharmacy_code: formData.pharmacy_code,
+        license_number: '',
+        location: formData.location || null,
+        phone: formData.contact_number || null,
+        email: formData.email || null,
+        status: formData.status,
+      };
+      if (formData.branch_id) {
+        payload.branch_id = formData.branch_id;
+      }
       await api.post(
-        '/pharmacies',
-        formData,
+        '/pharmacies/',
+        payload,
         { 
           headers: { 
             Authorization: `Bearer ${token}`,
@@ -370,7 +382,7 @@ const PharmacyCreateModal: React.FC<PharmacyCreateModalProps> = ({ onClose, onUp
               onClick={onClose}
               className="text-neutral-400 hover:text-neutral-600 text-2xl"
             >
-              ×
+              ï¿½
             </button>
           </div>
 

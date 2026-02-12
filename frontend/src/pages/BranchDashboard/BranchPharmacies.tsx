@@ -115,13 +115,15 @@ const BranchPharmacies: React.FC = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      const payload = { 
-        ...formData, 
+      const payload: any = {
+        name: formData.name,
+        pharmacy_code: formData.pharmacy_code,
+        license_number: '',
+        location: formData.location || null,
+        phone: formData.contact_number || null,
+        email: formData.email || null,
+        status: formData.status,
         branch_id: id,
-        pharmacy_name: formData.name,
-        location_in_branch: formData.location,
-        phone: formData.contact_number,
-        is_active: formData.status === 'active'
       };
 
       if (editingPharmacy) {
@@ -144,7 +146,7 @@ const BranchPharmacies: React.FC = () => {
           setShowConflictDialog(true);
         } else {
           // No conflict, proceed with creation
-          await api.post('/pharmacies', payload, {
+          await api.post('/pharmacies/', payload, {
             headers: { Authorization: `Bearer ${token}` }
           });
           setShowModal(false);
@@ -166,14 +168,16 @@ const BranchPharmacies: React.FC = () => {
   const handleReassignPharmacy = async () => {
     try {
       const token = localStorage.getItem('token');
-      const payload = { 
-        ...formData, 
+      const payload: any = {
+        name: formData.name,
+        pharmacy_code: formData.pharmacy_code,
+        license_number: '',
+        location: formData.location || null,
+        phone: formData.contact_number || null,
+        email: formData.email || null,
+        status: formData.status,
         branch_id: id,
-        pharmacy_name: formData.name,
-        location_in_branch: formData.location,
-        phone: formData.contact_number,
-        is_active: formData.status === 'active',
-        force_reassign: true
+        force_reassign: true,
       };
 
       if (conflictData?.pharmacy_id) {
@@ -185,7 +189,7 @@ const BranchPharmacies: React.FC = () => {
         );
       } else {
         // Create with force flag
-        await api.post('/pharmacies', payload, {
+        await api.post('/pharmacies/', payload, {
           headers: { Authorization: `Bearer ${token}` }
         });
       }

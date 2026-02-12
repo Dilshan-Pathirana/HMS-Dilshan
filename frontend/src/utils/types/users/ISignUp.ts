@@ -6,6 +6,7 @@ export interface ISignUpFormFields {
     phone: string;
     NIC: string;
     password: string;
+    confirm_password: string;
     email: string;
     address: string;
     city: string;
@@ -52,6 +53,7 @@ export interface ILoginFormProps {
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleSubmit: (e: React.FormEvent) => Promise<void>;
     isLoading?: boolean;
+    fieldErrors?: { email?: string; password?: string };
 }
 
 export interface IPhone {

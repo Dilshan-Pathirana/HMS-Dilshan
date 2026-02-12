@@ -860,20 +860,24 @@ const SuperAdminPharmacies: React.FC = () => {
         try {
             setLoading(true);
             const payload: any = {
-                ...formData,
                 name: formData.pharmacy_name,
-                location: formData.location_in_branch,
-                contact_number: formData.phone,
-                status: formData.is_active ? 'active' : 'inactive'
+                pharmacy_code: formData.pharmacy_code,
+                license_number: formData.license_number || '',
+                license_expiry_date: formData.license_expiry_date || null,
+                location: formData.location_in_branch || null,
+                phone: formData.phone || null,
+                email: formData.email || null,
+                status: formData.is_active ? 'active' : 'inactive',
+                pharmacist_id: formData.pharmacist_id || null,
             };
 
             // If no branch selected, create without branch assignment
-            if (!formData.branch_id) {
-                delete payload.branch_id;
+            if (formData.branch_id) {
+                payload.branch_id = formData.branch_id;
             }
 
-            const response = await api.post('/pharmacies', payload);
-            if (response.data?.success || response.status === 201 || response.status === 200) {
+            const response: any = await api.post('/pharmacies/', payload);
+            if (response?.success || response) {
                 setSuccessMessage('Pharmacy created successfully');
                 setShowCreateModal(false);
                 resetForm();
@@ -894,16 +898,24 @@ const SuperAdminPharmacies: React.FC = () => {
 
         try {
             setLoading(true);
-            const payload = {
-                ...formData,
+            const payload: any = {
                 name: formData.pharmacy_name,
-                location: formData.location_in_branch,
-                contact_number: formData.phone,
-                status: formData.is_active ? 'active' : 'inactive'
+                pharmacy_code: formData.pharmacy_code,
+                license_number: formData.license_number || '',
+                license_expiry_date: formData.license_expiry_date || null,
+                location: formData.location_in_branch || null,
+                phone: formData.phone || null,
+                email: formData.email || null,
+                status: formData.is_active ? 'active' : 'inactive',
+                pharmacist_id: formData.pharmacist_id || null,
             };
 
-            const response = await api.put(`/pharmacies/${selectedPharmacy.id}`, payload);
-            if (response.data?.success || response.status === 200) {
+            if (formData.branch_id) {
+                payload.branch_id = formData.branch_id;
+            }
+
+            const response: any = await api.put(`/pharmacies/${selectedPharmacy.id}`, payload);
+            if (response?.success || response) {
                 setSuccessMessage('Pharmacy updated successfully');
                 setShowEditModal(false);
                 setSelectedPharmacy(null);
@@ -926,10 +938,10 @@ const SuperAdminPharmacies: React.FC = () => {
 
         try {
             setLoading(true);
-            const response = await api.put(`/pharmacies/${selectedPharmacy.id}`, {
+            const response: any = await api.put(`/pharmacies/${selectedPharmacy.id}`, {
                 branch_id: allocateBranchId
             });
-            if (response.data?.success || response.status === 200) {
+            if (response?.success || response) {
                 setSuccessMessage(`Pharmacy allocated to branch successfully`);
                 setShowAllocateModal(false);
                 setSelectedPharmacy(null);
@@ -947,10 +959,10 @@ const SuperAdminPharmacies: React.FC = () => {
     const handleToggleStatus = async (pharmacy: Pharmacy) => {
         try {
             const newStatus = pharmacy.status === 'active' ? 'inactive' : 'active';
-            const response = await api.put(`/pharmacies/${pharmacy.id}`, {
-                is_active: newStatus === 'active'
+            const response: any = await api.put(`/pharmacies/${pharmacy.id}`, {
+                status: newStatus
             });
-            if (response.data?.success || response.status === 200) {
+            if (response?.success || response) {
                 setSuccessMessage(`Pharmacy ${newStatus === 'active' ? 'activated' : 'deactivated'} successfully`);
                 loadPharmacies();
             }
@@ -972,8 +984,8 @@ const SuperAdminPharmacies: React.FC = () => {
 
         try {
             setLoading(true);
-            const response = await api.delete(`/pharmacies/${selectedPharmacy.id}`);
-            if (response.data?.success || response.status === 200) {
+            const response: any = await api.delete(`/pharmacies/${selectedPharmacy.id}`);
+            if (response?.success || response) {
                 setSuccessMessage('Pharmacy deleted successfully');
                 setShowDeleteConfirm(false);
                 setSelectedPharmacy(null);

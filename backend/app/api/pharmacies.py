@@ -98,7 +98,7 @@ async def create_pharmacy(
 
 @router.put("/{pharmacy_id}", response_model=Dict[str, Any])
 async def update_pharmacy(
-    pharmacy_id: int,
+    pharmacy_id: str,
     pharmacy_in: PharmacyUpdate,
     session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_active_superuser),
@@ -141,7 +141,7 @@ async def update_pharmacy(
 
 @router.delete("/{pharmacy_id}", response_model=Dict[str, Any])
 async def delete_pharmacy(
-    pharmacy_id: int,
+    pharmacy_id: str,
     session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_active_superuser),
 ):
@@ -238,7 +238,7 @@ async def read_suppliers(
 
 @router.get("/{pharmacy_id}/inventory", response_model=Dict[str, Any])
 async def read_inventory(
-    pharmacy_id: int,
+    pharmacy_id: str,
     current_user: User = Depends(get_current_active_superuser),
 ):
     """

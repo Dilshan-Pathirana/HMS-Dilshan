@@ -8,7 +8,7 @@ import { UserSignUp } from "../../utils/api/user/UserSignUp.ts";
 import { SignUpFormFieldsAttributes } from "../../utils/form/formFieldsAttributes/SignUpFormFields.ts";
 import { ISignUpFormFields } from "../../utils/types/users/ISignUp.ts";
 import { sendSMS } from "../../utils/api/SMS/smsService.ts";
-import { checkIsFiledEmpty } from "../../utils/helperFunctions/PatientSignUpForm.ts";
+import { validateSignupFields } from "../../utils/helperFunctions/PatientSignUpForm.ts";
 import api from "../../utils/api/axios";
 
 interface ConflictItem {
@@ -145,10 +145,10 @@ const SignupPage: React.FC = () => {
     const handleFormSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (checkIsFiledEmpty(signupInfo)) {
-            alert.warn(
-                "Please fill first name / last name / mobile number / NIC and related branch.",
-            );
+        // Field-level validation
+        const fieldErrors = validateSignupFields(signupInfo);
+        if (Object.keys(fieldErrors).length > 0) {
+            setErrors(fieldErrors);
             return;
         }
 
@@ -158,7 +158,7 @@ const SignupPage: React.FC = () => {
         }
 
         if (!isOtpVerified) {
-            alert.warn("Please fill related data first.");
+            alert.warn("Please verify your phone number first.");
             return;
         }
 
@@ -167,18 +167,19 @@ const SignupPage: React.FC = () => {
 
     const createPatientUser = async () => {
         try {
-            const response = await UserSignUp(signupInfo);
+            // Axios interceptor unwraps response.data — response IS the data
+            const response: any = await UserSignUp(signupInfo);
 
-            if (response.data.status === 200) {
-                const smsStatus = response.data.sms?.status;
-                const credentials = response.data.credentials;
+            if (response?.status === 200) {
+                const smsStatus = response.sms?.status;
+                const credentials = response.credentials;
                 if (smsStatus && smsStatus !== "sent" && credentials?.email && credentials?.password) {
                     alert.warn(
                         `SMS failed. Use these credentials to log in: ${credentials.email} / ${credentials.password}`,
                     );
                 } else {
                     alert.success(
-                        response.data.message || "Account created successfully!",
+                        response.message || "Account created successfully!",
                     );
                 }
                 setSignupInfo(SignUpFormFieldsAttributes);
@@ -193,21 +194,17 @@ const SignupPage: React.FC = () => {
                 });
             } else {
                 alert.error(
-                    response.data.message || "Failed to create account.",
+                    response?.message || "Failed to create account.",
                 );
             }
         } catch (error: any) {
-            if (error.response && error.response.data) {
-                // Show the actual error message from the API
-                const errorMessage = error.response.data.message || error.response.data.error || "Failed to create account.";
-                alert.error(errorMessage);
-                if (error.response.data.errors) {
-                    setErrors(error.response.data.errors);
-                }
-            } else if (error.message) {
-                alert.error(error.message);
-            } else {
-                alert.error("An error occurred. Please try again.");
+            const errData = error?.response?.data || error;
+            const errorMessage = errData?.message || errData?.detail || "Failed to create account.";
+            alert.error(errorMessage);
+
+            // Map backend field errors to form
+            if (errData?.errors && typeof errData.errors === "object") {
+                setErrors(errData.errors);
             }
         } finally {
             setIsSubmitting(false);
