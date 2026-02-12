@@ -7,6 +7,7 @@ import alert from "../../../../../utils/alert.ts";
 import { IBranchData } from "../../../../../utils/types/Branch/IBranchData.ts";
 import Select, { SingleValue } from "react-select";
 import { pharmacist_create_form_initial_state } from "../../../../../utils/api/user/PharmacistData.ts";
+import FileUploadField from "../../../../common/FileUploadField";
 
 interface PharmacistCreateFormProps {
     onSuccess?: () => void;
@@ -17,10 +18,6 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
     const [formData, setFormData] = useState(
         pharmacist_create_form_initial_state,
     );
-    const [recentPhotoPreview, setRecentPhotoPreview] = useState<string | null>(
-        null,
-    );
-    const [nicPhotoPreview, setNicPhotoPreview] = useState<string | null>(null);
     const [errors, setErrors] = useState<Record<string, string[]>>({});
     const [branchOptions, setBranchOptions] = useState<
         { value: string; label: string }[]
@@ -79,23 +76,6 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
             ...formData,
             [name]: value,
         });
-    };
-
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, files } = event.target;
-        if (files && files.length > 0) {
-            const file = files[0];
-            setFormData({
-                ...formData,
-                [name]: file,
-            });
-
-            if (name === "photo") {
-                setRecentPhotoPreview(URL.createObjectURL(file));
-            } else if (name === "nic_photo") {
-                setNicPhotoPreview(URL.createObjectURL(file));
-            }
-        }
     };
 
     const handleBranchChange = (
@@ -739,57 +719,23 @@ const PharmacistCreateForm: React.FC<PharmacistCreateFormProps> = ({ onSuccess }
                 </div>
             </div>
 
-            {/* Photo Upload */}
-            <div className="col-span-1">
-                <label className="block text-sm font-medium text-neutral-700">
-                    Photo
-                </label>
-                <input
-                    type="file"
-                    name="photo"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    className="mt-1 block w-full text-sm text-neutral-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100"
-                />
-                {recentPhotoPreview && (
-                    <img
-                        src={recentPhotoPreview}
-                        alt="Preview"
-                        className="mt-2 h-20 w-20 object-cover rounded-full"
-                    />
-                )}
-                {errors.photo && (
-                    <p className="text-error-500 text-sm mt-1">
-                        {errors.photo[0]}
-                    </p>
-                )}
-            </div>
+            <FileUploadField
+                label="Profile Photo"
+                name="photo"
+                accept=".jpg,.jpeg,.png"
+                maxSizeMB={2}
+                error={errors.photo?.[0]}
+                onFileSelect={(_, file) => setFormData(prev => ({ ...prev, photo: file }))}
+            />
 
-            {/* NIC Photo Upload */}
-            <div className="col-span-1">
-                <label className="block text-sm font-medium text-neutral-700">
-                    NIC Photo
-                </label>
-                <input
-                    type="file"
-                    name="nic_photo"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    className="mt-1 block w-full text-sm text-neutral-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100"
-                />
-                {nicPhotoPreview && (
-                    <img
-                        src={nicPhotoPreview}
-                        alt="NIC Preview"
-                        className="mt-2 h-20 w-32 object-cover rounded-md"
-                    />
-                )}
-                {errors.nic_photo && (
-                    <p className="text-error-500 text-sm mt-1">
-                        {errors.nic_photo[0]}
-                    </p>
-                )}
-            </div>
+            <FileUploadField
+                label="NIC / ID Document"
+                name="nic_photo"
+                accept=".jpg,.jpeg,.png,.pdf"
+                maxSizeMB={5}
+                error={errors.nic_photo?.[0]}
+                onFileSelect={(_, file) => setFormData(prev => ({ ...prev, nic_photo: file }))}
+            />
 
             <div className="col-span-2 flex justify-center mt-6">
                 <button

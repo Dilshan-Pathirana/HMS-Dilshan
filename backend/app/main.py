@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request, Depends, HTTPException
 from datetime import datetime
-from app.api import auth, users, branches, doctors, patients, receptionist, pharmacies, pharmacist, super_admin, nurse, staff, appointments, schedules
+from app.api import auth, users, branches, doctors, patients, receptionist, pharmacies, pharmacist, super_admin, nurse, staff, appointments, schedules, uploads
 from app.api import super_admin_appointments
 from app.api import doctor_main_questions
 from app.api import patient_appointments, doctor_appointments, admin_appointments, patient_dashboard, consultation, pharmacy_inventory, notifications, pos, hrm_leave, hrm_salary, hrm_shift, hrm_admin, hrm_super_admin, branch_admin, purchase_requests, medical_insights, doctor_sessions, chatbot, sms, payments, email, websocket_alerts, dashboard_stats, website, patient_sessions
@@ -72,6 +72,14 @@ async def log_requests(request: Request, call_next):
     print(f"DEBUG: Middleware response status: {response.status_code}", flush=True)
     return response
 
+# Static file serving for uploads
+import os
+from fastapi.staticfiles import StaticFiles
+uploads_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "uploads")
+os.makedirs(uploads_dir, exist_ok=True)
+app.mount("/uploads", StaticFiles(directory=uploads_dir), name="uploads")
+
+app.include_router(uploads.router, prefix="/api/v1/uploads", tags=["uploads"])
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["auth"])
 app.include_router(users.router, prefix="/api/v1/users", tags=["users"])
 app.include_router(branches.router, prefix="/api/v1/branches", tags=["branches"])

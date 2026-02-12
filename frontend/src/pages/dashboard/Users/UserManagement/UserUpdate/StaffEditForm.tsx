@@ -6,6 +6,7 @@ interface StaffEditFormProps {
     branchOptions: any[];
     handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
     handleBranchChange: (selectedOption: any) => void;
+    roleAs?: number;
 }
 
 export const StaffEditForm: React.FC<StaffEditFormProps> = ({
@@ -13,7 +14,9 @@ export const StaffEditForm: React.FC<StaffEditFormProps> = ({
     branchOptions,
     handleInputChange,
     handleBranchChange,
+    roleAs,
 }) => {
+    const isSuperAdmin = roleAs === 1;
     const selectedBranch = branchOptions.find(
         (option) => option.value === userDetails.branch_id
     );
@@ -125,20 +128,22 @@ export const StaffEditForm: React.FC<StaffEditFormProps> = ({
                     </select>
                 </div>
 
-                <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">
-                        Branch <span className="text-error-500">*</span>
-                    </label>
-                    <Select
-                        name="branch_id"
-                        value={selectedBranch}
-                        onChange={handleBranchChange}
-                        options={branchOptions}
-                        className="w-full"
-                        placeholder="Select Branch"
-                        isClearable
-                    />
-                </div>
+                {!isSuperAdmin && (
+                    <div>
+                        <label className="block text-sm font-medium text-neutral-700 mb-1">
+                            Branch <span className="text-error-500">*</span>
+                        </label>
+                        <Select
+                            name="branch_id"
+                            value={selectedBranch}
+                            onChange={handleBranchChange}
+                            options={branchOptions}
+                            className="w-full"
+                            placeholder="Select Branch"
+                            isClearable
+                        />
+                    </div>
+                )}
 
                 <div>
                     <label className="block text-sm font-medium text-neutral-700 mb-1">

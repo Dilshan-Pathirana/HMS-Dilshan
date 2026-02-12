@@ -6,6 +6,7 @@ from app.core.database import get_session
 from app.models.user import User
 from app.core.security import get_password_hash
 from app.api.deps import get_current_active_staff
+from app.api.uploads import validate_file, save_file, PHOTO_ALLOWED_EXTENSIONS, PHOTO_MAX_SIZE, ID_ALLOWED_EXTENSIONS, ID_MAX_SIZE
 import logging
 
 router = APIRouter()
@@ -135,6 +136,18 @@ async def create_staff(
         final_phone = contact_number_mobile or phone
         final_address = home_address or address
 
+        # Process file uploads
+        photo_path = None
+        nic_photo_path = None
+
+        if photo and photo.filename:
+            ext = validate_file(photo, PHOTO_ALLOWED_EXTENSIONS, PHOTO_MAX_SIZE, "photo")
+            photo_path = save_file(photo, "photos", ext)
+
+        if nic_photo and nic_photo.filename:
+            ext = validate_file(nic_photo, ID_ALLOWED_EXTENSIONS, ID_MAX_SIZE, "nic_photo")
+            nic_photo_path = save_file(nic_photo, "id_documents", ext)
+
         # 4. Create user
         user = User(
             first_name=first_name,
@@ -159,6 +172,8 @@ async def create_staff(
             contract_duration=contract_duration,
             basic_salary=float(basic_salary) if basic_salary else None,
             compensation_package=compensation_package,
+            photo_path=photo_path,
+            nic_photo_path=nic_photo_path,
             is_active=True
         )
 

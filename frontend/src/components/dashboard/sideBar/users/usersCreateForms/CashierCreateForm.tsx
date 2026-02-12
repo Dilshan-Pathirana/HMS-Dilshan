@@ -8,6 +8,7 @@ import api from "../../../../../utils/api/axios";
 import alert from "../../../../../utils/alert.ts";
 import { IBranchData } from "../../../../../utils/types/Branch/IBranchData.ts";
 import Select, { SingleValue } from 'react-select';
+import FileUploadField from "../../../../common/FileUploadField";
 
 interface CashierCreateFormProps {
     onSuccess?: () => void;
@@ -17,12 +18,6 @@ const CashierCreateForm: React.FC<CashierCreateFormProps> = ({ onSuccess }) => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState<ICashierUserFormTypes>(
         cashier_create_form_initial_state,
-    );
-    const [recentPhotoPreview, setRecentPhotoPreview] = useState<string | null>(
-        null,
-    );
-    const [nicPhotoPreview, setNicPhotoPreview] = useState<string | null>(
-        null,
     );
     const [errors, setErrors] = useState<Record<string, string[]>>({});
     const [branchOptions, setBranchOptions] = useState<{ value: string; label: string; }[]>([]);
@@ -78,23 +73,6 @@ const CashierCreateForm: React.FC<CashierCreateFormProps> = ({ onSuccess }) => {
             ...formData,
             [name]: value,
         });
-    };
-
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, files } = event.target;
-        if (files && files.length > 0) {
-            const file = files[0];
-            setFormData({
-                ...formData,
-                [name]: file,
-            });
-
-            if (name === "photo") {
-                setRecentPhotoPreview(URL.createObjectURL(file));
-            } else if (name === "nic_photo") {
-                setNicPhotoPreview(URL.createObjectURL(file));
-            }
-        }
     };
 
     const handleBranchChange = (selectedOption: SingleValue<{ value: string; label: string }>) => {
@@ -368,49 +346,23 @@ const CashierCreateForm: React.FC<CashierCreateFormProps> = ({ onSuccess }) => {
                 />
             </div>
 
-            <div className="col-span-1">
-                <label className="block text-sm font-medium text-neutral-700">
-                    Upload Recent Photo (JPG/PDF)
-                </label>
-                <input
-                    type="file"
-                    name="photo"
-                    accept=".jpg,.jpeg,.pdf"
-                    onChange={handleFileChange}
-                    className="mt-1 block w-full text-sm text-neutral-500 border border-dashed border-neutral-300 p-2 rounded-md"
-                />
-                {recentPhotoPreview && (
-                    <div className="mt-2">
-                        <img
-                            src={recentPhotoPreview}
-                            alt="Recent Preview"
-                            className="w-32 h-32 object-cover rounded-md shadow-sm"
-                        />
-                    </div>
-                )}
-            </div>
+            <FileUploadField
+                label="Profile Photo"
+                name="photo"
+                accept=".jpg,.jpeg,.png"
+                maxSizeMB={2}
+                error={errors.photo?.[0]}
+                onFileSelect={(_, file) => setFormData(prev => ({ ...prev, photo: file }))}
+            />
 
-            <div className="col-span-1">
-                <label className="block text-sm font-medium text-neutral-700">
-                    Upload NIC Photo (JPG/PDF)
-                </label>
-                <input
-                    type="file"
-                    name="nic_photo"
-                    accept=".jpg,.jpeg,.pdf"
-                    onChange={handleFileChange}
-                    className="mt-1 block w-full text-sm text-neutral-500 border border-dashed border-neutral-300 p-2 rounded-md"
-                />
-                {nicPhotoPreview && (
-                    <div className="mt-2">
-                        <img
-                            src={nicPhotoPreview}
-                            alt="NIC Preview"
-                            className="w-32 h-32 object-cover rounded-md shadow-sm"
-                        />
-                    </div>
-                )}
-            </div>
+            <FileUploadField
+                label="NIC / ID Document"
+                name="nic_photo"
+                accept=".jpg,.jpeg,.png,.pdf"
+                maxSizeMB={5}
+                error={errors.nic_photo?.[0]}
+                onFileSelect={(_, file) => setFormData(prev => ({ ...prev, nic_photo: file }))}
+            />
 
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import alert from "../../../../../utils/alert.ts";
 import { IBranchData } from "../../../../../utils/types/Branch/IBranchData.ts";
 import Select, { SingleValue } from 'react-select';
+import FileUploadField from "../../../../common/FileUploadField";
 
 interface NurseCreateFormProps {
     onSuccess?: () => void;
@@ -41,9 +42,9 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
         basic_salary: '',
         branch_id: '',
         photo: null as File | null,
+        nic_photo: null as File | null,
     });
 
-    const [recentPhotoPreview, setRecentPhotoPreview] = useState<string | null>(null);
     const [errors, setErrors] = useState<Record<string, string[]>>({});
     const [branchOptions, setBranchOptions] = useState<{ value: string; label: string; }[]>([]);
     const [isBranchAdmin, setIsBranchAdmin] = useState(false);
@@ -104,21 +105,6 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                 delete newErrors[name];
                 return newErrors;
             });
-        }
-    };
-
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, files } = event.target;
-        if (files && files.length > 0) {
-            const file = files[0];
-            setFormData({
-                ...formData,
-                [name]: file,
-            });
-
-            if (name === "photo") {
-                setRecentPhotoPreview(URL.createObjectURL(file));
-            }
         }
     };
 
@@ -246,6 +232,9 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
 
             if (formData.photo) {
                 formDataToSend.append('photo', formData.photo);
+            }
+            if (formData.nic_photo) {
+                formDataToSend.append('nic_photo', formData.nic_photo);
             }
 
             // Use branch-admin prefixed endpoint for Branch Admin users
@@ -517,27 +506,23 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                 />
             </div>
 
-            <div className="col-span-1">
-                <label className="block text-sm font-medium text-neutral-700">
-                    Upload Recent Photo
-                </label>
-                <input
-                    type="file"
-                    name="photo"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    className="mt-1 block w-full text-sm text-neutral-500 border border-dashed border-neutral-300 p-2 rounded-md"
-                />
-                {recentPhotoPreview && (
-                    <div className="mt-2">
-                        <img
-                            src={recentPhotoPreview}
-                            alt="Recent Preview"
-                            className="w-32 h-32 object-cover rounded-md shadow-sm"
-                        />
-                    </div>
-                )}
-            </div>
+            <FileUploadField
+                label="Profile Photo"
+                name="photo"
+                accept=".jpg,.jpeg,.png"
+                maxSizeMB={2}
+                error={errors.photo?.[0]}
+                onFileSelect={(_, file) => setFormData(prev => ({ ...prev, photo: file }))}
+            />
+
+            <FileUploadField
+                label="NIC / ID Document"
+                name="nic_photo"
+                accept=".jpg,.jpeg,.png,.pdf"
+                maxSizeMB={5}
+                error={errors.nic_photo?.[0]}
+                onFileSelect={(_, file) => setFormData(prev => ({ ...prev, nic_photo: file }))}
+            />
 
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">
