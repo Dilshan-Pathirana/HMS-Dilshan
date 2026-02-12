@@ -125,4 +125,45 @@ ALTER TABLE appointment ADD CONSTRAINT ck_appointment_status
   CHECK (status IN ('pending','confirmed','in_progress','completed','cancelled','no_show','pending_payment'));
 
 -- Done!
+-- Done!
 SELECT 'Migration complete — product/supplier/appointment schema updated, constraint fixed, and doctor_schedule normalized.' AS status;
+
+
+-- ----- CHATBOT TABLES: Add tables if not exist -----
+CREATE TABLE IF NOT EXISTS chatbot_faq (
+    id VARCHAR(36) PRIMARY KEY,
+    question VARCHAR(1000) NOT NULL,
+    answer TEXT NOT NULL,
+    question_si VARCHAR(1000),
+    answer_si TEXT,
+    category VARCHAR(100) DEFAULT 'general_homeopathy',
+    language VARCHAR(10) DEFAULT 'en',
+    keywords TEXT,
+    priority INT DEFAULT 50,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS chatbot_log (
+    id VARCHAR(36) PRIMARY KEY,
+    session_id VARCHAR(36) NOT NULL,
+    question VARCHAR(2000) NOT NULL,
+    response TEXT,
+    category_detected VARCHAR(100),
+    was_helpful BOOLEAN,
+    language VARCHAR(10) DEFAULT 'en',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS chatbot_disease_mapping (
+    id VARCHAR(36) PRIMARY KEY,
+    disease_name VARCHAR(255) NOT NULL,
+    specialization VARCHAR(255) NOT NULL,
+    safe_response TEXT NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+SELECT 'Migration complete — Chatbot tables created.' AS status;
