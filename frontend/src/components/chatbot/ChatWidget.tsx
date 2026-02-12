@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { 
-    sendChatMessage, 
-    sendFeedback, 
-    getSuggestions, 
+import {
+    sendChatMessage,
+    sendFeedback,
+    getSuggestions,
     generateSessionId,
     ChatMessage,
     ChatResponse,
@@ -82,7 +82,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, onFeedback, onSu
             <div className="flex flex-col max-w-[80%]">
                 <div className="bg-neutral-100 px-4 py-2 rounded-2xl rounded-tl-md shadow-sm">
                     <p className="text-sm text-neutral-800 whitespace-pre-line">{message.content}</p>
-                    
+
                     {/* Display doctor cards if available */}
                     {message.data?.doctors && message.data.doctors.length > 0 && (
                         <div className="mt-3 space-y-2">
@@ -155,13 +155,12 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, onFeedback, onSu
                     <button
                         onClick={() => handleFeedback(true)}
                         disabled={feedbackGiven !== null}
-                        className={`p-1 rounded transition-colors ${
-                            feedbackGiven === true 
-                                ? 'text-green-600' 
-                                : feedbackGiven === null 
-                                    ? 'text-neutral-400 hover:text-green-600' 
+                        className={`p-1 rounded transition-colors ${feedbackGiven === true
+                                ? 'text-green-600'
+                                : feedbackGiven === null
+                                    ? 'text-neutral-400 hover:text-green-600'
                                     : 'text-gray-300 cursor-not-allowed'
-                        }`}
+                            }`}
                         title="Yes, helpful"
                     >
                         <ThumbUpIcon />
@@ -169,13 +168,12 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, onFeedback, onSu
                     <button
                         onClick={() => handleFeedback(false)}
                         disabled={feedbackGiven !== null}
-                        className={`p-1 rounded transition-colors ${
-                            feedbackGiven === false 
-                                ? 'text-error-600' 
-                                : feedbackGiven === null 
-                                    ? 'text-neutral-400 hover:text-error-600' 
+                        className={`p-1 rounded transition-colors ${feedbackGiven === false
+                                ? 'text-error-600'
+                                : feedbackGiven === null
+                                    ? 'text-neutral-400 hover:text-error-600'
                                     : 'text-gray-300 cursor-not-allowed'
-                        }`}
+                            }`}
                         title="No, not helpful"
                     >
                         <ThumbDownIcon />
@@ -212,7 +210,7 @@ const ChatWidget: React.FC = () => {
         const saved = localStorage.getItem('chatbot_language');
         return (saved === 'si' || saved === 'en') ? saved : 'en';
     });
-    
+
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -226,10 +224,10 @@ const ChatWidget: React.FC = () => {
     const handleLanguageChange = (newLang: SupportedLanguage) => {
         setLanguage(newLang);
         localStorage.setItem('chatbot_language', newLang);
-        
+
         // Reload suggestions for new language
         loadSuggestions(newLang);
-        
+
         // Update welcome message if chat is at initial state
         if (messages.length === 1 && messages[0].id === 'welcome') {
             setMessages([{
@@ -301,7 +299,7 @@ const ChatWidget: React.FC = () => {
 
         try {
             const response: ChatResponse = await sendChatMessage(message.trim(), sessionId, language);
-            
+
             const botMessage: ChatMessage = {
                 id: response.interaction_id || 'bot_' + Date.now(),
                 type: 'bot',
@@ -316,7 +314,7 @@ const ChatWidget: React.FC = () => {
             setMessages(prev => [...prev, botMessage]);
         } catch (error) {
             console.error('Chat error:', error);
-            const errorContent = language === 'si' 
+            const errorContent = language === 'si'
                 ? "සමාවන්න, ඔබේ ඉල්ලීම සකසන විට ගැටලුවක් ඇති විය. කරුණාකර මොහොතකින් නැවත උත්සාහ කරන්න, හෝ ක්ෂණික සහාය සඳහා අපගේ සහාය කණ්ඩායම අමතන්න."
                 : "I'm sorry, I'm having trouble processing your request right now. Please try again in a moment, or contact our support team for immediate assistance.";
             const errorMessage: ChatMessage = {
@@ -355,11 +353,10 @@ const ChatWidget: React.FC = () => {
             {/* Chat Toggle Button */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className={`fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 z-50 ${
-                    isOpen 
-                        ? 'bg-gray-600 hover:bg-gray-700' 
+                className={`fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 z-50 ${isOpen
+                        ? 'bg-gray-600 hover:bg-gray-700'
                         : 'bg-primary-500 hover:bg-primary-600 animate-pulse hover:animate-none'
-                }`}
+                    }`}
                 title={isOpen ? 'Close chat' : 'Chat with us'}
             >
                 <span className="text-white">
@@ -385,21 +382,19 @@ const ChatWidget: React.FC = () => {
                         <div className="flex items-center bg-primary-500/30 rounded-full p-0.5">
                             <button
                                 onClick={() => handleLanguageChange('en')}
-                                className={`px-2 py-1 text-xs rounded-full transition-all ${
-                                    language === 'en' 
-                                        ? 'bg-white text-blue-700 font-semibold' 
+                                className={`px-2 py-1 text-xs rounded-full transition-all ${language === 'en'
+                                        ? 'bg-white text-blue-700 font-semibold'
                                         : 'text-blue-100 hover:text-white'
-                                }`}
+                                    }`}
                             >
                                 EN
                             </button>
                             <button
                                 onClick={() => handleLanguageChange('si')}
-                                className={`px-2 py-1 text-xs rounded-full transition-all ${
-                                    language === 'si' 
-                                        ? 'bg-white text-blue-700 font-semibold' 
+                                className={`px-2 py-1 text-xs rounded-full transition-all ${language === 'si'
+                                        ? 'bg-white text-blue-700 font-semibold'
                                         : 'text-blue-100 hover:text-white'
-                                }`}
+                                    }`}
                             >
                                 සිං
                             </button>
@@ -416,15 +411,15 @@ const ChatWidget: React.FC = () => {
                                 onSuggestionClick={handleSuggestionClick}
                             />
                         ))}
-                        
+
                         {isLoading && <TypingIndicator />}
-                        
+
                         {/* Quick Suggestions */}
                         {showInitialSuggestions && suggestions && messages.length === 1 && (
                             <div className="mt-4">
                                 <p className="text-xs text-neutral-500 mb-2">Quick questions:</p>
                                 <div className="flex flex-wrap gap-2">
-                                    {suggestions.suggestions.slice(0, 4).map((suggestion, idx) => (
+                                    {suggestions.suggestions?.slice(0, 4).map((suggestion, idx) => (
                                         <button
                                             key={idx}
                                             onClick={() => handleSuggestionClick(suggestion)}
@@ -462,8 +457,8 @@ const ChatWidget: React.FC = () => {
                             </button>
                         </div>
                         <p className="text-xs text-neutral-400 text-center mt-2">
-                            {language === 'si' 
-                                ? 'හදිසි අවස්ථා සඳහා, කරුණාකර අපගේ හොට්ලයින් ඍජුව අමතන්න' 
+                            {language === 'si'
+                                ? 'හදිසි අවස්ථා සඳහා, කරුණාකර අපගේ හොට්ලයින් ඍජුව අමතන්න'
                                 : 'For emergencies, please call our hotline directly'}
                         </p>
                     </div>
