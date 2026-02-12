@@ -248,6 +248,9 @@ const SuperAdminPharmacies: React.FC = () => {
         pharmacist_id: ''
     });
 
+    // Form validation errors
+    const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+
     // Allocation form
     const [allocateBranchId, setAllocateBranchId] = useState('');
 
@@ -850,20 +853,37 @@ const SuperAdminPharmacies: React.FC = () => {
             branch_id: '',
             pharmacist_id: ''
         });
+        setFormErrors({});
         loadAvailablePharmacists();
+    };
+
+    // Validate pharmacy form
+    const validatePharmacyForm = (isEdit = false): boolean => {
+        const errors: Record<string, string> = {};
+
+        if (!formData.pharmacy_name.trim()) {
+            errors.pharmacy_name = 'Pharmacy name is required';
+        }
+        if (!isEdit && !formData.pharmacy_code.trim()) {
+            errors.pharmacy_code = 'Pharmacy code is required';
+        }
+        if (!formData.pharmacist_id) {
+            errors.pharmacist_id = 'A pharmacist must be assigned';
+        }
+        if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            errors.email = 'Please enter a valid email address';
+        }
+        if (formData.phone && !/^[\d\s\-\+()]{7,15}$/.test(formData.phone)) {
+            errors.phone = 'Please enter a valid phone number';
+        }
+
+        setFormErrors(errors);
+        return Object.keys(errors).length === 0;
     };
 
     // Create pharmacy
     const handleCreate = async () => {
-        if (!formData.pharmacy_name || !formData.pharmacy_code) {
-            setError('Pharmacy name and code are required');
-            return;
-        }
-
-        if (!formData.pharmacist_id) {
-            setError('A pharmacist must be assigned to the pharmacy');
-            return;
-        }
+        if (!validatePharmacyForm()) return;
 
         try {
             setLoading(true);
@@ -903,6 +923,7 @@ const SuperAdminPharmacies: React.FC = () => {
     // Update pharmacy
     const handleUpdate = async () => {
         if (!selectedPharmacy) return;
+        if (!validatePharmacyForm(true)) return;
 
         try {
             setLoading(true);
@@ -3006,10 +3027,11 @@ const SuperAdminPharmacies: React.FC = () => {
                                     <input
                                         type="text"
                                         value={formData.pharmacy_name}
-                                        onChange={(e) => setFormData({ ...formData, pharmacy_name: e.target.value })}
-                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        onChange={(e) => { setFormData({ ...formData, pharmacy_name: e.target.value }); setFormErrors(prev => ({ ...prev, pharmacy_name: '' })); }}
+                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 ${formErrors.pharmacy_name ? 'border-red-500' : 'border-neutral-300'}`}
                                         placeholder="Enter pharmacy name"
                                     />
+                                    {formErrors.pharmacy_name && <p className="text-red-500 text-xs mt-1">{formErrors.pharmacy_name}</p>}
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">
@@ -3018,11 +3040,12 @@ const SuperAdminPharmacies: React.FC = () => {
                                     <input
                                         type="text"
                                         value={formData.pharmacy_code}
-                                        onChange={(e) => setFormData({ ...formData, pharmacy_code: e.target.value })}
-                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        onChange={(e) => { setFormData({ ...formData, pharmacy_code: e.target.value }); setFormErrors(prev => ({ ...prev, pharmacy_code: '' })); }}
+                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 ${formErrors.pharmacy_code ? 'border-red-500' : 'border-neutral-300'}`}
                                         placeholder="e.g., PHM001"
                                         disabled={showEditModal}
                                     />
+                                    {formErrors.pharmacy_code && <p className="text-red-500 text-xs mt-1">{formErrors.pharmacy_code}</p>}
                                 </div>
                             </div>
 
@@ -3060,10 +3083,11 @@ const SuperAdminPharmacies: React.FC = () => {
                                     <input
                                         type="tel"
                                         value={formData.phone}
-                                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        onChange={(e) => { setFormData({ ...formData, phone: e.target.value }); setFormErrors(prev => ({ ...prev, phone: '' })); }}
+                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 ${formErrors.phone ? 'border-red-500' : 'border-neutral-300'}`}
                                         placeholder="Phone number"
                                     />
+                                    {formErrors.phone && <p className="text-red-500 text-xs mt-1">{formErrors.phone}</p>}
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">
@@ -3072,10 +3096,11 @@ const SuperAdminPharmacies: React.FC = () => {
                                     <input
                                         type="email"
                                         value={formData.email}
-                                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        onChange={(e) => { setFormData({ ...formData, email: e.target.value }); setFormErrors(prev => ({ ...prev, email: '' })); }}
+                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 ${formErrors.email ? 'border-red-500' : 'border-neutral-300'}`}
                                         placeholder="Email address"
                                     />
+                                    {formErrors.email && <p className="text-red-500 text-xs mt-1">{formErrors.email}</p>}
                                 </div>
                             </div>
 
@@ -3098,14 +3123,15 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </label>
                                 <select
                                     value={formData.pharmacist_id}
-                                    onChange={(e) => setFormData({ ...formData, pharmacist_id: e.target.value })}
-                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    onChange={(e) => { setFormData({ ...formData, pharmacist_id: e.target.value }); setFormErrors(prev => ({ ...prev, pharmacist_id: '' })); }}
+                                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 ${formErrors.pharmacist_id ? 'border-red-500' : 'border-neutral-300'}`}
                                 >
                                     <option value="">Select Pharmacist</option>
                                     {availablePharmacists.map(p => (
                                         <option key={p.id} value={p.id}>{p.name}</option>
                                     ))}
                                 </select>
+                                {formErrors.pharmacist_id && <p className="text-red-500 text-xs mt-1">{formErrors.pharmacist_id}</p>}
                                 <p className="text-xs text-neutral-500 mt-1">
                                     Only unassigned pharmacists are shown. A pharmacist can only be assigned to one pharmacy.
                                 </p>

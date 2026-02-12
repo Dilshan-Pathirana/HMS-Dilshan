@@ -1379,6 +1379,9 @@ const SuperAdminAppointments: React.FC = () => {
                         {activeTab === 'branch-settings' && (
                             <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-x-auto">
                                 <table className="w-full min-w-[600px]">
+                                    <thead>
+                                        <tr>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Branch</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Advance Days</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Min Lead Time</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Slot Duration</th>
@@ -1432,6 +1435,9 @@ const SuperAdminAppointments: React.FC = () => {
                         {activeTab === 'audit-logs' && (
                             <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-x-auto">
                                 <table className="w-full min-w-[700px]">
+                                    <thead>
+                                        <tr>
+                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Timestamp</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Super Admin</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Branch</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Appointment ID</th>

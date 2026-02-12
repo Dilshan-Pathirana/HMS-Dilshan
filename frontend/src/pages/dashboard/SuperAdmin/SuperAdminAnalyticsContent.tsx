@@ -180,7 +180,8 @@ export const SuperAdminAnalyticsContent: React.FC = () => {
 
             {/* Period Selector and Actions */}
             <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-4 rounded-lg shadow-md border border-neutral-200">
-                <div className="flex flex-wrap gap-2"> (
+                <div className="flex flex-wrap gap-2">
+                    {['day', 'week', 'month', 'year'].map((period) => (
                         <button
                             key={period}
                             onClick={() => setSelectedPeriod(period)}
