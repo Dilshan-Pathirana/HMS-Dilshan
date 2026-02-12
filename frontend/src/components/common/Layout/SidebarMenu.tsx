@@ -396,11 +396,6 @@ export const BranchAdminMenuItems: MenuItem[] = [
         path: '/branch-admin/patient-profiles'
     },
     {
-        label: 'Patient Section',
-        icon: <HeartPulse className="w-5 h-5" />,
-        path: '/branch-admin/patients'
-    },
-    {
         label: 'Consultation Monitor',
         icon: <Activity className="w-5 h-5" />,
         path: '/branch-admin/consultation-monitor'

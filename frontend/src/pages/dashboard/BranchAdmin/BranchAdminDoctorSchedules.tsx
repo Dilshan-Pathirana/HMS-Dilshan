@@ -127,7 +127,7 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
                 <div className="mb-6">
                     <div className="flex items-center gap-4 mb-2">
                         <button 
-                            onClick={() => navigate('/branch-admin')}
+                            onClick={() => navigate('/branch-admin/dashboard')}
                             className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
                             <ChevronLeft className="w-5 h-5 text-neutral-500" />

@@ -30,6 +30,13 @@ from app.services.doctor_schedule_service import DoctorScheduleService
 router = APIRouter()
 
 
+class SessionPatientBrief(BaseModel):
+    patient_id: str
+    first_name: str
+    last_name: str
+    contact_number: Optional[str] = None
+
+
 class SessionListItem(BaseModel):
     id: str
     session_date: date
@@ -41,6 +48,7 @@ class SessionListItem(BaseModel):
     branch_name: str
     appointment_count: int
     status: str
+    patients: List[SessionPatientBrief] = []
 
 
 class SessionDetail(BaseModel):
@@ -307,14 +315,43 @@ async def list_sessions(
         branch_map = {b.id: b for b in branch_res.all()}
 
     appt_counts: Dict[str, int] = {}
+    session_patient_ids: Dict[str, List[str]] = {}  # session_id -> [patient_id, ...]
     for appt in appts:
         if appt.schedule_session_id:
             appt_counts[appt.schedule_session_id] = appt_counts.get(appt.schedule_session_id, 0) + 1
+            session_patient_ids.setdefault(appt.schedule_session_id, []).append(appt.patient_id)
+
+    # Fetch patient + user info for all patients in these sessions
+    all_patient_ids = list({pid for pids in session_patient_ids.values() for pid in pids})
+    patient_map: Dict[str, SessionPatientBrief] = {}
+    if all_patient_ids:
+        pat_res = await session.exec(select(Patient).where(col(Patient.id).in_(all_patient_ids)))
+        patients_list = pat_res.all()
+        user_ids = [p.user_id for p in patients_list]
+        user_map_local: Dict[str, User] = {}
+        if user_ids:
+            user_res = await session.exec(select(User).where(col(User.id).in_(user_ids)))
+            user_map_local = {u.id: u for u in user_res.all()}
+        for p in patients_list:
+            u = user_map_local.get(p.user_id)
+            patient_map[p.id] = SessionPatientBrief(
+                patient_id=p.id,
+                first_name=u.first_name if u else "",
+                last_name=u.last_name if u else "",
+                contact_number=p.contact_number,
+            )
 
     items: List[SessionListItem] = []
     for s in sessions:
         doc = doctor_map.get(s.doctor_id)
         brn = branch_map.get(s.branch_id)
+        # Build patients list for this session (deduplicated)
+        seen_pids: set = set()
+        sess_patients: List[SessionPatientBrief] = []
+        for pid in session_patient_ids.get(s.id, []):
+            if pid not in seen_pids and pid in patient_map:
+                sess_patients.append(patient_map[pid])
+                seen_pids.add(pid)
         items.append(
             SessionListItem(
                 id=s.id,
@@ -327,6 +364,7 @@ async def list_sessions(
                 branch_name=brn.center_name if brn else s.branch_id,
                 appointment_count=appt_counts.get(s.id, 0),
                 status=s.status,
+                patients=sess_patients,
             )
         )
 

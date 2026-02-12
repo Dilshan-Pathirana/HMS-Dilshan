@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Calendar, Filter, RefreshCw } from "lucide-react";
+import { ArrowLeft, Calendar, Filter, Phone, RefreshCw, User } from "lucide-react";
 import api from "../../../utils/api/axios";
 import { RootState } from "../../../store";
 
@@ -16,6 +16,13 @@ interface DoctorItem {
     last_name: string;
 }
 
+interface PatientBrief {
+    patient_id: string;
+    first_name: string;
+    last_name: string;
+    contact_number?: string | null;
+}
+
 interface SessionItem {
     id: string;
     session_date: string;
@@ -27,10 +34,12 @@ interface SessionItem {
     branch_name: string;
     appointment_count: number;
     status: string;
+    patients?: PatientBrief[];
 }
 
 const PatientSessionsList: React.FC = () => {
     const userRole = useSelector((state: RootState) => state.auth.userRole);
+    const navigate = useNavigate();
     const [sessions, setSessions] = useState<SessionItem[]>([]);
     const [branches, setBranches] = useState<BranchItem[]>([]);
     const [doctors, setDoctors] = useState<DoctorItem[]>([]);
@@ -101,9 +110,20 @@ const PatientSessionsList: React.FC = () => {
     return (
         <div className="p-3 sm:p-6">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
-                <div>
-                    <h1 className="text-2xl font-bold text-neutral-900">Patient Session Management</h1>
-                    <p className="text-sm text-neutral-500">Sessions that have appointments scheduled</p>
+                <div className="flex items-center gap-3">
+                    {roleName === "branch_admin" && (
+                        <button
+                            onClick={() => navigate('/branch-admin/dashboard')}
+                            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
+                            title="Back to Dashboard"
+                        >
+                            <ArrowLeft className="w-5 h-5 text-neutral-500" />
+                        </button>
+                    )}
+                    <div>
+                        <h1 className="text-2xl font-bold text-neutral-900">Patient Session Management</h1>
+                        <p className="text-sm text-neutral-500">Sessions that have appointments scheduled</p>
+                    </div>
                 </div>
                 <button
                     onClick={fetchSessions}
@@ -185,6 +205,7 @@ const PatientSessionsList: React.FC = () => {
                                 <th className="text-left px-4 py-3">Time</th>
                                 <th className="text-left px-4 py-3">Doctor</th>
                                 <th className="text-left px-4 py-3">Branch</th>
+                                <th className="text-left px-4 py-3">Patients</th>
                                 <th className="text-left px-4 py-3">Appointments</th>
                                 <th className="text-left px-4 py-3">Status</th>
                                 <th className="text-right px-4 py-3">Details</th>
@@ -192,13 +213,35 @@ const PatientSessionsList: React.FC = () => {
                         </thead>
                         <tbody className="divide-y divide-neutral-100">
                             {sessions.map((session) => (
-                                <tr key={session.id} className="hover:bg-neutral-50">
+                                <tr key={session.id} className="hover:bg-neutral-50 align-top">
                                     <td className="px-4 py-3 font-medium text-neutral-900">{session.session_date}</td>
                                     <td className="px-4 py-3 text-neutral-700">
                                         {session.start_time} - {session.end_time}
                                     </td>
                                     <td className="px-4 py-3 text-neutral-700">{session.doctor_name}</td>
                                     <td className="px-4 py-3 text-neutral-700">{session.branch_name}</td>
+                                    <td className="px-4 py-3 text-neutral-700">
+                                        {session.patients && session.patients.length > 0 ? (
+                                            <div className="space-y-1">
+                                                {session.patients.map((p, idx) => (
+                                                    <div key={p.patient_id || idx} className="flex items-center gap-2 text-xs">
+                                                        <User className="w-3 h-3 text-neutral-400 flex-shrink-0" />
+                                                        <span className="font-medium text-neutral-800">
+                                                            {p.first_name} {p.last_name}
+                                                        </span>
+                                                        {p.contact_number && (
+                                                            <span className="inline-flex items-center gap-1 text-neutral-500">
+                                                                <Phone className="w-3 h-3" />
+                                                                {p.contact_number}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <span className="text-xs text-neutral-400">—</span>
+                                        )}
+                                    </td>
                                     <td className="px-4 py-3 text-neutral-700">{session.appointment_count}</td>
                                     <td className="px-4 py-3 text-neutral-700 capitalize">{session.status}</td>
                                     <td className="px-4 py-3 text-right">

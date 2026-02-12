@@ -133,7 +133,7 @@ const SuperAdminChatbotManagement: React.FC = () => {
             if (searchTerm) params.append('search', searchTerm);
             if (categoryFilter) params.append('category', categoryFilter);
 
-            const response = await api.get(`${API_BASE}/api/super-admin/chatbot/faqs?${params}`, {
+            const response = await api.get(`/chatbot/admin/faqs?${params}`, {
                 headers: getAuthHeaders()
             });
             const items = response?.data?.data || [];
@@ -165,7 +165,7 @@ const SuperAdminChatbotManagement: React.FC = () => {
     const fetchMappings = async () => {
         setLoading(true);
         try {
-            const response = await api.get(`${API_BASE}/api/super-admin/chatbot/disease-mappings`, {
+            const response = await api.get(`/chatbot/admin/disease-mappings`, {
                 headers: getAuthHeaders()
             });
             setMappings(response.data.data || []);
@@ -181,7 +181,7 @@ const SuperAdminChatbotManagement: React.FC = () => {
     const fetchLogs = async () => {
         setLoading(true);
         try {
-            const response = await api.get(`${API_BASE}/api/super-admin/chatbot/logs`, {
+            const response = await api.get(`/chatbot/admin/logs`, {
                 headers: getAuthHeaders()
             });
             setLogs(response.data.data || []);
@@ -197,7 +197,7 @@ const SuperAdminChatbotManagement: React.FC = () => {
     const fetchAnalytics = async () => {
         setLoading(true);
         try {
-            const response = await api.get(`${API_BASE}/api/super-admin/chatbot/analytics`, {
+            const response = await api.get(`/chatbot/admin/analytics`, {
                 headers: getAuthHeaders()
             });
             setAnalytics(response.data);
@@ -232,11 +232,11 @@ const SuperAdminChatbotManagement: React.FC = () => {
             };
 
             if (editingFaq) {
-                await api.put(`${API_BASE}/api/super-admin/chatbot/faqs/${editingFaq.id}`, payload, {
+                await api.put(`/chatbot/admin/faqs/${editingFaq.id}`, payload, {
                     headers: getAuthHeaders()
                 });
             } else {
-                await api.post(`${API_BASE}/api/super-admin/chatbot/faqs`, payload, {
+                await api.post(`/chatbot/admin/faqs`, payload, {
                     headers: getAuthHeaders()
                 });
             }
@@ -255,7 +255,7 @@ const SuperAdminChatbotManagement: React.FC = () => {
         if (!confirm('Are you sure you want to delete this FAQ?')) return;
 
         try {
-            await api.delete(`${API_BASE}/api/super-admin/chatbot/faqs/${id}`, {
+            await api.delete(`/chatbot/admin/faqs/${id}`, {
                 headers: getAuthHeaders()
             });
             fetchFaqs();
@@ -267,7 +267,7 @@ const SuperAdminChatbotManagement: React.FC = () => {
     // Toggle FAQ Status
     const toggleFaqStatus = async (id: string) => {
         try {
-            await api.patch(`${API_BASE}/api/super-admin/chatbot/faqs/${id}/toggle-status`, {}, {
+            await api.patch(`/chatbot/admin/faqs/${id}/toggle-status`, {}, {
                 headers: getAuthHeaders()
             });
             fetchFaqs();
@@ -280,11 +280,11 @@ const SuperAdminChatbotManagement: React.FC = () => {
     const saveMapping = async () => {
         try {
             if (editingMapping) {
-                await api.put(`${API_BASE}/api/super-admin/chatbot/disease-mappings/${editingMapping.id}`, mappingForm, {
+                await api.put(`/chatbot/admin/disease-mappings/${editingMapping.id}`, mappingForm, {
                     headers: getAuthHeaders()
                 });
             } else {
-                await api.post(`${API_BASE}/api/super-admin/chatbot/disease-mappings`, mappingForm, {
+                await api.post(`/chatbot/admin/disease-mappings`, mappingForm, {
                     headers: getAuthHeaders()
                 });
             }
@@ -303,7 +303,7 @@ const SuperAdminChatbotManagement: React.FC = () => {
         if (!confirm('Are you sure you want to delete this mapping?')) return;
 
         try {
-            await api.delete(`${API_BASE}/api/super-admin/chatbot/disease-mappings/${id}`, {
+            await api.delete(`/chatbot/admin/disease-mappings/${id}`, {
                 headers: getAuthHeaders()
             });
             fetchMappings();
