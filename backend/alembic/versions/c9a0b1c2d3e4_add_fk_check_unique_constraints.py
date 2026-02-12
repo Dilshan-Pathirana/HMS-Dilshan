@@ -244,7 +244,7 @@ def upgrade() -> None:
     op.create_check_constraint(
         "ck_appointment_status",
         "appointment",
-        "status in ('pending','confirmed','in_progress','completed','cancelled','no_show')",
+        "status in ('pending','confirmed','in_progress','completed','cancelled','no_show','pending_payment')",
     )
     op.create_check_constraint(
         "ck_appointment_payment_status",

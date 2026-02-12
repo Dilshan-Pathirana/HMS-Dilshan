@@ -106,11 +106,15 @@ jobs:
           SMS_PASSWORD: ${{ secrets.SMS_PASSWORD }}
           SMS_URL: ${{ secrets.SMS_URL }}
           SMS_SENDER_ID: ${{ secrets.SMS_SENDER_ID }}
+          PAYHERE_MERCHANT_ID: ${{ secrets.PAYHERE_MERCHANT_ID }}
+          PAYHERE_MERCHANT_SECRET: ${{ secrets.PAYHERE_MERCHANT_SECRET }}
+          PAYHERE_CURRENCY: ${{ secrets.PAYHERE_CURRENCY }}
+          PAYHERE_SANDBOX: ${{ secrets.PAYHERE_SANDBOX }}
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          envs: DB_HOST,DB_PORT,DB_DATABASE,DB_USERNAME,DB_PASSWORD,SECRET_KEY,SMS_USER,SMS_PASSWORD,SMS_URL,SMS_SENDER_ID
+          envs: DB_HOST,DB_PORT,DB_DATABASE,DB_USERNAME,DB_PASSWORD,SECRET_KEY,SMS_USER,SMS_PASSWORD,SMS_URL,SMS_SENDER_ID,PAYHERE_MERCHANT_ID,PAYHERE_MERCHANT_SECRET,PAYHERE_CURRENCY,PAYHERE_SANDBOX
 
           script: |
             set -e
@@ -141,6 +145,10 @@ jobs:
             SMS_SENDER_ID=$SMS_SENDER_ID
             DATABASE_URL=mysql+asyncmy://$DB_USERNAME:$DB_PASSWORD@$DB_HOST:$DB_PORT/$DB_DATABASE
             BACKEND_CORS_ORIGINS=http://13.233.254.140,http://13.233.254.140:80,http://localhost
+            PAYHERE_MERCHANT_ID=$PAYHERE_MERCHANT_ID
+            PAYHERE_MERCHANT_SECRET=$PAYHERE_MERCHANT_SECRET
+            PAYHERE_CURRENCY=$PAYHERE_CURRENCY
+            PAYHERE_SANDBOX=$PAYHERE_SANDBOX
             EOF
 
             echo "==== Remove old containers ===="

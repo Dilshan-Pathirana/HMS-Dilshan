@@ -105,5 +105,24 @@ WHERE start_time IS NULL
 
 DROP PROCEDURE IF EXISTS add_column_if_missing;
 
+-- ----- FIX: Allow 'pending_payment' in appointment status -----
+-- The CHECK constraint was created without 'pending_payment'; online bookings need it.
+SET @has_ck = (
+  SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS
+  WHERE TABLE_SCHEMA = DATABASE()
+    AND TABLE_NAME = 'appointment'
+    AND CONSTRAINT_NAME = 'ck_appointment_status'
+);
+
+SET @drop_sql = IF(@has_ck > 0,
+  'ALTER TABLE appointment DROP CHECK ck_appointment_status',
+  'SELECT 1');
+PREPARE stmt FROM @drop_sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+ALTER TABLE appointment ADD CONSTRAINT ck_appointment_status
+  CHECK (status IN ('pending','confirmed','in_progress','completed','cancelled','no_show','pending_payment'));
+
 -- Done!
-SELECT 'Migration complete — product/supplier/appointment schema updated and doctor_schedule normalized.' AS status;
+SELECT 'Migration complete — product/supplier/appointment schema updated, constraint fixed, and doctor_schedule normalized.' AS status;

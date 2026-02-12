@@ -67,17 +67,17 @@ async def prepare_payment(
     # Store order_id on each appointment so the webhook can look them up
     for appt in appointments:
         appt.payment_reference = order_id
-        appt.payment_status = "pending"
+        appt.payment_status = "unpaid"
         appt.status = "pending_payment"
         appt.payment_amount = appt.payment_amount or 350.0
         session.add(appt)
     await session.commit()
 
     # Derive notify_url (server-to-server – PayHere hits the backend directly)
-    # For Docker/localhost, PayHere sandbox won't reach us, but we set it anyway.
-    notify_url = payload.return_url.split("/payment/")[0] if "/payment/" in payload.return_url else payload.return_url
-    # Use backend base for notify so PayHere can reach it
-    notify_url = "http://localhost:8000/api/v1/payments/notify"
+    # Use the origin from return_url so PayHere doesn't reject an unreachable URL.
+    # In production, this should be the public backend URL.
+    origin = payload.return_url.split("/payment/")[0] if "/payment/" in payload.return_url else payload.return_url.rsplit("/", 1)[0]
+    notify_url = f"{origin}/api/v1/payments/notify"
 
     customer_name = f"{current_user.first_name or ''} {current_user.last_name or ''}".strip() or current_user.email or ""
     customer_phone = getattr(current_user, "contact_number_mobile", "") or "0771234567"
@@ -96,6 +96,14 @@ async def prepare_payment(
         customer_address=customer_address,
         custom_1=order_id,
     )
+
+    # ── Debug logging for PayHere troubleshooting ──
+    logger.info("PayHere prepare: order_id=%s amount=%.2f merchant_id=%s",
+                order_id, total, payhere["fields"].get("merchant_id"))
+    logger.info("PayHere prepare: hash=%s action=%s",
+                payhere["fields"].get("hash"), payhere["action"])
+    logger.info("PayHere prepare: notify_url=%s return_url=%s",
+                notify_url, payload.return_url)
 
     return {
         "success": True,
@@ -157,17 +165,17 @@ async def payment_notify(
         logger.warning("PayHere notify: INVALID SIGNATURE for order_id=%s", order_id)
         raise HTTPException(status_code=400, detail="Invalid signature")
 
-    # Map status
+    # Map PayHere status_code → payment_status (must match ck_appointment_payment_status: unpaid,paid,refunded,partial)
     status_map = {
         "2": "paid",
-        "0": "pending",
-        "-1": "cancelled",
-        "-2": "failed",
-        "-3": "chargeback",
+        "0": "unpaid",
+        "-1": "refunded",
+        "-2": "refunded",
+        "-3": "refunded",
     }
-    payment_status = status_map.get(status_code, "unknown")
+    payment_status = status_map.get(status_code, "unpaid")
     appt_status = "confirmed" if payment_status == "paid" else (
-        "pending_payment" if payment_status == "pending" else "payment_failed"
+        "pending_payment" if payment_status == "unpaid" else "cancelled"
     )
 
     # Update ALL appointments linked to this order_id (multi-slot support)
