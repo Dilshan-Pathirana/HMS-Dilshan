@@ -4,6 +4,7 @@ export const SignUpFormFieldsAttributes = {
     phone: "",
     NIC: "",
     password: "",
+    confirm_password: "",
     email: "",
     address: "",
     city: "",

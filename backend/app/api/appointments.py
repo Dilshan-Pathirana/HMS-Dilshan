@@ -97,11 +97,10 @@ async def search_appointments(
     date_: Optional[date] = Query(default=None, alias="date"),
     session: AsyncSession = Depends(get_session),
 ):
-    """Public availability search.
+    """Public availability search – reads from doctor_schedule (recurring) table.
 
-    At least one filter must be provided (doctor, branch, specialisation, date).
-    If date is omitted, returns upcoming availability for the next 14 days.
-    Excludes blocked availability windows and already-booked slots.
+    Expands recurring day-of-week schedules into concrete dates within the
+    search window, then filters out cancelled / booked slots.
     """
 
     if not any([doctor_id, branch_id, specialisation, date_]):
@@ -111,95 +110,110 @@ async def search_appointments(
         )
 
     today = date.today()
-    end_date = today + timedelta(days=14)
-
-    availability_query = select(DoctorAvailability).where(
-        DoctorAvailability.is_blocked == False  # noqa: E712
-    )
-
-    if doctor_id:
-        availability_query = availability_query.where(
-            DoctorAvailability.doctor_id == doctor_id
-        )
-    if branch_id:
-        availability_query = availability_query.where(
-            DoctorAvailability.branch_id == branch_id
-        )
-    if specialisation:
-        availability_query = availability_query.where(
-            DoctorAvailability.specialisation == specialisation
-        )
-
     if date_:
-        availability_query = availability_query.where(
-            DoctorAvailability.availability_date == date_
-        )
+        search_start = date_ if date_ >= today else today
+        search_end = date_
     else:
-        availability_query = availability_query.where(
-            DoctorAvailability.availability_date >= today,
-            DoctorAvailability.availability_date <= end_date,
-        )
+        search_start = today
+        search_end = today + timedelta(days=14)
 
-    availability_result = await session.exec(availability_query)
-    windows = availability_result.all()
-    if not windows:
+    # 1. Fetch active schedules
+    schedule_query = select(DoctorSchedule).where(DoctorSchedule.status == "active")
+    if doctor_id:
+        schedule_query = schedule_query.where(DoctorSchedule.doctor_id == doctor_id)
+    if branch_id:
+        schedule_query = schedule_query.where(DoctorSchedule.branch_id == branch_id)
+
+    schedule_result = await session.exec(schedule_query)
+    schedules = list(schedule_result.all())
+    if not schedules:
         return AppointmentSearchResponse(results=[])
 
-    # Preload doctors/branches for display
-    doctor_ids = list({w.doctor_id for w in windows})
-    branch_ids = list({w.branch_id for w in windows})
-
-    doctors_result = await session.exec(select(Doctor).where(col(Doctor.id).in_(doctor_ids)))
+    # 2. Preload doctors (for name + specialisation filter)
+    all_doctor_ids = list({s.doctor_id for s in schedules})
+    doctors_result = await session.exec(select(Doctor).where(col(Doctor.id).in_(all_doctor_ids)))
     doctors = {d.id: d for d in doctors_result.all()}
 
-    branches_result = await session.exec(select(Branch).where(col(Branch.id).in_(branch_ids)))
+    if specialisation:
+        matching_doc_ids = {
+            d.id for d in doctors.values()
+            if specialisation.lower() in (d.specialization or "").lower()
+        }
+        schedules = [s for s in schedules if s.doctor_id in matching_doc_ids]
+        if not schedules:
+            return AppointmentSearchResponse(results=[])
+
+    # 3. Preload branches
+    all_branch_ids = list({s.branch_id for s in schedules})
+    branches_result = await session.exec(select(Branch).where(col(Branch.id).in_(all_branch_ids)))
     branches = {b.id: b for b in branches_result.all()}
 
-    # Fetch booked slots for all relevant (doctor, branch, date)
-    dates = list({w.availability_date for w in windows})
-    appt_query = select(Appointment).where(
-        col(Appointment.doctor_id).in_(doctor_ids),
-        col(Appointment.branch_id).in_(branch_ids),
-        col(Appointment.appointment_date).in_(dates),
+    # 4. Fetch approved cancellations in the date range
+    from app.models.doctor_schedule import DoctorScheduleCancellation
+    cancel_q = select(DoctorScheduleCancellation).where(
+        DoctorScheduleCancellation.status == "approved",
+        DoctorScheduleCancellation.cancel_date <= search_end,
+    )
+    cancel_result = await session.exec(cancel_q)
+    cancelled_set: set = set()
+    for c in cancel_result.all():
+        c_end = c.cancel_end_date or c.cancel_date
+        d = c.cancel_date
+        while d <= c_end:
+            cancelled_set.add((c.schedule_id, d))
+            d += timedelta(days=1)
+
+    # 5. Fetch booked appointments in the date range
+    appt_q = select(Appointment).where(
+        Appointment.appointment_date >= search_start,
+        Appointment.appointment_date <= search_end,
         Appointment.status != "cancelled",
     )
-    appt_result = await session.exec(appt_query)
-    booked = appt_result.all()
+    appt_result = await session.exec(appt_q)
     booked_set = {
         (a.doctor_id, a.branch_id, a.appointment_date, _time_to_str(a.appointment_time))
-        for a in booked
+        for a in appt_result.all()
     }
 
+    # 6. Expand recurring schedules into concrete dates
     results: List[AppointmentSearchResult] = []
-    for w in windows:
-        slot_times = _iter_slots(w.start_time, w.end_time, w.slot_minutes)
-        slot_strs = [
-            _time_to_str(t)
-            for t in slot_times
-            if (w.doctor_id, w.branch_id, w.availability_date, _time_to_str(t))
-            not in booked_set
-        ]
-        if not slot_strs:
-            continue
+    for sched in schedules:
+        d = search_start
+        while d <= search_end:
+            if d.weekday() != sched.day_of_week:
+                d += timedelta(days=1)
+                continue
+            if sched.valid_from and d < sched.valid_from:
+                d += timedelta(days=1)
+                continue
+            if sched.valid_until and d > sched.valid_until:
+                d += timedelta(days=1)
+                continue
+            if (sched.id, d) in cancelled_set:
+                d += timedelta(days=1)
+                continue
 
-        doctor = doctors.get(w.doctor_id)
-        branch = branches.get(w.branch_id)
+            all_slots = _iter_slots(sched.start_time, sched.end_time, sched.slot_duration_minutes)
+            available = [
+                _time_to_str(t) for t in all_slots
+                if (sched.doctor_id, sched.branch_id, d, _time_to_str(t)) not in booked_set
+            ]
+            if available:
+                doctor = doctors.get(sched.doctor_id)
+                branch = branches.get(sched.branch_id)
+                results.append(
+                    AppointmentSearchResult(
+                        date=d,
+                        branch_id=sched.branch_id,
+                        branch_name=branch.center_name if branch else "",
+                        doctor_id=sched.doctor_id,
+                        doctor_name=f"{doctor.first_name} {doctor.last_name}" if doctor else "",
+                        specialisation=doctor.specialization if doctor else "",
+                        time_slots=available,
+                    )
+                )
+            d += timedelta(days=1)
 
-        results.append(
-            AppointmentSearchResult(
-                date=w.availability_date,
-                branch_id=w.branch_id,
-                branch_name=branch.center_name if branch else "",
-                doctor_id=w.doctor_id,
-                doctor_name=(
-                    f"{doctor.first_name} {doctor.last_name}" if doctor else ""
-                ),
-                specialisation=w.specialisation,
-                time_slots=slot_strs,
-            )
-        )
-
-    # Stable ordering for UI grouping
     results.sort(key=lambda r: (r.date, r.branch_name, r.doctor_name, r.specialisation))
     return AppointmentSearchResponse(results=results)
 
@@ -360,6 +374,7 @@ class AppointmentSlotBookPayload(BaseModel):
     date: date
     slot_index: int
     patient_id: str
+    payment_method: Optional[str] = None   # "online" | "cash" | None
 
 
 @router.post("/book", response_model=AppointmentBookResponse)
@@ -571,6 +586,8 @@ async def book_slot(
         if existing:
             raise HTTPException(status_code=409, detail="Slot already booked")
 
+        # If paying online, mark as pending_payment so PayHere webhook confirms later
+        initial_status = "pending_payment" if payload.payment_method == "online" else "confirmed"
         appointment = Appointment(
             patient_id=payload.patient_id,
             doctor_id=payload.doctor_id,
@@ -578,7 +595,10 @@ async def book_slot(
             schedule_id=schedules[0].id,
             appointment_date=payload.date,
             appointment_time=target_time,
-            status="confirmed",
+            status=initial_status,
+            payment_method=payload.payment_method or "cash",
+            payment_status="unpaid" if payload.payment_method == "online" else "paid",
+            payment_amount=350.0,
         )
         session.add(appointment)
         await session.commit()

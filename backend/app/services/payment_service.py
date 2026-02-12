@@ -10,12 +10,13 @@ class PayHereService:
     @staticmethod
     def get_config() -> dict:
         """Return PayHere configuration from settings."""
+        sandbox = bool(settings.PAYHERE_SANDBOX)
         return {
-            "merchant_id": getattr(settings, "PAYHERE_MERCHANT_ID", ""),
-            "sandbox": getattr(settings, "PAYHERE_SANDBOX", True),
+            "merchant_id": settings.PAYHERE_MERCHANT_ID,
+            "sandbox": sandbox,
             "base_url": (
                 "https://sandbox.payhere.lk/pay/checkout"
-                if getattr(settings, "PAYHERE_SANDBOX", True)
+                if sandbox
                 else "https://www.payhere.lk/pay/checkout"
             ),
         }
@@ -28,7 +29,7 @@ class PayHereService:
         currency: str = "LKR",
     ) -> str:
         """Generate MD5 hash for PayHere payment form."""
-        merchant_secret = getattr(settings, "PAYHERE_MERCHANT_SECRET", "")
+        merchant_secret = settings.PAYHERE_MERCHANT_SECRET
         # PayHere hash = MD5(merchant_id + order_id + amount_formatted + currency + MD5(merchant_secret))
         secret_hash = hashlib.md5(merchant_secret.encode()).hexdigest().upper()
         amount_formatted = f"{amount:.2f}"
@@ -45,7 +46,7 @@ class PayHereService:
         md5sig: str,
     ) -> bool:
         """Verify PayHere webhook notification signature."""
-        merchant_secret = getattr(settings, "PAYHERE_MERCHANT_SECRET", "")
+        merchant_secret = settings.PAYHERE_MERCHANT_SECRET
         secret_hash = hashlib.md5(merchant_secret.encode()).hexdigest().upper()
         local_sig = hashlib.md5(
             f"{merchant_id}{order_id}{payhere_amount}{payhere_currency}{status_code}{secret_hash}".encode()
@@ -64,13 +65,31 @@ class PayHereService:
         cancel_url: str,
         notify_url: str,
         currency: str = "LKR",
+        customer_address: str = "",
+        custom_1: str = "",
     ) -> dict:
-        """Build PayHere checkout form data."""
+        """Build PayHere checkout payload.
+
+        Returns ``{action, fields}`` — *action* is the PayHere checkout URL and
+        *fields* contains **only** the hidden-input values that PayHere expects.
+        No extra keys (sandbox, checkout_url …) are included in *fields* so the
+        frontend can blindly iterate over them.
+        """
         cfg = PayHereService.get_config()
         merchant_id = cfg["merchant_id"]
-        payment_hash = PayHereService.generate_hash(merchant_id, order_id, amount, currency)
 
-        return {
+        # Format amount exactly as PayHere requires: fixed 2-decimal, no commas
+        amount_formatted = f"{amount:.2f}"
+
+        payment_hash = PayHereService.generate_hash(
+            merchant_id, order_id, amount, currency
+        )
+
+        names = customer_name.split() if customer_name else []
+        first_name = names[0] if names else ""
+        last_name = " ".join(names[1:]) if len(names) > 1 else ""
+
+        fields: dict = {
             "merchant_id": merchant_id,
             "return_url": return_url,
             "cancel_url": cancel_url,
@@ -78,12 +97,21 @@ class PayHereService:
             "order_id": order_id,
             "items": item_name,
             "currency": currency,
-            "amount": f"{amount:.2f}",
-            "first_name": customer_name.split()[0] if customer_name else "",
-            "last_name": " ".join(customer_name.split()[1:]) if customer_name and len(customer_name.split()) > 1 else "",
-            "email": customer_email,
-            "phone": customer_phone,
+            "amount": amount_formatted,
+            "first_name": first_name,
+            "last_name": last_name,
+            "email": customer_email or "noreply@hospital.lk",
+            "phone": customer_phone or "0771234567",
+            "address": customer_address or "No Address",
+            "city": "Colombo",
+            "country": "Sri Lanka",
             "hash": payment_hash,
-            "sandbox": cfg["sandbox"],
-            "checkout_url": cfg["base_url"],
+        }
+
+        if custom_1:
+            fields["custom_1"] = custom_1
+
+        return {
+            "action": cfg["base_url"],
+            "fields": fields,
         }

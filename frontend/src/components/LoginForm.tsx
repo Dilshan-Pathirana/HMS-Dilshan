@@ -14,6 +14,7 @@ const LoginForm: React.FC<ILoginFormProps> = ({
     handleChange,
     handleSubmit,
     isLoading = false,
+    fieldErrors = {},
 }) => {
     const [showPassword, setShowPassword] = React.useState(false);
     const location = useLocation();
@@ -51,17 +52,26 @@ const LoginForm: React.FC<ILoginFormProps> = ({
                             )}
 
                             <form className="space-y-6" onSubmit={handleSubmit}>
-                                <Input
-                                    label="Email Address"
-                                    name="email"
-                                    type="text"
-                                    value={loginInfo.email}
-                                    onChange={handleChange}
-                                    placeholder="name@company.com"
-                                    leftIcon={<FaUser className="h-4 w-4" />}
-                                    required
-                                    disabled={isLoading}
-                                />
+                                <div>
+                                    <Input
+                                        label="Email Address"
+                                        name="email"
+                                        type="text"
+                                        value={loginInfo.email}
+                                        onChange={handleChange}
+                                        placeholder="name@company.com"
+                                        leftIcon={<FaUser className="h-4 w-4" />}
+                                        required
+                                        disabled={isLoading}
+                                        className={fieldErrors.email ? "border-red-500 ring-red-500" : ""}
+                                    />
+                                    {fieldErrors.email && (
+                                        <p className="mt-1 text-sm text-red-600 flex items-center">
+                                            <svg className="w-4 h-4 mr-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            {fieldErrors.email}
+                                        </p>
+                                    )}
+                                </div>
 
                                 <div className="space-y-1">
                                     <Input
@@ -83,7 +93,14 @@ const LoginForm: React.FC<ILoginFormProps> = ({
                                         }
                                         required
                                         disabled={isLoading}
+                                        className={fieldErrors.password ? "border-red-500 ring-red-500" : ""}
                                     />
+                                    {fieldErrors.password && (
+                                        <p className="mt-1 text-sm text-red-600 flex items-center">
+                                            <svg className="w-4 h-4 mr-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            {fieldErrors.password}
+                                        </p>
+                                    )}
                                     <div className="flex justify-end">
                                         <Link
                                             to="/forgot-password"

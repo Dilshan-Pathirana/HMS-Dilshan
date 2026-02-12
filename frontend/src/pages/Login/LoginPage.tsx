@@ -17,6 +17,7 @@ const LoginPage: React.FC = () => {
         field_error_list: {},
         sign_in_error: "",
     });
+    const [fieldErrors, setFieldErrors] = useState<{ email?: string; password?: string }>({});
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const dispatch = useDispatch<AppDispatch>();
@@ -78,22 +79,41 @@ const LoginPage: React.FC = () => {
             ...prevState,
             [name]: value,
         }));
+        // Clear errors when user starts typing
+        setLoginError({ field_error_list: {}, sign_in_error: "" });
+        setFieldErrors((prev) => ({ ...prev, [name]: undefined }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Client-side validation
+        const errors: { email?: string; password?: string } = {};
+        const emailTrimmed = loginInfo.email.trim();
+        if (!emailTrimmed) {
+            errors.email = "Email is required.";
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailTrimmed)) {
+            errors.email = "Please enter a valid email address.";
+        }
+        if (!loginInfo.password) {
+            errors.password = "Password is required.";
+        } else if (loginInfo.password.length < 6) {
+            errors.password = "Password must be at least 6 characters.";
+        }
+        if (Object.keys(errors).length > 0) {
+            setFieldErrors(errors);
+            return;
+        }
+        setFieldErrors({});
+
         setIsLoading(true);
+        setLoginError({ field_error_list: {}, sign_in_error: "" });
 
         try {
-            const setErrorCallback = (error: any) => {
-                setLoginError({
-                    ...loginError,
-                    field_error_list: error.errors,
-                });
-            };
+            const setErrorCallback = (_error: any) => { /* handled via setSignInError */ };
 
             const setSignInError = (error: string) => {
-                setLoginError({ ...loginError, sign_in_error: error });
+                setLoginError((prev) => ({ ...prev, sign_in_error: error }));
             };
 
             await dispatch(
@@ -101,9 +121,10 @@ const LoginPage: React.FC = () => {
             );
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                console.error("Error response:", error.response?.data);
+                const msg = error.response?.data?.detail || error.response?.data?.message || "Login failed. Please try again.";
+                setLoginError((prev) => ({ ...prev, sign_in_error: msg }));
             } else {
-                console.error("Unexpected error:", error);
+                setLoginError((prev) => ({ ...prev, sign_in_error: "An unexpected error occurred. Please try again." }));
             }
         } finally {
             setIsLoading(false);
@@ -117,6 +138,7 @@ const LoginPage: React.FC = () => {
             handleChange={handleChange}
             handleSubmit={handleSubmit}
             isLoading={isLoading}
+            fieldErrors={fieldErrors}
         />
     );
 };

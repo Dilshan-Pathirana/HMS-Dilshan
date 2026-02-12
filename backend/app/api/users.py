@@ -1,8 +1,9 @@
 from typing import List, Optional
+import re
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends, HTTPException, Query
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from sqlmodel.ext.asyncio.session import AsyncSession
 from sqlmodel import select, col
 
@@ -32,6 +33,53 @@ class PatientSignupRequest(BaseModel):
     emergency_contact_name: Optional[str] = None
     emergency_contact_phone: Optional[str] = None
     branch_id: Optional[str] = None
+
+    @field_validator("first_name")
+    @classmethod
+    def first_name_required(cls, v: str) -> str:
+        if not v or not v.strip():
+            raise ValueError("First name is required")
+        return v.strip()
+
+    @field_validator("last_name")
+    @classmethod
+    def last_name_required(cls, v: str) -> str:
+        if not v or not v.strip():
+            raise ValueError("Last name is required")
+        return v.strip()
+
+    @field_validator("phone")
+    @classmethod
+    def phone_valid(cls, v: str) -> str:
+        if not v or not v.strip():
+            raise ValueError("Phone number is required")
+        cleaned = re.sub(r"\s+", "", v.strip())
+        if not re.match(r"^\+?\d{9,15}$", cleaned):
+            raise ValueError("Enter a valid phone number")
+        return v.strip()
+
+    @field_validator("NIC")
+    @classmethod
+    def nic_required(cls, v: str) -> str:
+        if not v or not v.strip():
+            raise ValueError("NIC is required")
+        return v.strip()
+
+    @field_validator("password")
+    @classmethod
+    def password_strong(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None and v.strip():
+            if len(v.strip()) < 6:
+                raise ValueError("Password must be at least 6 characters")
+        return v
+
+    @field_validator("email")
+    @classmethod
+    def email_valid(cls, v: Optional[str]) -> Optional[str]:
+        if v and v.strip():
+            if not re.match(r"^[^\s@]+@[^\s@]+\.[^\s@]+$", v.strip()):
+                raise ValueError("Enter a valid email address")
+        return v
 
 @router.get("/me", response_model=UserRead)
 async def read_user_me(

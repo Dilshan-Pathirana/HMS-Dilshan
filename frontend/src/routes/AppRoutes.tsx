@@ -37,6 +37,10 @@ const DoctorScheduleDetails = lazy(() => import("../pages/UserWeb/AppointmentSch
 const AppointmentConfirmation = lazy(() => import("../pages/UserWeb/AppointmentConfirmation.tsx"));
 const AppointmentCancelled = lazy(() => import("../pages/UserWeb/AppointmentCancelled.tsx"));
 
+// Payment return pages
+const PaymentSuccess = lazy(() => import("../pages/PaymentSuccess.tsx"));
+const PaymentCancel = lazy(() => import("../pages/PaymentCancel.tsx"));
+
 // Treatment Pages
 const BoneJointDisorders = lazy(() => import("../pages/UserWeb/Treatments/BoneJointDisorders.tsx"));
 const FertilityProblems = lazy(() => import("../pages/UserWeb/Treatments/FertilityProblems.tsx"));
@@ -309,6 +313,10 @@ const AppRoutes: React.FC = () => {
                     }
                 />
                 <Route path="/appointment-cancelled/:orderId" element={<AppointmentCancelled />} />
+
+                {/* PayHere payment return pages */}
+                <Route path="/payment/success" element={<PaymentSuccess />} />
+                <Route path="/payment/cancel" element={<PaymentCancel />} />
 
                 <Route
                     path="/patient-dashboard/*"

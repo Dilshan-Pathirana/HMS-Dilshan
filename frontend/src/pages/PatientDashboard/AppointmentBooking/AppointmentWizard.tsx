@@ -100,6 +100,7 @@ const AppointmentWizard: React.FC = () => {
   const navigate = useNavigate();
   const userId = useSelector((state: RootState) => state.auth.userId);
   const userRole = useSelector((state: RootState) => state.auth.userRole);
+  const patientBranchId = useSelector((state: RootState) => state.auth.branchId);
   const token = localStorage.getItem('token');
   const { userDetails } = useFetchPatientDetails(userId);
 
@@ -111,6 +112,13 @@ const AppointmentWizard: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<WizardStep>(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Branch-preference state
+  const [allBranches, setAllBranches] = useState<{ id: string; name: string }[]>([]);
+  const [patientBranchName, setPatientBranchName] = useState<string>('');
+  const [branchScope, setBranchScope] = useState<'my-branch' | 'all'>('my-branch');
+  const [branchFilter, setBranchFilter] = useState<string>(''); // manual dropdown
+  const [initialSearchDone, setInitialSearchDone] = useState(false);
 
   // Step 1: Doctor Selection
   const [cities, setCities] = useState<string[]>([]);
@@ -174,19 +182,47 @@ const AppointmentWizard: React.FC = () => {
     loadInitialData();
   }, []);
 
+  // Auto-search when patient branch becomes available
+  useEffect(() => {
+    if (initialSearchDone) return;
+    const bid = userDetails.branchId || patientBranchId;
+    if (!bid || allBranches.length === 0) return;
+
+    const matchedBranch = allBranches.find((b) => b.id === bid);
+    if (matchedBranch) {
+      setPatientBranchName(matchedBranch.name);
+      setBranchFilter(bid);
+      setBranchScope('my-branch');
+    }
+    setInitialSearchDone(true);
+    // auto-search with patient branch
+    searchDoctorsWithBranch(bid);
+  }, [userDetails.branchId, patientBranchId, allBranches, initialSearchDone]);
+
   const loadInitialData = async () => {
     try {
       setLoading(true);
-      const [citiesRes, specializationsRes] = await Promise.all([
+      const [citiesRes, specializationsRes, branchesRes] = await Promise.all([
         api.get('/appointments/cities'),
         api.get('/appointments/specializations'),
+        api.get('/appointments/branches'),
       ]);
 
-      if (citiesRes.data.status === 200) {
-        setCities(citiesRes.data.cities);
+      // Axios interceptor unwraps response.data, so response IS the data
+      const citiesData = (citiesRes as any)?.data || citiesRes;
+      const specData = (specializationsRes as any)?.data || specializationsRes;
+      const branchData = (branchesRes as any)?.data || branchesRes;
+
+      if (citiesData?.status === 200) {
+        setCities(citiesData.cities);
       }
-      if (specializationsRes.data.status === 200) {
-        setSpecializations(specializationsRes.data.specializations);
+      if (specData?.status === 200) {
+        setSpecializations(specData.specializations);
+      }
+      if (branchData?.status === 200) {
+        setAllBranches(
+          (branchData.branches || []).map((b: any) => ({ id: b.id, name: b.name })),
+        );
       }
     } catch (err) {
       console.error('Failed to load initial data:', err);
@@ -195,8 +231,8 @@ const AppointmentWizard: React.FC = () => {
     }
   };
 
-  // Search doctors
-  const searchDoctors = useCallback(async () => {
+  // Search doctors (helper accepting explicit branch)
+  const searchDoctorsWithBranch = useCallback(async (overrideBranch?: string) => {
     try {
       setLoading(true);
       setError(null);
@@ -206,11 +242,15 @@ const AppointmentWizard: React.FC = () => {
       if (searchFilters.city) params.append('city', searchFilters.city);
       if (searchFilters.specialization) params.append('specialization', searchFilters.specialization);
 
-      const response = await api.get(`/appointments/doctors/search?${params.toString()}`);
+      const activeBranch = overrideBranch !== undefined ? overrideBranch : branchFilter;
+      if (activeBranch) params.append('branch_id', activeBranch);
 
-      if (response.data.status === 200) {
-        setDoctors(response.data.doctors);
-        if (response.data.doctors.length === 0) {
+      const response = await api.get(`/appointments/doctors/search?${params.toString()}`);
+      const payload = (response as any)?.data || response;
+
+      if (payload?.status === 200) {
+        setDoctors(payload.doctors);
+        if (payload.doctors.length === 0) {
           setError('No doctors found matching your criteria. Try adjusting your filters.');
         }
       }
@@ -220,7 +260,34 @@ const AppointmentWizard: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [searchFilters]);
+  }, [searchFilters, branchFilter]);
+
+  // Search doctors (button click)
+  const searchDoctors = useCallback(async () => {
+    await searchDoctorsWithBranch();
+  }, [searchDoctorsWithBranch]);
+
+  // Expand search to all branches
+  const handleExpandSearch = () => {
+    setBranchScope('all');
+    setBranchFilter('');
+    searchDoctorsWithBranch('');
+  };
+
+  // Switch back to patient's branch
+  const handleMyBranchOnly = () => {
+    const bid = userDetails.branchId || patientBranchId;
+    setBranchScope('my-branch');
+    setBranchFilter(bid || '');
+    searchDoctorsWithBranch(bid || '');
+  };
+
+  // Manual branch dropdown change
+  const handleBranchFilterChange = (value: string) => {
+    setBranchFilter(value);
+    setBranchScope(value ? 'my-branch' : 'all');
+    searchDoctorsWithBranch(value);
+  };
 
   // Handle doctor selection
   const handleSelectDoctor = (doctor: Doctor) => {
@@ -343,12 +410,14 @@ const AppointmentWizard: React.FC = () => {
     }
   };
 
-  // Create booking (supports multiple slots)
+  // Create booking (supports multiple slots + PayHere redirect)
   const createBooking = async () => {
     if (!selectedDoctor || selectedSlots.length === 0 || !selectedDate || !userDetails.patientId) {
       setError('Missing required booking information');
       return;
     }
+
+    const isOnline = paymentMethod === 'payhere';
 
     try {
       setLoading(true);
@@ -363,6 +432,7 @@ const AppointmentWizard: React.FC = () => {
           date: selectedDate,
           slot_index: slot.slot_number,
           patient_id: userDetails.patientId,
+          payment_method: isOnline ? 'online' : 'cash',
         });
 
         const payload = (response as any)?.data ? (response as any).data : response;
@@ -374,24 +444,48 @@ const AppointmentWizard: React.FC = () => {
         });
       }
 
-      setBookingResult({
-        id: bookedItems[0]?.id || '',
-        token_number: bookedItems[0]?.slot_number || 0,
-        appointment_date: selectedDate,
-        appointment_time: bookedItems[0]?.appointment_time || '',
-        slot_number: bookedItems[0]?.slot_number || 0,
-        status: 'confirmed',
-        payment_required: false,
-        booking_fee: bookingFeePerSlot,
-        bookings: bookedItems.map((item) => ({
-          id: item.id,
-          token_number: item.slot_number,
-          slot_number: item.slot_number,
-          appointment_time: item.appointment_time,
-        })),
-        total_amount: selectedSlots.length * bookingFeePerSlot,
-      });
-      setBookingConfirmed(true);
+      if (isOnline && bookedItems.length > 0) {
+        // Redirect to PayHere for payment
+        setPaymentProcessing(true);
+        const appointmentIds = bookedItems.map(b => b.id);
+        const origin = window.location.origin;
+        const orderTag = appointmentIds.join(',');
+        const prepRes = await api.post('/payments/prepare', {
+          appointment_ids: appointmentIds,
+          return_url: `${origin}/payment/success?order_ids=${orderTag}`,
+          cancel_url: `${origin}/payment/cancel?order_ids=${orderTag}`,
+        });
+        const prepPayload = (prepRes as any)?.data ? (prepRes as any).data : prepRes;
+        const action = prepPayload?.action;
+        const fields = prepPayload?.fields;
+        if (action && fields) {
+          initiatePayHerePayment(action, fields);
+          return; // user is being redirected — do NOT setLoading(false)
+        } else {
+          setError('Failed to prepare payment data.');
+          setPaymentProcessing(false);
+        }
+      } else {
+        // Cash / clinic payment → show success immediately
+        setBookingResult({
+          id: bookedItems[0]?.id || '',
+          token_number: bookedItems[0]?.slot_number || 0,
+          appointment_date: selectedDate,
+          appointment_time: bookedItems[0]?.appointment_time || '',
+          slot_number: bookedItems[0]?.slot_number || 0,
+          status: 'confirmed',
+          payment_required: false,
+          booking_fee: bookingFeePerSlot,
+          bookings: bookedItems.map((item) => ({
+            id: item.id,
+            token_number: item.slot_number,
+            slot_number: item.slot_number,
+            appointment_time: item.appointment_time,
+          })),
+          total_amount: selectedSlots.length * bookingFeePerSlot,
+        });
+        setBookingConfirmed(true);
+      }
     } catch (err: any) {
       console.error('Booking failed:', err);
 
@@ -405,66 +499,28 @@ const AppointmentWizard: React.FC = () => {
       }
 
       setError(err.response?.data?.detail || err.response?.data?.message || 'Failed to create booking. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Fetch PayHere payment data
-  const fetchPayHereData = async (booking: BookingResult) => {
-    try {
-      const response = await api.post(
-        `/patient/appointments/${booking.id}/prepare-payment`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (response.data.payment_data) {
-        setPayhereData(response.data.payment_data);
-        initiatePayHerePayment(response.data.payment_data);
-      }
-    } catch (err) {
-      console.error('Failed to get PayHere data:', err);
-      setError('Failed to prepare payment. Please try again.');
       setPaymentProcessing(false);
+    } finally {
+      if (!paymentProcessing) setLoading(false);
     }
   };
 
-  // PayHere payment initiation
-  const initiatePayHerePayment = (paymentData: any) => {
-    setPaymentProcessing(true);
-
-    // Create and submit a form to PayHere
+  // PayHere payment — auto-submit a hidden HTML form (mandatory for PayHere)
+  const initiatePayHerePayment = (action: string, fields: Record<string, string>) => {
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = paymentData.payment_url;
-    // Opens in same tab - user will be redirected back after payment
+    form.action = action;
 
-    // Add all payment data fields
-    Object.entries(paymentData).forEach(([key, value]) => {
-      if (key !== 'payment_url') {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = String(value);
-        form.appendChild(input);
-      }
+    Object.entries(fields).forEach(([key, value]) => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = key;
+      input.value = String(value);
+      form.appendChild(input);
     });
 
     document.body.appendChild(form);
     form.submit();
-    document.body.removeChild(form);
-
-    // Show message that payment is being processed
-    // The booking will be confirmed only after PayHere webhook confirms payment
-    // User will be redirected to confirmation page by PayHere return_url
-    setError(null);
-    setPaymentProcessing(true);
-    // Keep processing state - user will be redirected to confirmation page after payment
   };
 
   // Proceed to Step 4
@@ -595,8 +651,39 @@ const AppointmentWizard: React.FC = () => {
             <div>
               <h2 className="text-xl font-semibold text-neutral-800 mb-6">Find Your Doctor</h2>
 
+              {/* Branch Scope Banner */}
+              {patientBranchName && (
+                <div className="mb-5 bg-indigo-50 border border-indigo-200 rounded-lg p-4 flex items-center justify-between">
+                  <div className="flex items-center">
+                    <FaHospital className="text-indigo-500 mr-2 flex-shrink-0" />
+                    <span className="text-sm text-indigo-800">
+                      {branchScope === 'my-branch' ? (
+                        <>Showing doctors from your branch: <strong>{patientBranchName}</strong></>
+                      ) : (
+                        <>Showing doctors from <strong>all branches</strong></>
+                      )}
+                    </span>
+                  </div>
+                  {branchScope === 'my-branch' ? (
+                    <button
+                      onClick={handleExpandSearch}
+                      className="ml-4 text-xs font-medium text-indigo-600 hover:text-indigo-800 underline whitespace-nowrap"
+                    >
+                      Show all branches
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleMyBranchOnly}
+                      className="ml-4 text-xs font-medium text-indigo-600 hover:text-indigo-800 underline whitespace-nowrap"
+                    >
+                      My branch only
+                    </button>
+                  )}
+                </div>
+              )}
+
               {/* Search Filters */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                 {/* Doctor Name Search */}
                 <div className="relative">
                   <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
@@ -609,6 +696,23 @@ const AppointmentWizard: React.FC = () => {
                       setSearchFilters((prev) => ({ ...prev, doctorName: e.target.value }))
                     }
                   />
+                </div>
+
+                {/* Branch Filter */}
+                <div className="relative">
+                  <FaHospital className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
+                  <select
+                    className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-white"
+                    value={branchFilter}
+                    onChange={(e) => handleBranchFilterChange(e.target.value)}
+                  >
+                    <option value="">All Branches</option>
+                    {allBranches.map((b) => (
+                      <option key={b.id} value={b.id}>
+                        {b.name}{b.id === (userDetails.branchId || patientBranchId) ? ' (Your branch)' : ''}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 {/* City Filter */}
@@ -675,6 +779,30 @@ const AppointmentWizard: React.FC = () => {
                   <h3 className="text-lg font-medium text-neutral-700 mb-4">
                     Found {doctors.length} doctor{doctors.length !== 1 ? 's' : ''}
                   </h3>
+
+                  {/* Expand prompt — shown after initial branch-scoped results */}
+                  {branchScope === 'my-branch' && patientBranchName && (
+                    <div className="mb-4 bg-yellow-50 border border-yellow-200 rounded-lg p-3 flex items-center justify-between">
+                      <p className="text-sm text-yellow-800">
+                        Want to see doctors in other branches too?
+                      </p>
+                      <div className="flex gap-2 ml-4">
+                        <button
+                          onClick={handleExpandSearch}
+                          className="px-3 py-1.5 text-xs font-medium bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+                        >
+                          Yes, show all branches
+                        </button>
+                        <button
+                          onClick={() => setError(null)}
+                          className="px-3 py-1.5 text-xs font-medium text-neutral-600 bg-neutral-100 rounded-lg hover:bg-neutral-200 transition-colors"
+                        >
+                          No, keep my branch
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="grid gap-4">
                     {doctors.map((doctor) => (
                       <div
@@ -705,18 +833,27 @@ const AppointmentWizard: React.FC = () => {
                               <p className="text-neutral-500 text-xs mt-1">{doctor.qualification}</p>
                             )}
                             <div className="flex flex-wrap gap-2 mt-2">
-                              {doctor.schedules.slice(0, 3).map((schedule) => (
-                                <span
-                                  key={schedule.schedule_id}
-                                  className="inline-flex items-center px-2 py-1 bg-neutral-100 rounded-full text-xs text-neutral-600"
-                                >
-                                  <FaHospital className="mr-1" />
-                                  {schedule.branch_name}
-                                </span>
-                              ))}
-                              {doctor.schedules.length > 3 && (
+                              {doctor.schedules.slice(0, 4).map((schedule) => {
+                                const isPatientBranch =
+                                  schedule.branch_id === (userDetails.branchId || patientBranchId);
+                                return (
+                                  <span
+                                    key={schedule.schedule_id}
+                                    className={`inline-flex items-center px-2 py-1 rounded-full text-xs ${
+                                      isPatientBranch
+                                        ? 'bg-green-100 text-green-700 font-medium'
+                                        : 'bg-neutral-100 text-neutral-600'
+                                    }`}
+                                  >
+                                    <FaHospital className="mr-1" />
+                                    {schedule.branch_name}
+                                    {isPatientBranch && ' ★'}
+                                  </span>
+                                );
+                              })}
+                              {doctor.schedules.length > 4 && (
                                 <span className="text-xs text-neutral-500">
-                                  +{doctor.schedules.length - 3} more
+                                  +{doctor.schedules.length - 4} more
                                 </span>
                               )}
                             </div>

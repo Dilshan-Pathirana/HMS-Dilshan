@@ -34,9 +34,27 @@ async def http_exception_handler(request: Request, exc: HTTPException):
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    # Build a field-keyed errors dict for the frontend
+    field_errors: dict[str, str] = {}
+    for err in exc.errors():
+        loc = err.get("loc", [])
+        # loc is e.g. ("body", "first_name") — take the last element as field name
+        field = str(loc[-1]) if loc else "unknown"
+        if field == "body":
+            field = "unknown"
+        msg = err.get("msg", "Invalid value")
+        # Strip Pydantic prefix "Value error, " if present
+        if msg.startswith("Value error, "):
+            msg = msg[len("Value error, "):]
+        field_errors.setdefault(field, msg)
+
     return JSONResponse(
         status_code=422,
-        content={"detail": "Validation Error", "errors": exc.errors()},
+        content={
+            "success": False,
+            "detail": "Validation Error",
+            "errors": field_errors,
+        },
     )
 
 @app.exception_handler(Exception)
