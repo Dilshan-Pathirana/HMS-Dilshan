@@ -46,9 +46,9 @@ const ClinicalQuestioning: React.FC<ClinicalQuestioningProps> = ({
         try {
             setLoading(true);
             const response = await getQuestionBank();
-            if (response.status === 200) {
-                setQuestionBank(response.questions);
-            }
+            const payload = (response as any)?.data ? (response as any).data : response;
+            const questions = payload.questions || [];
+            setQuestionBank(questions);
         } catch (error) {
             console.error('Failed to fetch question bank:', error);
         } finally {
@@ -99,7 +99,11 @@ const ClinicalQuestioning: React.FC<ClinicalQuestioningProps> = ({
                     question_bank_id: bankQuestion.id,
                     question_text: bankQuestion.question_text,
                     answer_text: answer,
-                    is_custom: false
+                    answer_type: bankQuestion.answer_type,
+                    options: bankQuestion.options,
+                    category: bankQuestion.category,
+                    is_custom: false,
+                    display_order: bankQuestion.display_order,
                 }];
             }
             return prev;
@@ -123,7 +127,11 @@ const ClinicalQuestioning: React.FC<ClinicalQuestioningProps> = ({
             question_bank_id: null,
             question_text: customQuestion,
             answer_text: customAnswer,
-            is_custom: true
+            answer_type: 'text',
+            options: null,
+            category: null,
+            is_custom: true,
+            display_order: 999,
         }]);
         
         setCustomQuestion('');
@@ -337,6 +345,7 @@ const QuestionItem: React.FC<{
     const renderAnswerInput = () => {
         switch (question.answer_type) {
             case 'yes_no':
+            case 'true_false':
                 return (
                     <div className="flex items-center gap-3">
                         <button
@@ -379,10 +388,19 @@ const QuestionItem: React.FC<{
                         ))}
                     </div>
                 );
-            case 'multiple_choice':
+            case 'multiple_choice': {
+                // Parse options from JSON string
+                let parsedOptions: string[] = [];
+                try {
+                    if (question.options) {
+                        parsedOptions = typeof question.options === 'string'
+                            ? JSON.parse(question.options)
+                            : question.options;
+                    }
+                } catch { parsedOptions = []; }
                 return (
                     <div className="flex flex-wrap gap-2">
-                        {question.options?.map((option, index) => (
+                        {parsedOptions.map((option: string, index: number) => (
                             <button
                                 key={index}
                                 onClick={() => onAnswerChange(option)}
@@ -397,6 +415,7 @@ const QuestionItem: React.FC<{
                         ))}
                     </div>
                 );
+            }
             default:
                 return (
                     <textarea

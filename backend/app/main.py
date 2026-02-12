@@ -247,7 +247,7 @@ async def get_patient_appointments_compat(
                 "schedule_id": appt.schedule_id,
                 "user_id": user_id,
                 "address": patient.address,
-                "reschedule_count": 0,
+                "reschedule_count": appt.reschedule_count if hasattr(appt, 'reschedule_count') else 0,
                 "status": appt.status,
                 "branch_name": branch.center_name if branch else "",
             }

@@ -28,6 +28,13 @@ class VitalSignBase(SQLModel):
     height: Optional[float] = None
     bmi: Optional[float] = None
     blood_sugar: Optional[float] = None
+    # Extended nurse assessment fields
+    chief_complaint: Optional[str] = Field(default=None, sa_column=Column(Text))
+    allergies: Optional[str] = Field(default=None, sa_column=Column(Text))
+    chronic_diseases: Optional[str] = Field(default=None, sa_column=Column(Text))
+    sleep_quality: Optional[int] = None  # 1-10
+    appetite: Optional[str] = Field(default=None, max_length=20)  # poor / normal / excess
+    lifestyle_notes: Optional[str] = Field(default=None, sa_column=Column(Text))
     notes: Optional[str] = Field(default=None, sa_column=Column(Text))
     recorded_at: datetime = Field(default_factory=datetime.utcnow)
 

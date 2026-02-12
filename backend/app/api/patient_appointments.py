@@ -114,9 +114,44 @@ async def reschedule_eligibility(
     appt = await session.get(Appointment, appointment_id)
     if not appt:
         raise HTTPException(404, "Appointment not found")
-    eligible = appt.status in ("pending", "confirmed")
-    reason = None if eligible else f"Cannot reschedule a {appt.status} appointment"
-    return {"eligible": eligible, "reason": reason}
+
+    eligible = True
+    reason = None
+
+    if appt.status not in ("pending", "confirmed", "pending_payment"):
+        eligible = False
+        reason = f"Cannot reschedule a {appt.status} appointment"
+    elif appt.reschedule_count >= 1:
+        eligible = False
+        reason = "This appointment has already been rescheduled once."
+    else:
+        appt_datetime = datetime.combine(appt.appointment_date, appt.appointment_time)
+        if (appt_datetime - datetime.utcnow()) < timedelta(hours=24):
+            eligible = False
+            reason = "Appointments can only be rescheduled at least 24 hours in advance."
+
+    return {
+        "eligible": eligible,
+        "reason": reason,
+        "reschedule_count": appt.reschedule_count,
+        "status": 200,
+        "can_reschedule": eligible,
+        "remaining_attempts": max(0, 1 - appt.reschedule_count),
+        "max_attempts": 1,
+        "is_admin_cancelled": False,
+        "appointment_details": {
+            "id": appt.id,
+            "date": str(appt.appointment_date),
+            "time": str(appt.appointment_time),
+            "doctor_id": appt.doctor_id,
+            "branch_id": appt.branch_id,
+            "status": appt.status,
+        },
+        "settings": {
+            "max_advance_booking_days": 30,
+            "reschedule_advance_hours": 24,
+        },
+    }
 
 
 @router.post("/{appointment_id}/reschedule", response_model=AppointmentRead)

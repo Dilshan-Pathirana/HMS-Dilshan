@@ -11,14 +11,21 @@ import {
     DollarSign,
     Check,
     Loader2,
-    AlertCircle
+    AlertCircle,
+    Heart,
+    Thermometer,
+    Scale,
+    FileText,
+    UserCheck
 } from 'lucide-react';
 import {
     Consultation,
     PatientOverview,
     ConsultationQuestion,
     ConsultationDiagnosis,
-    Prescription
+    Prescription,
+    VitalSigns,
+    AutoSummary
 } from './types';
 import {
     getConsultation,
@@ -26,7 +33,9 @@ import {
     saveQuestions,
     saveDiagnoses,
     savePrescriptions,
-    submitConsultation
+    submitConsultation,
+    getConsultationVitals,
+    generateAutoSummary
 } from './consultationApi';
 import ClinicalQuestioning from './ClinicalQuestioning';
 import DiagnosisSelection from './DiagnosisSelection';
@@ -61,7 +70,8 @@ const ConsultationFlow: React.FC = () => {
     const [chiefComplaint, setChiefComplaint] = useState<string>('');
     const [clinicalNotes, setClinicalNotes] = useState<string>('');
     const [followUpInstructions, setFollowUpInstructions] = useState<string>('');
-
+    const [vitals, setVitals] = useState<VitalSigns | null>(null);
+    const [autoSummary, setAutoSummary] = useState<AutoSummary | null>(null);
     const steps: Step[] = [
         { id: 1, title: 'Patient Overview', icon: <User className="w-5 h-5" />, component: PatientOverviewStep },
         { id: 2, title: 'Clinical Questions', icon: <MessageSquare className="w-5 h-5" />, component: ClinicalQuestioning },
@@ -118,6 +128,12 @@ const ConsultationFlow: React.FC = () => {
                 // Get patient details
                 const patientResponse = await getPatientOverview(consultResponse.consultation.patient_id);
                 setPatient(patientResponse);
+
+                // Get nurse vitals for this consultation
+                try {
+                    const vitalsResponse = await getConsultationVitals(consultationId!);
+                    setVitals(vitalsResponse.vitals);
+                } catch { /* vitals may not exist */ }
             }
         } catch (err: any) {
             console.error('Failed to fetch consultation:', err);
@@ -139,8 +155,16 @@ const ConsultationFlow: React.FC = () => {
                         question_bank_id: q.question_bank_id || undefined,
                         question_text: q.question_text,
                         answer_text: q.answer_text,
-                        is_custom: q.is_custom
+                        is_custom: q.is_custom,
+                        answer_type: q.answer_type,
+                        category: q.category || undefined,
+                        display_order: q.display_order,
                     })));
+                    // Generate auto-summary after Q&A
+                    try {
+                        const summaryResp = await generateAutoSummary(consultationId);
+                        setAutoSummary(summaryResp.summary);
+                    } catch { /* non-critical */ }
                     break;
                 case 3: // Diagnoses
                     await saveDiagnoses(consultationId, diagnoses);
@@ -310,6 +334,7 @@ const ConsultationFlow: React.FC = () => {
                         patient={patient}
                         chiefComplaint={chiefComplaint}
                         setChiefComplaint={setChiefComplaint}
+                        vitals={vitals}
                     />
                 )}
                 {currentStep === 2 && (
@@ -320,11 +345,54 @@ const ConsultationFlow: React.FC = () => {
                     />
                 )}
                 {currentStep === 3 && (
-                    <DiagnosisSelection
-                        consultationId={consultationId!}
-                        diagnoses={diagnoses}
-                        setDiagnoses={setDiagnoses}
-                    />
+                    <div>
+                        {/* Auto-Summary Panel */}
+                        {autoSummary && (autoSummary.symptom_summary || autoSummary.keynotes) && (
+                            <div className="mx-6 mt-6 bg-indigo-50 border border-indigo-200 rounded-xl p-4">
+                                <h3 className="font-semibold text-indigo-800 mb-2 flex items-center gap-2">
+                                    <FileText className="w-4 h-4" />
+                                    Auto-Generated Summary
+                                </h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                                    {autoSummary.symptom_summary && (
+                                        <div>
+                                            <span className="font-medium text-indigo-700">Symptoms: </span>
+                                            <span className="text-indigo-600">{autoSummary.symptom_summary}</span>
+                                        </div>
+                                    )}
+                                    {autoSummary.modalities && (
+                                        <div>
+                                            <span className="font-medium text-indigo-700">Modalities: </span>
+                                            <span className="text-indigo-600">{autoSummary.modalities}</span>
+                                        </div>
+                                    )}
+                                    {autoSummary.mental_emotional && (
+                                        <div>
+                                            <span className="font-medium text-indigo-700">Mental/Emotional: </span>
+                                            <span className="text-indigo-600">{autoSummary.mental_emotional}</span>
+                                        </div>
+                                    )}
+                                    {autoSummary.physical_generals && (
+                                        <div>
+                                            <span className="font-medium text-indigo-700">Physical Generals: </span>
+                                            <span className="text-indigo-600">{autoSummary.physical_generals}</span>
+                                        </div>
+                                    )}
+                                    {autoSummary.keynotes && (
+                                        <div className="col-span-full">
+                                            <span className="font-medium text-indigo-700">Keynotes: </span>
+                                            <span className="text-indigo-600">{autoSummary.keynotes}</span>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                        <DiagnosisSelection
+                            consultationId={consultationId!}
+                            diagnoses={diagnoses}
+                            setDiagnoses={setDiagnoses}
+                        />
+                    </div>
                 )}
                 {currentStep === 4 && (
                     <MedicineRecommendation
@@ -401,7 +469,8 @@ const PatientOverviewStep: React.FC<{
     patient: PatientOverview;
     chiefComplaint: string;
     setChiefComplaint: (value: string) => void;
-}> = ({ patient, chiefComplaint, setChiefComplaint }) => {
+    vitals: VitalSigns | null;
+}> = ({ patient, chiefComplaint, setChiefComplaint, vitals }) => {
     return (
         <div className="p-6 space-y-6">
             {/* Patient Info */}
@@ -424,6 +493,120 @@ const PatientOverviewStep: React.FC<{
                     </div>
                 </div>
             </div>
+
+            {/* Nurse Pre-Assessment Vitals */}
+            {vitals && (
+                <div className="bg-green-50 border border-green-200 rounded-xl p-4">
+                    <h3 className="font-semibold text-green-800 mb-3 flex items-center gap-2">
+                        <UserCheck className="w-5 h-5" />
+                        Nurse Pre-Assessment
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {vitals.temperature && (
+                            <div className="flex items-center gap-2">
+                                <Thermometer className="w-4 h-4 text-orange-500" />
+                                <div>
+                                    <p className="text-xs text-neutral-500">Temperature</p>
+                                    <p className="font-semibold">{vitals.temperature}°F</p>
+                                </div>
+                            </div>
+                        )}
+                        {vitals.blood_pressure_systolic && (
+                            <div className="flex items-center gap-2">
+                                <Heart className="w-4 h-4 text-red-500" />
+                                <div>
+                                    <p className="text-xs text-neutral-500">Blood Pressure</p>
+                                    <p className="font-semibold">{vitals.blood_pressure_systolic}/{vitals.blood_pressure_diastolic} mmHg</p>
+                                </div>
+                            </div>
+                        )}
+                        {vitals.pulse_rate && (
+                            <div className="flex items-center gap-2">
+                                <Activity className="w-4 h-4 text-pink-500" />
+                                <div>
+                                    <p className="text-xs text-neutral-500">Pulse Rate</p>
+                                    <p className="font-semibold">{vitals.pulse_rate} bpm</p>
+                                </div>
+                            </div>
+                        )}
+                        {vitals.oxygen_saturation && (
+                            <div>
+                                <p className="text-xs text-neutral-500">SpO2</p>
+                                <p className="font-semibold">{vitals.oxygen_saturation}%</p>
+                            </div>
+                        )}
+                        {vitals.weight && (
+                            <div className="flex items-center gap-2">
+                                <Scale className="w-4 h-4 text-blue-500" />
+                                <div>
+                                    <p className="text-xs text-neutral-500">Weight</p>
+                                    <p className="font-semibold">{vitals.weight} kg</p>
+                                </div>
+                            </div>
+                        )}
+                        {vitals.height && (
+                            <div>
+                                <p className="text-xs text-neutral-500">Height</p>
+                                <p className="font-semibold">{vitals.height} cm</p>
+                            </div>
+                        )}
+                        {vitals.bmi && (
+                            <div>
+                                <p className="text-xs text-neutral-500">BMI</p>
+                                <p className="font-semibold">{vitals.bmi}</p>
+                            </div>
+                        )}
+                        {vitals.blood_sugar && (
+                            <div>
+                                <p className="text-xs text-neutral-500">Blood Sugar</p>
+                                <p className="font-semibold">{vitals.blood_sugar} mg/dL</p>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Extended nurse assessment */}
+                    {(vitals.chief_complaint || vitals.allergies || vitals.chronic_diseases) && (
+                        <div className="mt-3 pt-3 border-t border-green-200 grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                            {vitals.chief_complaint && (
+                                <div>
+                                    <span className="font-medium text-green-700">Chief Complaint: </span>
+                                    <span>{vitals.chief_complaint}</span>
+                                </div>
+                            )}
+                            {vitals.allergies && (
+                                <div>
+                                    <span className="font-medium text-red-600">Allergies: </span>
+                                    <span>{vitals.allergies}</span>
+                                </div>
+                            )}
+                            {vitals.chronic_diseases && (
+                                <div>
+                                    <span className="font-medium text-amber-700">Chronic Diseases: </span>
+                                    <span>{vitals.chronic_diseases}</span>
+                                </div>
+                            )}
+                            {vitals.sleep_quality && (
+                                <div>
+                                    <span className="font-medium text-green-700">Sleep Quality: </span>
+                                    <span>{vitals.sleep_quality}/10</span>
+                                </div>
+                            )}
+                            {vitals.appetite && (
+                                <div>
+                                    <span className="font-medium text-green-700">Appetite: </span>
+                                    <span className="capitalize">{vitals.appetite}</span>
+                                </div>
+                            )}
+                            {vitals.lifestyle_notes && (
+                                <div className="col-span-full">
+                                    <span className="font-medium text-green-700">Lifestyle Notes: </span>
+                                    <span>{vitals.lifestyle_notes}</span>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
+            )}
 
             {/* Allergies Warning */}
             {patient.patient.allergies && (

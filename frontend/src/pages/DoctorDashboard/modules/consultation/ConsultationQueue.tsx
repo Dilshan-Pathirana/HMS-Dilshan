@@ -129,18 +129,47 @@ const ConsultationQueue: React.FC<ConsultationQueueProps> = ({ onStartConsultati
         }
     };
 
-    const getStatusColor = (status: string) => {
-        switch (status) {
+    const getStatusColor = (patient: QueuePatient) => {
+        // Use enriched queue_color from backend if available
+        const queueColor = (patient as any).queue_color;
+        const queueStatus = (patient as any).queue_status;
+        
+        if (queueColor === 'blue' || queueStatus === 'in_consultation') {
+            return 'bg-blue-100 text-blue-700';
+        }
+        if (queueColor === 'green' || queueStatus === 'ready_for_doctor') {
+            return 'bg-green-100 text-green-700';
+        }
+        if (queueColor === 'yellow' || queueStatus === 'waiting_nurse') {
+            return 'bg-amber-100 text-amber-700';
+        }
+
+        // Fallback to display_status
+        switch (patient.display_status) {
             case 'Waiting':
                 return 'bg-amber-100 text-amber-700';
             case 'Checked In':
                 return 'bg-blue-100 text-blue-700';
             case 'In Consultation':
-                return 'bg-green-100 text-green-700';
+                return 'bg-blue-100 text-blue-700';
             case 'Completed':
                 return 'bg-neutral-100 text-neutral-700';
             default:
                 return 'bg-neutral-100 text-neutral-700';
+        }
+    };
+
+    const getQueueLabel = (patient: QueuePatient) => {
+        const queueStatus = (patient as any).queue_status;
+        switch (queueStatus) {
+            case 'waiting_nurse':
+                return 'Waiting Nurse';
+            case 'ready_for_doctor':
+                return 'Ready';
+            case 'in_consultation':
+                return 'In Consultation';
+            default:
+                return patient.display_status || patient.status;
         }
     };
 
@@ -322,8 +351,8 @@ const ConsultationQueue: React.FC<ConsultationQueueProps> = ({ onStartConsultati
                                                 <h3 className="font-semibold text-neutral-800">
                                                     {patient.patient_name}
                                                 </h3>
-                                                <span className={`px-2 py-0.5 text-xs rounded-full ${getStatusColor(patient.display_status)}`}>
-                                                    {patient.display_status}
+                                                <span className={`px-2 py-0.5 text-xs rounded-full ${getStatusColor(patient)}`}>
+                                                    {getQueueLabel(patient)}
                                                 </span>
                                             </div>
                                             <div className="flex items-center gap-4 text-sm text-neutral-500 mt-1">

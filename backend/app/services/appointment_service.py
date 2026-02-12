@@ -260,8 +260,17 @@ class AppointmentService:
         appt = await session.get(Appointment, appointment_id)
         if not appt:
             raise HTTPException(404, "Appointment not found")
-        if appt.status in ("completed", "cancelled", "no_show"):
+        if appt.status in ("completed", "cancelled", "no_show", "payment_failed"):
             raise HTTPException(400, f"Cannot reschedule a {appt.status} appointment")
+
+        # ---- One-time rule ----
+        if appt.reschedule_count >= 1:
+            raise HTTPException(403, "This appointment has already been rescheduled once.")
+
+        # ---- 24-hour rule ----
+        appt_datetime = datetime.combine(appt.appointment_date, appt.appointment_time)
+        if (appt_datetime - datetime.utcnow()) < timedelta(hours=24):
+            raise HTTPException(403, "Appointments can only be rescheduled at least 24 hours in advance.")
 
         # Verify new slot available
         existing = await session.exec(
@@ -277,8 +286,14 @@ class AppointmentService:
             raise HTTPException(409, "New slot already booked")
 
         old_data = {"date": str(appt.appointment_date), "time": str(appt.appointment_time)}
+
+        # Save original date only on first reschedule
+        if appt.reschedule_count == 0:
+            appt.original_appointment_date = datetime.combine(appt.appointment_date, appt.appointment_time)
+
         appt.appointment_date = new_date
         appt.appointment_time = new_time
+        appt.reschedule_count += 1
         schedule_session = await AppointmentService._get_or_create_schedule_session(
             session, appt.doctor_id, appt.branch_id, new_date, new_time, changed_by
         )

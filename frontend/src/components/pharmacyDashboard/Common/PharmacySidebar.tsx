@@ -98,6 +98,11 @@ const PharmacySidebar: React.FC<SidebarProps> = ({ isOpenSidebarMenu }) => {
                 link: "/pharmacy-dashboard/dispensing",
             },
             {
+                label: "Consultation Rx",
+                icon: <Package className="w-5 h-5" />,
+                link: "/pharmacy-dashboard/consultation-dispensing",
+            },
+            {
                 label: "Inventory",
                 icon: <Package className="w-5 h-5" />,
                 link: "/pharmacy-dashboard/inventory",

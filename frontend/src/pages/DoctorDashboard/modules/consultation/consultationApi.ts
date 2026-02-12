@@ -8,7 +8,12 @@ import {
     Diagnosis,
     ConsultationDiagnosis,
     Medicine,
-    Prescription
+    Prescription,
+    DoctorOpinion,
+    AutoSummary,
+    IssuedMedicine,
+    PharmacyQueueItem,
+    VitalSigns,
 } from './types';
 
 // Get authorization headers
@@ -22,7 +27,10 @@ const getAuthHeaders = () => {
     };
 };
 
+// ============================================================
 // Queue Management
+// ============================================================
+
 export const getTodayQueue = async (doctorId: string): Promise<{
     queue: QueuePatient[];
     date: string;
@@ -44,13 +52,19 @@ export const getAppointmentsByDate = async (doctorId: string, date: string): Pro
     return response.data;
 };
 
+// ============================================================
 // Patient Overview
+// ============================================================
+
 export const getPatientOverview = async (patientId: string): Promise<PatientOverview> => {
     const response = await api.get(`/consultation/patient/${patientId}`, getAuthHeaders());
     return response.data;
 };
 
+// ============================================================
 // Consultation Management
+// ============================================================
+
 export const startConsultation = async (appointmentId: string, doctorId: string, chiefComplaint?: string): Promise<{
     status: number;
     message: string;
@@ -87,7 +101,10 @@ export const submitConsultation = async (
     return response.data;
 };
 
+// ============================================================
 // Question Bank
+// ============================================================
+
 export const getQuestionBank = async (category?: string): Promise<{
     status: number;
     questions: QuestionBankItem[];
@@ -100,7 +117,7 @@ export const getQuestionBank = async (category?: string): Promise<{
 
 export const saveQuestions = async (
     consultationId: string,
-    questions: { question_bank_id?: string; question_text: string; answer_text: string; is_custom?: boolean }[]
+    questions: { question_bank_id?: string; question_text: string; answer_text: string; is_custom?: boolean; answer_type?: string; category?: string; display_order?: number }[]
 ): Promise<{ status: number; message: string }> => {
     const response = await api.post(`/consultation/${consultationId}/questions`, {
         questions
@@ -108,7 +125,75 @@ export const saveQuestions = async (
     return response.data;
 };
 
+export const getConsultationQuestions = async (consultationId: string): Promise<{
+    questions: ConsultationQuestion[];
+}> => {
+    const response = await api.get(`/consultation/${consultationId}/questions`, getAuthHeaders());
+    return response.data;
+};
+
+// ============================================================
+// Auto-Summary
+// ============================================================
+
+export const generateAutoSummary = async (consultationId: string): Promise<{
+    summary: AutoSummary;
+}> => {
+    const response = await api.post(`/consultation/${consultationId}/auto-summary`, {}, getAuthHeaders());
+    return response.data;
+};
+
+// ============================================================
+// Nurse Vitals (for doctor view)
+// ============================================================
+
+export const getConsultationVitals = async (consultationId: string): Promise<{
+    vitals: VitalSigns | null;
+}> => {
+    const response = await api.get(`/consultation/${consultationId}/vitals`, getAuthHeaders());
+    return response.data;
+};
+
+// ============================================================
+// Second Opinion
+// ============================================================
+
+export const requestSecondOpinion = async (
+    consultationId: string,
+    reviewingDoctorId: string
+): Promise<DoctorOpinion> => {
+    const response = await api.post(`/consultation/${consultationId}/request-opinion`, {
+        reviewing_doctor_id: reviewingDoctorId,
+    }, getAuthHeaders());
+    return response.data;
+};
+
+export const respondToOpinion = async (
+    opinionId: string,
+    data: { status: string; comment?: string; suggestion?: string }
+): Promise<DoctorOpinion> => {
+    const response = await api.post(`/consultation/opinions/${opinionId}/respond`, data, getAuthHeaders());
+    return response.data;
+};
+
+export const getConsultationOpinions = async (consultationId: string): Promise<{
+    opinions: DoctorOpinion[];
+}> => {
+    const response = await api.get(`/consultation/${consultationId}/opinions`, getAuthHeaders());
+    return response.data;
+};
+
+export const getPendingOpinions = async (): Promise<{
+    opinions: DoctorOpinion[];
+}> => {
+    const response = await api.get('/consultation/opinions/pending', getAuthHeaders());
+    return response.data;
+};
+
+// ============================================================
 // Diagnoses
+// ============================================================
+
 export const getDiagnoses = async (search?: string, category?: string): Promise<{
     status: number;
     diagnoses: Diagnosis[];
@@ -117,7 +202,7 @@ export const getDiagnoses = async (search?: string, category?: string): Promise<
     if (search) params.append('search', search);
     if (category) params.append('category', category);
     const queryString = params.toString();
-    const response = await api.get(`/api/consultation/diagnoses/list${queryString ? '?' + queryString : ''}`, getAuthHeaders());
+    const response = await api.get(`/consultation/diagnoses/list${queryString ? '?' + queryString : ''}`, getAuthHeaders());
     return response.data;
 };
 
@@ -145,7 +230,17 @@ export const saveDiagnoses = async (
     return response.data;
 };
 
-// Medicines
+export const getConsultationDiagnoses = async (consultationId: string): Promise<{
+    diagnoses: any[];
+}> => {
+    const response = await api.get(`/consultation/${consultationId}/diagnoses`, getAuthHeaders());
+    return response.data;
+};
+
+// ============================================================
+// Medicines & Prescriptions
+// ============================================================
+
 export const getMedicines = async (search?: string, branchId?: string): Promise<{
     status: number;
     medicines: Medicine[];
@@ -154,7 +249,7 @@ export const getMedicines = async (search?: string, branchId?: string): Promise<
     if (search) params.append('search', search);
     if (branchId) params.append('branch_id', branchId);
     const queryString = params.toString();
-    const response = await api.get(`/api/consultation/medicines/list${queryString ? '?' + queryString : ''}`, getAuthHeaders());
+    const response = await api.get(`/consultation/medicines/list${queryString ? '?' + queryString : ''}`, getAuthHeaders());
     return response.data;
 };
 
@@ -168,7 +263,69 @@ export const savePrescriptions = async (
     return response.data;
 };
 
+export const getConsultationPrescriptions = async (consultationId: string): Promise<{
+    prescriptions: any[];
+}> => {
+    const response = await api.get(`/consultation/${consultationId}/prescriptions`, getAuthHeaders());
+    return response.data;
+};
+
+// ============================================================
+// Pharmacy
+// ============================================================
+
+export const getPharmacyQueue = async (branchId?: string): Promise<{
+    queue: PharmacyQueueItem[];
+}> => {
+    const params = branchId ? `?branch_id=${branchId}` : '';
+    const response = await api.get(`/consultation/pharmacy/queue${params}`, getAuthHeaders());
+    return response.data;
+};
+
+export const issueMedicine = async (
+    consultationId: string,
+    data: {
+        prescription_id: string;
+        medicine_name: string;
+        quantity_issued: number;
+        batch_number?: string;
+        notes?: string;
+    }
+): Promise<IssuedMedicine> => {
+    const response = await api.post(`/consultation/${consultationId}/issue-medicine`, data, getAuthHeaders());
+    return response.data;
+};
+
+export const markMedicinesIssued = async (consultationId: string): Promise<{
+    consultation: Consultation;
+}> => {
+    const response = await api.post(`/consultation/${consultationId}/mark-issued`, {}, getAuthHeaders());
+    return response.data;
+};
+
+export const getIssuedMedicines = async (consultationId: string): Promise<{
+    issued_medicines: IssuedMedicine[];
+}> => {
+    const response = await api.get(`/consultation/${consultationId}/issued-medicines`, getAuthHeaders());
+    return response.data;
+};
+
+// ============================================================
+// Payment
+// ============================================================
+
+export const collectPayment = async (
+    consultationId: string,
+    fee?: number
+): Promise<{ consultation: Consultation }> => {
+    const response = await api.post(`/consultation/${consultationId}/collect-payment`, { fee }, getAuthHeaders());
+    return response.data;
+};
+
+// ============================================================
 // Audit Log
+// ============================================================
+
 export const getAuditLog = async (consultationId: string): Promise<{
     status: number;
     audit_logs: {

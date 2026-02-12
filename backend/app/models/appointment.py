@@ -33,6 +33,9 @@ class AppointmentBase(SQLModel):
     consultation_end: Optional[datetime] = Field(default=None)
     is_walk_in: bool = Field(default=False)
     queue_number: Optional[int] = Field(default=None)
+    reschedule_count: int = Field(default=0)
+    original_appointment_date: Optional[datetime] = Field(default=None)
+    nurse_assessment_status: Optional[str] = Field(default=None, max_length=20)  # null / completed
 
 class Appointment(AppointmentBase, table=True):
     id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True, max_length=36)

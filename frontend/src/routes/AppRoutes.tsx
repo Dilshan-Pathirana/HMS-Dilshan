@@ -96,6 +96,7 @@ const BranchAdminReports = lazy(() => import("../pages/dashboard/BranchAdmin/Bra
 const BranchAdminAnalytics = lazy(() => import("../pages/dashboard/BranchAdmin/BranchAdminAnalytics.tsx").then(m => ({ default: m.BranchAdminAnalytics })));
 const BranchAdminSettings = lazy(() => import("../pages/dashboard/BranchAdmin/BranchAdminSettings.tsx").then(m => ({ default: m.BranchAdminSettings })));
 const BranchAdminFeedbacks = lazy(() => import("../pages/dashboard/BranchAdmin/BranchAdminFeedbacks.tsx").then(m => ({ default: m.BranchAdminFeedbacks })));
+const BranchAdminConsultationMonitor = lazy(() => import("../pages/dashboard/BranchAdmin/BranchAdminConsultationMonitor.tsx").then(m => ({ default: m.BranchAdminConsultationMonitor })));
 
 // Branch Admin Requests Module
 const BranchAdminRequests = lazy(() => import("../pages/dashboard/BranchAdmin/Requests").then(m => ({ default: m.BranchAdminRequests })));
@@ -141,6 +142,7 @@ const SuperAdminAnalytics = lazy(() => import("../pages/dashboard/SuperAdmin/Sup
 const SuperAdminSettings = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminSettings.tsx").then(m => ({ default: m.SuperAdminSettings })));
 const SuperAdminAppointments = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminAppointments.tsx"));
 const SuperAdminPharmacies = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminPharmacies.tsx"));
+const SuperAdminConsultationMonitor = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminConsultationMonitor.tsx").then(m => ({ default: m.SuperAdminConsultationMonitor })));
 
 // Super Admin Staff Management
 const SuperAdminStaffDashboard = lazy(() => import("../pages/dashboard/SuperAdmin/StaffManagement").then(m => ({ default: m.SuperAdminStaffDashboard })));
@@ -565,6 +567,14 @@ const AppRoutes: React.FC = () => {
                     }
                 />
                 <Route
+                    path="/branch-admin/consultation-monitor"
+                    element={
+                        <ProtectedRoute>
+                            <BranchAdminConsultationMonitor />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
                     path="/branch-admin/settings"
                     element={
                         <ProtectedRoute>
@@ -861,6 +871,15 @@ const AppRoutes: React.FC = () => {
                     element={
                         <ProtectedRoute>
                             <SuperAdminSettings />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/dashboard/super-admin/consultation-monitor"
+                    element={
+                        <ProtectedRoute>
+                            <SuperAdminConsultationMonitor />
                         </ProtectedRoute>
                     }
                 />

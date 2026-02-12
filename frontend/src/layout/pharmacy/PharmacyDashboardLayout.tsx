@@ -32,6 +32,7 @@ import { PharmacistPurchase } from "../../pages/dashboard/Pharmacist/PharmacistP
 import { PurchaseRequest } from "../../pages/dashboard/Pharmacist/PurchaseRequest.tsx";
 import { PurchaseRequestList } from "../../pages/dashboard/Pharmacist/PurchaseRequestList.tsx";
 import PharmacistFeedback from "../../pages/Pharmacy/PharmacistFeedback.tsx";
+import PharmacistPendingConsultations from "../../pages/Pharmacy/PharmacistPendingConsultations.tsx";
 
 const generateRoutes = (
     permission: boolean,
@@ -126,6 +127,10 @@ const DashboardLayout = () => {
                         {
                             path: "/feedback",
                             element: <PharmacistFeedback />,
+                        },
+                        {
+                            path: "/consultation-dispensing",
+                            element: <PharmacistPendingConsultations />,
                         },
                     ],
                     NonAdminAccessRedirectRoutes,

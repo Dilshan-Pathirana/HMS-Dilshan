@@ -26,6 +26,7 @@ import { SuperAdminReportsContent } from "../pages/dashboard/SuperAdmin/SuperAdm
 import { SuperAdminAnalyticsContent } from "../pages/dashboard/SuperAdmin/SuperAdminAnalyticsContent.tsx";
 import { SuperAdminSettingsContent } from "../pages/dashboard/SuperAdmin/SuperAdminSettingsContent.tsx";
 import SuperAdminPharmacies from "../pages/dashboard/SuperAdmin/SuperAdminPharmacies.tsx";
+import SuperAdminConsultationMonitor from "../pages/dashboard/SuperAdmin/SuperAdminConsultationMonitor.tsx";
 // POS Management imports
 import SuperAdminPOSDashboardEnhanced from "../components/pharmacyPOS/SuperAdminPOS/SuperAdminPOSDashboard/SuperAdminPOSDashboardEnhanced.tsx";
 import SuperAdminPOSDashboardZoned from "../components/pharmacyPOS/SuperAdminPOS/SuperAdminPOSDashboard/SuperAdminPOSDashboardZoned.tsx";
@@ -122,6 +123,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                     <Route path="super-admin/analytics" element={<SuperAdminAnalyticsContent />} />
                     <Route path="super-admin/settings" element={<SuperAdminSettingsContent />} />
                     <Route path="super-admin/pharmacies" element={<SuperAdminPharmacies />} />
+                    <Route path="super-admin/consultation-monitor" element={<SuperAdminConsultationMonitor />} />
 
                     {/* POS Management Routes */}
                     <Route path="pos" element={<SuperAdminPOSDashboardZoned />} />
