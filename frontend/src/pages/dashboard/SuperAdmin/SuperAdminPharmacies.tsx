@@ -1068,7 +1068,7 @@ const SuperAdminPharmacies: React.FC = () => {
 
             {/* Main Tabs */}
             <div className="border-b border-neutral-200">
-                <nav className="-mb-px flex space-x-8">
+                <nav className="-mb-px flex space-x-4 sm:space-x-8 overflow-x-auto">
                     <button
                         onClick={() => setActiveMainTab('pharmacies')}
                         className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${activeMainTab === 'pharmacies'
@@ -1414,7 +1414,7 @@ const SuperAdminPharmacies: React.FC = () => {
             {activeMainTab === 'inventory' && (
                 <>
                     {/* Header with Create Button */}
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                         <div>
                             <p className="text-neutral-500">Manage global inventory items across all pharmacies</p>
                         </div>
@@ -1688,7 +1688,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                                         <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wide mb-1">
                                                             {branch.center_name}{branch.city ? ` — ${branch.city}` : ''}
                                                         </p>
-                                                        <div className="grid grid-cols-2 gap-1 ml-2">
+                                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 ml-2">
                                                             {branchPharmacies.map(pharm => (
                                                                 <label key={pharm.id} className="flex items-center gap-2 cursor-pointer">
                                                                     <input
@@ -1736,7 +1736,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </select>
                             </div>
 
-                            <div className="grid grid-cols-3 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Item Code <span className="text-error-500">*</span>
@@ -1771,7 +1771,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Item Name <span className="text-error-500">*</span>
@@ -1796,7 +1796,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">Brand Name</label>
                                     <input
@@ -1829,7 +1829,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-4 gap-4">
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">Current Stock</label>
                                     <input
@@ -1868,7 +1868,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-3 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">Unit Cost (Rs.)</label>
                                     <input
@@ -1957,7 +1957,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </select>
                             </div>
 
-                            <div className="grid grid-cols-3 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">Item Code</label>
                                     <input
@@ -1998,7 +1998,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">Item Name</label>
                                     <input
@@ -2019,7 +2019,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-4 gap-4">
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">Min Stock</label>
                                     <input
@@ -2998,7 +2998,7 @@ const SuperAdminPharmacies: React.FC = () => {
                             </h2>
                         </div>
                         <div className="p-6 space-y-4">
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Pharmacy Name <span className="text-error-500">*</span>
@@ -3026,7 +3026,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         License Number
@@ -3052,7 +3052,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Phone
@@ -3255,7 +3255,7 @@ const SuperAdminPharmacies: React.FC = () => {
 
                         <div className="p-6 overflow-y-auto max-h-[calc(90vh-150px)]">
                             {/* Quick Stats */}
-                            <div className="grid grid-cols-4 gap-4 mb-6">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                                 <div className="bg-blue-50 rounded-lg p-4">
                                     <div className="flex items-center gap-2">
                                         <Package className="w-5 h-5 text-primary-500" />

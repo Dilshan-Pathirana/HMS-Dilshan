@@ -776,9 +776,9 @@ const SuperAdminAppointments: React.FC = () => {
             profileImage={profileImage}
             sidebarContent={<SidebarMenu items={SuperAdminMenuItems} />}
         >
-            <div className="p-6 space-y-6">
+            <div className="p-3 sm:p-6 space-y-4 sm:space-y-6">
                 {/* Header */}
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                     <div>
                         <h1 className="text-2xl font-bold text-neutral-800">Appointment Management</h1>
                         <p className="text-neutral-600 mt-1">Monitor and manage appointments across all branches</p>
@@ -806,8 +806,8 @@ const SuperAdminAppointments: React.FC = () => {
                 )}
 
                 {/* Tabs */}
-                <div className="border-b border-neutral-200">
-                    <nav className="flex space-x-8">
+                <div className="border-b border-neutral-200 overflow-x-auto">
+                    <nav className="flex space-x-4 sm:space-x-8 min-w-max">
                         {tabs.map((tab) => (
                             <button
                                 key={tab.id}
@@ -1377,11 +1377,8 @@ const SuperAdminAppointments: React.FC = () => {
 
                         {/* Branch Settings Tab */}
                         {activeTab === 'branch-settings' && (
-                            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
-                                <table className="w-full">
-                                    <thead className="bg-neutral-50">
-                                        <tr>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Branch</th>
+                            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-x-auto">
+                                <table className="w-full min-w-[600px]">
                                             <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Advance Days</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Min Lead Time</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Slot Duration</th>
@@ -1433,11 +1430,8 @@ const SuperAdminAppointments: React.FC = () => {
 
                         {/* Audit Logs Tab - STEP 12 */}
                         {activeTab === 'audit-logs' && (
-                            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
-                                <table className="w-full">
-                                    <thead className="bg-neutral-50">
-                                        <tr>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Timestamp</th>
+                            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-x-auto">
+                                <table className="w-full min-w-[700px]">
                                             <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Super Admin</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Branch</th>
                                             <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Appointment ID</th>
@@ -1562,7 +1556,7 @@ const SuperAdminAppointments: React.FC = () => {
                             </button>
                         </div>
                         <div className="p-4 space-y-4">
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <p className="text-sm text-neutral-500">Reference</p>
                                     <p className="font-mono font-medium">#{selectedAppointment.id}</p>
@@ -1641,7 +1635,7 @@ const SuperAdminAppointments: React.FC = () => {
                             </button>
                         </div>
                         <div className="p-4 space-y-4">
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Advance Booking Days
@@ -1895,7 +1889,7 @@ const SuperAdminAppointments: React.FC = () => {
                                 ) : availableSlots.length === 0 ? (
                                     <p className="text-sm text-neutral-500 py-2">No slots available for selected doctor/date</p>
                                 ) : (
-                                    <div className="grid grid-cols-5 gap-2 max-h-40 overflow-y-auto">
+                                    <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 max-h-40 overflow-y-auto">
                                         {availableSlots.map((slot) => (
                                             <button
                                                 key={slot.slot_number}
@@ -2175,7 +2169,7 @@ const SuperAdminAppointments: React.FC = () => {
                                     </div>
                                 ) : (
                                     <div className="space-y-3">
-                                        <div className="grid grid-cols-2 gap-3">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                             <div>
                                                 <label className="block text-xs text-neutral-500 mb-1">Full Name *</label>
                                                 <input
@@ -2196,7 +2190,7 @@ const SuperAdminAppointments: React.FC = () => {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="grid grid-cols-2 gap-3">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                             <div>
                                                 <label className="block text-xs text-neutral-500 mb-1">NIC</label>
                                                 <input
@@ -2293,7 +2287,7 @@ const SuperAdminAppointments: React.FC = () => {
                                             : 'Select doctor and date to see available slots'}
                                     </p>
                                 ) : (
-                                    <div className="grid grid-cols-6 gap-2 max-h-48 overflow-y-auto border border-neutral-200 rounded-lg p-3">
+                                    <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 max-h-48 overflow-y-auto border border-neutral-200 rounded-lg p-3">
                                         {bookingSlots.map((slot) => (
                                             <button
                                                 key={slot.slot_number}
@@ -2315,7 +2309,7 @@ const SuperAdminAppointments: React.FC = () => {
                                 )}
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {/* Payment Status */}
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">Payment Status</label>

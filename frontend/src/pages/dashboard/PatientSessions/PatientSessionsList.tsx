@@ -99,7 +99,7 @@ const PatientSessionsList: React.FC = () => {
     }, [filters.branch_id, filters.doctor_id, filters.session_date]);
 
     return (
-        <div className="p-6">
+        <div className="p-3 sm:p-6">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
                 <div>
                     <h1 className="text-2xl font-bold text-neutral-900">Patient Session Management</h1>
@@ -122,12 +122,12 @@ const PatientSessionsList: React.FC = () => {
                     </div>
 
                     {canFilterBranch && (
-                        <div>
+                        <div className="w-full sm:w-auto">
                             <label className="block text-xs font-medium text-neutral-500 mb-1">Branch</label>
                             <select
                                 value={filters.branch_id}
                                 onChange={(e) => setFilters((prev) => ({ ...prev, branch_id: e.target.value }))}
-                                className="border border-neutral-300 rounded-lg px-3 py-2 text-sm min-w-[200px]"
+                                className="border border-neutral-300 rounded-lg px-3 py-2 text-sm w-full sm:min-w-[200px] sm:w-auto"
                             >
                                 <option value="">All Branches</option>
                                 {branches.map((b) => (
@@ -140,12 +140,12 @@ const PatientSessionsList: React.FC = () => {
                     )}
 
                     {canFilterDoctor && (
-                        <div>
+                        <div className="w-full sm:w-auto">
                             <label className="block text-xs font-medium text-neutral-500 mb-1">Doctor</label>
                             <select
                                 value={filters.doctor_id}
                                 onChange={(e) => setFilters((prev) => ({ ...prev, doctor_id: e.target.value }))}
-                                className="border border-neutral-300 rounded-lg px-3 py-2 text-sm min-w-[200px]"
+                                className="border border-neutral-300 rounded-lg px-3 py-2 text-sm w-full sm:min-w-[200px] sm:w-auto"
                             >
                                 <option value="">All Doctors</option>
                                 {doctors.map((d) => (
@@ -157,7 +157,7 @@ const PatientSessionsList: React.FC = () => {
                         </div>
                     )}
 
-                    <div>
+                    <div className="w-full sm:w-auto">
                         <label className="block text-xs font-medium text-neutral-500 mb-1">Date</label>
                         <div className="flex items-center gap-2">
                             <Calendar className="w-4 h-4 text-neutral-400" />
@@ -172,13 +172,13 @@ const PatientSessionsList: React.FC = () => {
                 </div>
             </div>
 
-            <div className="bg-white rounded-2xl border border-neutral-200 overflow-hidden">
+            <div className="bg-white rounded-2xl border border-neutral-200 overflow-x-auto">
                 {loading ? (
                     <div className="p-6 text-sm text-neutral-500">Loading sessions...</div>
                 ) : sessions.length === 0 ? (
                     <div className="p-6 text-sm text-neutral-500">No sessions found for the current filters.</div>
                 ) : (
-                    <table className="w-full text-sm">
+                    <table className="w-full text-sm min-w-[700px]">
                         <thead className="bg-neutral-50 text-neutral-500 uppercase text-xs">
                             <tr>
                                 <th className="text-left px-4 py-3">Date</th>
