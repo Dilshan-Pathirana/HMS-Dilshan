@@ -386,7 +386,7 @@ const SuperAdminChatbotManagement: React.FC = () => {
                 <div className="mb-6">
                     <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-2">
                         <MessageSquare className="w-7 h-7 text-primary-500" />
-                        Chatbot Management
+                        Chatbot Management #1
                     </h1>
                     <p className="text-neutral-600 mt-1">
                         Manage FAQ responses, disease mappings, and monitor chatbot performance
@@ -409,8 +409,8 @@ const SuperAdminChatbotManagement: React.FC = () => {
                     <button
                         onClick={() => setActiveTab('faqs')}
                         className={`px-4 py-2 font-medium border-b-2 transition-colors flex items-center gap-2 ${activeTab === 'faqs'
-                                ? 'border-primary-500 text-primary-500'
-                                : 'border-transparent text-neutral-600 hover:text-neutral-900'
+                            ? 'border-primary-500 text-primary-500'
+                            : 'border-transparent text-neutral-600 hover:text-neutral-900'
                             }`}
                     >
                         <FileQuestion className="w-4 h-4" />
@@ -419,8 +419,8 @@ const SuperAdminChatbotManagement: React.FC = () => {
                     <button
                         onClick={() => setActiveTab('mappings')}
                         className={`px-4 py-2 font-medium border-b-2 transition-colors flex items-center gap-2 ${activeTab === 'mappings'
-                                ? 'border-primary-500 text-primary-500'
-                                : 'border-transparent text-neutral-600 hover:text-neutral-900'
+                            ? 'border-primary-500 text-primary-500'
+                            : 'border-transparent text-neutral-600 hover:text-neutral-900'
                             }`}
                     >
                         <Database className="w-4 h-4" />
@@ -429,8 +429,8 @@ const SuperAdminChatbotManagement: React.FC = () => {
                     <button
                         onClick={() => setActiveTab('logs')}
                         className={`px-4 py-2 font-medium border-b-2 transition-colors flex items-center gap-2 ${activeTab === 'logs'
-                                ? 'border-primary-500 text-primary-500'
-                                : 'border-transparent text-neutral-600 hover:text-neutral-900'
+                            ? 'border-primary-500 text-primary-500'
+                            : 'border-transparent text-neutral-600 hover:text-neutral-900'
                             }`}
                     >
                         <MessageCircle className="w-4 h-4" />
@@ -439,8 +439,8 @@ const SuperAdminChatbotManagement: React.FC = () => {
                     <button
                         onClick={() => setActiveTab('analytics')}
                         className={`px-4 py-2 font-medium border-b-2 transition-colors flex items-center gap-2 ${activeTab === 'analytics'
-                                ? 'border-primary-500 text-primary-500'
-                                : 'border-transparent text-neutral-600 hover:text-neutral-900'
+                            ? 'border-primary-500 text-primary-500'
+                            : 'border-transparent text-neutral-600 hover:text-neutral-900'
                             }`}
                     >
                         <BarChart3 className="w-4 h-4" />
@@ -524,8 +524,8 @@ const SuperAdminChatbotManagement: React.FC = () => {
                                             <div className="flex-1">
                                                 <div className="flex items-center gap-2 mb-1">
                                                     <span className={`px-2 py-0.5 text-xs font-medium rounded ${faq.is_active
-                                                            ? 'bg-green-100 text-green-700'
-                                                            : 'bg-neutral-100 text-neutral-600'
+                                                        ? 'bg-green-100 text-green-700'
+                                                        : 'bg-neutral-100 text-neutral-600'
                                                         }`}>
                                                         {faq.is_active ? 'Active' : 'Inactive'}
                                                     </span>
@@ -555,8 +555,8 @@ const SuperAdminChatbotManagement: React.FC = () => {
                                                 <button
                                                     onClick={() => toggleFaqStatus(faq.id)}
                                                     className={`p-2 rounded-lg transition-colors ${faq.is_active
-                                                            ? 'text-green-600 hover:bg-green-50'
-                                                            : 'text-neutral-400 hover:bg-neutral-100'
+                                                        ? 'text-green-600 hover:bg-green-50'
+                                                        : 'text-neutral-400 hover:bg-neutral-100'
                                                         }`}
                                                     title={faq.is_active ? 'Deactivate' : 'Activate'}
                                                 >
@@ -627,8 +627,8 @@ const SuperAdminChatbotManagement: React.FC = () => {
                                                 <td className="px-4 py-3 text-neutral-600 max-w-xs truncate">{mapping.safe_response}</td>
                                                 <td className="px-4 py-3">
                                                     <span className={`px-2 py-0.5 text-xs font-medium rounded ${mapping.is_active
-                                                            ? 'bg-green-100 text-green-700'
-                                                            : 'bg-neutral-100 text-neutral-600'
+                                                        ? 'bg-green-100 text-green-700'
+                                                        : 'bg-neutral-100 text-neutral-600'
                                                         }`}>
                                                         {mapping.is_active ? 'Active' : 'Inactive'}
                                                     </span>
@@ -691,8 +691,8 @@ const SuperAdminChatbotManagement: React.FC = () => {
                                                     </span>
                                                     {log.was_helpful !== null && (
                                                         <span className={`px-2 py-0.5 text-xs rounded flex items-center gap-1 ${log.was_helpful
-                                                                ? 'bg-green-100 text-green-700'
-                                                                : 'bg-error-100 text-red-700'
+                                                            ? 'bg-green-100 text-green-700'
+                                                            : 'bg-error-100 text-red-700'
                                                             }`}>
                                                             {log.was_helpful ? (
                                                                 <><CheckCircle className="w-3 h-3" /> Helpful</>
