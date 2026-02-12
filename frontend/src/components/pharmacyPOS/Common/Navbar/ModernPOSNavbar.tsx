@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, persistor } from '../../../../store';
 import { UserSignOut } from '../../../../utils/api/user/UserSignOut';
 import { useUserRole } from '../../../../utils/state/checkAuthenticatedUserStates';
+import { useBranchContext } from '../../../../context/POS/BranchContext';
 
 interface ModernPOSNavbarProps {
     toggleSidebar?: () => void;
@@ -51,6 +52,7 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
     const dispatch = useDispatch<AppDispatch>();
     const authState = useSelector((state: RootState) => state.auth);
     const userRole = useUserRole();
+    const { selectedBranch } = useBranchContext();
     const [showUserMenu, setShowUserMenu] = useState(false);
     const [showNotifications, setShowNotifications] = useState(false);
 
@@ -60,7 +62,7 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
     const userEmail = userInfo.email || '';
     const userGender = userInfo.gender || '';
     const profileImage = userInfo.profile_picture || '';
-    const branchName = authState.branchName || userInfo.branch?.center_name || 'POS System';
+    const branchName = selectedBranch?.pharmacy_name || authState.branchName || userInfo.branch?.pharmacy_name || userInfo.branch?.center_name || 'POS System';
 
     const getRoleName = () => {
         switch (userRole) {
@@ -72,7 +74,7 @@ const ModernPOSNavbar: React.FC<ModernPOSNavbarProps> = ({ toggleSidebar }) => {
             case 6: return 'Cashier';
             case 7: return 'Pharmacist';
             case 8: return 'IT Support';
-            case 9: return 'Center Aid';
+            case 9: return 'Pharmacy Aid';
             case 10: return 'Auditor';
             default: return 'User';
         }

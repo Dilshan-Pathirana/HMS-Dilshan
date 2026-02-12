@@ -590,27 +590,32 @@ async def notifications_admin(admin_id: str):
     return {"notifications": ["Welcome!", "System update"]}
 
 @app.get("/super-admin/pos/branches")
-async def super_admin_pos_branches():
-    # Dummy branches with all required fields
-    branches = [
-        {
-            "id": "1",
-            "name": "Main Branch",
-            "center_name": "Alpha Center",
-            "city": "Kurunegala",
-            "address": "123 Main St",
-            "phone": "555-1234"
-        },
-        {
-            "id": "2",
-            "name": "Sub Branch",
-            "center_name": "Beta Center",
-            "city": "Kurunegala",
-            "address": "456 Side St",
-            "phone": "555-5678"
-        }
-    ]
-    return {"branches": branches}
+async def super_admin_pos_branches(session: AsyncSession = Depends(get_session)):
+    """Return branches with their associated pharmacy info for the POS system."""
+    from sqlmodel import select
+    from app.models.pharmacy import Pharmacy
+    from app.models.branch import Branch
+    result = await session.exec(select(Branch))
+    branches = result.all()
+    enriched = []
+    for b in branches:
+        # Find pharmacy linked to this branch
+        pharm_result = await session.exec(
+            select(Pharmacy).where(Pharmacy.branch_id == b.id)
+        )
+        pharmacy = pharm_result.first()
+        enriched.append({
+            "id": b.id,
+            "name": b.center_name or "Branch",
+            "center_name": b.center_name,
+            "city": getattr(b, 'division', '') or "",
+            "address": getattr(b, 'division_number', '') or "",
+            "phone": getattr(b, 'owner_contact_number', '') or "",
+            "pharmacy_id": pharmacy.id if pharmacy else None,
+            "pharmacy_name": pharmacy.name if pharmacy else None,
+            "pharmacy_code": pharmacy.pharmacy_code if pharmacy else None,
+        })
+    return {"branches": enriched}
 
 @app.get("/")
 def read_root():
