@@ -8,6 +8,7 @@ Local Docker dev (clears/uses local DB only)
 
 3) Start:
    - Run: local-up.cmd
+   - This now auto-runs `aws_migration.sql` against local MySQL for schema compatibility.
 
 4) Default seeded Super Admin (local only):
    - Email: admin@hospital.com
