@@ -169,16 +169,6 @@ export const SuperAdminMenuItems: MenuItem[] = [
         path: '/super-admin/appointments'
     },
     {
-        label: 'Patient Section',
-        icon: <HeartPulse className="w-5 h-5" />,
-        path: '/dashboard/patient/all-questions'
-    },
-    {
-        label: 'Patient Session Management',
-        icon: <Clipboard className="w-5 h-5" />,
-        path: '/dashboard/patient-sessions'
-    },
-    {
         label: 'Patient Profiles',
         icon: <Users className="w-5 h-5" />,
         path: '/dashboard/patient-profiles'
@@ -187,11 +177,6 @@ export const SuperAdminMenuItems: MenuItem[] = [
         label: 'Doctor Section',
         icon: <Stethoscope className="w-5 h-5" />,
         path: '/dashboard/doctor/schedule'
-    },
-    {
-        label: 'Doctor Diseases',
-        icon: <Activity className="w-5 h-5" />,
-        path: '/dashboard/doctor/all-diseases'
     },
     {
         label: 'POS Management',
@@ -216,7 +201,13 @@ export const SuperAdminMenuItems: MenuItem[] = [
     {
         label: 'Consultation Monitor',
         icon: <Activity className="w-5 h-5" />,
-        path: '/dashboard/super-admin/consultation-monitor'
+        path: '/dashboard/super-admin/consultation-monitor',
+        children: [
+            { label: 'Consultation Monitor', path: '/dashboard/super-admin/consultation-monitor' },
+            { label: 'Patient Section', path: '/dashboard/patient/all-questions' },
+            { label: 'Patient Session Management', path: '/dashboard/patient-sessions' },
+            { label: 'Doctor Diseases', path: '/dashboard/doctor/all-diseases' },
+        ]
     },
     {
         label: 'Reports',
