@@ -494,10 +494,11 @@ const SuperAdminChatbotManagement: React.FC = () => {
                                         setLoading(false);
                                     }
                                 }}
-                                className="p-2 text-neutral-600 hover:bg-neutral-100 rounded-lg flex items-center gap-2"
+                                className="px-3 py-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 rounded-lg flex items-center gap-2 transition-colors"
                                 title="Seed Defaults"
                             >
-                                <Database className="w-5 h-5" />
+                                <Database className="w-4 h-4" />
+                                <span className="font-medium">Seed Defaults</span>
                             </button>
                             <button
                                 onClick={() => { resetFaqForm(); setEditingFaq(null); setShowFaqModal(true); }}
