@@ -29,7 +29,6 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
         qualifications: '',
         years_of_experience: 0,
         specialization: '',
-        work_experience: '',
         nurse_training_certifications: '',
         license_validity_date: '',
         additional_certifications: '',
@@ -611,18 +610,6 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
                 />
             </div>
 
-            <div className="col-span-1">
-                <label className="block text-sm font-medium text-neutral-700">
-                    Work Experience
-                </label>
-                <input
-                    type="text"
-                    name="workExperience"
-                    value={formData.work_experience}
-                    onChange={handleInputChange}
-                    className="mt-1 p-2 block w-full border border-neutral-300 rounded-md shadow-sm"
-                />
-            </div>
 
             <div className="col-span-1">
                 <label className="block text-sm font-medium text-neutral-700">

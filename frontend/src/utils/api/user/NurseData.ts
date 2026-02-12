@@ -13,7 +13,6 @@ export const nurse_create_form_initial_state = {
     qualifications: "",
     years_of_experience: 0,
     specialization: "",
-    work_experience: "",
     nurse_training_certifications: "",
     license_validity_date: "",
     additional_certifications: "",

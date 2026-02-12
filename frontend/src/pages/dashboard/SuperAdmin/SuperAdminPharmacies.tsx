@@ -248,6 +248,9 @@ const SuperAdminPharmacies: React.FC = () => {
         pharmacist_id: ''
     });
 
+    // Form validation errors
+    const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+
     // Allocation form
     const [allocateBranchId, setAllocateBranchId] = useState('');
 
@@ -850,20 +853,37 @@ const SuperAdminPharmacies: React.FC = () => {
             branch_id: '',
             pharmacist_id: ''
         });
+        setFormErrors({});
         loadAvailablePharmacists();
+    };
+
+    // Validate pharmacy form
+    const validatePharmacyForm = (isEdit = false): boolean => {
+        const errors: Record<string, string> = {};
+
+        if (!formData.pharmacy_name.trim()) {
+            errors.pharmacy_name = 'Pharmacy name is required';
+        }
+        if (!isEdit && !formData.pharmacy_code.trim()) {
+            errors.pharmacy_code = 'Pharmacy code is required';
+        }
+        if (!formData.pharmacist_id) {
+            errors.pharmacist_id = 'A pharmacist must be assigned';
+        }
+        if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            errors.email = 'Please enter a valid email address';
+        }
+        if (formData.phone && !/^[\d\s\-\+()]{7,15}$/.test(formData.phone)) {
+            errors.phone = 'Please enter a valid phone number';
+        }
+
+        setFormErrors(errors);
+        return Object.keys(errors).length === 0;
     };
 
     // Create pharmacy
     const handleCreate = async () => {
-        if (!formData.pharmacy_name || !formData.pharmacy_code) {
-            setError('Pharmacy name and code are required');
-            return;
-        }
-
-        if (!formData.pharmacist_id) {
-            setError('A pharmacist must be assigned to the pharmacy');
-            return;
-        }
+        if (!validatePharmacyForm()) return;
 
         try {
             setLoading(true);
@@ -903,6 +923,7 @@ const SuperAdminPharmacies: React.FC = () => {
     // Update pharmacy
     const handleUpdate = async () => {
         if (!selectedPharmacy) return;
+        if (!validatePharmacyForm(true)) return;
 
         try {
             setLoading(true);
@@ -1057,18 +1078,18 @@ const SuperAdminPharmacies: React.FC = () => {
     };
 
     return (
-        <div className="p-6 space-y-6">
+        <div className="p-3 sm:p-6 space-y-4 sm:space-y-6">
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-neutral-900">Pharmacy Management</h1>
-                    <p className="text-neutral-500 mt-1">Centralized control for all pharmacy operations</p>
+                    <h1 className="text-xl sm:text-2xl font-bold text-neutral-900">Pharmacy Management</h1>
+                    <p className="text-sm sm:text-base text-neutral-500 mt-1">Centralized control for all pharmacy operations</p>
                 </div>
             </div>
 
             {/* Main Tabs */}
             <div className="border-b border-neutral-200">
-                <nav className="-mb-px flex space-x-8">
+                <nav className="-mb-px flex space-x-4 sm:space-x-8 overflow-x-auto">
                     <button
                         onClick={() => setActiveMainTab('pharmacies')}
                         className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${activeMainTab === 'pharmacies'
@@ -1137,7 +1158,7 @@ const SuperAdminPharmacies: React.FC = () => {
                     </div>
 
                     {/* Stats Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4">
                         <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                             <div className="flex items-center gap-3">
                                 <div className="p-2 bg-blue-100 rounded-lg">
@@ -1196,9 +1217,9 @@ const SuperAdminPharmacies: React.FC = () => {
                     </div>
 
                     {/* Filters */}
-                    <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-                        <div className="flex flex-wrap gap-4">
-                            <div className="flex-1 min-w-[200px]">
+                    <div className="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-gray-100">
+                        <div className="flex flex-wrap gap-3 sm:gap-4">
+                            <div className="flex-1 min-w-[160px] sm:min-w-[200px]">
                                 <div className="relative">
                                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                                     <input
@@ -1241,7 +1262,7 @@ const SuperAdminPharmacies: React.FC = () => {
                     </div>
 
                     {/* Pharmacies Table */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-x-auto">
                         {loading ? (
                             <div className="flex items-center justify-center py-12">
                                 <RefreshCw className="w-8 h-8 text-emerald-500 animate-spin" />
@@ -1259,7 +1280,7 @@ const SuperAdminPharmacies: React.FC = () => {
                             </div>
                         ) : (
                             <div className="overflow-x-auto">
-                                <table className="w-full">
+                                <table className="w-full min-w-[900px]">
                                     <thead className="bg-neutral-50 border-b border-neutral-200">
                                         <tr>
                                             <th className="px-6 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
@@ -1414,7 +1435,7 @@ const SuperAdminPharmacies: React.FC = () => {
             {activeMainTab === 'inventory' && (
                 <>
                     {/* Header with Create Button */}
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                         <div>
                             <p className="text-neutral-500">Manage global inventory items across all pharmacies</p>
                         </div>
@@ -1431,7 +1452,7 @@ const SuperAdminPharmacies: React.FC = () => {
                     </div>
 
                     {/* Product Stats */}
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
                         <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                             <div className="flex items-center gap-3">
                                 <div className="p-2 bg-blue-100 rounded-lg">
@@ -1479,9 +1500,9 @@ const SuperAdminPharmacies: React.FC = () => {
                     </div>
 
                     {/* Filters */}
-                    <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-                        <div className="flex flex-wrap gap-4">
-                            <div className="flex-1 min-w-[200px]">
+                    <div className="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-gray-100">
+                        <div className="flex flex-wrap gap-3 sm:gap-4">
+                            <div className="flex-1 min-w-[160px] sm:min-w-[200px]">
                                 <div className="relative">
                                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                                     <input
@@ -1540,7 +1561,7 @@ const SuperAdminPharmacies: React.FC = () => {
                     </div>
 
                     {/* Products Table */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-x-auto">
                         {productsLoading ? (
                             <div className="flex items-center justify-center py-12">
                                 <RefreshCw className="w-8 h-8 text-emerald-500 animate-spin" />
@@ -1558,7 +1579,7 @@ const SuperAdminPharmacies: React.FC = () => {
                             </div>
                         ) : (
                             <div className="overflow-x-auto">
-                                <table className="w-full">
+                                <table className="w-full min-w-[800px]">
                                     <thead className="bg-neutral-50 border-b border-neutral-200">
                                         <tr>
                                             <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Item</th>
@@ -1652,11 +1673,11 @@ const SuperAdminPharmacies: React.FC = () => {
             {showProductModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto m-4">
-                        <div className="p-6 border-b border-neutral-200">
-                            <h2 className="text-xl font-bold text-neutral-900">Add New Inventory Item</h2>
+                        <div className="p-4 sm:p-6 border-b border-neutral-200">
+                            <h2 className="text-lg sm:text-xl font-bold text-neutral-900">Add New Inventory Item</h2>
                             <p className="text-sm text-neutral-500 mt-1">Add item and assign stock to a pharmacy in a branch</p>
                         </div>
-                        <div className="p-6 space-y-4">
+                        <div className="p-4 sm:p-6 space-y-4">
                             {/* Pharmacy Assignment (grouped by branch) */}
                             <div>
                                 <label className="block text-sm font-medium text-neutral-700 mb-1">
@@ -1688,7 +1709,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                                         <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wide mb-1">
                                                             {branch.center_name}{branch.city ? ` — ${branch.city}` : ''}
                                                         </p>
-                                                        <div className="grid grid-cols-2 gap-1 ml-2">
+                                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 ml-2">
                                                             {branchPharmacies.map(pharm => (
                                                                 <label key={pharm.id} className="flex items-center gap-2 cursor-pointer">
                                                                     <input
@@ -1736,7 +1757,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </select>
                             </div>
 
-                            <div className="grid grid-cols-3 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Item Code <span className="text-error-500">*</span>
@@ -1771,7 +1792,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Item Name <span className="text-error-500">*</span>
@@ -1796,7 +1817,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">Brand Name</label>
                                     <input
@@ -1829,7 +1850,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-4 gap-4">
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">Current Stock</label>
                                     <input
@@ -1868,7 +1889,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-3 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">Unit Cost (Rs.)</label>
                                     <input
@@ -1911,7 +1932,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 />
                             </div>
                         </div>
-                        <div className="p-6 border-t border-neutral-200 flex justify-end gap-3">
+                        <div className="p-4 sm:p-6 border-t border-neutral-200 flex flex-col-reverse sm:flex-row justify-end gap-3">
                             <button
                                 onClick={() => {
                                     setShowProductModal(false);
@@ -1937,11 +1958,11 @@ const SuperAdminPharmacies: React.FC = () => {
             {showProductEditModal && selectedProduct && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto m-4">
-                        <div className="p-6 border-b border-neutral-200">
-                            <h2 className="text-xl font-bold text-neutral-900">Edit Inventory Item</h2>
+                        <div className="p-4 sm:p-6 border-b border-neutral-200">
+                            <h2 className="text-lg sm:text-xl font-bold text-neutral-900">Edit Inventory Item</h2>
                             <p className="text-sm text-neutral-500 mt-1">Changes will reflect across all pharmacies</p>
                         </div>
-                        <div className="p-6 space-y-4">
+                        <div className="p-4 sm:p-6 space-y-4">
                             {/* Same form fields as create, but for editing */}
                             <div>
                                 <label className="block text-sm font-medium text-neutral-700 mb-1">Supplier</label>
@@ -1957,7 +1978,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </select>
                             </div>
 
-                            <div className="grid grid-cols-3 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">Item Code</label>
                                     <input
@@ -1998,7 +2019,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">Item Name</label>
                                     <input
@@ -2019,7 +2040,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-4 gap-4">
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">Min Stock</label>
                                     <input
@@ -2070,7 +2091,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 />
                             </div>
                         </div>
-                        <div className="p-6 border-t border-neutral-200 flex justify-end gap-3">
+                        <div className="p-4 sm:p-6 border-t border-neutral-200 flex flex-col-reverse sm:flex-row justify-end gap-3">
                             <button
                                 onClick={() => {
                                     setShowProductEditModal(false);
@@ -2097,11 +2118,11 @@ const SuperAdminPharmacies: React.FC = () => {
             {showBranchStockModal && selectedProduct && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto m-4">
-                        <div className="p-6 border-b border-neutral-200">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <h2 className="text-xl font-bold text-neutral-900">Branch Stock Management</h2>
-                                    <p className="text-sm text-neutral-500 mt-1">
+                        <div className="p-4 sm:p-6 border-b border-neutral-200">
+                            <div className="flex items-start sm:items-center justify-between gap-3">
+                                <div className="min-w-0">
+                                    <h2 className="text-lg sm:text-xl font-bold text-neutral-900">Branch Stock Management</h2>
+                                    <p className="text-sm text-neutral-500 mt-1 truncate">
                                         {selectedProduct.item_name} ({selectedProduct.item_code})
                                     </p>
                                 </div>
@@ -2119,7 +2140,7 @@ const SuperAdminPharmacies: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="p-6">
+                        <div className="p-4 sm:p-6">
                             {branchStockLoading ? (
                                 <div className="flex items-center justify-center py-12">
                                     <RefreshCw className="w-8 h-8 text-emerald-500 animate-spin" />
@@ -2139,7 +2160,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                         </h3>
                                     </div>
 
-                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                                         <div>
                                             <label className="block text-sm font-medium text-neutral-700 mb-1">Current Stock</label>
                                             <input
@@ -2180,7 +2201,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                                         <div>
                                             <label className="block text-sm font-medium text-neutral-700 mb-1">Unit</label>
                                             <select
@@ -2313,7 +2334,7 @@ const SuperAdminPharmacies: React.FC = () => {
                     {/* Header */}
                     <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                         <div>
-                            <h2 className="text-2xl font-bold text-neutral-900">Supplier Management</h2>
+                            <h2 className="text-xl sm:text-2xl font-bold text-neutral-900">Supplier Management</h2>
                             <p className="text-neutral-500">Manage all suppliers across all branches</p>
                         </div>
                         <button
@@ -2329,7 +2350,7 @@ const SuperAdminPharmacies: React.FC = () => {
                     </div>
 
                     {/* Supplier Stats */}
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6">
                         <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
                             <div className="flex items-center gap-3">
                                 <div className="p-2 bg-blue-100 rounded-lg">
@@ -2377,9 +2398,9 @@ const SuperAdminPharmacies: React.FC = () => {
                     </div>
 
                     {/* Filters */}
-                    <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 mb-6">
-                        <div className="flex flex-wrap gap-4">
-                            <div className="flex-1 min-w-[200px]">
+                    <div className="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-gray-100 mb-6">
+                        <div className="flex flex-wrap gap-3 sm:gap-4">
+                            <div className="flex-1 min-w-[160px] sm:min-w-[200px]">
                                 <div className="relative">
                                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
                                     <input
@@ -2415,7 +2436,7 @@ const SuperAdminPharmacies: React.FC = () => {
                     </div>
 
                     {/* Suppliers Table */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-x-auto">
                         {suppliersLoading ? (
                             <div className="flex items-center justify-center py-12">
                                 <RefreshCw className="w-8 h-8 text-emerald-500 animate-spin" />
@@ -2433,7 +2454,7 @@ const SuperAdminPharmacies: React.FC = () => {
                             </div>
                         ) : (
                             <div className="overflow-x-auto">
-                                <table className="w-full">
+                                <table className="w-full min-w-[700px]">
                                     <thead className="bg-neutral-50 border-b border-neutral-200">
                                         <tr>
                                             <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase">Supplier</th>
@@ -2534,11 +2555,11 @@ const SuperAdminPharmacies: React.FC = () => {
             {showSupplierModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto m-4">
-                        <div className="p-6 border-b border-neutral-200">
-                            <h2 className="text-xl font-bold text-neutral-900">Add New Supplier</h2>
+                        <div className="p-4 sm:p-6 border-b border-neutral-200">
+                            <h2 className="text-lg sm:text-xl font-bold text-neutral-900">Add New Supplier</h2>
                             <p className="text-sm text-neutral-500 mt-1">Create a new supplier for all pharmacies</p>
                         </div>
-                        <div className="p-6">
+                        <div className="p-4 sm:p-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {/* Column 1 - Basic Information */}
                                 <div className="space-y-4">
@@ -2716,7 +2737,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="p-6 border-t border-neutral-200 flex justify-end gap-3">
+                        <div className="p-4 sm:p-6 border-t border-neutral-200 flex flex-col-reverse sm:flex-row justify-end gap-3">
                             <button
                                 onClick={() => {
                                     setShowSupplierModal(false);
@@ -2742,11 +2763,11 @@ const SuperAdminPharmacies: React.FC = () => {
             {showSupplierEditModal && selectedSupplier && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto m-4">
-                        <div className="p-6 border-b border-neutral-200">
-                            <h2 className="text-xl font-bold text-neutral-900">Edit Supplier</h2>
+                        <div className="p-4 sm:p-6 border-b border-neutral-200">
+                            <h2 className="text-lg sm:text-xl font-bold text-neutral-900">Edit Supplier</h2>
                             <p className="text-sm text-neutral-500 mt-1">Update supplier information</p>
                         </div>
-                        <div className="p-6">
+                        <div className="p-4 sm:p-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {/* Column 1 - Basic Information */}
                                 <div className="space-y-4">
@@ -2924,7 +2945,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="p-6 border-t border-neutral-200 flex justify-end gap-3">
+                        <div className="p-4 sm:p-6 border-t border-neutral-200 flex flex-col-reverse sm:flex-row justify-end gap-3">
                             <button
                                 onClick={() => {
                                     setShowSupplierEditModal(false);
@@ -2951,7 +2972,7 @@ const SuperAdminPharmacies: React.FC = () => {
             {showSupplierDeleteConfirm && selectedSupplier && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl w-full max-w-md m-4">
-                        <div className="p-6">
+                        <div className="p-4 sm:p-6">
                             <div className="flex items-center gap-4 mb-4">
                                 <div className="p-3 bg-error-100 rounded-full">
                                     <AlertTriangle className="w-6 h-6 text-error-600" />
@@ -2965,7 +2986,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 Are you sure you want to delete <strong>{selectedSupplier.supplier_name}</strong>?
                                 This will remove all associated data.
                             </p>
-                            <div className="flex justify-end gap-3">
+                            <div className="flex flex-col-reverse sm:flex-row justify-end gap-3">
                                 <button
                                     onClick={() => {
                                         setShowSupplierDeleteConfirm(false);
@@ -2992,13 +3013,13 @@ const SuperAdminPharmacies: React.FC = () => {
             {(showCreateModal || showEditModal) && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto m-4">
-                        <div className="p-6 border-b border-neutral-200">
-                            <h2 className="text-xl font-bold text-neutral-900">
+                        <div className="p-4 sm:p-6 border-b border-neutral-200">
+                            <h2 className="text-lg sm:text-xl font-bold text-neutral-900">
                                 {showCreateModal ? 'Create New Pharmacy' : 'Edit Pharmacy'}
                             </h2>
                         </div>
-                        <div className="p-6 space-y-4">
-                            <div className="grid grid-cols-2 gap-4">
+                        <div className="p-4 sm:p-6 space-y-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Pharmacy Name <span className="text-error-500">*</span>
@@ -3006,10 +3027,11 @@ const SuperAdminPharmacies: React.FC = () => {
                                     <input
                                         type="text"
                                         value={formData.pharmacy_name}
-                                        onChange={(e) => setFormData({ ...formData, pharmacy_name: e.target.value })}
-                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        onChange={(e) => { setFormData({ ...formData, pharmacy_name: e.target.value }); setFormErrors(prev => ({ ...prev, pharmacy_name: '' })); }}
+                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 ${formErrors.pharmacy_name ? 'border-red-500' : 'border-neutral-300'}`}
                                         placeholder="Enter pharmacy name"
                                     />
+                                    {formErrors.pharmacy_name && <p className="text-red-500 text-xs mt-1">{formErrors.pharmacy_name}</p>}
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">
@@ -3018,15 +3040,16 @@ const SuperAdminPharmacies: React.FC = () => {
                                     <input
                                         type="text"
                                         value={formData.pharmacy_code}
-                                        onChange={(e) => setFormData({ ...formData, pharmacy_code: e.target.value })}
-                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        onChange={(e) => { setFormData({ ...formData, pharmacy_code: e.target.value }); setFormErrors(prev => ({ ...prev, pharmacy_code: '' })); }}
+                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 ${formErrors.pharmacy_code ? 'border-red-500' : 'border-neutral-300'}`}
                                         placeholder="e.g., PHM001"
                                         disabled={showEditModal}
                                     />
+                                    {formErrors.pharmacy_code && <p className="text-red-500 text-xs mt-1">{formErrors.pharmacy_code}</p>}
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         License Number
@@ -3052,7 +3075,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">
                                         Phone
@@ -3060,10 +3083,11 @@ const SuperAdminPharmacies: React.FC = () => {
                                     <input
                                         type="tel"
                                         value={formData.phone}
-                                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        onChange={(e) => { setFormData({ ...formData, phone: e.target.value }); setFormErrors(prev => ({ ...prev, phone: '' })); }}
+                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 ${formErrors.phone ? 'border-red-500' : 'border-neutral-300'}`}
                                         placeholder="Phone number"
                                     />
+                                    {formErrors.phone && <p className="text-red-500 text-xs mt-1">{formErrors.phone}</p>}
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-neutral-700 mb-1">
@@ -3072,10 +3096,11 @@ const SuperAdminPharmacies: React.FC = () => {
                                     <input
                                         type="email"
                                         value={formData.email}
-                                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                        onChange={(e) => { setFormData({ ...formData, email: e.target.value }); setFormErrors(prev => ({ ...prev, email: '' })); }}
+                                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 ${formErrors.email ? 'border-red-500' : 'border-neutral-300'}`}
                                         placeholder="Email address"
                                     />
+                                    {formErrors.email && <p className="text-red-500 text-xs mt-1">{formErrors.email}</p>}
                                 </div>
                             </div>
 
@@ -3098,14 +3123,15 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </label>
                                 <select
                                     value={formData.pharmacist_id}
-                                    onChange={(e) => setFormData({ ...formData, pharmacist_id: e.target.value })}
-                                    className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                    onChange={(e) => { setFormData({ ...formData, pharmacist_id: e.target.value }); setFormErrors(prev => ({ ...prev, pharmacist_id: '' })); }}
+                                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 ${formErrors.pharmacist_id ? 'border-red-500' : 'border-neutral-300'}`}
                                 >
                                     <option value="">Select Pharmacist</option>
                                     {availablePharmacists.map(p => (
                                         <option key={p.id} value={p.id}>{p.name}</option>
                                     ))}
                                 </select>
+                                {formErrors.pharmacist_id && <p className="text-red-500 text-xs mt-1">{formErrors.pharmacist_id}</p>}
                                 <p className="text-xs text-neutral-500 mt-1">
                                     Only unassigned pharmacists are shown. A pharmacist can only be assigned to one pharmacy.
                                 </p>
@@ -3145,7 +3171,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </label>
                             </div>
                         </div>
-                        <div className="p-6 border-t border-neutral-200 flex justify-end gap-3">
+                        <div className="p-4 sm:p-6 border-t border-neutral-200 flex flex-col-reverse sm:flex-row justify-end gap-3">
                             <button
                                 onClick={() => {
                                     setShowCreateModal(false);
@@ -3173,10 +3199,10 @@ const SuperAdminPharmacies: React.FC = () => {
             {showAllocateModal && selectedPharmacy && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl w-full max-w-md m-4">
-                        <div className="p-6 border-b border-neutral-200">
-                            <h2 className="text-xl font-bold text-neutral-900">Allocate Pharmacy to Branch</h2>
+                        <div className="p-4 sm:p-6 border-b border-neutral-200">
+                            <h2 className="text-lg sm:text-xl font-bold text-neutral-900">Allocate Pharmacy to Branch</h2>
                         </div>
-                        <div className="p-6 space-y-4">
+                        <div className="p-4 sm:p-6 space-y-4">
                             <div className="p-4 bg-neutral-50 rounded-lg">
                                 <p className="text-sm text-neutral-500">Pharmacy</p>
                                 <p className="font-medium text-neutral-900">{selectedPharmacy.name}</p>
@@ -3209,7 +3235,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </div>
                             )}
                         </div>
-                        <div className="p-6 border-t border-neutral-200 flex justify-end gap-3">
+                        <div className="p-4 sm:p-6 border-t border-neutral-200 flex flex-col-reverse sm:flex-row justify-end gap-3">
                             <button
                                 onClick={() => {
                                     setShowAllocateModal(false);
@@ -3235,11 +3261,11 @@ const SuperAdminPharmacies: React.FC = () => {
             {/* Manage Pharmacy Modal */}
             {showManageModal && selectedPharmacy && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden m-4">
-                        <div className="p-6 border-b border-neutral-200 flex items-center justify-between">
-                            <div>
-                                <h2 className="text-xl font-bold text-neutral-900">Manage Pharmacy</h2>
-                                <p className="text-neutral-500">{selectedPharmacy.name} ({selectedPharmacy.pharmacy_code})</p>
+                    <div className="bg-white rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto m-4">
+                        <div className="p-4 sm:p-6 border-b border-neutral-200 flex items-start sm:items-center justify-between gap-3">
+                            <div className="min-w-0">
+                                <h2 className="text-lg sm:text-xl font-bold text-neutral-900">Manage Pharmacy</h2>
+                                <p className="text-neutral-500 text-sm truncate">{selectedPharmacy.name} ({selectedPharmacy.pharmacy_code})</p>
                             </div>
                             <button
                                 onClick={() => {
@@ -3253,47 +3279,47 @@ const SuperAdminPharmacies: React.FC = () => {
                             </button>
                         </div>
 
-                        <div className="p-6 overflow-y-auto max-h-[calc(90vh-150px)]">
+                        <div className="p-3 sm:p-6 overflow-y-auto max-h-[calc(90vh-120px)] sm:max-h-[calc(90vh-150px)]">
                             {/* Quick Stats */}
-                            <div className="grid grid-cols-4 gap-4 mb-6">
-                                <div className="bg-blue-50 rounded-lg p-4">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
+                                <div className="bg-blue-50 rounded-lg p-3 sm:p-4">
                                     <div className="flex items-center gap-2">
-                                        <Package className="w-5 h-5 text-primary-500" />
-                                        <span className="text-sm text-neutral-600">Total Items</span>
+                                        <Package className="w-4 h-4 sm:w-5 sm:h-5 text-primary-500" />
+                                        <span className="text-xs sm:text-sm text-neutral-600">Total Items</span>
                                     </div>
-                                    <p className="text-2xl font-bold text-primary-500 mt-1">{inventory.length}</p>
+                                    <p className="text-lg sm:text-2xl font-bold text-primary-500 mt-1">{inventory.length}</p>
                                 </div>
-                                <div className="bg-emerald-50 rounded-lg p-4">
+                                <div className="bg-emerald-50 rounded-lg p-3 sm:p-4">
                                     <div className="flex items-center gap-2">
-                                        <Check className="w-5 h-5 text-emerald-600" />
-                                        <span className="text-sm text-neutral-600">In Stock</span>
+                                        <Check className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600" />
+                                        <span className="text-xs sm:text-sm text-neutral-600">In Stock</span>
                                     </div>
-                                    <p className="text-2xl font-bold text-emerald-600 mt-1">
+                                    <p className="text-lg sm:text-2xl font-bold text-emerald-600 mt-1">
                                         {inventory.filter(i => i.quantity_in_stock > i.reorder_level).length}
                                     </p>
                                 </div>
-                                <div className="bg-amber-50 rounded-lg p-4">
+                                <div className="bg-amber-50 rounded-lg p-3 sm:p-4">
                                     <div className="flex items-center gap-2">
-                                        <TrendingDown className="w-5 h-5 text-amber-600" />
-                                        <span className="text-sm text-neutral-600">Low Stock</span>
+                                        <TrendingDown className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600" />
+                                        <span className="text-xs sm:text-sm text-neutral-600">Low Stock</span>
                                     </div>
-                                    <p className="text-2xl font-bold text-amber-600 mt-1">
+                                    <p className="text-lg sm:text-2xl font-bold text-amber-600 mt-1">
                                         {inventory.filter(i => i.quantity_in_stock <= i.reorder_level && i.quantity_in_stock > 0).length}
                                     </p>
                                 </div>
-                                <div className="bg-error-50 rounded-lg p-4">
+                                <div className="bg-error-50 rounded-lg p-3 sm:p-4">
                                     <div className="flex items-center gap-2">
-                                        <AlertTriangle className="w-5 h-5 text-error-600" />
-                                        <span className="text-sm text-neutral-600">Out of Stock</span>
+                                        <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 text-error-600" />
+                                        <span className="text-xs sm:text-sm text-neutral-600">Out of Stock</span>
                                     </div>
-                                    <p className="text-2xl font-bold text-error-600 mt-1">
+                                    <p className="text-lg sm:text-2xl font-bold text-error-600 mt-1">
                                         {inventory.filter(i => i.quantity_in_stock === 0).length}
                                     </p>
                                 </div>
                             </div>
 
                             {/* Inventory Table */}
-                            <div className="border rounded-lg overflow-hidden">
+                            <div className="border rounded-lg overflow-x-auto">
                                 <div className="bg-neutral-50 px-4 py-3 border-b">
                                     <h3 className="font-semibold text-neutral-900">Inventory Items</h3>
                                 </div>
@@ -3308,7 +3334,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                     </div>
                                 ) : (
                                     <div className="overflow-x-auto">
-                                        <table className="w-full">
+                                        <table className="w-full min-w-[600px]">
                                             <thead className="bg-neutral-50 border-b">
                                                 <tr>
                                                     <th className="px-4 py-2 text-left text-xs font-semibold text-neutral-600">Item</th>
@@ -3377,7 +3403,7 @@ const SuperAdminPharmacies: React.FC = () => {
             {showDeleteConfirm && selectedPharmacy && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl w-full max-w-md m-4">
-                        <div className="p-6">
+                        <div className="p-4 sm:p-6">
                             <div className="flex items-center gap-4 mb-4">
                                 <div className="w-12 h-12 bg-error-100 rounded-full flex items-center justify-center">
                                     <Trash2 className="w-6 h-6 text-error-600" />
@@ -3400,7 +3426,7 @@ const SuperAdminPharmacies: React.FC = () => {
                                 </div>
                             )}
                         </div>
-                        <div className="p-6 border-t border-neutral-200 flex justify-end gap-3">
+                        <div className="p-4 sm:p-6 border-t border-neutral-200 flex flex-col-reverse sm:flex-row justify-end gap-3">
                             <button
                                 onClick={() => {
                                     setShowDeleteConfirm(false);

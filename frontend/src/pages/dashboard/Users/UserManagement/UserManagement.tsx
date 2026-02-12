@@ -22,8 +22,8 @@ const UserManagement = () => {
 
     return (
         <div className="p-4">
-            <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl font-bold">User Management</h1>
+            <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
+                <h1 className="text-xl sm:text-2xl font-bold">User Management</h1>
                 <button
                     onClick={handleAddUserClick}
                     className="px-6 py-2 bg-primary-500 rounded-lg hover:bg-primary-600 text-white"
@@ -39,7 +39,7 @@ const UserManagement = () => {
             {showCreateModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto m-4">
-                        <div className="sticky top-0 bg-white p-4 border-b border-neutral-200 flex justify-between items-center z-10">
+                        <div className="sticky top-0 bg-white p-4 border-b border-neutral-200 flex flex-wrap justify-between items-center gap-2 z-10">
                             <h2 className="text-xl font-bold text-neutral-900">Add New User</h2>
                             <button
                                 onClick={handleCloseModal}

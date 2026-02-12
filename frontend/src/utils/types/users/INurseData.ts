@@ -13,7 +13,6 @@ export interface INurseFormData {
     qualifications: string;
     years_of_experience: number;
     specialization: string;
-    work_experience: string;
     nurse_training_certifications: string;
     license_validity_date: string;
     additional_certifications: string;

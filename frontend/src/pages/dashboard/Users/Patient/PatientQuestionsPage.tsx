@@ -17,20 +17,20 @@ const PatientQuestionsPage: React.FC<PatientQuestionsPageProps> = ({ initialTab 
     const triggerRefresh = () => setRefreshFlag((prev) => !prev);
 
     return (
-        <div className="bg-neutral-50/50 min-h-screen font-sans p-6">
-            <div className="flex justify-between items-start gap-4 mb-8">
+        <div className="bg-neutral-50/50 min-h-screen font-sans p-3 sm:p-6">
+            <div className="flex justify-between items-start gap-4 mb-4 sm:mb-8">
                 <div>
-                    <h1 className="text-2xl font-bold text-neutral-900 flex items-center gap-3">
+                    <h1 className="text-lg sm:text-2xl font-bold text-neutral-900 flex items-center gap-3">
                         <div className="p-2 bg-white rounded-xl border border-neutral-200 shadow-sm">
                             <HeartPulse className="w-6 h-6 text-primary-600" />
                         </div>
                         Patient Section
                     </h1>
-                    <p className="text-neutral-500 mt-1 ml-14">Create and manage questions</p>
+                    <p className="text-neutral-500 mt-1 ml-0 sm:ml-14">Create and manage questions</p>
                 </div>
             </div>
 
-            <div className="bg-white rounded-3xl shadow-sm border border-neutral-200 p-3 mb-6">
+            <div className="bg-white rounded-xl sm:rounded-3xl shadow-sm border border-neutral-200 p-2 sm:p-3 mb-4 sm:mb-6">
                 <div className="flex flex-wrap gap-2">
                     {([
                         { key: "all", label: "All Questions" },
@@ -51,7 +51,7 @@ const PatientQuestionsPage: React.FC<PatientQuestionsPageProps> = ({ initialTab 
                 </div>
             </div>
 
-            <div className="bg-white rounded-3xl shadow-sm border border-neutral-200 p-4">
+            <div className="bg-white rounded-xl sm:rounded-3xl shadow-sm border border-neutral-200 p-2 sm:p-4">
                 {activeTab === "all" ? (
                     <GetAllQuestions refreshQuestions={refreshFlag} triggerRefresh={triggerRefresh} />
                 ) : (

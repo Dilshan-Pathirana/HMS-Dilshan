@@ -141,10 +141,10 @@ export const SuperAdminAnalyticsContent: React.FC = () => {
     return (
         <div className="p-4 space-y-6">
             {/* Header with Branch Selector */}
-            <div className="bg-gradient-to-r from-green-50 via-teal-50 to-cyan-50 border-2 border-teal-200 rounded-xl p-6 shadow-md">
+            <div className="bg-gradient-to-r from-green-50 via-teal-50 to-cyan-50 border-2 border-teal-200 rounded-xl p-4 md:p-6 shadow-md">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div>
-                        <h1 className="text-3xl font-bold text-neutral-800 flex items-center gap-3">
+                        <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-neutral-800 flex items-center gap-2 md:gap-3">
                             <LineChart className="w-8 h-8 text-teal-600" />
                             Analytics Dashboard
                         </h1>
@@ -180,12 +180,12 @@ export const SuperAdminAnalyticsContent: React.FC = () => {
 
             {/* Period Selector and Actions */}
             <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-4 rounded-lg shadow-md border border-neutral-200">
-                <div className="flex gap-2">
-                    {['today', 'week', 'month', 'quarter', 'year'].map(period => (
+                <div className="flex flex-wrap gap-2">
+                    {['day', 'week', 'month', 'year'].map((period) => (
                         <button
                             key={period}
                             onClick={() => setSelectedPeriod(period)}
-                            className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                            className={`px-2.5 py-1.5 md:px-4 md:py-2 rounded-lg text-sm md:text-base font-medium transition-all ${
                                 selectedPeriod === period
                                     ? 'bg-gradient-to-r from-teal-500 to-cyan-600 text-white shadow-md'
                                     : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
@@ -221,7 +221,7 @@ export const SuperAdminAnalyticsContent: React.FC = () => {
                         <button
                             key={tab.id}
                             onClick={() => setSelectedDashboard(tab.id)}
-                            className={`flex items-center gap-2 px-6 py-4 font-medium border-b-2 transition-all whitespace-nowrap ${
+                            className={`flex items-center gap-1.5 md:gap-2 px-3 py-2.5 md:px-6 md:py-4 text-sm md:text-base font-medium border-b-2 transition-all whitespace-nowrap ${
                                 selectedDashboard === tab.id
                                     ? 'border-teal-600 text-teal-600 bg-teal-50'
                                     : 'border-transparent text-neutral-600 hover:text-neutral-800 hover:bg-neutral-50'
@@ -237,11 +237,11 @@ export const SuperAdminAnalyticsContent: React.FC = () => {
             {/* Key Metrics Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {keyMetrics.map((metric, index) => (
-                    <div key={index} className="bg-white rounded-xl shadow-md border border-neutral-200 p-6 hover:shadow-xl transition-shadow">
+                    <div key={index} className="bg-white rounded-xl shadow-md border border-neutral-200 p-4 md:p-6 hover:shadow-xl transition-shadow">
                         <div className="flex items-start justify-between">
                             <div className="flex-1">
                                 <p className="text-sm font-medium text-neutral-600 mb-1">{metric.title}</p>
-                                <p className="text-3xl font-bold text-neutral-800 mb-2">{metric.value}</p>
+                                <p className="text-2xl md:text-3xl font-bold text-neutral-800 mb-2">{metric.value}</p>
                                 <div className="flex items-center gap-2">
                                     {metric.trend === 'up' ? (
                                         <ArrowUpRight className="w-4 h-4 text-green-600" />
@@ -263,13 +263,13 @@ export const SuperAdminAnalyticsContent: React.FC = () => {
             </div>
 
             {/* Revenue Breakdown */}
-            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
-                <div className="flex items-center justify-between mb-6">
+            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-4 md:p-6">
+                <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
                     <h2 className="text-xl font-bold text-neutral-800 flex items-center gap-2">
                         <PieChart className="w-6 h-6 text-teal-600" />
                         Revenue Breakdown
                     </h2>
-                    <span className="text-2xl font-bold text-neutral-800">LKR 2.4M</span>
+                    <span className="text-lg md:text-2xl font-bold text-neutral-800">LKR 2.4M</span>
                 </div>
                 <div className="space-y-4">
                     {revenueBreakdown.map((item, index) => (
@@ -290,18 +290,18 @@ export const SuperAdminAnalyticsContent: React.FC = () => {
             </div>
 
             {/* Quality Metrics Dashboard */}
-            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-4 md:p-6">
                 <h2 className="text-xl font-bold text-neutral-800 flex items-center gap-2 mb-6">
                     <Award className="w-6 h-6 text-teal-600" />
                     Quality Metrics Dashboard
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
                     {qualityMetrics.map((metric, index) => (
                         <div key={index} className="text-center p-4 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg border border-neutral-200">
                             <div className={`flex justify-center mb-2 ${metric.color}`}>
                                 {metric.icon}
                             </div>
-                            <p className="text-2xl font-bold text-neutral-800 mb-1">
+                            <p className="text-xl md:text-2xl font-bold text-neutral-800 mb-1">
                                 {metric.value}{metric.unit || '%'}
                             </p>
                             <p className="text-xs text-neutral-600">{metric.label}</p>
@@ -311,13 +311,13 @@ export const SuperAdminAnalyticsContent: React.FC = () => {
             </div>
 
             {/* Department Performance */}
-            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-3 md:p-6">
                 <h2 className="text-xl font-bold text-neutral-800 flex items-center gap-2 mb-6">
                     <Building2 className="w-6 h-6 text-teal-600" />
                     Department Performance
                 </h2>
                 <div className="overflow-x-auto">
-                    <table className="w-full">
+                    <table className="w-full min-w-[500px]">
                         <thead className="bg-neutral-50 border-b-2 border-neutral-200">
                             <tr>
                                 <th className="text-left px-4 py-3 text-sm font-semibold text-neutral-700">Department</th>
@@ -353,7 +353,7 @@ export const SuperAdminAnalyticsContent: React.FC = () => {
             </div>
 
             {/* Doctor Performance */}
-            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-4 md:p-6">
                 <h2 className="text-xl font-bold text-neutral-800 flex items-center gap-2 mb-6">
                     <UserCheck className="w-6 h-6 text-teal-600" />
                     Top Performing Doctors
@@ -387,7 +387,7 @@ export const SuperAdminAnalyticsContent: React.FC = () => {
             </div>
 
             {/* Bed Utilization */}
-            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-6">
+            <div className="bg-white rounded-xl shadow-md border border-neutral-200 p-4 md:p-6">
                 <h2 className="text-xl font-bold text-neutral-800 flex items-center gap-2 mb-6">
                     <HeartPulse className="w-6 h-6 text-teal-600" />
                     Bed Utilization Analysis
@@ -425,28 +425,28 @@ export const SuperAdminAnalyticsContent: React.FC = () => {
 
             {/* Quick Insights */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl shadow-md border-2 border-green-200 p-6">
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl shadow-md border-2 border-green-200 p-4 md:p-6">
                     <div className="flex items-center gap-3 mb-2">
                         <Zap className="w-6 h-6 text-green-600" />
                         <h3 className="font-bold text-neutral-800">Peak Efficiency</h3>
                     </div>
-                    <p className="text-3xl font-bold text-green-700">92.5%</p>
+                    <p className="text-2xl md:text-3xl font-bold text-green-700">92.5%</p>
                     <p className="text-sm text-neutral-600 mt-1">Operating at optimal capacity</p>
                 </div>
-                <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl shadow-md border-2 border-blue-200 p-6">
+                <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl shadow-md border-2 border-blue-200 p-4 md:p-6">
                     <div className="flex items-center gap-3 mb-2">
                         <Clock className="w-6 h-6 text-primary-500" />
                         <h3 className="font-bold text-neutral-800">Avg Wait Time</h3>
                     </div>
-                    <p className="text-3xl font-bold text-blue-700">18 min</p>
+                    <p className="text-2xl md:text-3xl font-bold text-blue-700">18 min</p>
                     <p className="text-sm text-neutral-600 mt-1">Below target of 20 minutes</p>
                 </div>
-                <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl shadow-md border-2 border-purple-200 p-6">
+                <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl shadow-md border-2 border-purple-200 p-4 md:p-6">
                     <div className="flex items-center gap-3 mb-2">
                         <Award className="w-6 h-6 text-purple-600" />
                         <h3 className="font-bold text-neutral-800">Claim Approval</h3>
                     </div>
-                    <p className="text-3xl font-bold text-purple-700">87.5%</p>
+                    <p className="text-2xl md:text-3xl font-bold text-purple-700">87.5%</p>
                     <p className="text-sm text-neutral-600 mt-1">Insurance claim success rate</p>
                 </div>
             </div>
