@@ -481,70 +481,82 @@ async def seed_faqs(
     session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_user),
 ):
-    """Seed 40 homeopathy FAQs if table is empty."""
+    """Seed FAQs. Includes essential hospital info and homeopathy topics."""
     if current_user.role_as != 1:
         raise HTTPException(status_code=403, detail="Admin only")
 
-    from sqlmodel import func
-    count_q = select(func.count()).select_from(ChatbotFAQ)
-    existing = (await session.exec(count_q)).one()
-    if existing > 0:
-        return {"success": True, "message": f"Already have {existing} FAQs, skipping seed."}
+    # Fetch existing questions to avoid duplicates
+    existing_result = await session.exec(select(ChatbotFAQ.question))
+    existing_questions = set(existing_result.all())
 
+    # Format: (Question, Answer, Keywords, Priority)
     seed_data = [
-        ("What is Homeopathy?", "A natural medical system based on 'like cures like'. It uses highly diluted substances to trigger the body's natural healing.", "homeopathy, natural, medicine, what"),
-        ("Is homeopathy safe?", "Yes, homeopathy is safe and non-toxic. The remedies are highly diluted and have no harmful chemicals.", "safe, safety, toxic, side effects"),
-        ("Can children use homeopathy?", "Yes, homeopathy is safe for children of all ages. The gentle remedies are well-suited for pediatric care.", "children, kids, pediatric, baby"),
-        ("Can pregnant women use it?", "Yes, homeopathy can be used during pregnancy under proper doctor guidance. Many remedies are safe for expectant mothers.", "pregnant, pregnancy, expecting, maternal"),
-        ("Does homeopathy treat chronic diseases?", "Yes, homeopathy focuses on treating the root causes of chronic diseases rather than just managing symptoms.", "chronic, long-term, disease, root cause"),
-        ("Does homeopathy have side effects?", "No harmful side effects when used correctly under a qualified practitioner's guidance.", "side effects, harmful, reaction, adverse"),
-        ("How long does it take to work?", "The duration depends on the condition, its severity, and the individual patient. Acute conditions may respond quickly, while chronic ones take longer.", "time, duration, how long, work, effective"),
-        ("Can homeopathy treat allergies?", "Yes, homeopathy is very effective in treating various types of allergies including skin, respiratory, and food allergies.", "allergy, allergies, allergic, reaction"),
-        ("Can it treat skin diseases?", "Yes, homeopathy can treat skin conditions such as eczema, acne, psoriasis, and dermatitis.", "skin, eczema, acne, psoriasis, dermatitis"),
-        ("Does it boost immunity?", "Yes, homeopathic remedies can help strengthen the immune system naturally.", "immunity, immune, boost, strengthen, defense"),
-        ("Can homeopathy treat migraines?", "Yes, homeopathy offers effective treatment for migraines and recurring headaches.", "migraine, headache, head pain, recurring"),
-        ("Is it good for stress and anxiety?", "Yes, homeopathy provides holistic treatment for stress, anxiety, and related mental health conditions.", "stress, anxiety, mental, tension, worry"),
-        ("Does it treat asthma?", "Yes, homeopathy can help manage and treat asthma under proper medical guidance.", "asthma, breathing, respiratory, wheeze"),
-        ("Can it cure sinusitis?", "Yes, homeopathy offers effective treatment for sinusitis and related nasal conditions.", "sinus, sinusitis, nasal, congestion"),
-        ("Does homeopathy help digestion?", "Yes, homeopathy can effectively treat digestive issues including IBS, indigestion, and bloating.", "digestion, digestive, stomach, ibs, bloating"),
-        ("Can it help diabetes?", "Yes, homeopathy can be used as supportive care alongside conventional diabetes treatment.", "diabetes, sugar, blood sugar, insulin"),
-        ("Can it help arthritis?", "Yes, homeopathy provides effective treatment for arthritis and joint pain.", "arthritis, joint, pain, rheumatism"),
-        ("Can it help insomnia?", "Yes, homeopathy can treat insomnia and sleep disorders naturally without habit-forming medications.", "insomnia, sleep, sleepless, rest"),
-        ("Is it suitable for elderly?", "Yes, homeopathy is well-suited for elderly patients due to its gentle, non-toxic nature.", "elderly, old, senior, aged"),
-        ("Can it treat hair fall?", "Yes, homeopathy can help treat hair fall and promote healthy hair growth.", "hair, hair fall, hair loss, baldness, alopecia"),
-        ("Can it treat infertility?", "Yes, homeopathy can help with infertility in many cases by addressing underlying hormonal and health issues.", "infertility, fertility, conceive, reproductive"),
-        ("Does it help heart conditions?", "Homeopathy can be used as supportive therapy for heart conditions alongside conventional treatment.", "heart, cardiac, cardiovascular, blood pressure"),
-        ("Can it treat piles?", "Yes, homeopathy offers effective treatment for piles (hemorrhoids) without surgery.", "piles, hemorrhoids, rectal, bleeding"),
-        ("Can it treat gastritis?", "Yes, homeopathy can effectively treat gastritis and acid reflux conditions.", "gastritis, acid, reflux, stomach, gastric"),
-        ("Does it cure thyroid disorders?", "Homeopathy helps manage thyroid disorders and can regulate thyroid function naturally.", "thyroid, hypothyroid, hyperthyroid, goiter"),
-        ("Can it treat depression?", "Yes, homeopathy treats depression holistically by addressing mental, emotional, and physical aspects.", "depression, depressed, sad, mental health, mood"),
-        ("Can homeopathy treat fever?", "Yes, homeopathy has effective remedies for various types of fever.", "fever, temperature, hot, pyrexia"),
-        ("Is homeopathy slow?", "Homeopathy is gentle but effective. Acute conditions often respond quickly, while chronic conditions require consistent treatment.", "slow, fast, speed, quick, time"),
-        ("Is it expensive?", "Homeopathy is usually very affordable compared to conventional medicine. Treatment costs are generally low.", "expensive, cost, price, affordable, cheap"),
-        ("Can it be taken with allopathy?", "Yes, homeopathy can be safely taken alongside allopathic medicine with proper medical guidance.", "allopathy, conventional, together, combine, western"),
-        ("Does it work for children's behavior?", "Yes, homeopathy can help with behavioral issues in children including ADHD, tantrums, and concentration.", "behavior, behavioral, adhd, tantrum, concentration, children"),
-        ("Can it help immunity in kids?", "Yes, homeopathy can effectively boost immunity in children, reducing frequency of infections.", "immunity, kids, children, infection, boost, pediatric"),
-        ("Can it treat PCOS?", "Yes, homeopathy offers effective treatment for PCOS by addressing hormonal imbalances.", "pcos, polycystic, ovary, hormonal, reproductive"),
-        ("Can it treat gastric ulcers?", "Yes, homeopathy can effectively treat gastric ulcers and promote healing.", "gastric, ulcer, stomach ulcer, peptic"),
-        ("Does it cure arthritis pain?", "Yes, homeopathy can provide effective relief from arthritis pain and inflammation.", "arthritis, pain, joint pain, inflammation, relief"),
-        ("Does it treat hypertension?", "Homeopathy can be used as supportive care for hypertension alongside conventional treatment.", "hypertension, blood pressure, high bp, pressure"),
-        ("Can it treat common cold?", "Yes, homeopathy has many effective remedies for common cold and flu symptoms.", "cold, flu, cough, runny nose, sneezing"),
-        ("Can it treat back pain?", "Yes, homeopathy provides effective treatment for back pain and spinal conditions.", "back pain, spine, spinal, lumbar, backache"),
-        ("Can it treat liver disorders?", "Yes, homeopathy can support liver health and treat liver disorders as supportive therapy.", "liver, hepatic, jaundice, fatty liver"),
-        ("Can homeopathy cure diseases permanently?", "Homeopathy aims for long-term healing by treating the root cause. Many patients experience permanent relief from chronic conditions.", "cure, permanent, long-term, lasting, complete"),
+        # --- High Priority: Hospital Info (User Requested) ---
+        ("What are your operating hours?", "We are open 24/7 for emergency services. Our OPD and Specialist Clinics operate from 8:00 AM to 8:00 PM daily.", "hours, opening, time, open, close, 24/7", 100),
+        ("Do you offer emergency services?", "Yes, our Emergency Unit (ETU) is fully operational 24/7 with equipped ambulances and medical staff ready to assist you.", "emergency, 24/7, urgent, ambulance, etu", 100),
+        ("How can I get my medical records?", "You can access your medical records via the Patient Portal under 'My Records', or request a physical copy from our Medical Records Department with your ID.", "records, history, report, medical records, file", 100),
+        ("How do I book an appointment?", "You can book an appointment easily through this Chatbot (just ask 'book appointment'), via our Mobile App, or by calling our hotline 1990.", "book, appointment, schedule, reservation, channel", 100),
+        
+        # --- Standard Priority: Homeopathy Info ---
+        ("What is Homeopathy?", "A natural medical system based on 'like cures like'. It uses highly diluted substances to trigger the body's natural healing.", "homeopathy, natural, medicine, what", 50),
+        ("Is homeopathy safe?", "Yes, homeopathy is safe and non-toxic. The remedies are highly diluted and have no harmful chemicals.", "safe, safety, toxic, side effects", 50),
+        ("Can children use homeopathy?", "Yes, homeopathy is safe for children of all ages. The gentle remedies are well-suited for pediatric care.", "children, kids, pediatric, baby", 50),
+        ("Can pregnant women use it?", "Yes, homeopathy can be used during pregnancy under proper doctor guidance. Many remedies are safe for expectant mothers.", "pregnant, pregnancy, expecting, maternal", 50),
+        ("Does homeopathy treat chronic diseases?", "Yes, homeopathy focuses on treating the root causes of chronic diseases rather than just managing symptoms.", "chronic, long-term, disease, root cause", 50),
+        ("Does homeopathy have side effects?", "No harmful side effects when used correctly under a qualified practitioner's guidance.", "side effects, harmful, reaction, adverse", 50),
+        ("How long does it take to work?", "The duration depends on the condition, its severity, and the individual patient. Acute conditions may respond quickly, while chronic ones take longer.", "time, duration, how long, work, effective", 50),
+        ("Can homeopathy treat allergies?", "Yes, homeopathy is very effective in treating various types of allergies including skin, respiratory, and food allergies.", "allergy, allergies, allergic, reaction", 50),
+        ("Can it treat skin diseases?", "Yes, homeopathy can treat skin conditions such as eczema, acne, psoriasis, and dermatitis.", "skin, eczema, acne, psoriasis, dermatitis", 50),
+        ("Does it boost immunity?", "Yes, homeopathic remedies can help strengthen the immune system naturally.", "immunity, immune, boost, strengthen, defense", 50),
+        ("Can homeopathy treat migraines?", "Yes, homeopathy offers effective treatment for migraines and recurring headaches.", "migraine, headache, head pain, recurring", 50),
+        ("Is it good for stress and anxiety?", "Yes, homeopathy provides holistic treatment for stress, anxiety, and related mental health conditions.", "stress, anxiety, mental, tension, worry", 50),
+        ("Does it treat asthma?", "Yes, homeopathy can help manage and treat asthma under proper medical guidance.", "asthma, breathing, respiratory, wheeze", 50),
+        ("Can it cure sinusitis?", "Yes, homeopathy offers effective treatment for sinusitis and related nasal conditions.", "sinus, sinusitis, nasal, congestion", 50),
+        ("Does homeopathy help digestion?", "Yes, homeopathy can effectively treat digestive issues including IBS, indigestion, and bloating.", "digestion, digestive, stomach, ibs, bloating", 50),
+        ("Can it help diabetes?", "Yes, homeopathy can be used as supportive care alongside conventional diabetes treatment.", "diabetes, sugar, blood sugar, insulin", 50),
+        ("Can it help arthritis?", "Yes, homeopathy provides effective treatment for arthritis and joint pain.", "arthritis, joint, pain, rheumatism", 50),
+        ("Can it help insomnia?", "Yes, homeopathy can treat insomnia and sleep disorders naturally without habit-forming medications.", "insomnia, sleep, sleepless, rest", 50),
+        ("Is it suitable for elderly?", "Yes, homeopathy is well-suited for elderly patients due to its gentle, non-toxic nature.", "elderly, old, senior, aged", 50),
+        ("Can it treat hair fall?", "Yes, homeopathy can help treat hair fall and promote healthy hair growth.", "hair, hair fall, hair loss, baldness, alopecia", 50),
+        ("Can it treat infertility?", "Yes, homeopathy can help with infertility in many cases by addressing underlying hormonal and health issues.", "infertility, fertility, conceive, reproductive", 50),
+        ("Does it help heart conditions?", "Homeopathy can be used as supportive therapy for heart conditions alongside conventional treatment.", "heart, cardiac, cardiovascular, blood pressure", 50),
+        ("Can it treat piles?", "Yes, homeopathy offers effective treatment for piles (hemorrhoids) without surgery.", "piles, hemorrhoids, rectal, bleeding", 50),
+        ("Can it treat gastritis?", "Yes, homeopathy can effectively treat gastritis and acid reflux conditions.", "gastritis, acid, reflux, stomach, gastric", 50),
+        ("Does it cure thyroid disorders?", "Homeopathy helps manage thyroid disorders and can regulate thyroid function naturally.", "thyroid, hypothyroid, hyperthyroid, goiter", 50),
+        ("Can it treat depression?", "Yes, homeopathy treats depression holistically by addressing mental, emotional, and physical aspects.", "depression, depressed, sad, mental health, mood", 50),
+        ("Can homeopathy treat fever?", "Yes, homeopathy has effective remedies for various types of fever.", "fever, temperature, hot, pyrexia", 50),
+        ("Is homeopathy slow?", "Homeopathy is gentle but effective. Acute conditions often respond quickly, while chronic conditions require consistent treatment.", "slow, fast, speed, quick, time", 50),
+        ("Is it expensive?", "Homeopathy is usually very affordable compared to conventional medicine. Treatment costs are generally low.", "expensive, cost, price, affordable, cheap", 50),
+        ("Can it be taken with allopathy?", "Yes, homeopathy can be safely taken alongside allopathic medicine with proper medical guidance.", "allopathy, conventional, together, combine, western", 50),
+        ("Does it work for children's behavior?", "Yes, homeopathy can help with behavioral issues in children including ADHD, tantrums, and concentration.", "behavior, behavioral, adhd, tantrum, concentration, children", 50),
+        ("Can it help immunity in kids?", "Yes, homeopathy can effectively boost immunity in children, reducing frequency of infections.", "immunity, kids, children, infection, boost, pediatric", 50),
+        ("Can it treat PCOS?", "Yes, homeopathy offers effective treatment for PCOS by addressing hormonal imbalances.", "pcos, polycystic, ovary, hormonal, reproductive", 50),
+        ("Can it treat gastric ulcers?", "Yes, homeopathy can effectively treat gastric ulcers and promote healing.", "gastric, ulcer, stomach ulcer, peptic", 50),
+        ("Does it cure arthritis pain?", "Yes, homeopathy can provide effective relief from arthritis pain and inflammation.", "arthritis, pain, joint pain, inflammation, relief", 50),
+        ("Does it treat hypertension?", "Homeopathy can be used as supportive care for hypertension alongside conventional treatment.", "hypertension, blood pressure, high bp, pressure", 50),
+        ("Can it treat common cold?", "Yes, homeopathy has many effective remedies for common cold and flu symptoms.", "cold, flu, cough, runny nose, sneezing", 50),
+        ("Can it treat back pain?", "Yes, homeopathy provides effective treatment for back pain and spinal conditions.", "back pain, spine, spinal, lumbar, backache", 50),
+        ("Can it treat liver disorders?", "Yes, homeopathy can support liver health and treat liver disorders as supportive therapy.", "liver, hepatic, jaundice, fatty liver", 50),
+        ("Can homeopathy cure diseases permanently?", "Homeopathy aims for long-term healing by treating the root cause. Many patients experience permanent relief from chronic conditions.", "cure, permanent, long-term, lasting, complete", 50),
     ]
 
-    for question, answer, keywords in seed_data:
-        faq = ChatbotFAQ(
-            question=question,
-            answer=answer,
-            keywords=keywords,
-            category="general_homeopathy",
-            language="en",
-            priority=50,
-            is_active=True,
-        )
-        session.add(faq)
+    added_count = 0
+    for question, answer, keywords, priority in seed_data:
+        if question not in existing_questions:
+            faq = ChatbotFAQ(
+                question=question,
+                answer=answer,
+                keywords=keywords,
+                category="hospital_info" if priority == 100 else "general_homeopathy",
+                language="en",
+                priority=priority,
+                is_active=True,
+            )
+            session.add(faq)
+            added_count += 1
 
-    await session.commit()
-    return {"success": True, "message": f"Seeded {len(seed_data)} FAQs successfully."}
+    if added_count > 0:
+        await session.commit()
+        return {"success": True, "message": f"Successfully seeded {added_count} new FAQs."}
+    else:
+        return {"success": True, "message": "All default FAQs already exist."}
