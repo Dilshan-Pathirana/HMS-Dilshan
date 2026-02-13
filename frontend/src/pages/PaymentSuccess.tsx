@@ -21,13 +21,13 @@ export default function PaymentSuccess() {
         )}
         <div className="space-y-3">
           <button
-            onClick={() => navigate('/patient/appointments')}
+            onClick={() => navigate('/patient-dashboard/appointments')}
             className="w-full py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition flex items-center justify-center font-semibold"
           >
             View Appointments
           </button>
           <button
-            onClick={() => navigate('/patient')}
+            onClick={() => navigate('/patient-dashboard')}
             className="w-full py-3 bg-neutral-100 text-neutral-700 rounded-lg hover:bg-neutral-200 transition font-semibold"
           >
             Back to Dashboard

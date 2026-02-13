@@ -2,7 +2,7 @@
 
 // Base API configuration
 const nurseApi = axios.create({
-    baseURL: `${import.meta.env.VITE_API_BASE_URL || ''}/api/nurse`,
+    baseURL: `${import.meta.env.VITE_API_BASE_URL || ''}/nurse`,
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json',

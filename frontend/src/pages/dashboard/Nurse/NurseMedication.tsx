@@ -104,13 +104,13 @@ const NurseMedication: React.FC = () => {
   };
 
   const filteredMedications = medications.filter(med => {
-    const matchesSearch = 
+    const matchesSearch =
       med.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       med.medicationName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       med.bed.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
     const matchesFilter = filterStatus === 'all' || med.status === filterStatus;
-    
+
     return matchesSearch && matchesFilter;
   });
 
@@ -119,7 +119,7 @@ const NurseMedication: React.FC = () => {
   const missedCount = medications.filter(m => m.status === 'missed').length;
 
   return (
-    <div className="p-6 space-y-6 bg-neutral-50 min-h-screen sm:ml-64 mt-16">
+    <div className="p-6 space-y-6 bg-neutral-50 min-h-screen">
       {/* Header */}
       <div className="bg-gradient-to-r from-teal-600 to-cyan-600 rounded-xl shadow-lg p-8 text-white">
         <div className="flex items-center justify-between">
@@ -272,7 +272,7 @@ const NurseMedication: React.FC = () => {
             <div className="bg-gradient-to-r from-primary-500 to-cyan-600 p-6 text-white">
               <h2 className="text-2xl font-bold">Administer Medication</h2>
             </div>
-            
+
             <div className="p-6 space-y-4">
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                 <div className="space-y-2">

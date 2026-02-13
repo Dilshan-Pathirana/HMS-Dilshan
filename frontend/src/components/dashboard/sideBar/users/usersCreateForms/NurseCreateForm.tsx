@@ -237,7 +237,8 @@ const NurseCreateForm: React.FC<NurseCreateFormProps> = ({ onSuccess }) => {
             }
 
             // Use branch-admin prefixed endpoint for Branch Admin users
-            const endpoint = isBranchAdmin ? "branch-admin/create-nurse" : "create-nurse";
+            // Use consistent endpoint, permissions handled by backend
+            const endpoint = "nurse/create-nurse";
             const response = await api.post(endpoint, formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',

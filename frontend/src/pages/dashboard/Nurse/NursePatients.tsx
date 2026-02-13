@@ -134,7 +134,7 @@ export const NursePatients: React.FC = () => {
     });
 
     return (
-        <div className="p-6 md:p-8 space-y-8 bg-neutral-50/50 min-h-screen font-sans">
+        <div className="p-6 space-y-6 bg-neutral-50 min-h-screen">
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>

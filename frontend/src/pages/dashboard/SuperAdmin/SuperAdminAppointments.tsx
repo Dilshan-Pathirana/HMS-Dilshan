@@ -29,6 +29,8 @@ import {
     Save
 } from 'lucide-react';
 import { appointmentSuperAdminApi, AppointmentBooking, Branch, AppointmentSettings, AppointmentLog, Doctor, SlotInfo, PatientSearchResult } from '../../../services/appointmentService';
+import { patientSessionApi, SessionListItem, SessionDetail, NurseItem } from '../../../services/patientSessionService';
+import SessionDetailsPanel from '../../../components/dashboard/Sessions/SessionDetailsPanel';
 
 // Extended types for branch settings display
 interface BranchSettingsDisplay {
@@ -52,7 +54,6 @@ interface LocalStatistics {
     by_status: { status: string; count: number }[];
 }
 
-type TabType = 'appointments' | 'statistics' | 'branch-settings' | 'audit-logs';
 type AppointmentViewType = 'today' | 'upcoming' | 'past';
 type CancellationType = 'normal' | 'doctor_request';
 type BookingType = 'walk_in' | 'phone' | 'online';
@@ -88,7 +89,6 @@ interface NewPatientData {
 }
 
 const SuperAdminAppointments: React.FC = () => {
-    const [activeTab, setActiveTab] = useState<TabType>('appointments');
     const [appointmentView, setAppointmentView] = useState<AppointmentViewType>('today');
     const [appointments, setAppointments] = useState<AppointmentBooking[]>([]);
     const [branches, setBranches] = useState<Branch[]>([]);
@@ -160,6 +160,21 @@ const SuperAdminAppointments: React.FC = () => {
 
     const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
+    // Session View State
+    const [viewMode] = useState<'sessions' | 'list'>('sessions');
+    const [sessions, setSessions] = useState<SessionListItem[]>([]);
+    const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
+    const [showSessionDetails, setShowSessionDetails] = useState(false);
+    const [sessionPanelAction, setSessionPanelAction] = useState<'assign-staff' | undefined>(undefined);
+    const [sessionDetail, setSessionDetail] = useState<SessionDetail | null>(null);
+
+    // Nurse Assignment
+    const [showAssignNurseModal, setShowAssignNurseModal] = useState(false);
+    const [availableNurses, setAvailableNurses] = useState<NurseItem[]>([]);
+    const [selectedNurses, setSelectedNurses] = useState<string[]>([]);
+    const [assigningNurse, setAssigningNurse] = useState(false);
+
+
     useEffect(() => {
         const userInfo = JSON.parse(localStorage.getItem('user') || '{}');
         setUserName(`${userInfo.first_name || ''} ${userInfo.last_name || ''}`.trim() || 'Super Admin');
@@ -170,16 +185,9 @@ const SuperAdminAppointments: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        if (activeTab === 'appointments') {
-            loadAppointments();
-        } else if (activeTab === 'statistics') {
-            loadStatistics();
-        } else if (activeTab === 'branch-settings') {
-            loadBranchSettings();
-        } else if (activeTab === 'audit-logs') {
-            loadAuditLogs();
-        }
-    }, [activeTab, appointmentView, selectedBranch, statusFilter, dateFilter, startDate, endDate, doctorFilter, specializationFilter, currentPage]);
+        loadAppointments();
+        loadSessions();
+    }, [appointmentView, selectedBranch, statusFilter, dateFilter, startDate, endDate, doctorFilter, specializationFilter, currentPage]);
 
     // Reload doctors when branch changes
     useEffect(() => {
@@ -219,7 +227,7 @@ const SuperAdminAppointments: React.FC = () => {
         try {
             const today = new Date().toISOString().split('T')[0];
             const params: any = { page: currentPage, per_page: perPage };
-            
+
             // Apply time-based view filters
             if (appointmentView === 'today') {
                 params.date = today;
@@ -244,29 +252,29 @@ const SuperAdminAppointments: React.FC = () => {
             const response = await appointmentSuperAdminApi.getAllAppointments(params);
             if (response.status === 200) {
                 let filteredData = response.appointments || [];
-                
+
                 // For past view, also include cancelled appointments
                 if (appointmentView === 'past') {
                     // Already filtered by backend, but we can show all past statuses
                 }
-                
+
                 // Client-side filter for specialization (since backend may not support it directly)
                 if (specializationFilter) {
-                    filteredData = filteredData.filter((apt: any) => 
+                    filteredData = filteredData.filter((apt: any) =>
                         apt.specialization?.toLowerCase().includes(specializationFilter.toLowerCase())
                     );
                 }
-                
+
                 // Client-side search filter
                 if (searchQuery) {
                     const query = searchQuery.toLowerCase();
-                    filteredData = filteredData.filter((apt: any) => 
+                    filteredData = filteredData.filter((apt: any) =>
                         apt.patient_name?.toLowerCase().includes(query) ||
                         apt.id?.toString().includes(query) ||
                         apt.token_number?.toString().includes(query)
                     );
                 }
-                
+
                 setAppointments(filteredData);
                 if (response.pagination) {
                     setTotalPages(response.pagination.total_pages);
@@ -276,6 +284,73 @@ const SuperAdminAppointments: React.FC = () => {
             console.error('Failed to load appointments:', error);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const loadSessions = async () => {
+        setLoading(true);
+        try {
+            const params: any = {};
+
+            if (dateFilter) params.session_date = dateFilter;
+
+            if (selectedBranch) params.branch_id = selectedBranch;
+            if (doctorFilter) params.doctor_id = doctorFilter;
+
+            // TODO: Add date range support to list_sessions endpoint if needed.
+            // Currently list_sessions supports single date or no date (all).
+
+            const response = await patientSessionApi.getSessions(params);
+            // response is array (from my service definition step 682, it returns response.data directly? No wait, inside service I did return response.data)
+            // But getSessions implementation: return { sessions: response.data, status: ... } OR return response.data?
+            // In step 682 I wrote: return { sessions: response.data, status: response.status }; ?
+            // Let's check step 682 write_to_file content.
+            // "return { sessions: response.data, status: response.status }; // consistent with other services..."
+            // "Actually, existing services return { status, data... }. Let's check..."
+            // "return response.data" for getSessionDetail.
+            // "return { sessions: response.data..." for getSessions.
+
+            if (response && response.sessions) {
+                setSessions(response.sessions);
+            } else if (Array.isArray(response)) {
+                setSessions(response);
+            }
+        } catch (error) {
+            console.error('Failed to load sessions:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const openSessionDetails = (sessionId: string, initialAction?: 'assign-staff') => {
+        setSelectedSessionId(sessionId);
+        setSessionPanelAction(initialAction);
+        setShowSessionDetails(true);
+    };
+
+    const handleManageSession = (sessionItem: SessionListItem) => {
+        openSessionDetails(sessionItem.id);
+    };
+
+    const handleDeleteSession = async (sessionItem: SessionListItem) => {
+        const confirmed = window.confirm('Delete this session and all linked session records permanently?');
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+            await patientSessionApi.deleteSession(sessionItem.id);
+            if (selectedSessionId === sessionItem.id) {
+                setShowSessionDetails(false);
+                setSelectedSessionId(null);
+                setSessionPanelAction(undefined);
+            }
+            await loadSessions();
+            await loadAppointments();
+            setMessage({ type: 'success', text: 'Session deleted successfully' });
+        } catch (err: any) {
+            console.error('Failed to delete session:', err);
+            setMessage({ type: 'error', text: err?.response?.data?.detail || 'Failed to delete session' });
         }
     };
 
@@ -415,7 +490,7 @@ const SuperAdminAppointments: React.FC = () => {
     const handleEditFormChange = (field: keyof EditFormData, value: string | number) => {
         const newForm = { ...editForm, [field]: value };
         setEditForm(newForm);
-        
+
         // If doctor or date changes, reload available slots
         if (field === 'doctorId' || field === 'date') {
             const doctorId = field === 'doctorId' ? value as string : newForm.doctorId;
@@ -429,7 +504,7 @@ const SuperAdminAppointments: React.FC = () => {
 
     const handleSaveEdit = async () => {
         if (!editingAppointment) return;
-        
+
         if (!editForm.doctorId || !editForm.date || !editForm.slotNumber) {
             setEditError('Please fill all required fields');
             return;
@@ -454,6 +529,7 @@ const SuperAdminAppointments: React.FC = () => {
                 setMessage({ type: 'success', text: 'Appointment updated successfully' });
                 closeEditModal();
                 loadAppointments();
+                loadSessions();
             }
         } catch (err: any) {
             console.error('Failed to update appointment:', err);
@@ -484,7 +560,7 @@ const SuperAdminAppointments: React.FC = () => {
 
     const handleConfirmCancel = async () => {
         if (!cancellingAppointment) return;
-        
+
         if (!cancelReason.trim()) {
             setCancelError('Please provide a cancellation reason');
             return;
@@ -504,6 +580,7 @@ const SuperAdminAppointments: React.FC = () => {
                 setMessage({ type: 'success', text: 'Appointment cancelled successfully' });
                 closeCancelModal();
                 loadAppointments();
+                loadSessions();
             }
         } catch (err: any) {
             console.error('Failed to cancel appointment:', err);
@@ -762,13 +839,6 @@ const SuperAdminAppointments: React.FC = () => {
         );
     });
 
-    const tabs: { id: TabType; label: string; icon: React.ReactNode }[] = [
-        { id: 'appointments', label: 'All Appointments', icon: <Calendar className="w-4 h-4" /> },
-        { id: 'statistics', label: 'Statistics', icon: <TrendingUp className="w-4 h-4" /> },
-        { id: 'branch-settings', label: 'Branch Settings', icon: <Settings className="w-4 h-4" /> },
-        { id: 'audit-logs', label: 'Audit Logs', icon: <FileText className="w-4 h-4" /> }
-    ];
-
     return (
         <DashboardLayout
             userName={userName}
@@ -785,10 +855,8 @@ const SuperAdminAppointments: React.FC = () => {
                     </div>
                     <button
                         onClick={() => {
-                            if (activeTab === 'appointments') loadAppointments();
-                            else if (activeTab === 'statistics') loadStatistics();
-                            else if (activeTab === 'branch-settings') loadBranchSettings();
-                            else if (activeTab === 'audit-logs') loadAuditLogs();
+                            loadAppointments();
+                            loadSessions();
                         }}
                         className="flex items-center gap-2 px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600"
                     >
@@ -805,40 +873,15 @@ const SuperAdminAppointments: React.FC = () => {
                     </div>
                 )}
 
-                {/* Tabs */}
-                <div className="border-b border-neutral-200 overflow-x-auto">
-                    <nav className="flex space-x-4 sm:space-x-8 min-w-max">
-                        {tabs.map((tab) => (
-                            <button
-                                key={tab.id}
-                                onClick={() => {
-                                    setActiveTab(tab.id);
-                                    setCurrentPage(1);
-                                }}
-                                className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm ${
-                                    activeTab === tab.id
-                                        ? 'border-emerald-500 text-emerald-600'
-                                        : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'
-                                }`}
-                            >
-                                {tab.icon}
-                                {tab.label}
-                            </button>
-                        ))}
-                    </nav>
-                </div>
-
                 {/* Time-based Sub-tabs + Create Button */}
-                {activeTab === 'appointments' && (
-                    <div className="flex flex-wrap items-center justify-between gap-4 bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
+                <div className="flex flex-wrap items-center justify-between gap-4 bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                         <div className="flex items-center gap-2">
                             <button
                                 onClick={() => { setAppointmentView('today'); setCurrentPage(1); }}
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                                    appointmentView === 'today'
-                                        ? 'bg-emerald-600 text-white'
-                                        : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
-                                }`}
+                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${appointmentView === 'today'
+                                    ? 'bg-emerald-600 text-white'
+                                    : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+                                    }`}
                             >
                                 <span className="flex items-center gap-2">
                                     <Calendar className="w-4 h-4" />
@@ -847,11 +890,10 @@ const SuperAdminAppointments: React.FC = () => {
                             </button>
                             <button
                                 onClick={() => { setAppointmentView('upcoming'); setCurrentPage(1); }}
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                                    appointmentView === 'upcoming'
-                                        ? 'bg-primary-500 text-white'
-                                        : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
-                                }`}
+                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${appointmentView === 'upcoming'
+                                    ? 'bg-primary-500 text-white'
+                                    : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+                                    }`}
                             >
                                 <span className="flex items-center gap-2">
                                     <Clock className="w-4 h-4" />
@@ -860,11 +902,10 @@ const SuperAdminAppointments: React.FC = () => {
                             </button>
                             <button
                                 onClick={() => { setAppointmentView('past'); setCurrentPage(1); }}
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                                    appointmentView === 'past'
-                                        ? 'bg-gray-600 text-white'
-                                        : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
-                                }`}
+                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${appointmentView === 'past'
+                                    ? 'bg-gray-600 text-white'
+                                    : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+                                    }`}
                             >
                                 <span className="flex items-center gap-2">
                                     <CheckCircle className="w-4 h-4" />
@@ -880,11 +921,10 @@ const SuperAdminAppointments: React.FC = () => {
                             New Appointment
                         </button>
                     </div>
-                )}
+
 
                 {/* Filters Section */}
-                {activeTab === 'appointments' && (
-                    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4 space-y-4">
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4 space-y-4">
                         {/* Row 1: Branch, Doctor, Specialization, Status */}
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                             {/* Branch Filter */}
@@ -1080,28 +1120,6 @@ const SuperAdminAppointments: React.FC = () => {
                             </button>
                         </div>
                     </div>
-                )}
-
-                {/* Branch Filter for other tabs */}
-                {activeTab !== 'appointments' && (
-                    <div className="flex flex-wrap gap-4 items-center">
-                        <div className="flex items-center gap-2">
-                            <Building2 className="w-5 h-5 text-neutral-500" />
-                            <select
-                                value={selectedBranch}
-                                onChange={(e) => setSelectedBranch(e.target.value)}
-                                className="border border-neutral-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-emerald-500"
-                            >
-                                <option value="">All Branches</option>
-                                {branches.map((branch) => (
-                                    <option key={branch.id} value={branch.id}>
-                                        {branch.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                    </div>
-                )}
 
                 {/* Content */}
                 {loading ? (
@@ -1110,179 +1128,272 @@ const SuperAdminAppointments: React.FC = () => {
                     </div>
                 ) : (
                     <>
-                        {/* Appointments Tab */}
-                        {activeTab === 'appointments' && (
-                            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
-                                <div className="overflow-x-auto">
-                                    <table className="w-full">
-                                        <thead className="bg-neutral-50">
-                                            <tr>
-                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Branch</th>
-                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Appt ID</th>
-                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Patient</th>
-                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Doctor</th>
-                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Specialization</th>
-                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Date</th>
-                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Slot #</th>
-                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Est. Time</th>
-                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Status</th>
-                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Payment</th>
-                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="divide-y divide-gray-200">
-                                            {filteredAppointments.length === 0 ? (
-                                                <tr>
-                                                    <td colSpan={11} className="px-4 py-8 text-center text-neutral-500">
-                                                        No appointments found
-                                                    </td>
-                                                </tr>
-                                            ) : (
-                                                filteredAppointments.map((apt) => (
-                                                    <tr key={apt.id} className="hover:bg-neutral-50">
-                                                        {/* Branch Name */}
-                                                        <td className="px-3 py-3">
-                                                            <div className="flex items-center gap-1">
-                                                                <Building2 className="w-4 h-4 text-neutral-400 flex-shrink-0" />
-                                                                <span className="text-sm font-medium truncate max-w-[120px]" title={apt.branch_name}>
-                                                                    {apt.branch_name}
+                            <>
+                                {showSessionDetails && selectedSessionId ? (
+                                    <SessionDetailsPanel
+                                        sessionId={selectedSessionId}
+                                        initialAction={sessionPanelAction}
+                                        onBack={() => {
+                                            setShowSessionDetails(false);
+                                            setSelectedSessionId(null);
+                                            setSessionPanelAction(undefined);
+                                            loadSessions();
+                                        }}
+                                    />
+                                ) : (
+                                    <>
+                                        {viewMode === 'sessions' && (
+                                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                                                {sessions.length === 0 ? (
+                                                    <div className="col-span-full py-12 text-center text-neutral-500 bg-white rounded-xl border border-neutral-200">
+                                                        No sessions found for the selected filters
+                                                    </div>
+                                                ) : (
+                                                    sessions.map((session) => (
+                                                        <div
+                                                            key={session.id}
+                                                            className="bg-white rounded-xl border border-neutral-200 p-5 hover:shadow-md transition-shadow relative"
+                                                        >
+                                                            <div className="flex justify-between items-start mb-4">
+                                                                <div>
+                                                                    <h3 className="font-semibold text-neutral-900">{session.doctor_name}</h3>
+                                                                    <p className="text-sm text-neutral-500">{session.branch_name}</p>
+                                                                </div>
+                                                                <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${session.status === 'scheduled' ? 'bg-blue-100 text-blue-800' :
+                                                                    session.status === 'completed' ? 'bg-green-100 text-green-800' :
+                                                                        session.status === 'cancelled' ? 'bg-red-100 text-red-800' :
+                                                                            'bg-gray-100 text-gray-800'
+                                                                    }`}>
+                                                                    {session.status.replace('_', ' ')}
                                                                 </span>
                                                             </div>
-                                                        </td>
-                                                        {/* Appointment ID */}
-                                                        <td className="px-3 py-3">
-                                                            <span className="font-mono text-xs text-emerald-600 bg-emerald-50 px-2 py-1 rounded">
-                                                                #{apt.token_number || apt.id?.toString().slice(-6)}
-                                                            </span>
-                                                        </td>
-                                                        {/* Patient Name */}
-                                                        <td className="px-3 py-3">
-                                                            <div className="flex items-center gap-2">
-                                                                <User className="w-4 h-4 text-neutral-400 flex-shrink-0" />
-                                                                <span className="font-medium text-sm truncate max-w-[120px]" title={apt.patient_name || 'Unknown'}>
-                                                                    {apt.patient_name || 'Unknown'}
-                                                                </span>
-                                                            </div>
-                                                        </td>
-                                                        {/* Doctor Name */}
-                                                        <td className="px-3 py-3">
-                                                            <span className="text-sm font-medium truncate max-w-[120px] block" title={apt.doctor_name}>
-                                                                {apt.doctor_name}
-                                                            </span>
-                                                        </td>
-                                                        {/* Specialization */}
-                                                        <td className="px-3 py-3">
-                                                            <div className="flex items-center gap-1">
-                                                                <Stethoscope className="w-3 h-3 text-neutral-400 flex-shrink-0" />
-                                                                <span className="text-xs text-neutral-600 truncate max-w-[100px]" title={(apt as any).specialization || 'General'}>
-                                                                    {(apt as any).specialization || 'General'}
-                                                                </span>
-                                                            </div>
-                                                        </td>
-                                                        {/* Date */}
-                                                        <td className="px-3 py-3">
-                                                            <div className="flex items-center gap-1">
-                                                                <Calendar className="w-4 h-4 text-neutral-400 flex-shrink-0" />
-                                                                <span className="text-sm">{formatDate(apt.appointment_date)}</span>
-                                                            </div>
-                                                        </td>
-                                                        {/* Slot Number */}
-                                                        <td className="px-3 py-3 text-center">
-                                                            <span className="inline-flex items-center justify-center w-7 h-7 text-xs font-bold bg-neutral-100 text-neutral-700 rounded-full">
-                                                                {(apt as any).slot_number || '-'}
-                                                            </span>
-                                                        </td>
-                                                        {/* Estimated Time */}
-                                                        <td className="px-3 py-3">
-                                                            <div className="flex items-center gap-1">
-                                                                <Clock className="w-4 h-4 text-neutral-400 flex-shrink-0" />
-                                                                <span className="text-sm">{apt.appointment_time}</span>
-                                                            </div>
-                                                        </td>
-                                                        {/* Status */}
-                                                        <td className="px-3 py-3">
-                                                            <span className={`px-2 py-1 text-xs font-medium rounded-full whitespace-nowrap ${getStatusColor(apt.status)}`}>
-                                                                {apt.status.replace(/_/g, ' ')}
-                                                            </span>
-                                                        </td>
-                                                        {/* Payment Status */}
-                                                        <td className="px-3 py-3">
-                                                            <div className="flex items-center gap-1">
-                                                                <DollarSign className="w-3 h-3 text-neutral-400 flex-shrink-0" />
-                                                                <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${getPaymentStatusColor(apt.payment_status)}`}>
-                                                                    {apt.payment_status}
-                                                                </span>
-                                                            </div>
-                                                        </td>
-                                                        {/* Actions */}
-                                                        <td className="px-3 py-3">
-                                                            <div className="flex items-center gap-1">
-                                                                <button
-                                                                    onClick={() => {
-                                                                        setSelectedAppointment(apt);
-                                                                        setShowDetailsModal(true);
-                                                                    }}
-                                                                    className="p-1.5 text-neutral-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg"
-                                                                    title="View Details"
-                                                                >
-                                                                    <Eye className="w-4 h-4" />
-                                                                </button>
-                                                                {!['completed', 'cancelled', 'no_show'].includes(apt.status) && (
-                                                                    <>
-                                                                        <button
-                                                                            onClick={() => openEditModal(apt)}
-                                                                            className="p-1.5 text-neutral-500 hover:text-primary-500 hover:bg-blue-50 rounded-lg"
-                                                                            title="Edit/Reschedule"
-                                                                        >
-                                                                            <Edit className="w-4 h-4" />
-                                                                        </button>
-                                                                        <button
-                                                                            onClick={() => openCancelModal(apt)}
-                                                                            className="p-1.5 text-neutral-500 hover:text-error-600 hover:bg-error-50 rounded-lg"
-                                                                            title="Cancel Appointment"
-                                                                        >
-                                                                            <Trash2 className="w-4 h-4" />
-                                                                        </button>
-                                                                    </>
-                                                                )}
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                ))
-                                            )}
-                                        </tbody>
-                                    </table>
-                                </div>
 
-                                {/* Pagination */}
-                                {totalPages > 1 && (
-                                    <div className="flex items-center justify-between px-4 py-3 border-t border-neutral-200">
-                                        <p className="text-sm text-neutral-500">
-                                            Page {currentPage} of {totalPages}
-                                        </p>
-                                        <div className="flex gap-2">
-                                            <button
-                                                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                                                disabled={currentPage === 1}
-                                                className="px-3 py-1 border border-neutral-300 rounded-lg disabled:opacity-50"
-                                            >
-                                                <ChevronLeft className="w-5 h-5" />
-                                            </button>
-                                            <button
-                                                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                                                disabled={currentPage === totalPages}
-                                                className="px-3 py-1 border border-neutral-300 rounded-lg disabled:opacity-50"
-                                            >
-                                                <ChevronRight className="w-5 h-5" />
-                                            </button>
-                                        </div>
-                                    </div>
+                                                            <div className="space-y-3 mb-4">
+                                                                <div className="flex items-center gap-2 text-sm text-neutral-600">
+                                                                    <Calendar className="w-4 h-4 text-neutral-400" />
+                                                                    <span>{new Date(session.session_date).toLocaleDateString()}</span>
+                                                                </div>
+                                                                <div className="flex items-center gap-2 text-sm text-neutral-600">
+                                                                    <Clock className="w-4 h-4 text-neutral-400" />
+                                                                    <span>{formatTime(session.start_time)} - {formatTime(session.end_time)}</span>
+                                                                </div>
+                                                                <div className="flex items-center gap-2 text-sm text-neutral-600">
+                                                                    <User className="w-4 h-4 text-neutral-400" />
+                                                                    <span>{session.appointment_count} / {session.total_slots || 0} Slots Filled</span>
+                                                                </div>
+                                                                <div className="flex items-center gap-2 text-sm text-neutral-600">
+                                                                    <UserPlus className="w-4 h-4 text-neutral-400" />
+                                                                    <span>{session.assigned_staff_count || 0} Staff Assigned</span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="pt-4 border-t border-neutral-100 grid grid-cols-2 gap-2">
+                                                                <button
+                                                                    onClick={() => openSessionDetails(session.id)}
+                                                                    className="px-3 py-2 text-sm font-medium rounded-lg border border-neutral-200 text-neutral-700 hover:bg-neutral-50"
+                                                                >
+                                                                    View Details
+                                                                </button>
+                                                                <button
+                                                                    onClick={() => handleManageSession(session)}
+                                                                    className="px-3 py-2 text-sm font-medium rounded-lg border border-blue-200 text-blue-700 hover:bg-blue-50"
+                                                                >
+                                                                    Manage
+                                                                </button>
+                                                                <button
+                                                                    onClick={() => openSessionDetails(session.id, 'assign-staff')}
+                                                                    className="px-3 py-2 text-sm font-medium rounded-lg border border-emerald-200 text-emerald-700 hover:bg-emerald-50"
+                                                                >
+                                                                    Assign Staff
+                                                                </button>
+                                                                <button
+                                                                    onClick={() => handleDeleteSession(session)}
+                                                                    className="px-3 py-2 text-sm font-medium rounded-lg border border-red-200 text-red-700 hover:bg-red-50"
+                                                                >
+                                                                    Delete
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    ))
+                                                )}
+                                            </div>
+                                        )}
+
+                                        {viewMode === 'list' && (
+                                            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
+                                                <div className="overflow-x-auto">
+                                                    <table className="w-full">
+                                                        <thead className="bg-neutral-50">
+                                                            <tr>
+                                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Branch</th>
+                                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Appt ID</th>
+                                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Patient</th>
+                                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Doctor</th>
+                                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Specialization</th>
+                                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Date</th>
+                                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Slot #</th>
+                                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Est. Time</th>
+                                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Status</th>
+                                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Payment</th>
+                                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody className="divide-y divide-gray-200">
+                                                            {filteredAppointments.length === 0 ? (
+                                                                <tr>
+                                                                    <td colSpan={11} className="px-4 py-8 text-center text-neutral-500">
+                                                                        No appointments found
+                                                                    </td>
+                                                                </tr>
+                                                            ) : (
+                                                                filteredAppointments.map((apt) => (
+                                                                    <tr key={apt.id} className="hover:bg-neutral-50">
+                                                                        {/* Branch Name */}
+                                                                        <td className="px-3 py-3">
+                                                                            <div className="flex items-center gap-1">
+                                                                                <Building2 className="w-4 h-4 text-neutral-400 flex-shrink-0" />
+                                                                                <span className="text-sm font-medium truncate max-w-[120px]" title={apt.branch_name}>
+                                                                                    {apt.branch_name}
+                                                                                </span>
+                                                                            </div>
+                                                                        </td>
+                                                                        {/* Appointment ID */}
+                                                                        <td className="px-3 py-3">
+                                                                            <span className="font-mono text-xs text-emerald-600 bg-emerald-50 px-2 py-1 rounded">
+                                                                                #{apt.token_number || apt.id?.toString().slice(-6)}
+                                                                            </span>
+                                                                        </td>
+                                                                        {/* Patient Name */}
+                                                                        <td className="px-3 py-3">
+                                                                            <div className="flex items-center gap-2">
+                                                                                <User className="w-4 h-4 text-neutral-400 flex-shrink-0" />
+                                                                                <span className="font-medium text-sm truncate max-w-[120px]" title={apt.patient_name || 'Unknown'}>
+                                                                                    {apt.patient_name || 'Unknown'}
+                                                                                </span>
+                                                                            </div>
+                                                                        </td>
+                                                                        {/* Doctor Name */}
+                                                                        <td className="px-3 py-3">
+                                                                            <span className="text-sm font-medium truncate max-w-[120px] block" title={apt.doctor_name}>
+                                                                                {apt.doctor_name}
+                                                                            </span>
+                                                                        </td>
+                                                                        {/* Specialization */}
+                                                                        <td className="px-3 py-3">
+                                                                            <div className="flex items-center gap-1">
+                                                                                <Stethoscope className="w-3 h-3 text-neutral-400 flex-shrink-0" />
+                                                                                <span className="text-xs text-neutral-600 truncate max-w-[100px]" title={(apt as any).specialization || 'General'}>
+                                                                                    {(apt as any).specialization || 'General'}
+                                                                                </span>
+                                                                            </div>
+                                                                        </td>
+                                                                        {/* Date */}
+                                                                        <td className="px-3 py-3">
+                                                                            <div className="flex items-center gap-1">
+                                                                                <Calendar className="w-4 h-4 text-neutral-400 flex-shrink-0" />
+                                                                                <span className="text-sm">{formatDate(apt.appointment_date)}</span>
+                                                                            </div>
+                                                                        </td>
+                                                                        {/* Slot Number */}
+                                                                        <td className="px-3 py-3 text-center">
+                                                                            <span className="inline-flex items-center justify-center w-7 h-7 text-xs font-bold bg-neutral-100 text-neutral-700 rounded-full">
+                                                                                {(apt as any).slot_number || '-'}
+                                                                            </span>
+                                                                        </td>
+                                                                        {/* Estimated Time */}
+                                                                        <td className="px-3 py-3">
+                                                                            <div className="flex items-center gap-1">
+                                                                                <Clock className="w-4 h-4 text-neutral-400 flex-shrink-0" />
+                                                                                <span className="text-sm">{apt.appointment_time}</span>
+                                                                            </div>
+                                                                        </td>
+                                                                        {/* Status */}
+                                                                        <td className="px-3 py-3">
+                                                                            <span className={`px-2 py-1 text-xs font-medium rounded-full whitespace-nowrap ${getStatusColor(apt.status)}`}>
+                                                                                {apt.status.replace(/_/g, ' ')}
+                                                                            </span>
+                                                                        </td>
+                                                                        {/* Payment Status */}
+                                                                        <td className="px-3 py-3">
+                                                                            <div className="flex items-center gap-1">
+                                                                                <DollarSign className="w-3 h-3 text-neutral-400 flex-shrink-0" />
+                                                                                <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${getPaymentStatusColor(apt.payment_status)}`}>
+                                                                                    {apt.payment_status}
+                                                                                </span>
+                                                                            </div>
+                                                                        </td>
+                                                                        {/* Actions */}
+                                                                        <td className="px-3 py-3">
+                                                                            <div className="flex items-center gap-1">
+                                                                                <button
+                                                                                    onClick={() => {
+                                                                                        setSelectedAppointment(apt);
+                                                                                        setShowDetailsModal(true);
+                                                                                    }}
+                                                                                    className="p-1.5 text-neutral-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg"
+                                                                                    title="View Details"
+                                                                                >
+                                                                                    <Eye className="w-4 h-4" />
+                                                                                </button>
+                                                                                {!['completed', 'cancelled', 'no_show'].includes(apt.status) && (
+                                                                                    <>
+                                                                                        <button
+                                                                                            onClick={() => openEditModal(apt)}
+                                                                                            className="p-1.5 text-neutral-500 hover:text-primary-500 hover:bg-blue-50 rounded-lg"
+                                                                                            title="Edit/Reschedule"
+                                                                                        >
+                                                                                            <Edit className="w-4 h-4" />
+                                                                                        </button>
+                                                                                        <button
+                                                                                            onClick={() => openCancelModal(apt)}
+                                                                                            className="p-1.5 text-neutral-500 hover:text-error-600 hover:bg-error-50 rounded-lg"
+                                                                                            title="Cancel Appointment"
+                                                                                        >
+                                                                                            <Trash2 className="w-4 h-4" />
+                                                                                        </button>
+                                                                                    </>
+                                                                                )}
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                ))
+                                                            )}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                                {/* Pagination */}
+                                                {totalPages > 1 && (
+                                                    <div className="flex items-center justify-between px-4 py-3 border-t border-neutral-200">
+                                                        <p className="text-sm text-neutral-500">
+                                                            Page {currentPage} of {totalPages}
+                                                        </p>
+                                                        <div className="flex gap-2">
+                                                            <button
+                                                                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                                                                disabled={currentPage === 1}
+                                                                className="px-3 py-1 border border-neutral-300 rounded-lg disabled:opacity-50"
+                                                            >
+                                                                <ChevronLeft className="w-5 h-5" />
+                                                            </button>
+                                                            <button
+                                                                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                                                                disabled={currentPage === totalPages}
+                                                                className="px-3 py-1 border border-neutral-300 rounded-lg disabled:opacity-50"
+                                                            >
+                                                                <ChevronRight className="w-5 h-5" />
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+                                    </>
                                 )}
-                            </div>
-                        )}
+                            </>
 
                         {/* Statistics Tab */}
-                        {activeTab === 'statistics' && statistics && (
+                        {false && statistics && (
                             <div className="space-y-6">
                                 {/* Summary Cards */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -1290,7 +1401,7 @@ const SuperAdminAppointments: React.FC = () => {
                                         <div className="flex items-center justify-between">
                                             <div>
                                                 <p className="text-sm text-neutral-500">Total Appointments</p>
-                                                <p className="text-3xl font-bold text-neutral-800">{statistics.total}</p>
+                                                <p className="text-3xl font-bold text-neutral-800">{statistics!.total}</p>
                                             </div>
                                             <div className="p-3 rounded-lg bg-emerald-100">
                                                 <Calendar className="w-6 h-6 text-emerald-600" />
@@ -1301,7 +1412,7 @@ const SuperAdminAppointments: React.FC = () => {
                                         <div className="flex items-center justify-between">
                                             <div>
                                                 <p className="text-sm text-neutral-500">Today's Appointments</p>
-                                                <p className="text-3xl font-bold text-primary-500">{statistics.today}</p>
+                                                <p className="text-3xl font-bold text-primary-500">{statistics!.today}</p>
                                             </div>
                                             <div className="p-3 rounded-lg bg-blue-100">
                                                 <Clock className="w-6 h-6 text-primary-500" />
@@ -1312,7 +1423,7 @@ const SuperAdminAppointments: React.FC = () => {
                                         <div className="flex items-center justify-between">
                                             <div>
                                                 <p className="text-sm text-neutral-500">Completed</p>
-                                                <p className="text-3xl font-bold text-green-600">{statistics.completed}</p>
+                                                <p className="text-3xl font-bold text-green-600">{statistics!.completed}</p>
                                             </div>
                                             <div className="p-3 rounded-lg bg-green-100">
                                                 <CheckCircle className="w-6 h-6 text-green-600" />
@@ -1324,7 +1435,7 @@ const SuperAdminAppointments: React.FC = () => {
                                             <div>
                                                 <p className="text-sm text-neutral-500">Cancelled / No Show</p>
                                                 <p className="text-3xl font-bold text-error-600">
-                                                    {statistics.cancelled + statistics.no_show}
+                                                    {statistics!.cancelled + statistics!.no_show}
                                                 </p>
                                             </div>
                                             <div className="p-3 rounded-lg bg-error-100">
@@ -1338,7 +1449,7 @@ const SuperAdminAppointments: React.FC = () => {
                                 <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                                     <h3 className="text-lg font-semibold text-neutral-800 mb-4">Appointments by Branch</h3>
                                     <div className="space-y-3">
-                                        {statistics.by_branch?.map((item, idx) => (
+                                        {statistics!.by_branch?.map((item, idx) => (
                                             <div key={idx} className="flex items-center justify-between">
                                                 <div className="flex items-center gap-2">
                                                     <Building2 className="w-5 h-5 text-neutral-400" />
@@ -1348,7 +1459,7 @@ const SuperAdminAppointments: React.FC = () => {
                                                     <div className="w-32 h-2 bg-neutral-200 rounded-full overflow-hidden">
                                                         <div
                                                             className="h-full bg-emerald-500 rounded-full"
-                                                            style={{ width: `${(item.count / statistics.total) * 100}%` }}
+                                                            style={{ width: `${(item.count / statistics!.total) * 100}%` }}
                                                         />
                                                     </div>
                                                     <span className="text-sm text-neutral-600 w-12 text-right">{item.count}</span>
@@ -1362,7 +1473,7 @@ const SuperAdminAppointments: React.FC = () => {
                                 <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
                                     <h3 className="text-lg font-semibold text-neutral-800 mb-4">Appointments by Status</h3>
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                        {statistics.by_status?.map((item, idx) => (
+                                        {statistics!.by_status?.map((item, idx) => (
                                             <div key={idx} className="text-center p-4 bg-neutral-50 rounded-lg">
                                                 <p className={`inline-block px-2 py-1 text-xs font-medium rounded-full mb-2 ${getStatusColor(item.status)}`}>
                                                     {item.status.replace('_', ' ')}
@@ -1376,7 +1487,7 @@ const SuperAdminAppointments: React.FC = () => {
                         )}
 
                         {/* Branch Settings Tab */}
-                        {activeTab === 'branch-settings' && (
+                        {false && (
                             <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-x-auto">
                                 <table className="w-full min-w-[600px]">
                                     <thead>
@@ -1406,9 +1517,8 @@ const SuperAdminAppointments: React.FC = () => {
                                                     <td className="px-4 py-3">{setting.settings.default_time_per_patient} min</td>
                                                     <td className="px-4 py-3">Rs. {setting.settings.default_booking_fee}</td>
                                                     <td className="px-4 py-3">
-                                                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                                                            setting.has_settings ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                                                        }`}>
+                                                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${setting.has_settings ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                                                            }`}>
                                                             {setting.has_settings ? 'Configured' : 'Default'}
                                                         </span>
                                                     </td>
@@ -1432,7 +1542,7 @@ const SuperAdminAppointments: React.FC = () => {
                         )}
 
                         {/* Audit Logs Tab - STEP 12 */}
-                        {activeTab === 'audit-logs' && (
+                        {false && (
                             <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-x-auto">
                                 <table className="w-full min-w-[700px]">
                                     <thead>
@@ -1482,13 +1592,12 @@ const SuperAdminAppointments: React.FC = () => {
                                                     </td>
                                                     {/* Action */}
                                                     <td className="px-4 py-3">
-                                                        <span className={`px-2 py-1 text-xs font-medium rounded ${
-                                                            log.action === 'created' ? 'bg-green-100 text-green-800' :
+                                                        <span className={`px-2 py-1 text-xs font-medium rounded ${log.action === 'created' ? 'bg-green-100 text-green-800' :
                                                             log.action === 'cancelled' ? 'bg-error-100 text-red-800' :
-                                                            log.action === 'rescheduled' ? 'bg-blue-100 text-blue-800' :
-                                                            log.action === 'status_changed' ? 'bg-yellow-100 text-yellow-800' :
-                                                            'bg-neutral-100 text-neutral-800'
-                                                        }`}>
+                                                                log.action === 'rescheduled' ? 'bg-blue-100 text-blue-800' :
+                                                                    log.action === 'status_changed' ? 'bg-yellow-100 text-yellow-800' :
+                                                                        'bg-neutral-100 text-neutral-800'
+                                                            }`}>
                                                             {log.action_label || log.action?.replace(/_/g, ' ')}
                                                         </span>
                                                     </td>
@@ -1599,9 +1708,8 @@ const SuperAdminAppointments: React.FC = () => {
                                 </div>
                                 <div>
                                     <p className="text-sm text-neutral-500">Payment Status</p>
-                                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                                        selectedAppointment.payment_status === 'paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                                    }`}>
+                                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${selectedAppointment.payment_status === 'paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                                        }`}>
                                         {selectedAppointment.payment_status || 'pending'}
                                     </span>
                                 </div>
@@ -1830,7 +1938,7 @@ const SuperAdminAppointments: React.FC = () => {
                             {/* Current info display */}
                             <div className="bg-neutral-50 rounded-lg p-3">
                                 <p className="text-sm text-neutral-600">
-                                    <strong>Patient:</strong> {editingAppointment.patient_name}<br/>
+                                    <strong>Patient:</strong> {editingAppointment.patient_name}<br />
                                     <strong>Current:</strong> {editingAppointment.doctor_name} on {formatDate(editingAppointment.appointment_date)}
                                 </p>
                             </div>
@@ -1901,13 +2009,12 @@ const SuperAdminAppointments: React.FC = () => {
                                                 key={slot.slot_number}
                                                 onClick={() => setEditForm(prev => ({ ...prev, slotNumber: slot.slot_number }))}
                                                 disabled={!slot.is_available}
-                                                className={`p-2 text-xs rounded-lg border transition-colors ${
-                                                    editForm.slotNumber === slot.slot_number
-                                                        ? 'bg-emerald-600 text-white border-emerald-600'
-                                                        : slot.is_available
-                                                            ? 'bg-white text-neutral-700 border-neutral-300 hover:border-emerald-500'
-                                                            : 'bg-neutral-100 text-neutral-400 border-neutral-200 cursor-not-allowed'
-                                                }`}
+                                                className={`p-2 text-xs rounded-lg border transition-colors ${editForm.slotNumber === slot.slot_number
+                                                    ? 'bg-emerald-600 text-white border-emerald-600'
+                                                    : slot.is_available
+                                                        ? 'bg-white text-neutral-700 border-neutral-300 hover:border-emerald-500'
+                                                        : 'bg-neutral-100 text-neutral-400 border-neutral-200 cursor-not-allowed'
+                                                    }`}
                                             >
                                                 #{slot.slot_number}
                                                 <span className="block text-[10px]">{slot.time}</span>
@@ -1961,9 +2068,9 @@ const SuperAdminAppointments: React.FC = () => {
                             {/* Appointment info display */}
                             <div className="bg-neutral-50 rounded-lg p-3">
                                 <p className="text-sm text-neutral-600">
-                                    <strong>Token:</strong> #{cancellingAppointment.token_number || cancellingAppointment.id}<br/>
-                                    <strong>Patient:</strong> {cancellingAppointment.patient_name}<br/>
-                                    <strong>Doctor:</strong> {cancellingAppointment.doctor_name}<br/>
+                                    <strong>Token:</strong> #{cancellingAppointment.token_number || cancellingAppointment.id}<br />
+                                    <strong>Patient:</strong> {cancellingAppointment.patient_name}<br />
+                                    <strong>Doctor:</strong> {cancellingAppointment.doctor_name}<br />
                                     <strong>Date:</strong> {formatDate(cancellingAppointment.appointment_date)}
                                 </p>
                             </div>
@@ -2299,13 +2406,12 @@ const SuperAdminAppointments: React.FC = () => {
                                                 key={slot.slot_number}
                                                 onClick={() => setBookingForm(prev => ({ ...prev, slotNumber: slot.slot_number }))}
                                                 disabled={!slot.is_available}
-                                                className={`p-2 text-xs rounded-lg border transition-colors ${
-                                                    bookingForm.slotNumber === slot.slot_number
-                                                        ? 'bg-emerald-600 text-white border-emerald-600'
-                                                        : slot.is_available
-                                                            ? 'bg-white text-neutral-700 border-neutral-300 hover:border-emerald-500'
-                                                            : 'bg-neutral-100 text-neutral-400 border-neutral-200 cursor-not-allowed'
-                                                }`}
+                                                className={`p-2 text-xs rounded-lg border transition-colors ${bookingForm.slotNumber === slot.slot_number
+                                                    ? 'bg-emerald-600 text-white border-emerald-600'
+                                                    : slot.is_available
+                                                        ? 'bg-white text-neutral-700 border-neutral-300 hover:border-emerald-500'
+                                                        : 'bg-neutral-100 text-neutral-400 border-neutral-200 cursor-not-allowed'
+                                                    }`}
                                             >
                                                 #{slot.slot_number}
                                                 <span className="block text-[10px]">{slot.time}</span>

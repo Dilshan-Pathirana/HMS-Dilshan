@@ -125,3 +125,53 @@ class PatientQuestionAnswerCreate(PatientQuestionAnswerBase):
 class PatientQuestionAnswerRead(PatientQuestionAnswerBase):
     id: str
     created_at: datetime
+
+
+class SessionStaffBase(SQLModel):
+    schedule_session_id: str = Field(foreign_key="schedule_session.id", max_length=36, index=True)
+    staff_id: str = Field(foreign_key="user.id", max_length=36, index=True)
+    role: str = Field(max_length=50)  # e.g., "nurse"
+
+
+class SessionStaff(SessionStaffBase, table=True):
+    __tablename__ = "session_staff"
+    __table_args__ = (
+        sa.UniqueConstraint("schedule_session_id", "staff_id", "role", name="uq_session_staff_assignment"),
+    )
+    id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True, max_length=36)
+    assigned_at: datetime = Field(default_factory=datetime.utcnow)
+    assigned_by: Optional[str] = Field(default=None, foreign_key="user.id", max_length=36)
+
+
+class SessionQueueBase(SQLModel):
+    schedule_session_id: str = Field(foreign_key="schedule_session.id", max_length=36, unique=True)
+    current_doctor_slot: int = Field(default=0)
+    current_nurse_slot: int = Field(default=0)
+    status: str = Field(default="active", max_length=20)
+
+
+class SessionQueue(SessionQueueBase, table=True):
+    __tablename__ = "session_queue"
+    id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True, max_length=36)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_by: Optional[str] = Field(default=None, foreign_key="user.id", max_length=36)
+
+
+class SessionIntakeBase(SQLModel):
+    schedule_session_id: str = Field(foreign_key="schedule_session.id", max_length=36, index=True)
+    slot_index: int = Field(ge=1)
+    question_id: str = Field(foreign_key="doctor_main_question.id", max_length=36, index=True)
+    answer_text: str = Field(sa_column=Column(sa.Text))
+    patient_id: Optional[str] = Field(default=None, foreign_key="patient.id", max_length=36, index=True)
+
+
+class SessionIntake(SessionIntakeBase, table=True):
+    __tablename__ = "session_intake"
+    __table_args__ = (
+        sa.UniqueConstraint("schedule_session_id", "slot_index", "question_id", name="uq_session_intake_slot_question"),
+    )
+
+    id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True, max_length=36)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_by: Optional[str] = Field(default=None, foreign_key="user.id", max_length=36)
+

@@ -25,6 +25,9 @@ import NurseMedication from './NurseMedication';
 import NurseTasks from './NurseTasks';
 import NurseHandover from './NurseHandover';
 import NurseFeedback from './NurseFeedback';
+import NurseSessions from './NurseSessions';
+import NurseSessionDetail from './NurseSessionDetail';
+import PatientSessionDetails from '../PatientSessions/PatientSessionDetails';
 
 const NurseMenuItems = [
     { label: 'Dashboard', icon: <Activity className="w-5 h-5" />, path: '/nurse-dashboard' },
@@ -32,7 +35,7 @@ const NurseMenuItems = [
     { label: 'Patients', icon: <Users className="w-5 h-5" />, path: '/nurse-dashboard/patients' },
     { label: 'Tasks', icon: <CheckSquare className="w-5 h-5" />, path: '/nurse-dashboard/tasks' },
     { label: 'Handover', icon: <RefreshCw className="w-5 h-5" />, path: '/nurse-dashboard/handover' },
-    { label: 'Patient Session Management', icon: <Clipboard className="w-5 h-5" />, path: '/nurse-dashboard/patient-sessions' },
+    { label: 'My Sessions', icon: <Clipboard className="w-5 h-5" />, path: '/nurse-dashboard/sessions' },
     { label: 'Patient Profiles', icon: <Users className="w-5 h-5" />, path: '/nurse-dashboard/patient-profiles' },
     { label: 'Feedback', icon: <MessageSquare className="w-5 h-5" />, path: '/nurse-dashboard/feedback' },
 ];
@@ -119,6 +122,9 @@ export const NurseDashboard: React.FC = () => {
                 <Route path="tasks" element={<NurseTasks />} />
                 <Route path="handover" element={<NurseHandover />} />
                 <Route path="feedback" element={<NurseFeedback />} />
+                <Route path="sessions" element={<NurseSessions />} />
+                <Route path="sessions/:sessionId" element={<NurseSessionDetail />} />
+                <Route path="sessions/:sessionId/intake" element={<PatientSessionDetails />} />
                 <Route path="*" element={<Navigate to="/nurse-dashboard" replace />} />
             </Routes>
         </DashboardLayout>

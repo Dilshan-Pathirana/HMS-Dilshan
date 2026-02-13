@@ -12,7 +12,7 @@ They provide:
 from __future__ import annotations
 
 from datetime import date as date_type
-from datetime import datetime
+from datetime import datetime, time as time_type
 from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, Body, Depends, HTTPException, Query
@@ -61,29 +61,63 @@ def _map_payment_status_to_frontend(status: Optional[str]) -> str:
     return mapping.get((status or "unpaid"), "pending")
 
 
-async def _get_patient_name(session: AsyncSession, patient_id: str) -> str:
-    patient = await session.get(Patient, patient_id)
-    if not patient:
+async def _get_patient_name(session: AsyncSession, patient_id: Optional[str]) -> str:
+    if not patient_id:
         return ""
-    user = await session.get(User, patient.user_id)
-    if not user:
+    patient_user_id_result = await session.exec(
+        select(Patient.user_id).where(Patient.id == patient_id)
+    )
+    patient_user_id = patient_user_id_result.first()
+    if not patient_user_id:
         return ""
-    return _full_name(user.first_name, user.last_name) or (user.email or "")
+    user_result = await session.exec(
+        select(User.first_name, User.last_name, User.email).where(User.id == patient_user_id)
+    )
+    user_row = user_result.first()
+    if not user_row:
+        return ""
+    first_name, last_name, email = user_row
+    return _full_name(first_name, last_name) or (email or "")
 
 
-async def _get_branch_name(session: AsyncSession, branch_id: str) -> str:
-    branch = await session.get(Branch, branch_id)
-    return branch.center_name if branch else ""
+async def _get_branch_name(session: AsyncSession, branch_id: Optional[str]) -> str:
+    if not branch_id:
+        return ""
+    branch_name_result = await session.exec(
+        select(Branch.center_name).where(Branch.id == branch_id)
+    )
+    branch_name = branch_name_result.first()
+    return branch_name or ""
 
 
-async def _get_doctor_info(session: AsyncSession, doctor_id: str) -> Dict[str, str]:
-    doctor = await session.get(Doctor, doctor_id)
-    if not doctor:
+async def _get_doctor_info(session: AsyncSession, doctor_id: Optional[str]) -> Dict[str, str]:
+    if not doctor_id:
         return {"name": "", "specialization": ""}
+    doctor_result = await session.exec(
+        select(Doctor.first_name, Doctor.last_name, Doctor.specialization).where(Doctor.id == doctor_id)
+    )
+    doctor_row = doctor_result.first()
+    if not doctor_row:
+        return {"name": "", "specialization": ""}
+    first_name, last_name, specialization = doctor_row
     return {
-        "name": _full_name(doctor.first_name, doctor.last_name),
-        "specialization": doctor.specialization or "",
+        "name": _full_name(first_name, last_name),
+        "specialization": specialization or "",
     }
+
+
+def _format_appointment_time(value: Any) -> str:
+    if isinstance(value, time_type):
+        return value.strftime("%H:%M")
+    if isinstance(value, str):
+        try:
+            return datetime.strptime(value, "%H:%M:%S").strftime("%H:%M")
+        except ValueError:
+            try:
+                return datetime.strptime(value, "%H:%M").strftime("%H:%M")
+            except ValueError:
+                return "00:00"
+    return "00:00"
 
 
 class SlotInfo(BaseModel):
@@ -207,11 +241,23 @@ async def list_appointments(
         return datetime.strptime(v, "%Y-%m-%d").date()
 
     if date:
-        q = q.where(Appointment.appointment_date == _parse_date(date))
+        try:
+            parsed_date = _parse_date(date)
+            q = q.where(Appointment.appointment_date == parsed_date)
+        except ValueError:
+            pass # Ignore invalid date filter
     if start_date:
-        q = q.where(Appointment.appointment_date >= _parse_date(start_date))
+        try:
+            parsed_start = _parse_date(start_date)
+            q = q.where(Appointment.appointment_date >= parsed_start)
+        except ValueError:
+            pass
     if end_date:
-        q = q.where(Appointment.appointment_date <= _parse_date(end_date))
+        try:
+            parsed_end = _parse_date(end_date)
+            q = q.where(Appointment.appointment_date <= parsed_end)
+        except ValueError:
+            pass
     if branch_id:
         q = q.where(Appointment.branch_id == branch_id)
     if doctor_id:
@@ -241,45 +287,57 @@ async def list_appointments(
     )
     result = await session.exec(q)
     appts = result.all() or []
+    total_pages = (total + per_page - 1) // per_page if per_page else 1
 
     out = []
-    for a in appts:
-        patient_name = await _get_patient_name(session, a.patient_id)
-        doc = await _get_doctor_info(session, a.doctor_id)
-        branch_name = await _get_branch_name(session, a.branch_id)
+    try:
+        for a in appts:
+            patient_name = await _get_patient_name(session, a.patient_id)
+            doc = await _get_doctor_info(session, a.doctor_id)
+            branch_name = await _get_branch_name(session, a.branch_id)
 
-        out.append(
-            {
-                "id": a.id,
-                "patient_id": a.patient_id,
-                "patient_name": patient_name,
-                "patient_phone": None,
-                "patient_email": None,
-                "doctor_id": a.doctor_id,
-                "doctor_name": doc.get("name"),
-                "doctor_specialization": doc.get("specialization"),
-                "specialization": doc.get("specialization"),
-                "branch_id": a.branch_id,
-                "branch_name": branch_name,
-                "appointment_date": str(a.appointment_date),
-                "appointment_time": a.appointment_time.strftime("%H:%M"),
-                "slot_number": 0,
-                "token_number": a.queue_number or 0,
-                "appointment_type": "general",
-                "booking_type": "walk_in" if a.is_walk_in else "online",
-                "status": _map_appt_status_to_frontend(a.status),
-                "payment_status": _map_payment_status_to_frontend(a.payment_status),
-                "payment_method": a.payment_method,
-                "booking_fee": None,
-                "amount_paid": a.payment_amount,
-                "notes": a.notes,
-                "cancellation_reason": a.cancellation_reason,
-                "cancelled_by_admin_for_doctor": False,
-                "created_at": a.created_at.isoformat() if a.created_at else "",
-            }
-        )
+            out.append(
+                {
+                    "id": a.id,
+                    "patient_id": a.patient_id,
+                    "patient_name": patient_name,
+                    "patient_phone": None,
+                    "patient_email": None,
+                    "doctor_id": a.doctor_id,
+                    "doctor_name": doc.get("name"),
+                    "doctor_specialization": doc.get("specialization"),
+                    "specialization": doc.get("specialization"),
+                    "branch_id": a.branch_id,
+                    "branch_name": branch_name,
+                    "appointment_date": str(a.appointment_date) if a.appointment_date else "",
+                    "appointment_time": _format_appointment_time(a.appointment_time),
+                    "slot_number": 0,
+                    "token_number": a.queue_number or 0,
+                    "appointment_type": "general",
+                    "booking_type": "walk_in" if a.is_walk_in else "online",
+                    "status": _map_appt_status_to_frontend(a.status),
+                    "payment_status": _map_payment_status_to_frontend(a.payment_status),
+                    "payment_method": a.payment_method,
+                    "booking_fee": None,
+                    "amount_paid": a.payment_amount,
+                    "notes": a.notes,
+                    "cancellation_reason": a.cancellation_reason,
+                    "cancelled_by_admin_for_doctor": False,
+                    "created_at": a.created_at.isoformat() if a.created_at else "",
+                }
+            )
+    except Exception as e:
+        import traceback
+        print(f"ERROR processing appointments: {e}")
+        traceback.print_exc()
+        # Return what we have or empty to avoid 500
+        return {
+            "status": 200,
+            "appointments": [],
+            "error_fallback": str(e),
+             "pagination": {"total": total, "page": page, "per_page": per_page, "total_pages": total_pages},
+        }
 
-    total_pages = (total + per_page - 1) // per_page if per_page else 1
     return {
         "status": 200,
         "appointments": out,

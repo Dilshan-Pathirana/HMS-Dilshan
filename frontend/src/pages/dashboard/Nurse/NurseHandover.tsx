@@ -32,7 +32,7 @@ const NurseHandover: React.FC = () => {
       // The service already returns response.data.data, so response is the actual data
       const data = Array.isArray(response) ? response : (response?.data || []);
       setHandovers(data);
-      
+
       // Count pending
       const pending = data.filter((h: ShiftHandover) => !h.is_acknowledged);
       setPendingCount(pending.length);
@@ -135,7 +135,7 @@ const NurseHandover: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="p-6 space-y-6 bg-neutral-50 min-h-screen sm:ml-64 mt-16 flex items-center justify-center">
+      <div className="p-6 space-y-6 bg-neutral-50 min-h-screen flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="w-12 h-12 text-teal-600 animate-spin mx-auto" />
           <p className="mt-4 text-neutral-600">Loading handovers...</p>
@@ -145,7 +145,7 @@ const NurseHandover: React.FC = () => {
   }
 
   return (
-    <div className="p-6 space-y-6 bg-neutral-50 min-h-screen sm:ml-64 mt-16">
+    <div className="p-6 space-y-6 bg-neutral-50 min-h-screen">
       {/* Header */}
       <div className="bg-gradient-to-r from-teal-600 to-cyan-600 rounded-xl shadow-lg p-8 text-white">
         <div className="flex items-center justify-between">
@@ -272,7 +272,7 @@ const NurseHandover: React.FC = () => {
                     </button>
                   )}
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <span className="text-neutral-500">From: </span>
@@ -351,10 +351,9 @@ const NurseHandover: React.FC = () => {
                     <div className="space-y-2">
                       {handover.pending_tasks.map((task, idx) => (
                         <div key={idx} className="flex items-start gap-2 text-sm text-neutral-700">
-                          <div className={`w-5 h-5 rounded border-2 flex-shrink-0 mt-0.5 ${
-                            task.priority === 'high' ? 'border-red-400' : 
+                          <div className={`w-5 h-5 rounded border-2 flex-shrink-0 mt-0.5 ${task.priority === 'high' ? 'border-red-400' :
                             task.priority === 'medium' ? 'border-yellow-400' : 'border-neutral-300'
-                          }`}></div>
+                            }`}></div>
                           <span>{task.description}</span>
                         </div>
                       ))}
@@ -377,7 +376,7 @@ const NurseHandover: React.FC = () => {
                 <X className="w-6 h-6" />
               </button>
             </div>
-            
+
             <div className="p-6 space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div>

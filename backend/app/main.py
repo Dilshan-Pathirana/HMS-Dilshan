@@ -61,41 +61,19 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 async def log_exception_handler(request: Request, exc: Exception):
     print("\n--- Unhandled Exception ---", file=sys.stderr)
     traceback.print_exc()
-    # Attach CORS headers so the browser doesn't mask the real error as a CORS failure
-    origin = request.headers.get("origin", "")
-    headers = {}
-    if origin and (origin in origins or "*" in origins):
-        headers["Access-Control-Allow-Origin"] = origin
-        headers["Access-Control-Allow-Credentials"] = "true"
     return JSONResponse(
         status_code=500,
         content={"detail": "Internal Server Error", "error_type": type(exc).__name__, "error_message": str(exc)},
-        headers=headers,
     )
 
-# CORS Configuration – configurable via env var, with sensible defaults
-import os as _os
-_env_origins = _os.environ.get("BACKEND_CORS_ORIGINS", "")
-origins = (
-    [o.strip() for o in _env_origins.split(",") if o.strip()]
-    if _env_origins
-    else [
-        "http://localhost:5173",  # React Dev Server
-        "http://localhost:3000",
-        "http://localhost",
-        "http://13.233.254.140",  # AWS EC2 Production
-        "http://13.233.254.140:80",
-    ]
-)
-
-# Register log middleware FIRST so it is innermost;
-# CORSMiddleware registered AFTER (below) becomes outermost and always runs.
-@app.middleware("http")
-async def log_requests(request: Request, call_next):
-    print(f"DEBUG: Middleware received request: {request.method} {request.url.path}", flush=True)
-    response = await call_next(request)
-    print(f"DEBUG: Middleware response status: {response.status_code}", flush=True)
-    return response
+# CORS Configuration
+origins = [
+    "http://localhost:5173",  # React Dev Server
+    "http://localhost:3000",
+    "http://localhost",
+    "http://13.233.254.140",  # AWS EC2 Production
+    "http://13.233.254.140:80",
+]
 
 app.add_middleware(
     CORSMiddleware,
@@ -104,6 +82,50 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    print(f"DEBUG: Middleware received request: {request.method} {request.url.path}", flush=True)
+    response = await call_next(request)
+    print(f"DEBUG: Middleware response status: {response.status_code}", flush=True)
+    return response
+
+
+@app.middleware("http")
+async def ensure_cors_headers(request: Request, call_next):
+    """Fallback middleware to ensure CORS headers are present on every response.
+    This covers error responses that may otherwise miss CORS headers.
+    """
+    try:
+        response = await call_next(request)
+    except Exception as exc:
+        # Ensure we return a response so headers can be attached even when
+        # downstream raises (e.g., DB errors or method not allowed).
+        from fastapi.responses import JSONResponse
+        try:
+            status_code = exc.status_code if hasattr(exc, "status_code") else 500
+            detail = getattr(exc, "detail", str(exc))
+        except Exception:
+            status_code = 500
+            detail = "Internal Server Error"
+        response = JSONResponse(status_code=status_code, content={"detail": detail})
+
+    origin = request.headers.get("origin")
+    try:
+        if origin and origin in origins:
+            response.headers["Access-Control-Allow-Origin"] = origin
+        else:
+            # Fallback to the first configured origin
+            response.headers.setdefault("Access-Control-Allow-Origin", origins[0])
+    except Exception:
+        # Be conservative: set a permissive fallback for dev environments
+        response.headers.setdefault("Access-Control-Allow-Origin", "*")
+
+    # Ensure common CORS headers are present for preflight and XHR
+    response.headers.setdefault("Access-Control-Allow-Credentials", "true")
+    response.headers.setdefault("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS")
+    response.headers.setdefault("Access-Control-Allow-Headers", "Authorization,Content-Type")
+    return response
 
 # Static file serving for uploads
 import os

@@ -75,10 +75,10 @@ export const mapDoctorData = (userData: any) => {
         )
             ? userData.doctors_areas_of_specialization
             : typeof userData.doctors_areas_of_specialization === "string"
-              ? userData.doctors_areas_of_specialization
+                ? userData.doctors_areas_of_specialization
                     .split(",")
                     .map((s: string) => s.trim())
-              : [],
+                : [],
         previous_employment: userData.doctors_previous_employment,
         license_validity_date: userData.doctors_license_validity_date,
         joining_date: userData.doctors_joining_date,
@@ -89,6 +89,16 @@ export const mapDoctorData = (userData: any) => {
         probation_end_date: userData.doctors_probation_end_date,
         compensation_package: userData.doctors_compensation_package,
         branch_ids: userData.branch_ids || userData.doctors_branches || [],
+    };
+};
+
+export const mapStaffData = (userData: any) => {
+    return {
+        ...userData,
+        // Map frontend fields to backend fields
+        contact_number_mobile: userData.phone,
+        nic_number: userData.nic,
+        home_address: userData.address,
     };
 };
 
@@ -182,6 +192,15 @@ export const mapDetailsToRoleFields = (details: any, roleAs: UserRole) => {
             doctors_probation_start_date: details.probation_start_date,
             doctors_probation_end_date: details.probation_end_date,
         };
+    } else {
+        // Default mapping for Staff/Generic roles
+        return {
+            ...details,
+            // Map backend fields to frontend fields for StaffEditForm
+            phone: details.contact_number_mobile,
+            nic: details.nic_number,
+            address: details.home_address,
+        }
     }
     return details;
 };

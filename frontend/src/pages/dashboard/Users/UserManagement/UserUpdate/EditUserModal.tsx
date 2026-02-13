@@ -255,7 +255,14 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
             return <PatientEditForm {...formProps} />;
         }
 
-        if (roleAs === UserRole.SuperAdmin || roleAs === UserRole.Admin) {
+        if (
+            roleAs === UserRole.SuperAdmin ||
+            roleAs === UserRole.Admin ||
+            roleAs === UserRole.Nurse ||
+            roleAs === UserRole.ITSupport ||
+            roleAs === UserRole.CenterAid ||
+            roleAs === UserRole.Auditor
+        ) {
             const formProps = {
                 userDetails,
                 branchOptions,

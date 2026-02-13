@@ -11,6 +11,7 @@ import NurseTasks from "../../pages/dashboard/Nurse/NurseTasks";
 import NurseHandover from "../../pages/dashboard/Nurse/NurseHandover";
 import NurseFeedback from "../../pages/dashboard/Nurse/NurseFeedback";
 import PatientSessionsList from "../../pages/dashboard/PatientSessions/PatientSessionsList";
+import NurseSessions from "../../pages/dashboard/Nurse/NurseSessions";
 import PatientProfilesList from "../../pages/dashboard/PatientProfiles/PatientProfilesList";
 import PatientProfileDetails from "../../pages/dashboard/PatientProfiles/PatientProfileDetails";
 import PatientSessionDetails from "../../pages/dashboard/PatientSessions/PatientSessionDetails";
@@ -37,33 +38,35 @@ const NurseDashboardLayout: React.FC = () => {
             <NurseNavbar toggleSidebar={toggleSidebar} />
             <NurseSidebar isOpenSidebarMenu={isSidebarOpen} />
 
-            <Routes>
-                <Route path="/" element={<NurseDashboardMain />} />
-                <Route path="/dashboard" element={<NurseDashboardMain />} />
-                <Route path="/profile" element={<NurseProfile />} />
-                <Route path="/patients" element={<NursePatients />} />
-                <Route path="/vital-signs" element={<NurseVitalSigns />} />
-                <Route path="/medication" element={<NurseMedication />} />
-                <Route path="/tasks" element={<NurseTasks />} />
-                <Route path="/handover" element={<NurseHandover />} />
-                <Route path="/pre-assessment" element={<NursePreAssessment />} />
-                <Route path="/feedback" element={<NurseFeedback />} />
-                <Route path="/patient-sessions" element={<PatientSessionsList />} />
-                <Route path="/patient-sessions/:sessionId" element={<PatientSessionDetails />} />
-                <Route path="/patient-profiles" element={<PatientProfilesList />} />
-                <Route path="/patient-profiles/:patientId" element={<PatientProfileDetails />} />
+            <main className={`p-4 transition-all duration-300 ${isSidebarOpen ? 'ml-64' : ''} pt-20`}>
+                <Routes>
+                    <Route path="/" element={<NurseDashboardMain />} />
+                    <Route path="/dashboard" element={<NurseDashboardMain />} />
+                    <Route path="/profile" element={<NurseProfile />} />
+                    <Route path="/patients" element={<NursePatients />} />
+                    <Route path="/vital-signs" element={<NurseVitalSigns />} />
+                    <Route path="/medication" element={<NurseMedication />} />
+                    <Route path="/tasks" element={<NurseTasks />} />
+                    <Route path="/handover" element={<NurseHandover />} />
+                    <Route path="/pre-assessment" element={<NursePreAssessment />} />
+                    <Route path="/feedback" element={<NurseFeedback />} />
+                    <Route path="/patient-sessions" element={<NurseSessions />} />
+                    <Route path="/patient-sessions/:sessionId" element={<PatientSessionDetails />} />
+                    <Route path="/patient-profiles" element={<PatientProfilesList />} />
+                    <Route path="/patient-profiles/:patientId" element={<PatientProfileDetails />} />
 
-                {/* HR Module Routes */}
-                <Route path="/hr" element={<NurseHRDashboard />} />
-                <Route path="/hr/schedules" element={<NurseSchedules />} />
-                <Route path="/hr/schedule-requests" element={<NurseScheduleRequests />} />
-                <Route path="/hr/overtime-salary" element={<NurseOvertimeSalary />} />
-                <Route path="/hr/payslips" element={<NursePayslips />} />
-                <Route path="/hr/service-letters" element={<NurseServiceLetters />} />
-                <Route path="/hr/policies" element={<NursePolicies />} />
+                    {/* HR Module Routes */}
+                    <Route path="/hr" element={<NurseHRDashboard />} />
+                    <Route path="/hr/schedules" element={<NurseSchedules />} />
+                    <Route path="/hr/schedule-requests" element={<NurseScheduleRequests />} />
+                    <Route path="/hr/overtime-salary" element={<NurseOvertimeSalary />} />
+                    <Route path="/hr/payslips" element={<NursePayslips />} />
+                    <Route path="/hr/service-letters" element={<NurseServiceLetters />} />
+                    <Route path="/hr/policies" element={<NursePolicies />} />
 
-                <Route path="*" element={<Navigate to="/nurse-dashboard" replace />} />
-            </Routes>
+                    <Route path="*" element={<Navigate to="/nurse-dashboard" replace />} />
+                </Routes>
+            </main>
         </>
     );
 };

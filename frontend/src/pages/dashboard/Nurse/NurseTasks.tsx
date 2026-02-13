@@ -139,14 +139,14 @@ const NurseTasks: React.FC = () => {
   };
 
   const filteredTasks = tasks.filter(task => {
-    const matchesSearch = 
+    const matchesSearch =
       task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       task.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (task.patientName && task.patientName.toLowerCase().includes(searchTerm.toLowerCase()));
-    
+
     const matchesStatus = filterStatus === 'all' || task.status === filterStatus;
     const matchesPriority = filterPriority === 'all' || task.priority === filterPriority;
-    
+
     return matchesSearch && matchesStatus && matchesPriority;
   });
 
@@ -156,7 +156,7 @@ const NurseTasks: React.FC = () => {
   const highPriorityCount = tasks.filter(t => t.priority === 'high' && t.status !== 'completed').length;
 
   return (
-    <div className="p-6 space-y-6 bg-neutral-50 min-h-screen sm:ml-64 mt-16">
+    <div className="p-6 space-y-6 bg-neutral-50 min-h-screen">
       {/* Header */}
       <div className="bg-gradient-to-r from-teal-600 to-cyan-600 rounded-xl shadow-lg p-8 text-white">
         <div className="flex items-center justify-between">
@@ -323,7 +323,7 @@ const NurseTasks: React.FC = () => {
             <div className="bg-gradient-to-r from-primary-500 to-cyan-600 p-6 text-white">
               <h2 className="text-2xl font-bold">Add New Task</h2>
             </div>
-            
+
             <div className="p-6 space-y-4">
               <div>
                 <label className="block text-sm font-medium text-neutral-700 mb-2">Task Title</label>

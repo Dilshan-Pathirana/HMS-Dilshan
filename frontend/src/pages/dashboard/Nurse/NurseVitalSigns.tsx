@@ -33,12 +33,13 @@ const NurseVitalSigns: React.FC = () => {
       setLoading(true);
       setError(null);
       const response = await nurseService.getVitalSigns({ per_page: 50 });
-      const data = response.data || response;
+      // Safety check: ensure response.data exists or response itself is the array
+      const data = response?.data || response || [];
       setVitalSigns(Array.isArray(data) ? data : []);
-      
+
       // Calculate stats
       const today = new Date().toDateString();
-      const todayVitals = (Array.isArray(data) ? data : []).filter((v: VitalSign) => 
+      const todayVitals = (Array.isArray(data) ? data : []).filter((v: VitalSign) =>
         new Date(v.recorded_at).toDateString() === today
       );
       setStats({
@@ -57,7 +58,7 @@ const NurseVitalSigns: React.FC = () => {
   const fetchPatients = async (search?: string) => {
     try {
       const data = await nurseService.getAllPatients(search);
-      setPatients(data);
+      setPatients(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error('Error fetching patients:', err);
     }
@@ -143,7 +144,7 @@ const NurseVitalSigns: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="p-6 space-y-6 bg-neutral-50 min-h-screen sm:ml-64 mt-16 flex items-center justify-center">
+      <div className="p-6 space-y-6 bg-neutral-50 min-h-screen flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="w-12 h-12 text-teal-600 animate-spin mx-auto" />
           <p className="mt-4 text-neutral-600">Loading vital signs...</p>
@@ -153,7 +154,7 @@ const NurseVitalSigns: React.FC = () => {
   }
 
   return (
-    <div className="p-6 space-y-6 bg-neutral-50 min-h-screen sm:ml-64 mt-16">
+    <div className="p-6 space-y-6 bg-neutral-50 min-h-screen">
       {/* Header */}
       <div className="bg-gradient-to-r from-teal-600 to-cyan-600 rounded-xl shadow-lg p-8 text-white">
         <div className="flex items-center justify-between">
@@ -317,7 +318,7 @@ const NurseVitalSigns: React.FC = () => {
                       ) : '-'}
                     </td>
                     <td className="px-6 py-4 text-sm text-neutral-900">
-                      {vital.blood_pressure_systolic && vital.blood_pressure_diastolic 
+                      {vital.blood_pressure_systolic && vital.blood_pressure_diastolic
                         ? `${vital.blood_pressure_systolic}/${vital.blood_pressure_diastolic}`
                         : '-'}
                     </td>
@@ -332,9 +333,8 @@ const NurseVitalSigns: React.FC = () => {
                       ) : '-'}
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        vital.is_abnormal ? 'bg-error-100 text-red-800' : 'bg-green-100 text-green-800'
-                      }`}>
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${vital.is_abnormal ? 'bg-error-100 text-red-800' : 'bg-green-100 text-green-800'
+                        }`}>
                         {vital.is_abnormal ? 'Abnormal' : 'Normal'}
                       </span>
                     </td>
@@ -359,7 +359,7 @@ const NurseVitalSigns: React.FC = () => {
                 <X className="w-6 h-6" />
               </button>
             </div>
-            
+
             <div className="p-6 space-y-4">
               <div>
                 <label className="block text-sm font-medium text-neutral-700 mb-2">Select Patient</label>

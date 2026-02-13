@@ -89,7 +89,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "hms-images.tar.gz,docker-compose.ec2.yml,aws_migration.sql"
+          source: "hms-images.tar.gz,docker-compose.ec2.yml"
           target: "/tmp"
 
       # ---------------- DEPLOY ----------------
@@ -128,8 +128,7 @@ jobs:
             echo "==== Move compose file ===="
             mv -f /tmp/docker-compose.ec2.yml $APP_DIR/docker-compose.ec2.yml
 
-            echo "==== Move migration file ===="
-            mv -f /tmp/aws_migration.sql $APP_DIR/aws_migration.sql
+
 
             echo "==== Write .env ===="
             cat > $APP_DIR/.env <<EOF
@@ -159,9 +158,7 @@ jobs:
             sudo apt-get install -y mysql-client >/dev/null 2>&1 || true
             mysql -h $DB_HOST -u $DB_USERNAME -p$DB_PASSWORD -e "SELECT 1" && echo "RDS reachable"
 
-            echo "==== Run DB schema migrations ===="
-            mysql -h $DB_HOST -u $DB_USERNAME -p$DB_PASSWORD $DB_DATABASE < $APP_DIR/aws_migration.sql
-            echo "Schema migration complete"
+
 
             echo "==== Skip RDS migrations/seed/truncate ===="
             echo "RDS data preserved as requested"
@@ -174,6 +171,10 @@ jobs:
 
             echo "==== Wait for backend ===="
             sleep 12
+            
+            echo "==== Run DB schema migrations ===="
+            docker compose -f $APP_DIR/docker-compose.ec2.yml exec backend alembic upgrade head
+
             docker compose -f $APP_DIR/docker-compose.ec2.yml ps
 
             echo "==== Backend logs ===="

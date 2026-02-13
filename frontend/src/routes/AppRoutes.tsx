@@ -909,12 +909,16 @@ const AppRoutes: React.FC = () => {
                     }
                 />
                 <Route
-                    path="/super-admin/appointments/*"
+                    path="/super-admin/appointments"
                     element={
                         <ProtectedRoute allowedRoles={['super_admin']}>
                             <SuperAdminAppointments />
                         </ProtectedRoute>
                     }
+                />
+                <Route
+                    path="/super-admin/appointments/*"
+                    element={<Navigate to="/super-admin/appointments" replace />}
                 />
 
                 <Route

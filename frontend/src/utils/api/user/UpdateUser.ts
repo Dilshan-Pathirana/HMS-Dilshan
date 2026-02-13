@@ -6,7 +6,8 @@ import { UserRole } from "../../types/users/UserRole.ts";
 import {
     mapCashierData,
     mapPharmacistData,
-    mapDoctorData
+    mapDoctorData,
+    mapStaffData
 } from "../../types/users/IUserMap.ts";
 
 export const updateUser = async ({
@@ -32,7 +33,7 @@ export const updateUser = async ({
             mappedData = mapDoctorData(userData);
         }
         else {
-            mappedData = restUserData;
+            mappedData = mapStaffData(restUserData);
         }
 
         const response = await api.put(endpoint, mappedData);

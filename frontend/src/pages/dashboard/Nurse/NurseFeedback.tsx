@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from "../../../utils/api/axios";
-import { 
+import {
     MessageSquare, Plus, Send, CheckCircle, AlertCircle, Clock,
     ThumbsUp, ThumbsDown, MessageCircle, Eye, X, AlertTriangle
 } from 'lucide-react';
@@ -25,7 +25,7 @@ const NurseFeedback: React.FC = () => {
     const [showNewFeedback, setShowNewFeedback] = useState(false);
     const [selectedFeedback, setSelectedFeedback] = useState<Feedback | null>(null);
     const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-    
+
     const [newFeedback, setNewFeedback] = useState({
         type: 'suggestion' as 'suggestion' | 'complaint' | 'praise' | 'question',
         category: 'general',
@@ -43,8 +43,8 @@ const NurseFeedback: React.FC = () => {
     const fetchFeedbacks = async () => {
         try {
             setLoading(true);
-            const response = await api.get('/test-my-feedbacks');
-            
+            const response = await api.get('/patient/my-feedbacks');
+
             if (response.data.status === 200 && response.data.feedbacks) {
                 setFeedbacks(response.data.feedbacks);
             }
@@ -72,7 +72,7 @@ const NurseFeedback: React.FC = () => {
                 user_type: 'nurse',
             };
 
-            const response = await api.post('/test-submit-feedback', payload);
+            const response = await api.post('/submit-feedback', payload);
 
             if (response.data.status === 200 || response.data.status === 201) {
                 showMessage('success', 'Feedback submitted successfully! Branch admins will be notified.');
@@ -152,7 +152,7 @@ const NurseFeedback: React.FC = () => {
 
     if (loading) {
         return (
-            <div className="p-6 bg-neutral-50 min-h-screen sm:ml-64 mt-16 flex items-center justify-center">
+            <div className="p-6 bg-neutral-50 min-h-screen flex items-center justify-center">
                 <div className="text-center">
                     <div className="w-12 h-12 border-4 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                     <p className="text-neutral-600">Loading feedbacks...</p>
@@ -162,7 +162,7 @@ const NurseFeedback: React.FC = () => {
     }
 
     return (
-        <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 bg-neutral-50 min-h-screen sm:ml-64 mt-16">
+        <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 bg-neutral-50 min-h-screen">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-2xl sm:text-3xl font-bold text-neutral-900 flex items-center gap-2 sm:gap-3">
@@ -181,9 +181,8 @@ const NurseFeedback: React.FC = () => {
             </div>
 
             {message && (
-                <div className={`p-4 rounded-xl flex items-center gap-3 ${
-                    message.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-error-50 text-red-700'
-                }`}>
+                <div className={`p-4 rounded-xl flex items-center gap-3 ${message.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-error-50 text-red-700'
+                    }`}>
                     {message.type === 'success' ? (
                         <CheckCircle className="w-5 h-5" />
                     ) : (
@@ -337,14 +336,14 @@ const NurseFeedback: React.FC = () => {
             </div>
 
             {showNewFeedback && (
-                <div 
+                <div
                     className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 overflow-y-auto"
                     style={{ zIndex: 9999 }}
                     onClick={(e) => {
                         if (e.target === e.currentTarget) setShowNewFeedback(false);
                     }}
                 >
-                    <form 
+                    <form
                         onSubmit={(e) => {
                             e.preventDefault();
                             handleSubmitFeedback();

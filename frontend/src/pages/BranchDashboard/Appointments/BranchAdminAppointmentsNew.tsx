@@ -39,9 +39,11 @@ import {
   AppointmentSettings,
   AuditLogEntry,
 } from '../../../services/appointmentService';
+import { patientSessionApi, SessionListItem } from '../../../services/patientSessionService';
 import { DashboardLayout } from '../../../components/common/Layout/DashboardLayout';
 import { BranchAdminMenuItems } from '../../../config/branchAdminNavigation';
 import { FaFileAlt, FaClipboardList, FaEye, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import SessionDetailsPanel from '../../../components/dashboard/Sessions/SessionDetailsPanel';
 
 // ============================================
 // Types
@@ -138,7 +140,12 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   // State
   // ============================================
   const [activeView, setActiveView] = useState<ViewType>('today');
+  const [viewMode, setViewMode] = useState<'sessions' | 'list'>('sessions');
   const [appointments, setAppointments] = useState<AppointmentBooking[]>([]);
+  const [sessions, setSessions] = useState<SessionListItem[]>([]);
+  const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
+  const [showSessionDetails, setShowSessionDetails] = useState(false);
+  const [sessionPanelAction, setSessionPanelAction] = useState<'assign-staff' | undefined>(undefined);
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [specializations, setSpecializations] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
@@ -340,6 +347,38 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     }
   }, []);
 
+  const loadSessions = useCallback(async (view: ViewType, currentFilters: Filters = initialFilters) => {
+    if (view === 'audit') {
+      setSessions([]);
+      return;
+    }
+
+    try {
+      const today = new Date().toISOString().split('T')[0];
+      const params: any = {};
+
+      if (currentFilters.startDate) {
+        params.session_date = currentFilters.startDate;
+      } else if (view === 'today') {
+        params.session_date = today;
+      }
+
+      if (currentFilters.doctorId) {
+        params.doctor_id = currentFilters.doctorId;
+      }
+
+      const response = await patientSessionApi.getSessions(params);
+      if (response?.sessions && Array.isArray(response.sessions)) {
+        setSessions(response.sessions);
+      } else {
+        setSessions([]);
+      }
+    } catch (err) {
+      console.error('Failed to load sessions:', err);
+      setSessions([]);
+    }
+  }, []);
+
   // Load counts for all tabs
   const loadCounts = useCallback(async () => {
     try {
@@ -522,8 +561,9 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       loadAuditLogs(1, auditLogFilters);
     } else {
       loadAppointments(activeView, filters);
+      loadSessions(activeView, filters);
     }
-  }, [activeView, loadAppointments, loadAuditLogs]);
+  }, [activeView, loadAppointments, loadAuditLogs, loadSessions]);
 
   // Check if any filters are applied
   useEffect(() => {
@@ -542,6 +582,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     const timer = setTimeout(() => {
       if (filters.search !== '') {
         loadAppointments(activeView, filters);
+        loadSessions(activeView, filters);
       }
     }, 500);
     return () => clearTimeout(timer);
@@ -555,6 +596,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     setFilters(newFilters);
     // Instant apply - reload appointments with new filters
     loadAppointments(activeView, newFilters);
+    loadSessions(activeView, newFilters);
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -565,17 +607,73 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     loadAppointments(activeView, filters);
+    loadSessions(activeView, filters);
   };
 
   const clearFilters = () => {
     setFilters(initialFilters);
     loadAppointments(activeView, initialFilters);
+    loadSessions(activeView, initialFilters);
   };
 
   const clearSingleFilter = (key: keyof Filters) => {
     const newFilters = { ...filters, [key]: '' };
     setFilters(newFilters);
     loadAppointments(activeView, newFilters);
+    loadSessions(activeView, newFilters);
+  };
+
+  const openSessionDetails = (sessionId: string, initialAction?: 'assign-staff') => {
+    setSelectedSessionId(sessionId);
+    setSessionPanelAction(initialAction);
+    setShowSessionDetails(true);
+  };
+
+  const handleManageSession = (sessionItem: SessionListItem) => {
+    const today = new Date().toISOString().split('T')[0];
+    let targetView: ViewType = 'today';
+    if (sessionItem.session_date > today) {
+      targetView = 'upcoming';
+    } else if (sessionItem.session_date < today) {
+      targetView = 'past';
+    }
+
+    const nextFilters: Filters = {
+      ...filters,
+      doctorId: sessionItem.doctor_id,
+      startDate: sessionItem.session_date,
+      endDate: sessionItem.session_date,
+    };
+
+    setViewMode('list');
+    setActiveView(targetView);
+    setFilters(nextFilters);
+    setShowSessionDetails(false);
+    setSelectedSessionId(null);
+    setSessionPanelAction(undefined);
+    loadAppointments(targetView, nextFilters);
+  };
+
+  const handleDeleteSession = async (sessionItem: SessionListItem) => {
+    const confirmed = window.confirm('Delete this session and all linked session records permanently?');
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await patientSessionApi.deleteSession(sessionItem.id);
+      if (selectedSessionId === sessionItem.id) {
+        setShowSessionDetails(false);
+        setSelectedSessionId(null);
+        setSessionPanelAction(undefined);
+      }
+      await loadSessions(activeView, filters);
+      await loadAppointments(activeView, filters);
+      await loadCounts();
+    } catch (err: any) {
+      console.error('Failed to delete session:', err);
+      setError(err?.response?.data?.detail || 'Failed to delete session');
+    }
   };
 
   // ============================================
@@ -740,6 +838,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
         setTimeout(() => {
           closeEditModal();
           loadAppointments(activeView, filters);
+          loadSessions(activeView, filters);
           loadCounts();
         }, 1500);
       }
@@ -798,6 +897,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       if (response.status === 200) {
         closeCancelModal();
         loadAppointments(activeView, filters);
+        loadSessions(activeView, filters);
         loadCounts();
         // Show success message in main error area (styled as success)
         setError(null);
@@ -1127,6 +1227,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
         setTimeout(() => {
           closeBookingModal();
           loadAppointments(activeView, filters);
+          loadSessions(activeView, filters);
           loadCounts();
         }, 2000);
       }
@@ -1302,6 +1403,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
               <button
                 onClick={() => {
                   loadAppointments(activeView, filters);
+                  loadSessions(activeView, filters);
                   loadCounts();
                 }}
                 className="flex items-center gap-2 px-4 py-2 bg-white border border-neutral-200 rounded-lg hover:bg-neutral-50 transition-colors"
@@ -1361,6 +1463,24 @@ const BranchAdminAppointmentsNew: React.FC = () => {
         {/* Appointments View - Show when not on audit tab */}
         {activeView !== 'audit' && (
           <>
+            {/* Sessions/List Toggle */}
+            <div className="mb-4 bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
+              <div className="flex bg-neutral-100 p-1 rounded-lg w-fit">
+                <button
+                  onClick={() => setViewMode('sessions')}
+                  className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${viewMode === 'sessions' ? 'bg-white shadow text-neutral-900' : 'text-neutral-500 hover:text-neutral-700'}`}
+                >
+                  Sessions
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${viewMode === 'list' ? 'bg-white shadow text-neutral-900' : 'text-neutral-500 hover:text-neutral-700'}`}
+                >
+                  List
+                </button>
+              </div>
+            </div>
+
             {/* Search & Filters Bar */}
             <div className="mb-4 bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
               <div className="flex flex-wrap gap-4 items-center">
@@ -1506,6 +1626,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                             const newFilters = { ...filters, startDate: '', endDate: '' };
                             setFilters(newFilters);
                             loadAppointments(activeView, newFilters);
+                            loadSessions(activeView, newFilters);
                           } else {
                             clearSingleFilter(badge.key);
                           }
@@ -1520,7 +1641,94 @@ const BranchAdminAppointmentsNew: React.FC = () => {
               )}
             </div>
 
-            {/* Appointments Table */}
+            {showSessionDetails && selectedSessionId ? (
+              <SessionDetailsPanel
+                sessionId={selectedSessionId}
+                initialAction={sessionPanelAction}
+                onBack={() => {
+                  setShowSessionDetails(false);
+                  setSelectedSessionId(null);
+                  setSessionPanelAction(undefined);
+                  loadSessions(activeView, filters);
+                }}
+              />
+            ) : viewMode === 'sessions' ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                {sessions.length === 0 ? (
+                  <div className="col-span-full py-12 text-center text-neutral-500 bg-white rounded-xl border border-neutral-200">
+                    No sessions found for the selected filters
+                  </div>
+                ) : (
+                  sessions.map((session) => (
+                    <div
+                      key={session.id}
+                      className="bg-white rounded-xl border border-neutral-200 p-5 hover:shadow-md transition-shadow relative"
+                    >
+                      <div className="flex justify-between items-start mb-4">
+                        <div>
+                          <h3 className="font-semibold text-neutral-900">{session.doctor_name}</h3>
+                          <p className="text-sm text-neutral-500">{session.branch_name}</p>
+                        </div>
+                        <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${session.status === 'scheduled' ? 'bg-blue-100 text-blue-800' :
+                          session.status === 'completed' ? 'bg-green-100 text-green-800' :
+                            session.status === 'cancelled' ? 'bg-red-100 text-red-800' :
+                              'bg-gray-100 text-gray-800'
+                          }`}>
+                          {session.status.replace('_', ' ')}
+                        </span>
+                      </div>
+
+                      <div className="space-y-3 mb-4">
+                        <div className="flex items-center gap-2 text-sm text-neutral-600">
+                          <FaCalendarAlt className="w-4 h-4 text-neutral-400" />
+                          <span>{new Date(session.session_date).toLocaleDateString()}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-neutral-600">
+                          <FaClock className="w-4 h-4 text-neutral-400" />
+                          <span>{session.start_time?.slice(0, 5)} - {session.end_time?.slice(0, 5)}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-neutral-600">
+                          <FaUser className="w-4 h-4 text-neutral-400" />
+                          <span>{session.appointment_count} / {session.total_slots || 0} Slots Filled</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-neutral-600">
+                          <FaUserPlus className="w-4 h-4 text-neutral-400" />
+                          <span>{session.assigned_staff_count || 0} Staff Assigned</span>
+                        </div>
+                      </div>
+
+                      <div className="pt-4 border-t border-neutral-100 grid grid-cols-2 gap-2">
+                        <button
+                          onClick={() => openSessionDetails(session.id)}
+                          className="px-3 py-2 text-sm font-medium rounded-lg border border-neutral-200 text-neutral-700 hover:bg-neutral-50"
+                        >
+                          View Details
+                        </button>
+                        <button
+                          onClick={() => handleManageSession(session)}
+                          className="px-3 py-2 text-sm font-medium rounded-lg border border-blue-200 text-blue-700 hover:bg-blue-50"
+                        >
+                          Manage
+                        </button>
+                        <button
+                          onClick={() => openSessionDetails(session.id, 'assign-staff')}
+                          className="px-3 py-2 text-sm font-medium rounded-lg border border-emerald-200 text-emerald-700 hover:bg-emerald-50"
+                        >
+                          Assign Staff
+                        </button>
+                        <button
+                          onClick={() => handleDeleteSession(session)}
+                          className="px-3 py-2 text-sm font-medium rounded-lg border border-red-200 text-red-700 hover:bg-red-50"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            ) : (
+            /* Appointments Table */
             <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
               {/* Table Header Info */}
               <div className="px-6 py-4 border-b border-neutral-200 bg-neutral-50">
@@ -1754,6 +1962,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                 </div>
               )}
             </div>
+            )}
 
             {/* Summary Cards */}
             {!loading && appointments.length > 0 && (

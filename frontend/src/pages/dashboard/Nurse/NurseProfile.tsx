@@ -47,9 +47,9 @@ export const NurseProfile: React.FC = () => {
         certifications: []
     });
 
-    const [editProfile, setEditProfile] = useState<{phone: string; address: string; emergency_contact: string; emergency_contact_name: string}>({ 
-        phone: '', 
-        address: '', 
+    const [editProfile, setEditProfile] = useState<{ phone: string; address: string; emergency_contact: string; emergency_contact_name: string }>({
+        phone: '',
+        address: '',
         emergency_contact: '',
         emergency_contact_name: ''
     });
@@ -90,7 +90,7 @@ export const NurseProfile: React.FC = () => {
                 emergency_contact: data.emergency_contact || '',
                 emergency_contact_name: data.emergency_contact_name || ''
             });
-            setEditProfile({ 
+            setEditProfile({
                 phone: data.phone || '',
                 address: data.address || '',
                 emergency_contact: data.emergency_contact || '',
@@ -124,13 +124,13 @@ export const NurseProfile: React.FC = () => {
         setError(null);
         setSuccess(null);
         try {
-            await nurseService.updateProfile({ 
+            await nurseService.updateProfile({
                 phone: editProfile.phone,
                 address: editProfile.address,
                 emergency_contact: editProfile.emergency_contact
             });
-            setProfile({ 
-                ...profile, 
+            setProfile({
+                ...profile,
                 phone: editProfile.phone,
                 address: editProfile.address,
                 emergency_contact: editProfile.emergency_contact,
@@ -190,7 +190,7 @@ export const NurseProfile: React.FC = () => {
                 return {
                     day,
                     shift: shift.shift_type.charAt(0).toUpperCase() + shift.shift_type.slice(1),
-                    hours: shift.actual_start 
+                    hours: shift.actual_start
                         ? `${shift.actual_start} - ${shift.actual_end || 'In progress'}`
                         : `${shift.scheduled_start} - ${shift.scheduled_end}`
                 };
@@ -221,7 +221,7 @@ export const NurseProfile: React.FC = () => {
     }
 
     return (
-        <div className="p-6 space-y-6 bg-neutral-50 min-h-screen sm:ml-64 mt-16">
+        <div className="p-6 space-y-6 bg-neutral-50 min-h-screen">
             <div>
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
@@ -253,7 +253,7 @@ export const NurseProfile: React.FC = () => {
                                 <button
                                     onClick={() => {
                                         setIsEditing(false);
-                                        setEditProfile({ 
+                                        setEditProfile({
                                             phone: profile.phone,
                                             address: profile.address || '',
                                             emergency_contact: profile.emergency_contact || '',
@@ -374,41 +374,37 @@ export const NurseProfile: React.FC = () => {
                     <div className="flex border-b">
                         <button
                             onClick={() => setActiveTab('profile')}
-                            className={`px-6 py-3 font-medium ${
-                                activeTab === 'profile'
+                            className={`px-6 py-3 font-medium ${activeTab === 'profile'
                                     ? 'text-primary-500 border-b-2 border-primary-500'
                                     : 'text-neutral-500 hover:text-neutral-700'
-                            }`}
+                                }`}
                         >
                             Profile Information
                         </button>
                         <button
                             onClick={() => setActiveTab('certifications')}
-                            className={`px-6 py-3 font-medium ${
-                                activeTab === 'certifications'
+                            className={`px-6 py-3 font-medium ${activeTab === 'certifications'
                                     ? 'text-primary-500 border-b-2 border-primary-500'
                                     : 'text-neutral-500 hover:text-neutral-700'
-                            }`}
+                                }`}
                         >
                             Certifications
                         </button>
                         <button
                             onClick={() => setActiveTab('schedule')}
-                            className={`px-6 py-3 font-medium ${
-                                activeTab === 'schedule'
+                            className={`px-6 py-3 font-medium ${activeTab === 'schedule'
                                     ? 'text-primary-500 border-b-2 border-primary-500'
                                     : 'text-neutral-500 hover:text-neutral-700'
-                            }`}
+                                }`}
                         >
                             Schedule
                         </button>
                         <button
                             onClick={() => setActiveTab('password')}
-                            className={`px-6 py-3 font-medium ${
-                                activeTab === 'password'
+                            className={`px-6 py-3 font-medium ${activeTab === 'password'
                                     ? 'text-primary-500 border-b-2 border-primary-500'
                                     : 'text-neutral-500 hover:text-neutral-700'
-                            }`}
+                                }`}
                         >
                             <span className="flex items-center gap-2">
                                 <Lock className="w-4 h-4" />
@@ -608,9 +604,8 @@ export const NurseProfile: React.FC = () => {
                                             <tr key={index} className={day.shift === 'Off' ? 'bg-neutral-50' : ''}>
                                                 <td className="px-4 py-3 font-medium text-neutral-900">{day.day}</td>
                                                 <td className="px-4 py-3">
-                                                    <span className={`px-2 py-1 rounded-full text-xs ${
-                                                        day.shift === 'Off' ? 'bg-neutral-200 text-neutral-700' : 'bg-blue-100 text-blue-800'
-                                                    }`}>
+                                                    <span className={`px-2 py-1 rounded-full text-xs ${day.shift === 'Off' ? 'bg-neutral-200 text-neutral-700' : 'bg-blue-100 text-blue-800'
+                                                        }`}>
                                                         {day.shift}
                                                     </span>
                                                 </td>

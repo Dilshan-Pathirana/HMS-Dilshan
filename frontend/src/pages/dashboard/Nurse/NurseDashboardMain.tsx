@@ -42,10 +42,10 @@ export const NurseDashboardMain: React.FC = () => {
         try {
             setLoading(true);
             setError(null);
-            
+
             const data = await nurseService.getDashboardStats();
             setStats(data);
-            
+
             // Get user name from localStorage
             const storedUser = localStorage.getItem('user');
             if (storedUser) {
@@ -65,7 +65,7 @@ export const NurseDashboardMain: React.FC = () => {
     }, []);
 
     const getConditionStyles = (isAbnormal: boolean) => {
-        return isAbnormal 
+        return isAbnormal
             ? 'bg-error-100 text-red-800 border-red-300'
             : 'bg-green-100 text-green-800 border-green-300';
     };
@@ -74,7 +74,7 @@ export const NurseDashboardMain: React.FC = () => {
         const date = new Date(dateString);
         const now = new Date();
         const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
-        
+
         if (diffInMinutes < 60) {
             return `${diffInMinutes} mins ago`;
         } else if (diffInMinutes < 1440) {
@@ -101,7 +101,7 @@ export const NurseDashboardMain: React.FC = () => {
                 <div className="text-center">
                     <AlertTriangle className="w-12 h-12 text-error-500 mx-auto" />
                     <p className="mt-4 text-neutral-600">{error}</p>
-                    <button 
+                    <button
                         onClick={fetchDashboardData}
                         className="mt-4 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600"
                     >
@@ -113,7 +113,7 @@ export const NurseDashboardMain: React.FC = () => {
     }
 
     return (
-        <div className="p-6 space-y-6 bg-neutral-50 min-h-screen sm:ml-64 mt-16">
+        <div className="p-6 space-y-6 bg-neutral-50 min-h-screen">
             <div>
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
@@ -127,7 +127,7 @@ export const NurseDashboardMain: React.FC = () => {
                         </p>
                     </div>
                     <div className="flex flex-wrap items-center gap-3">
-                        <button 
+                        <button
                             onClick={fetchDashboardData}
                             className="p-2 rounded-lg bg-white shadow hover:bg-neutral-50"
                             title="Refresh"
@@ -202,28 +202,28 @@ export const NurseDashboardMain: React.FC = () => {
                                 Quick Actions
                             </h3>
                             <div className="grid grid-cols-2 gap-3">
-                                <button 
+                                <button
                                     onClick={() => navigate('/nurse-dashboard/vital-signs')}
                                     className="p-4 border border-neutral-200 rounded-lg hover:bg-blue-50 hover:border-blue-300 transition-all group"
                                 >
                                     <Heart className="w-6 h-6 text-primary-500 mb-2 mx-auto" />
                                     <p className="text-sm text-neutral-700 group-hover:text-blue-700 font-medium">Vital Signs</p>
                                 </button>
-                                <button 
+                                <button
                                     onClick={() => navigate('/nurse-dashboard/patients')}
                                     className="p-4 border border-neutral-200 rounded-lg hover:bg-purple-50 hover:border-purple-300 transition-all group"
                                 >
                                     <Users className="w-6 h-6 text-purple-600 mb-2 mx-auto" />
                                     <p className="text-sm text-neutral-700 group-hover:text-purple-700 font-medium">Patients</p>
                                 </button>
-                                <button 
+                                <button
                                     onClick={() => navigate('/nurse-dashboard/handover')}
                                     className="p-4 border border-neutral-200 rounded-lg hover:bg-green-50 hover:border-green-300 transition-all group"
                                 >
                                     <FileText className="w-6 h-6 text-green-600 mb-2 mx-auto" />
                                     <p className="text-sm text-neutral-700 group-hover:text-green-700 font-medium">Handover</p>
                                 </button>
-                                <button 
+                                <button
                                     onClick={() => navigate('/nurse-dashboard/tasks')}
                                     className="p-4 border border-neutral-200 rounded-lg hover:bg-orange-50 hover:border-orange-300 transition-all group"
                                 >
@@ -275,7 +275,7 @@ export const NurseDashboardMain: React.FC = () => {
                                     <Heart className="w-5 h-5 text-green-600" />
                                     Recent Vital Signs
                                 </h3>
-                                <button 
+                                <button
                                     onClick={() => navigate('/nurse-dashboard/vital-signs')}
                                     className="text-sm text-primary-500 hover:text-blue-800"
                                 >
@@ -319,7 +319,7 @@ export const NurseDashboardMain: React.FC = () => {
                                 <div className="p-8 text-center">
                                     <Heart className="w-12 h-12 text-gray-300 mx-auto mb-2" />
                                     <p className="text-neutral-500">No vital signs recorded today</p>
-                                    <button 
+                                    <button
                                         onClick={() => navigate('/nurse-dashboard/vital-signs')}
                                         className="mt-4 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 text-sm"
                                     >
@@ -348,7 +348,7 @@ export const NurseDashboardMain: React.FC = () => {
                                             <div className="flex-1">
                                                 <p className="text-sm font-medium text-red-900">Abnormal Vital Signs Detected</p>
                                                 <p className="text-xs text-red-700">{stats?.criticalAlerts} patient(s) have abnormal readings today</p>
-                                                <button 
+                                                <button
                                                     onClick={() => navigate('/nurse-dashboard/vital-signs?abnormal_only=true')}
                                                     className="mt-2 text-xs text-red-800 underline hover:no-underline"
                                                 >

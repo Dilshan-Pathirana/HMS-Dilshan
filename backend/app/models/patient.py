@@ -12,6 +12,8 @@ class PatientBase(SQLModel):
     address: Optional[str] = None
     contact_number: Optional[str] = None
     emergency_contact: Optional[str] = None
+    height: Optional[float] = None
+    weight: Optional[float] = None
 
 class Patient(PatientBase, table=True):
     id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True, max_length=36)
