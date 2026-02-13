@@ -128,8 +128,29 @@ jobs:
               print('\n'.join(invalid_merges))
               sys.exit(1)
 
+          def check_revision_id_lengths() -> None:
+            backend_versions = pathlib.Path('backend/alembic/versions')
+            revision_pattern = re.compile(r"^\s*revision\s*[:=]\s*[\"']([^\"']+)[\"']")
+            too_long = []
+
+            for file_path in backend_versions.glob('*.py'):
+              for line_number, line in enumerate(file_path.read_text(encoding='utf-8', errors='ignore').splitlines(), start=1):
+                match = revision_pattern.match(line)
+                if not match:
+                  continue
+                revision_id = match.group(1)
+                if len(revision_id) > 32:
+                  too_long.append(f"{file_path}:{line_number}: {revision_id} (length={len(revision_id)})")
+                break
+
+            if too_long:
+              print('Invalid Alembic revision id length detected: MySQL alembic_version.version_num supports max 32 chars.')
+              print('\n'.join(too_long))
+              sys.exit(1)
+
           check_forbidden_upgrade_head()
           check_merge_parent_graph()
+          check_revision_id_lengths()
           print('Alembic upgrade target validation passed.')
           PY
 
@@ -257,7 +278,7 @@ jobs:
             echo "==== Recreate RDS database ===="
             mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USERNAME" -p"$DB_PASSWORD" <<SQL
             DROP DATABASE IF EXISTS \`$DB_DATABASE\`;
-            CREATE DATABASE \`$DB_DATABASE\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+            CREATE DATABASE \`$DB_DATABASE\` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
             SQL
             echo "Database recreated: $DB_DATABASE"
 
