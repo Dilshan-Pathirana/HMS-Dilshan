@@ -53,25 +53,83 @@ jobs:
           import re
           import sys
 
-          files_to_check = [
-            pathlib.Path('.github/workflows/deploy.yml'),
-            pathlib.Path('migrate.bat'),
-          ]
-          forbidden_pattern = re.compile(r"\balembic\s+upgrade\s+head\b", re.IGNORECASE)
-          violations = []
+          def check_forbidden_upgrade_head() -> None:
+            files_to_check = [
+              pathlib.Path('.github/workflows/deploy.yml'),
+              pathlib.Path('migrate.bat'),
+            ]
+            forbidden_pattern = re.compile(r"\balembic\s+upgrade\s+head\b", re.IGNORECASE)
+            violations = []
 
-          for file_path in files_to_check:
-            if not file_path.exists():
-              continue
-            for line_number, line in enumerate(file_path.read_text(encoding='utf-8', errors='ignore').splitlines(), start=1):
-              if forbidden_pattern.search(line):
-                violations.append(f"{file_path}:{line_number}: {line.strip()}")
+            for file_path in files_to_check:
+              if not file_path.exists():
+                continue
+              for line_number, line in enumerate(file_path.read_text(encoding='utf-8', errors='ignore').splitlines(), start=1):
+                if forbidden_pattern.search(line):
+                  violations.append(f"{file_path}:{line_number}: {line.strip()}")
 
-          if violations:
-            print('Forbidden Alembic target detected: use `alembic upgrade heads` (or a branch-specific target) instead of `head`.')
-            print('\n'.join(violations))
-            sys.exit(1)
+            if violations:
+              print('Forbidden Alembic target detected: use `alembic upgrade heads` (or a branch-specific target) instead of `head`.')
+              print('\n'.join(violations))
+              sys.exit(1)
 
+          def check_merge_parent_graph() -> None:
+            backend_versions = pathlib.Path('backend/alembic/versions')
+            revision_pattern = re.compile(r"^\s*revision\s*[:=]\s*[\"']([^\"']+)[\"']")
+            down_pattern = re.compile(r"^\s*down_revision\s*[:=]\s*(.+)$")
+            str_pattern = re.compile(r"[\"']([^\"']+)[\"']")
+
+            revisions = {}
+
+            for file_path in backend_versions.glob('*.py'):
+              revision = None
+              down_revisions = []
+
+              for line in file_path.read_text(encoding='utf-8', errors='ignore').splitlines():
+                if revision is None:
+                  rev_match = revision_pattern.match(line)
+                  if rev_match:
+                    revision = rev_match.group(1)
+
+                down_match = down_pattern.match(line)
+                if down_match:
+                  raw_value = down_match.group(1)
+                  down_revisions = [value for value in str_pattern.findall(raw_value) if value and value != 'None']
+                  break
+
+              if revision:
+                revisions[revision] = down_revisions
+
+            def ancestors(revision_id: str) -> set[str]:
+              found = set()
+              stack = list(revisions.get(revision_id, []))
+              while stack:
+                current = stack.pop()
+                if current in found:
+                  continue
+                found.add(current)
+                stack.extend(revisions.get(current, []))
+              return found
+
+            invalid_merges = []
+            for revision_id, parents in revisions.items():
+              if len(parents) < 2:
+                continue
+              for index, parent in enumerate(parents):
+                parent_ancestors = ancestors(parent)
+                for other_parent in parents[index + 1:]:
+                  if other_parent in parent_ancestors or parent in ancestors(other_parent):
+                    invalid_merges.append(
+                      f"{revision_id}: merge parents {parent} and {other_parent} are ancestor/descendant"
+                    )
+
+            if invalid_merges:
+              print('Invalid Alembic merge graph detected (a merge parent is ancestor of another merge parent):')
+              print('\n'.join(invalid_merges))
+              sys.exit(1)
+
+          check_forbidden_upgrade_head()
+          check_merge_parent_graph()
           print('Alembic upgrade target validation passed.')
           PY
 
@@ -196,10 +254,12 @@ jobs:
             sudo apt-get install -y mysql-client >/dev/null 2>&1 || true
             mysql -h $DB_HOST -u $DB_USERNAME -p$DB_PASSWORD -e "SELECT 1" && echo "RDS reachable"
 
-
-
-            echo "==== Skip RDS migrations/seed/truncate ===="
-            echo "RDS data preserved as requested"
+            echo "==== Recreate RDS database ===="
+            mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USERNAME" -p"$DB_PASSWORD" <<SQL
+            DROP DATABASE IF EXISTS \`$DB_DATABASE\`;
+            CREATE DATABASE \`$DB_DATABASE\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+            SQL
+            echo "Database recreated: $DB_DATABASE"
 
             echo "==== Start services ===="
             docker compose \
@@ -211,7 +271,21 @@ jobs:
             sleep 12
 
             echo "==== Run DB schema migrations ===="
-            docker compose -f $APP_DIR/docker-compose.ec2.yml exec backend alembic upgrade heads
+            docker compose -f $APP_DIR/docker-compose.ec2.yml exec -T backend alembic upgrade heads
+
+            echo "==== Seed only single super admin ===="
+            docker compose -f $APP_DIR/docker-compose.ec2.yml exec -T backend python seed.py
+
+            echo "==== Verify seeded super admin ===="
+            SUPERADMIN_COUNT=$(mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USERNAME" -p"$DB_PASSWORD" -D "$DB_DATABASE" -Nse "SELECT COUNT(*) FROM \`user\` WHERE role_as = 1;")
+            TARGET_ACCOUNT_COUNT=$(mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USERNAME" -p"$DB_PASSWORD" -D "$DB_DATABASE" -Nse "SELECT COUNT(*) FROM \`user\` WHERE email='admin@hospital.com' AND username='super admin';")
+
+            if [ "$SUPERADMIN_COUNT" -ne 1 ] || [ "$TARGET_ACCOUNT_COUNT" -ne 1 ]; then
+              echo "Super admin seed verification failed. super_admin_count=$SUPERADMIN_COUNT target_account_count=$TARGET_ACCOUNT_COUNT"
+              exit 1
+            fi
+
+            echo "Super admin seed verification passed"
 
             docker compose -f $APP_DIR/docker-compose.ec2.yml ps
 

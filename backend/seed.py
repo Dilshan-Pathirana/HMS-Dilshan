@@ -10,7 +10,7 @@ from app.models.user import User
 
 
 ADMIN_EMAIL = "admin@hospital.com"
-ADMIN_USERNAME = "Super Admin"
+ADMIN_USERNAME = "super admin"
 ADMIN_ROLE = 1
 ADMIN_PASSWORD = "Test@123"
 
