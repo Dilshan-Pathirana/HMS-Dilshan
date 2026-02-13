@@ -1,6 +1,6 @@
 """Add height and weight columns to patient table
 
-Revision ID: 20260213_add_patient_height_weight
+Revision ID: 20260213_pt_height_weight
 Revises: f3d81b71bc5b
 Create Date: 2026-02-13
 """
@@ -8,7 +8,7 @@ from alembic import op
 import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
-revision = "20260213_add_patient_height_weight"
+revision = "20260213_pt_height_weight"
 down_revision = "f3d81b71bc5b"
 branch_labels = None
 depends_on = None
