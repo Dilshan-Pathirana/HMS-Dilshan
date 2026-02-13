@@ -1,5 +1,5 @@
 import api from "../axios";
 
-export const getAllDoctorSchedules = () => {
-    return api.get(`api/get-all-doctor-schedule`);
+export const getAllDoctorSchedules = (doctorId: string) => {
+    return api.get(`/schedules/doctor/${doctorId}`);
 };

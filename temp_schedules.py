@@ -254,32 +254,25 @@ async def create_modification(
     session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_user),
 ):
-    try:
-        print("DEBUG: API create_modification START", flush=True)
-        # Map frontend payload to backend model
-        # We store the specific request details in `new_value` as JSON
-        import json
-        
-        # Extract known fields for validation/logic
-        req_data = payload.model_dump()
-        
-        # Construct DB model data
-        db_data = {
-            "doctor_id": payload.doctor_id,
-            "schedule_id": payload.schedule_id,
-            "modification_type": payload.request_type,
-            "status": "pending",
-            # Store all request details in new_value
-            "new_value": json.dumps(req_data, default=str),
-            "old_value": None 
-        }
-        
-        print("DEBUG: Calling service create_modification", flush=True)
-        return await svc.create_modification(session, db_data)
-    except Exception as e:
-        import traceback
-        traceback.print_exc()
-        raise HTTPException(500, detail=f"Create Modification Error: {str(e)}")
+    # Map frontend payload to backend model
+    # We store the specific request details in `new_value` as JSON
+    import json
+    
+    # Extract known fields for validation/logic
+    req_data = payload.model_dump()
+    
+    # Construct DB model data
+    db_data = {
+        "doctor_id": payload.doctor_id,
+        "schedule_id": payload.schedule_id,
+        "modification_type": payload.request_type,
+        "status": "pending",
+        # Store all request details in new_value
+        "new_value": json.dumps(req_data, default=str),
+        "old_value": None 
+    }
+    
+    return await svc.create_modification(session, db_data)
 
 
 @router.put("/modifications/{mod_id}", response_model=ScheduleModificationRead)

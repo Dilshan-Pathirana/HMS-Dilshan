@@ -49,7 +49,7 @@ const AllDoctorRelatedAppointments = () => {
     const refreshSchedules = async () => {
         try {
             setIsLoading(true);
-            const response = await api.get(`/get-doctor-all-schedule/${userId}`);
+            const response = await api.get(`/schedules/doctor/${userId}`);
             setSchedules(response.data?.doctorSchedule || []);
         } catch (err) {
             console.error("Error fetching schedules:", err);

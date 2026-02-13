@@ -1331,6 +1331,14 @@ const AppRoutes: React.FC = () => {
                     }
                 />
                 <Route
+                    path="/doctor-dashboard-new/*"
+                    element={
+                        <ProtectedRoute allowedRoles={["doctor"]} redirectTo="/login">
+                            <DoctorDashboardNew />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
                     path="/patient/profile"
                     element={
                         <ProtectedRoute allowedRoles={['patient']}>

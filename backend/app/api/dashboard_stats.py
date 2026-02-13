@@ -5,7 +5,7 @@ Existing endpoints in other routers are kept — these provide enhanced/addition
 """
 
 from fastapi import APIRouter, Depends, HTTPException
-from sqlmodel import select, func
+from sqlmodel import select, func, or_
 from sqlmodel.ext.asyncio.session import AsyncSession
 from datetime import date, datetime, timezone
 
@@ -34,19 +34,44 @@ async def doctor_dashboard_stats(
         Appointment.appointment_date == today,
     )
     today_appointments = (await session.exec(q)).one()
+    try:
+        today_appointments = int(today_appointments)
+    except Exception:
+        try:
+            today_appointments = int(today_appointments[0])
+        except Exception:
+            today_appointments = 0
 
     # Total patients (distinct)
     q = select(func.count(func.distinct(Appointment.patient_id))).select_from(Appointment).where(
         Appointment.doctor_id == current_user.id,
     )
     total_patients = (await session.exec(q)).one()
+    try:
+        total_patients = int(total_patients)
+    except Exception:
+        try:
+            total_patients = int(total_patients[0])
+        except Exception:
+            total_patients = 0
 
     # Upcoming schedules
     q = select(func.count()).select_from(DoctorSchedule).where(
         DoctorSchedule.doctor_id == current_user.id,
-        DoctorSchedule.date >= today,
+        DoctorSchedule.status == "active",
+        or_(
+            DoctorSchedule.valid_until.is_(None),
+            DoctorSchedule.valid_until >= today,
+        ),
     )
     upcoming_schedules = (await session.exec(q)).one()
+    try:
+        upcoming_schedules = int(upcoming_schedules)
+    except Exception:
+        try:
+            upcoming_schedules = int(upcoming_schedules[0])
+        except Exception:
+            upcoming_schedules = 0
 
     # Pending consultations
     q = select(func.count()).select_from(Consultation).where(
@@ -54,6 +79,13 @@ async def doctor_dashboard_stats(
         Consultation.status == "in_progress",
     )
     pending_consultations = (await session.exec(q)).one()
+    try:
+        pending_consultations = int(pending_consultations)
+    except Exception:
+        try:
+            pending_consultations = int(pending_consultations[0])
+        except Exception:
+            pending_consultations = 0
 
     return {
         "today_appointments": today_appointments,

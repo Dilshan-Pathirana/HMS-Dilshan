@@ -240,15 +240,10 @@ class DoctorScheduleService:
 
     @staticmethod
     async def create_modification(session: AsyncSession, data: dict) -> ScheduleModification:
-        print(f"DEBUG: Service.create_modification start data={data}", flush=True)
         mod = ScheduleModification(**data)
-        print("DEBUG: mod created", flush=True)
         session.add(mod)
-        print("DEBUG: session.add(mod) done", flush=True)
         await session.commit()
-        print("DEBUG: session.commit() done", flush=True)
         await session.refresh(mod)
-        print("DEBUG: session.refresh(mod) done", flush=True)
         return mod
 
     @staticmethod

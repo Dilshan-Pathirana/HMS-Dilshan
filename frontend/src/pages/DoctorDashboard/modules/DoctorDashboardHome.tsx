@@ -46,7 +46,7 @@ interface DashboardStats {
 const DoctorDashboardHome: React.FC = () => {
     const userId = useSelector((state: RootState) => state.auth.userId);
     const [doctorName, setDoctorName] = useState<string>('Doctor');
-    
+
     const [stats, setStats] = useState<DashboardStats>({
         todayAppointments: 0,
         completedToday: 0,
@@ -75,22 +75,29 @@ const DoctorDashboardHome: React.FC = () => {
     const fetchDashboardData = async () => {
         try {
             setLoading(true);
-            
+
             // Fetch dashboard stats
             const statsResponse = await api.get('/doctor/dashboard-stats');
-            if (statsResponse.data.status === 200) {
-                setStats(statsResponse.data.data);
+            if (statsResponse && typeof statsResponse === 'object') {
+                setStats({
+                    todayAppointments: (statsResponse as any).today_appointments || 0,
+                    completedToday: (statsResponse as any).completed_today || 0,
+                    pendingToday: (statsResponse as any).pending_consultations || 0,
+                    noShowToday: (statsResponse as any).no_show_today || 0,
+                    totalPatientsThisWeek: (statsResponse as any).total_patients || 0,
+                    pendingReports: (statsResponse as any).pending_reports || 0,
+                    pendingPrescriptions: (statsResponse as any).pending_prescriptions || 0,
+                });
             }
 
             // Fetch today's appointments
             const today = new Date().toISOString().split('T')[0];
-            const appointmentsResponse = await api.get(`/get-doctor-all-schedule/${userId}`);
-            if (appointmentsResponse.data.status === 200) {
-                // Filter for today's appointments
-                const todayAppts = (appointmentsResponse.data.appointments || [])
-                    .filter((apt: any) => apt.date === today)
-                    .slice(0, 5); // Get first 5
-                setTodayAppointments(todayAppts);
+            const appointmentsResponse = await api.get(`/schedules/doctor/${userId}`);
+            if (appointmentsResponse && Array.isArray(appointmentsResponse)) {
+                const todayAppts = (appointmentsResponse || [])
+                    .filter((apt: any) => apt.appointment_date === today || apt.date === today)
+                    .slice(0, 5);
+                setTodayAppointments(todayAppts as any);
             }
         } catch (error) {
             console.error('Failed to fetch dashboard data:', error);
@@ -217,19 +224,19 @@ const DoctorDashboardHome: React.FC = () => {
                             <h2 className="text-lg font-semibold text-neutral-800">Today's Patient Queue</h2>
                             <p className="text-sm text-neutral-500">Manage your appointments</p>
                         </div>
-                        <Link 
+                        <Link
                             to="/doctor-dashboard-new/queue"
                             className="text-primary-500 hover:text-blue-700 text-sm font-medium flex items-center gap-1"
                         >
                             View All <ChevronRight className="w-4 h-4" />
                         </Link>
                     </div>
-                    
+
                     {todayAppointments.length === 0 ? (
                         <div className="p-8 text-center">
                             <Users className="w-12 h-12 text-gray-300 mx-auto mb-3" />
                             <p className="text-neutral-500">No appointments scheduled for today</p>
-                            <Link 
+                            <Link
                                 to="/doctor-dashboard-new/schedule"
                                 className="text-primary-500 hover:underline text-sm mt-2 inline-block"
                             >
@@ -255,7 +262,7 @@ const DoctorDashboardHome: React.FC = () => {
                                         <div className="flex items-center gap-3">
                                             {getStatusBadge(apt.status)}
                                             {apt.status === 'waiting' && (
-                                                <Link 
+                                                <Link
                                                     to={`/doctor-dashboard-new/consultation/${apt.id}`}
                                                     className="px-3 py-1.5 bg-primary-500 text-white text-sm rounded-lg hover:bg-primary-600"
                                                 >
@@ -276,7 +283,7 @@ const DoctorDashboardHome: React.FC = () => {
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
                         <h3 className="text-lg font-semibold text-neutral-800 mb-4">Quick Actions</h3>
                         <div className="space-y-3">
-                            <Link 
+                            <Link
                                 to="/doctor-dashboard-new/queue"
                                 className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
                             >
@@ -289,8 +296,8 @@ const DoctorDashboardHome: React.FC = () => {
                                 </div>
                                 <ChevronRight className="w-5 h-5 text-neutral-400" />
                             </Link>
-                            
-                            <Link 
+
+                            <Link
                                 to="/doctor-dashboard-new/prescriptions"
                                 className="flex items-center gap-3 p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors"
                             >
@@ -303,8 +310,8 @@ const DoctorDashboardHome: React.FC = () => {
                                 </div>
                                 <ChevronRight className="w-5 h-5 text-neutral-400" />
                             </Link>
-                            
-                            <Link 
+
+                            <Link
                                 to="/doctor-dashboard-new/investigations"
                                 className="flex items-center gap-3 p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors"
                             >
@@ -317,8 +324,8 @@ const DoctorDashboardHome: React.FC = () => {
                                 </div>
                                 <ChevronRight className="w-5 h-5 text-neutral-400" />
                             </Link>
-                            
-                            <Link 
+
+                            <Link
                                 to="/doctor-dashboard-new/schedule"
                                 className="flex items-center gap-3 p-3 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition-colors"
                             >

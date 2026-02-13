@@ -92,30 +92,45 @@ const ScheduleList: React.FC = () => {
             setLoading(false);
             return;
         }
-        
+
         try {
             setLoading(true);
             console.log('Fetching data for userId:', userId);
-            
+
             // Fetch both schedules and schedule requests in parallel
             const [schedulesResponse, requestsResponse] = await Promise.all([
-                api.get(`/get-all-doctor-schedule/${userId}`),
-                api.get(`/get-doctor-schedule-requests/${userId}`)
+                api.get(`/schedules/doctor/${userId}`),
+                api.get(`/schedules/cancel/requests?doctor_id=${userId}`)
             ]);
 
-            console.log('Schedules Response:', schedulesResponse.data);
-            console.log('Requests Response:', requestsResponse.data);
+            console.log('Schedules Response:', schedulesResponse);
+            console.log('Requests Response:', requestsResponse);
 
-            if (schedulesResponse.data.status === 200) {
-                setSchedules(schedulesResponse.data.doctorSchedules || []);
-            }
 
-            if (requestsResponse.data.status === 200) {
-                console.log('Setting schedule requests:', requestsResponse.data.scheduleRequests);
-                setScheduleRequests(requestsResponse.data.scheduleRequests || []);
+            // Handle flexible response formats for schedules
+            let effectiveSchedules: Schedule[] = [];
+            if (Array.isArray(schedulesResponse)) {
+                effectiveSchedules = schedulesResponse;
+            } else if (schedulesResponse && typeof schedulesResponse === 'object' && 'data' in schedulesResponse && Array.isArray((schedulesResponse as any).data)) {
+                effectiveSchedules = (schedulesResponse as any).data;
+                console.info('Schedules API returned wrapped payload, using .data property');
             } else {
-                console.warn('Schedule requests API returned non-200 status:', requestsResponse.data);
+                console.warn('Schedules API returned unexpected payload:', schedulesResponse);
             }
+            setSchedules(effectiveSchedules);
+
+            // Handle flexible response formats for requests
+            let effectiveRequests: ScheduleRequest[] = [];
+            if (Array.isArray(requestsResponse)) {
+                effectiveRequests = requestsResponse;
+            } else if (requestsResponse && typeof requestsResponse === 'object' && 'data' in requestsResponse && Array.isArray((requestsResponse as any).data)) {
+                effectiveRequests = (requestsResponse as any).data;
+                console.info('Schedule requests API returned wrapped payload, using .data property');
+            } else {
+                console.warn('Schedule requests API returned unexpected payload:', requestsResponse);
+            }
+            setScheduleRequests(effectiveRequests);
+
         } catch (error: any) {
             console.error('Failed to fetch data:', error);
             console.error('Error response:', error.response?.data);
@@ -140,7 +155,7 @@ const ScheduleList: React.FC = () => {
 
     const cancelScheduleRequest = async (requestId: string) => {
         if (!confirm('Are you sure you want to cancel this schedule request?')) return;
-        
+
         setCancellingId(requestId);
         try {
             const response = await api.delete(`/cancel-doctor-schedule-request/${userId}/${requestId}`);
@@ -160,8 +175,8 @@ const ScheduleList: React.FC = () => {
 
     const editScheduleRequest = (request: ScheduleRequest) => {
         // Navigate to create page with request data for editing
-        navigate('create', { 
-            state: { 
+        navigate('create', {
+            state: {
                 editMode: true,
                 requestId: request.id,
                 formData: {
@@ -184,7 +199,7 @@ const ScheduleList: React.FC = () => {
     // Delete schedule request
     const deleteScheduleRequest = async (requestId: string) => {
         if (!confirm('Are you sure you want to delete this schedule request?')) return;
-        
+
         setDeletingId(requestId);
         try {
             const response = await api.delete(`/doctor-delete-schedule/${requestId}`);
@@ -279,7 +294,7 @@ const ScheduleList: React.FC = () => {
 
             {/* Status Summary Cards */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                <button 
+                <button
                     onClick={() => setFilter('pending')}
                     className={`p-4 rounded-xl border transition-all hover:shadow-md ${filter === 'pending' ? 'bg-amber-50 border-amber-300 ring-2 ring-amber-200' : pendingCount > 0 ? 'bg-amber-50 border-amber-200' : 'bg-white border-neutral-200'}`}
                 >
@@ -294,7 +309,7 @@ const ScheduleList: React.FC = () => {
                     </div>
                 </button>
 
-                <button 
+                <button
                     onClick={() => setFilter('approved')}
                     className={`p-4 rounded-xl border transition-all hover:shadow-md ${filter === 'approved' ? 'bg-green-50 border-green-300 ring-2 ring-green-200' : approvedCount > 0 ? 'bg-green-50 border-green-200' : 'bg-white border-neutral-200'}`}
                 >
@@ -308,8 +323,8 @@ const ScheduleList: React.FC = () => {
                         </div>
                     </div>
                 </button>
-                
-                <button 
+
+                <button
                     onClick={() => setFilter('past')}
                     className={`p-4 rounded-xl border transition-all hover:shadow-md ${filter === 'past' ? 'bg-neutral-100 border-gray-400 ring-2 ring-gray-200' : 'bg-white border-neutral-200'}`}
                 >
@@ -323,8 +338,8 @@ const ScheduleList: React.FC = () => {
                         </div>
                     </div>
                 </button>
-                
-                <button 
+
+                <button
                     onClick={() => setFilter('cancelled')}
                     className={`p-4 rounded-xl border transition-all hover:shadow-md ${filter === 'cancelled' ? 'bg-orange-50 border-orange-300 ring-2 ring-orange-200' : 'bg-white border-neutral-200'}`}
                 >
@@ -338,8 +353,8 @@ const ScheduleList: React.FC = () => {
                         </div>
                     </div>
                 </button>
-                
-                <button 
+
+                <button
                     onClick={() => setFilter('rejected')}
                     className={`p-4 rounded-xl border transition-all hover:shadow-md ${filter === 'rejected' ? 'bg-error-50 border-red-300 ring-2 ring-red-200' : rejectedCount > 0 ? 'bg-error-50 border-red-200' : 'bg-white border-neutral-200'}`}
                 >
@@ -353,8 +368,8 @@ const ScheduleList: React.FC = () => {
                         </div>
                     </div>
                 </button>
-                
-                <button 
+
+                <button
                     onClick={() => setFilter('revision_requested')}
                     className={`p-4 rounded-xl border transition-all hover:shadow-md ${filter === 'revision_requested' ? 'bg-amber-50 border-amber-300 ring-2 ring-amber-200' : revisionCount > 0 ? 'bg-amber-50 border-amber-200' : 'bg-white border-neutral-200'}`}
                 >
@@ -435,7 +450,7 @@ const ScheduleList: React.FC = () => {
                                         {/* Status & Actions */}
                                         <div className="flex items-center gap-3">
                                             {getStatusBadge(schedule)}
-                                            
+
                                             {schedule.status !== 'cancelled' && new Date(schedule.date) >= new Date() && (
                                                 <button
                                                     onClick={() => {
@@ -860,7 +875,7 @@ const CreateSchedule: React.FC = () => {
     const editState = location.state as { editMode?: boolean; requestId?: string; formData?: any } | null;
     const isEditMode = editState?.editMode || false;
     const editRequestId = editState?.requestId || null;
-    
+
     const [formData, setFormData] = useState({
         branch_id: editState?.formData?.branch_id || '',
         schedule_day: editState?.formData?.schedule_day || '',
@@ -874,13 +889,13 @@ const CreateSchedule: React.FC = () => {
         if (!formData.start_time || !formData.max_patients || !formData.time_per_patient) {
             return '';
         }
-        
+
         const [hours, minutes] = formData.start_time.split(':').map(Number);
         const totalMinutes = hours * 60 + minutes + (formData.max_patients * formData.time_per_patient);
-        
+
         const endHours = Math.floor(totalMinutes / 60) % 24;
         const endMinutes = totalMinutes % 60;
-        
+
         return `${endHours.toString().padStart(2, '0')}:${endMinutes.toString().padStart(2, '0')}`;
     };
 
@@ -970,7 +985,7 @@ const CreateSchedule: React.FC = () => {
                     {isEditMode ? 'Edit Schedule Request' : 'Create New Schedule'}
                 </h1>
                 <p className="text-neutral-500">
-                    {isEditMode 
+                    {isEditMode
                         ? 'Update your pending schedule request and resubmit for approval'
                         : 'Request a recurring weekly consultation session (requires branch manager approval)'
                     }
@@ -1215,7 +1230,7 @@ const EditSchedule: React.FC = () => {
     const [successMessage, setSuccessMessage] = useState('');
     const [error, setError] = useState('');
     const [originalData, setOriginalData] = useState<any>(null);
-    
+
     const [formData, setFormData] = useState({
         branch_id: '',
         schedule_day: '',
@@ -1229,13 +1244,13 @@ const EditSchedule: React.FC = () => {
         if (!formData.start_time || !formData.max_patients || !formData.time_per_patient) {
             return '';
         }
-        
+
         const [hours, minutes] = formData.start_time.split(':').map(Number);
         const totalMinutes = hours * 60 + minutes + (formData.max_patients * formData.time_per_patient);
-        
+
         const endHours = Math.floor(totalMinutes / 60) % 24;
         const endMinutes = totalMinutes % 60;
-        
+
         return `${endHours.toString().padStart(2, '0')}:${endMinutes.toString().padStart(2, '0')}`;
     };
 
@@ -1273,7 +1288,7 @@ const EditSchedule: React.FC = () => {
         try {
             setLoading(true);
             const response = await api.get(`/get-schedule-request/${id}`);
-            
+
             if (response.data.status === 200) {
                 const request = response.data.request;
                 setOriginalData(request);
@@ -1284,7 +1299,7 @@ const EditSchedule: React.FC = () => {
                     max_patients: request.max_patients || 20,
                     time_per_patient: request.time_per_patient || 15
                 });
-                
+
                 // Check if the request can be edited
                 if (!['pending', 'revision_requested'].includes(request.status)) {
                     setError(`This schedule request cannot be edited because it has been ${request.status}.`);
@@ -1606,7 +1621,7 @@ const BlockedDates: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'pending' | 'approved' | 'rejected' | 'all'>('all');
     const [editingRequest, setEditingRequest] = useState<ModificationRequest | null>(null);
     const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
-    
+
     const [formData, setFormData] = useState({
         branch_id: '',
         schedule_id: '',
@@ -1650,11 +1665,11 @@ const BlockedDates: React.FC = () => {
         try {
             setLoading(true);
             const [requestsRes, schedulesRes, branchesRes] = await Promise.all([
-                api.get(`/schedule-modifications/${userId}`),
-                api.get(`/get-all-doctor-schedule/${userId}`),
+                api.get(`/schedules/modifications?doctor_id=${userId}`),
+                api.get(`/schedules/doctor/${userId}`),
                 api.get('/get-branches')
             ]);
-            
+
             if (requestsRes.data.status === 200) {
                 setModificationRequests(requestsRes.data.requests || []);
             }
@@ -1704,11 +1719,11 @@ const BlockedDates: React.FC = () => {
             };
 
             if (editingRequest) {
-                await api.put(`/schedule-modifications/${editingRequest.id}`, payload);
+                await api.put(`/schedules/modifications/${editingRequest.id}`, payload);
             } else {
-                await api.post('/schedule-modifications', payload);
+                await api.post('/schedules/modifications', payload);
             }
-            
+
             setShowAddModal(false);
             resetForm();
             fetchData();
@@ -1720,7 +1735,7 @@ const BlockedDates: React.FC = () => {
 
     const handleDelete = async (id: string) => {
         try {
-            await api.delete(`/schedule-modifications/${id}`);
+            await api.delete(`/schedules/modifications/${id}`);
             setDeleteConfirm(null);
             fetchData();
         } catch (error) {
@@ -1754,7 +1769,7 @@ const BlockedDates: React.FC = () => {
 
     const handleCancellationRequest = async () => {
         if (!cancellingRequest) return;
-        
+
         try {
             const payload = {
                 doctor_id: userId,
@@ -1767,7 +1782,7 @@ const BlockedDates: React.FC = () => {
                 parent_request_id: cancellingRequest.id
             };
 
-            await api.post('/schedule-modifications', payload);
+            await api.post('/schedules/modifications', payload);
             setShowCancelModal(false);
             setCancellingRequest(null);
             setCancelReason('');
@@ -1790,8 +1805,8 @@ const BlockedDates: React.FC = () => {
 
     // Check if request can be modified/cancelled (approved and date not passed, and not already pending cancellation)
     const canRequestCancellation = (request: ModificationRequest) => {
-        return request.status === 'approved' && 
-               !isDatePassed(request.end_date || request.start_date);
+        return request.status === 'approved' &&
+            !isDatePassed(request.end_date || request.start_date);
     };
 
     // Check if request already has a pending cancellation
@@ -1799,8 +1814,8 @@ const BlockedDates: React.FC = () => {
         return request.status === 'pending_cancellation';
     };
 
-    const filteredRequests = activeTab === 'all' 
-        ? modificationRequests 
+    const filteredRequests = activeTab === 'all'
+        ? modificationRequests
         : modificationRequests.filter(r => r.status === activeTab);
 
     const counts = {
@@ -1810,7 +1825,7 @@ const BlockedDates: React.FC = () => {
         rejected: modificationRequests.filter(r => r.status === 'rejected').length
     };
 
-    const filteredSchedules = formData.branch_id 
+    const filteredSchedules = formData.branch_id
         ? schedules.filter(s => s.branch_id === formData.branch_id)
         : schedules;
 
@@ -1882,11 +1897,10 @@ const BlockedDates: React.FC = () => {
                     <button
                         key={tab}
                         onClick={() => setActiveTab(tab)}
-                        className={`p-4 rounded-xl border transition-all ${
-                            activeTab === tab
-                                ? 'bg-blue-50 border-blue-200 ring-2 ring-blue-500'
-                                : 'bg-white border-gray-100 hover:bg-neutral-50'
-                        }`}
+                        className={`p-4 rounded-xl border transition-all ${activeTab === tab
+                            ? 'bg-blue-50 border-blue-200 ring-2 ring-blue-500'
+                            : 'bg-white border-gray-100 hover:bg-neutral-50'
+                            }`}
                     >
                         <p className="text-2xl font-bold text-neutral-800">{counts[tab]}</p>
                         <p className="text-sm text-neutral-500 capitalize">{tab === 'all' ? 'All Requests' : tab}</p>
@@ -1918,7 +1932,7 @@ const BlockedDates: React.FC = () => {
                         <CalendarX className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                         <h3 className="text-lg font-medium text-neutral-800 mb-2">No requests found</h3>
                         <p className="text-neutral-500">
-                            {activeTab === 'all' 
+                            {activeTab === 'all'
                                 ? "You haven't made any modification requests yet"
                                 : `No ${activeTab} requests`
                             }
@@ -1929,102 +1943,103 @@ const BlockedDates: React.FC = () => {
                         {filteredRequests.map((request) => {
                             const isPast = isDatePassed(request.end_date || request.start_date);
                             const canCancel = canRequestCancellation(request);
-                            
+
                             return (
-                            <div key={request.id} className={`p-4 ${isPast ? 'bg-neutral-50 opacity-70' : 'hover:bg-neutral-50'}`}>
-                                <div className="flex items-start justify-between">
-                                    <div className="flex items-start gap-4">
-                                        <div className={`p-2 rounded-lg ${isPast ? 'bg-neutral-200' : 'bg-neutral-100'}`}>
-                                            {getRequestTypeIcon(request.request_type)}
-                                        </div>
-                                        <div>
-                                            <div className="flex items-center gap-2 mb-1">
-                                                <span className={`font-medium ${isPast ? 'text-neutral-500' : 'text-neutral-800'}`}>
-                                                    {requestTypeLabels[request.request_type]}
-                                                </span>
-                                                {getStatusBadge(request.status)}
-                                                {isPast && (
-                                                    <span className="px-2 py-1 bg-neutral-200 text-neutral-600 text-xs rounded-full">Past</span>
-                                                )}
+                                <div key={request.id} className={`p-4 ${isPast ? 'bg-neutral-50 opacity-70' : 'hover:bg-neutral-50'}`}>
+                                    <div className="flex items-start justify-between">
+                                        <div className="flex items-start gap-4">
+                                            <div className={`p-2 rounded-lg ${isPast ? 'bg-neutral-200' : 'bg-neutral-100'}`}>
+                                                {getRequestTypeIcon(request.request_type)}
                                             </div>
-                                            <p className="text-sm text-neutral-600 mb-1">
-                                                {request.branch_name}
-                                                {request.schedule_day && ` • ${request.schedule_day}`}
-                                                {request.schedule_start_time && ` (${formatTime(request.schedule_start_time)} - ${formatTime(request.schedule_end_time || '')})`}
-                                            </p>
-                                            <p className="text-sm text-neutral-500">
-                                                <span className="font-medium">Date:</span> {formatDate(request.start_date)}
-                                                {request.end_date && request.end_date !== request.start_date && ` to ${formatDate(request.end_date)}`}
-                                            </p>
-                                            {request.new_start_time && (
+                                            <div>
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    <span className={`font-medium ${isPast ? 'text-neutral-500' : 'text-neutral-800'}`}>
+                                                        {requestTypeLabels[request.request_type]}
+                                                    </span>
+                                                    {getStatusBadge(request.status)}
+                                                    {isPast && (
+                                                        <span className="px-2 py-1 bg-neutral-200 text-neutral-600 text-xs rounded-full">Past</span>
+                                                    )}
+                                                </div>
+                                                <p className="text-sm text-neutral-600 mb-1">
+                                                    {request.branch_name}
+                                                    {request.schedule_day && ` • ${request.schedule_day}`}
+                                                    {request.schedule_start_time && ` (${formatTime(request.schedule_start_time)} - ${formatTime(request.schedule_end_time || '')})`}
+                                                </p>
                                                 <p className="text-sm text-neutral-500">
-                                                    <span className="font-medium">New Start:</span> {formatTime(request.new_start_time)}
+                                                    <span className="font-medium">Date:</span> {formatDate(request.start_date)}
+                                                    {request.end_date && request.end_date !== request.start_date && ` to ${formatDate(request.end_date)}`}
                                                 </p>
-                                            )}
-                                            {request.new_end_time && (
-                                                <p className="text-sm text-neutral-500">
-                                                    <span className="font-medium">New End:</span> {formatTime(request.new_end_time)}
+                                                {request.new_start_time && (
+                                                    <p className="text-sm text-neutral-500">
+                                                        <span className="font-medium">New Start:</span> {formatTime(request.new_start_time)}
+                                                    </p>
+                                                )}
+                                                {request.new_end_time && (
+                                                    <p className="text-sm text-neutral-500">
+                                                        <span className="font-medium">New End:</span> {formatTime(request.new_end_time)}
+                                                    </p>
+                                                )}
+                                                {request.new_max_patients && (
+                                                    <p className="text-sm text-neutral-500">
+                                                        <span className="font-medium">Max Patients:</span> {request.new_max_patients}
+                                                    </p>
+                                                )}
+                                                <p className="text-sm text-neutral-500 mt-1">
+                                                    <span className="font-medium">Reason:</span> {request.reason}
                                                 </p>
-                                            )}
-                                            {request.new_max_patients && (
-                                                <p className="text-sm text-neutral-500">
-                                                    <span className="font-medium">Max Patients:</span> {request.new_max_patients}
+                                                {request.approval_notes && (
+                                                    <p className="text-sm text-primary-500 mt-1">
+                                                        <span className="font-medium">Admin Notes:</span> {request.approval_notes}
+                                                    </p>
+                                                )}
+                                                <p className="text-xs text-neutral-400 mt-2">
+                                                    Submitted: {formatDate(request.created_at)}
+                                                    {request.approved_at && ` • Processed: ${formatDate(request.approved_at)}`}
                                                 </p>
-                                            )}
-                                            <p className="text-sm text-neutral-500 mt-1">
-                                                <span className="font-medium">Reason:</span> {request.reason}
-                                            </p>
-                                            {request.approval_notes && (
-                                                <p className="text-sm text-primary-500 mt-1">
-                                                    <span className="font-medium">Admin Notes:</span> {request.approval_notes}
-                                                </p>
-                                            )}
-                                            <p className="text-xs text-neutral-400 mt-2">
-                                                Submitted: {formatDate(request.created_at)}
-                                                {request.approved_at && ` • Processed: ${formatDate(request.approved_at)}`}
-                                            </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        {/* Pending requests - can edit/delete */}
-                                        {request.status === 'pending' && !isPast && (
-                                            <>
+                                        <div className="flex items-center gap-2">
+                                            {/* Pending requests - can edit/delete */}
+                                            {request.status === 'pending' && !isPast && (
+                                                <>
+                                                    <button
+                                                        onClick={() => openEditModal(request)}
+                                                        className="p-2 text-primary-500 hover:bg-blue-50 rounded-lg"
+                                                        title="Edit"
+                                                    >
+                                                        <Edit2 className="w-4 h-4" />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => setDeleteConfirm(request.id)}
+                                                        className="p-2 text-error-600 hover:bg-error-50 rounded-lg"
+                                                        title="Delete"
+                                                    >
+                                                        <Trash2 className="w-4 h-4" />
+                                                    </button>
+                                                </>
+                                            )}
+                                            {/* Approved requests - can request cancellation if not past */}
+                                            {canCancel && (
                                                 <button
-                                                    onClick={() => openEditModal(request)}
-                                                    className="p-2 text-primary-500 hover:bg-blue-50 rounded-lg"
-                                                    title="Edit"
+                                                    onClick={() => openCancelModal(request)}
+                                                    className="px-3 py-1.5 text-sm text-orange-600 bg-orange-50 hover:bg-orange-100 rounded-lg border border-orange-200"
+                                                    title="Request Cancellation"
                                                 >
-                                                    <Edit2 className="w-4 h-4" />
+                                                    Request Cancel
                                                 </button>
-                                                <button
-                                                    onClick={() => setDeleteConfirm(request.id)}
-                                                    className="p-2 text-error-600 hover:bg-error-50 rounded-lg"
-                                                    title="Delete"
-                                                >
-                                                    <Trash2 className="w-4 h-4" />
-                                                </button>
-                                            </>
-                                        )}
-                                        {/* Approved requests - can request cancellation if not past */}
-                                        {canCancel && (
-                                            <button
-                                                onClick={() => openCancelModal(request)}
-                                                className="px-3 py-1.5 text-sm text-orange-600 bg-orange-50 hover:bg-orange-100 rounded-lg border border-orange-200"
-                                                title="Request Cancellation"
-                                            >
-                                                Request Cancel
-                                            </button>
-                                        )}
-                                        {/* Show pending cancellation message */}
-                                        {hasPendingCancellation(request) && (
-                                            <span className="px-3 py-1.5 text-sm text-purple-600 bg-purple-50 rounded-lg border border-purple-200">
-                                                Awaiting Cancellation Approval
-                                            </span>
-                                        )}
+                                            )}
+                                            {/* Show pending cancellation message */}
+                                            {hasPendingCancellation(request) && (
+                                                <span className="px-3 py-1.5 text-sm text-purple-600 bg-purple-50 rounded-lg border border-purple-200">
+                                                    Awaiting Cancellation Approval
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        )})}
+                            )
+                        })}
                     </div>
                 )}
             </div>
@@ -2041,7 +2056,7 @@ const BlockedDates: React.FC = () => {
                                 All requests require branch manager approval
                             </p>
                         </div>
-                        
+
                         <div className="p-6 space-y-4">
                             {/* Request Type */}
                             <div>
@@ -2241,7 +2256,7 @@ const BlockedDates: React.FC = () => {
                             </p>
                             <p className="text-sm text-neutral-600">
                                 {cancellingRequest.branch_name} • {formatDate(cancellingRequest.start_date)}
-                                {cancellingRequest.end_date && cancellingRequest.end_date !== cancellingRequest.start_date && 
+                                {cancellingRequest.end_date && cancellingRequest.end_date !== cancellingRequest.start_date &&
                                     ` to ${formatDate(cancellingRequest.end_date)}`
                                 }
                             </p>

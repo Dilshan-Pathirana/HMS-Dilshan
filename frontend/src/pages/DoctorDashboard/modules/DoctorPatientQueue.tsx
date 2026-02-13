@@ -63,11 +63,11 @@ const DoctorPatientQueue: React.FC = () => {
     const fetchQueueData = async (showRefresh = false) => {
         try {
             if (showRefresh) setRefreshing(true);
-            
+
             const today = new Date().toISOString().split('T')[0];
-            
+
             // Fetch today's schedule and appointments
-            const response = await api.get(`/get-doctor-all-schedule/${userId}`);
+            const response = await api.get(`/schedules/doctor/${userId}`);
             if (response.data.status === 200) {
                 const schedules = response.data.doctorSchedules || [];
                 const todaySchedule = schedules.find((s: any) => s.date === today);
@@ -302,8 +302,8 @@ const DoctorPatientQueue: React.FC = () => {
                 ) : (
                     <div className="divide-y divide-gray-100">
                         {queue.map((patient, index) => (
-                            <div 
-                                key={patient.id} 
+                            <div
+                                key={patient.id}
                                 className={`p-4 hover:bg-neutral-50 transition-colors ${
                                     patient.status === 'in-consultation' ? 'bg-blue-50' : ''
                                 }`}
@@ -323,13 +323,13 @@ const DoctorPatientQueue: React.FC = () => {
                                             <p className="text-sm text-neutral-500">{patient.reason || 'General Consultation'}</p>
                                         </div>
                                     </div>
-                                    
+
                                     <div className="flex items-center gap-3">
                                         <span className={`px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1 ${getStatusColor(patient.status)}`}>
                                             {getStatusIcon(patient.status)}
                                             {patient.status.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
                                         </span>
-                                        
+
                                         {patient.status === 'waiting' && (
                                             <div className="flex gap-2">
                                                 <button
@@ -349,7 +349,7 @@ const DoctorPatientQueue: React.FC = () => {
                                                 </button>
                                             </div>
                                         )}
-                                        
+
                                         {patient.status === 'in-consultation' && (
                                             <Link
                                                 to={`/doctor-dashboard-new/consultation/${patient.appointment_id}`}

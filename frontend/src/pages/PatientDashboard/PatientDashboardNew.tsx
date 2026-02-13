@@ -71,8 +71,8 @@ const PatientDashboardNew: React.FC = () => {
         // Fetch notification count
         const fetchNotificationCount = async () => {
             try {
-                const response = await api.get(`/patient/notifications/unread-count/${userId}`);
-                setNotificationCount(response.data?.count || 0);
+                    const response = await api.get(`/notifications/unread-count`);
+                    setNotificationCount((response as any).unread || 0);
             } catch (error) {
                 console.error('Failed to fetch notifications:', error);
             }

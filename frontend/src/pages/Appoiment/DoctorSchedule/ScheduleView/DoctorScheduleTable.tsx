@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
 import { FiEdit, FiTrash } from "react-icons/fi";
 import Spinner from "../../../../assets/Common/Spinner.tsx";
 import Pagination from "../../../../components/pharmacyPOS/Common/Pagination.tsx";
@@ -38,18 +40,23 @@ const DoctorScheduleTable = ({
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+    const userId = useSelector((state: RootState) => state.auth.userId);
+
     useEffect(() => {
         const fetchSchedules = async () => {
             try {
                 setIsLoading(true);
-                const response = await getAllDoctorSchedules();
-                if (response.status === 200) {
-                    const fetchedSchedules =
-                        response.data.doctorSchedule || [];
-                    setSchedules(fetchedSchedules);
-                } else {
-                    alert.warn("Failed to fetch doctor schedules.");
+                if (!userId) {
                     setSchedules([]);
+                } else {
+                    const response = await getAllDoctorSchedules(userId);
+                    if (Array.isArray(response)) {
+                        setSchedules(response as IDoctorSchedule[]);
+                    } else if (response && (response as any).doctorSchedule) {
+                        setSchedules((response as any).doctorSchedule || []);
+                    } else {
+                        setSchedules([]);
+                    }
                 }
             } catch {
                 alert.error("An error occurred while fetching schedules.");
@@ -59,7 +66,7 @@ const DoctorScheduleTable = ({
             }
         };
         fetchSchedules();
-    }, [refreshSchedules]);
+    }, [refreshSchedules, userId]);
 
 
     const filteredSchedules = schedules.filter(
@@ -82,17 +89,11 @@ const DoctorScheduleTable = ({
         const isConfirmed = await DoctorScheduleDeleteConfirmationAlert();
         if (isConfirmed) {
             try {
-                const response = await deleteDoctorSchedule(id);
-                if (response.status === 200) {
-                    alert.success("Doctor schedule deleted successfully!");
-                    triggerRefresh();
-                } else {
-                    alert.error("Failed to delete the schedule.");
-                }
+                await deleteDoctorSchedule(id);
+                alert.success("Doctor schedule deleted successfully!");
+                triggerRefresh();
             } catch {
-                alert.error(
-                    "An unexpected error occurred. Please try again later.",
-                );
+                alert.error("Failed to delete the schedule. Please try again later.");
             }
         }
     };

@@ -77,10 +77,10 @@ const DoctorDashboardNew: React.FC = () => {
         // Fetch notification and queue counts
         const fetchCounts = async () => {
             try {
-                // Fetch notification count
-                const notifResponse = await api.get(`/doctor/notifications/unread-count/${userId}`);
-                if (notifResponse.data.status === 200) {
-                    setNotificationCount(notifResponse.data.count || 0);
+                // Fetch notification count (server uses current_user)
+                const notifResponse = await api.get(`/notifications/unread-count`);
+                if (notifResponse && typeof notifResponse === 'object') {
+                    setNotificationCount((notifResponse as any).unread || 0);
                 }
             } catch (error) {
                 console.error('Failed to fetch counts:', error);
