@@ -15,6 +15,10 @@ logger = logging.getLogger(__name__)
 
 # Map user types to role_as values
 USER_TYPE_ROLES = {
+    # Add Super Admin as role 1 (frontend uses "Super Admin")
+    "Super Admin": 1,
+    # Accept a compact variant just in case
+    "Superadmin": 1,
     # Core roles used by the frontend (source of truth)
     # 1: Super Admin, 2: Branch Admin, 3: Doctor, 4: Nurse, 5: Patient,
     # 6: Cashier, 7: Pharmacist, 8: IT Support, 9: Center Aid, 10: Auditor
