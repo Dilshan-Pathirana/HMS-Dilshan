@@ -103,6 +103,10 @@ async def create_user(
 
     # Create user dict excluding strict password field if it exists in dict vs model mismatch
     user_data = user_in.model_dump(exclude={"password"})
+    # Enforce branch assignment for Nurse role (role_as == 4)
+    branch_id = user_data.get("branch_id") if isinstance(user_data, dict) else None
+    if getattr(user_in, "role_as", None) == 4 and not branch_id:
+        raise HTTPException(status_code=400, detail="Nurse users must be assigned to a branch")
     user = User(**user_data, hashed_password=get_password_hash(user_in.password))
 
     session.add(user)

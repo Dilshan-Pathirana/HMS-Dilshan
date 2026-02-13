@@ -180,7 +180,7 @@ jobs:
 
             echo "==== Wait for backend ===="
             sleep 12
-            
+
             echo "==== Run DB schema migrations ===="
             docker compose -f $APP_DIR/docker-compose.ec2.yml exec backend alembic upgrade head
 

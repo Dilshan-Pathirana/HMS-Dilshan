@@ -19,6 +19,7 @@ USER_TYPE_ROLES = {
     # 1: Super Admin, 2: Branch Admin, 3: Doctor, 4: Nurse, 5: Patient,
     # 6: Cashier, 7: Pharmacist, 8: IT Support, 9: Center Aid, 10: Auditor
     "Branch Admin": 2,
+    "Nurse": 4,
     "Cashier": 6,
     # Receptionist UI is handled under cashier role (frontend branches by user_type)
     "Receptionist": 6,
@@ -103,7 +104,10 @@ async def create_staff(
     if branch_id == "":
         branch_id = None
 
-    # 2. Validate branch only when provided (assignment can happen later)
+    # 2. Validate branch when provided, and require it for certain roles (e.g., Nurse)
+    if user_type == "Nurse" and not branch_id:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Nurse users must be assigned to a branch")
+
     if branch_id:
         if user_type == "Pharmacist":
             raise HTTPException(status_code=400, detail="Pharmacists cannot be assigned to a branch.")
