@@ -46,6 +46,35 @@ jobs:
         working-directory: backend
         run: poetry run pip install aiosqlite
 
+      - name: Validate Alembic upgrade target
+        run: |
+          python - <<'PY'
+          import pathlib
+          import re
+          import sys
+
+          files_to_check = [
+            pathlib.Path('.github/workflows/deploy.yml'),
+            pathlib.Path('migrate.bat'),
+          ]
+          forbidden_pattern = re.compile(r"\balembic\s+upgrade\s+head\b", re.IGNORECASE)
+          violations = []
+
+          for file_path in files_to_check:
+            if not file_path.exists():
+              continue
+            for line_number, line in enumerate(file_path.read_text(encoding='utf-8', errors='ignore').splitlines(), start=1):
+              if forbidden_pattern.search(line):
+                violations.append(f"{file_path}:{line_number}: {line.strip()}")
+
+          if violations:
+            print('Forbidden Alembic target detected: use `alembic upgrade heads` (or a branch-specific target) instead of `head`.')
+            print('\n'.join(violations))
+            sys.exit(1)
+
+          print('Alembic upgrade target validation passed.')
+          PY
+
       - name: Print Alembic heads
         working-directory: backend
         run: |
@@ -62,7 +91,7 @@ jobs:
           SECRET_KEY: ci-secret-key
         run: |
           if [ -f alembic.ini ]; then
-            poetry run alembic upgrade head
+            poetry run alembic upgrade heads
           else
             echo "No alembic.ini found; skipping migrations."
           fi
@@ -182,7 +211,7 @@ jobs:
             sleep 12
 
             echo "==== Run DB schema migrations ===="
-            docker compose -f $APP_DIR/docker-compose.ec2.yml exec backend alembic upgrade head
+            docker compose -f $APP_DIR/docker-compose.ec2.yml exec backend alembic upgrade heads
 
             docker compose -f $APP_DIR/docker-compose.ec2.yml ps
 
