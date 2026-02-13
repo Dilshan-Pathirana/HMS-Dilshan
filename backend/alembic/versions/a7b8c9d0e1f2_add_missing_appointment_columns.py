@@ -19,12 +19,28 @@ depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
     # Add columns that the Appointment model expects but are missing from the DB
-    op.add_column("appointment", sa.Column("reschedule_count", sa.Integer(), server_default="0", nullable=False))
-    op.add_column("appointment", sa.Column("original_appointment_date", sa.DateTime(), nullable=True))
-    op.add_column("appointment", sa.Column("nurse_assessment_status", sa.String(20), nullable=True))
+    inspector = sa.inspect(op.get_bind())
+    existing_columns = {column["name"] for column in inspector.get_columns("appointment")}
+
+    if "reschedule_count" not in existing_columns:
+        op.add_column("appointment", sa.Column("reschedule_count", sa.Integer(), server_default="0", nullable=False))
+
+    if "original_appointment_date" not in existing_columns:
+        op.add_column("appointment", sa.Column("original_appointment_date", sa.DateTime(), nullable=True))
+
+    if "nurse_assessment_status" not in existing_columns:
+        op.add_column("appointment", sa.Column("nurse_assessment_status", sa.String(20), nullable=True))
 
 
 def downgrade() -> None:
-    op.drop_column("appointment", "nurse_assessment_status")
-    op.drop_column("appointment", "original_appointment_date")
-    op.drop_column("appointment", "reschedule_count")
+    inspector = sa.inspect(op.get_bind())
+    existing_columns = {column["name"] for column in inspector.get_columns("appointment")}
+
+    if "nurse_assessment_status" in existing_columns:
+        op.drop_column("appointment", "nurse_assessment_status")
+
+    if "original_appointment_date" in existing_columns:
+        op.drop_column("appointment", "original_appointment_date")
+
+    if "reschedule_count" in existing_columns:
+        op.drop_column("appointment", "reschedule_count")
