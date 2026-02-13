@@ -3,164 +3,9 @@ name: Build & Deploy to AWS
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
 
 jobs:
-  backend-migrations-and-seed:
-    runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_DATABASE: hms_ci
-          MYSQL_USER: hms
-          MYSQL_PASSWORD: hms_pass
-          MYSQL_ROOT_PASSWORD: root_pass
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot_pass"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install Poetry
-        run: pip install poetry
-
-      - name: Install backend dependencies
-        working-directory: backend
-        run: poetry install --no-interaction --no-ansi
-
-      - name: Install aiosqlite
-        working-directory: backend
-        run: poetry run pip install aiosqlite
-
-      - name: Validate Alembic upgrade target
-        run: |
-          python - <<'PY'
-          import pathlib
-          import re
-          import sys
-
-          def check_forbidden_upgrade_head() -> None:
-            files_to_check = [
-              pathlib.Path('.github/workflows/deploy.yml'),
-              pathlib.Path('migrate.bat'),
-            ]
-            forbidden_pattern = re.compile(r"\balembic\s+upgrade\s+head\b", re.IGNORECASE)
-            violations = []
-
-            for file_path in files_to_check:
-              if not file_path.exists():
-                continue
-              for line_number, line in enumerate(file_path.read_text(encoding='utf-8', errors='ignore').splitlines(), start=1):
-                if forbidden_pattern.search(line):
-                  violations.append(f"{file_path}:{line_number}: {line.strip()}")
-
-            if violations:
-              print('Forbidden Alembic target detected: use `alembic upgrade heads` (or a branch-specific target) instead of `head`.')
-              print('\n'.join(violations))
-              sys.exit(1)
-
-          def check_merge_parent_graph() -> None:
-            backend_versions = pathlib.Path('backend/alembic/versions')
-            revision_pattern = re.compile(r"^\s*revision\s*[:=]\s*[\"']([^\"']+)[\"']")
-            down_pattern = re.compile(r"^\s*down_revision\s*[:=]\s*(.+)$")
-            str_pattern = re.compile(r"[\"']([^\"']+)[\"']")
-
-            revisions = {}
-
-            for file_path in backend_versions.glob('*.py'):
-              revision = None
-              down_revisions = []
-
-              for line in file_path.read_text(encoding='utf-8', errors='ignore').splitlines():
-                if revision is None:
-                  rev_match = revision_pattern.match(line)
-                  if rev_match:
-                    revision = rev_match.group(1)
-
-                down_match = down_pattern.match(line)
-                if down_match:
-                  raw_value = down_match.group(1)
-                  down_revisions = [value for value in str_pattern.findall(raw_value) if value and value != 'None']
-                  break
-
-              if revision:
-                revisions[revision] = down_revisions
-
-            def ancestors(revision_id: str) -> set[str]:
-              found = set()
-              stack = list(revisions.get(revision_id, []))
-              while stack:
-                current = stack.pop()
-                if current in found:
-                  continue
-                found.add(current)
-                stack.extend(revisions.get(current, []))
-              return found
-
-            invalid_merges = []
-            for revision_id, parents in revisions.items():
-              if len(parents) < 2:
-                continue
-              for index, parent in enumerate(parents):
-                parent_ancestors = ancestors(parent)
-                for other_parent in parents[index + 1:]:
-                  if other_parent in parent_ancestors or parent in ancestors(other_parent):
-                    invalid_merges.append(
-                      f"{revision_id}: merge parents {parent} and {other_parent} are ancestor/descendant"
-                    )
-
-            if invalid_merges:
-              print('Invalid Alembic merge graph detected (a merge parent is ancestor of another merge parent):')
-              print('\n'.join(invalid_merges))
-              sys.exit(1)
-
-          check_forbidden_upgrade_head()
-          check_merge_parent_graph()
-          print('Alembic upgrade target validation passed.')
-          PY
-
-      - name: Print Alembic heads
-        working-directory: backend
-        run: |
-          if [ -f alembic.ini ]; then
-            poetry run alembic heads
-          else
-            echo "No alembic.ini found; skipping head check."
-          fi
-
-      - name: Run Alembic migrations
-        working-directory: backend
-        env:
-          DATABASE_URL: mysql+asyncmy://hms:hms_pass@127.0.0.1:3306/hms_ci
-          SECRET_KEY: ci-secret-key
-        run: |
-          if [ -f alembic.ini ]; then
-            poetry run alembic upgrade heads
-          else
-            echo "No alembic.ini found; skipping migrations."
-          fi
-
-      - name: Seed database
-        working-directory: backend
-        env:
-          DATABASE_URL: mysql+asyncmy://hms:hms_pass@127.0.0.1:3306/hms_ci
-          SECRET_KEY: ci-secret-key
-        run: poetry run python seed.py
-
   build-and-deploy:
     runs-on: ubuntu-latest
 
@@ -168,18 +13,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # ---------------- BUILD IMAGES ----------------
-      - name: Build backend
+      # ---------- BUILD IMAGES ----------
+      - name: Build backend image
         run: docker build -t hms-backend:latest -f backend/Dockerfile backend
 
-      - name: Build frontend
+      - name: Build frontend image
         run: docker build -t hms-frontend:latest -f frontend/Dockerfile frontend
 
       - name: Save images
         run: docker save hms-backend hms-frontend | gzip > hms-images.tar.gz
 
-      # ---------------- COPY TO EC2 ----------------
-      - name: Upload to EC2
+      # ---------- COPY TO EC2 ----------
+      - name: Upload images & compose
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -188,8 +33,8 @@ jobs:
           source: "hms-images.tar.gz,docker-compose.ec2.yml"
           target: "/tmp"
 
-      # ---------------- DEPLOY ----------------
-      - name: Deploy on EC2
+      # ---------- DEPLOY ----------
+      - name: Deploy containers (NO DB ACCESS)
         uses: appleboy/ssh-action@v1.0.3
         env:
           DB_HOST: ${{ secrets.DB_HOST }}
@@ -206,6 +51,7 @@ jobs:
           PAYHERE_MERCHANT_SECRET: ${{ secrets.PAYHERE_MERCHANT_SECRET }}
           PAYHERE_CURRENCY: ${{ secrets.PAYHERE_CURRENCY }}
           PAYHERE_SANDBOX: ${{ secrets.PAYHERE_SANDBOX }}
+
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
@@ -218,15 +64,13 @@ jobs:
             APP_DIR=/var/www/hms
             mkdir -p $APP_DIR
 
-            echo "==== Load Docker images ===="
+            echo "==== Load images ===="
             docker load -i /tmp/hms-images.tar.gz
 
             echo "==== Move compose file ===="
             mv -f /tmp/docker-compose.ec2.yml $APP_DIR/docker-compose.ec2.yml
 
-
-
-            echo "==== Write .env ===="
+            echo "==== Write env ===="
             cat > $APP_DIR/.env <<EOF
             DB_HOST=$DB_HOST
             DB_PORT=$DB_PORT
@@ -246,47 +90,15 @@ jobs:
             PAYHERE_SANDBOX=$PAYHERE_SANDBOX
             EOF
 
-            echo "==== Remove old containers ===="
+            echo "==== Restart containers only ===="
             docker compose -f $APP_DIR/docker-compose.ec2.yml down --remove-orphans || true
 
-            echo "==== Test RDS connectivity ===="
-            sudo apt-get update -y >/dev/null 2>&1 || true
-            sudo apt-get install -y mysql-client >/dev/null 2>&1 || true
-            mysql -h $DB_HOST -u $DB_USERNAME -p$DB_PASSWORD -e "SELECT 1" && echo "RDS reachable"
-
-            echo "==== Recreate RDS database ===="
-            mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USERNAME" -p"$DB_PASSWORD" <<SQL
-            DROP DATABASE IF EXISTS \`$DB_DATABASE\`;
-            CREATE DATABASE \`$DB_DATABASE\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-            SQL
-            echo "Database recreated: $DB_DATABASE"
-
-            echo "==== Start services ===="
             docker compose \
               -f $APP_DIR/docker-compose.ec2.yml \
               --env-file $APP_DIR/.env \
               up -d --remove-orphans
 
-            echo "==== Wait for backend ===="
-            sleep 12
-
-            echo "==== Run DB schema migrations ===="
-            docker compose -f $APP_DIR/docker-compose.ec2.yml exec -T backend alembic upgrade heads
-
-            echo "==== Seed only single super admin ===="
-            docker compose -f $APP_DIR/docker-compose.ec2.yml exec -T backend python seed.py
-
-            echo "==== Verify seeded super admin ===="
-            SUPERADMIN_COUNT=$(mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USERNAME" -p"$DB_PASSWORD" -D "$DB_DATABASE" -Nse "SELECT COUNT(*) FROM \`user\` WHERE role_as = 1;")
-            TARGET_ACCOUNT_COUNT=$(mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USERNAME" -p"$DB_PASSWORD" -D "$DB_DATABASE" -Nse "SELECT COUNT(*) FROM \`user\` WHERE email='admin@hospital.com' AND username='super admin';")
-
-            if [ "$SUPERADMIN_COUNT" -ne 1 ] || [ "$TARGET_ACCOUNT_COUNT" -ne 1 ]; then
-              echo "Super admin seed verification failed. super_admin_count=$SUPERADMIN_COUNT target_account_count=$TARGET_ACCOUNT_COUNT"
-              exit 1
-            fi
-
-            echo "Super admin seed verification passed"
-
+            echo "==== Status ===="
             docker compose -f $APP_DIR/docker-compose.ec2.yml ps
 
             echo "==== Backend logs ===="
@@ -294,7 +106,6 @@ jobs:
 
             echo "==== Cleanup ===="
             rm -f /tmp/hms-images.tar.gz
-            rm -f /tmp/trunc.sql /tmp/trunc.out
             docker image prune -f
 
-            echo "==== Deployment Complete ===="
+            echo "==== Deployment complete (DB untouched) ===="
