@@ -46,6 +46,15 @@ jobs:
         working-directory: backend
         run: poetry run pip install aiosqlite
 
+      - name: Print Alembic heads
+        working-directory: backend
+        run: |
+          if [ -f alembic.ini ]; then
+            poetry run alembic heads
+          else
+            echo "No alembic.ini found; skipping head check."
+          fi
+
       - name: Run Alembic migrations
         working-directory: backend
         env:
