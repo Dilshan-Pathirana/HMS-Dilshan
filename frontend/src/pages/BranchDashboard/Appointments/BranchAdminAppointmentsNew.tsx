@@ -33,6 +33,7 @@ import {
 } from 'react-icons/fa';
 import {
   appointmentBranchAdminApi,
+  appointmentSuperAdminApi,
   AppointmentBooking,
   Doctor,
   SlotInfo,
@@ -72,6 +73,9 @@ interface Filters {
   status: string;
   startDate: string;
   endDate: string;
+  branchId: string;
+  day: string;
+  paymentStatus: string;
 }
 
 interface EditAppointmentData {
@@ -129,6 +133,9 @@ const initialFilters: Filters = {
   status: '',
   startDate: '',
   endDate: '',
+  branchId: '',
+  day: '',
+  paymentStatus: '',
 };
 
 // ============================================
@@ -149,13 +156,13 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   const [sessionPanelAction, setSessionPanelAction] = useState<'assign-staff' | undefined>(undefined);
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [specializations, setSpecializations] = useState<string[]>([]);
+  const [branches, setBranches] = useState<Array<{ id: string; name: string }>>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [counts, setCounts] = useState<AppointmentCounts>({ today: 0, upcoming: 0, past: 0 });
 
   // Filter state
   const [filters, setFilters] = useState<Filters>(initialFilters);
-  const [showFilters, setShowFilters] = useState(false);
   const [filtersApplied, setFiltersApplied] = useState(false);
 
   // Edit modal state
@@ -334,6 +341,9 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       if (currentFilters.search) params.search = currentFilters.search;
       if (currentFilters.startDate) params.start_date = currentFilters.startDate;
       if (currentFilters.endDate) params.end_date = currentFilters.endDate;
+      if (currentFilters.branchId) params.branch_id = currentFilters.branchId;
+      if (currentFilters.day) params.day = currentFilters.day;
+      if (currentFilters.paymentStatus) params.payment_status = currentFilters.paymentStatus;
 
       const response = await appointmentBranchAdminApi.getAppointments(params);
 
@@ -360,12 +370,18 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
       if (currentFilters.startDate) {
         params.session_date = currentFilters.startDate;
+      } else if (currentFilters.day) {
+        params.session_date = currentFilters.day;
       } else if (view === 'today') {
         params.session_date = today;
       }
 
       if (currentFilters.doctorId) {
         params.doctor_id = currentFilters.doctorId;
+      }
+
+      if (currentFilters.branchId) {
+        params.branch_id = currentFilters.branchId;
       }
 
       const response = await patientSessionApi.getSessions(params);
@@ -420,6 +436,18 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       }
     } catch (err) {
       console.error('Failed to load specializations:', err);
+    }
+  }, []);
+
+  // Load branches
+  const loadBranches = useCallback(async () => {
+    try {
+      const response = await appointmentSuperAdminApi.getBranches();
+      if (response.status === 200) {
+        setBranches(response.branches);
+      }
+    } catch (err) {
+      console.error('Failed to load branches:', err);
     }
   }, []);
 
@@ -554,8 +582,9 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   useEffect(() => {
     loadDoctors();
     loadSpecializations();
+    loadBranches();
     loadCounts();
-  }, [loadDoctors, loadSpecializations, loadCounts]);
+  }, [loadDoctors, loadSpecializations, loadBranches, loadCounts]);
 
   useEffect(() => {
     if (activeView === 'audit') {
@@ -574,7 +603,10 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       filters.specialization !== '' ||
       filters.status !== '' ||
       filters.startDate !== '' ||
-      filters.endDate !== '';
+      filters.endDate !== '' ||
+      filters.branchId !== '' ||
+      filters.day !== '' ||
+      filters.paymentStatus !== '';
     setFiltersApplied(hasFilters);
   }, [filters]);
 
@@ -1274,9 +1306,19 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     if (filters.search) {
       badges.push({ key: 'search', label: 'Search', value: filters.search });
     }
+    if (filters.branchId) {
+      const branch = branches.find(b => b.id === filters.branchId);
+      badges.push({ key: 'branchId', label: 'Branch', value: branch?.name || filters.branchId });
+    }
+    if (filters.day) {
+      badges.push({ key: 'day', label: 'Day', value: filters.day });
+    }
+    if (filters.paymentStatus) {
+      badges.push({ key: 'paymentStatus', label: 'Payment Status', value: filters.paymentStatus });
+    }
 
     return badges;
-  }, [filters, doctors]);
+  }, [filters, doctors, branches]);
 
   // ============================================
   // Tab Configuration
@@ -1508,24 +1550,6 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                   </div>
                 </form>
 
-                {/* Filter Toggle Button */}
-                <button
-                  onClick={() => setShowFilters(!showFilters)}
-                  className={`flex items-center gap-2 px-4 py-2.5 rounded-lg border transition-all ${filtersApplied
-                    ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
-                    : 'bg-white border-neutral-200 text-neutral-600 hover:bg-neutral-50'
-                    }`}
-                >
-                  <FaFilter />
-                  <span>Filters</span>
-                  {filtersApplied && (
-                    <span className="bg-emerald-600 text-white text-xs px-2 py-0.5 rounded-full">
-                      {activeFilterBadges.length}
-                    </span>
-                  )}
-                  {showFilters ? <FaChevronUp className="w-3 h-3" /> : <FaChevronDown className="w-3 h-3" />}
-                </button>
-
                 {/* Clear All Filters */}
                 {filtersApplied && (
                   <button
@@ -1537,10 +1561,27 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                 )}
               </div>
 
-              {/* Expanded Filters */}
-              {showFilters && (
-                <div className="mt-4 pt-4 border-t border-gray-100">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {/* Filters */}
+              <div className="mt-4 pt-4 border-t border-gray-100">
+                <h3 className="text-lg font-semibold text-neutral-800 mb-4">Filter Appointments</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+                    {/* Branch Filter */}
+                    <div>
+                      <label className="block text-sm font-medium text-neutral-700 mb-1">Branch</label>
+                      <select
+                        value={filters.branchId}
+                        onChange={(e) => handleFilterChange('branchId', e.target.value)}
+                        className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                      >
+                        <option value="">All Branches</option>
+                        {branches.map(branch => (
+                          <option key={branch.id} value={branch.id}>
+                            {branch.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
                     {/* Doctor Filter */}
                     <div>
                       <label className="block text-sm font-medium text-neutral-700 mb-1">Doctor</label>
@@ -1587,8 +1628,34 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                       </select>
                     </div>
 
-                    {/* Date Range */}
+                    {/* Day Filter */}
                     <div>
+                      <label className="block text-sm font-medium text-neutral-700 mb-1">Day</label>
+                      <input
+                        type="date"
+                        value={filters.day}
+                        onChange={(e) => handleFilterChange('day', e.target.value)}
+                        className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                      />
+                    </div>
+
+                    {/* Payment Status Filter */}
+                    <div>
+                      <label className="block text-sm font-medium text-neutral-700 mb-1">Payment Status</label>
+                      <select
+                        value={filters.paymentStatus}
+                        onChange={(e) => handleFilterChange('paymentStatus', e.target.value)}
+                        className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                      >
+                        <option value="">All Payment Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="paid">Paid</option>
+                        <option value="waived">Waived</option>
+                      </select>
+                    </div>
+
+                    {/* Date Range */}
+                    <div className="xl:col-span-2">
                       <label className="block text-sm font-medium text-neutral-700 mb-1">Date Range</label>
                       <div className="flex gap-2">
                         <input
@@ -1609,7 +1676,6 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              )}
 
               {/* Active Filter Badges */}
               {activeFilterBadges.length > 0 && (

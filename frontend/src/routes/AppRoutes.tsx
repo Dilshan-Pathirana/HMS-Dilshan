@@ -913,7 +913,7 @@ const AppRoutes: React.FC = () => {
                     path="/super-admin/appointments"
                     element={
                         <ProtectedRoute allowedRoles={['super_admin']}>
-                            <SuperAdminAppointments />
+                            {withDashboardLayout(<SuperAdminAppointments />)}
                         </ProtectedRoute>
                     }
                 />
