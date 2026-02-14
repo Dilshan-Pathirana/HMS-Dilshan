@@ -166,7 +166,17 @@ export const SuperAdminMenuItems: MenuItem[] = [
     {
         label: 'Appointments',
         icon: <Calendar className="w-5 h-5" />,
-        path: '/super-admin/appointments'
+        path: '/super-admin/appointments',
+        children: [
+            {
+                label: 'All Appointments',
+                path: '/super-admin/appointments'
+            },
+            {
+                label: 'Appointment List',
+                path: '/super-admin/appointment-list'
+            }
+        ]
     },
     {
         label: 'Patient Profiles',
