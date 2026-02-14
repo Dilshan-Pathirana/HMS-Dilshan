@@ -1494,21 +1494,40 @@ export const appointmentBranchAdminApi = {
 
 export const appointmentSuperAdminApi = {
   // Get all appointments across branches
-  getAllAppointments: async (params?: {
-    date?: string;
-    branch_id?: string;
-    doctor_id?: string;
-    status?: string;
-    start_date?: string;
-    end_date?: string;
-    page?: number;
-    per_page?: number;
-  }): Promise<{
+  getAllAppointments: async (): Promise<{
     status: number;
     appointments: AppointmentBooking[];
-    pagination: { total: number; page: number; per_page: number; total_pages: number };
+    count: number;
   }> => {
-    return superAdminApi.get('/', { params });
+    const response = await superAdminApi.get('/');
+    const list = (response as any).data || [];
+
+    // Map backend data to frontend model using existing helper functions
+    const mapped = list.map((a: any) => ({
+      id: a.id,
+      patient_id: a.patient_id,
+      patient_name: a.patient_name,
+      doctor_id: a.doctor_id,
+      doctor_name: a.doctor_name,
+      branch_id: a.branch_id,
+      branch_name: a.branch_name,
+      appointment_date: a.appointment_date,
+      appointment_time: normalizeTimeHHMM(a.appointment_time),
+      status: mapBackendStatusToFrontend(a.status),
+      payment_status: mapBackendPaymentToFrontend(a.payment_status),
+      token_number: a.queue_number || 0,
+      created_at: a.created_at,
+      // Defaults for fields not in simplified view
+      slot_number: 0,
+      appointment_type: 'general',
+      booking_type: 'online'
+    }));
+
+    return {
+      status: 200,
+      appointments: mapped,
+      count: (response as any).count || 0
+    };
   },
 
   // Get global statistics
