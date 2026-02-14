@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { RefreshCw, AlertCircle, Calendar, Search, Filter, X } from "lucide-react";
 import { appointmentSuperAdminApi } from "../../../services/appointmentService";
 
@@ -47,6 +47,8 @@ const SuperAdminAppointments: React.FC = () => {
     const [count, setCount] = useState(0);
     const [branches, setBranches] = useState<Branch[]>([]);
     const [doctors, setDoctors] = useState<Doctor[]>([]);
+    const [loadingBranches, setLoadingBranches] = useState(false);
+    const [loadingDoctors, setLoadingDoctors] = useState(false);
 
     // Filter state
     const [filters, setFilters] = useState<Filters>({
@@ -76,27 +78,47 @@ const SuperAdminAppointments: React.FC = () => {
         }
     };
 
-    const loadBranches = useCallback(async () => {
+    const loadBranches = useCallback(async (showLoading = false) => {
         try {
+            if (showLoading) setLoadingBranches(true);
             const response = await appointmentSuperAdminApi.getBranches();
             if (response.status === 200) {
                 setBranches(response.branches);
             }
         } catch (err) {
             console.error('Failed to load branches:', err);
+        } finally {
+            if (showLoading) setLoadingBranches(false);
         }
     }, []);
 
-    const loadDoctors = useCallback(async () => {
+    const loadDoctors = useCallback(async (showLoading = false) => {
         try {
+            if (showLoading) setLoadingDoctors(true);
             const response = await appointmentSuperAdminApi.getAllDoctors();
             if (response.status === 200) {
                 setDoctors(response.doctors);
             }
         } catch (err) {
             console.error('Failed to load doctors:', err);
+        } finally {
+            if (showLoading) setLoadingDoctors(false);
         }
     }, []);
+
+    const refreshBranches = useCallback(() => {
+        loadBranches(true);
+    }, [loadBranches]);
+
+    const refreshDoctors = useCallback(() => {
+        loadDoctors(true);
+    }, [loadDoctors]);
+
+    const refreshAllData = useCallback(() => {
+        loadAppointments();
+        loadBranches(true);
+        loadDoctors(true);
+    }, [loadBranches, loadDoctors]);
 
     useEffect(() => {
         loadAppointments();
@@ -258,7 +280,7 @@ const SuperAdminAppointments: React.FC = () => {
 
                         {/* Refresh Button */}
                         <button
-                            onClick={loadAppointments}
+                            onClick={refreshAllData}
                             disabled={loading}
                             className="flex items-center gap-2 px-4 py-2 border border-neutral-300 rounded-lg bg-white hover:bg-neutral-50 transition-colors disabled:opacity-50"
                         >
@@ -275,24 +297,44 @@ const SuperAdminAppointments: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
                     {/* Branch Filter */}
                     <div>
-                        <label className="block text-sm font-medium text-neutral-700 mb-1">Branch</label>
-                        <select
-                            value={filters.branchId}
-                            onChange={(e) => handleFilterChange('branchId', e.target.value)}
-                            className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="block text-sm font-medium text-neutral-700">Branch</label>
+                        <button
+                          onClick={refreshBranches}
+                          disabled={loadingBranches}
+                          className="text-xs text-emerald-600 hover:text-emerald-700 disabled:opacity-50"
+                          title="Refresh branches"
                         >
-                            <option value="">All Branches</option>
-                            {branches.map(branch => (
-                                <option key={branch.id} value={branch.id}>
-                                    {branch.name}
-                                </option>
-                            ))}
-                        </select>
+                          {loadingBranches ? '⟳' : '↻'}
+                        </button>
+                      </div>
+                      <select
+                        value={filters.branchId}
+                        onChange={(e) => handleFilterChange('branchId', e.target.value)}
+                        className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
+                      >
+                        <option value="">All Branches</option>
+                        {branches.map(branch => (
+                          <option key={branch.id} value={branch.id}>
+                            {branch.name}
+                          </option>
+                        ))}
+                      </select>
                     </div>
 
                     {/* Doctor Filter */}
                     <div>
-                        <label className="block text-sm font-medium text-neutral-700 mb-1">Doctor</label>
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="block text-sm font-medium text-neutral-700">Doctor</label>
+                        <button
+                          onClick={refreshDoctors}
+                          disabled={loadingDoctors}
+                          className="text-xs text-emerald-600 hover:text-emerald-700 disabled:opacity-50"
+                          title="Refresh doctors"
+                        >
+                          {loadingDoctors ? '⟳' : '↻'}
+                        </button>
+                      </div>
                         <select
                             value={filters.doctorId}
                             onChange={(e) => handleFilterChange('doctorId', e.target.value)}

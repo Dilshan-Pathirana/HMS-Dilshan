@@ -160,6 +160,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [counts, setCounts] = useState<AppointmentCounts>({ today: 0, upcoming: 0, past: 0 });
+  const [loadingDoctors, setLoadingDoctors] = useState(false);
+  const [loadingBranches, setLoadingBranches] = useState(false);
 
   // Filter state
   const [filters, setFilters] = useState<Filters>(initialFilters);
@@ -416,7 +418,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   }, []);
 
   // Load doctors
-  const loadDoctors = useCallback(async () => {
+  const loadDoctors = useCallback(async (showLoading = false) => {
+    if (showLoading) setLoadingDoctors(true);
     try {
       const response = await appointmentBranchAdminApi.getDoctors();
       if (response.status === 200) {
@@ -424,6 +427,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       }
     } catch (err) {
       console.error('Failed to load doctors:', err);
+    } finally {
+      if (showLoading) setLoadingDoctors(false);
     }
   }, []);
 
@@ -440,7 +445,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   }, []);
 
   // Load branches
-  const loadBranches = useCallback(async () => {
+  const loadBranches = useCallback(async (showLoading = false) => {
+    if (showLoading) setLoadingBranches(true);
     try {
       const response = await appointmentSuperAdminApi.getBranches();
       if (response.status === 200) {
@@ -448,10 +454,38 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       }
     } catch (err) {
       console.error('Failed to load branches:', err);
+      // Fallback: if super admin API fails, try to get current user's branch
+      try {
+        const userInfo = JSON.parse(localStorage.getItem('user') || '{}');
+        if (userInfo.branch) {
+          setBranches([{
+            id: userInfo.branch.id,
+            name: userInfo.branch.name
+          }]);
+        }
+      } catch (fallbackErr) {
+        console.error('Fallback branch loading failed:', fallbackErr);
+      }
+    } finally {
+      if (showLoading) setLoadingBranches(false);
     }
   }, []);
 
-  // Load audit logs
+  // Refresh functions
+  const refreshDoctors = useCallback(() => {
+    loadDoctors(true);
+  }, [loadDoctors]);
+
+  const refreshBranches = useCallback(() => {
+    loadBranches(true);
+  }, [loadBranches]);
+
+  const refreshAllData = useCallback(() => {
+    loadDoctors(true);
+    loadBranches(true);
+    loadSpecializations();
+    loadCounts();
+  }, [loadDoctors, loadBranches, loadSpecializations, loadCounts]);
   const loadAuditLogs = useCallback(async (page: number = 1, currentFilters: AuditLogFilters = auditLogFilters) => {
     try {
       setAuditLogsLoading(true);
@@ -1567,7 +1601,17 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
                     {/* Branch Filter */}
                     <div>
-                      <label className="block text-sm font-medium text-neutral-700 mb-1">Branch</label>
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="block text-sm font-medium text-neutral-700">Branch</label>
+                        <button
+                          onClick={refreshBranches}
+                          disabled={loadingBranches}
+                          className="text-xs text-emerald-600 hover:text-emerald-700 disabled:opacity-50"
+                          title="Refresh branches"
+                        >
+                          {loadingBranches ? '⟳' : '↻'}
+                        </button>
+                      </div>
                       <select
                         value={filters.branchId}
                         onChange={(e) => handleFilterChange('branchId', e.target.value)}
@@ -1584,7 +1628,17 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
                     {/* Doctor Filter */}
                     <div>
-                      <label className="block text-sm font-medium text-neutral-700 mb-1">Doctor</label>
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="block text-sm font-medium text-neutral-700">Doctor</label>
+                        <button
+                          onClick={refreshDoctors}
+                          disabled={loadingDoctors}
+                          className="text-xs text-emerald-600 hover:text-emerald-700 disabled:opacity-50"
+                          title="Refresh doctors"
+                        >
+                          {loadingDoctors ? '⟳' : '↻'}
+                        </button>
+                      </div>
                       <select
                         value={filters.doctorId}
                         onChange={(e) => handleFilterChange('doctorId', e.target.value)}
