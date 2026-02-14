@@ -19,7 +19,8 @@ export const getNotificationsByRole = async (
             endpoint = `/notifications/admin/${userId}`;
             break;
         case 2: // Branch Admin
-            endpoint = `/notifications/branch-admin/${userId}`;
+            // FIXED: Match backend endpoint /api/v1/branch-admin/notifications/{user_id}
+            endpoint = `/branch-admin/notifications/${userId}`;
             break;
         case 3: // Doctor
             endpoint = `/notifications/doctor/${userId}`;
@@ -74,36 +75,11 @@ export const markNotificationAsRead = async (
     notificationId: string,
     userRole: number,
 ): Promise<boolean> => {
-    let endpoint = "";
-
-    switch (userRole) {
-        case 1: // Super Admin
-            endpoint = `/notifications/admin/mark-read`;
-            break;
-        case 2: // Branch Admin
-            endpoint = `/notifications/branch-admin/mark-read`;
-            break;
-        case 3: // Doctor
-            endpoint = `/notifications/doctor/mark-read`;
-            break;
-        case 4: // Nurse
-            endpoint = `/notifications/nurse/mark-read`;
-            break;
-        case 5: // Patient
-            endpoint = `/notifications/patient/mark-read`;
-            break;
-        case 6: // Cashier
-            endpoint = `/notifications/cashier/mark-read`;
-            break;
-        case 7: // Pharmacist
-            endpoint = `/notifications/pharmacist/mark-read`;
-            break;
-        default:
-            return false;
-    }
+    // FIXED: Use generic endpoint for all roles as backend supports it at /api/v1/notifications/{id}/read
+    const endpoint = `/notifications/${notificationId}/read`;
 
     try {
-        await api.post(endpoint, { notification_ids: [notificationId] });
+        await api.put(endpoint);
         return true;
     } catch {
         return false;

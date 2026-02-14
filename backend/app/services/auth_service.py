@@ -32,6 +32,8 @@ class AuthService:
             subject=user_id,
             expires_delta=timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
         )
+        # DEBUG LOGGING for session timeout verification
+        print(f"DEBUG: AuthService creating access token. User: {user_id}. Timeout: {settings.ACCESS_TOKEN_EXPIRE_MINUTES} mins", flush=True)
         refresh_expire = datetime.now(timezone.utc) + timedelta(days=7)
         refresh_payload = {"sub": user_id, "exp": refresh_expire, "jti": jti, "type": "refresh"}
         refresh_token = pyjwt.encode(refresh_payload, settings.SECRET_KEY, algorithm=settings.ALGORITHM)

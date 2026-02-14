@@ -82,8 +82,11 @@ const PatientSessionsList: React.FC = () => {
         }
     };
 
+    const [error, setError] = useState<string | null>(null);
+
     const fetchSessions = async () => {
         setLoading(true);
+        setError(null);
         try {
             const params: Record<string, string> = {};
             if (filters.branch_id) params.branch_id = filters.branch_id;
@@ -92,7 +95,9 @@ const PatientSessionsList: React.FC = () => {
 
             const response: any = await api.get("/sessions", { params });
             setSessions(Array.isArray(response) ? response : []);
-        } catch {
+        } catch (err: any) {
+            console.error("Failed to load sessions:", err);
+            setError(err.response?.data?.message || err.response?.data?.detail || "Failed to load sessions");
             setSessions([]);
         } finally {
             setLoading(false);
@@ -195,6 +200,8 @@ const PatientSessionsList: React.FC = () => {
             <div className="bg-white rounded-2xl border border-neutral-200 overflow-x-auto">
                 {loading ? (
                     <div className="p-6 text-sm text-neutral-500">Loading sessions...</div>
+                ) : error ? (
+                    <div className="p-6 text-sm text-red-500">{error}</div>
                 ) : sessions.length === 0 ? (
                     <div className="p-6 text-sm text-neutral-500">No sessions found for the current filters.</div>
                 ) : (

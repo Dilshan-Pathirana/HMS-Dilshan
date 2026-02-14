@@ -90,6 +90,9 @@ def _create_token_pair(user_id: str) -> dict:
     """Return access + refresh token pair."""
     jti = _make_jti()
     access_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    # DEBUG LOGGING for session timeout verification
+    print(f"DEBUG: Creating access token for user {user_id}. Expires in {settings.ACCESS_TOKEN_EXPIRE_MINUTES} minutes. Exp timestamp: {access_expires}", flush=True)
+
     access_token = create_access_token(subject=user_id, expires_delta=access_expires)
 
     # Refresh token — longer lived (7 days)

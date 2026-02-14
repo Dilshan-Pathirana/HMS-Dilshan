@@ -133,7 +133,7 @@ const AppointmentWizard: React.FC = () => {
 
   // Step 2: Branch & Date Selection
   const [selectedBranch, setSelectedBranch] = useState<string>('');
-  const [selectedSchedule, setSelectedSchedule] = useState<DoctorSchedule | null>(null);
+  const [selectedSchedules, setSelectedSchedules] = useState<DoctorSchedule[]>([]);
   const [selectedDate, setSelectedDate] = useState<string>('');
   const maxAdvanceBookingDays = 30; // Max days patients can book in advance
 
@@ -298,7 +298,7 @@ const AppointmentWizard: React.FC = () => {
   const handleSelectDoctor = (doctor: Doctor) => {
     setSelectedDoctor(doctor);
     setSelectedBranch('');
-    setSelectedSchedule(null);
+    setSelectedSchedules([]);
     setSelectedDate('');
     setCurrentStep(2);
   };
@@ -306,8 +306,9 @@ const AppointmentWizard: React.FC = () => {
   // Handle branch selection
   const handleBranchSelect = (branchId: string) => {
     setSelectedBranch(branchId);
-    const schedule = selectedDoctor?.schedules.find(s => s.branch_id === branchId);
-    setSelectedSchedule(schedule || null);
+    if (!selectedDoctor) return;
+    const schedules = selectedDoctor.schedules.filter(s => s.branch_id === branchId);
+    setSelectedSchedules(schedules);
     setSelectedDate('');
     setAvailabilityData(null);
     setSelectedSlots([]);
@@ -561,7 +562,7 @@ const AppointmentWizard: React.FC = () => {
     setCurrentStep(1);
     setSelectedDoctor(null);
     setSelectedBranch('');
-    setSelectedSchedule(null);
+    setSelectedSchedules([]);
     setSelectedDate('');
     setAvailabilityData(null);
     setSelectedSlots([]);
@@ -573,18 +574,21 @@ const AppointmentWizard: React.FC = () => {
 
   // Generate available dates for the next N days
   const getAvailableDates = () => {
-    if (!selectedSchedule) return [];
+    if (selectedSchedules.length === 0) return [];
 
     const dates: { date: string; day: string; label: string }[] = [];
     const today = new Date();
-    const scheduleDay = selectedSchedule.schedule_day;
+
+    // Get all valid days from all schedules for this branch
+    const validDays = new Set(selectedSchedules.map(s => s.schedule_day));
+    const isDaily = validDays.has('Daily') || validDays.has('daily');
 
     for (let i = 0; i < maxAdvanceBookingDays; i++) {
       const date = new Date(today);
       date.setDate(today.getDate() + i);
       const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
 
-      if (dayName === scheduleDay) {
+      if (isDaily || validDays.has(dayName)) {
         dates.push({
           date: formatDateLocal(date),
           day: dayName,
@@ -612,11 +616,10 @@ const AppointmentWizard: React.FC = () => {
         <React.Fragment key={item.step}>
           <div className="flex flex-col items-center">
             <div
-              className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
-                currentStep >= item.step
-                  ? 'bg-indigo-600 text-white'
-                  : 'bg-neutral-200 text-neutral-400'
-              } ${currentStep === item.step ? 'ring-4 ring-indigo-200' : ''}`}
+              className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${currentStep >= item.step
+                ? 'bg-indigo-600 text-white'
+                : 'bg-neutral-200 text-neutral-400'
+                } ${currentStep === item.step ? 'ring-4 ring-indigo-200' : ''}`}
             >
               {bookingConfirmed && item.step === 4 ? (
                 <FaCheck className="text-xl" />
@@ -625,18 +628,16 @@ const AppointmentWizard: React.FC = () => {
               )}
             </div>
             <span
-              className={`mt-2 text-sm font-medium ${
-                currentStep >= item.step ? 'text-indigo-600' : 'text-neutral-400'
-              }`}
+              className={`mt-2 text-sm font-medium ${currentStep >= item.step ? 'text-indigo-600' : 'text-neutral-400'
+                }`}
             >
               {item.label}
             </span>
           </div>
           {index < 3 && (
             <div
-              className={`flex-1 h-1 mx-2 rounded ${
-                currentStep > item.step ? 'bg-indigo-600' : 'bg-neutral-200'
-              }`}
+              className={`flex-1 h-1 mx-2 rounded ${currentStep > item.step ? 'bg-indigo-600' : 'bg-neutral-200'
+                }`}
             />
           )}
         </React.Fragment>
@@ -867,11 +868,10 @@ const AppointmentWizard: React.FC = () => {
                                 return (
                                   <span
                                     key={schedule.schedule_id}
-                                    className={`inline-flex items-center px-2 py-1 rounded-full text-xs ${
-                                      isPatientBranch
-                                        ? 'bg-green-100 text-green-700 font-medium'
-                                        : 'bg-neutral-100 text-neutral-600'
-                                    }`}
+                                    className={`inline-flex items-center px-2 py-1 rounded-full text-xs ${isPatientBranch
+                                      ? 'bg-green-100 text-green-700 font-medium'
+                                      : 'bg-neutral-100 text-neutral-600'
+                                      }`}
                                   >
                                     <FaHospital className="mr-1" />
                                     {schedule.branch_name}
@@ -936,38 +936,45 @@ const AppointmentWizard: React.FC = () => {
                       (schedule, index, self) =>
                         index === self.findIndex((s) => s.branch_id === schedule.branch_id)
                     )
-                    .map((schedule) => (
-                      <div
-                        key={schedule.branch_id}
-                        className={`border rounded-lg p-4 cursor-pointer transition-all ${
-                          selectedBranch === schedule.branch_id
+                    .map((schedule) => {
+                      const branchSchedules = selectedDoctor.schedules.filter(
+                        (s) => s.branch_id === schedule.branch_id
+                      );
+                      const daysText = branchSchedules
+                        .map((s) => s.schedule_day + (s.start_time ? ` (${s.start_time}-${s.end_time})` : ''))
+                        .join(', ');
+
+                      return (
+                        <div
+                          key={schedule.branch_id}
+                          className={`border rounded-lg p-4 cursor-pointer transition-all ${selectedBranch === schedule.branch_id
                             ? 'border-indigo-500 bg-indigo-50 ring-2 ring-indigo-200'
                             : 'border-neutral-200 hover:border-indigo-300'
-                        }`}
-                        onClick={() => handleBranchSelect(schedule.branch_id)}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center">
-                            <FaHospital className="text-neutral-400 mr-3" />
-                            <div>
-                              <p className="font-medium text-neutral-800">{schedule.branch_name}</p>
-                              <p className="text-sm text-neutral-500">
-                                Available on {schedule.schedule_day}s • {schedule.start_time} -{' '}
-                                {schedule.end_time}
-                              </p>
+                            }`}
+                          onClick={() => handleBranchSelect(schedule.branch_id)}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center">
+                              <FaHospital className="text-neutral-400 mr-3" />
+                              <div>
+                                <p className="font-medium text-neutral-800">{schedule.branch_name}</p>
+                                <p className="text-sm text-neutral-500">
+                                  Available: <span className="font-medium text-indigo-600">{daysText}</span>
+                                </p>
+                              </div>
                             </div>
+                            {selectedBranch === schedule.branch_id && (
+                              <FaCheck className="text-indigo-600" />
+                            )}
                           </div>
-                          {selectedBranch === schedule.branch_id && (
-                            <FaCheck className="text-indigo-600" />
-                          )}
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                 </div>
               </div>
 
               {/* Date Selection */}
-              {selectedSchedule && (
+              {selectedSchedules.length > 0 && (
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-neutral-700 mb-2">
                     Select Date
@@ -975,7 +982,8 @@ const AppointmentWizard: React.FC = () => {
                   <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4 flex items-start">
                     <FaInfoCircle className="text-yellow-600 mr-2 mt-0.5 flex-shrink-0" />
                     <p className="text-sm text-yellow-800">
-                      Dr. {selectedDoctor.full_name} is available on {selectedSchedule.schedule_day}s.
+                      Dr. {selectedDoctor.full_name} is available on{' '}
+                      {Array.from(new Set(selectedSchedules.map((s) => s.schedule_day))).join(', ')}s.
                       You can book up to {maxAdvanceBookingDays} days in advance.
                     </p>
                   </div>
@@ -983,11 +991,10 @@ const AppointmentWizard: React.FC = () => {
                     {getAvailableDates().map((dateInfo) => (
                       <button
                         key={dateInfo.date}
-                        className={`p-3 rounded-lg text-center transition-all ${
-                          selectedDate === dateInfo.date
-                            ? 'bg-indigo-600 text-white'
-                            : 'bg-neutral-100 hover:bg-indigo-100 text-neutral-700'
-                        }`}
+                        className={`p-3 rounded-lg text-center transition-all ${selectedDate === dateInfo.date
+                          ? 'bg-indigo-600 text-white'
+                          : 'bg-neutral-100 hover:bg-indigo-100 text-neutral-700'
+                          }`}
                         onClick={() => handleDateSelect(dateInfo.date)}
                       >
                         <p className="font-medium">{dateInfo.label}</p>
@@ -1031,14 +1038,14 @@ const AppointmentWizard: React.FC = () => {
 
                   {/* Multi-slot info banner */}
                   {!dailyLimitReached && (
-                  <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-3 mb-4 flex items-start">
-                    <FaInfoCircle className="text-indigo-600 mr-2 mt-0.5 flex-shrink-0" />
-                    <p className="text-sm text-indigo-800">
-                      <strong>Multi-slot booking:</strong> You can select up to {Math.max(0, DAILY_LIMIT - dailyBookingCount)} slot(s) today.
-                      {dailyBookingCount > 0 && ` (${dailyBookingCount} already booked)`}
-                      {' '}Each slot costs Rs. {bookingFeePerSlot.toFixed(2)}. Click a slot to select/deselect.
-                    </p>
-                  </div>
+                    <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-3 mb-4 flex items-start">
+                      <FaInfoCircle className="text-indigo-600 mr-2 mt-0.5 flex-shrink-0" />
+                      <p className="text-sm text-indigo-800">
+                        <strong>Multi-slot booking:</strong> You can select up to {Math.max(0, DAILY_LIMIT - dailyBookingCount)} slot(s) today.
+                        {dailyBookingCount > 0 && ` (${dailyBookingCount} already booked)`}
+                        {' '}Each slot costs Rs. {bookingFeePerSlot.toFixed(2)}. Click a slot to select/deselect.
+                      </p>
+                    </div>
                   )}
 
                   <div className="bg-neutral-50 rounded-lg p-4">
@@ -1050,23 +1057,22 @@ const AppointmentWizard: React.FC = () => {
                         </p>
                       </div>
                       <div
-                        className={`px-3 py-1 rounded-full text-sm font-medium ${
-                          availabilityData.summary.total_slots === 0
-                            ? 'bg-neutral-200 text-neutral-600'
-                            : availabilityData.summary.available === 0
+                        className={`px-3 py-1 rounded-full text-sm font-medium ${availabilityData.summary.total_slots === 0
+                          ? 'bg-neutral-200 text-neutral-600'
+                          : availabilityData.summary.available === 0
                             ? 'bg-error-100 text-red-700'
                             : availabilityData.summary.available <= 3
-                            ? 'bg-yellow-100 text-yellow-700'
-                            : 'bg-green-100 text-green-700'
-                        }`}
+                              ? 'bg-yellow-100 text-yellow-700'
+                              : 'bg-green-100 text-green-700'
+                          }`}
                       >
                         {availabilityData.summary.total_slots === 0
                           ? 'No Slots'
                           : availabilityData.summary.available === 0
-                          ? 'Full'
-                          : availabilityData.summary.available <= 3
-                          ? 'Nearly Full'
-                          : 'Available'}
+                            ? 'Full'
+                            : availabilityData.summary.available <= 3
+                              ? 'Nearly Full'
+                              : 'Available'}
                       </div>
                     </div>
 
@@ -1088,13 +1094,12 @@ const AppointmentWizard: React.FC = () => {
                                 key={slot.slot_number}
                                 disabled={!slot.is_available || isMaxReached}
                                 onClick={() => handleSlotSelect(slot)}
-                                className={`p-3 rounded-lg text-center transition-all ${
-                                  isSelected
-                                    ? 'bg-indigo-600 text-white border-2 border-indigo-700 ring-2 ring-indigo-300'
-                                    : slot.is_available && !isMaxReached
+                                className={`p-3 rounded-lg text-center transition-all ${isSelected
+                                  ? 'bg-indigo-600 text-white border-2 border-indigo-700 ring-2 ring-indigo-300'
+                                  : slot.is_available && !isMaxReached
                                     ? 'bg-white border-2 border-green-200 hover:border-green-500 hover:shadow cursor-pointer'
                                     : 'bg-neutral-200 text-neutral-400 cursor-not-allowed'
-                                }`}
+                                  }`}
                               >
                                 <p className="font-bold text-lg">#{slot.slot_number}</p>
                                 <p className="text-xs">{slot.estimated_time}</p>
@@ -1183,7 +1188,7 @@ const AppointmentWizard: React.FC = () => {
                   </div>
                   <div>
                     <span className="text-sm text-neutral-500">Branch</span>
-                    <p className="font-medium text-neutral-800">{selectedSchedule?.branch_name}</p>
+                    <p className="font-medium text-neutral-800">{selectedSchedules[0]?.branch_name}</p>
                   </div>
                   <div>
                     <span className="text-sm text-neutral-500">Date</span>
@@ -1309,18 +1314,16 @@ const AppointmentWizard: React.FC = () => {
                 {/* Pay at Clinic - Only for Staff Users (Super Admin, Branch Admin, Receptionist) */}
                 {isStaffUser && (
                   <div
-                    className={`border rounded-lg p-4 cursor-pointer transition-all ${
-                      paymentMethod === 'cash'
-                        ? 'border-indigo-500 bg-indigo-50 ring-2 ring-indigo-200'
-                        : 'border-neutral-200 hover:border-indigo-300'
-                    }`}
+                    className={`border rounded-lg p-4 cursor-pointer transition-all ${paymentMethod === 'cash'
+                      ? 'border-indigo-500 bg-indigo-50 ring-2 ring-indigo-200'
+                      : 'border-neutral-200 hover:border-indigo-300'
+                      }`}
                     onClick={() => setPaymentMethod('cash')}
                   >
                     <div className="flex items-center">
                       <div
-                        className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${
-                          paymentMethod === 'cash' ? 'border-indigo-600' : 'border-neutral-300'
-                        }`}
+                        className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${paymentMethod === 'cash' ? 'border-indigo-600' : 'border-neutral-300'
+                          }`}
                       >
                         {paymentMethod === 'cash' && (
                           <div className="w-3 h-3 rounded-full bg-indigo-600"></div>
@@ -1337,18 +1340,16 @@ const AppointmentWizard: React.FC = () => {
 
                 {/* PayHere Online Payment */}
                 <div
-                  className={`border rounded-lg p-4 cursor-pointer transition-all ${
-                    paymentMethod === 'payhere'
-                      ? 'border-indigo-500 bg-indigo-50 ring-2 ring-indigo-200'
-                      : 'border-neutral-200 hover:border-indigo-300'
-                  }`}
+                  className={`border rounded-lg p-4 cursor-pointer transition-all ${paymentMethod === 'payhere'
+                    ? 'border-indigo-500 bg-indigo-50 ring-2 ring-indigo-200'
+                    : 'border-neutral-200 hover:border-indigo-300'
+                    }`}
                   onClick={() => setPaymentMethod('payhere')}
                 >
                   <div className="flex items-center">
                     <div
-                      className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${
-                        paymentMethod === 'payhere' ? 'border-indigo-600' : 'border-neutral-300'
-                      }`}
+                      className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${paymentMethod === 'payhere' ? 'border-indigo-600' : 'border-neutral-300'
+                        }`}
                     >
                       {paymentMethod === 'payhere' && (
                         <div className="w-3 h-3 rounded-full bg-indigo-600"></div>
