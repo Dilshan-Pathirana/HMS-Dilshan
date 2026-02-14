@@ -351,6 +351,9 @@ async def list_sessions(
         if session_date:
             sessions_q = sessions_q.where(ScheduleSession.session_date == session_date)
 
+        # DEBUG: Branch Admin Session Visibility
+        print(f"DEBUG: list_sessions | User: {current_user.id} ({current_user.role_as}) | Branch: {branch_id} | Doctor: {doctor_id} | Date: {session_date}", flush=True)
+        
         sessions_res = await session.exec(
             sessions_q.order_by(col(ScheduleSession.session_date), col(ScheduleSession.start_time))
         )
