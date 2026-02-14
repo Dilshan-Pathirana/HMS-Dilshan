@@ -64,23 +64,23 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
       setError(null);
 
       const params: { status?: string; from_date?: string } = {};
-      
+
       if (filter === 'upcoming') {
         params.from_date = new Date().toISOString().split('T')[0];
       }
 
       const response = await appointmentPatientApi.getMyAppointments(params);
-      
+
       if (response.status === 200) {
         let filteredAppointments = response.appointments;
-        
+
         if (filter === 'past') {
           const today = new Date().toISOString().split('T')[0];
           filteredAppointments = response.appointments.filter(
             (apt) => apt.appointment_date < today || apt.status === 'completed' || apt.status === 'cancelled'
           );
         }
-        
+
         setAppointments(filteredAppointments);
       }
     } catch (err) {
@@ -103,11 +103,11 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
     try {
       setActionLoading(true);
       const response = await appointmentPatientApi.cancelAppointment(
-        selectedAppointment.id, 
+        selectedAppointment.id,
         cancelReason,
         true // confirmed flag - patient has explicitly confirmed
       );
-      
+
       if (response.status === 200) {
         setShowCancelModal(false);
         setCancelReason('');
@@ -137,7 +137,7 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
     try {
       const response = await appointmentPatientApi.getRescheduleEligibility(appointment.id);
       setRescheduleEligibility(response);
-      
+
       if (response.can_reschedule) {
         setRescheduleStep('select');
       } else {
@@ -259,7 +259,7 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
     setConfirmReschedule(false);
     setAvailableSlots([]);
     setRescheduleSuccess(null);
-    
+
     // Reload appointments if successful
     if (rescheduleSuccess) {
       loadAppointments();
@@ -391,7 +391,7 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                       #{appointment.token_number}
                     </span>
                   </div>
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
                     <div className="flex items-center text-neutral-600">
                       <FaUser className="mr-2 text-neutral-400" />
@@ -429,7 +429,7 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                   >
                     <FaEye />
                   </button>
-                  
+
                   {canReschedule(appointment) && (
                     <button
                       className="p-2 text-neutral-500 hover:text-primary-500 hover:bg-blue-50 rounded-lg transition-colors"
@@ -439,7 +439,7 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                       <FaRedo />
                     </button>
                   )}
-                  
+
                   {canCancel(appointment) && (
                     <button
                       className="p-2 text-neutral-500 hover:text-error-600 hover:bg-error-50 rounded-lg transition-colors"
@@ -488,9 +488,9 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                 <FaExclamationTriangle className="text-error-600 text-3xl" />
               </div>
             </div>
-            
+
             <h3 className="text-xl font-bold text-red-700 text-center mb-2">Cancel Appointment</h3>
-            
+
             {/* Strong Warning Message */}
             <div className="bg-error-50 border-2 border-red-300 rounded-lg p-4 mb-4">
               <p className="text-red-800 text-center font-medium">
@@ -734,7 +734,7 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                 {rescheduleEligibility.is_admin_cancelled && (
                   <div className="bg-amber-50 border-2 border-amber-300 rounded-lg p-3 mb-4">
                     <p className="text-amber-800 text-sm">
-                      <strong>ℹ️ Doctor-Cancelled Appointment:</strong> This appointment was cancelled by the branch on doctor's request. 
+                      <strong>ℹ️ Doctor-Cancelled Appointment:</strong> This appointment was cancelled by the branch on doctor's request.
                       You have <strong>{rescheduleEligibility.remaining_attempts}</strong> reschedule attempts available.
                     </p>
                   </div>
@@ -797,7 +797,7 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                     <label className="block text-sm font-medium text-neutral-700 mb-2">
                       Select Time Slot <span className="text-error-500">*</span>
                     </label>
-                    
+
                     {loadingSlots ? (
                       <div className="text-center py-4">
                         <div className="animate-spin w-6 h-6 border-2 border-primary-500 border-t-transparent rounded-full mx-auto"></div>
@@ -819,7 +819,7 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                                 ? 'bg-primary-500 text-white border-primary-500'
                                 : 'bg-white text-neutral-700 border-neutral-300 hover:border-blue-400 hover:bg-blue-50'
                             }`}
-                            onClick={() => slot.available && setRescheduleSlot(slot.slot_number)}
+                            onClick={() => slot.available && setRescheduleSlot(slot.slot_number || null)}
                             disabled={!slot.available}
                           >
                             {slot.time}

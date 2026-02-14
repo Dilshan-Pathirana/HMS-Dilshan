@@ -41,7 +41,7 @@ const DoctorAppointments: React.FC = () => {
     try {
       setLoading(true);
       const response = await appointmentDoctorApi.getTodaysQueue();
-      
+
       if (response.status === 200) {
         setQueue(response.queue || []);
         setCurrentPatient(response.current_patient || null);
@@ -65,7 +65,7 @@ const DoctorAppointments: React.FC = () => {
     try {
       setLoading(true);
       const params: { date?: string; status?: string } = {};
-      
+
       if (filterDate) {
         params.date = filterDate;
       }
@@ -74,7 +74,7 @@ const DoctorAppointments: React.FC = () => {
       }
 
       const response = await appointmentDoctorApi.getAppointments(params);
-      
+
       if (response.status === 200) {
         setAppointments(response.appointments);
       }
@@ -91,7 +91,7 @@ const DoctorAppointments: React.FC = () => {
     try {
       setLoading(true);
       const response = await appointmentDoctorApi.getStatistics();
-      
+
       if (response.status === 200) {
         setStatistics(response.statistics);
       }
@@ -120,7 +120,7 @@ const DoctorAppointments: React.FC = () => {
     try {
       setActionLoading(bookingId);
       const response = await appointmentDoctorApi.checkInPatient(bookingId);
-      
+
       if (response.status === 200) {
         loadQueue();
       }
@@ -135,7 +135,7 @@ const DoctorAppointments: React.FC = () => {
     try {
       setActionLoading(bookingId);
       const response = await appointmentDoctorApi.startSession(bookingId);
-      
+
       if (response.status === 200) {
         loadQueue();
       }
@@ -150,7 +150,7 @@ const DoctorAppointments: React.FC = () => {
     try {
       setActionLoading(bookingId);
       const response = await appointmentDoctorApi.completeConsultation(bookingId);
-      
+
       if (response.status === 200) {
         loadQueue();
       }
@@ -165,7 +165,7 @@ const DoctorAppointments: React.FC = () => {
     try {
       setActionLoading(bookingId);
       const response = await appointmentDoctorApi.markNoShow(bookingId);
-      
+
       if (response.status === 200) {
         loadQueue();
       }
@@ -374,7 +374,7 @@ const DoctorAppointments: React.FC = () => {
                           </button>
                         </>
                       )}
-                      
+
                       {appointment.status === 'checked_in' && (
                         <button
                           className="px-3 py-1.5 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-sm flex items-center"
@@ -499,19 +499,19 @@ const DoctorAppointments: React.FC = () => {
                 <h3 className="text-lg font-semibold text-neutral-800 mb-4">Today's Overview</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="text-center p-4 bg-indigo-50 rounded-lg">
-                    <p className="text-2xl font-bold text-indigo-600">{statistics.today.total}</p>
+                    <p className="text-2xl font-bold text-indigo-600">{statistics.today?.total || 0}</p>
                     <p className="text-sm text-neutral-600">Total</p>
                   </div>
                   <div className="text-center p-4 bg-blue-50 rounded-lg">
-                    <p className="text-2xl font-bold text-primary-500">{statistics.today.confirmed}</p>
+                    <p className="text-2xl font-bold text-primary-500">{statistics.today?.confirmed || 0}</p>
                     <p className="text-sm text-neutral-600">Confirmed</p>
                   </div>
                   <div className="text-center p-4 bg-green-50 rounded-lg">
-                    <p className="text-2xl font-bold text-green-600">{statistics.today.completed}</p>
+                    <p className="text-2xl font-bold text-green-600">{statistics.today?.completed || 0}</p>
                     <p className="text-sm text-neutral-600">Completed</p>
                   </div>
                   <div className="text-center p-4 bg-error-50 rounded-lg">
-                    <p className="text-2xl font-bold text-error-600">{statistics.today.cancelled}</p>
+                    <p className="text-2xl font-bold text-error-600">{statistics.today?.cancelled || 0}</p>
                     <p className="text-sm text-neutral-600">Cancelled</p>
                   </div>
                 </div>

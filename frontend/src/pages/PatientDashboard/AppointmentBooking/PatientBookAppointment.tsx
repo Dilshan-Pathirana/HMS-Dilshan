@@ -44,7 +44,7 @@ const PatientBookAppointment: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<BookingStep>('search');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   // Data State
   const [branches, setBranches] = useState<Branch[]>([]);
   const [specializations, setSpecializations] = useState<string[]>([]);
@@ -66,7 +66,7 @@ const PatientBookAppointment: React.FC = () => {
         appointmentPublicApi.getBranches(),
         appointmentPublicApi.getSpecializations(),
       ]);
-      
+
       if (branchesRes.status === 200) {
         setBranches(branchesRes.branches);
       }
@@ -86,13 +86,13 @@ const PatientBookAppointment: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      
+
       const response = await appointmentPublicApi.searchDoctors({
         branch_id: booking.selectedBranch || undefined,
         specialization: booking.selectedSpecialization || undefined,
         doctor_name: booking.searchQuery || undefined,
       });
-      
+
       if (response.status === 200) {
         setDoctors(response.doctors);
         if (response.doctors.length === 0) {
@@ -112,14 +112,14 @@ const PatientBookAppointment: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      
+
       const branchId = booking.selectedBranch || doctor.branch_id || '';
-      
-      const response = await appointmentPublicApi.getAvailableSlots(doctor.doctor_id, {
+
+      const response = await appointmentPublicApi.getAvailableSlots(doctor.doctor_id || '', {
         branch_id: branchId,
         days: 14,
       });
-      
+
       if (response.status === 200) {
         setAvailableDays(response.available_days);
         setBooking(prev => ({ ...prev, selectedDoctor: doctor }));
@@ -154,9 +154,9 @@ const PatientBookAppointment: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      
+
       const branchId = booking.selectedBranch || booking.selectedDoctor.branch_id || '';
-      
+
       const response = await appointmentPatientApi.createBooking({
         doctor_id: booking.selectedDoctor.doctor_id,
         branch_id: branchId,
@@ -166,11 +166,11 @@ const PatientBookAppointment: React.FC = () => {
         notes: booking.notes,
         payment_method: booking.paymentMethod,
       });
-      
+
       if (response.status === 201 || response.status === 200) {
         setCreatedBooking(response.booking);
         setRequiresPayment(response.requires_payment);
-        
+
         if (response.requires_payment) {
           setCurrentStep('payment');
         } else {
@@ -192,12 +192,12 @@ const PatientBookAppointment: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      
+
       const response = await appointmentPatientApi.confirmPayment(createdBooking.id, {
         payment_method: booking.paymentMethod,
         amount_paid: createdBooking.booking_fee || 0,
       });
-      
+
       if (response.status === 200) {
         setCreatedBooking(response.booking);
         setCurrentStep('success');
@@ -248,7 +248,7 @@ const PatientBookAppointment: React.FC = () => {
               const isActive = step.key === currentStep;
               const isCompleted = getStepIndex(currentStep) > index;
               const Icon = step.icon;
-              
+
               return (
                 <React.Fragment key={step.key}>
                   <div className="flex flex-col items-center">
@@ -290,7 +290,7 @@ const PatientBookAppointment: React.FC = () => {
           {currentStep === 'search' && (
             <div>
               <h2 className="text-xl font-semibold text-neutral-800 mb-4">Find a Doctor</h2>
-              
+
               {/* Filters */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <div>
@@ -308,7 +308,7 @@ const PatientBookAppointment: React.FC = () => {
                     ))}
                   </select>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-neutral-700 mb-1">Specialization</label>
                   <select
@@ -324,7 +324,7 @@ const PatientBookAppointment: React.FC = () => {
                     ))}
                   </select>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-neutral-700 mb-1">Doctor Name</label>
                   <input
@@ -336,7 +336,7 @@ const PatientBookAppointment: React.FC = () => {
                   />
                 </div>
               </div>
-              
+
               <button
                 className="w-full md:w-auto px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center"
                 onClick={searchDoctors}
@@ -404,7 +404,7 @@ const PatientBookAppointment: React.FC = () => {
                 <FaArrowLeft className="mr-2" />
                 Back to search
               </button>
-              
+
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mr-3">
                   <FaUser className="text-indigo-600" />
@@ -416,7 +416,7 @@ const PatientBookAppointment: React.FC = () => {
               </div>
 
               <h3 className="text-lg font-medium text-neutral-800 mb-3">Select Date & Time</h3>
-              
+
               {availableDays.length === 0 ? (
                 <p className="text-neutral-500 py-8 text-center">No available slots in the next 14 days</p>
               ) : (
@@ -430,7 +430,7 @@ const PatientBookAppointment: React.FC = () => {
                         </div>
                         <span className="text-sm text-indigo-600">{day.available_count} slots available</span>
                       </div>
-                      
+
                       <div className="flex flex-wrap gap-2">
                         {day.slots.map((slot) => (
                           <button
@@ -464,9 +464,9 @@ const PatientBookAppointment: React.FC = () => {
                 <FaArrowLeft className="mr-2" />
                 Change time slot
               </button>
-              
+
               <h2 className="text-xl font-semibold text-neutral-800 mb-4">Confirm Your Appointment</h2>
-              
+
               {/* Appointment Summary */}
               <div className="bg-indigo-50 rounded-lg p-4 mb-6">
                 <div className="grid grid-cols-2 gap-4">
@@ -565,7 +565,7 @@ const PatientBookAppointment: React.FC = () => {
           {currentStep === 'payment' && createdBooking && (
             <div className="text-center">
               <h2 className="text-xl font-semibold text-neutral-800 mb-4">Complete Payment</h2>
-              
+
               <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
                 <p className="text-yellow-800">
                   Please complete the payment to confirm your appointment.
@@ -602,7 +602,7 @@ const PatientBookAppointment: React.FC = () => {
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaCheck className="text-green-600 text-2xl" />
               </div>
-              
+
               <h2 className="text-2xl font-bold text-neutral-800 mb-2">Appointment Booked!</h2>
               <p className="text-neutral-600 mb-6">Your appointment has been successfully scheduled.</p>
 
