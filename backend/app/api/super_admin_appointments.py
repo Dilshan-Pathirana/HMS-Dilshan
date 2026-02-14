@@ -32,7 +32,7 @@ from app.services.appointment_service import AppointmentService
 from app.services.doctor_schedule_service import DoctorScheduleService
 
 router = APIRouter()
-svc = AppointmentService
+svc = AppointmentService()
 
 
 def _full_name(first_name: Optional[str], last_name: Optional[str]) -> str:
@@ -231,12 +231,10 @@ async def get_appointment_count(
 ):
     """Simple endpoint to get appointment count for debugging."""
     try:
-        result = await session.exec(select(func.count()).select_from(Appointment))
+        result = await session.exec(select(func.count(Appointment.id)))
         count = int(result.one() or 0)
-        print(f"DEBUG: Appointment count: {count}")
         return {"status": 200, "count": count}
     except Exception as e:
-        print(f"ERROR getting appointment count: {e}")
         return {"status": 500, "error": str(e)}
 
 
@@ -304,7 +302,7 @@ async def list_appointments(
             parsed_date = _parse_date(date)
             q = q.where(Appointment.appointment_date == parsed_date)
         except ValueError:
-            pass # Ignore invalid date filter
+            pass
     if start_date:
         try:
             parsed_start = _parse_date(start_date)
@@ -322,7 +320,6 @@ async def list_appointments(
     if doctor_id:
         q = q.where(Appointment.doctor_id == doctor_id)
     if status:
-        # frontend uses a different set; map a few common ones.
         reverse_map = {
             "pending_payment": "pending",
             "in_session": "in_progress",
@@ -330,19 +327,35 @@ async def list_appointments(
         }
         q = q.where(Appointment.status == reverse_map.get(status, status))
 
-    # Debug: Check if table exists and has data
-    try:
-        simple_count = await session.exec(select(func.count()).select_from(Appointment))
-        simple_total = int(simple_count.one() or 0)
-        print(f"DEBUG: Simple count from Appointment table: {simple_total}")
-    except Exception as e:
-        print(f"DEBUG: Error with simple count: {e}")
+    # total: build a count query applying the same filters (avoid subquery issues)
+    total_q = select(func.count(Appointment.id))
+    if date:
+        try:
+            parsed_date = _parse_date(date)
+            total_q = total_q.where(Appointment.appointment_date == parsed_date)
+        except ValueError:
+            pass
+    if start_date:
+        try:
+            parsed_start = _parse_date(start_date)
+            total_q = total_q.where(Appointment.appointment_date >= parsed_start)
+        except ValueError:
+            pass
+    if end_date:
+        try:
+            parsed_end = _parse_date(end_date)
+            total_q = total_q.where(Appointment.appointment_date <= parsed_end)
+        except ValueError:
+            pass
+    if branch_id:
+        total_q = total_q.where(Appointment.branch_id == branch_id)
+    if doctor_id:
+        total_q = total_q.where(Appointment.doctor_id == doctor_id)
+    if status:
+        total_q = total_q.where(Appointment.status == reverse_map.get(status, status))
 
-    # total
-    total_q = select(func.count()).select_from(q.subquery())
     total_result = await session.exec(total_q)
     total = int(total_result.one() or 0)
-    print(f"DEBUG: Total appointments found: {total}")
 
     offset = (page - 1) * per_page
     q = (
@@ -355,32 +368,28 @@ async def list_appointments(
     )
     result = await session.exec(q)
     appts = result.all() or []
-    print(f"DEBUG: Appointments fetched: {len(appts)}")
     total_pages = (total + per_page - 1) // per_page if per_page else 1
 
     out = []
-    print(f"DEBUG: Processing {len(appts)} appointments")
-    for i, a in enumerate(appts):
-        print(f"DEBUG: Processing appointment {i+1}/{len(appts)}: ID={a.id}, patient_id={a.patient_id}, doctor_id={a.doctor_id}, branch_id={a.branch_id}, status={a.status}, date={a.appointment_date}")
+    for a in appts:
         try:
-            # Try to get names, but don't fail if they don't exist
             patient_name = "Unknown Patient"
             try:
                 patient_name = await _get_patient_name(session, a.patient_id)
-            except Exception as e:
-                print(f"DEBUG: Failed to get patient name for {a.patient_id}: {e}")
+            except Exception:
+                pass
 
             doc = {"name": "Unknown Doctor", "specialization": "Unknown"}
             try:
                 doc = await _get_doctor_info(session, a.doctor_id)
-            except Exception as e:
-                print(f"DEBUG: Failed to get doctor info for {a.doctor_id}: {e}")
+            except Exception:
+                pass
 
             branch_name = "Unknown Branch"
             try:
                 branch_name = await _get_branch_name(session, a.branch_id)
-            except Exception as e:
-                print(f"DEBUG: Failed to get branch name for {a.branch_id}: {e}")
+            except Exception:
+                pass
 
             appointment_data = {
                 "id": a.id,
@@ -411,16 +420,10 @@ async def list_appointments(
                 "created_at": a.created_at.isoformat() if a.created_at else "",
             }
             out.append(appointment_data)
-            print(f"DEBUG: Successfully processed appointment {a.id}")
-        except Exception as e:
-            import traceback
-            print(f"ERROR processing appointment {a.id}: {e}")
-            print(f"DEBUG: Appointment data: patient_id={a.patient_id}, doctor_id={a.doctor_id}, branch_id={a.branch_id}, status={a.status}, date={a.appointment_date}")
-            traceback.print_exc()
-            # Skip this appointment and continue with others
+        except Exception:
+            # Skip problematic appointment entries
             continue
 
-    print(f"DEBUG: Valid appointments processed: {len(out)}")
     return {
         "status": 200,
         "appointments": out,
