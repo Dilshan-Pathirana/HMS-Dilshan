@@ -175,12 +175,20 @@ export const appointmentSuperAdminApi = {
         return res.data;
     },
     async getBranches(): Promise<{ branches: Branch[]; [key: string]: any }> {
-        const res = await api.get("/super-admin/branches");
-        return res.data as { branches: Branch[]; [key: string]: any };
+        const res = await api.get("/branches");
+        const data = res.data;
+        if (Array.isArray(data)) {
+            return { branches: data as Branch[] };
+        }
+        return data as { branches: Branch[]; [key: string]: any };
     },
     async getAllDoctors(params?: any): Promise<{ doctors: Doctor[]; [key: string]: any }> {
-        const res = await api.get("/super-admin/doctors", { params });
-        return res.data as { doctors: Doctor[]; [key: string]: any };
+        const res = await api.get("/doctors", { params });
+        const data = res.data;
+        if (Array.isArray(data)) {
+            return { doctors: data as Doctor[] };
+        }
+        return data as { doctors: Doctor[]; [key: string]: any };
     },
     async getBranchSettings(params?: any): Promise<{ branches: Array<{ branch_id: string; settings?: AppointmentSettings; [key: string]: any }>; [key: string]: any }> {
         const res = await api.get("/super-admin/branch-settings", { params });

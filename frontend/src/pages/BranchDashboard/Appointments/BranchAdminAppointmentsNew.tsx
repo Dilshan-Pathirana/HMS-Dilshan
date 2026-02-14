@@ -1193,7 +1193,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       console.error('Failed to register patient:', err);
 
       // If patient already exists (409), use the existing patient if available
-      const error = err as { response?: { status?: number; data?: { existing_patient?: { id: string; name: string } } } };
+      const error = err as { response?: { status?: number; data?: { existing_patient?: { id: string; name: string; patient_id?: string } } } };
       if (error.response?.status === 409) {
         const existing = error.response?.data?.existing_patient;
         if (existing) {
@@ -1204,7 +1204,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
           }));
           setShowNewPatientForm(false);
           setBookingError(null);
-          setBookingSuccess(`Patient already registered. Using existing record: ${existing.name} (${(existing as PatientSearchResult & { patient_id?: string }).patient_id || 'ID pending'})`);
+          setBookingSuccess(`Patient already registered. Using existing record: ${existing.name} (${existing.patient_id || 'ID pending'})`);
         } else {
           // Phone exists but not as patient - show error with suggestion
           const error = err as { response?: { data?: { message?: string } } };
