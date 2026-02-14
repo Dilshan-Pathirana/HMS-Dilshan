@@ -215,8 +215,12 @@ const SuperAdminAppointments: React.FC = () => {
                 .filter((branch: any) => branch.id && branch.name);
 
             setBranches(normalizedBranches);
-        } catch (error) {
+        } catch (error: any) {
             console.error('Failed to load branches:', error);
+            setMessage({
+                type: 'error',
+                text: `Failed to load branches: ${error.response?.status || 'Unknown'} - ${error.response?.data?.detail || error.message || 'Network Error'}`
+            });
         }
     };
 
@@ -249,8 +253,12 @@ const SuperAdminAppointments: React.FC = () => {
                 .filter(Boolean)
             )] as string[];
             setSpecializations(specs.sort());
-        } catch (error) {
+        } catch (error: any) {
             console.error('Failed to load doctors:', error);
+            setMessage({
+                type: 'error',
+                text: `Failed to load doctors: ${error.response?.status || 'Unknown'} - ${error.response?.data?.detail || error.message || 'Network Error'}`
+            });
         }
     };
 
@@ -320,8 +328,12 @@ const SuperAdminAppointments: React.FC = () => {
                 const pagination = response?.pagination ?? response?.data?.pagination;
                 setTotalPages(Math.max(1, Number(pagination?.total_pages || 1)));
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error('Failed to load appointments:', error);
+            setMessage({
+                type: 'error',
+                text: `Failed to load appointments: ${error.response?.status || 'Unknown'} - ${error.response?.data?.detail || error.message || 'Network Error'}`
+            });
         } finally {
             setLoading(false);
         }
@@ -915,251 +927,251 @@ const SuperAdminAppointments: React.FC = () => {
 
                 {/* Time-based Sub-tabs + Create Button */}
                 <div className="flex flex-wrap items-center justify-between gap-4 bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
-                        <div className="flex items-center gap-2">
-                            <button
-                                onClick={() => { setAppointmentView('today'); setCurrentPage(1); }}
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${appointmentView === 'today'
-                                    ? 'bg-emerald-600 text-white'
-                                    : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
-                                    }`}
-                            >
-                                <span className="flex items-center gap-2">
-                                    <Calendar className="w-4 h-4" />
-                                    Today
-                                </span>
-                            </button>
-                            <button
-                                onClick={() => { setAppointmentView('upcoming'); setCurrentPage(1); }}
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${appointmentView === 'upcoming'
-                                    ? 'bg-primary-500 text-white'
-                                    : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
-                                    }`}
-                            >
-                                <span className="flex items-center gap-2">
-                                    <Clock className="w-4 h-4" />
-                                    Upcoming
-                                </span>
-                            </button>
-                            <button
-                                onClick={() => { setAppointmentView('past'); setCurrentPage(1); }}
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${appointmentView === 'past'
-                                    ? 'bg-gray-600 text-white'
-                                    : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
-                                    }`}
-                            >
-                                <span className="flex items-center gap-2">
-                                    <CheckCircle className="w-4 h-4" />
-                                    Past / Cancelled
-                                </span>
-                            </button>
-                        </div>
+                    <div className="flex items-center gap-2">
                         <button
-                            onClick={openBookingModal}
-                            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-medium flex items-center gap-2 transition-colors"
+                            onClick={() => { setAppointmentView('today'); setCurrentPage(1); }}
+                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${appointmentView === 'today'
+                                ? 'bg-emerald-600 text-white'
+                                : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+                                }`}
                         >
-                            <Plus className="w-4 h-4" />
-                            New Appointment
+                            <span className="flex items-center gap-2">
+                                <Calendar className="w-4 h-4" />
+                                Today
+                            </span>
+                        </button>
+                        <button
+                            onClick={() => { setAppointmentView('upcoming'); setCurrentPage(1); }}
+                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${appointmentView === 'upcoming'
+                                ? 'bg-primary-500 text-white'
+                                : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+                                }`}
+                        >
+                            <span className="flex items-center gap-2">
+                                <Clock className="w-4 h-4" />
+                                Upcoming
+                            </span>
+                        </button>
+                        <button
+                            onClick={() => { setAppointmentView('past'); setCurrentPage(1); }}
+                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${appointmentView === 'past'
+                                ? 'bg-gray-600 text-white'
+                                : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+                                }`}
+                        >
+                            <span className="flex items-center gap-2">
+                                <CheckCircle className="w-4 h-4" />
+                                Past / Cancelled
+                            </span>
                         </button>
                     </div>
+                    <button
+                        onClick={openBookingModal}
+                        className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-medium flex items-center gap-2 transition-colors"
+                    >
+                        <Plus className="w-4 h-4" />
+                        New Appointment
+                    </button>
+                </div>
 
 
                 {/* Filters Section */}
                 <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-4 space-y-4">
-                        {/* Row 1: Branch, Doctor, Specialization, Status */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            {/* Branch Filter */}
-                            <div>
-                                <label className="block text-xs font-medium text-neutral-500 mb-1">Branch</label>
-                                <div className="flex items-center gap-2">
-                                    <Building2 className="w-4 h-4 text-neutral-400" />
-                                    <select
-                                        value={selectedBranch}
-                                        onChange={(e) => {
-                                            setSelectedBranch(e.target.value);
-                                            setDoctorFilter(''); // Reset doctor when branch changes
-                                            setCurrentPage(1);
-                                        }}
-                                        className="flex-1 border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
-                                    >
-                                        <option value="">All Branches</option>
-                                        {branches.map((branch) => (
-                                            <option key={branch.id} value={branch.id}>
-                                                {branch.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </div>
-
-                            {/* Doctor Filter */}
-                            <div>
-                                <label className="block text-xs font-medium text-neutral-500 mb-1">Doctor</label>
-                                <div className="flex items-center gap-2">
-                                    <User className="w-4 h-4 text-neutral-400" />
-                                    <select
-                                        value={doctorFilter}
-                                        onChange={(e) => {
-                                            setDoctorFilter(e.target.value);
-                                            setCurrentPage(1);
-                                        }}
-                                        className="flex-1 border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
-                                    >
-                                        <option value="">All Doctors</option>
-                                        {doctors.map((doc, idx) => (
-                                            <option key={`${doc.doctor_id}-${doc.branch_id ?? idx}`} value={doc.doctor_id}>
-                                                {doc.name} {!selectedBranch && doc.branch_name ? `(${doc.branch_name})` : ''}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </div>
-
-                            {/* Specialization Filter */}
-                            <div>
-                                <label className="block text-xs font-medium text-neutral-500 mb-1">Specialization</label>
-                                <div className="flex items-center gap-2">
-                                    <Stethoscope className="w-4 h-4 text-neutral-400" />
-                                    <select
-                                        value={specializationFilter}
-                                        onChange={(e) => {
-                                            setSpecializationFilter(e.target.value);
-                                            setCurrentPage(1);
-                                        }}
-                                        className="flex-1 border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
-                                    >
-                                        <option value="">All Specializations</option>
-                                        {specializations.map((spec) => (
-                                            <option key={spec} value={spec}>
-                                                {spec}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </div>
-
-                            {/* Status Filter */}
-                            <div>
-                                <label className="block text-xs font-medium text-neutral-500 mb-1">Status</label>
-                                <div className="flex items-center gap-2">
-                                    <Filter className="w-4 h-4 text-neutral-400" />
-                                    <select
-                                        value={statusFilter}
-                                        onChange={(e) => {
-                                            setStatusFilter(e.target.value);
-                                            setCurrentPage(1);
-                                        }}
-                                        className="flex-1 border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
-                                    >
-                                        <option value="">All Statuses</option>
-                                        <option value="pending">Pending</option>
-                                        <option value="pending_payment">Pending Payment</option>
-                                        <option value="confirmed">Confirmed</option>
-                                        <option value="checked_in">Checked In</option>
-                                        <option value="in_session">In Session</option>
-                                        <option value="completed">Completed</option>
-                                        <option value="cancelled">Cancelled</option>
-                                        <option value="rescheduled">Rescheduled</option>
-                                        <option value="no_show">No Show</option>
-                                    </select>
-                                </div>
+                    {/* Row 1: Branch, Doctor, Specialization, Status */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {/* Branch Filter */}
+                        <div>
+                            <label className="block text-xs font-medium text-neutral-500 mb-1">Branch</label>
+                            <div className="flex items-center gap-2">
+                                <Building2 className="w-4 h-4 text-neutral-400" />
+                                <select
+                                    value={selectedBranch}
+                                    onChange={(e) => {
+                                        setSelectedBranch(e.target.value);
+                                        setDoctorFilter(''); // Reset doctor when branch changes
+                                        setCurrentPage(1);
+                                    }}
+                                    className="flex-1 border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+                                >
+                                    <option value="">All Branches</option>
+                                    {branches.map((branch) => (
+                                        <option key={branch.id} value={branch.id}>
+                                            {branch.name}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
                         </div>
 
-                        {/* Row 2: Date Range and Search */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            {/* Single Date */}
-                            <div>
-                                <label className="block text-xs font-medium text-neutral-500 mb-1">Specific Date</label>
-                                <input
-                                    type="date"
-                                    value={dateFilter}
+                        {/* Doctor Filter */}
+                        <div>
+                            <label className="block text-xs font-medium text-neutral-500 mb-1">Doctor</label>
+                            <div className="flex items-center gap-2">
+                                <User className="w-4 h-4 text-neutral-400" />
+                                <select
+                                    value={doctorFilter}
                                     onChange={(e) => {
-                                        setDateFilter(e.target.value);
-                                        // Clear date range if single date is selected
-                                        if (e.target.value) {
-                                            setStartDate('');
-                                            setEndDate('');
-                                        }
+                                        setDoctorFilter(e.target.value);
                                         setCurrentPage(1);
                                     }}
-                                    className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
-                                />
-                            </div>
-
-                            {/* Date Range Start */}
-                            <div>
-                                <label className="block text-xs font-medium text-neutral-500 mb-1">From Date</label>
-                                <input
-                                    type="date"
-                                    value={startDate}
-                                    onChange={(e) => {
-                                        setStartDate(e.target.value);
-                                        // Clear single date if range is selected
-                                        if (e.target.value) {
-                                            setDateFilter('');
-                                        }
-                                        setCurrentPage(1);
-                                    }}
-                                    className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
-                                />
-                            </div>
-
-                            {/* Date Range End */}
-                            <div>
-                                <label className="block text-xs font-medium text-neutral-500 mb-1">To Date</label>
-                                <input
-                                    type="date"
-                                    value={endDate}
-                                    onChange={(e) => {
-                                        setEndDate(e.target.value);
-                                        // Clear single date if range is selected
-                                        if (e.target.value) {
-                                            setDateFilter('');
-                                        }
-                                        setCurrentPage(1);
-                                    }}
-                                    min={startDate}
-                                    className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
-                                />
-                            </div>
-
-                            {/* Search */}
-                            <div>
-                                <label className="block text-xs font-medium text-neutral-500 mb-1">Search</label>
-                                <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
-                                    <input
-                                        type="text"
-                                        placeholder="Patient name or Appointment ID..."
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="w-full pl-9 pr-3 py-2 text-sm border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
-                                    />
-                                </div>
+                                    className="flex-1 border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+                                >
+                                    <option value="">All Doctors</option>
+                                    {doctors.map((doc, idx) => (
+                                        <option key={`${doc.doctor_id}-${doc.branch_id ?? idx}`} value={doc.doctor_id}>
+                                            {doc.name} {!selectedBranch && doc.branch_name ? `(${doc.branch_name})` : ''}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
                         </div>
 
-                        {/* Clear Filters Button */}
-                        <div className="flex justify-end">
-                            <button
-                                onClick={() => {
-                                    setSelectedBranch('');
-                                    setDoctorFilter('');
-                                    setSpecializationFilter('');
-                                    setStatusFilter('');
-                                    setDateFilter('');
-                                    setStartDate('');
-                                    setEndDate('');
-                                    setSearchQuery('');
-                                    setCurrentPage(1);
-                                }}
-                                className="text-sm text-neutral-500 hover:text-emerald-600 flex items-center gap-1"
-                            >
-                                <XCircle className="w-4 h-4" />
-                                Clear All Filters
-                            </button>
+                        {/* Specialization Filter */}
+                        <div>
+                            <label className="block text-xs font-medium text-neutral-500 mb-1">Specialization</label>
+                            <div className="flex items-center gap-2">
+                                <Stethoscope className="w-4 h-4 text-neutral-400" />
+                                <select
+                                    value={specializationFilter}
+                                    onChange={(e) => {
+                                        setSpecializationFilter(e.target.value);
+                                        setCurrentPage(1);
+                                    }}
+                                    className="flex-1 border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+                                >
+                                    <option value="">All Specializations</option>
+                                    {specializations.map((spec) => (
+                                        <option key={spec} value={spec}>
+                                            {spec}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+
+                        {/* Status Filter */}
+                        <div>
+                            <label className="block text-xs font-medium text-neutral-500 mb-1">Status</label>
+                            <div className="flex items-center gap-2">
+                                <Filter className="w-4 h-4 text-neutral-400" />
+                                <select
+                                    value={statusFilter}
+                                    onChange={(e) => {
+                                        setStatusFilter(e.target.value);
+                                        setCurrentPage(1);
+                                    }}
+                                    className="flex-1 border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+                                >
+                                    <option value="">All Statuses</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="pending_payment">Pending Payment</option>
+                                    <option value="confirmed">Confirmed</option>
+                                    <option value="checked_in">Checked In</option>
+                                    <option value="in_session">In Session</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                    <option value="rescheduled">Rescheduled</option>
+                                    <option value="no_show">No Show</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
+
+                    {/* Row 2: Date Range and Search */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {/* Single Date */}
+                        <div>
+                            <label className="block text-xs font-medium text-neutral-500 mb-1">Specific Date</label>
+                            <input
+                                type="date"
+                                value={dateFilter}
+                                onChange={(e) => {
+                                    setDateFilter(e.target.value);
+                                    // Clear date range if single date is selected
+                                    if (e.target.value) {
+                                        setStartDate('');
+                                        setEndDate('');
+                                    }
+                                    setCurrentPage(1);
+                                }}
+                                className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+                            />
+                        </div>
+
+                        {/* Date Range Start */}
+                        <div>
+                            <label className="block text-xs font-medium text-neutral-500 mb-1">From Date</label>
+                            <input
+                                type="date"
+                                value={startDate}
+                                onChange={(e) => {
+                                    setStartDate(e.target.value);
+                                    // Clear single date if range is selected
+                                    if (e.target.value) {
+                                        setDateFilter('');
+                                    }
+                                    setCurrentPage(1);
+                                }}
+                                className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+                            />
+                        </div>
+
+                        {/* Date Range End */}
+                        <div>
+                            <label className="block text-xs font-medium text-neutral-500 mb-1">To Date</label>
+                            <input
+                                type="date"
+                                value={endDate}
+                                onChange={(e) => {
+                                    setEndDate(e.target.value);
+                                    // Clear single date if range is selected
+                                    if (e.target.value) {
+                                        setDateFilter('');
+                                    }
+                                    setCurrentPage(1);
+                                }}
+                                min={startDate}
+                                className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+                            />
+                        </div>
+
+                        {/* Search */}
+                        <div>
+                            <label className="block text-xs font-medium text-neutral-500 mb-1">Search</label>
+                            <div className="relative">
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
+                                <input
+                                    type="text"
+                                    placeholder="Patient name or Appointment ID..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="w-full pl-9 pr-3 py-2 text-sm border border-neutral-300 rounded-lg focus:ring-2 focus:ring-emerald-500"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Clear Filters Button */}
+                    <div className="flex justify-end">
+                        <button
+                            onClick={() => {
+                                setSelectedBranch('');
+                                setDoctorFilter('');
+                                setSpecializationFilter('');
+                                setStatusFilter('');
+                                setDateFilter('');
+                                setStartDate('');
+                                setEndDate('');
+                                setSearchQuery('');
+                                setCurrentPage(1);
+                            }}
+                            className="text-sm text-neutral-500 hover:text-emerald-600 flex items-center gap-1"
+                        >
+                            <XCircle className="w-4 h-4" />
+                            Clear All Filters
+                        </button>
+                    </div>
+                </div>
 
                 {/* Content */}
                 {loading ? (
@@ -1168,269 +1180,269 @@ const SuperAdminAppointments: React.FC = () => {
                     </div>
                 ) : (
                     <>
-                            <>
-                                {showSessionDetails && selectedSessionId ? (
-                                    <SessionDetailsPanel
-                                        sessionId={selectedSessionId}
-                                        initialAction={sessionPanelAction}
-                                        onBack={() => {
-                                            setShowSessionDetails(false);
-                                            setSelectedSessionId(null);
-                                            setSessionPanelAction(undefined);
-                                            loadSessions();
-                                        }}
-                                    />
-                                ) : (
-                                    <>
-                                        {viewMode === 'sessions' && (
-                                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-                                                {sessions.length === 0 ? (
-                                                    <div className="col-span-full py-12 text-center text-neutral-500 bg-white rounded-xl border border-neutral-200">
-                                                        No sessions found for the selected filters
-                                                    </div>
-                                                ) : (
-                                                    sessions.map((session) => (
-                                                        <div
-                                                            key={session.id}
-                                                            className="bg-white rounded-xl border border-neutral-200 p-5 hover:shadow-md transition-shadow relative"
-                                                        >
-                                                            <div className="flex justify-between items-start mb-4">
-                                                                <div>
-                                                                    <h3 className="font-semibold text-neutral-900">{session.doctor_name}</h3>
-                                                                    <p className="text-sm text-neutral-500">{session.branch_name}</p>
-                                                                </div>
-                                                                <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${session.status === 'scheduled' ? 'bg-blue-100 text-blue-800' :
-                                                                    session.status === 'completed' ? 'bg-green-100 text-green-800' :
-                                                                        session.status === 'cancelled' ? 'bg-red-100 text-red-800' :
-                                                                            'bg-gray-100 text-gray-800'
-                                                                    }`}>
-                                                                    {session.status.replace('_', ' ')}
-                                                                </span>
+                        <>
+                            {showSessionDetails && selectedSessionId ? (
+                                <SessionDetailsPanel
+                                    sessionId={selectedSessionId}
+                                    initialAction={sessionPanelAction}
+                                    onBack={() => {
+                                        setShowSessionDetails(false);
+                                        setSelectedSessionId(null);
+                                        setSessionPanelAction(undefined);
+                                        loadSessions();
+                                    }}
+                                />
+                            ) : (
+                                <>
+                                    {viewMode === 'sessions' && (
+                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                                            {sessions.length === 0 ? (
+                                                <div className="col-span-full py-12 text-center text-neutral-500 bg-white rounded-xl border border-neutral-200">
+                                                    No sessions found for the selected filters
+                                                </div>
+                                            ) : (
+                                                sessions.map((session) => (
+                                                    <div
+                                                        key={session.id}
+                                                        className="bg-white rounded-xl border border-neutral-200 p-5 hover:shadow-md transition-shadow relative"
+                                                    >
+                                                        <div className="flex justify-between items-start mb-4">
+                                                            <div>
+                                                                <h3 className="font-semibold text-neutral-900">{session.doctor_name}</h3>
+                                                                <p className="text-sm text-neutral-500">{session.branch_name}</p>
                                                             </div>
+                                                            <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${session.status === 'scheduled' ? 'bg-blue-100 text-blue-800' :
+                                                                session.status === 'completed' ? 'bg-green-100 text-green-800' :
+                                                                    session.status === 'cancelled' ? 'bg-red-100 text-red-800' :
+                                                                        'bg-gray-100 text-gray-800'
+                                                                }`}>
+                                                                {session.status.replace('_', ' ')}
+                                                            </span>
+                                                        </div>
 
-                                                            <div className="space-y-3 mb-4">
-                                                                <div className="flex items-center gap-2 text-sm text-neutral-600">
-                                                                    <Calendar className="w-4 h-4 text-neutral-400" />
-                                                                    <span>{new Date(session.session_date).toLocaleDateString()}</span>
-                                                                </div>
-                                                                <div className="flex items-center gap-2 text-sm text-neutral-600">
-                                                                    <Clock className="w-4 h-4 text-neutral-400" />
-                                                                    <span>{formatTime(session.start_time)} - {formatTime(session.end_time)}</span>
-                                                                </div>
-                                                                <div className="flex items-center gap-2 text-sm text-neutral-600">
-                                                                    <User className="w-4 h-4 text-neutral-400" />
-                                                                    <span>{session.appointment_count} / {session.total_slots || 0} Slots Filled</span>
-                                                                </div>
-                                                                <div className="flex items-center gap-2 text-sm text-neutral-600">
-                                                                    <UserPlus className="w-4 h-4 text-neutral-400" />
-                                                                    <span>{session.assigned_staff_count || 0} Staff Assigned</span>
-                                                                </div>
+                                                        <div className="space-y-3 mb-4">
+                                                            <div className="flex items-center gap-2 text-sm text-neutral-600">
+                                                                <Calendar className="w-4 h-4 text-neutral-400" />
+                                                                <span>{new Date(session.session_date).toLocaleDateString()}</span>
                                                             </div>
-
-                                                            <div className="pt-4 border-t border-neutral-100 grid grid-cols-2 gap-2">
-                                                                <button
-                                                                    onClick={() => openSessionDetails(session.id)}
-                                                                    className="px-3 py-2 text-sm font-medium rounded-lg border border-neutral-200 text-neutral-700 hover:bg-neutral-50"
-                                                                >
-                                                                    View Details
-                                                                </button>
-                                                                <button
-                                                                    onClick={() => handleManageSession(session)}
-                                                                    className="px-3 py-2 text-sm font-medium rounded-lg border border-blue-200 text-blue-700 hover:bg-blue-50"
-                                                                >
-                                                                    Manage
-                                                                </button>
-                                                                <button
-                                                                    onClick={() => openSessionDetails(session.id, 'assign-staff')}
-                                                                    className="px-3 py-2 text-sm font-medium rounded-lg border border-emerald-200 text-emerald-700 hover:bg-emerald-50"
-                                                                >
-                                                                    Assign Staff
-                                                                </button>
-                                                                <button
-                                                                    onClick={() => handleDeleteSession(session)}
-                                                                    className="px-3 py-2 text-sm font-medium rounded-lg border border-red-200 text-red-700 hover:bg-red-50"
-                                                                >
-                                                                    Delete
-                                                                </button>
+                                                            <div className="flex items-center gap-2 text-sm text-neutral-600">
+                                                                <Clock className="w-4 h-4 text-neutral-400" />
+                                                                <span>{formatTime(session.start_time)} - {formatTime(session.end_time)}</span>
+                                                            </div>
+                                                            <div className="flex items-center gap-2 text-sm text-neutral-600">
+                                                                <User className="w-4 h-4 text-neutral-400" />
+                                                                <span>{session.appointment_count} / {session.total_slots || 0} Slots Filled</span>
+                                                            </div>
+                                                            <div className="flex items-center gap-2 text-sm text-neutral-600">
+                                                                <UserPlus className="w-4 h-4 text-neutral-400" />
+                                                                <span>{session.assigned_staff_count || 0} Staff Assigned</span>
                                                             </div>
                                                         </div>
-                                                    ))
-                                                )}
-                                            </div>
-                                        )}
 
-                                        {viewMode === 'list' && (
-                                            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
-                                                <div className="overflow-x-auto">
-                                                    <table className="w-full">
-                                                        <thead className="bg-neutral-50">
+                                                        <div className="pt-4 border-t border-neutral-100 grid grid-cols-2 gap-2">
+                                                            <button
+                                                                onClick={() => openSessionDetails(session.id)}
+                                                                className="px-3 py-2 text-sm font-medium rounded-lg border border-neutral-200 text-neutral-700 hover:bg-neutral-50"
+                                                            >
+                                                                View Details
+                                                            </button>
+                                                            <button
+                                                                onClick={() => handleManageSession(session)}
+                                                                className="px-3 py-2 text-sm font-medium rounded-lg border border-blue-200 text-blue-700 hover:bg-blue-50"
+                                                            >
+                                                                Manage
+                                                            </button>
+                                                            <button
+                                                                onClick={() => openSessionDetails(session.id, 'assign-staff')}
+                                                                className="px-3 py-2 text-sm font-medium rounded-lg border border-emerald-200 text-emerald-700 hover:bg-emerald-50"
+                                                            >
+                                                                Assign Staff
+                                                            </button>
+                                                            <button
+                                                                onClick={() => handleDeleteSession(session)}
+                                                                className="px-3 py-2 text-sm font-medium rounded-lg border border-red-200 text-red-700 hover:bg-red-50"
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            )}
+                                        </div>
+                                    )}
+
+                                    {viewMode === 'list' && (
+                                        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
+                                            <div className="overflow-x-auto">
+                                                <table className="w-full">
+                                                    <thead className="bg-neutral-50">
+                                                        <tr>
+                                                            <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Branch</th>
+                                                            <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Appt ID</th>
+                                                            <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Patient</th>
+                                                            <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Doctor</th>
+                                                            <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Specialization</th>
+                                                            <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Date</th>
+                                                            <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Slot #</th>
+                                                            <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Est. Time</th>
+                                                            <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Status</th>
+                                                            <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Payment</th>
+                                                            <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody className="divide-y divide-gray-200">
+                                                        {filteredAppointments.length === 0 ? (
                                                             <tr>
-                                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Branch</th>
-                                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Appt ID</th>
-                                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Patient</th>
-                                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Doctor</th>
-                                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Specialization</th>
-                                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Date</th>
-                                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Slot #</th>
-                                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Est. Time</th>
-                                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Status</th>
-                                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Payment</th>
-                                                                <th className="px-3 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Actions</th>
+                                                                <td colSpan={11} className="px-4 py-8 text-center text-neutral-500">
+                                                                    No appointments found
+                                                                </td>
                                                             </tr>
-                                                        </thead>
-                                                        <tbody className="divide-y divide-gray-200">
-                                                            {filteredAppointments.length === 0 ? (
-                                                                <tr>
-                                                                    <td colSpan={11} className="px-4 py-8 text-center text-neutral-500">
-                                                                        No appointments found
+                                                        ) : (
+                                                            filteredAppointments.map((apt) => (
+                                                                <tr key={apt.id} className="hover:bg-neutral-50">
+                                                                    {/* Branch Name */}
+                                                                    <td className="px-3 py-3">
+                                                                        <div className="flex items-center gap-1">
+                                                                            <Building2 className="w-4 h-4 text-neutral-400 flex-shrink-0" />
+                                                                            <span className="text-sm font-medium truncate max-w-[120px]" title={apt.branch_name}>
+                                                                                {apt.branch_name}
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                    {/* Appointment ID */}
+                                                                    <td className="px-3 py-3">
+                                                                        <span className="font-mono text-xs text-emerald-600 bg-emerald-50 px-2 py-1 rounded">
+                                                                            #{apt.token_number || apt.id?.toString().slice(-6)}
+                                                                        </span>
+                                                                    </td>
+                                                                    {/* Patient Name */}
+                                                                    <td className="px-3 py-3">
+                                                                        <div className="flex items-center gap-2">
+                                                                            <User className="w-4 h-4 text-neutral-400 flex-shrink-0" />
+                                                                            <span className="font-medium text-sm truncate max-w-[120px]" title={apt.patient_name || 'Unknown'}>
+                                                                                {apt.patient_name || 'Unknown'}
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                    {/* Doctor Name */}
+                                                                    <td className="px-3 py-3">
+                                                                        <span className="text-sm font-medium truncate max-w-[120px] block" title={apt.doctor_name}>
+                                                                            {apt.doctor_name}
+                                                                        </span>
+                                                                    </td>
+                                                                    {/* Specialization */}
+                                                                    <td className="px-3 py-3">
+                                                                        <div className="flex items-center gap-1">
+                                                                            <Stethoscope className="w-3 h-3 text-neutral-400 flex-shrink-0" />
+                                                                            <span className="text-xs text-neutral-600 truncate max-w-[100px]" title={(apt as any).specialization || 'General'}>
+                                                                                {(apt as any).specialization || 'General'}
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                    {/* Date */}
+                                                                    <td className="px-3 py-3">
+                                                                        <div className="flex items-center gap-1">
+                                                                            <Calendar className="w-4 h-4 text-neutral-400 flex-shrink-0" />
+                                                                            <span className="text-sm">{formatDate(apt.appointment_date)}</span>
+                                                                        </div>
+                                                                    </td>
+                                                                    {/* Slot Number */}
+                                                                    <td className="px-3 py-3 text-center">
+                                                                        <span className="inline-flex items-center justify-center w-7 h-7 text-xs font-bold bg-neutral-100 text-neutral-700 rounded-full">
+                                                                            {(apt as any).slot_number || '-'}
+                                                                        </span>
+                                                                    </td>
+                                                                    {/* Estimated Time */}
+                                                                    <td className="px-3 py-3">
+                                                                        <div className="flex items-center gap-1">
+                                                                            <Clock className="w-4 h-4 text-neutral-400 flex-shrink-0" />
+                                                                            <span className="text-sm">{apt.appointment_time}</span>
+                                                                        </div>
+                                                                    </td>
+                                                                    {/* Status */}
+                                                                    <td className="px-3 py-3">
+                                                                        <span className={`px-2 py-1 text-xs font-medium rounded-full whitespace-nowrap ${getStatusColor(apt.status)}`}>
+                                                                            {apt.status.replace(/_/g, ' ')}
+                                                                        </span>
+                                                                    </td>
+                                                                    {/* Payment Status */}
+                                                                    <td className="px-3 py-3">
+                                                                        <div className="flex items-center gap-1">
+                                                                            <DollarSign className="w-3 h-3 text-neutral-400 flex-shrink-0" />
+                                                                            <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${getPaymentStatusColor(apt.payment_status)}`}>
+                                                                                {apt.payment_status}
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                    {/* Actions */}
+                                                                    <td className="px-3 py-3">
+                                                                        <div className="flex items-center gap-1">
+                                                                            <button
+                                                                                onClick={() => {
+                                                                                    setSelectedAppointment(apt);
+                                                                                    setShowDetailsModal(true);
+                                                                                }}
+                                                                                className="p-1.5 text-neutral-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg"
+                                                                                title="View Details"
+                                                                            >
+                                                                                <Eye className="w-4 h-4" />
+                                                                            </button>
+                                                                            {!['completed', 'cancelled', 'no_show'].includes(apt.status) && (
+                                                                                <>
+                                                                                    <button
+                                                                                        onClick={() => openEditModal(apt)}
+                                                                                        className="p-1.5 text-neutral-500 hover:text-primary-500 hover:bg-blue-50 rounded-lg"
+                                                                                        title="Edit/Reschedule"
+                                                                                    >
+                                                                                        <Edit className="w-4 h-4" />
+                                                                                    </button>
+                                                                                    <button
+                                                                                        onClick={() => openCancelModal(apt)}
+                                                                                        className="p-1.5 text-neutral-500 hover:text-error-600 hover:bg-error-50 rounded-lg"
+                                                                                        title="Cancel Appointment"
+                                                                                    >
+                                                                                        <Trash2 className="w-4 h-4" />
+                                                                                    </button>
+                                                                                </>
+                                                                            )}
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
-                                                            ) : (
-                                                                filteredAppointments.map((apt) => (
-                                                                    <tr key={apt.id} className="hover:bg-neutral-50">
-                                                                        {/* Branch Name */}
-                                                                        <td className="px-3 py-3">
-                                                                            <div className="flex items-center gap-1">
-                                                                                <Building2 className="w-4 h-4 text-neutral-400 flex-shrink-0" />
-                                                                                <span className="text-sm font-medium truncate max-w-[120px]" title={apt.branch_name}>
-                                                                                    {apt.branch_name}
-                                                                                </span>
-                                                                            </div>
-                                                                        </td>
-                                                                        {/* Appointment ID */}
-                                                                        <td className="px-3 py-3">
-                                                                            <span className="font-mono text-xs text-emerald-600 bg-emerald-50 px-2 py-1 rounded">
-                                                                                #{apt.token_number || apt.id?.toString().slice(-6)}
-                                                                            </span>
-                                                                        </td>
-                                                                        {/* Patient Name */}
-                                                                        <td className="px-3 py-3">
-                                                                            <div className="flex items-center gap-2">
-                                                                                <User className="w-4 h-4 text-neutral-400 flex-shrink-0" />
-                                                                                <span className="font-medium text-sm truncate max-w-[120px]" title={apt.patient_name || 'Unknown'}>
-                                                                                    {apt.patient_name || 'Unknown'}
-                                                                                </span>
-                                                                            </div>
-                                                                        </td>
-                                                                        {/* Doctor Name */}
-                                                                        <td className="px-3 py-3">
-                                                                            <span className="text-sm font-medium truncate max-w-[120px] block" title={apt.doctor_name}>
-                                                                                {apt.doctor_name}
-                                                                            </span>
-                                                                        </td>
-                                                                        {/* Specialization */}
-                                                                        <td className="px-3 py-3">
-                                                                            <div className="flex items-center gap-1">
-                                                                                <Stethoscope className="w-3 h-3 text-neutral-400 flex-shrink-0" />
-                                                                                <span className="text-xs text-neutral-600 truncate max-w-[100px]" title={(apt as any).specialization || 'General'}>
-                                                                                    {(apt as any).specialization || 'General'}
-                                                                                </span>
-                                                                            </div>
-                                                                        </td>
-                                                                        {/* Date */}
-                                                                        <td className="px-3 py-3">
-                                                                            <div className="flex items-center gap-1">
-                                                                                <Calendar className="w-4 h-4 text-neutral-400 flex-shrink-0" />
-                                                                                <span className="text-sm">{formatDate(apt.appointment_date)}</span>
-                                                                            </div>
-                                                                        </td>
-                                                                        {/* Slot Number */}
-                                                                        <td className="px-3 py-3 text-center">
-                                                                            <span className="inline-flex items-center justify-center w-7 h-7 text-xs font-bold bg-neutral-100 text-neutral-700 rounded-full">
-                                                                                {(apt as any).slot_number || '-'}
-                                                                            </span>
-                                                                        </td>
-                                                                        {/* Estimated Time */}
-                                                                        <td className="px-3 py-3">
-                                                                            <div className="flex items-center gap-1">
-                                                                                <Clock className="w-4 h-4 text-neutral-400 flex-shrink-0" />
-                                                                                <span className="text-sm">{apt.appointment_time}</span>
-                                                                            </div>
-                                                                        </td>
-                                                                        {/* Status */}
-                                                                        <td className="px-3 py-3">
-                                                                            <span className={`px-2 py-1 text-xs font-medium rounded-full whitespace-nowrap ${getStatusColor(apt.status)}`}>
-                                                                                {apt.status.replace(/_/g, ' ')}
-                                                                            </span>
-                                                                        </td>
-                                                                        {/* Payment Status */}
-                                                                        <td className="px-3 py-3">
-                                                                            <div className="flex items-center gap-1">
-                                                                                <DollarSign className="w-3 h-3 text-neutral-400 flex-shrink-0" />
-                                                                                <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${getPaymentStatusColor(apt.payment_status)}`}>
-                                                                                    {apt.payment_status}
-                                                                                </span>
-                                                                            </div>
-                                                                        </td>
-                                                                        {/* Actions */}
-                                                                        <td className="px-3 py-3">
-                                                                            <div className="flex items-center gap-1">
-                                                                                <button
-                                                                                    onClick={() => {
-                                                                                        setSelectedAppointment(apt);
-                                                                                        setShowDetailsModal(true);
-                                                                                    }}
-                                                                                    className="p-1.5 text-neutral-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg"
-                                                                                    title="View Details"
-                                                                                >
-                                                                                    <Eye className="w-4 h-4" />
-                                                                                </button>
-                                                                                {!['completed', 'cancelled', 'no_show'].includes(apt.status) && (
-                                                                                    <>
-                                                                                        <button
-                                                                                            onClick={() => openEditModal(apt)}
-                                                                                            className="p-1.5 text-neutral-500 hover:text-primary-500 hover:bg-blue-50 rounded-lg"
-                                                                                            title="Edit/Reschedule"
-                                                                                        >
-                                                                                            <Edit className="w-4 h-4" />
-                                                                                        </button>
-                                                                                        <button
-                                                                                            onClick={() => openCancelModal(apt)}
-                                                                                            className="p-1.5 text-neutral-500 hover:text-error-600 hover:bg-error-50 rounded-lg"
-                                                                                            title="Cancel Appointment"
-                                                                                        >
-                                                                                            <Trash2 className="w-4 h-4" />
-                                                                                        </button>
-                                                                                    </>
-                                                                                )}
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                ))
-                                                            )}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-
-                                                {/* Pagination */}
-                                                {totalPages > 1 && (
-                                                    <div className="flex items-center justify-between px-4 py-3 border-t border-neutral-200">
-                                                        <p className="text-sm text-neutral-500">
-                                                            Page {currentPage} of {totalPages}
-                                                        </p>
-                                                        <div className="flex gap-2">
-                                                            <button
-                                                                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                                                                disabled={currentPage === 1}
-                                                                className="px-3 py-1 border border-neutral-300 rounded-lg disabled:opacity-50"
-                                                            >
-                                                                <ChevronLeft className="w-5 h-5" />
-                                                            </button>
-                                                            <button
-                                                                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                                                                disabled={currentPage === totalPages}
-                                                                className="px-3 py-1 border border-neutral-300 rounded-lg disabled:opacity-50"
-                                                            >
-                                                                <ChevronRight className="w-5 h-5" />
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                )}
+                                                            ))
+                                                        )}
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                        )}
-                                    </>
-                                )}
-                            </>
+
+                                            {/* Pagination */}
+                                            {totalPages > 1 && (
+                                                <div className="flex items-center justify-between px-4 py-3 border-t border-neutral-200">
+                                                    <p className="text-sm text-neutral-500">
+                                                        Page {currentPage} of {totalPages}
+                                                    </p>
+                                                    <div className="flex gap-2">
+                                                        <button
+                                                            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                                                            disabled={currentPage === 1}
+                                                            className="px-3 py-1 border border-neutral-300 rounded-lg disabled:opacity-50"
+                                                        >
+                                                            <ChevronLeft className="w-5 h-5" />
+                                                        </button>
+                                                        <button
+                                                            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                                                            disabled={currentPage === totalPages}
+                                                            className="px-3 py-1 border border-neutral-300 rounded-lg disabled:opacity-50"
+                                                        >
+                                                            <ChevronRight className="w-5 h-5" />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </>
+                            )}
+                        </>
 
                         {/* Statistics Tab */}
                         {false && statistics && (
