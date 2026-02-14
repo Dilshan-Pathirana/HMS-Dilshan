@@ -23,23 +23,24 @@ def _full_name(first: Optional[str], last: Optional[str]) -> str:
     return " ".join(parts) if parts else "Unknown"
 
 
-@router.get("/")
-async def list_all_appointments(
+@router.get("/appointment-list")
+async def list_all_appointments_for_super_admin(
     skip: int = 0,
     limit: int = 500,
     session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_active_superuser),
 ):
     """
-    Super admin endpoint.
-    Returns ALL appointments in system.
+    Super admin endpoint to list all appointments.
+    Returns ALL appointments in system with patient details.
     """
 
-    # ---- total count ----
+    # Get total count
     total_query = select(func.count(Appointment.id))
-    total = (await session.exec(total_query)).one()
+    total_result = await session.exec(total_query)
+    total = total_result.one()
 
-    # ---- fetch appointments ----
+    # Fetch appointments ordered by date desc
     query = (
         select(Appointment)
         .order_by(
@@ -49,50 +50,53 @@ async def list_all_appointments(
         .offset(skip)
         .limit(limit)
     )
-    appointments: List[Appointment] = (await session.exec(query)).all()
+    appointments_result = await session.exec(query)
+    appointments: List[Appointment] = appointments_result.all()
 
-    # ---- collect ids ----
+    # Collect IDs for related data
     patient_ids = {a.patient_id for a in appointments if a.patient_id}
     doctor_ids = {a.doctor_id for a in appointments if a.doctor_id}
     branch_ids = {a.branch_id for a in appointments if a.branch_id}
 
-    # ---- fetch related ----
+    # Fetch patients
     patients: Dict[str, Patient] = {}
     patient_users: Dict[str, User] = {}
-    doctors: Dict[str, Doctor] = {}
-    doctor_users: Dict[str, User] = {}
-    branches: Dict[str, Branch] = {}
-
-    # Patients
     if patient_ids:
-        res = await session.exec(select(Patient).where(col(Patient.id).in_(patient_ids)))
-        patients = {p.id: p for p in res.all()}
+        patient_query = select(Patient).where(col(Patient.id).in_(patient_ids))
+        patient_result = await session.exec(patient_query)
+        patients = {p.id: p for p in patient_result.all()}
 
         user_ids = {p.user_id for p in patients.values() if p.user_id}
         if user_ids:
-            ures = await session.exec(select(User).where(col(User.id).in_(user_ids)))
-            patient_users = {u.id: u for u in ures.all()}
+            user_query = select(User).where(col(User.id).in_(user_ids))
+            user_result = await session.exec(user_query)
+            patient_users = {u.id: u for u in user_result.all()}
 
-    # Doctors
+    # Fetch doctors
+    doctors: Dict[str, Doctor] = {}
+    doctor_users: Dict[str, User] = {}
     if doctor_ids:
-        res = await session.exec(select(Doctor).where(col(Doctor.id).in_(doctor_ids)))
-        doctors = {d.id: d for d in res.all()}
+        doctor_query = select(Doctor).where(col(Doctor.id).in_(doctor_ids))
+        doctor_result = await session.exec(doctor_query)
+        doctors = {d.id: d for d in doctor_result.all()}
 
         user_ids = {d.user_id for d in doctors.values() if d.user_id}
         if user_ids:
-            ures = await session.exec(select(User).where(col(User.id).in_(user_ids)))
-            doctor_users = {u.id: u for u in ures.all()}
+            user_query = select(User).where(col(User.id).in_(user_ids))
+            user_result = await session.exec(user_query)
+            doctor_users = {u.id: u for u in user_result.all()}
 
-    # Branches
+    # Fetch branches
+    branches: Dict[str, Branch] = {}
     if branch_ids:
-        res = await session.exec(select(Branch).where(col(Branch.id).in_(branch_ids)))
-        branches = {b.id: b for b in res.all()}
+        branch_query = select(Branch).where(col(Branch.id).in_(branch_ids))
+        branch_result = await session.exec(branch_query)
+        branches = {b.id: b for b in branch_result.all()}
 
-    # ---- map response ----
+    # Build response data
     data = []
-
     for appt in appointments:
-        # patient name
+        # Patient name
         patient_name = "Unknown"
         if appt.patient_id in patients:
             p = patients[appt.patient_id]
@@ -100,7 +104,7 @@ async def list_all_appointments(
                 u = patient_users[p.user_id]
                 patient_name = _full_name(u.first_name, u.last_name)
 
-        # doctor name
+        # Doctor name
         doctor_name = "Unknown"
         if appt.doctor_id in doctors:
             d = doctors[appt.doctor_id]
@@ -108,7 +112,7 @@ async def list_all_appointments(
                 u = doctor_users[d.user_id]
                 doctor_name = _full_name(u.first_name, u.last_name)
 
-        # branch
+        # Branch name
         branch_name = "Unknown"
         if appt.branch_id in branches:
             branch_name = branches[appt.branch_id].center_name

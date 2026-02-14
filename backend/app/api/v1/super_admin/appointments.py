@@ -14,8 +14,7 @@ from app.models.doctor import Doctor
 from app.models.patient import Patient
 from app.models.user import User
 
-# Adjusted to avoid double prefix since main.py already includes with prefix
-router = APIRouter()
+router = APIRouter(prefix="/api/v1/super-admin/appointments", tags=["Super Admin Appointments"])
 
 
 def _full_name(first: Optional[str], last: Optional[str]) -> str:

@@ -7,7 +7,7 @@ export enum UserRole {
     Nurse = 4,
     Patient = 5,
     Cashier = 6,
-    Receptionist = 6,
+    Receptionist = 11,
     Pharmacist = 7,
     ITSupport = 8,
     CenterAid = 9,
