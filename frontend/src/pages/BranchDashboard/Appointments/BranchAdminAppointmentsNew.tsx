@@ -185,6 +185,14 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   const [savingDelete, setSavingDelete] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
+  // Cancel modal state
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [cancellingAppointment, setCancellingAppointment] = useState<CancelAppointmentData | null>(null);
+  const [cancellationType, setCancellationType] = useState<CancellationType>('normal');
+  const [cancelReason, setCancelReason] = useState('');
+  const [savingCancel, setSavingCancel] = useState(false);
+  const [cancelError, setCancelError] = useState<string | null>(null);
+
   // Create booking modal state
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [bookingForm, setBookingForm] = useState<BookingFormData>(initialBookingForm);
@@ -332,7 +340,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       setError(null);
 
       // Build params
-      const params: any = {
+      const params: Record<string, string | number | boolean> = {
         view: view === 'past' ? 'cancelled' : view,
       };
 
@@ -349,12 +357,13 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
       const response = await appointmentBranchAdminApi.getAppointments(params);
 
-      if (response.status === 200) {
+      if (response.appointments) {
         setAppointments(response.appointments);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to load appointments:', err);
-      setError(err.response?.data?.message || 'Failed to load appointments');
+      const error = err as { response?: { data?: { message?: string } } };
+      setError(error.response?.data?.message || 'Failed to load appointments');
     } finally {
       setLoading(false);
     }
@@ -368,7 +377,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
     try {
       const today = new Date().toISOString().split('T')[0];
-      const params: any = {};
+      const params: Record<string, string | number | boolean> = {};
 
       if (currentFilters.startDate) {
         params.session_date = currentFilters.startDate;
@@ -422,7 +431,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     if (showLoading) setLoadingDoctors(true);
     try {
       const response = await appointmentBranchAdminApi.getDoctors();
-      if (response.status === 200) {
+      if (response.doctors) {
         setDoctors(response.doctors);
       }
     } catch (err) {
@@ -436,7 +445,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   const loadSpecializations = useCallback(async () => {
     try {
       const response = await appointmentBranchAdminApi.getSpecializations();
-      if (response.status === 200) {
+      if (response.specializations) {
         setSpecializations(response.specializations);
       }
     } catch (err) {
@@ -449,7 +458,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     if (showLoading) setLoadingBranches(true);
     try {
       const response = await appointmentSuperAdminApi.getBranches();
-      if (response.status === 200) {
+      if (response.branches) {
         setBranches(response.branches);
       }
     } catch (err) {
@@ -479,19 +488,12 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   const refreshBranches = useCallback(() => {
     loadBranches(true);
   }, [loadBranches]);
-
-  const refreshAllData = useCallback(() => {
-    loadDoctors(true);
-    loadBranches(true);
-    loadSpecializations();
-    loadCounts();
-  }, [loadDoctors, loadBranches, loadSpecializations, loadCounts]);
   const loadAuditLogs = useCallback(async (page: number = 1, currentFilters: AuditLogFilters = auditLogFilters) => {
     try {
       setAuditLogsLoading(true);
       setAuditLogsError(null);
 
-      const params: Record<string, any> = {
+      const params: Record<string, string | number> = {
         page,
         per_page: 20,
       };
@@ -503,7 +505,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
       const response = await appointmentBranchAdminApi.getBranchAuditLogs(params);
 
-      if (response.status === 200 && response) {
+      if (response) {
         const logs = response.logs || [];
         const pagination = response.pagination || {};
 
@@ -531,9 +533,10 @@ const BranchAdminAppointmentsNew: React.FC = () => {
           });
         }
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to load audit logs:', err);
-      setAuditLogsError(err.response?.data?.message || 'Failed to load audit logs');
+      const error = err as { response?: { data?: { message?: string } } };
+      setAuditLogsError(error.response?.data?.message || 'Failed to load audit logs');
     } finally {
       setAuditLogsLoading(false);
     }
@@ -549,12 +552,12 @@ const BranchAdminAppointmentsNew: React.FC = () => {
         status: 'confirmed',
       });
 
-      if (response.status === 200) {
+      if (response.appointments) {
         // Sort by token number
         const sorted = [...response.appointments].sort((a, b) => a.token_number - b.token_number);
         setPrintAppointments(sorted);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to load print appointments:', err);
     } finally {
       setLoadingPrintData(false);
@@ -627,7 +630,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       loadAppointments(activeView, filters);
       loadSessions(activeView, filters);
     }
-  }, [activeView, loadAppointments, loadAuditLogs, loadSessions]);
+  }, [activeView, filters, auditLogFilters, loadAppointments, loadAuditLogs, loadSessions]);
 
   // Check if any filters are applied
   useEffect(() => {
@@ -653,7 +656,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       }
     }, 500);
     return () => clearTimeout(timer);
-  }, [filters.search]);
+  }, [filters.search, activeView, filters, loadAppointments, loadSessions]);
 
   // ============================================
   // Filter Handlers
@@ -737,9 +740,10 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       await loadSessions(activeView, filters);
       await loadAppointments(activeView, filters);
       await loadCounts();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to delete session:', err);
-      setError(err?.response?.data?.detail || 'Failed to delete session');
+      const error = err as { response?: { data?: { detail?: string } } };
+      setError(error?.response?.data?.detail || 'Failed to delete session');
     }
   };
 
@@ -841,7 +845,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     try {
       setLoadingSlots(true);
       const response = await appointmentBranchAdminApi.getAvailableSlots(doctorId, date);
-      if (response.status === 200) {
+      if (response.slots) {
         setAvailableSlots(response.slots || []);
       }
     } catch (err) {
@@ -899,7 +903,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
         }
       );
 
-      if (response.status === 200) {
+      if (response) {
         setEditSuccess('Appointment updated successfully! Patient will receive confirmation.');
         // Reload appointments after a short delay
         setTimeout(() => {
@@ -909,9 +913,10 @@ const BranchAdminAppointmentsNew: React.FC = () => {
           loadCounts();
         }, 1500);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to update appointment:', err);
-      setEditError(err.response?.data?.message || 'Failed to update appointment');
+      const error = err as { response?: { data?: { message?: string } } };
+      setEditError(error.response?.data?.message || 'Failed to update appointment');
     } finally {
       setSavingEdit(false);
     }
@@ -961,7 +966,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
         cancellationType === 'doctor_request'
       );
 
-      if (response.status === 200) {
+      if (response) {
         closeCancelModal();
         loadAppointments(activeView, filters);
         loadSessions(activeView, filters);
@@ -969,9 +974,10 @@ const BranchAdminAppointmentsNew: React.FC = () => {
         // Show success message in main error area (styled as success)
         setError(null);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to cancel appointment:', err);
-      setCancelError(err.response?.data?.message || 'Failed to cancel appointment');
+      const error = err as { response?: { data?: { message?: string } } };
+      setCancelError(error.response?.data?.message || 'Failed to cancel appointment');
     } finally {
       setSavingCancel(false);
     }
@@ -1018,7 +1024,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
         deleteReason
       );
 
-      if (response.status === 200) {
+      if (response) {
         closeDeleteModal();
         loadAppointments(activeView, filters);
         loadSessions(activeView, filters);
@@ -1026,9 +1032,10 @@ const BranchAdminAppointmentsNew: React.FC = () => {
         // Show success message in main error area (styled as success)
         setError(null);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to delete appointment:', err);
-      setDeleteError(err.response?.data?.message || 'Failed to delete appointment');
+      const error = err as { response?: { data?: { message?: string } } };
+      setDeleteError(error.response?.data?.message || 'Failed to delete appointment');
     } finally {
       setSavingDelete(false);
     }
@@ -1041,7 +1048,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     try {
       setLoadingSettings(true);
       const response = await appointmentBranchAdminApi.getSettings();
-      if (response.status === 200 && response.settings) {
+      if (response.settings) {
         setBookingSettings(response.settings);
       }
     } catch (err) {
@@ -1182,12 +1189,13 @@ const BranchAdminAppointmentsNew: React.FC = () => {
         }));
         setShowNewPatientForm(false);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to register patient:', err);
 
       // If patient already exists (409), use the existing patient if available
-      if (err.response?.status === 409) {
-        const existing = err.response?.data?.existing_patient;
+      const error = err as { response?: { status?: number; data?: { existing_patient?: { id: string; name: string } } } };
+      if (error.response?.status === 409) {
+        const existing = error.response?.data?.existing_patient;
         if (existing) {
           setBookingForm(prev => ({
             ...prev,
@@ -1196,13 +1204,15 @@ const BranchAdminAppointmentsNew: React.FC = () => {
           }));
           setShowNewPatientForm(false);
           setBookingError(null);
-          setBookingSuccess(`Patient already registered. Using existing record: ${existing.name} (${existing.patient_id || 'ID pending'})`);
+          setBookingSuccess(`Patient already registered. Using existing record: ${existing.name} (${(existing as PatientSearchResult & { patient_id?: string }).patient_id || 'ID pending'})`);
         } else {
           // Phone exists but not as patient - show error with suggestion
-          setBookingError(err.response?.data?.message || 'This mobile number is already registered. Try searching for the patient instead.');
+          const error = err as { response?: { data?: { message?: string } } };
+          setBookingError(error.response?.data?.message || 'This mobile number is already registered. Try searching for the patient instead.');
         }
       } else {
-        const errorMessage = err.response?.data?.message || 'Failed to register patient';
+        const error = err as { response?: { data?: { message?: string } } };
+        const errorMessage = error.response?.data?.message || 'Failed to register patient';
         setBookingError(errorMessage);
       }
     } finally {
@@ -1222,7 +1232,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       try {
         setSearchingPatients(true);
         const response = await appointmentBranchAdminApi.searchPatients(patientSearchQuery);
-        if (response.status === 200) {
+        if (response.patients) {
           setPatientSearchResults(response.patients);
           setShowPatientDropdown(true);
         }
@@ -1256,7 +1266,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     try {
       setLoadingBookingSlots(true);
       const response = await appointmentBranchAdminApi.getAvailableSlots(doctorId, date);
-      if (response.status === 200) {
+      if (response.slots) {
         setBookingSlots(response.slots || []);
         setBookingSchedule(response.schedule || null);
       }
@@ -1269,14 +1279,14 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     }
   };
 
-  const handleBookingFormChange = (field: keyof BookingFormData, value: any) => {
+  const handleBookingFormChange = (field: keyof BookingFormData, value: string | number | boolean | null | undefined) => {
     const newForm = { ...bookingForm, [field]: value };
     setBookingForm(newForm);
 
     // If doctor or date changes, reload slots
     if (field === 'doctorId' || field === 'date') {
-      const doctorId = field === 'doctorId' ? value : newForm.doctorId;
-      const date = field === 'date' ? value : newForm.date;
+      const doctorId = field === 'doctorId' ? String(value) : String(newForm.doctorId);
+      const date = field === 'date' ? String(value) : String(newForm.date);
       if (doctorId && date) {
         loadBookingSlots(doctorId, date);
         // Reset slot selection
@@ -1341,7 +1351,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
         notes: bookingForm.notes || undefined,
       });
 
-      if (response.status === 200 || response.status === 201) {
+      if (response) {
         const tokenInfo = response.appointment
           ? `Token #${response.appointment.token_number} at ${response.appointment.appointment_time}`
           : '';
@@ -1355,9 +1365,10 @@ const BranchAdminAppointmentsNew: React.FC = () => {
           loadCounts();
         }, 2000);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to create appointment:', err);
-      setBookingError(err.response?.data?.message || 'Failed to create appointment');
+      const error = err as { response?: { data?: { message?: string } } };
+      setBookingError(error.response?.data?.message || 'Failed to create appointment');
     } finally {
       setSavingBooking(false);
     }
