@@ -20,15 +20,18 @@ const SuperAdminAppointments: React.FC = () => {
     const loadAppointments = async (page: number = 1) => {
         try {
             setLoading(true);
-            const response = await appointmentSuperAdminApi.getAllAppointments({
+            // Try raw endpoint first for debugging
+            const rawResponse = await appointmentSuperAdminApi.getAllAppointments({
                 page,
                 per_page: 50
             });
 
-            if (response.status === 200) {
-                setAppointments(response.appointments || []);
-                setTotalPages(response.pagination?.total_pages || 1);
-                setTotalAppointments(response.pagination?.total || 0);
+            console.log("Raw appointments response:", rawResponse);
+
+            if (rawResponse.status === 200) {
+                setAppointments(rawResponse.appointments || []);
+                setTotalPages(rawResponse.pagination?.total_pages || 1);
+                setTotalAppointments(rawResponse.pagination?.total || 0);
             } else {
                 setAppointments([]);
                 setTotalPages(1);
@@ -113,38 +116,38 @@ const SuperAdminAppointments: React.FC = () => {
                                                     <td className="px-3 py-3">
                                                         <div className="flex items-center gap-1">
                                                             <Building2 className="w-4 h-4 text-neutral-400 flex-shrink-0" />
-                                                            <span className="text-sm font-medium truncate max-w-[120px]" title={apt.branch_name}>
-                                                                {apt.branch_name}
+                                                            <span className="text-sm font-medium truncate max-w-[120px]" title={apt.branch_name || apt.branch_id}>
+                                                                {apt.branch_name || `Branch ${apt.branch_id?.slice(-6)}`}
                                                             </span>
                                                         </div>
                                                     </td>
                                                     {/* Appointment ID */}
                                                     <td className="px-3 py-3">
                                                         <span className="font-mono text-xs text-emerald-600 bg-emerald-50 px-2 py-1 rounded">
-                                                            #{apt.token_number || apt.id?.toString().slice(-6)}
+                                                            #{apt.id?.slice(-6)}
                                                         </span>
                                                     </td>
                                                     {/* Patient Name */}
                                                     <td className="px-3 py-3">
                                                         <div className="flex items-center gap-2">
                                                             <User className="w-4 h-4 text-neutral-400 flex-shrink-0" />
-                                                            <span className="font-medium text-sm truncate max-w-[120px]" title={apt.patient_name || 'Unknown'}>
-                                                                {apt.patient_name || 'Unknown'}
+                                                            <span className="font-medium text-sm truncate max-w-[120px]" title={apt.patient_name || apt.patient_id}>
+                                                                {apt.patient_name || `Patient ${apt.patient_id?.slice(-6)}`}
                                                             </span>
                                                         </div>
                                                     </td>
                                                     {/* Doctor Name */}
                                                     <td className="px-3 py-3">
-                                                        <span className="text-sm font-medium truncate max-w-[120px] block" title={apt.doctor_name}>
-                                                            {apt.doctor_name}
+                                                        <span className="text-sm font-medium truncate max-w-[120px] block" title={apt.doctor_name || apt.doctor_id}>
+                                                            {apt.doctor_name || `Doctor ${apt.doctor_id?.slice(-6)}`}
                                                         </span>
                                                     </td>
                                                     {/* Specialization */}
                                                     <td className="px-3 py-3">
                                                         <div className="flex items-center gap-1">
                                                             <Stethoscope className="w-3 h-3 text-neutral-400 flex-shrink-0" />
-                                                            <span className="text-xs text-neutral-600 truncate max-w-[100px]" title={(apt as any).specialization || 'General'}>
-                                                                {(apt as any).specialization || 'General'}
+                                                            <span className="text-xs text-neutral-600 truncate max-w-[100px]" title={apt.doctor_specialization || 'General'}>
+                                                                {apt.doctor_specialization || 'General'}
                                                             </span>
                                                         </div>
                                                     </td>

@@ -224,6 +224,63 @@ async def doctors(
     return {"status": 200, "doctors": doctor_list}
 
 
+@router.get("/count")
+async def get_appointment_count(
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_active_superuser),
+):
+    """Simple endpoint to get appointment count for debugging."""
+    try:
+        result = await session.exec(select(func.count()).select_from(Appointment))
+        count = int(result.one() or 0)
+        print(f"DEBUG: Appointment count: {count}")
+        return {"status": 200, "count": count}
+    except Exception as e:
+        print(f"ERROR getting appointment count: {e}")
+        return {"status": 500, "error": str(e)}
+
+
+@router.get("/raw")
+async def list_appointments_raw(
+    page: int = Query(default=1, ge=1),
+    per_page: int = Query(default=20, ge=1, le=200),
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_active_superuser),
+):
+    """Raw appointments endpoint for debugging - returns basic appointment data without joins."""
+    q = select(Appointment)
+
+    # total
+    total_q = select(func.count()).select_from(q.subquery())
+    total_result = await session.exec(total_q)
+    total = int(total_result.one() or 0)
+
+    offset = (page - 1) * per_page
+    q = q.offset(offset).limit(per_page)
+    result = await session.exec(q)
+    appts = result.all() or []
+
+    out = []
+    for a in appts:
+        out.append({
+            "id": a.id,
+            "patient_id": a.patient_id,
+            "doctor_id": a.doctor_id,
+            "branch_id": a.branch_id,
+            "appointment_date": str(a.appointment_date) if a.appointment_date else None,
+            "appointment_time": str(a.appointment_time) if a.appointment_time else None,
+            "status": a.status,
+            "payment_status": a.payment_status,
+            "created_at": a.created_at.isoformat() if a.created_at else None,
+        })
+
+    return {
+        "status": 200,
+        "appointments": out,
+        "pagination": {"total": total, "page": page, "per_page": per_page, "total_pages": (total + per_page - 1) // per_page},
+    }
+
+
 @router.get("/")
 async def list_appointments(
     date: Optional[str] = None,
@@ -273,6 +330,14 @@ async def list_appointments(
         }
         q = q.where(Appointment.status == reverse_map.get(status, status))
 
+    # Debug: Check if table exists and has data
+    try:
+        simple_count = await session.exec(select(func.count()).select_from(Appointment))
+        simple_total = int(simple_count.one() or 0)
+        print(f"DEBUG: Simple count from Appointment table: {simple_total}")
+    except Exception as e:
+        print(f"DEBUG: Error with simple count: {e}")
+
     # total
     total_q = select(func.count()).select_from(q.subquery())
     total_result = await session.exec(total_q)
@@ -294,45 +359,63 @@ async def list_appointments(
     total_pages = (total + per_page - 1) // per_page if per_page else 1
 
     out = []
-    for a in appts:
+    print(f"DEBUG: Processing {len(appts)} appointments")
+    for i, a in enumerate(appts):
+        print(f"DEBUG: Processing appointment {i+1}/{len(appts)}: ID={a.id}, patient_id={a.patient_id}, doctor_id={a.doctor_id}, branch_id={a.branch_id}, status={a.status}, date={a.appointment_date}")
         try:
-            patient_name = await _get_patient_name(session, a.patient_id)
-            doc = await _get_doctor_info(session, a.doctor_id)
-            branch_name = await _get_branch_name(session, a.branch_id)
+            # Try to get names, but don't fail if they don't exist
+            patient_name = "Unknown Patient"
+            try:
+                patient_name = await _get_patient_name(session, a.patient_id)
+            except Exception as e:
+                print(f"DEBUG: Failed to get patient name for {a.patient_id}: {e}")
 
-            out.append(
-                {
-                    "id": a.id,
-                    "patient_id": a.patient_id,
-                    "patient_name": patient_name,
-                    "patient_phone": None,
-                    "patient_email": None,
-                    "doctor_id": a.doctor_id,
-                    "doctor_name": doc.get("name"),
-                    "doctor_specialization": doc.get("specialization"),
-                    "specialization": doc.get("specialization"),
-                    "branch_id": a.branch_id,
-                    "branch_name": branch_name,
-                    "appointment_date": str(a.appointment_date) if a.appointment_date else "",
-                    "appointment_time": _format_appointment_time(a.appointment_time),
-                    "slot_number": 0,
-                    "token_number": a.queue_number or 0,
-                    "appointment_type": "general",
-                    "booking_type": "walk_in" if a.is_walk_in else "online",
-                    "status": _map_appt_status_to_frontend(a.status),
-                    "payment_status": _map_payment_status_to_frontend(a.payment_status),
-                    "payment_method": a.payment_method,
-                    "booking_fee": None,
-                    "amount_paid": a.payment_amount,
-                    "notes": a.notes,
-                    "cancellation_reason": a.cancellation_reason,
-                    "cancelled_by_admin_for_doctor": False,
-                    "created_at": a.created_at.isoformat() if a.created_at else "",
-                }
-            )
+            doc = {"name": "Unknown Doctor", "specialization": "Unknown"}
+            try:
+                doc = await _get_doctor_info(session, a.doctor_id)
+            except Exception as e:
+                print(f"DEBUG: Failed to get doctor info for {a.doctor_id}: {e}")
+
+            branch_name = "Unknown Branch"
+            try:
+                branch_name = await _get_branch_name(session, a.branch_id)
+            except Exception as e:
+                print(f"DEBUG: Failed to get branch name for {a.branch_id}: {e}")
+
+            appointment_data = {
+                "id": a.id,
+                "patient_id": a.patient_id,
+                "patient_name": patient_name,
+                "patient_phone": None,
+                "patient_email": None,
+                "doctor_id": a.doctor_id,
+                "doctor_name": doc.get("name"),
+                "doctor_specialization": doc.get("specialization"),
+                "specialization": doc.get("specialization"),
+                "branch_id": a.branch_id,
+                "branch_name": branch_name,
+                "appointment_date": str(a.appointment_date) if a.appointment_date else "",
+                "appointment_time": _format_appointment_time(a.appointment_time),
+                "slot_number": 0,
+                "token_number": a.queue_number or 0,
+                "appointment_type": "general",
+                "booking_type": "walk_in" if a.is_walk_in else "online",
+                "status": _map_appt_status_to_frontend(a.status),
+                "payment_status": _map_payment_status_to_frontend(a.payment_status),
+                "payment_method": a.payment_method,
+                "booking_fee": None,
+                "amount_paid": a.payment_amount,
+                "notes": a.notes,
+                "cancellation_reason": a.cancellation_reason,
+                "cancelled_by_admin_for_doctor": False,
+                "created_at": a.created_at.isoformat() if a.created_at else "",
+            }
+            out.append(appointment_data)
+            print(f"DEBUG: Successfully processed appointment {a.id}")
         except Exception as e:
             import traceback
             print(f"ERROR processing appointment {a.id}: {e}")
+            print(f"DEBUG: Appointment data: patient_id={a.patient_id}, doctor_id={a.doctor_id}, branch_id={a.branch_id}, status={a.status}, date={a.appointment_date}")
             traceback.print_exc()
             # Skip this appointment and continue with others
             continue
