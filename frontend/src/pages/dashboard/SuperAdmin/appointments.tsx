@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { RefreshCw, AlertCircle, Calendar, Search, Filter, X, MoreVertical, Edit, XCircle, Trash2, Clock } from "lucide-react";
+import { RefreshCw, AlertCircle, Calendar, Search, XCircle, Trash2, Clock } from "lucide-react";
 import { appointmentSuperAdminApi } from "../../../services/appointmentService";
 
 interface AppointmentData {
@@ -96,9 +96,7 @@ const SuperAdminAppointments: React.FC = () => {
         try {
             if (showLoading) setLoadingBranches(true);
             const response = await appointmentSuperAdminApi.getBranches();
-            if (response.status === 200) {
-                setBranches(response.branches);
-            }
+            setBranches(response.branches || []);
         } catch (err) {
             console.error('Failed to load branches:', err);
         } finally {
@@ -110,9 +108,7 @@ const SuperAdminAppointments: React.FC = () => {
         try {
             if (showLoading) setLoadingDoctors(true);
             const response = await appointmentSuperAdminApi.getAllDoctors();
-            if (response.status === 200) {
-                setDoctors(response.doctors);
-            }
+            setDoctors(response.doctors || []);
         } catch (err) {
             console.error('Failed to load doctors:', err);
         } finally {
