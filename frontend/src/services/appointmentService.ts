@@ -185,6 +185,22 @@ export const appointmentSuperAdminApi = {
     async getBranchSettings(params?: any): Promise<{ branches: Array<{ branch_id: string; settings?: AppointmentSettings; [key: string]: any }>; [key: string]: any }> {
         const res = await api.get("/super-admin/branch-settings", { params });
         return res.data as { branches: Array<{ branch_id: string; settings?: AppointmentSettings; [key: string]: any }>; [key: string]: any };
+    },
+    async cancelAppointment(appointmentId: string, reason: string, data?: any) {
+        const res = await api.put(`/super-admin/appointments/${appointmentId}/cancel`, { reason, ...(data ?? {}) });
+        return res.data;
+    },
+    async rescheduleAppointment(appointmentId: string, data: any) {
+        const res = await api.put(`/super-admin/appointments/${appointmentId}/reschedule`, data);
+        return res.data;
+    },
+    async deleteAppointment(appointmentId: string, reason: string) {
+        const res = await api.delete(`/super-admin/appointments/${appointmentId}`, { data: { reason } });
+        return res.data;
+    },
+    async modifyAppointment(appointmentId: string, data: any) {
+        const res = await api.put(`/super-admin/appointments/${appointmentId}`, data);
+        return res.data;
     }
 };
 
@@ -215,6 +231,10 @@ export const appointmentBranchAdminApi = {
     },
     async cancelAppointment(appointmentId: string, reason: string, data?: any) {
         const res = await api.put(`/branch-admin/appointments/${appointmentId}/cancel`, { reason, ...(data ?? {}) });
+        return res.data;
+    },
+    async deleteAppointment(appointmentId: string, reason: string) {
+        const res = await api.delete(`/branch-admin/appointments/${appointmentId}`, { data: { reason } });
         return res.data;
     },
     async getAppointmentLogs(bookingId: string) {
