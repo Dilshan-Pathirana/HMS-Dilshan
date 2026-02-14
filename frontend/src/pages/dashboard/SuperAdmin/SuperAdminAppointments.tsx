@@ -89,7 +89,7 @@ interface NewPatientData {
 }
 
 const SuperAdminAppointments: React.FC = () => {
-    const [appointmentView, setAppointmentView] = useState<AppointmentViewType>('today');
+    const [appointmentView, setAppointmentView] = useState<AppointmentViewType>('upcoming');
     const [appointments, setAppointments] = useState<AppointmentBooking[]>([]);
     const [branches, setBranches] = useState<Branch[]>([]);
     const [doctors, setDoctors] = useState<Doctor[]>([]);

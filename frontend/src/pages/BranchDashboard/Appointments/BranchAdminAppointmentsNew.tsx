@@ -139,7 +139,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   // ============================================
   // State
   // ============================================
-  const [activeView, setActiveView] = useState<ViewType>('today');
+  const [activeView, setActiveView] = useState<ViewType>('upcoming');
   const [viewMode, setViewMode] = useState<'sessions' | 'list'>('sessions');
   const [appointments, setAppointments] = useState<AppointmentBooking[]>([]);
   const [sessions, setSessions] = useState<SessionListItem[]>([]);
