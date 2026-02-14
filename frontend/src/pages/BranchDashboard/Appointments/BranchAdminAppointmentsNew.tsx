@@ -1,3 +1,4 @@
+// Fixed TypeScript errors for optional slot_number fields
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -42,7 +43,7 @@ import {
 import { patientSessionApi, SessionListItem } from '../../../services/patientSessionService';
 import { DashboardLayout } from '../../../components/common/Layout/DashboardLayout';
 import { BranchAdminMenuItems } from '../../../config/branchAdminNavigation';
-import { FaFileAlt, FaClipboardList, FaEye, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaClipboardList, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import SessionDetailsPanel from '../../../components/dashboard/Sessions/SessionDetailsPanel';
 
 // ============================================
@@ -741,14 +742,14 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       appointmentId: apt.id,
       doctorId: apt.doctor_id,
       date: apt.appointment_date,
-      slotNumber: apt.slot_number,
+      slotNumber: apt.slot_number || 0,
       patientName: apt.patient_name || 'Unknown Patient',
       currentDoctorName: apt.doctor_name || 'Unknown',
     });
     setEditForm({
       doctorId: apt.doctor_id,
       date: apt.appointment_date,
-      slotNumber: apt.slot_number,
+      slotNumber: apt.slot_number || 0,
     });
     setEditError(null);
     setEditSuccess(null);
@@ -859,7 +860,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       patientName: apt.patient_name || 'Unknown Patient',
       doctorName: apt.doctor_name || 'Unknown',
       date: apt.appointment_date,
-      slotNumber: apt.slot_number,
+      slotNumber: apt.slot_number || 0,
     });
     setCancelReason('');
     setCancellationType('normal');
@@ -2166,7 +2167,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                           <tr key={log.id} className="hover:bg-neutral-50 transition-colors">
                             <td className="px-4 py-3">
                               <div className="text-sm text-neutral-800 font-medium">
-                                {log.created_at_human || new Date(log.created_at).toLocaleString()}
+                                {log.created_at_human || (log.created_at ? new Date(log.created_at).toLocaleString() : 'Unknown')}
                               </div>
                               <div className="text-xs text-neutral-500">
                                 {log.ip_address && `IP: ${log.ip_address}`}
@@ -2380,7 +2381,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                             <button
                               key={slot.slot_number}
                               type="button"
-                              onClick={() => setEditForm(prev => ({ ...prev, slotNumber: slot.slot_number }))}
+                              onClick={() => setEditForm(prev => ({ ...prev, slotNumber: slot.slot_number || 0 }))}
                               disabled={!slot.is_available}
                               className={`p-2 rounded-lg text-sm font-medium transition-all ${editForm.slotNumber === slot.slot_number
                                 ? 'bg-primary-500 text-white ring-2 ring-blue-300'
@@ -3134,7 +3135,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                               <button
                                 key={slot.slot_number}
                                 type="button"
-                                onClick={() => !isDisabled && setBookingForm(prev => ({ ...prev, slotNumber: slot.slot_number }))}
+                                onClick={() => !isDisabled && setBookingForm(prev => ({ ...prev, slotNumber: slot.slot_number || 0 }))}
                                 disabled={isDisabled ? true : undefined}
                                 className={`p-2 rounded-lg text-sm font-medium transition-all ${bookingForm.slotNumber === slot.slot_number
                                   ? 'bg-emerald-600 text-white ring-2 ring-emerald-300'

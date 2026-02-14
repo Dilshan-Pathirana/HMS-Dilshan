@@ -106,7 +106,7 @@ const BranchAdminAppointments: React.FC = () => {
     try {
       setLoading(true);
       const params: any = {};
-      
+
       if (filters.date) params.date = filters.date;
       if (filters.doctor_id) params.doctor_id = filters.doctor_id;
       if (filters.status !== 'all') params.status = filters.status;
@@ -116,7 +116,7 @@ const BranchAdminAppointments: React.FC = () => {
       }
 
       const response = await appointmentBranchAdminApi.getAppointments(params);
-      
+
       if (response.status === 200) {
         setAppointments(response.appointments);
       }
@@ -208,7 +208,7 @@ const BranchAdminAppointments: React.FC = () => {
     try {
       setActionLoading('modify');
       const response = await appointmentBranchAdminApi.modifyAppointment(selectedAppointment.id, modifyForm);
-      
+
       if (response.status === 200) {
         setSuccess('Appointment modified successfully');
         setShowModifyModal(false);
@@ -230,7 +230,7 @@ const BranchAdminAppointments: React.FC = () => {
     try {
       setActionLoading(bookingId);
       const response = await appointmentBranchAdminApi.cancelAppointment(bookingId, reason);
-      
+
       if (response.status === 200) {
         setSuccess('Appointment cancelled successfully');
         loadAppointments();
@@ -250,7 +250,7 @@ const BranchAdminAppointments: React.FC = () => {
     try {
       setActionLoading('settings');
       const response = await appointmentBranchAdminApi.updateSettings(settings);
-      
+
       if (response.status === 200) {
         setSuccess('Settings saved successfully');
         setSettings(response.settings);
@@ -279,9 +279,9 @@ const BranchAdminAppointments: React.FC = () => {
   const getStatusLabel = (status: string) => status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
 
   return (
-    <DashboardLayout 
-      userName={userName} 
-      userRole="Branch Admin" 
+    <DashboardLayout
+      userName={userName}
+      userRole="Branch Admin"
       profileImage={profileImage}
       sidebarContent={<SidebarMenu />}
       branchName={branchName}
@@ -433,7 +433,7 @@ const BranchAdminAppointments: React.FC = () => {
                               setModifyForm({
                                 doctor_id: apt.doctor_id,
                                 appointment_date: apt.appointment_date,
-                                slot_number: apt.slot_number,
+                                slot_number: apt.slot_number || 0,
                                 status: apt.status,
                                 notes: apt.notes || '',
                                 reason: '',
@@ -481,23 +481,23 @@ const BranchAdminAppointments: React.FC = () => {
             <h3 className="text-lg font-semibold mb-4">Today's Overview</h3>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               <div className="text-center p-4 bg-indigo-50 rounded-lg">
-                <p className="text-2xl font-bold text-indigo-600">{statistics.today.total}</p>
+                <p className="text-2xl font-bold text-indigo-600">{statistics.today?.total || 0}</p>
                 <p className="text-sm text-neutral-600">Total</p>
               </div>
               <div className="text-center p-4 bg-blue-50 rounded-lg">
-                <p className="text-2xl font-bold text-primary-500">{statistics.today.confirmed}</p>
+                <p className="text-2xl font-bold text-primary-500">{statistics.today?.confirmed || 0}</p>
                 <p className="text-sm text-neutral-600">Confirmed</p>
               </div>
               <div className="text-center p-4 bg-green-50 rounded-lg">
-                <p className="text-2xl font-bold text-green-600">{statistics.today.completed}</p>
+                <p className="text-2xl font-bold text-green-600">{statistics.today?.completed || 0}</p>
                 <p className="text-sm text-neutral-600">Completed</p>
               </div>
               <div className="text-center p-4 bg-orange-50 rounded-lg">
-                <p className="text-2xl font-bold text-orange-600">{statistics.today.walk_in || 0}</p>
+                <p className="text-2xl font-bold text-orange-600">{statistics.today?.walk_in || 0}</p>
                 <p className="text-sm text-neutral-600">Walk-ins</p>
               </div>
               <div className="text-center p-4 bg-error-50 rounded-lg">
-                <p className="text-2xl font-bold text-error-600">{statistics.today.cancelled}</p>
+                <p className="text-2xl font-bold text-error-600">{statistics.today?.cancelled || 0}</p>
                 <p className="text-sm text-neutral-600">Cancelled</p>
               </div>
             </div>
@@ -568,7 +568,7 @@ const BranchAdminAppointments: React.FC = () => {
             {/* Booking Rules */}
             <div className="space-y-4">
               <h4 className="font-medium text-neutral-700 border-b pb-2">Booking Rules</h4>
-              
+
               <div>
                 <label className="block text-sm font-medium text-neutral-600 mb-1">
                   Max Advance Booking Days

@@ -4,38 +4,38 @@ export interface AppointmentBooking {
     id: string;
     patient_name: string;
     patient_id: string;
-    patient_phone: string;
+    patient_phone?: string;
     doctor_name: string;
     doctor_id: string;
-    doctor_specialization: string;
+    doctor_specialization?: string;
     branch_name: string;
     branch_id: string;
     appointment_date: string;
     appointment_time: string;
     status: string;
     payment_status: string;
-    queue_number: number;
-    token_number: number;
-    slot_number: number;
-    booking_type: string;
-    booking_fee: number;
-    amount_paid: number;
-    notes: string;
-    cancellation_reason: string;
-    cancelled_by_user_for_doctor: string;
-    appointment_type: string;
-    created_at: string;
+    queue_number?: number;
+    token_number?: number;
+    slot_number?: number;
+    booking_type?: string;
+    booking_fee?: number;
+    amount_paid?: number;
+    notes?: string;
+    cancellation_reason?: string;
+    cancelled_by_user_for_doctor?: string;
+    appointment_type?: string;
+    created_at?: string;
     [key: string]: any;
 }
 
 export interface Doctor {
     id: string;
-    doctor_id: string;
+    doctor_id?: string;
     name: string;
-    specialization: string;
-    branch_id: string;
-    branch_name: string;
-    profile_picture: string;
+    specialization?: string;
+    branch_id?: string;
+    branch_name?: string;
+    profile_picture?: string;
     [key: string]: any;
 }
 
@@ -47,8 +47,8 @@ export interface Branch {
 
 export interface SlotDay {
     date: string;
-    day: string;
-    available_count: number;
+    day?: string;
+    available_count?: number;
     slots: TimeSlot[];
     [key: string]: any;
 }
@@ -56,26 +56,26 @@ export interface SlotDay {
 export interface TimeSlot {
     id: string;
     time: string;
-    slot_number: number;
+    slot_number?: number;
     available: boolean;
-    is_available: boolean;
+    is_available?: boolean;
     [key: string]: any;
 }
 
 export interface SlotInfo {
     id: string;
     time: string;
-    slot_number: number;
+    slot_number?: number;
     available: boolean;
-    is_available: boolean;
+    is_available?: boolean;
     [key: string]: any;
 }
 
 export interface PatientSearchResult {
     id: string;
     name: string;
-    phone: string;
-    email: string;
+    phone?: string;
+    email?: string;
     [key: string]: any;
 }
 
@@ -118,32 +118,32 @@ export interface AppointmentLog {
 }
 
 export interface AppointmentStatistics {
-    total_appointments: number;
-    completed: number;
-    cancelled: number;
-    today: {
-        total: number;
-        completed: number;
-        cancelled: number;
-        no_show: number;
-        pending: number;
-        confirmed: number;
-        walk_in: number;
+    total_appointments?: number;
+    completed?: number;
+    cancelled?: number;
+    today?: {
+        total?: number;
+        completed?: number;
+        cancelled?: number;
+        no_show?: number;
+        pending?: number;
+        confirmed?: number;
+        walk_in?: number;
         [key: string]: any;
     };
-    this_month: {
-        total: number;
-        completed: number;
-        cancelled: number;
-        revenue: number;
-        confirmed: number;
+    this_month?: {
+        total?: number;
+        completed?: number;
+        cancelled?: number;
+        revenue?: number;
+        confirmed?: number;
         [key: string]: any;
     };
-    top_doctors: Array<{
-        doctor_id: string;
-        doctor_name: string;
-        appointment_count: number;
-        completed_count: number;
+    top_doctors?: Array<{
+        doctor_id?: string;
+        doctor_name?: string;
+        appointment_count?: number;
+        completed_count?: number;
         [key: string]: any;
     }>;
     [key: string]: any;
@@ -154,18 +154,18 @@ export interface AuditLogEntry {
     action: string;
     user: string;
     timestamp: string;
-    performed_by_id: string;
-    performed_by: string;
-    performed_by_role: string;
-    created_at_human: string;
-    created_at: string;
-    ip_address: string;
-    patient_name: string;
-    token_number: number;
-    action_label: string;
-    previous_status: string;
-    new_status: string;
-    reason: string;
+    performed_by_id?: string;
+    performed_by?: string;
+    performed_by_role?: string;
+    created_at_human?: string;
+    created_at?: string;
+    ip_address?: string;
+    patient_name?: string;
+    token_number?: number;
+    action_label?: string;
+    previous_status?: string;
+    new_status?: string;
+    reason?: string;
     [key: string]: any;
 }
 

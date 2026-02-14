@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 from typing import Optional, Dict, List
+from datetime import date, datetime
 
 from fastapi import APIRouter, Depends
-from sqlmodel import select, col, func
+from sqlmodel import select, col, func, or_
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.api.deps import get_current_active_superuser
@@ -26,24 +27,39 @@ def _full_name(first: Optional[str], last: Optional[str]) -> str:
 async def list_all_appointments(
     skip: int = 0,
     limit: int = 500,
+    show_all: bool = False,
     session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_active_superuser),
 ):
     """
     Super admin endpoint.
     Returns ALL appointments in system.
+    By default, shows upcoming and current day appointments only.
+    Set show_all=true to see all historical appointments.
     """
 
+    today = date.today()
+
+    # ---- Base query ----
+    base_query = select(Appointment)
+    
+    # Filter by date unless show_all is true
+    if not show_all:
+        base_query = base_query.where(col(Appointment.appointment_date) >= today)
+
     # ---- total count ----
-    total_query = select(func.count(Appointment.id))
-    total = (await session.exec(total_query)).one()
+    count_query = select(func.count(Appointment.id))
+    if not show_all:
+        count_query = count_query.where(col(Appointment.appointment_date) >= today)
+    
+    total = (await session.exec(count_query)).one()
 
     # ---- fetch appointments ----
     query = (
-        select(Appointment)
+        base_query
         .order_by(
-            col(Appointment.appointment_date).desc(),
-            col(Appointment.appointment_time).desc(),
+            col(Appointment.appointment_date).asc(),  # Changed to ascending - upcoming first
+            col(Appointment.appointment_time).asc(),
         )
         .offset(skip)
         .limit(limit)
