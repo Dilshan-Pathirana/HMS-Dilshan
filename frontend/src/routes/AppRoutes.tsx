@@ -140,7 +140,7 @@ const SuperAdminChatbotManagement = lazy(() => import("../pages/dashboard/SuperA
 const SuperAdminReports = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminReports.tsx").then(m => ({ default: m.SuperAdminReports })));
 const SuperAdminAnalytics = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminAnalytics.tsx").then(m => ({ default: m.SuperAdminAnalytics })));
 const SuperAdminSettings = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminSettings.tsx").then(m => ({ default: m.SuperAdminSettings })));
-const SuperAdminAppointments = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminAppointments.tsx"));
+const SuperAdminAppointments = lazy(() => import("../pages/dashboard/SuperAdmin/appointments.tsx"));
 const SuperAdminAppointmentList = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminAppointmentList.tsx"));
 const SuperAdminPharmacies = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminPharmacies.tsx"));
 const SuperAdminConsultationMonitor = lazy(() => import("../pages/dashboard/SuperAdmin/SuperAdminConsultationMonitor.tsx").then(m => ({ default: m.SuperAdminConsultationMonitor })));
