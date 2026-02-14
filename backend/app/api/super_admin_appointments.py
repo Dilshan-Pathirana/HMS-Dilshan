@@ -1,17 +1,9 @@
-"""Super-admin appointment endpoints.
-
-Prefix: /api/v1/super-admin/appointments
-
-These endpoints provide a comprehensive view of all appointments in the system.
-"""
-
 from __future__ import annotations
 
-from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, Dict
 
 from fastapi import APIRouter, Depends
-from sqlmodel import select, col
+from sqlmodel import select, col, func
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.api.deps import get_current_active_superuser
@@ -25,8 +17,9 @@ from app.models.user import User
 router = APIRouter()
 
 
-def _full_name(first_name: Optional[str], last_name: Optional[str]) -> str:
-    return " ".join([p for p in [(first_name or "").strip(), (last_name or "").strip()] if p]).strip()
+def _full_name(first: Optional[str], last: Optional[str]) -> str:
+    parts = [p for p in [(first or "").strip(), (last or "").strip()] if p]
+    return " ".join(parts) if parts else "Unknown"
 
 
 @router.get("/")
@@ -34,52 +27,92 @@ async def list_all_appointments(
     session: AsyncSession = Depends(get_session),
     current_user: User = Depends(get_current_active_superuser),
 ):
-    """
-    Fetch ALL appointments with details.
-    Ordered by date (descending) and time (descending).
-    """
-    # Join with Patient, Doctor, and Branch to get names
-    query = (
-        select(
-            Appointment,
-            Patient,
-            User,  # User associated with Patient for name
-            Doctor,
-            Branch
-        )
-        .join(Patient, Appointment.patient_id == Patient.id, isouter=True)
-        .join(User, Patient.user_id == User.id, isouter=True)
-        .join(Doctor, Appointment.doctor_id == Doctor.id, isouter=True)
-        .join(Branch, Appointment.branch_id == Branch.id, isouter=True)
-        .order_by(col(Appointment.appointment_date).desc(), col(Appointment.appointment_time).desc())
+    # 1. Get raw count first for debug
+    count_query = select(func.count(Appointment.id))
+    count_result = await session.exec(count_query)
+    total_raw_count = count_result.one() or 0
+
+    # 2. Fetch all appointments without joins
+    query = select(Appointment).order_by(
+        col(Appointment.appointment_date).desc(),
+        col(Appointment.appointment_time).desc()
     )
-
     result = await session.exec(query)
-    rows = result.all()
+    appointments = result.all()
 
-    appointments_list = []
-    for row in rows:
-        # row is a tuple: (Appointment, Patient, User, Doctor, Branch)
-        # Note: Some joins might be None if isouter=True and no match found (though unlikely for valid data)
-        appt, patient, patient_user, doctor, branch = row
+    # 3. Collect IDs
+    patient_ids = {a.patient_id for a in appointments if a.patient_id}
+    doctor_ids = {a.doctor_id for a in appointments if a.doctor_id}
+    branch_ids = {a.branch_id for a in appointments if a.branch_id}
 
-        patient_name = "Unknown"
-        if patient_user:
-            patient_name = _full_name(patient_user.first_name, patient_user.last_name)
+    # 4. Fetch related entities
+    patients: Dict[str, Patient] = {}
+    patient_users: Dict[str, User] = {}
+    doctors: Dict[str, Doctor] = {}
+    doctor_users: Dict[str, User] = {} # Doctors are users too? Check model
+    branches: Dict[str, Branch] = {}
 
-        doctor_name = "Unknown"
-        if doctor:
-            doctor_name = _full_name(doctor.first_name, doctor.last_name)
+    if patient_ids:
+        p_res = await session.exec(select(Patient).where(col(Patient.id).in_(patient_ids)))
+        patients = {p.id: p for p in p_res.all()}
+        
+        # Get users for patients
+        p_user_ids = {p.user_id for p in patients.values() if p.user_id}
+        if p_user_ids:
+            u_res = await session.exec(select(User).where(col(User.id).in_(p_user_ids)))
+            patient_users = {u.id: u for u in u_res.all()}
 
-        branch_name = branch.center_name if branch else "Unknown"
+    if doctor_ids:
+        d_res = await session.exec(select(Doctor).where(col(Doctor.id).in_(doctor_ids)))
+        doctors = {d.id: d for d in d_res.all()}
+        # Is Doctor linked to User?
+        # Typically Doctor model has user attributes directly OR a user_id
+        # Checked Doctor model? I need to check if Doctor has user_id or name fields directly.
+        # Assuming Doctor has first_name/last_name directly based on typical design, but I'll check.
+        # If Doctor is just a profile linked to User, I need User.
+        # Let's assume Doctor has fields for now, or I'll check Doctor model in next step if this fails.
+        # Actually, let's fetch Doctor logic from View File of Doctor.py. 
+        # But for now, I'll rely on Doctor object attributes.
 
-        appointments_list.append({
+    if branch_ids:
+        b_res = await session.exec(select(Branch).where(col(Branch.id).in_(branch_ids)))
+        branches = {b.id: b for b in b_res.all()}
+
+    # 5. Map data
+    data = []
+    for appt in appointments:
+        # Patient Name
+        p_name = "Unknown"
+        if appt.patient_id in patients:
+            p = patients[appt.patient_id]
+            if p.user_id in patient_users:
+                u = patient_users[p.user_id]
+                p_name = _full_name(u.first_name, u.last_name)
+
+        # Doctor Name (Try Doctor fields first)
+        d_name = "Unknown"
+        if appt.doctor_id in doctors:
+            d = doctors[appt.doctor_id]
+            # Assuming Doctor has first_name/last_name. 
+            # If Doctor inherits from User or has them, this works.
+            # If Doctor has user_id, we might miss it.
+            # Safe bet: check attributes
+            fname = getattr(d, "first_name", "")
+            lname = getattr(d, "last_name", "")
+            d_name = _full_name(fname, lname)
+
+        # Branch Name
+        b_name = "Unknown"
+        if appt.branch_id in branches:
+            b_name = branches[appt.branch_id].center_name
+
+        data.append({
             "id": appt.id,
-            "patient_name": patient_name,
+            "patient_name": p_name,
             "patient_id": appt.patient_id,
-            "doctor_name": doctor_name,
+            "doctor_name": d_name,
             "doctor_id": appt.doctor_id,
-            "branch_name": branch_name,
+            "branch_name": b_name,
             "branch_id": appt.branch_id,
             "appointment_date": str(appt.appointment_date) if appt.appointment_date else None,
             "appointment_time": str(appt.appointment_time) if appt.appointment_time else None,
@@ -91,6 +124,7 @@ async def list_all_appointments(
 
     return {
         "status": 200,
-        "data": appointments_list,
-        "count": len(appointments_list)
+        "data": data,
+        "count": total_raw_count,
+        "debug_raw_count": total_raw_count
     }
