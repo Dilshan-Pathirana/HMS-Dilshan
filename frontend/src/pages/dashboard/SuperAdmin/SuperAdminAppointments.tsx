@@ -161,7 +161,7 @@ const SuperAdminAppointments: React.FC = () => {
     const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
     // Session View State
-    const [viewMode] = useState<'sessions' | 'list'>('sessions');
+    const [viewMode] = useState<'sessions' | 'list'>('list');
     const [sessions, setSessions] = useState<SessionListItem[]>([]);
     const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
     const [showSessionDetails, setShowSessionDetails] = useState(false);
@@ -196,10 +196,25 @@ const SuperAdminAppointments: React.FC = () => {
 
     const loadBranches = async () => {
         try {
-            const response = await appointmentSuperAdminApi.getBranches();
-            if (response.status === 200 && response.branches) {
-                setBranches(response.branches);
-            }
+            const response: any = await appointmentSuperAdminApi.getBranches();
+            const branchList = Array.isArray(response?.branches)
+                ? response.branches
+                : Array.isArray(response)
+                    ? response
+                    : Array.isArray(response?.data)
+                        ? response.data
+                        : [];
+
+            const normalizedBranches = branchList
+                .map((branch: any) => ({
+                    id: branch?.id ?? branch?.branch_id ?? '',
+                    name: branch?.name ?? branch?.branch_name ?? branch?.center_name ?? '',
+                    location: branch?.location ?? branch?.division,
+                    address: branch?.address,
+                }))
+                .filter((branch: any) => branch.id && branch.name);
+
+            setBranches(normalizedBranches);
         } catch (error) {
             console.error('Failed to load branches:', error);
         }
@@ -207,16 +222,33 @@ const SuperAdminAppointments: React.FC = () => {
 
     const loadDoctors = async (branchId?: string) => {
         try {
-            const response = await appointmentSuperAdminApi.getAllDoctors(branchId);
-            if (response.status === 200 && response.doctors) {
-                setDoctors(response.doctors);
-                // Extract unique specializations
-                const specs = [...new Set(response.doctors
-                    .map(d => d.specialization)
-                    .filter(Boolean)
-                )] as string[];
-                setSpecializations(specs.sort());
-            }
+            const response: any = await appointmentSuperAdminApi.getAllDoctors(branchId);
+            const doctorList = Array.isArray(response?.doctors)
+                ? response.doctors
+                : Array.isArray(response)
+                    ? response
+                    : Array.isArray(response?.data)
+                        ? response.data
+                        : [];
+
+            const normalizedDoctors = doctorList
+                .map((doctor: any) => ({
+                    doctor_id: doctor?.doctor_id ?? doctor?.id ?? '',
+                    name: doctor?.name ?? [doctor?.first_name, doctor?.last_name].filter(Boolean).join(' ').trim(),
+                    specialization: doctor?.specialization,
+                    branch_id: doctor?.branch_id,
+                    branch_name: doctor?.branch_name,
+                    profile_picture: doctor?.profile_picture,
+                }))
+                .filter((doctor: any) => doctor.doctor_id && doctor.name);
+
+            setDoctors(normalizedDoctors);
+
+            const specs = [...new Set(normalizedDoctors
+                .map((doctor: any) => doctor.specialization)
+                .filter(Boolean)
+            )] as string[];
+            setSpecializations(specs.sort());
         } catch (error) {
             console.error('Failed to load doctors:', error);
         }
@@ -249,9 +281,18 @@ const SuperAdminAppointments: React.FC = () => {
             if (endDate && appointmentView !== 'today' && appointmentView !== 'past') params.end_date = endDate;
             if (doctorFilter) params.doctor_id = doctorFilter;
 
-            const response = await appointmentSuperAdminApi.getAllAppointments(params);
-            if (response.status === 200) {
-                let filteredData = response.appointments || [];
+            const response: any = await appointmentSuperAdminApi.getAllAppointments(params);
+            const statusOk = response?.status === 200 || typeof response?.status === 'undefined';
+            if (statusOk) {
+                let filteredData = Array.isArray(response?.appointments)
+                    ? response.appointments
+                    : Array.isArray(response)
+                        ? response
+                        : Array.isArray(response?.data?.appointments)
+                            ? response.data.appointments
+                            : Array.isArray(response?.data)
+                                ? response.data
+                                : [];
 
                 // For past view, also include cancelled appointments
                 if (appointmentView === 'past') {
@@ -276,9 +317,8 @@ const SuperAdminAppointments: React.FC = () => {
                 }
 
                 setAppointments(filteredData);
-                if (response.pagination) {
-                    setTotalPages(response.pagination.total_pages);
-                }
+                const pagination = response?.pagination ?? response?.data?.pagination;
+                setTotalPages(Math.max(1, Number(pagination?.total_pages || 1)));
             }
         } catch (error) {
             console.error('Failed to load appointments:', error);
