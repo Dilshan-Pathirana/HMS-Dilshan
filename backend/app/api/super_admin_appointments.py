@@ -277,6 +277,7 @@ async def list_appointments(
     total_q = select(func.count()).select_from(q.subquery())
     total_result = await session.exec(total_q)
     total = int(total_result.one() or 0)
+    print(f"DEBUG: Total appointments found: {total}")
 
     offset = (page - 1) * per_page
     q = (
@@ -289,6 +290,7 @@ async def list_appointments(
     )
     result = await session.exec(q)
     appts = result.all() or []
+    print(f"DEBUG: Appointments fetched: {len(appts)}")
     total_pages = (total + per_page - 1) // per_page if per_page else 1
 
     out = []
@@ -335,6 +337,7 @@ async def list_appointments(
             # Skip this appointment and continue with others
             continue
 
+    print(f"DEBUG: Valid appointments processed: {len(out)}")
     return {
         "status": 200,
         "appointments": out,

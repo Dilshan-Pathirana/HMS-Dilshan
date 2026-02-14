@@ -54,7 +54,7 @@ interface LocalStatistics {
     by_status: { status: string; count: number }[];
 }
 
-type AppointmentViewType = 'today' | 'upcoming' | 'past';
+type AppointmentViewType = 'all' | 'today' | 'upcoming' | 'past';
 type CancellationType = 'normal' | 'doctor_request';
 type BookingType = 'walk_in' | 'phone' | 'online';
 type PaymentStatusType = 'pending' | 'paid' | 'waived';
@@ -89,7 +89,7 @@ interface NewPatientData {
 }
 
 const SuperAdminAppointments: React.FC = () => {
-    const [appointmentView, setAppointmentView] = useState<AppointmentViewType>('today');
+    const [appointmentView, setAppointmentView] = useState<AppointmentViewType>('all');
     const [appointments, setAppointments] = useState<AppointmentBooking[]>([]);
     const [branches, setBranches] = useState<Branch[]>([]);
     const [doctors, setDoctors] = useState<Doctor[]>([]);
@@ -278,13 +278,14 @@ const SuperAdminAppointments: React.FC = () => {
                 yesterday.setDate(yesterday.getDate() - 1);
                 params.end_date = yesterday.toISOString().split('T')[0];
             }
+            // 'all' applies no date filters
 
             // Apply additional filters
             if (selectedBranch) params.branch_id = selectedBranch;
             if (statusFilter) params.status = statusFilter;
-            if (dateFilter && appointmentView !== 'today') params.date = dateFilter;
-            if (startDate && appointmentView !== 'today' && appointmentView !== 'upcoming') params.start_date = startDate;
-            if (endDate && appointmentView !== 'today' && appointmentView !== 'past') params.end_date = endDate;
+            if (dateFilter && appointmentView !== 'today' && appointmentView !== 'all') params.date = dateFilter;
+            if (startDate && appointmentView !== 'today' && appointmentView !== 'upcoming' && appointmentView !== 'all') params.start_date = startDate;
+            if (endDate && appointmentView !== 'today' && appointmentView !== 'past' && appointmentView !== 'all') params.end_date = endDate;
             if (doctorFilter) params.doctor_id = doctorFilter;
 
             const response: any = await appointmentSuperAdminApi.getAllAppointments(params);
@@ -926,6 +927,18 @@ const SuperAdminAppointments: React.FC = () => {
                 {/* Time-based Sub-tabs + Create Button */}
                 <div className="flex flex-wrap items-center justify-between gap-4 bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
                     <div className="flex items-center gap-2">
+                        <button
+                            onClick={() => { setAppointmentView('all'); setCurrentPage(1); }}
+                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${appointmentView === 'all'
+                                ? 'bg-blue-600 text-white'
+                                : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+                                }`}
+                        >
+                            <span className="flex items-center gap-2">
+                                <FileText className="w-4 h-4" />
+                                All
+                            </span>
+                        </button>
                         <button
                             onClick={() => { setAppointmentView('today'); setCurrentPage(1); }}
                             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${appointmentView === 'today'
