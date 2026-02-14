@@ -89,7 +89,7 @@ interface NewPatientData {
 }
 
 const SuperAdminAppointments: React.FC = () => {
-    const [appointmentView, setAppointmentView] = useState<AppointmentViewType>('upcoming');
+    const [appointmentView, setAppointmentView] = useState<AppointmentViewType>('today');
     const [appointments, setAppointments] = useState<AppointmentBooking[]>([]);
     const [branches, setBranches] = useState<Branch[]>([]);
     const [doctors, setDoctors] = useState<Doctor[]>([]);
@@ -272,9 +272,7 @@ const SuperAdminAppointments: React.FC = () => {
             if (appointmentView === 'today') {
                 params.date = today;
             } else if (appointmentView === 'upcoming') {
-                const tomorrow = new Date();
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                params.start_date = tomorrow.toISOString().split('T')[0];
+                params.start_date = today;
             } else if (appointmentView === 'past') {
                 const yesterday = new Date();
                 yesterday.setDate(yesterday.getDate() - 1);

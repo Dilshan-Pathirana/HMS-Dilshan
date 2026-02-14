@@ -39,7 +39,9 @@ def _full_name(first_name: Optional[str], last_name: Optional[str]) -> str:
     return " ".join([p for p in [(first_name or "").strip(), (last_name or "").strip()] if p]).strip()
 
 
-def _map_appt_status_to_frontend(status: str) -> str:
+def _map_appt_status_to_frontend(status: Optional[str]) -> str:
+    if not status:
+        return "pending"
     mapping = {
         "pending": "pending_payment",
         "confirmed": "confirmed",
@@ -290,8 +292,8 @@ async def list_appointments(
     total_pages = (total + per_page - 1) // per_page if per_page else 1
 
     out = []
-    try:
-        for a in appts:
+    for a in appts:
+        try:
             patient_name = await _get_patient_name(session, a.patient_id)
             doc = await _get_doctor_info(session, a.doctor_id)
             branch_name = await _get_branch_name(session, a.branch_id)
@@ -326,17 +328,12 @@ async def list_appointments(
                     "created_at": a.created_at.isoformat() if a.created_at else "",
                 }
             )
-    except Exception as e:
-        import traceback
-        print(f"ERROR processing appointments: {e}")
-        traceback.print_exc()
-        # Return what we have or empty to avoid 500
-        return {
-            "status": 200,
-            "appointments": [],
-            "error_fallback": str(e),
-             "pagination": {"total": total, "page": page, "per_page": per_page, "total_pages": total_pages},
-        }
+        except Exception as e:
+            import traceback
+            print(f"ERROR processing appointment {a.id}: {e}")
+            traceback.print_exc()
+            # Skip this appointment and continue with others
+            continue
 
     return {
         "status": 200,

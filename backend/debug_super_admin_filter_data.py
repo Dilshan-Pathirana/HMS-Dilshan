@@ -46,6 +46,16 @@ async def main():
             count_res = await session.exec(select(func.count(Appointment.id)))
             total = count_res.one()
             print(f"Total Appointments: {total}")
+
+            # Check Approintments by Date
+            print("\n--- Appointments by Date & Status ---")
+            appt_counts = await session.exec(
+                select(Appointment.appointment_date, Appointment.status, func.count(Appointment.id))
+                .group_by(Appointment.appointment_date, Appointment.status)
+                .order_by(Appointment.appointment_date.desc())
+            )
+            for date_val, status, count in appt_counts.all():
+                print(f"Date: {date_val}, Status: {status}, Count: {count}")
         except Exception as e:
              print(f"Error fetching appointments: {e}")
 

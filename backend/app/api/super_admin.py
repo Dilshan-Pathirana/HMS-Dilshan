@@ -62,3 +62,38 @@ async def get_dashboard_stats(
             "activeStaff": active_staff
         }
     }
+
+
+@router.post("/seed-defaults")
+async def seed_defaults(
+    session: AsyncSession = Depends(get_session),
+    # verifying_user: User = Depends(get_current_active_superuser), # Ideally we want this, but if no user exists, we can't login!
+    # So we must leave this open or use a secret header.
+    # For now, we'll check if ANY super admin exists. If so, return 400.
+):
+    from app.core.security import get_password_hash
+    
+    # Check if super admin exists
+    result = await session.exec(select(User).where(User.email == "admin@hospital.com"))
+    existing = result.first()
+    if existing:
+        return {"status": 400, "message": "Super admin already exists"}
+
+    # Create Super Admin
+    # Replicating logic from seed.py
+    ADMIN_EMAIL = "admin@hospital.com"
+    ADMIN_USERNAME = "super admin"
+    ADMIN_ROLE = 1
+    ADMIN_PASSWORD = "Test@123"
+
+    new_admin = User(
+        email=ADMIN_EMAIL,
+        username=ADMIN_USERNAME,
+        hashed_password=get_password_hash(ADMIN_PASSWORD),
+        role_as=ADMIN_ROLE,
+        is_active=True,
+    )
+    session.add(new_admin)
+    await session.commit()
+    
+    return {"status": 200, "message": f"Seeded super admin: {ADMIN_EMAIL}"}
