@@ -181,3 +181,4 @@ scripts/ec2-*.sh
 
 hospital-managment-system-tricky.zip
 *.zip
+frontend/tsconfig.app.tsbuildinfo

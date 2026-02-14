@@ -30,6 +30,7 @@ import {
   FaInfoCircle,
   FaUserShield,
   FaPrint,
+  FaTrash,
 } from 'react-icons/fa';
 import {
   appointmentBranchAdminApi,
@@ -177,13 +178,12 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   const [editError, setEditError] = useState<string | null>(null);
   const [editSuccess, setEditSuccess] = useState<string | null>(null);
 
-  // Cancel modal state
-  const [showCancelModal, setShowCancelModal] = useState(false);
-  const [cancellingAppointment, setCancellingAppointment] = useState<CancelAppointmentData | null>(null);
-  const [cancelReason, setCancelReason] = useState('');
-  const [cancellationType, setCancellationType] = useState<CancellationType>('normal');
-  const [savingCancel, setSavingCancel] = useState(false);
-  const [cancelError, setCancelError] = useState<string | null>(null);
+  // Delete modal state
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deletingAppointment, setDeletingAppointment] = useState<CancelAppointmentData | null>(null);
+  const [deleteReason, setDeleteReason] = useState('');
+  const [savingDelete, setSavingDelete] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   // Create booking modal state
   const [showBookingModal, setShowBookingModal] = useState(false);
@@ -974,6 +974,63 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       setCancelError(err.response?.data?.message || 'Failed to cancel appointment');
     } finally {
       setSavingCancel(false);
+    }
+  };
+
+  // ============================================
+  // Delete Appointment Handlers
+  // ============================================
+  const openDeleteModal = (apt: AppointmentBooking) => {
+    setDeletingAppointment({
+      appointmentId: apt.id,
+      patientName: apt.patient_name || 'Unknown Patient',
+      doctorName: apt.doctor_name || 'Unknown',
+      date: apt.appointment_date,
+      slotNumber: apt.slot_number || 0,
+    });
+    setDeleteReason('');
+    setDeleteError(null);
+    setShowDeleteModal(true);
+  };
+
+  const closeDeleteModal = () => {
+    setShowDeleteModal(false);
+    setDeletingAppointment(null);
+    setDeleteReason('');
+    setDeleteError(null);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!deletingAppointment) return;
+
+    // Validation
+    if (!deleteReason.trim()) {
+      setDeleteError('Please provide a deletion reason');
+      return;
+    }
+
+    try {
+      setSavingDelete(true);
+      setDeleteError(null);
+
+      const response = await appointmentBranchAdminApi.deleteAppointment(
+        deletingAppointment.appointmentId,
+        deleteReason
+      );
+
+      if (response.status === 200) {
+        closeDeleteModal();
+        loadAppointments(activeView, filters);
+        loadSessions(activeView, filters);
+        loadCounts();
+        // Show success message in main error area (styled as success)
+        setError(null);
+      }
+    } catch (err: any) {
+      console.error('Failed to delete appointment:', err);
+      setDeleteError(err.response?.data?.message || 'Failed to delete appointment');
+    } finally {
+      setSavingDelete(false);
     }
   };
 
@@ -2068,6 +2125,17 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                                   >
                                     <FaTimesCircle className="w-3 h-3" />
                                     Cancel
+                                  </button>
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      openDeleteModal(apt);
+                                    }}
+                                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-sm font-medium transition-colors"
+                                    title="Delete Appointment"
+                                  >
+                                    <FaTrash className="w-3 h-3" />
+                                    Delete
                                   </button>
                                 </>
                               )}
@@ -3601,6 +3669,76 @@ const BranchAdminAppointmentsNew: React.FC = () => {
             </div>
           </div>
         )}
+
+        {/* Delete Appointment Modal */}
+        {showDeleteModal && deletingAppointment ? (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+              <h3 className="text-lg font-semibold text-neutral-900 mb-4 flex items-center gap-2">
+                <FaTrash className="text-red-500" />
+                Delete Appointment
+              </h3>
+              <div className="mb-4">
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                  <div className="flex">
+                    <FaExclamationTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                    <div className="ml-3">
+                      <h4 className="text-sm font-medium text-red-800">
+                        Warning: This action cannot be undone
+                      </h4>
+                      <p className="text-sm text-red-700 mt-1">
+                        Deleting this appointment will permanently remove it from the system.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-sm text-neutral-600 mb-2">
+                  Are you sure you want to delete the appointment for <strong>{deletingAppointment.patientName}</strong> with <strong>{deletingAppointment.doctorName}</strong>?
+                </p>
+                <label className="block text-sm font-medium text-neutral-700 mb-2">
+                  Reason for deletion *
+                </label>
+                <textarea
+                  value={deleteReason}
+                  onChange={(e) => setDeleteReason(e.target.value)}
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                  rows={3}
+                  placeholder="Please provide a reason for deletion..."
+                  required
+                />
+                {deleteError && (
+                  <p className="text-sm text-red-600 mt-2">{deleteError}</p>
+                )}
+              </div>
+              <div className="flex justify-end space-x-3">
+                <button
+                  onClick={closeDeleteModal}
+                  className="px-4 py-2 text-sm font-medium text-neutral-700 bg-neutral-100 rounded-lg hover:bg-neutral-200"
+                  disabled={savingDelete}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleConfirmDelete}
+                  disabled={savingDelete || !deleteReason.trim()}
+                  className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 disabled:opacity-50 flex items-center gap-2"
+                >
+                  {savingDelete ? (
+                    <>
+                      <FaSpinner className="w-4 h-4 animate-spin" />
+                      Deleting...
+                    </>
+                  ) : (
+                    <>
+                      <FaTrash className="w-4 h-4" />
+                      Delete Appointment
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : null}
       </div>
     </DashboardLayout>
   );

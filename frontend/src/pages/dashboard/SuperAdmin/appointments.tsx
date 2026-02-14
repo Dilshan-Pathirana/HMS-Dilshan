@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { RefreshCw, AlertCircle, Calendar, Search, Filter, X } from "lucide-react";
+import { RefreshCw, AlertCircle, Calendar, Search, Filter, X, MoreVertical, Edit, XCircle, Trash2, Clock } from "lucide-react";
 import { appointmentSuperAdminApi } from "../../../services/appointmentService";
 
 interface AppointmentData {
@@ -49,6 +49,20 @@ const SuperAdminAppointments: React.FC = () => {
     const [doctors, setDoctors] = useState<Doctor[]>([]);
     const [loadingBranches, setLoadingBranches] = useState(false);
     const [loadingDoctors, setLoadingDoctors] = useState(false);
+
+    // Action modals state
+    const [selectedAppointment, setSelectedAppointment] = useState<AppointmentData | null>(null);
+    const [showCancelModal, setShowCancelModal] = useState(false);
+    const [showRescheduleModal, setShowRescheduleModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [actionLoading, setActionLoading] = useState(false);
+    const [cancelReason, setCancelReason] = useState('');
+    const [deleteReason, setDeleteReason] = useState('');
+    const [rescheduleData, setRescheduleData] = useState({
+        newDate: '',
+        newTime: '',
+        reason: ''
+    });
 
     // Filter state
     const [filters, setFilters] = useState<Filters>({
@@ -119,6 +133,86 @@ const SuperAdminAppointments: React.FC = () => {
         loadBranches(true);
         loadDoctors(true);
     }, [loadBranches, loadDoctors]);
+
+    // Action handlers
+    const handleCancelAppointment = async () => {
+        if (!selectedAppointment || !cancelReason.trim()) return;
+
+        try {
+            setActionLoading(true);
+            await appointmentSuperAdminApi.cancelAppointment(selectedAppointment.id, cancelReason);
+            setShowCancelModal(false);
+            setCancelReason('');
+            setSelectedAppointment(null);
+            // Refresh appointments
+            loadAppointments();
+        } catch (err) {
+            console.error('Failed to cancel appointment:', err);
+            setError('Failed to cancel appointment. Please try again.');
+        } finally {
+            setActionLoading(false);
+        }
+    };
+
+    const handleRescheduleAppointment = async () => {
+        if (!selectedAppointment || !rescheduleData.newDate || !rescheduleData.reason.trim()) return;
+
+        try {
+            setActionLoading(true);
+            await appointmentSuperAdminApi.rescheduleAppointment(selectedAppointment.id, {
+                new_date: rescheduleData.newDate,
+                new_time: rescheduleData.newTime,
+                reason: rescheduleData.reason
+            });
+            setShowRescheduleModal(false);
+            setRescheduleData({ newDate: '', newTime: '', reason: '' });
+            setSelectedAppointment(null);
+            // Refresh appointments
+            loadAppointments();
+        } catch (err) {
+            console.error('Failed to reschedule appointment:', err);
+            setError('Failed to reschedule appointment. Please try again.');
+        } finally {
+            setActionLoading(false);
+        }
+    };
+
+    const handleDeleteAppointment = async () => {
+        if (!selectedAppointment || !deleteReason.trim()) return;
+
+        try {
+            setActionLoading(true);
+            await appointmentSuperAdminApi.deleteAppointment(selectedAppointment.id, deleteReason);
+            setShowDeleteModal(false);
+            setDeleteReason('');
+            setSelectedAppointment(null);
+            // Refresh appointments
+            loadAppointments();
+        } catch (err) {
+            console.error('Failed to delete appointment:', err);
+            setError('Failed to delete appointment. Please try again.');
+        } finally {
+            setActionLoading(false);
+        }
+    };
+
+    const openCancelModal = (appointment: AppointmentData) => {
+        setSelectedAppointment(appointment);
+        setCancelReason('');
+        setShowCancelModal(true);
+    };
+
+    const openRescheduleModal = (appointment: AppointmentData) => {
+        setSelectedAppointment(appointment);
+        setRescheduleData({ newDate: '', newTime: '', reason: '' });
+        setShowRescheduleModal(true);
+    };
+
+    const openDeleteModal = (appointment: AppointmentData) => {
+        setSelectedAppointment(appointment);
+        setDeleteReason('');
+        setShowDeleteModal(true);
+    };
 
     useEffect(() => {
         loadAppointments();
@@ -478,6 +572,9 @@ const SuperAdminAppointments: React.FC = () => {
                                     <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
                                         Queue
                                     </th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
+                                        Actions
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-neutral-200">
@@ -533,6 +630,31 @@ const SuperAdminAppointments: React.FC = () => {
                                         <td className="px-4 py-4 whitespace-nowrap text-sm text-neutral-900">
                                             {appt.queue_number || "N/A"}
                                         </td>
+                                        <td className="px-4 py-4 whitespace-nowrap text-sm font-medium">
+                                            <div className="flex items-center space-x-2">
+                                                <button
+                                                    onClick={() => openRescheduleModal(appt)}
+                                                    className="text-blue-600 hover:text-blue-900 p-1 rounded"
+                                                    title="Reschedule"
+                                                >
+                                                    <Clock className="w-4 h-4" />
+                                                </button>
+                                                <button
+                                                    onClick={() => openCancelModal(appt)}
+                                                    className="text-yellow-600 hover:text-yellow-900 p-1 rounded"
+                                                    title="Cancel"
+                                                >
+                                                    <XCircle className="w-4 h-4" />
+                                                </button>
+                                                <button
+                                                    onClick={() => openDeleteModal(appt)}
+                                                    className="text-red-600 hover:text-red-900 p-1 rounded"
+                                                    title="Delete"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -540,6 +662,170 @@ const SuperAdminAppointments: React.FC = () => {
                     </div>
                 )}
             </div>
+
+            {/* Cancel Appointment Modal */}
+            {showCancelModal && selectedAppointment && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+                        <h3 className="text-lg font-semibold text-neutral-900 mb-4">Cancel Appointment</h3>
+                        <div className="mb-4">
+                            <p className="text-sm text-neutral-600 mb-2">
+                                Are you sure you want to cancel the appointment for <strong>{selectedAppointment.patient_name}</strong> with <strong>{selectedAppointment.doctor_name}</strong>?
+                            </p>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
+                                Reason for cancellation *
+                            </label>
+                            <textarea
+                                value={cancelReason}
+                                onChange={(e) => setCancelReason(e.target.value)}
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                                rows={3}
+                                placeholder="Please provide a reason for cancellation..."
+                                required
+                            />
+                        </div>
+                        <div className="flex justify-end space-x-3">
+                            <button
+                                onClick={() => setShowCancelModal(false)}
+                                className="px-4 py-2 text-sm font-medium text-neutral-700 bg-neutral-100 rounded-lg hover:bg-neutral-200"
+                                disabled={actionLoading}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleCancelAppointment}
+                                disabled={actionLoading || !cancelReason.trim()}
+                                className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 disabled:opacity-50"
+                            >
+                                {actionLoading ? 'Cancelling...' : 'Cancel Appointment'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Reschedule Appointment Modal */}
+            {showRescheduleModal && selectedAppointment && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+                        <h3 className="text-lg font-semibold text-neutral-900 mb-4">Reschedule Appointment</h3>
+                        <div className="mb-4">
+                            <p className="text-sm text-neutral-600 mb-4">
+                                Reschedule appointment for <strong>{selectedAppointment.patient_name}</strong> with <strong>{selectedAppointment.doctor_name}</strong>
+                            </p>
+                            <div className="space-y-3">
+                                <div>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
+                                        New Date *
+                                    </label>
+                                    <input
+                                        type="date"
+                                        value={rescheduleData.newDate}
+                                        onChange={(e) => setRescheduleData(prev => ({ ...prev, newDate: e.target.value }))}
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        min={new Date().toISOString().split('T')[0]}
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
+                                        New Time (optional)
+                                    </label>
+                                    <input
+                                        type="time"
+                                        value={rescheduleData.newTime}
+                                        onChange={(e) => setRescheduleData(prev => ({ ...prev, newTime: e.target.value }))}
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">
+                                        Reason for rescheduling *
+                                    </label>
+                                    <textarea
+                                        value={rescheduleData.reason}
+                                        onChange={(e) => setRescheduleData(prev => ({ ...prev, reason: e.target.value }))}
+                                        className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        rows={3}
+                                        placeholder="Please provide a reason for rescheduling..."
+                                        required
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex justify-end space-x-3">
+                            <button
+                                onClick={() => setShowRescheduleModal(false)}
+                                className="px-4 py-2 text-sm font-medium text-neutral-700 bg-neutral-100 rounded-lg hover:bg-neutral-200"
+                                disabled={actionLoading}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleRescheduleAppointment}
+                                disabled={actionLoading || !rescheduleData.newDate || !rescheduleData.reason.trim()}
+                                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                            >
+                                {actionLoading ? 'Rescheduling...' : 'Reschedule'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Delete Appointment Modal */}
+            {showDeleteModal && selectedAppointment && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+                        <h3 className="text-lg font-semibold text-neutral-900 mb-4">Delete Appointment</h3>
+                        <div className="mb-4">
+                            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                                <div className="flex">
+                                    <AlertCircle className="w-5 h-5 text-red-400" />
+                                    <div className="ml-3">
+                                        <h4 className="text-sm font-medium text-red-800">
+                                            Warning: This action cannot be undone
+                                        </h4>
+                                        <p className="text-sm text-red-700 mt-1">
+                                            Deleting this appointment will permanently remove it from the system.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <p className="text-sm text-neutral-600 mb-2">
+                                Are you sure you want to delete the appointment for <strong>{selectedAppointment.patient_name}</strong> with <strong>{selectedAppointment.doctor_name}</strong>?
+                            </p>
+                            <label className="block text-sm font-medium text-neutral-700 mb-2">
+                                Reason for deletion *
+                            </label>
+                            <textarea
+                                value={deleteReason}
+                                onChange={(e) => setDeleteReason(e.target.value)}
+                                className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                                rows={3}
+                                placeholder="Please provide a reason for deletion..."
+                                required
+                            />
+                        </div>
+                        <div className="flex justify-end space-x-3">
+                            <button
+                                onClick={() => setShowDeleteModal(false)}
+                                className="px-4 py-2 text-sm font-medium text-neutral-700 bg-neutral-100 rounded-lg hover:bg-neutral-200"
+                                disabled={actionLoading}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleDeleteAppointment}
+                                disabled={actionLoading || !deleteReason.trim()}
+                                className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 disabled:opacity-50"
+                            >
+                                {actionLoading ? 'Deleting...' : 'Delete Appointment'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
