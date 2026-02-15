@@ -33,7 +33,9 @@ import {
   FaTrash,
 } from 'react-icons/fa';
 import {
-  appointmentBranchAdminApi,
+  appointmentSuperAdminApi,
+  appointmentPublicApi,
+  appointmentReceptionistApi,
   AppointmentBooking,
   Doctor,
   SlotInfo,
@@ -235,6 +237,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   const [branchName, setBranchName] = useState('');
   const [branchLogo, setBranchLogo] = useState('');
   const [userGender, setUserGender] = useState('');
+  const [currentBranchId, setCurrentBranchId] = useState<string>('');
 
   // Audit logs state
   const [auditLogs, setAuditLogs] = useState<AuditLogEntry[]>([]);
@@ -273,6 +276,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     setBranchLogo(userInfo.branch_logo || userInfo.branch?.logo || '');
     setUserGender(userInfo.gender || '');
     setUserRole(userInfo.role_as || 0);
+    setCurrentBranchId(userInfo.branch_id || userInfo.branch?.id || '');
   }, []);
 
   // ============================================
@@ -376,29 +380,63 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       setLoading(true);
       setError(null);
 
-      // Build params
-      const params: Record<string, string | number | boolean> = {
-        view: view === 'past' ? 'cancelled' : view,
-      };
-
-      // Add filters if applied
-      if (currentFilters.doctorId) params.doctor_id = currentFilters.doctorId;
-      if (currentFilters.specialization) params.specialization = currentFilters.specialization;
-      if (currentFilters.status) params.status = currentFilters.status;
-      if (currentFilters.search) params.search = currentFilters.search;
-      if (currentFilters.startDate) params.start_date = currentFilters.startDate;
-      if (currentFilters.endDate) params.end_date = currentFilters.endDate;
-      if (currentFilters.branchId) params.branch_id = currentFilters.branchId;
-      if (currentFilters.day) params.day = currentFilters.day;
-      if (currentFilters.paymentStatus) params.payment_status = currentFilters.paymentStatus;
-
-      const response = await appointmentBranchAdminApi.getAppointments(params);
+      // Use super admin API to get all appointments, then filter by branch
+      const response = await appointmentSuperAdminApi.getAllAppointments();
 
       if (response.appointments) {
-        setAppointments(response.appointments);
+        // Filter appointments by current branch
+        let filteredAppointments = response.appointments;
+        if (currentBranchId) {
+          filteredAppointments = response.appointments.filter(apt => apt.branch_id === currentBranchId);
+        }
+
+        // Apply additional filters
+        if (currentFilters.doctorId) {
+          filteredAppointments = filteredAppointments.filter(apt => apt.doctor_id === currentFilters.doctorId);
+        }
+        if (currentFilters.specialization) {
+          filteredAppointments = filteredAppointments.filter(apt => apt.doctor_specialization === currentFilters.specialization);
+        }
+        if (currentFilters.status) {
+          filteredAppointments = filteredAppointments.filter(apt => apt.status === currentFilters.status);
+        }
+        if (currentFilters.search) {
+          const searchLower = currentFilters.search.toLowerCase();
+          filteredAppointments = filteredAppointments.filter(apt =>
+            apt.patient_name?.toLowerCase().includes(searchLower) ||
+            apt.patient_id?.toLowerCase().includes(searchLower) ||
+            apt.appointment_id?.toString().includes(searchLower)
+          );
+        }
+        if (currentFilters.startDate && currentFilters.endDate) {
+          filteredAppointments = filteredAppointments.filter(apt =>
+            apt.appointment_date >= currentFilters.startDate && apt.appointment_date <= currentFilters.endDate
+          );
+        }
+        if (currentFilters.day) {
+          filteredAppointments = filteredAppointments.filter(apt => apt.appointment_date === currentFilters.day);
+        }
+        if (currentFilters.paymentStatus) {
+          filteredAppointments = filteredAppointments.filter(apt => apt.payment_status === currentFilters.paymentStatus);
+        }
+
+        // Filter by view type
+        let viewFilteredAppointments = filteredAppointments;
+        if (view === 'today') {
+          const today = new Date().toISOString().split('T')[0];
+          viewFilteredAppointments = filteredAppointments.filter(apt => apt.appointment_date === today);
+        } else if (view === 'upcoming') {
+          const today = new Date().toISOString().split('T')[0];
+          viewFilteredAppointments = filteredAppointments.filter(apt => apt.appointment_date >= today);
+        } else if (view === 'past') {
+          const today = new Date().toISOString().split('T')[0];
+          viewFilteredAppointments = filteredAppointments.filter(apt => apt.appointment_date < today || apt.status === 'cancelled');
+        }
+
+        setAppointments(viewFilteredAppointments);
         // Extract doctors and branches from the loaded appointments
-        extractDoctorsFromAppointments(response.appointments);
-        extractBranchesFromAppointments(response.appointments);
+        extractDoctorsFromAppointments(viewFilteredAppointments);
+        extractBranchesFromAppointments(viewFilteredAppointments);
       }
     } catch (err: unknown) {
       console.error('Failed to load appointments:', err);
@@ -407,7 +445,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [extractDoctorsFromAppointments, extractBranchesFromAppointments]);
+  }, [currentBranchId, extractDoctorsFromAppointments, extractBranchesFromAppointments]);
 
   const loadSessions = useCallback(async (view: ViewType, currentFilters: Filters = initialFilters) => {
     if (view === 'audit') {
@@ -450,26 +488,35 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   // Load counts for all tabs
   const loadCounts = useCallback(async () => {
     try {
-      const [todayRes, upcomingRes, pastRes] = await Promise.all([
-        appointmentBranchAdminApi.getAppointments({ view: 'today' }),
-        appointmentBranchAdminApi.getAppointments({ view: 'upcoming' }),
-        appointmentBranchAdminApi.getAppointments({ view: 'cancelled' }),
-      ]);
+      // Get all appointments and filter by branch
+      const response = await appointmentSuperAdminApi.getAllAppointments();
+      if (response.appointments) {
+        let branchAppointments = response.appointments;
+        if (currentBranchId) {
+          branchAppointments = response.appointments.filter(apt => apt.branch_id === currentBranchId);
+        }
 
-      setCounts({
-        today: todayRes.total || 0,
-        upcoming: upcomingRes.total || 0,
-        past: pastRes.total || 0,
-      });
+        const today = new Date().toISOString().split('T')[0];
+
+        const todayCount = branchAppointments.filter(apt => apt.appointment_date === today).length;
+        const upcomingCount = branchAppointments.filter(apt => apt.appointment_date >= today).length;
+        const pastCount = branchAppointments.filter(apt => apt.appointment_date < today || apt.status === 'cancelled').length;
+
+        setCounts({
+          today: todayCount,
+          upcoming: upcomingCount,
+          past: pastCount,
+        });
+      }
     } catch (err) {
       console.error('Failed to load counts:', err);
     }
-  }, []);
+  }, [currentBranchId]);
 
   // Load specializations
   const loadSpecializations = useCallback(async () => {
     try {
-      const response = await appointmentBranchAdminApi.getSpecializations();
+      const response = await appointmentPublicApi.getSpecializations();
       if (response.specializations) {
         setSpecializations(response.specializations);
       }
@@ -501,36 +548,14 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       if (currentFilters.action) params.action = currentFilters.action;
       if (currentFilters.adminId) params.admin_id = currentFilters.adminId;
 
-      const response = await appointmentBranchAdminApi.getBranchAuditLogs(params);
-
-      if (response) {
-        const logs = response.logs || [];
-        const pagination = response.pagination || {};
-
-        setAuditLogs(logs);
-        setAuditLogPagination({
-          currentPage: pagination.current_page || 1,
-          lastPage: pagination.last_page || 1,
-          total: pagination.total || 0,
-          perPage: pagination.per_page || 20,
-        });
-        // Extract unique admins from logs for filter dropdown
-        const uniqueAdmins = new Map<string, string>();
-        logs.forEach((log: AuditLogEntry) => {
-          if (log.performed_by_id && log.performed_by) {
-            uniqueAdmins.set(log.performed_by_id, log.performed_by);
-          }
-        });
-        const adminList = Array.from(uniqueAdmins, ([id, name]) => ({ id, name }));
-        if (adminList.length > 0) {
-          setBranchAdmins(prev => {
-            const combined = new Map<string, string>();
-            prev.forEach(a => combined.set(a.id, a.name));
-            adminList.forEach(a => combined.set(a.id, a.name));
-            return Array.from(combined, ([id, name]) => ({ id, name }));
-          });
-        }
-      }
+      // Audit logs are currently unavailable
+      setAuditLogs([]);
+      setAuditLogPagination({
+        currentPage: 1,
+        lastPage: 1,
+        total: 0,
+        perPage: 20,
+      });
     } catch (err: unknown) {
       console.error('Failed to load audit logs:', err);
       const error = err as { response?: { data?: { message?: string } } };
@@ -544,15 +569,18 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   const loadPrintAppointments = useCallback(async (date: string) => {
     try {
       setLoadingPrintData(true);
-      const response = await appointmentBranchAdminApi.getAppointments({
-        start_date: date,
-        end_date: date,
-        status: 'confirmed',
-      });
-
+      // Get all appointments and filter by branch and date
+      const response = await appointmentSuperAdminApi.getAllAppointments();
       if (response.appointments) {
+        let filteredAppointments = response.appointments.filter(apt =>
+          apt.appointment_date === date &&
+          apt.status === 'confirmed'
+        );
+        if (currentBranchId) {
+          filteredAppointments = filteredAppointments.filter(apt => apt.branch_id === currentBranchId);
+        }
         // Sort by token number
-        const sorted = [...response.appointments].sort((a, b) => a.token_number - b.token_number);
+        const sorted = [...filteredAppointments].sort((a, b) => (a.token_number || 0) - (b.token_number || 0));
         setPrintAppointments(sorted);
       }
     } catch (err: unknown) {
@@ -560,7 +588,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     } finally {
       setLoadingPrintData(false);
     }
-  }, []);
+  }, [currentBranchId]);
 
   // Handle print
   const handlePrint = () => {
@@ -621,7 +649,14 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
   useEffect(() => {
     if (activeView === 'audit') {
-      loadAuditLogs(1, auditLogFilters);
+      // Audit logs are currently unavailable
+      setAuditLogs([]);
+      setAuditLogPagination({
+        currentPage: 1,
+        lastPage: 1,
+        total: 0,
+        perPage: 20,
+      });
     } else {
       loadAppointments(activeView, filters);
       loadSessions(activeView, filters);
@@ -840,7 +875,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     }
     try {
       setLoadingSlots(true);
-      const response = await appointmentBranchAdminApi.getAvailableSlots(doctorId, date);
+      const response = await appointmentPublicApi.getAvailableSlots(doctorId, date);
       if (response.slots) {
         setAvailableSlots(response.slots || []);
       }
@@ -889,7 +924,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       setSavingEdit(true);
       setEditError(null);
 
-      const response = await appointmentBranchAdminApi.rescheduleAppointment(
+      const response = await appointmentReceptionistApi.rescheduleAppointment(
         editingAppointment.appointmentId,
         {
           new_doctor_id: editForm.doctorId,
@@ -956,7 +991,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       setSavingCancel(true);
       setCancelError(null);
 
-      const response = await appointmentBranchAdminApi.cancelAppointment(
+      const response = await appointmentReceptionistApi.cancelAppointment(
         cancellingAppointment.appointmentId,
         cancelReason,
         cancellationType === 'doctor_request'
@@ -1015,7 +1050,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       setSavingDelete(true);
       setDeleteError(null);
 
-      const response = await appointmentBranchAdminApi.deleteAppointment(
+      const response = await appointmentReceptionistApi.deleteAppointment(
         deletingAppointment.appointmentId,
         deleteReason
       );
@@ -1043,10 +1078,36 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   const loadBookingSettings = async () => {
     try {
       setLoadingSettings(true);
-      const response = await appointmentBranchAdminApi.getSettings();
-      if (response.settings) {
-        setBookingSettings(response.settings);
+      if (currentBranchId) {
+        const response = await appointmentSuperAdminApi.getBranchSettings({ branch_id: currentBranchId });
+        if (response.branches && response.branches.length > 0) {
+          setBookingSettings(response.branches[0].settings);
+          return;
+        }
       }
+      // Fallback to default settings
+      setBookingSettings({
+        max_advance_booking_days: 30,
+        min_advance_booking_hours: 2,
+        default_max_patients_per_session: 20,
+        default_time_per_patient: 15,
+        allow_walk_in: true,
+        require_payment_for_online: false,
+        allow_cash_payment: true,
+        allow_reschedule: true,
+        max_reschedule_count: 2,
+        reschedule_advance_hours: 24,
+        allow_patient_cancellation: true,
+        cancellation_advance_hours: 24,
+        refund_on_cancellation: false,
+        cancellation_fee_percentage: 0,
+        default_booking_fee: 500,
+        walk_in_fee: 500,
+        send_sms_confirmation: true,
+        send_sms_reminder: true,
+        reminder_hours_before: 24,
+        send_email_confirmation: true,
+      });
     } catch (err) {
       console.error('Failed to load booking settings:', err);
       // Use default settings if API fails
@@ -1151,15 +1212,9 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       setRegisteringPatient(true);
       setBookingError(null);
 
-      const response = await appointmentBranchAdminApi.registerPatient({
-        full_name: newPatientForm.full_name.trim(),
-        mobile_number: newPatientForm.mobile_number.trim(),
-        nic: newPatientForm.nic.trim() || undefined,
-        gender: newPatientForm.gender,
-        date_of_birth: newPatientForm.date_of_birth || undefined,
-        address: newPatientForm.address.trim() || undefined,
-        send_sms: newPatientForm.send_sms,
-      });
+      // Patient registration is currently unavailable
+      setBookingError('Patient registration is currently unavailable. Please search for existing patients or contact support.');
+      return;
 
       if (response.status === 201 && response.patient) {
         // Patient registered successfully
@@ -1227,7 +1282,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     const timer = setTimeout(async () => {
       try {
         setSearchingPatients(true);
-        const response = await appointmentBranchAdminApi.searchPatients(patientSearchQuery);
+        const response = await appointmentReceptionistApi.searchPatients(patientSearchQuery);
         if (response.patients) {
           setPatientSearchResults(response.patients);
           setShowPatientDropdown(true);
@@ -1261,7 +1316,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     }
     try {
       setLoadingBookingSlots(true);
-      const response = await appointmentBranchAdminApi.getAvailableSlots(doctorId, date);
+      const response = await appointmentPublicApi.getAvailableSlots(doctorId, date);
       if (response.slots) {
         setBookingSlots(response.slots || []);
         setBookingSchedule(response.schedule || null);
@@ -1335,7 +1390,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       setSavingBooking(true);
       setBookingError(null);
 
-      const response = await appointmentBranchAdminApi.createAppointment({
+      const response = await appointmentReceptionistApi.createWalkInBooking({
         patient_id: bookingForm.patientId,
         doctor_id: bookingForm.doctorId,
         appointment_date: bookingForm.date,
