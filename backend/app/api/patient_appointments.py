@@ -95,14 +95,15 @@ async def my_appointments(
     patient_id = await _get_patient_id(session, current_user.id)
     appointments = await svc.list_by_patient(session, patient_id, status, skip, limit)
     
-    # Enrich with slot numbers
-    from app.models.patient_session import ScheduleSession
+    # Enrich with slot numbers and current queue status
+    from app.models.patient_session import ScheduleSession, SessionQueue
     from app.models.doctor_schedule import DoctorSchedule
     from sqlmodel import col
 
     session_ids = {a.schedule_session_id for a in appointments if a.schedule_session_id}
     
     if session_ids:
+        # Fetch Sessions and Doctor Schedules
         q_sessions = (
             select(ScheduleSession, DoctorSchedule)
             .join(DoctorSchedule, ScheduleSession.schedule_id == DoctorSchedule.id, isouter=True)
@@ -110,6 +111,11 @@ async def my_appointments(
         )
         session_results = await session.exec(q_sessions)
         session_map = {s.id: (s, ds) for s, ds in session_results.all()}
+
+        # Fetch Queue Status for these sessions
+        q_queues = select(SessionQueue).where(col(SessionQueue.schedule_session_id).in_(session_ids))
+        queue_results = await session.exec(q_queues)
+        queue_map = {q.schedule_session_id: q for q in queue_results.all()}
         
         enriched_appointments = []
         from datetime import datetime as dt_cls
@@ -118,6 +124,7 @@ async def my_appointments(
         for appt in appointments:
             appt_read = AppointmentRead.model_validate(appt)
             
+            # Calculate Slot Number
             if appt.schedule_session_id and appt.schedule_session_id in session_map:
                 sched_session, doc_schedule = session_map[appt.schedule_session_id]
                 if sched_session and doc_schedule and doc_schedule.slot_duration_minutes:
@@ -129,6 +136,11 @@ async def my_appointments(
                     slot_num = int(minutes // doc_schedule.slot_duration_minutes) + 1
                     appt_read.slot_number = slot_num
             
+            # Attach Current Queue Token
+            if appt.schedule_session_id and appt.schedule_session_id in queue_map:
+                queue = queue_map[appt.schedule_session_id]
+                appt_read.current_queue_token = queue.current_doctor_slot
+
             enriched_appointments.append(appt_read)
         return enriched_appointments
 

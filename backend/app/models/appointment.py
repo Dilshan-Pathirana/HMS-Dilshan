@@ -57,3 +57,4 @@ class AppointmentRead(AppointmentBase):
     patient_name: Optional[str] = None
     doctor_name: Optional[str] = None
     slot_number: Optional[int] = None
+    current_queue_token: Optional[int] = None
