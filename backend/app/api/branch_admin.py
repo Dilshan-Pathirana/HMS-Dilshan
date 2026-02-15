@@ -371,14 +371,17 @@ async def list_branch_doctor_sessions(
         from app.models.doctor_schedule import DoctorSchedule
         from app.models.doctor import Doctor
         from app.models.user import User
+        from app.models.appointment import Appointment
+        from sqlalchemy import func
 
         # Determine branch context
         bid = branch_id or getattr(user, "branch_id", None)
         
-        # Base query: Sessions -> Doctor -> User
-        q = (select(ScheduleSession, Doctor, User)
+        # Base query: Sessions -> Doctor -> User -> DoctorSchedule
+        q = (select(ScheduleSession, Doctor, User, DoctorSchedule)
              .join(Doctor, ScheduleSession.doctor_id == Doctor.id)
-             .join(User, Doctor.user_id == User.id))
+             .join(User, Doctor.user_id == User.id)
+             .outerjoin(DoctorSchedule, ScheduleSession.schedule_id == DoctorSchedule.id))
 
         if bid:
             q = q.where(ScheduleSession.branch_id == bid)
@@ -401,7 +404,7 @@ async def list_branch_doctor_sessions(
         if bid and target_date >= date.today():
             try:
                 day_of_week = target_date.weekday()
-            
+                
                 # Find active schedules for this branch and day
                 sched_q = select(DoctorSchedule).where(
                     DoctorSchedule.branch_id == bid,
@@ -409,7 +412,7 @@ async def list_branch_doctor_sessions(
                     DoctorSchedule.status == "active"
                 )
                 schedules = (await session.exec(sched_q)).all()
-            
+                
                 # Check which ones already have a session
                 existing_sessions_q = select(ScheduleSession.schedule_id).where(
                     ScheduleSession.branch_id == bid,
@@ -457,7 +460,10 @@ async def list_branch_doctor_sessions(
         session_ids = [r[0].id for r in rows]
         
         assigned_map = {}
+        appointment_counts_map = {}
+
         if session_ids:
+            # Fetch assigned nurses
             staff_q = (
                 select(SessionStaff, User)
                 .join(User, SessionStaff.staff_id == User.id)
@@ -473,9 +479,34 @@ async def list_branch_doctor_sessions(
                     "name": f"{u.first_name} {u.last_name}",
                 })
 
+            # Fetch appointment count
+            appt_q = (
+                select(Appointment.schedule_session_id, func.count(Appointment.id))
+                .where(Appointment.schedule_session_id.in_(session_ids))
+                .where(Appointment.status != "cancelled")
+                .group_by(Appointment.schedule_session_id)
+            )
+            appt_res = await session.exec(appt_q)
+            for sess_id, count in appt_res.all():
+                appointment_counts_map[sess_id] = count
+
         # Format response
         data = []
-        for sched_session, doc, u in rows:
+        for sched_session, doc, u, doc_schedule in rows:
+            # Calculate total slots
+            total_slots = 0
+            if doc_schedule and doc_schedule.slot_duration_minutes:
+                # Calculate duration in minutes
+                start_minutes = sched_session.start_time.hour * 60 + sched_session.start_time.minute
+                end_minutes = sched_session.end_time.hour * 60 + sched_session.end_time.minute
+                duration_minutes = end_minutes - start_minutes
+                if duration_minutes > 0:
+                    total_slots = duration_minutes // doc_schedule.slot_duration_minutes
+            
+            # Fallback if calculation fails or definition missing, maybe use max_patients
+            if total_slots == 0 and doc_schedule:
+                total_slots = doc_schedule.max_patients
+
             data.append({
                 "id": sched_session.id,
                 "doctor_id": doc.id,
@@ -487,7 +518,9 @@ async def list_branch_doctor_sessions(
                 "start_time": sched_session.start_time,
                 "end_time": sched_session.end_time,
                 "status": sched_session.status,
-                "assigned_nurses": assigned_map.get(sched_session.id, [])
+                "assigned_nurses": assigned_map.get(sched_session.id, []),
+                "appointment_count": appointment_counts_map.get(sched_session.id, 0),
+                "total_slots": total_slots
             })
 
         return {

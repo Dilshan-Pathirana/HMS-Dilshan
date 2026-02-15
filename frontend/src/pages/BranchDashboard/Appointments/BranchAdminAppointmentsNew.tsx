@@ -49,6 +49,7 @@ import { DashboardLayout } from '../../../components/common/Layout/DashboardLayo
 import { BranchAdminMenuItems } from '../../../config/branchAdminNavigation';
 import { FaClipboardList, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import SessionDetailsPanel from '../../../components/dashboard/Sessions/SessionDetailsPanel';
+import { BranchAdminSidebar } from '../../../components/common/Layout/BranchAdminSidebar';
 
 // ============================================
 // Types
@@ -151,7 +152,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   // State
   // ============================================
   const [activeView, setActiveView] = useState<ViewType>('upcoming');
-  const [viewMode, setViewMode] = useState<'sessions' | 'list'>('sessions');
+  const [expandedDates, setExpandedDates] = useState<Record<string, boolean>>({});
   const [appointments, setAppointments] = useState<AppointmentBooking[]>([]);
   const [sessions, setSessions] = useState<SessionListItem[]>([]);
   const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
@@ -487,6 +488,37 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   }, []);
 
   // Load counts for all tabs
+  // Group appointments by date
+  const groupedAppointments = useMemo(() => {
+    const groups: Record<string, AppointmentBooking[]> = {};
+    appointments.forEach(apt => {
+      const date = apt.appointment_date.split('T')[0];
+      if (!groups[date]) groups[date] = [];
+      groups[date].push(apt);
+    });
+
+    // Sort dates
+    return Object.keys(groups).sort().reduce((acc, date) => {
+      acc[date] = groups[date];
+      return acc;
+    }, {} as Record<string, AppointmentBooking[]>);
+  }, [appointments]);
+
+  // Expand all dates by default when loaded
+  useEffect(() => {
+    if (appointments.length > 0) {
+      const allExpanded: Record<string, boolean> = {};
+      Object.keys(groupedAppointments).forEach(date => {
+        allExpanded[date] = true;
+      });
+      setExpandedDates(prev => ({ ...allExpanded, ...prev })); // Keep existing toggles
+    }
+  }, [groupedAppointments]);
+
+  const toggleDate = (date: string) => {
+    setExpandedDates(prev => ({ ...prev, [date]: !prev[date] }));
+  };
+
   const loadCounts = useCallback(async () => {
     try {
       // Get appointments for this branch
@@ -747,7 +779,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       endDate: sessionItem.session_date,
     };
 
-    setViewMode('list');
+
     setActiveView(targetView);
     setFilters(nextFilters);
     setShowSessionDetails(false);
@@ -1567,7 +1599,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       userName={userName}
       userRole="Branch Admin"
       profileImage={profileImage}
-      sidebarContent={<SidebarMenu />}
+      sidebarContent={<BranchAdminSidebar />}
       branchName={branchName}
       branchLogo={branchLogo}
       userGender={userGender}
@@ -1663,24 +1695,6 @@ const BranchAdminAppointmentsNew: React.FC = () => {
         {/* Appointments View - Show when not on audit tab */}
         {activeView !== 'audit' && (
           <>
-            {/* Sessions/List Toggle */}
-            <div className="mb-4 bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
-              <div className="flex bg-neutral-100 p-1 rounded-lg w-fit">
-                <button
-                  onClick={() => setViewMode('sessions')}
-                  className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${viewMode === 'sessions' ? 'bg-white shadow text-neutral-900' : 'text-neutral-500 hover:text-neutral-700'}`}
-                >
-                  Sessions
-                </button>
-                <button
-                  onClick={() => setViewMode('list')}
-                  className={`px-4 py-2 text-sm font-medium rounded-md transition-all ${viewMode === 'list' ? 'bg-white shadow text-neutral-900' : 'text-neutral-500 hover:text-neutral-700'}`}
-                >
-                  List
-                </button>
-              </div>
-            </div>
-
             {/* Search & Filters Bar */}
             <div className="mb-4 bg-white rounded-xl shadow-sm border border-neutral-200 p-4">
               <div className="flex flex-wrap gap-4 items-center">
@@ -1883,337 +1897,216 @@ const BranchAdminAppointmentsNew: React.FC = () => {
               )}
             </div>
 
-            {showSessionDetails && selectedSessionId ? (
-              <SessionDetailsPanel
-                sessionId={selectedSessionId}
-                initialAction={sessionPanelAction}
-                onBack={() => {
-                  setShowSessionDetails(false);
-                  setSelectedSessionId(null);
-                  setSessionPanelAction(undefined);
-                  loadSessions(activeView, filters);
-                }}
-              />
-            ) : viewMode === 'sessions' ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-                {sessions.length === 0 ? (
-                  <div className="col-span-full py-12 text-center text-neutral-500 bg-white rounded-xl border border-neutral-200">
-                    No sessions found for the selected filters
-                  </div>
-                ) : (
-                  sessions.map((session) => (
-                    <div
-                      key={session.id}
-                      className="bg-white rounded-xl border border-neutral-200 p-5 hover:shadow-md transition-shadow relative"
-                    >
-                      <div className="flex justify-between items-start mb-4">
-                        <div>
-                          <h3 className="font-semibold text-neutral-900">{session.doctor_name}</h3>
-                          <p className="text-sm text-neutral-500">{session.branch_name}</p>
-                        </div>
-                        <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${session.status === 'scheduled' ? 'bg-blue-100 text-blue-800' :
-                          session.status === 'completed' ? 'bg-green-100 text-green-800' :
-                            session.status === 'cancelled' ? 'bg-red-100 text-red-800' :
-                              'bg-gray-100 text-gray-800'
-                          }`}>
-                          {session.status.replace('_', ' ')}
-                        </span>
-                      </div>
-
-                      <div className="space-y-3 mb-4">
-                        <div className="flex items-center gap-2 text-sm text-neutral-600">
-                          <FaCalendarAlt className="w-4 h-4 text-neutral-400" />
-                          <span>{new Date(session.session_date).toLocaleDateString()}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-sm text-neutral-600">
-                          <FaClock className="w-4 h-4 text-neutral-400" />
-                          <span>{session.start_time?.slice(0, 5)} - {session.end_time?.slice(0, 5)}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-sm text-neutral-600">
-                          <FaUser className="w-4 h-4 text-neutral-400" />
-                          <span>{session.appointment_count} / {session.total_slots || 0} Slots Filled</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-sm text-neutral-600">
-                          <FaUserPlus className="w-4 h-4 text-neutral-400" />
-                          <span>{session.assigned_staff_count || 0} Staff Assigned</span>
-                        </div>
-                      </div>
-
-                      <div className="pt-4 border-t border-neutral-100 grid grid-cols-2 gap-2">
-                        <button
-                          onClick={() => openSessionDetails(session.id)}
-                          className="px-3 py-2 text-sm font-medium rounded-lg border border-neutral-200 text-neutral-700 hover:bg-neutral-50"
-                        >
-                          View Details
-                        </button>
-                        <button
-                          onClick={() => handleManageSession(session)}
-                          className="px-3 py-2 text-sm font-medium rounded-lg border border-blue-200 text-blue-700 hover:bg-blue-50"
-                        >
-                          Manage
-                        </button>
-                        <button
-                          onClick={() => openSessionDetails(session.id, 'assign-staff')}
-                          className="px-3 py-2 text-sm font-medium rounded-lg border border-emerald-200 text-emerald-700 hover:bg-emerald-50"
-                        >
-                          Assign Staff
-                        </button>
-                        <button
-                          onClick={() => handleDeleteSession(session)}
-                          className="px-3 py-2 text-sm font-medium rounded-lg border border-red-200 text-red-700 hover:bg-red-50"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                  ))
+            {/* Appointments List - Grouped by Date */}
+            {loading ? (
+              <div className="p-12 text-center bg-white rounded-xl shadow-sm border border-neutral-200">
+                <FaSpinner className="w-8 h-8 text-emerald-600 animate-spin mx-auto mb-3" />
+                <p className="text-neutral-500">Loading appointments...</p>
+              </div>
+            ) : appointments.length === 0 ? (
+              <div className="p-12 text-center bg-white rounded-xl shadow-sm border border-neutral-200">
+                <FaCalendarAlt className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+                <p className="text-neutral-500 font-medium">No appointments found</p>
+                <p className="text-neutral-400 text-sm mt-1">
+                  {filtersApplied
+                    ? 'Try adjusting your filters'
+                    : activeView === 'today'
+                      ? 'No appointments scheduled for today'
+                      : activeView === 'upcoming'
+                        ? 'No upcoming appointments'
+                        : 'No past or cancelled appointments'}
+                </p>
+                {filtersApplied && (
+                  <button
+                    onClick={clearFilters}
+                    className="mt-4 text-emerald-600 hover:text-emerald-700 font-medium"
+                  >
+                    Clear all filters
+                  </button>
                 )}
               </div>
             ) : (
-              /* Appointments Table */
-              <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
-                {/* Table Header Info */}
-                <div className="px-6 py-4 border-b border-neutral-200 bg-neutral-50">
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-semibold text-neutral-800">
-                      {activeView === 'today' && "Today's Schedule"}
-                      {activeView === 'upcoming' && 'Upcoming Schedule'}
-                      {activeView === 'past' && 'Past & Cancelled Appointments'}
-                    </h3>
-                    <span className="text-sm text-neutral-500">
-                      Showing {appointments.length} appointments
-                      {filtersApplied && ' (filtered)'}
-                    </span>
-                  </div>
-                </div>
+              <div className="space-y-6">
+                {Object.entries(groupedAppointments).map(([date, dateAppointments]) => (
+                  <div key={date} className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
+                    {/* Date Header */}
+                    <div
+                      className="px-6 py-4 border-b border-neutral-200 bg-neutral-50 flex justify-between items-center cursor-pointer hover:bg-neutral-100 transition-colors"
+                      onClick={() => toggleDate(date)}
+                    >
+                      <div className="flex items-center gap-3">
+                        <h3 className="text-lg font-semibold text-neutral-800">
+                          {new Date(date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
+                        </h3>
+                        <span className="px-2 py-0.5 rounded-full bg-neutral-200 text-neutral-700 text-xs font-semibold">
+                          {dateAppointments.length}
+                        </span>
+                      </div>
+                      <div className="text-neutral-400">
+                        {expandedDates[date] ? <FaChevronUp /> : <FaChevronDown />}
+                      </div>
+                    </div>
 
-                {/* Loading State */}
-                {loading ? (
-                  <div className="p-12 text-center">
-                    <FaSpinner className="w-8 h-8 text-emerald-600 animate-spin mx-auto mb-3" />
-                    <p className="text-neutral-500">Loading appointments...</p>
-                  </div>
-                ) : appointments.length === 0 ? (
-                  <div className="p-12 text-center">
-                    <FaCalendarAlt className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                    <p className="text-neutral-500 font-medium">No appointments found</p>
-                    <p className="text-neutral-400 text-sm mt-1">
-                      {filtersApplied
-                        ? 'Try adjusting your filters'
-                        : activeView === 'today'
-                          ? 'No appointments scheduled for today'
-                          : activeView === 'upcoming'
-                            ? 'No upcoming appointments'
-                            : 'No past or cancelled appointments'}
-                    </p>
-                    {filtersApplied && (
-                      <button
-                        onClick={clearFilters}
-                        className="mt-4 text-emerald-600 hover:text-emerald-700 font-medium"
-                      >
-                        Clear all filters
-                      </button>
+                    {/* Appointments Table */}
+                    {expandedDates[date] && (
+                      <div className="overflow-x-auto">
+                        <table className="w-full">
+                          <thead>
+                            <tr className="bg-white border-b border-neutral-200">
+                              <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
+                                <div className="flex items-center gap-1">
+                                  <FaHashtag className="w-3 h-3" />
+                                  Token
+                                </div>
+                              </th>
+                              <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
+                                <div className="flex items-center gap-1">
+                                  <FaClock className="w-3 h-3" />
+                                  Slot / Time
+                                </div>
+                              </th>
+                              <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
+                                <div className="flex items-center gap-1">
+                                  <FaUser className="w-3 h-3" />
+                                  Patient
+                                </div>
+                              </th>
+                              <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
+                                <div className="flex items-center gap-1">
+                                  <FaUserMd className="w-3 h-3" />
+                                  Doctor
+                                </div>
+                              </th>
+                              <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
+                                Status
+                              </th>
+                              <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
+                                Payment
+                              </th>
+                              <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
+                                Actions
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-gray-100">
+                            {dateAppointments.map((apt) => (
+                              <tr
+                                key={apt.id}
+                                className={`transition-colors cursor-pointer hover:bg-neutral-50 ${getRowBackgroundColor(apt.status, activeView)}`}
+                              >
+                                {/* Token */}
+                                <td className="px-4 py-4">
+                                  <span className="font-bold text-emerald-600 text-lg">
+                                    #{apt.token_number}
+                                  </span>
+                                </td>
+
+                                {/* Slot / Time */}
+                                <td className="px-4 py-4">
+                                  <div className="flex flex-col">
+                                    <span className="font-semibold text-neutral-800">
+                                      Slot #{apt.slot_number}
+                                    </span>
+                                    <span className="text-sm text-emerald-600 font-medium">
+                                      {apt.appointment_time}
+                                    </span>
+                                  </div>
+                                </td>
+
+                                {/* Patient */}
+                                <td className="px-4 py-4">
+                                  <div className="flex flex-col">
+                                    <span className="font-medium text-neutral-800">
+                                      {apt.patient_name || 'Unknown Patient'}
+                                    </span>
+                                    {apt.patient_phone && (
+                                      <span className="text-xs text-neutral-500">{apt.patient_phone}</span>
+                                    )}
+                                  </div>
+                                </td>
+
+                                {/* Doctor */}
+                                <td className="px-4 py-4">
+                                  <div className="flex flex-col">
+                                    <span className="font-medium text-neutral-800">
+                                      Dr. {apt.doctor_name || 'Unknown'}
+                                    </span>
+                                    {apt.doctor_specialization && (
+                                      <span className="text-xs text-primary-500 bg-blue-50 px-2 py-0.5 rounded-full w-fit mt-1">
+                                        {apt.doctor_specialization}
+                                      </span>
+                                    )}
+                                  </div>
+                                </td>
+
+                                {/* Status */}
+                                <td className="px-4 py-4">
+                                  <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold border ${getStatusColor(apt.status)}`}>
+                                    {getStatusIcon(apt.status)}
+                                    {getStatusLabel(apt.status)}
+                                  </span>
+                                </td>
+
+                                {/* Payment */}
+                                <td className="px-4 py-4">
+                                  <span className={`font-medium capitalize ${getPaymentStatusColor(apt.payment_status)}`}>
+                                    {apt.payment_status}
+                                  </span>
+                                </td>
+
+                                {/* Actions */}
+                                <td className="px-4 py-4">
+                                  <div className="flex items-center gap-2">
+                                    {!['completed', 'cancelled', 'no_show'].includes(apt.status) && (
+                                      <>
+                                        <button
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            openEditModal(apt);
+                                          }}
+                                          className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-primary-500 hover:bg-blue-100 rounded-lg text-sm font-medium transition-colors"
+                                          title="Edit Appointment"
+                                        >
+                                          <FaEdit className="w-3 h-3" />
+                                          Edit
+                                        </button>
+                                        <button
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            openCancelModal(apt);
+                                          }}
+                                          className="inline-flex items-center gap-1 px-3 py-1.5 bg-error-50 text-error-600 hover:bg-error-100 rounded-lg text-sm font-medium transition-colors"
+                                          title="Cancel Appointment"
+                                        >
+                                          <FaTimesCircle className="w-3 h-3" />
+                                          Cancel
+                                        </button>
+                                        <button
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            openDeleteModal(apt);
+                                          }}
+                                          className="inline-flex items-center gap-1 px-3 py-1.5 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-sm font-medium transition-colors"
+                                          title="Delete Appointment"
+                                        >
+                                          <FaTrash className="w-3 h-3" />
+                                          Delete
+                                        </button>
+                                      </>
+                                    )}
+                                    {['completed', 'cancelled', 'no_show'].includes(apt.status) && (
+                                      <span className="text-xs text-neutral-400 italic">No actions</span>
+                                    )}
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     )}
                   </div>
-                ) : (
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                      <thead>
-                        <tr className="bg-neutral-50 border-b border-neutral-200">
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
-                            <div className="flex items-center gap-1">
-                              <FaHashtag className="w-3 h-3" />
-                              ID / Token
-                            </div>
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
-                            <div className="flex items-center gap-1">
-                              <FaUser className="w-3 h-3" />
-                              Patient
-                            </div>
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
-                            <div className="flex items-center gap-1">
-                              <FaUserMd className="w-3 h-3" />
-                              Doctor & Specialization
-                            </div>
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
-                            <div className="flex items-center gap-1">
-                              <FaCalendarAlt className="w-3 h-3" />
-                              Date
-                            </div>
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
-                            <div className="flex items-center gap-1">
-                              <FaClock className="w-3 h-3" />
-                              Slot / Time
-                            </div>
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
-                            Status
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
-                            Payment
-                          </th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
-                            Actions
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-100">
-                        {appointments.map((apt) => (
-                          <tr
-                            key={apt.id}
-                            className={`transition-colors cursor-pointer ${getRowBackgroundColor(apt.status, activeView)}`}
-                          >
-                            {/* ID / Token */}
-                            <td className="px-4 py-4">
-                              <div className="flex flex-col">
-                                <span className="font-bold text-emerald-600 text-lg">
-                                  #{apt.token_number}
-                                </span>
-                                <span className="text-xs text-neutral-400 font-mono truncate max-w-[100px]" title={apt.id}>
-                                  {apt.id.substring(0, 8)}...
-                                </span>
-                              </div>
-                            </td>
-
-                            {/* Patient */}
-                            <td className="px-4 py-4">
-                              <div className="flex flex-col">
-                                <span className="font-medium text-neutral-800">
-                                  {apt.patient_name || 'Unknown Patient'}
-                                </span>
-                                {apt.patient_phone && (
-                                  <span className="text-xs text-neutral-500">{apt.patient_phone}</span>
-                                )}
-                              </div>
-                            </td>
-
-                            {/* Doctor & Specialization */}
-                            <td className="px-4 py-4">
-                              <div className="flex flex-col">
-                                <span className="font-medium text-neutral-800">
-                                  Dr. {apt.doctor_name || 'Unknown'}
-                                </span>
-                                {apt.doctor_specialization && (
-                                  <span className="text-xs text-primary-500 bg-blue-50 px-2 py-0.5 rounded-full w-fit mt-1">
-                                    {apt.doctor_specialization}
-                                  </span>
-                                )}
-                              </div>
-                            </td>
-
-                            {/* Date */}
-                            <td className="px-4 py-4">
-                              <div className="flex flex-col">
-                                <span className="font-medium text-neutral-800">
-                                  {new Date(apt.appointment_date).toLocaleDateString('en-US', {
-                                    weekday: 'short',
-                                    month: 'short',
-                                    day: 'numeric',
-                                  })}
-                                </span>
-                                <span className="text-xs text-neutral-500">
-                                  {new Date(apt.appointment_date).toLocaleDateString('en-US', {
-                                    year: 'numeric',
-                                  })}
-                                </span>
-                              </div>
-                            </td>
-
-                            {/* Slot / Time */}
-                            <td className="px-4 py-4">
-                              <div className="flex flex-col">
-                                <span className="font-semibold text-neutral-800">
-                                  Slot #{apt.slot_number}
-                                </span>
-                                <span className="text-sm text-emerald-600 font-medium">
-                                  {apt.appointment_time}
-                                </span>
-                              </div>
-                            </td>
-
-                            {/* Status */}
-                            <td className="px-4 py-4">
-                              <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold border ${getStatusColor(apt.status)}`}>
-                                {getStatusIcon(apt.status)}
-                                {getStatusLabel(apt.status)}
-                              </span>
-                              {apt.cancelled_by_admin_for_doctor && (
-                                <div className="mt-1">
-                                  <span className="text-xs text-orange-600 bg-orange-50 px-2 py-0.5 rounded">
-                                    Doctor Request
-                                  </span>
-                                </div>
-                              )}
-                            </td>
-
-                            {/* Payment */}
-                            <td className="px-4 py-4">
-                              <span className={`font-medium capitalize ${getPaymentStatusColor(apt.payment_status)}`}>
-                                {apt.payment_status}
-                              </span>
-                              {apt.amount_paid && apt.payment_status === 'paid' && (
-                                <div className="text-xs text-neutral-500">
-                                  Rs. {Number(apt.amount_paid).toFixed(2)}
-                                </div>
-                              )}
-                            </td>
-
-                            {/* Actions */}
-                            <td className="px-4 py-4">
-                              <div className="flex items-center gap-2">
-                                {/* Edit button - only for non-completed/cancelled appointments */}
-                                {!['completed', 'cancelled', 'no_show'].includes(apt.status) && (
-                                  <>
-                                    <button
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        openEditModal(apt);
-                                      }}
-                                      className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-primary-500 hover:bg-blue-100 rounded-lg text-sm font-medium transition-colors"
-                                      title="Edit Appointment"
-                                    >
-                                      <FaEdit className="w-3 h-3" />
-                                      Edit
-                                    </button>
-                                    <button
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        openCancelModal(apt);
-                                      }}
-                                      className="inline-flex items-center gap-1 px-3 py-1.5 bg-error-50 text-error-600 hover:bg-error-100 rounded-lg text-sm font-medium transition-colors"
-                                      title="Cancel Appointment"
-                                    >
-                                      <FaTimesCircle className="w-3 h-3" />
-                                      Cancel
-                                    </button>
-                                    <button
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        openDeleteModal(apt);
-                                      }}
-                                      className="inline-flex items-center gap-1 px-3 py-1.5 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-sm font-medium transition-colors"
-                                      title="Delete Appointment"
-                                    >
-                                      <FaTrash className="w-3 h-3" />
-                                      Delete
-                                    </button>
-                                  </>
-                                )}
-                                {['completed', 'cancelled', 'no_show'].includes(apt.status) && (
-                                  <span className="text-xs text-neutral-400 italic">No actions</span>
-                                )}
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
+                ))}
               </div>
             )}
 

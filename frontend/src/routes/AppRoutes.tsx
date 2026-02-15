@@ -97,6 +97,8 @@ const BranchAdminAnalytics = lazy(() => import("../pages/dashboard/BranchAdmin/B
 const BranchAdminSettings = lazy(() => import("../pages/dashboard/BranchAdmin/BranchAdminSettings.tsx").then(m => ({ default: m.BranchAdminSettings })));
 const BranchAdminFeedbacks = lazy(() => import("../pages/dashboard/BranchAdmin/BranchAdminFeedbacks.tsx").then(m => ({ default: m.BranchAdminFeedbacks })));
 const BranchAdminConsultationMonitor = lazy(() => import("../pages/dashboard/BranchAdmin/BranchAdminConsultationMonitor.tsx").then(m => ({ default: m.BranchAdminConsultationMonitor })));
+const BranchAdminSidebar = lazy(() => import("../components/common/Layout/BranchAdminSidebar").then(m => ({ default: m.BranchAdminSidebar })));
+const CommonDashboardLayout = lazy(() => import("../components/common/Layout/DashboardLayout").then(m => ({ default: m.DashboardLayout })));
 
 // Branch Admin Requests Module
 const BranchAdminRequests = lazy(() => import("../pages/dashboard/BranchAdmin/Requests").then(m => ({ default: m.BranchAdminRequests })));
@@ -243,7 +245,9 @@ const AppRoutes: React.FC = () => {
                     path="/branch-admin/patient-profiles"
                     element={
                         <ProtectedRoute allowedRoles={['branch_admin']}>
-                            {withDashboardLayout(<PatientProfilesList />)}
+                            <CommonDashboardLayout sidebarContent={<BranchAdminSidebar />}>
+                                <PatientProfilesList />
+                            </CommonDashboardLayout>
                         </ProtectedRoute>
                     }
                 />
