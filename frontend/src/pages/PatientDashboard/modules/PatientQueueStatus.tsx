@@ -38,13 +38,13 @@ const PatientQueueStatus: React.FC = () => {
 
     useEffect(() => {
         fetchQueueStatus();
-        
+
         // Auto-refresh every 30 seconds if enabled
         let interval: ReturnType<typeof setInterval>;
         if (autoRefresh) {
             interval = setInterval(fetchQueueStatus, 30000);
         }
-        
+
         return () => {
             if (interval) clearInterval(interval);
         };
@@ -57,18 +57,18 @@ const PatientQueueStatus: React.FC = () => {
             if (response.data.status === 200) {
                 const today = new Date().toISOString().split('T')[0];
                 const todaysAppointments = (response.data.appointments || [])
-                    .filter((apt: any) => apt.date === today && apt.status !== 'cancelled')
+                    .filter((apt: any) => apt.appointment_date === today && apt.status !== 'cancelled')
                     .map((apt: any) => ({
                         appointment_id: apt.id,
-                        doctor_name: `Dr. ${apt.doctor_first_name} ${apt.doctor_last_name}`,
-                        specialization: apt.areas_of_specialization,
+                        doctor_name: apt.doctor_name || `Dr. ${apt.doctor_first_name} ${apt.doctor_last_name}`,
+                        specialization: apt.areas_of_specialization || 'General',
                         branch_name: apt.branch_name || 'Main Branch',
-                        date: apt.date,
-                        start_time: apt.start_time,
-                        token_number: apt.token_number || Math.floor(Math.random() * 50) + 1,
-                        current_token: apt.current_token || Math.floor(Math.random() * 20) + 1,
-                        patients_ahead: Math.max(0, (apt.token_number || 10) - (apt.current_token || 5) - 1),
-                        estimated_wait_time: Math.max(0, ((apt.token_number || 10) - (apt.current_token || 5)) * 10),
+                        date: apt.appointment_date,
+                        start_time: apt.appointment_time,
+                        token_number: apt.slot_number || apt.token_number || 0,
+                        current_token: apt.current_queue_token || 0,
+                        patients_ahead: Math.max(0, (apt.slot_number || apt.token_number || 0) - (apt.current_queue_token || 0) - 1),
+                        estimated_wait_time: Math.max(0, ((apt.slot_number || apt.token_number || 0) - (apt.current_queue_token || 0)) * 10),
                         status: apt.status
                     }));
                 setQueueInfo(todaysAppointments);
@@ -220,10 +220,10 @@ const PatientQueueStatus: React.FC = () => {
                                         <span>{queue.current_token} / {queue.token_number}</span>
                                     </div>
                                     <div className="h-3 bg-neutral-200 rounded-full overflow-hidden">
-                                        <div 
+                                        <div
                                             className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-500"
-                                            style={{ 
-                                                width: `${Math.min(100, (queue.current_token / queue.token_number) * 100)}%` 
+                                            style={{
+                                                width: `${Math.min(100, (queue.current_token / queue.token_number) * 100)}%`
                                             }}
                                         />
                                     </div>
