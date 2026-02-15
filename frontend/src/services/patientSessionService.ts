@@ -48,8 +48,16 @@ export const patientSessionApi = {
         const data = await api.post(`/sessions/${sessionId}/assign-nurses`, { nurse_ids: nurseIds });
         return data;
     },
+    initiateSession: async (sessionId: string, nurseIds: string[]) => {
+        const data = await api.post<SessionDetail>(`/sessions/${sessionId}/initiate`, { nurse_ids: nurseIds });
+        return data;
+    },
     getMySessions: async (params?: { session_date?: string; doctor_id?: string; branch_id?: string }) => {
         const data = await api.get<SessionListItem[]>('/my-sessions', { params });
+        return data;
+    },
+    getMyActiveSessions: async () => {
+        const data = await api.get<SessionListItem[]>('/my-active-sessions');
         return data;
     },
     updateQueue: async (sessionId: string, payload: { current_doctor_slot?: number; current_nurse_slot?: number; status?: string }) => {

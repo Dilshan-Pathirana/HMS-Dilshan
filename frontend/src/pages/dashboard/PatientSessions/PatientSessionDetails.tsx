@@ -15,6 +15,11 @@ interface SessionDetail {
     branch_name: string;
     appointment_count: number;
     status: string;
+    queue_status?: {
+        current_doctor_slot: number;
+        current_nurse_slot: number;
+        status: string;
+    };
 }
 
 interface SessionPatient {
@@ -44,6 +49,7 @@ const PatientSessionDetails: React.FC = () => {
     const [patients, setPatients] = useState<SessionPatient[]>([]);
     const [slots, setSlots] = useState<any[]>([]);
     const [currentNurseSlot, setCurrentNurseSlot] = useState<number | null>(null);
+    const [currentDoctorSlot, setCurrentDoctorSlot] = useState<number | null>(null);
     const [updatingSlot, setUpdatingSlot] = useState(false);
     const [questions, setQuestions] = useState<QuestionItem[]>([]);
     const [selectedAppointment, setSelectedAppointment] = useState<SessionPatient | null>(null);
@@ -85,13 +91,25 @@ const PatientSessionDetails: React.FC = () => {
                 api.get("/questions"),
                 api.get(`/sessions/${sessionId}/slots`),
             ]);
-            setSession(sessionResponse as SessionDetail);
+            const sess = sessionResponse as SessionDetail;
+            setSession(sess);
+            if (sess.queue_status) {
+                setCurrentNurseSlot(sess.queue_status.current_nurse_slot);
+                setCurrentDoctorSlot(sess.queue_status.current_doctor_slot);
+            }
+
             setPatients(Array.isArray(patientsResponse) ? patientsResponse : []);
             setQuestions(Array.isArray(questionResponse) ? questionResponse : []);
             const slotsData: any[] = Array.isArray(slotsResponse) ? slotsResponse : (slotsResponse?.data || []);
             setSlots(slotsData);
-            const current = slotsData.find((s: any) => s.is_current_with_nurse) as any;
-            setCurrentNurseSlot(current ? current.slot_index : null);
+
+            // Fallback if queue_status not present (or to sync with slots view logic)
+            if (!sess.queue_status) {
+                const currentNurse = slotsData.find((s: any) => s.is_current_with_nurse);
+                const currentDoctor = slotsData.find((s: any) => s.is_current_with_doctor);
+                setCurrentNurseSlot(currentNurse ? currentNurse.slot_index : 0);
+                setCurrentDoctorSlot(currentDoctor ? currentDoctor.slot_index : 0);
+            }
         } catch (error) {
             alert.error("Failed to load session details.");
         } finally {
@@ -151,17 +169,20 @@ const PatientSessionDetails: React.FC = () => {
         }
     };
 
-    const handleUpdateNurseSlot = async () => {
-        if (!sessionId || currentNurseSlot === null) return;
+    const handleUpdateQueue = async () => {
+        if (!sessionId) return;
         setUpdatingSlot(true);
         try {
-            await api.patch(`/sessions/${sessionId}/queue`, { current_nurse_slot: currentNurseSlot });
-            alert.success("Updated nurse slot.");
-            // reload slots
+            await api.patch(`/sessions/${sessionId}/queue`, {
+                current_nurse_slot: currentNurseSlot,
+                current_doctor_slot: currentDoctorSlot
+            });
+            alert.success("Updated queue status.");
+            // reload details to refresh slots view
             const resp: any = await api.get(`/sessions/${sessionId}/slots`);
             setSlots(Array.isArray(resp) ? resp : []);
         } catch (err) {
-            alert.error("Failed to update nurse slot.");
+            alert.error("Failed to update queue.");
         } finally {
             setUpdatingSlot(false);
         }
@@ -274,28 +295,48 @@ const PatientSessionDetails: React.FC = () => {
                     </div>
                 </div>
             )}
-            <div className="bg-white rounded-2xl border border-neutral-200 p-6 flex items-center justify-between">
+
+            <div className="bg-white rounded-2xl border border-neutral-200 p-6 flex flex-col md:flex-row items-center justify-between gap-4">
                 <div>
                     <h2 className="text-xl font-bold text-neutral-900 mb-1">Queue Control</h2>
-                    <div className="text-sm text-neutral-500">Current nurse slot: {currentNurseSlot ?? '—'}</div>
+                    <div className="text-sm text-neutral-500 flex gap-4">
+                        <span>Doctor Slot: {currentDoctorSlot ?? '—'}</span>
+                        <span>Nurse Slot: {currentNurseSlot ?? '—'}</span>
+                    </div>
                 </div>
-                <div className="flex items-center gap-2">
-                    <input
-                        type="number"
-                        min={1}
-                        value={currentNurseSlot ?? ''}
-                        onChange={(e) => setCurrentNurseSlot(e.target.value ? Number(e.target.value) : null)}
-                        className="px-3 py-2 border border-neutral-300 rounded-lg text-sm w-28"
-                    />
-                    <button
-                        onClick={handleUpdateNurseSlot}
-                        disabled={updatingSlot}
-                        className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg text-sm"
-                    >
-                        {updatingSlot ? 'Saving...' : 'Set Nurse Slot'}
-                    </button>
+                <div className="flex items-center gap-4">
+                    <div className="flex flex-col gap-1">
+                        <label className="text-xs text-neutral-500 font-medium">Doctor Slot</label>
+                        <input
+                            type="number"
+                            min={0}
+                            value={currentDoctorSlot ?? ''}
+                            onChange={(e) => setCurrentDoctorSlot(e.target.value ? Number(e.target.value) : 0)}
+                            className="px-3 py-2 border border-neutral-300 rounded-lg text-sm w-24"
+                        />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                        <label className="text-xs text-neutral-500 font-medium">Nurse Slot</label>
+                        <input
+                            type="number"
+                            min={0}
+                            value={currentNurseSlot ?? ''}
+                            onChange={(e) => setCurrentNurseSlot(e.target.value ? Number(e.target.value) : 0)}
+                            className="px-3 py-2 border border-neutral-300 rounded-lg text-sm w-24"
+                        />
+                    </div>
+                    <div className="flex items-end">
+                        <button
+                            onClick={handleUpdateQueue}
+                            disabled={updatingSlot}
+                            className="h-[38px] px-4 bg-teal-600 hover:bg-teal-700 text-white rounded-lg text-sm font-medium transition-colors"
+                        >
+                            {updatingSlot ? 'Saving...' : 'Update Queue'}
+                        </button>
+                    </div>
                 </div>
             </div>
+
             <div className="bg-white rounded-2xl border border-neutral-200 p-6">
                 <h2 className="text-xl font-bold text-neutral-900 mb-2">Session Details</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-neutral-700">
@@ -341,22 +382,22 @@ const PatientSessionDetails: React.FC = () => {
                                     <td className="px-4 py-2">{patient.appointment_time}</td>
                                     <td className="px-4 py-2 capitalize">{patient.status}</td>
                                     <td className="px-4 py-2 text-right">
-                                                <div className="flex items-center justify-end gap-4">
-                                                    <button
-                                                        onClick={() => setSelectedAppointment(patient)}
-                                                        className="text-emerald-600 hover:text-emerald-700 font-medium"
-                                                    >
-                                                        {selectedAppointment?.appointment_id === patient.appointment_id
-                                                            ? "Selected"
-                                                            : "Select"}
-                                                    </button>
-                                                    <button
-                                                        onClick={() => openEditProfile(patient.patient_id)}
-                                                        className="text-neutral-600 hover:text-neutral-800 text-sm"
-                                                    >
-                                                        Edit Profile
-                                                    </button>
-                                                </div>
+                                        <div className="flex items-center justify-end gap-4">
+                                            <button
+                                                onClick={() => setSelectedAppointment(patient)}
+                                                className="text-emerald-600 hover:text-emerald-700 font-medium"
+                                            >
+                                                {selectedAppointment?.appointment_id === patient.appointment_id
+                                                    ? "Selected"
+                                                    : "Select"}
+                                            </button>
+                                            <button
+                                                onClick={() => openEditProfile(patient.patient_id)}
+                                                className="text-neutral-600 hover:text-neutral-800 text-sm"
+                                            >
+                                                Edit Profile
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}

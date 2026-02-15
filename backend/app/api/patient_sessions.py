@@ -1509,3 +1509,271 @@ async def attach_patient_to_slot(
 
 
 
+
+# ──────────────────── Session Initiation & Queue Management ────────────────────
+
+class SessionInitiatePayload(BaseModel):
+    nurse_ids: List[str] = []
+
+
+class QueueUpdatePayload(BaseModel):
+    current_doctor_slot: Optional[int] = None
+    current_nurse_slot: Optional[int] = None
+
+
+@router.get("/sessions/{session_id}/available-nurses", response_model=List[NurseItem])
+async def get_available_nurses(
+    session_id: str,
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Get nurses available for assignment to this session.
+    Rules:
+    1. Same branch.
+    2. Not assigned to another overlapping active session.
+    """
+    _require_roles(current_user, [1, 2])  # Admin or Branch Admin
+
+    schedule_session = await session.get(ScheduleSession, session_id)
+    if not schedule_session:
+        raise HTTPException(status_code=404, detail="Session not found")
+
+    if current_user.role_as == 2 and current_user.branch_id != schedule_session.branch_id:
+        raise HTTPException(status_code=403, detail="Not enough privileges")
+
+    # 1. Get all nurses in the branch
+    nurse_q = select(User).where(
+        User.branch_id == schedule_session.branch_id,
+        User.role_as == 4,  # Nurse
+        User.status == "active"
+    )
+    all_nurses = (await session.exec(nurse_q)).all()
+    
+    if not all_nurses:
+        return []
+
+    # 2. Find nurses with overlapping ACTIVE sessions
+    # Overlap: (StartA < EndB) and (EndA > StartB)
+    overlapping_subq = (
+        select(SessionStaff.staff_id)
+        .join(ScheduleSession, SessionStaff.schedule_session_id == ScheduleSession.id)
+        .where(
+            ScheduleSession.session_date == schedule_session.session_date,
+            ScheduleSession.status == "active",
+            ScheduleSession.id != session_id,  # Exclude self if somehow already assigned
+            ScheduleSession.start_time < schedule_session.end_time,
+            ScheduleSession.end_time > schedule_session.start_time,
+            SessionStaff.role == "nurse"
+        )
+    )
+    busy_nurses_res = await session.exec(overlapping_subq)
+    busy_nurse_ids = set(busy_nurses_res.all())
+
+    # 3. Filter
+    available_nurses = [
+        n for n in all_nurses 
+        if n.id not in busy_nurse_ids
+    ]
+
+    return [
+        NurseItem(id=n.id, name=_full_name(n.first_name, n.last_name))
+        for n in available_nurses
+    ]
+
+
+@router.post("/sessions/{session_id}/initiate", response_model=SessionDetail)
+async def initiate_session(
+    session_id: str,
+    payload: SessionInitiatePayload,
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Initiate a scheduled session:
+    1. Validate date is today.
+    2. Assign nurses.
+    3. Update status -> active.
+    4. Create/Ensure SessionQueue exists.
+    """
+    _require_roles(current_user, [1, 2])
+
+    schedule_session = await session.get(ScheduleSession, session_id)
+    if not schedule_session:
+        raise HTTPException(status_code=404, detail="Session not found")
+
+    # Validation
+    if current_user.role_as == 2 and current_user.branch_id != schedule_session.branch_id:
+        raise HTTPException(status_code=403, detail="Not enough privileges")
+
+    today = date.today()
+    if schedule_session.session_date != today:
+        raise HTTPException(status_code=400, detail="Session can only be initiated on its scheduled date.")
+
+    if schedule_session.status not in ["scheduled", "active"]: # Allow re-initiation to add nurses?
+        raise HTTPException(status_code=400, detail=f"Cannot initiate session with status '{schedule_session.status}'")
+
+    # Assign Nurses
+    if payload.nurse_ids:
+        # Check if they are valid nurses
+        nurses_q = select(User).where(col(User.id).in_(payload.nurse_ids), User.role_as == 4)
+        valid_nurses = (await session.exec(nurses_q)).all()
+        valid_nurse_ids = {n.id for n in valid_nurses}
+        
+        # Add assignments
+        for nid in payload.nurse_ids:
+            if nid not in valid_nurse_ids:
+                continue # Skip invalid
+            
+            # Check if already assigned
+            exists_q = select(SessionStaff).where(
+                SessionStaff.schedule_session_id == session_id,
+                SessionStaff.staff_id == nid,
+                SessionStaff.role == "nurse"
+            )
+            if not (await session.exec(exists_q)).first():
+                staff = SessionStaff(
+                    schedule_session_id=session_id,
+                    staff_id=nid,
+                    role="nurse",
+                    assigned_by=current_user.id
+                )
+                session.add(staff)
+
+    # Initialize Queue if missing
+    queue_q = select(SessionQueue).where(SessionQueue.schedule_session_id == session_id)
+    session_queue = (await session.exec(queue_q)).first()
+    if not session_queue:
+        session_queue = SessionQueue(
+            schedule_session_id=session_id,
+            current_doctor_slot=0,
+            current_nurse_slot=0,
+            status="active"
+        )
+        session.add(session_queue)
+
+    # Update Session Status
+    if schedule_session.status == "scheduled":
+        schedule_session.status = "active"
+        session.add(schedule_session)
+
+    await session.commit()
+    await session.refresh(schedule_session)
+    
+    # Return updated detail
+    return await get_session_detail(session_id, session, current_user)
+
+
+@router.patch("/sessions/{session_id}/queue")
+async def update_session_queue(
+    session_id: str,
+    payload: QueueUpdatePayload,
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Update the live queue slots (Doctor/Nurse).
+    Values 0 means "not started" or "reset".
+    """
+    _require_roles(current_user, [1, 2, 4]) # Admin, Branch Admin, Nurse
+
+    schedule_session = await session.get(ScheduleSession, session_id)
+    if not schedule_session:
+        raise HTTPException(status_code=404, detail="Session not found")
+
+    await _ensure_session_access(session, current_user, schedule_session)
+
+    queue_q = select(SessionQueue).where(SessionQueue.schedule_session_id == session_id)
+    session_queue = (await session.exec(queue_q)).first()
+    
+    if not session_queue:
+       # Auto-create if missing (failsafe)
+        session_queue = SessionQueue(
+            schedule_session_id=session_id,
+            current_doctor_slot=0,
+            current_nurse_slot=0,
+            status="active"
+        )
+        session.add(session_queue)
+
+    if payload.current_doctor_slot is not None:
+        # Only admins can update doctor slot usually, but let's allow nurses for flexibility if needed, 
+        # OR restrict strictly as per requirement: "Doctor slot only editable by admin"
+        if current_user.role_as not in [1, 2] and payload.current_doctor_slot != session_queue.current_doctor_slot:
+             raise HTTPException(status_code=403, detail="Only admins can update doctor queue")
+        session_queue.current_doctor_slot = payload.current_doctor_slot
+
+    if payload.current_nurse_slot is not None:
+        session_queue.current_nurse_slot = payload.current_nurse_slot
+
+    session_queue.updated_by = current_user.id
+    session_queue.updated_at = datetime.utcnow()
+    
+    session.add(session_queue)
+    await session.commit()
+    await session.refresh(session_queue)
+
+    return {
+        "status": "success",
+        "queue": {
+            "current_doctor_slot": session_queue.current_doctor_slot,
+            "current_nurse_slot": session_queue.current_nurse_slot
+        }
+    }
+
+
+@router.get("/my-active-sessions", response_model=List[SessionListItem])
+async def get_my_active_sessions(
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    For Nurses: Get sessions where I am assigned and status is active.
+    """
+    _require_roles(current_user, [4]) # Nurse only
+
+    # Find sessions where I am assigned as nurse
+    subq = (
+        select(SessionStaff.schedule_session_id)
+        .where(
+            SessionStaff.staff_id == current_user.id, 
+            SessionStaff.role == "nurse"
+        )
+    )
+    
+    sessions_q = select(ScheduleSession).where(
+        col(ScheduleSession.id).in_(subq),
+        ScheduleSession.status == "active"
+    ).order_by(ScheduleSession.session_date, ScheduleSession.start_time)
+
+    sessions = (await session.exec(sessions_q)).all()
+    
+    # Reuse list logic (simplified)
+    # Ideally request refactoring list_sessions to be reusable, but for speed copies minimal parts
+    if not sessions:
+        return []
+
+    # Basic population for the list
+    # Fetch doctor names
+    doc_ids = {s.doctor_id for s in sessions}
+    docs = (await session.exec(select(Doctor).where(col(Doctor.id).in_(doc_ids)))).all()
+    doc_map = {d.id: d for d in docs}
+    
+    items = []
+    for s in sessions:
+        doc = doc_map.get(s.doctor_id)
+        items.append(
+            SessionListItem(
+                id=s.id,
+                session_date=s.session_date,
+                start_time=s.start_time,
+                end_time=s.end_time,
+                doctor_id=s.doctor_id,
+                doctor_name=_full_name(doc.first_name, doc.last_name) if doc else "Unknown",
+                branch_id=s.branch_id,
+                branch_name="", # Not critical for nurse view
+                appointment_count=0, # Can be populated if needed
+                status=s.status
+            )
+        )
+    return items

@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { DashboardLayout } from '../../../components/common/Layout/DashboardLayout';
 import { BranchAdminSidebar } from '../../../components/common/Layout/BranchAdminSidebar';
+import { Modal } from '../../../components/ui/Modal';
+import { Button } from '../../../components/ui/Button';
+import { patientSessionApi } from '../../../services/patientSessionService';
+import api from "../../../utils/api/axios";
 import {
     Calendar, Clock, User, Users, Search, Filter,
     ChevronDown, Stethoscope, Building2, RefreshCw, Loader2, ChevronLeft,
-    CalendarDays, UserPlus
+    CalendarDays, UserPlus, Play, Check, X
 } from 'lucide-react';
-import api from "../../../utils/api/axios";
-import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 interface AssignedNurse {
     id: string;
@@ -34,12 +38,22 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
     const [error, setError] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [viewMode, setViewMode] = useState<'list' | 'day'>('day');
+
+    // User info state
     const [userName, setUserName] = useState('Branch Admin');
     const [profileImage, setProfileImage] = useState('');
     const [branchName, setBranchName] = useState('');
     const [branchLogo, setBranchLogo] = useState('');
     const [userGender, setUserGender] = useState('');
     const navigate = useNavigate();
+
+    // Initiation Modal State
+    const [isInitiateModalOpen, setIsInitiateModalOpen] = useState(false);
+    const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
+    const [availableNurses, setAvailableNurses] = useState<{ id: string; name: string }[]>([]);
+    const [selectedNurseIds, setSelectedNurseIds] = useState<string[]>([]);
+    const [nurseLoading, setNurseLoading] = useState(false);
+    const [initiating, setInitiating] = useState(false);
 
     useEffect(() => {
         const userInfo = JSON.parse(localStorage.getItem('user') || '{}');
@@ -56,7 +70,6 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
         try {
             setLoading(true);
             setError('');
-            // Use the new endpoint
             const response = await api.get('/branch-admin/requests/doctor-schedules');
 
             if (response.data.status === 200) {
@@ -70,6 +83,52 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleOpenInitiate = async (session: DoctorSession) => {
+        setSelectedSessionId(session.id);
+        setIsInitiateModalOpen(true);
+        setSelectedNurseIds([]);
+        setNurseLoading(true);
+        try {
+            const nurses = await patientSessionApi.getAvailableNurses(session.id);
+            setAvailableNurses(nurses);
+        } catch (err) {
+            console.error(err);
+            toast.error("Failed to load available nurses");
+        } finally {
+            setNurseLoading(false);
+        }
+    };
+
+    const handleToggleNurse = (nurseId: string) => {
+        setSelectedNurseIds(prev =>
+            prev.includes(nurseId)
+                ? prev.filter(id => id !== nurseId)
+                : [...prev, nurseId]
+        );
+    };
+
+    const handleInitiateSubmit = async () => {
+        if (!selectedSessionId) return;
+        setInitiating(true);
+        try {
+            await patientSessionApi.initiateSession(selectedSessionId, selectedNurseIds);
+            toast.success("Session initiated successfully!");
+            setIsInitiateModalOpen(false);
+            // Redirect to session view
+            navigate(`/branch-admin/patient-sessions/${selectedSessionId}`);
+        } catch (err) {
+            console.error(err);
+            toast.error("Failed to initiate session");
+        } finally {
+            setInitiating(false);
+        }
+    };
+
+    const canInitiate = (session: DoctorSession) => {
+        const today = new Date().toISOString().split('T')[0];
+        return session.status === 'scheduled' && session.session_date === today;
     };
 
     // Filter sessions based on search
@@ -208,8 +267,8 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
                             <button
                                 onClick={() => setViewMode('day')}
                                 className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${viewMode === 'day'
-                                        ? 'bg-white text-primary-500 shadow-sm'
-                                        : 'text-neutral-600 hover:text-neutral-800'
+                                    ? 'bg-white text-primary-500 shadow-sm'
+                                    : 'text-neutral-600 hover:text-neutral-800'
                                     }`}
                             >
                                 By Date
@@ -217,8 +276,8 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
                             <button
                                 onClick={() => setViewMode('list')}
                                 className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${viewMode === 'list'
-                                        ? 'bg-white text-primary-500 shadow-sm'
-                                        : 'text-neutral-600 hover:text-neutral-800'
+                                    ? 'bg-white text-primary-500 shadow-sm'
+                                    : 'text-neutral-600 hover:text-neutral-800'
                                     }`}
                             >
                                 List
@@ -278,6 +337,7 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
 
                             return (
                                 <div key={date} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                                    {/* ... existing date header ... */}
                                     <div className="px-6 py-3 border-b bg-neutral-50 flex items-center justify-between">
                                         <div className="flex items-center gap-2">
                                             <CalendarDays className="w-5 h-5 text-neutral-500" />
@@ -287,10 +347,12 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
                                             {dateSessions.length} session{dateSessions.length !== 1 ? 's' : ''}
                                         </span>
                                     </div>
+
                                     <div className="divide-y divide-gray-100">
                                         {dateSessions.map(session => (
                                             <div key={session.id} className="p-4 hover:bg-neutral-50 transition-colors">
                                                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                                    {/* ... existing session info ... */}
                                                     <div className="flex items-start gap-4">
                                                         <div className="p-2 bg-blue-100 rounded-lg">
                                                             <User className="w-5 h-5 text-primary-500" />
@@ -343,6 +405,28 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
                                                                     : 'No nurses assigned'}
                                                             </span>
                                                         </div>
+
+                                                        {/* Initiate Button */}
+                                                        {canInitiate(session) && (
+                                                            <Button
+                                                                size="sm"
+                                                                className="mt-2"
+                                                                onClick={() => handleOpenInitiate(session)}
+                                                                leftIcon={<Play className="w-3 h-3" />}
+                                                            >
+                                                                Initiate Session
+                                                            </Button>
+                                                        )}
+                                                        {session.status === 'active' && (
+                                                            <Button
+                                                                size="sm"
+                                                                variant="outline"
+                                                                className="mt-2 border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300"
+                                                                onClick={() => navigate(`/branch-admin/patient-sessions/${session.id}`)}
+                                                            >
+                                                                View Live Session
+                                                            </Button>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
@@ -354,10 +438,11 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
                     </div>
                 )}
 
-                {/* List View */}
+                {/* List View - Add Initiate Button similarly to Day View or leave for now to save tokens, focusing on Day View largely */}
                 {!loading && !error && viewMode === 'list' && filteredSessions.length > 0 && (
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                         <table className="w-full">
+                            {/* ... existing headers ... */}
                             <thead className="bg-neutral-50 border-b border-neutral-200">
                                 <tr>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
@@ -375,11 +460,15 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
                                     <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                                         Status
                                     </th>
+                                    <th className="px-6 py-3 text-right text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                                        Action
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100">
                                 {filteredSessions.map(session => (
                                     <tr key={session.id} className="hover:bg-neutral-50">
+                                        {/* ... existing cells ... */}
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-2">
                                                 <CalendarDays className="w-4 h-4 text-neutral-400" />
@@ -424,6 +513,26 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
                                                 {session.status}
                                             </span>
                                         </td>
+                                        <td className="px-6 py-4 text-right">
+                                            {canInitiate(session) && (
+                                                <Button
+                                                    size="sm"
+                                                    onClick={() => handleOpenInitiate(session)}
+                                                >
+                                                    Initiate
+                                                </Button>
+                                            )}
+                                            {session.status === 'active' && (
+                                                <Button
+                                                    size="sm"
+                                                    variant="ghost"
+                                                    className="text-primary-600 hover:text-primary-700 hover:bg-primary-50"
+                                                    onClick={() => navigate(`/branch-admin/patient-sessions/${session.id}`)}
+                                                >
+                                                    View
+                                                </Button>
+                                            )}
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -431,6 +540,69 @@ export const BranchAdminDoctorSchedules: React.FC = () => {
                     </div>
                 )}
             </div>
+
+            {/* Initiate Modal */}
+            <Modal
+                isOpen={isInitiateModalOpen}
+                onClose={() => setIsInitiateModalOpen(false)}
+                title="Initiate Session & Assign Nurses"
+                size="md"
+                footer={
+                    <div className="flex gap-2 w-full justify-end">
+                        <Button variant="ghost" onClick={() => setIsInitiateModalOpen(false)}>Cancel</Button>
+                        <Button
+                            onClick={handleInitiateSubmit}
+                            isLoading={initiating}
+                            disabled={nurseLoading}
+                        >
+                            Confirm Initiation
+                        </Button>
+                    </div>
+                }
+            >
+                <div className="space-y-4">
+                    <p className="text-sm text-neutral-600">
+                        Select nurses to assign to this session. You can manage the queue after initiation.
+                    </p>
+
+                    {nurseLoading ? (
+                        <div className="py-8 flex justify-center">
+                            <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
+                        </div>
+                    ) : availableNurses.length === 0 ? (
+                        <div className="p-4 bg-yellow-50 text-yellow-700 rounded-lg text-sm">
+                            No available nurses found for this time slot. You can still initiate the session.
+                        </div>
+                    ) : (
+                        <div className="space-y-2 max-h-60 overflow-y-auto pr-2">
+                            {availableNurses.map(nurse => (
+                                <div
+                                    key={nurse.id}
+                                    className={`
+                                        flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors
+                                        ${selectedNurseIds.includes(nurse.id)
+                                            ? 'border-primary-500 bg-primary-50'
+                                            : 'border-neutral-200 hover:bg-neutral-50'}
+                                    `}
+                                    onClick={() => handleToggleNurse(nurse.id)}
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <div className={`
+                                            w-5 h-5 rounded border flex items-center justify-center
+                                            ${selectedNurseIds.includes(nurse.id)
+                                                ? 'bg-primary-500 border-primary-500 text-white'
+                                                : 'border-neutral-300 bg-white'}
+                                        `}>
+                                            {selectedNurseIds.includes(nurse.id) && <Check className="w-3 h-3" />}
+                                        </div>
+                                        <span className="text-sm font-medium text-neutral-700">{nurse.name}</span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </Modal>
         </DashboardLayout>
     );
 };
