@@ -14,7 +14,9 @@ import {
     Activity,
     CheckCircle2,
     MapPin,
-    ArrowLeft
+    ArrowLeft,
+    XCircle,
+    CheckSquare
 } from "lucide-react";
 
 interface SessionDetail {
@@ -198,6 +200,31 @@ const PatientSessionDetails: React.FC = () => {
             alert.error("Failed to update queue.");
         } finally {
             setUpdatingSlot(false);
+        }
+    };
+
+    const handleStatusUpdate = async (appointmentId: string, newStatus: string) => {
+        if (!sessionId) return;
+        try {
+            await api.patch(`/sessions/${sessionId}/appointments/${appointmentId}/status`, { status: newStatus });
+            alert.success(`Patient marked as ${newStatus.replace('_', ' ')}.`);
+            // Refresh patients list
+            loadDetails();
+        } catch (error) {
+            alert.error("Failed to update status.");
+        }
+    };
+
+    const handleFinalizeSession = async () => {
+        if (!sessionId) return;
+        if (!window.confirm("Are you sure you want to finalize this session? This will mark it as completed.")) return;
+
+        try {
+            await api.post(`/sessions/${sessionId}/finalize`, {});
+            alert.success("Session finalized successfully.");
+            navigate('/branch-admin/patient-sessions');
+        } catch (error) {
+            alert.error("Failed to finalize session.");
         }
     };
 
@@ -502,6 +529,26 @@ const PatientSessionDetails: React.FC = () => {
                                             </td>
                                             <td className="px-6 py-4 text-right">
                                                 <div className="flex items-center justify-end gap-3">
+                                                    {(patient.status === 'pending' || patient.status === 'scheduled') && (
+                                                        <>
+                                                            <button
+                                                                onClick={() => handleStatusUpdate(patient.appointment_id, 'checked_in')}
+                                                                className="flex items-center gap-1 px-3 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded-lg text-xs font-medium transition-colors border border-emerald-200"
+                                                                title="Check In"
+                                                            >
+                                                                <CheckSquare className="w-3.5 h-3.5" />
+                                                                Check In
+                                                            </button>
+                                                            <button
+                                                                onClick={() => handleStatusUpdate(patient.appointment_id, 'no_show')}
+                                                                className="flex items-center gap-1 px-3 py-1.5 bg-rose-50 text-rose-700 hover:bg-rose-100 rounded-lg text-xs font-medium transition-colors border border-rose-200"
+                                                                title="No Show"
+                                                            >
+                                                                <XCircle className="w-3.5 h-3.5" />
+                                                                No Show
+                                                            </button>
+                                                        </>
+                                                    )}
                                                     <button
                                                         onClick={() => openEditProfile(patient.patient_id)}
                                                         className="text-neutral-500 hover:text-neutral-900 text-sm font-medium transition-colors"
@@ -528,6 +575,19 @@ const PatientSessionDetails: React.FC = () => {
                         </div>
                     )}
                 </div>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6 flex items-center justify-between">
+                <div>
+                    <h3 className="text-lg font-bold text-neutral-900">Finalize Session</h3>
+                    <p className="text-sm text-neutral-500">Close this session and move it to past sessions history.</p>
+                </div>
+                <button
+                    onClick={handleFinalizeSession}
+                    className="px-6 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-white rounded-lg font-medium transition-colors shadow-sm"
+                >
+                    Finalize Session
+                </button>
             </div>
         </div>
     );

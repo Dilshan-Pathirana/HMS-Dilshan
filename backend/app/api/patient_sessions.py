@@ -1775,3 +1775,56 @@ async def get_my_active_sessions(
             )
         )
     return items
+@router.patch("/sessions/{session_id}/appointments/{appointment_id}/status")
+async def update_appointment_status(
+    session_id: str,
+    appointment_id: str,
+    payload: Dict[str, str],
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+):
+    _require_roles(current_user, [1, 2, 3, 4])
+    
+    schedule_session = await session.get(ScheduleSession, session_id)
+    if not schedule_session:
+        raise HTTPException(status_code=404, detail="Session not found")
+        
+    await _ensure_session_access(session, current_user, schedule_session)
+    
+    appt = await session.get(Appointment, appointment_id)
+    if not appt:
+        raise HTTPException(status_code=404, detail="Appointment not found")
+        
+    if appt.schedule_session_id != session_id:
+        raise HTTPException(status_code=400, detail="Appointment does not belong to this session")
+        
+    new_status = payload.get("status")
+    if new_status not in ["checked_in", "no_show", "completed", "cancelled"]:
+        raise HTTPException(status_code=400, detail="Invalid status")
+        
+    appt.status = new_status
+    session.add(appt)
+    await session.commit()
+    
+    return {"status": "success", "message": "Appointment status updated"}
+
+
+@router.post("/sessions/{session_id}/finalize")
+async def finalize_session(
+    session_id: str,
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+):
+    _require_roles(current_user, [1, 2, 3])
+    
+    schedule_session = await session.get(ScheduleSession, session_id)
+    if not schedule_session:
+        raise HTTPException(status_code=404, detail="Session not found")
+        
+    await _ensure_session_access(session, current_user, schedule_session)
+    
+    schedule_session.status = "completed"
+    session.add(schedule_session)
+    await session.commit()
+    
+    return {"status": "success", "message": "Session finalized"}
