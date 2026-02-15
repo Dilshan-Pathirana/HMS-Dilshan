@@ -332,9 +332,9 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   // Load Appointments with Filters
   // ============================================
   // Extract doctors from appointments data
-  const extractDoctorsFromAppointments = useCallback(() => {
+  const extractDoctorsFromAppointments = useCallback((appointmentsData: AppointmentBooking[]) => {
     const doctorMap = new Map<string, Doctor>();
-    appointments.forEach(appointment => {
+    appointmentsData.forEach(appointment => {
       if (appointment.doctor_id && appointment.doctor_name) {
         const doctorKey = appointment.doctor_id;
         if (!doctorMap.has(doctorKey)) {
@@ -351,17 +351,17 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     });
     const uniqueDoctors = Array.from(doctorMap.values());
     setDoctors(uniqueDoctors);
-  }, [appointments]);
+  }, []);
 
   // Extract branches from appointments data
-  const extractBranchesFromAppointments = useCallback(() => {
+  const extractBranchesFromAppointments = useCallback((appointmentsData: AppointmentBooking[]) => {
     const branchMap = new Map<string, { id: string; name: string }>();
-    appointments.forEach(appointment => {
-      if (appointment.branch_id && appointment.branch_name) {
-        const branchKey = appointment.branch_id;
+    appointmentsData.forEach(appointment => {
+      if (appointment.branch_name) {
+        const branchKey = appointment.branch_id || appointment.branch_name;
         if (!branchMap.has(branchKey)) {
           branchMap.set(branchKey, {
-            id: appointment.branch_id,
+            id: appointment.branch_id || branchKey,
             name: appointment.branch_name,
           });
         }
@@ -369,7 +369,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     });
     const uniqueBranches = Array.from(branchMap.values());
     setBranches(uniqueBranches);
-  }, [appointments]);
+  }, []);
 
   const loadAppointments = useCallback(async (view: ViewType, currentFilters: Filters = initialFilters) => {
     try {
@@ -397,10 +397,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       if (response.appointments) {
         setAppointments(response.appointments);
         // Extract doctors and branches from the loaded appointments
-        setTimeout(() => {
-          extractDoctorsFromAppointments();
-          extractBranchesFromAppointments();
-        }, 100);
+        extractDoctorsFromAppointments(response.appointments);
+        extractBranchesFromAppointments(response.appointments);
       }
     } catch (err: unknown) {
       console.error('Failed to load appointments:', err);
@@ -482,12 +480,12 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
   // Refresh functions
   const refreshDoctors = useCallback(() => {
-    extractDoctorsFromAppointments();
-  }, [extractDoctorsFromAppointments]);
+    extractDoctorsFromAppointments(appointments);
+  }, [appointments, extractDoctorsFromAppointments]);
 
   const refreshBranches = useCallback(() => {
-    extractBranchesFromAppointments();
-  }, [extractBranchesFromAppointments]);
+    extractBranchesFromAppointments(appointments);
+  }, [appointments, extractBranchesFromAppointments]);
   const loadAuditLogs = useCallback(async (page: number = 1, currentFilters: AuditLogFilters = auditLogFilters) => {
     try {
       setAuditLogsLoading(true);
@@ -627,13 +625,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     } else {
       loadAppointments(activeView, filters);
       loadSessions(activeView, filters);
-      // Extract doctors and branches after appointments are loaded
-      setTimeout(() => {
-        extractDoctorsFromAppointments();
-        extractBranchesFromAppointments();
-      }, 200);
     }
-  }, [activeView, filters, auditLogFilters, loadAppointments, loadAuditLogs, loadSessions, extractDoctorsFromAppointments, extractBranchesFromAppointments]);
+  }, [activeView, filters, auditLogFilters, loadAppointments, loadAuditLogs, loadSessions]);
 
   // Check if any filters are applied
   useEffect(() => {
