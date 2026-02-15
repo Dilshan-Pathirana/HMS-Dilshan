@@ -36,6 +36,7 @@ import {
   appointmentSuperAdminApi,
   appointmentPublicApi,
   appointmentReceptionistApi,
+  appointmentBranchAdminApi,
   AppointmentBooking,
   Doctor,
   SlotInfo,
@@ -381,56 +382,56 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       setError(null);
 
       // Use super admin API to get all appointments, then filter by branch
-      const response = await appointmentSuperAdminApi.getAllAppointments();
+      const response = await appointmentSuperAdminApi.getAllAppointments() as { appointments: AppointmentBooking[] };
 
       if (response.appointments) {
         // Filter appointments by current branch
         let filteredAppointments = response.appointments;
         if (currentBranchId) {
-          filteredAppointments = response.appointments.filter(apt => apt.branch_id === currentBranchId);
+          filteredAppointments = response.appointments.filter((apt: AppointmentBooking) => apt.branch_id === currentBranchId);
         }
 
         // Apply additional filters
         if (currentFilters.doctorId) {
-          filteredAppointments = filteredAppointments.filter(apt => apt.doctor_id === currentFilters.doctorId);
+          filteredAppointments = filteredAppointments.filter((apt: AppointmentBooking) => apt.doctor_id === currentFilters.doctorId);
         }
         if (currentFilters.specialization) {
-          filteredAppointments = filteredAppointments.filter(apt => apt.doctor_specialization === currentFilters.specialization);
+          filteredAppointments = filteredAppointments.filter((apt: AppointmentBooking) => apt.doctor_specialization === currentFilters.specialization);
         }
         if (currentFilters.status) {
-          filteredAppointments = filteredAppointments.filter(apt => apt.status === currentFilters.status);
+          filteredAppointments = filteredAppointments.filter((apt: AppointmentBooking) => apt.status === currentFilters.status);
         }
         if (currentFilters.search) {
           const searchLower = currentFilters.search.toLowerCase();
-          filteredAppointments = filteredAppointments.filter(apt =>
+          filteredAppointments = filteredAppointments.filter((apt: AppointmentBooking) =>
             apt.patient_name?.toLowerCase().includes(searchLower) ||
             apt.patient_id?.toLowerCase().includes(searchLower) ||
             apt.appointment_id?.toString().includes(searchLower)
           );
         }
         if (currentFilters.startDate && currentFilters.endDate) {
-          filteredAppointments = filteredAppointments.filter(apt =>
+          filteredAppointments = filteredAppointments.filter((apt: AppointmentBooking) =>
             apt.appointment_date >= currentFilters.startDate && apt.appointment_date <= currentFilters.endDate
           );
         }
         if (currentFilters.day) {
-          filteredAppointments = filteredAppointments.filter(apt => apt.appointment_date === currentFilters.day);
+          filteredAppointments = filteredAppointments.filter((apt: AppointmentBooking) => apt.appointment_date === currentFilters.day);
         }
         if (currentFilters.paymentStatus) {
-          filteredAppointments = filteredAppointments.filter(apt => apt.payment_status === currentFilters.paymentStatus);
+          filteredAppointments = filteredAppointments.filter((apt: AppointmentBooking) => apt.payment_status === currentFilters.paymentStatus);
         }
 
         // Filter by view type
         let viewFilteredAppointments = filteredAppointments;
         if (view === 'today') {
           const today = new Date().toISOString().split('T')[0];
-          viewFilteredAppointments = filteredAppointments.filter(apt => apt.appointment_date === today);
+          viewFilteredAppointments = filteredAppointments.filter((apt: AppointmentBooking) => apt.appointment_date === today);
         } else if (view === 'upcoming') {
           const today = new Date().toISOString().split('T')[0];
-          viewFilteredAppointments = filteredAppointments.filter(apt => apt.appointment_date >= today);
+          viewFilteredAppointments = filteredAppointments.filter((apt: AppointmentBooking) => apt.appointment_date >= today);
         } else if (view === 'past') {
           const today = new Date().toISOString().split('T')[0];
-          viewFilteredAppointments = filteredAppointments.filter(apt => apt.appointment_date < today || apt.status === 'cancelled');
+          viewFilteredAppointments = filteredAppointments.filter((apt: AppointmentBooking) => apt.appointment_date < today || apt.status === 'cancelled');
         }
 
         setAppointments(viewFilteredAppointments);
@@ -489,18 +490,18 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   const loadCounts = useCallback(async () => {
     try {
       // Get all appointments and filter by branch
-      const response = await appointmentSuperAdminApi.getAllAppointments();
+      const response = await appointmentSuperAdminApi.getAllAppointments() as { appointments: AppointmentBooking[] };
       if (response.appointments) {
         let branchAppointments = response.appointments;
         if (currentBranchId) {
-          branchAppointments = response.appointments.filter(apt => apt.branch_id === currentBranchId);
+          branchAppointments = response.appointments.filter((apt: AppointmentBooking) => apt.branch_id === currentBranchId);
         }
 
         const today = new Date().toISOString().split('T')[0];
 
-        const todayCount = branchAppointments.filter(apt => apt.appointment_date === today).length;
-        const upcomingCount = branchAppointments.filter(apt => apt.appointment_date >= today).length;
-        const pastCount = branchAppointments.filter(apt => apt.appointment_date < today || apt.status === 'cancelled').length;
+        const todayCount = branchAppointments.filter((apt: AppointmentBooking) => apt.appointment_date === today).length;
+        const upcomingCount = branchAppointments.filter((apt: AppointmentBooking) => apt.appointment_date >= today).length;
+        const pastCount = branchAppointments.filter((apt: AppointmentBooking) => apt.appointment_date < today || apt.status === 'cancelled').length;
 
         setCounts({
           today: todayCount,
@@ -570,7 +571,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     try {
       setLoadingPrintData(true);
       // Get all appointments and filter by branch and date
-      const response = await appointmentSuperAdminApi.getAllAppointments();
+      const response = await appointmentSuperAdminApi.getAllAppointments() as { appointments: AppointmentBooking[] };
       if (response.appointments) {
         let filteredAppointments = response.appointments.filter(apt =>
           apt.appointment_date === date &&
@@ -924,7 +925,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       setSavingEdit(true);
       setEditError(null);
 
-      const response = await appointmentReceptionistApi.rescheduleAppointment(
+      const response = await appointmentBranchAdminApi.rescheduleAppointment(
         editingAppointment.appointmentId,
         {
           new_doctor_id: editForm.doctorId,
@@ -991,10 +992,10 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       setSavingCancel(true);
       setCancelError(null);
 
-      const response = await appointmentReceptionistApi.cancelAppointment(
+      const response = await appointmentBranchAdminApi.cancelAppointment(
         cancellingAppointment.appointmentId,
         cancelReason,
-        cancellationType === 'doctor_request'
+        { doctor_request: cancellationType === 'doctor_request' }
       );
 
       if (response) {
@@ -1050,7 +1051,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       setSavingDelete(true);
       setDeleteError(null);
 
-      const response = await appointmentReceptionistApi.deleteAppointment(
+      const response = await appointmentBranchAdminApi.deleteAppointment(
         deletingAppointment.appointmentId,
         deleteReason
       );
@@ -1081,7 +1082,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       if (currentBranchId) {
         const response = await appointmentSuperAdminApi.getBranchSettings({ branch_id: currentBranchId });
         if (response.branches && response.branches.length > 0) {
-          setBookingSettings(response.branches[0].settings);
+          setBookingSettings(response.branches[0].settings || null);
           return;
         }
       }
@@ -1216,6 +1217,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       setBookingError('Patient registration is currently unavailable. Please search for existing patients or contact support.');
       return;
 
+      // Dead code commented out to fix build error
+      /*
       if (response.status === 201 && response.patient) {
         // Patient registered successfully
         setBookingForm(prev => ({
@@ -1240,6 +1243,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
         }));
         setShowNewPatientForm(false);
       }
+      */
     } catch (err: unknown) {
       console.error('Failed to register patient:', err);
 
@@ -1718,135 +1722,135 @@ const BranchAdminAppointmentsNew: React.FC = () => {
               <div className="mt-4 pt-4 border-t border-gray-100">
                 <h3 className="text-lg font-semibold text-neutral-800 mb-4">Filter Appointments</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-                    {/* Branch Filter */}
-                    <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <label className="block text-sm font-medium text-neutral-700">Branch</label>
-                        <button
-                          onClick={refreshBranches}
-                          className="text-xs text-emerald-600 hover:text-emerald-700"
-                          title="Refresh branches"
-                        >
-                          ↻
-                        </button>
-                      </div>
-                      <select
-                        value={filters.branchId}
-                        onChange={(e) => handleFilterChange('branchId', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                  {/* Branch Filter */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="block text-sm font-medium text-neutral-700">Branch</label>
+                      <button
+                        onClick={refreshBranches}
+                        className="text-xs text-emerald-600 hover:text-emerald-700"
+                        title="Refresh branches"
                       >
-                        <option value="">All Branches</option>
-                        {branches.map(branch => (
-                          <option key={branch.id} value={branch.id}>
-                            {branch.name}
-                          </option>
-                        ))}
-                      </select>
+                        ↻
+                      </button>
                     </div>
+                    <select
+                      value={filters.branchId}
+                      onChange={(e) => handleFilterChange('branchId', e.target.value)}
+                      className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                    >
+                      <option value="">All Branches</option>
+                      {branches.map(branch => (
+                        <option key={branch.id} value={branch.id}>
+                          {branch.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
-                    {/* Doctor Filter */}
-                    <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <label className="block text-sm font-medium text-neutral-700">Doctor</label>
-                        <button
-                          onClick={refreshDoctors}
-                          className="text-xs text-emerald-600 hover:text-emerald-700"
-                          title="Refresh doctors"
-                        >
-                          ↻
-                        </button>
-                      </div>
-                      <select
-                        value={filters.doctorId}
-                        onChange={(e) => handleFilterChange('doctorId', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                  {/* Doctor Filter */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="block text-sm font-medium text-neutral-700">Doctor</label>
+                      <button
+                        onClick={refreshDoctors}
+                        className="text-xs text-emerald-600 hover:text-emerald-700"
+                        title="Refresh doctors"
                       >
-                        <option value="">All Doctors</option>
-                        {doctors.map(doctor => (
-                          <option key={doctor.doctor_id} value={doctor.doctor_id}>
-                            Dr. {doctor.name}
-                          </option>
-                        ))}
-                      </select>
+                        ↻
+                      </button>
                     </div>
+                    <select
+                      value={filters.doctorId}
+                      onChange={(e) => handleFilterChange('doctorId', e.target.value)}
+                      className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                    >
+                      <option value="">All Doctors</option>
+                      {doctors.map(doctor => (
+                        <option key={doctor.doctor_id} value={doctor.doctor_id}>
+                          Dr. {doctor.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
-                    {/* Specialization Filter */}
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-700 mb-1">Specialization</label>
-                      <select
-                        value={filters.specialization}
-                        onChange={(e) => handleFilterChange('specialization', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
-                      >
-                        <option value="">All Specializations</option>
-                        {specializations.map(spec => (
-                          <option key={spec} value={spec}>{spec}</option>
-                        ))}
-                      </select>
-                    </div>
+                  {/* Specialization Filter */}
+                  <div>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Specialization</label>
+                    <select
+                      value={filters.specialization}
+                      onChange={(e) => handleFilterChange('specialization', e.target.value)}
+                      className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                    >
+                      <option value="">All Specializations</option>
+                      {specializations.map(spec => (
+                        <option key={spec} value={spec}>{spec}</option>
+                      ))}
+                    </select>
+                  </div>
 
-                    {/* Status Filter */}
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-700 mb-1">Status</label>
-                      <select
-                        value={filters.status}
-                        onChange={(e) => handleFilterChange('status', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
-                      >
-                        {statusOptions.map(opt => (
-                          <option key={opt.value} value={opt.value}>{opt.label}</option>
-                        ))}
-                      </select>
-                    </div>
+                  {/* Status Filter */}
+                  <div>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Status</label>
+                    <select
+                      value={filters.status}
+                      onChange={(e) => handleFilterChange('status', e.target.value)}
+                      className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                    >
+                      {statusOptions.map(opt => (
+                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                      ))}
+                    </select>
+                  </div>
 
-                    {/* Day Filter */}
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-700 mb-1">Day</label>
+                  {/* Day Filter */}
+                  <div>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Day</label>
+                    <input
+                      type="date"
+                      value={filters.day}
+                      onChange={(e) => handleFilterChange('day', e.target.value)}
+                      className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                    />
+                  </div>
+
+                  {/* Payment Status Filter */}
+                  <div>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Payment Status</label>
+                    <select
+                      value={filters.paymentStatus}
+                      onChange={(e) => handleFilterChange('paymentStatus', e.target.value)}
+                      className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                    >
+                      <option value="">All Payment Status</option>
+                      <option value="pending">Pending</option>
+                      <option value="paid">Paid</option>
+                      <option value="waived">Waived</option>
+                    </select>
+                  </div>
+
+                  {/* Date Range */}
+                  <div className="xl:col-span-2">
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">Date Range</label>
+                    <div className="flex gap-2">
                       <input
                         type="date"
-                        value={filters.day}
-                        onChange={(e) => handleFilterChange('day', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                        value={filters.startDate}
+                        onChange={(e) => handleFilterChange('startDate', e.target.value)}
+                        className="flex-1 px-2 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none text-sm"
+                        placeholder="From"
                       />
-                    </div>
-
-                    {/* Payment Status Filter */}
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-700 mb-1">Payment Status</label>
-                      <select
-                        value={filters.paymentStatus}
-                        onChange={(e) => handleFilterChange('paymentStatus', e.target.value)}
-                        className="w-full px-3 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
-                      >
-                        <option value="">All Payment Status</option>
-                        <option value="pending">Pending</option>
-                        <option value="paid">Paid</option>
-                        <option value="waived">Waived</option>
-                      </select>
-                    </div>
-
-                    {/* Date Range */}
-                    <div className="xl:col-span-2">
-                      <label className="block text-sm font-medium text-neutral-700 mb-1">Date Range</label>
-                      <div className="flex gap-2">
-                        <input
-                          type="date"
-                          value={filters.startDate}
-                          onChange={(e) => handleFilterChange('startDate', e.target.value)}
-                          className="flex-1 px-2 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none text-sm"
-                          placeholder="From"
-                        />
-                        <input
-                          type="date"
-                          value={filters.endDate}
-                          onChange={(e) => handleFilterChange('endDate', e.target.value)}
-                          className="flex-1 px-2 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none text-sm"
-                          placeholder="To"
-                        />
-                      </div>
+                      <input
+                        type="date"
+                        value={filters.endDate}
+                        onChange={(e) => handleFilterChange('endDate', e.target.value)}
+                        className="flex-1 px-2 py-2 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none text-sm"
+                        placeholder="To"
+                      />
                     </div>
                   </div>
                 </div>
+              </div>
 
               {/* Active Filter Badges */}
               {activeFilterBadges.length > 0 && (
@@ -1966,251 +1970,251 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                 )}
               </div>
             ) : (
-            /* Appointments Table */
-            <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
-              {/* Table Header Info */}
-              <div className="px-6 py-4 border-b border-neutral-200 bg-neutral-50">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-semibold text-neutral-800">
-                    {activeView === 'today' && "Today's Schedule"}
-                    {activeView === 'upcoming' && 'Upcoming Schedule'}
-                    {activeView === 'past' && 'Past & Cancelled Appointments'}
-                  </h3>
-                  <span className="text-sm text-neutral-500">
-                    Showing {appointments.length} appointments
-                    {filtersApplied && ' (filtered)'}
-                  </span>
+              /* Appointments Table */
+              <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden">
+                {/* Table Header Info */}
+                <div className="px-6 py-4 border-b border-neutral-200 bg-neutral-50">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-semibold text-neutral-800">
+                      {activeView === 'today' && "Today's Schedule"}
+                      {activeView === 'upcoming' && 'Upcoming Schedule'}
+                      {activeView === 'past' && 'Past & Cancelled Appointments'}
+                    </h3>
+                    <span className="text-sm text-neutral-500">
+                      Showing {appointments.length} appointments
+                      {filtersApplied && ' (filtered)'}
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-              {/* Loading State */}
-              {loading ? (
-                <div className="p-12 text-center">
-                  <FaSpinner className="w-8 h-8 text-emerald-600 animate-spin mx-auto mb-3" />
-                  <p className="text-neutral-500">Loading appointments...</p>
-                </div>
-              ) : appointments.length === 0 ? (
-                <div className="p-12 text-center">
-                  <FaCalendarAlt className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                  <p className="text-neutral-500 font-medium">No appointments found</p>
-                  <p className="text-neutral-400 text-sm mt-1">
-                    {filtersApplied
-                      ? 'Try adjusting your filters'
-                      : activeView === 'today'
-                        ? 'No appointments scheduled for today'
-                        : activeView === 'upcoming'
-                          ? 'No upcoming appointments'
-                          : 'No past or cancelled appointments'}
-                  </p>
-                  {filtersApplied && (
-                    <button
-                      onClick={clearFilters}
-                      className="mt-4 text-emerald-600 hover:text-emerald-700 font-medium"
-                    >
-                      Clear all filters
-                    </button>
-                  )}
-                </div>
-              ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="bg-neutral-50 border-b border-neutral-200">
-                        <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
-                          <div className="flex items-center gap-1">
-                            <FaHashtag className="w-3 h-3" />
-                            ID / Token
-                          </div>
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
-                          <div className="flex items-center gap-1">
-                            <FaUser className="w-3 h-3" />
-                            Patient
-                          </div>
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
-                          <div className="flex items-center gap-1">
-                            <FaUserMd className="w-3 h-3" />
-                            Doctor & Specialization
-                          </div>
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
-                          <div className="flex items-center gap-1">
-                            <FaCalendarAlt className="w-3 h-3" />
-                            Date
-                          </div>
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
-                          <div className="flex items-center gap-1">
-                            <FaClock className="w-3 h-3" />
-                            Slot / Time
-                          </div>
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
-                          Status
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
-                          Payment
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
-                          Actions
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                      {appointments.map((apt) => (
-                        <tr
-                          key={apt.id}
-                          className={`transition-colors cursor-pointer ${getRowBackgroundColor(apt.status, activeView)}`}
-                        >
-                          {/* ID / Token */}
-                          <td className="px-4 py-4">
-                            <div className="flex flex-col">
-                              <span className="font-bold text-emerald-600 text-lg">
-                                #{apt.token_number}
-                              </span>
-                              <span className="text-xs text-neutral-400 font-mono truncate max-w-[100px]" title={apt.id}>
-                                {apt.id.substring(0, 8)}...
-                              </span>
+                {/* Loading State */}
+                {loading ? (
+                  <div className="p-12 text-center">
+                    <FaSpinner className="w-8 h-8 text-emerald-600 animate-spin mx-auto mb-3" />
+                    <p className="text-neutral-500">Loading appointments...</p>
+                  </div>
+                ) : appointments.length === 0 ? (
+                  <div className="p-12 text-center">
+                    <FaCalendarAlt className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+                    <p className="text-neutral-500 font-medium">No appointments found</p>
+                    <p className="text-neutral-400 text-sm mt-1">
+                      {filtersApplied
+                        ? 'Try adjusting your filters'
+                        : activeView === 'today'
+                          ? 'No appointments scheduled for today'
+                          : activeView === 'upcoming'
+                            ? 'No upcoming appointments'
+                            : 'No past or cancelled appointments'}
+                    </p>
+                    {filtersApplied && (
+                      <button
+                        onClick={clearFilters}
+                        className="mt-4 text-emerald-600 hover:text-emerald-700 font-medium"
+                      >
+                        Clear all filters
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="bg-neutral-50 border-b border-neutral-200">
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
+                            <div className="flex items-center gap-1">
+                              <FaHashtag className="w-3 h-3" />
+                              ID / Token
                             </div>
-                          </td>
-
-                          {/* Patient */}
-                          <td className="px-4 py-4">
-                            <div className="flex flex-col">
-                              <span className="font-medium text-neutral-800">
-                                {apt.patient_name || 'Unknown Patient'}
-                              </span>
-                              {apt.patient_phone && (
-                                <span className="text-xs text-neutral-500">{apt.patient_phone}</span>
-                              )}
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
+                            <div className="flex items-center gap-1">
+                              <FaUser className="w-3 h-3" />
+                              Patient
                             </div>
-                          </td>
-
-                          {/* Doctor & Specialization */}
-                          <td className="px-4 py-4">
-                            <div className="flex flex-col">
-                              <span className="font-medium text-neutral-800">
-                                Dr. {apt.doctor_name || 'Unknown'}
-                              </span>
-                              {apt.doctor_specialization && (
-                                <span className="text-xs text-primary-500 bg-blue-50 px-2 py-0.5 rounded-full w-fit mt-1">
-                                  {apt.doctor_specialization}
-                                </span>
-                              )}
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
+                            <div className="flex items-center gap-1">
+                              <FaUserMd className="w-3 h-3" />
+                              Doctor & Specialization
                             </div>
-                          </td>
-
-                          {/* Date */}
-                          <td className="px-4 py-4">
-                            <div className="flex flex-col">
-                              <span className="font-medium text-neutral-800">
-                                {new Date(apt.appointment_date).toLocaleDateString('en-US', {
-                                  weekday: 'short',
-                                  month: 'short',
-                                  day: 'numeric',
-                                })}
-                              </span>
-                              <span className="text-xs text-neutral-500">
-                                {new Date(apt.appointment_date).toLocaleDateString('en-US', {
-                                  year: 'numeric',
-                                })}
-                              </span>
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
+                            <div className="flex items-center gap-1">
+                              <FaCalendarAlt className="w-3 h-3" />
+                              Date
                             </div>
-                          </td>
-
-                          {/* Slot / Time */}
-                          <td className="px-4 py-4">
-                            <div className="flex flex-col">
-                              <span className="font-semibold text-neutral-800">
-                                Slot #{apt.slot_number}
-                              </span>
-                              <span className="text-sm text-emerald-600 font-medium">
-                                {apt.appointment_time}
-                              </span>
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
+                            <div className="flex items-center gap-1">
+                              <FaClock className="w-3 h-3" />
+                              Slot / Time
                             </div>
-                          </td>
-
-                          {/* Status */}
-                          <td className="px-4 py-4">
-                            <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold border ${getStatusColor(apt.status)}`}>
-                              {getStatusIcon(apt.status)}
-                              {getStatusLabel(apt.status)}
-                            </span>
-                            {apt.cancelled_by_admin_for_doctor && (
-                              <div className="mt-1">
-                                <span className="text-xs text-orange-600 bg-orange-50 px-2 py-0.5 rounded">
-                                  Doctor Request
-                                </span>
-                              </div>
-                            )}
-                          </td>
-
-                          {/* Payment */}
-                          <td className="px-4 py-4">
-                            <span className={`font-medium capitalize ${getPaymentStatusColor(apt.payment_status)}`}>
-                              {apt.payment_status}
-                            </span>
-                            {apt.amount_paid && apt.payment_status === 'paid' && (
-                              <div className="text-xs text-neutral-500">
-                                Rs. {Number(apt.amount_paid).toFixed(2)}
-                              </div>
-                            )}
-                          </td>
-
-                          {/* Actions */}
-                          <td className="px-4 py-4">
-                            <div className="flex items-center gap-2">
-                              {/* Edit button - only for non-completed/cancelled appointments */}
-                              {!['completed', 'cancelled', 'no_show'].includes(apt.status) && (
-                                <>
-                                  <button
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      openEditModal(apt);
-                                    }}
-                                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-primary-500 hover:bg-blue-100 rounded-lg text-sm font-medium transition-colors"
-                                    title="Edit Appointment"
-                                  >
-                                    <FaEdit className="w-3 h-3" />
-                                    Edit
-                                  </button>
-                                  <button
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      openCancelModal(apt);
-                                    }}
-                                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-error-50 text-error-600 hover:bg-error-100 rounded-lg text-sm font-medium transition-colors"
-                                    title="Cancel Appointment"
-                                  >
-                                    <FaTimesCircle className="w-3 h-3" />
-                                    Cancel
-                                  </button>
-                                  <button
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      openDeleteModal(apt);
-                                    }}
-                                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-sm font-medium transition-colors"
-                                    title="Delete Appointment"
-                                  >
-                                    <FaTrash className="w-3 h-3" />
-                                    Delete
-                                  </button>
-                                </>
-                              )}
-                              {['completed', 'cancelled', 'no_show'].includes(apt.status) && (
-                                <span className="text-xs text-neutral-400 italic">No actions</span>
-                              )}
-                            </div>
-                          </td>
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
+                            Status
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
+                            Payment
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-semibold text-neutral-600 uppercase tracking-wider">
+                            Actions
+                          </th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-            </div>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        {appointments.map((apt) => (
+                          <tr
+                            key={apt.id}
+                            className={`transition-colors cursor-pointer ${getRowBackgroundColor(apt.status, activeView)}`}
+                          >
+                            {/* ID / Token */}
+                            <td className="px-4 py-4">
+                              <div className="flex flex-col">
+                                <span className="font-bold text-emerald-600 text-lg">
+                                  #{apt.token_number}
+                                </span>
+                                <span className="text-xs text-neutral-400 font-mono truncate max-w-[100px]" title={apt.id}>
+                                  {apt.id.substring(0, 8)}...
+                                </span>
+                              </div>
+                            </td>
+
+                            {/* Patient */}
+                            <td className="px-4 py-4">
+                              <div className="flex flex-col">
+                                <span className="font-medium text-neutral-800">
+                                  {apt.patient_name || 'Unknown Patient'}
+                                </span>
+                                {apt.patient_phone && (
+                                  <span className="text-xs text-neutral-500">{apt.patient_phone}</span>
+                                )}
+                              </div>
+                            </td>
+
+                            {/* Doctor & Specialization */}
+                            <td className="px-4 py-4">
+                              <div className="flex flex-col">
+                                <span className="font-medium text-neutral-800">
+                                  Dr. {apt.doctor_name || 'Unknown'}
+                                </span>
+                                {apt.doctor_specialization && (
+                                  <span className="text-xs text-primary-500 bg-blue-50 px-2 py-0.5 rounded-full w-fit mt-1">
+                                    {apt.doctor_specialization}
+                                  </span>
+                                )}
+                              </div>
+                            </td>
+
+                            {/* Date */}
+                            <td className="px-4 py-4">
+                              <div className="flex flex-col">
+                                <span className="font-medium text-neutral-800">
+                                  {new Date(apt.appointment_date).toLocaleDateString('en-US', {
+                                    weekday: 'short',
+                                    month: 'short',
+                                    day: 'numeric',
+                                  })}
+                                </span>
+                                <span className="text-xs text-neutral-500">
+                                  {new Date(apt.appointment_date).toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                  })}
+                                </span>
+                              </div>
+                            </td>
+
+                            {/* Slot / Time */}
+                            <td className="px-4 py-4">
+                              <div className="flex flex-col">
+                                <span className="font-semibold text-neutral-800">
+                                  Slot #{apt.slot_number}
+                                </span>
+                                <span className="text-sm text-emerald-600 font-medium">
+                                  {apt.appointment_time}
+                                </span>
+                              </div>
+                            </td>
+
+                            {/* Status */}
+                            <td className="px-4 py-4">
+                              <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold border ${getStatusColor(apt.status)}`}>
+                                {getStatusIcon(apt.status)}
+                                {getStatusLabel(apt.status)}
+                              </span>
+                              {apt.cancelled_by_admin_for_doctor && (
+                                <div className="mt-1">
+                                  <span className="text-xs text-orange-600 bg-orange-50 px-2 py-0.5 rounded">
+                                    Doctor Request
+                                  </span>
+                                </div>
+                              )}
+                            </td>
+
+                            {/* Payment */}
+                            <td className="px-4 py-4">
+                              <span className={`font-medium capitalize ${getPaymentStatusColor(apt.payment_status)}`}>
+                                {apt.payment_status}
+                              </span>
+                              {apt.amount_paid && apt.payment_status === 'paid' && (
+                                <div className="text-xs text-neutral-500">
+                                  Rs. {Number(apt.amount_paid).toFixed(2)}
+                                </div>
+                              )}
+                            </td>
+
+                            {/* Actions */}
+                            <td className="px-4 py-4">
+                              <div className="flex items-center gap-2">
+                                {/* Edit button - only for non-completed/cancelled appointments */}
+                                {!['completed', 'cancelled', 'no_show'].includes(apt.status) && (
+                                  <>
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        openEditModal(apt);
+                                      }}
+                                      className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-primary-500 hover:bg-blue-100 rounded-lg text-sm font-medium transition-colors"
+                                      title="Edit Appointment"
+                                    >
+                                      <FaEdit className="w-3 h-3" />
+                                      Edit
+                                    </button>
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        openCancelModal(apt);
+                                      }}
+                                      className="inline-flex items-center gap-1 px-3 py-1.5 bg-error-50 text-error-600 hover:bg-error-100 rounded-lg text-sm font-medium transition-colors"
+                                      title="Cancel Appointment"
+                                    >
+                                      <FaTimesCircle className="w-3 h-3" />
+                                      Cancel
+                                    </button>
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        openDeleteModal(apt);
+                                      }}
+                                      className="inline-flex items-center gap-1 px-3 py-1.5 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg text-sm font-medium transition-colors"
+                                      title="Delete Appointment"
+                                    >
+                                      <FaTrash className="w-3 h-3" />
+                                      Delete
+                                    </button>
+                                  </>
+                                )}
+                                {['completed', 'cancelled', 'no_show'].includes(apt.status) && (
+                                  <span className="text-xs text-neutral-400 italic">No actions</span>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
             )}
 
             {/* Summary Cards */}
