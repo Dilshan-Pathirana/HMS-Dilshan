@@ -357,7 +357,7 @@ async def branch_admin_notifications(
 async def list_branch_doctor_sessions(
     branch_id: Optional[str] = None,
     doctor_id: Optional[str] = None,
-    date: Optional[date] = None,
+    session_date: Optional[date] = None,
     skip: int = 0, limit: int = 50,
     session: AsyncSession = Depends(get_session),
     user=Depends(get_current_user),
@@ -366,136 +366,138 @@ async def list_branch_doctor_sessions(
     List dated sessions (occurrences) for the branch, including assigned nurses.
     Replaces the old 'schedules' endpoint which was 404.
     """
-    from app.models.patient_session import ScheduleSession, SessionStaff
-    from app.models.doctor_schedule import DoctorSchedule
-    from app.models.doctor import Doctor
-    from app.models.user import User
+    try:
+        from app.models.patient_session import ScheduleSession, SessionStaff
+        from app.models.doctor_schedule import DoctorSchedule
+        from app.models.doctor import Doctor
+        from app.models.user import User
 
-    # Determine branch context
-    bid = branch_id or getattr(user, "branch_id", None)
-    
-    # Base query: Sessions -> Doctor -> User
-    q = (select(ScheduleSession, Doctor, User)
-         .join(Doctor, ScheduleSession.doctor_id == Doctor.id)
-         .join(User, Doctor.user_id == User.id))
-
-    if bid:
-        q = q.where(ScheduleSession.branch_id == bid)
-    
-    if doctor_id:
-        q = q.where(ScheduleSession.doctor_id == doctor_id)
+        # Determine branch context
+        bid = branch_id or getattr(user, "branch_id", None)
         
-    if date:
-        q = q.where(ScheduleSession.session_date == date)
-        
-    # Order by date desc, time asc
-    q = q.order_by(ScheduleSession.session_date.desc(), ScheduleSession.start_time.asc())
-    q = q.offset(skip).limit(limit)
+        # Base query: Sessions -> Doctor -> User
+        q = (select(ScheduleSession, Doctor, User)
+             .join(Doctor, ScheduleSession.doctor_id == Doctor.id)
+             .join(User, Doctor.user_id == User.id))
 
-    # Determine target date for auto-generation (today if not filtered differently)
-    target_date = date or date.today()
-    
-    # Auto-generate sessions for today if they don't exist
-    # Only run this if we are looking at a date that could be "today" or future
-    if bid and target_date >= date.today():
-        try:
-            day_of_week = target_date.weekday()
+        if bid:
+            q = q.where(ScheduleSession.branch_id == bid)
+        
+        if doctor_id:
+            q = q.where(ScheduleSession.doctor_id == doctor_id)
             
-            # Find active schedules for this branch and day
-            sched_q = select(DoctorSchedule).where(
-                DoctorSchedule.branch_id == bid,
-                DoctorSchedule.day_of_week == day_of_week,
-                DoctorSchedule.status == "active"
-            )
-            schedules = (await session.exec(sched_q)).all()
+        if session_date:
+            q = q.where(ScheduleSession.session_date == session_date)
             
-            # Check which ones already have a session
-            existing_sessions_q = select(ScheduleSession.schedule_id).where(
-                ScheduleSession.branch_id == bid,
-                ScheduleSession.session_date == target_date
-            )
-            existing_schedule_ids = (await session.exec(existing_sessions_q)).all()
-            existing_ids_set = set(existing_schedule_ids)
+        # Order by date desc, time asc
+        q = q.order_by(ScheduleSession.session_date.desc(), ScheduleSession.start_time.asc())
+        q = q.offset(skip).limit(limit)
+
+        # Determine target date for auto-generation (today if not filtered differently)
+        target_date = session_date or date.today()
+        
+        # Auto-generate sessions for today if they don't exist
+        # Only run this if we are looking at a date that could be "today" or future
+        if bid and target_date >= date.today():
+            try:
+                day_of_week = target_date.weekday()
             
-            new_sessions = []
-            for sched in schedules:
-                if sched.id in existing_ids_set:
-                    continue
-                
-                # Check validity dates
-                if sched.valid_from and sched.valid_from > target_date:
-                    continue
-                if sched.valid_until and sched.valid_until < target_date:
-                    continue
-                    
-                # Create session
-                # Note: session_key constraint might trigger if we are not careful, 
-                # but we checked for existence based on schedule_id.
-                # A better check is unique constraint on session_key.
-                new_session = ScheduleSession(
-                    schedule_id=sched.id,
-                    doctor_id=sched.doctor_id,
-                    branch_id=bid,
-                    session_date=target_date,
-                    start_time=sched.start_time,
-                    end_time=sched.end_time,
-                    status="active",
-                    session_key=f"{sched.doctor_id}_{target_date}_{sched.start_time}"
+                # Find active schedules for this branch and day
+                sched_q = select(DoctorSchedule).where(
+                    DoctorSchedule.branch_id == bid,
+                    DoctorSchedule.day_of_week == day_of_week,
+                    DoctorSchedule.status == "active"
                 )
-                new_sessions.append(new_session)
+                schedules = (await session.exec(sched_q)).all()
             
-            if new_sessions:
-                for ns in new_sessions:
-                    session.add(ns)
-                await session.commit()
-        except Exception as e:
-            # Log error but don't fail the read request
-            print(f"Error auto-generating sessions: {e}")
+                # Check which ones already have a session
+                existing_sessions_q = select(ScheduleSession.schedule_id).where(
+                    ScheduleSession.branch_id == bid,
+                    ScheduleSession.session_date == target_date
+                )
+                existing_schedule_ids = (await session.exec(existing_sessions_q)).all()
+                existing_ids_set = set(existing_schedule_ids)
+                
+                new_sessions = []
+                for sched in schedules:
+                    if sched.id in existing_ids_set:
+                        continue
+                    
+                    # Check validity dates
+                    if sched.valid_from and sched.valid_from > target_date:
+                        continue
+                    if sched.valid_until and sched.valid_until < target_date:
+                        continue
+                        
+                    # Create session
+                    new_session = ScheduleSession(
+                        schedule_id=sched.id,
+                        doctor_id=sched.doctor_id,
+                        branch_id=bid,
+                        session_date=target_date,
+                        start_time=sched.start_time,
+                        end_time=sched.end_time,
+                        status="active",
+                        session_key=f"{sched.doctor_id}_{target_date}_{sched.start_time}"
+                    )
+                    new_sessions.append(new_session)
+                
+                if new_sessions:
+                    for ns in new_sessions:
+                        session.add(ns)
+                    await session.commit()
+            except Exception as e:
+                # Log error but don't fail the read request
+                print(f"Error auto-generating sessions: {e}")
 
-    results = await session.exec(q)
-    rows = results.all()
+        results = await session.exec(q)
+        rows = results.all()
 
-    # Post-process to get assigned nurses for these sessions
-    session_ids = [r[0].id for r in rows]
-    
-    assigned_map = {}
-    if session_ids:
-        staff_q = (
-            select(SessionStaff, User)
-            .join(User, SessionStaff.staff_id == User.id)
-            .where(SessionStaff.schedule_session_id.in_(session_ids))
-            .where(SessionStaff.role == "nurse")
-        )
-        staff_res = await session.exec(staff_q)
-        for ss, u in staff_res.all():
-            if ss.schedule_session_id not in assigned_map:
-                assigned_map[ss.schedule_session_id] = []
-            assigned_map[ss.schedule_session_id].append({
-                "id": u.id,
-                "name": f"{u.first_name} {u.last_name}",
+        # Post-process to get assigned nurses for these sessions
+        session_ids = [r[0].id for r in rows]
+        
+        assigned_map = {}
+        if session_ids:
+            staff_q = (
+                select(SessionStaff, User)
+                .join(User, SessionStaff.staff_id == User.id)
+                .where(SessionStaff.schedule_session_id.in_(session_ids))
+                .where(SessionStaff.role == "nurse")
+            )
+            staff_res = await session.exec(staff_q)
+            for ss, u in staff_res.all():
+                if ss.schedule_session_id not in assigned_map:
+                    assigned_map[ss.schedule_session_id] = []
+                assigned_map[ss.schedule_session_id].append({
+                    "id": u.id,
+                    "name": f"{u.first_name} {u.last_name}",
+                })
+
+        # Format response
+        data = []
+        for sched_session, doc, u in rows:
+            data.append({
+                "id": sched_session.id,
+                "doctor_id": doc.id,
+                "doctor_name": f"{doc.first_name} {doc.last_name}",
+                "doctor_email": u.email,
+                "doctor_specialization": doc.specialization,
+                "branch_id": sched_session.branch_id,
+                "session_date": sched_session.session_date,
+                "start_time": sched_session.start_time,
+                "end_time": sched_session.end_time,
+                "status": sched_session.status,
+                "assigned_nurses": assigned_map.get(sched_session.id, [])
             })
 
-    # Format response
-    data = []
-    for sched_session, doc, u in rows:
-        data.append({
-            "id": sched_session.id,
-            "doctor_id": doc.id,
-            "doctor_name": f"{doc.first_name} {doc.last_name}",
-            "doctor_email": u.email,
-            "doctor_specialization": doc.specialization,
-            "branch_id": sched_session.branch_id,
-            "session_date": sched_session.session_date,
-            "start_time": sched_session.start_time,
-            "end_time": sched_session.end_time,
-            "status": sched_session.status,
-            "assigned_nurses": assigned_map.get(sched_session.id, [])
-        })
-
-    return {
-        "status": 200,
-        "schedules": data
-    }
+        return {
+            "status": 200,
+            "schedules": data
+        }
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
 
 
 def _generate_today_sessions(session: AsyncSession, branch_id: str):
