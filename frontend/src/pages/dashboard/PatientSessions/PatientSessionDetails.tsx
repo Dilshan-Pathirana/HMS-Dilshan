@@ -42,6 +42,7 @@ interface SessionPatient {
     status: string;
     patient_id: string;
     patient_name: string;
+    slot_index?: number;
 }
 
 interface QuestionItem {
@@ -501,6 +502,7 @@ const PatientSessionDetails: React.FC = () => {
                             <table className="w-full text-sm text-left">
                                 <thead className="bg-neutral-50 text-neutral-500 border-b border-neutral-200">
                                     <tr>
+                                        <th className="px-6 py-4 font-medium w-max text-center">Slot</th>
                                         <th className="px-6 py-4 font-medium w-1/3">Patient Name</th>
                                         <th className="px-6 py-4 font-medium">Time</th>
                                         <th className="px-6 py-4 font-medium">Status</th>
@@ -510,6 +512,9 @@ const PatientSessionDetails: React.FC = () => {
                                 <tbody className="divide-y divide-neutral-100">
                                     {patients.map((patient) => (
                                         <tr key={patient.appointment_id} className="hover:bg-neutral-50/50 transition-colors">
+                                            <td className="px-6 py-4 font-medium text-center text-neutral-500">
+                                                #{patient.slot_index}
+                                            </td>
                                             <td className="px-6 py-4 font-medium text-neutral-900">
                                                 {patient.patient_name}
                                             </td>

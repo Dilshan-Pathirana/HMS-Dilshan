@@ -93,7 +93,46 @@ async def my_appointments(
     current_user: User = Depends(get_current_user),
 ):
     patient_id = await _get_patient_id(session, current_user.id)
-    return await svc.list_by_patient(session, patient_id, status, skip, limit)
+    appointments = await svc.list_by_patient(session, patient_id, status, skip, limit)
+    
+    # Enrich with slot numbers
+    from app.models.patient_session import ScheduleSession
+    from app.models.doctor_schedule import DoctorSchedule
+    from sqlmodel import col
+
+    session_ids = {a.schedule_session_id for a in appointments if a.schedule_session_id}
+    
+    if session_ids:
+        q_sessions = (
+            select(ScheduleSession, DoctorSchedule)
+            .join(DoctorSchedule, ScheduleSession.schedule_id == DoctorSchedule.id, isouter=True)
+            .where(col(ScheduleSession.id).in_(session_ids))
+        )
+        session_results = await session.exec(q_sessions)
+        session_map = {s.id: (s, ds) for s, ds in session_results.all()}
+        
+        enriched_appointments = []
+        from datetime import datetime as dt_cls
+        from datetime import date as date_cls
+        
+        for appt in appointments:
+            appt_read = AppointmentRead.model_validate(appt)
+            
+            if appt.schedule_session_id and appt.schedule_session_id in session_map:
+                sched_session, doc_schedule = session_map[appt.schedule_session_id]
+                if sched_session and doc_schedule and doc_schedule.slot_duration_minutes:
+                    dummy_date = date_cls(2000, 1, 1)
+                    t1 = dt_cls.combine(dummy_date, appt.appointment_time)
+                    t2 = dt_cls.combine(dummy_date, sched_session.start_time)
+                    diff = t1 - t2
+                    minutes = diff.total_seconds() / 60
+                    slot_num = int(minutes // doc_schedule.slot_duration_minutes) + 1
+                    appt_read.slot_number = slot_num
+            
+            enriched_appointments.append(appt_read)
+        return enriched_appointments
+
+    return appointments
 
 
 @router.post("/{appointment_id}/cancel")

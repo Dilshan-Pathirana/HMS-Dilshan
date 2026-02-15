@@ -336,11 +336,10 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
         {(['upcoming', 'past', 'all'] as const).map((f) => (
           <button
             key={f}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-              filter === f
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filter === f
                 ? 'bg-indigo-600 text-white'
                 : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
-            }`}
+              }`}
             onClick={() => setFilter(f)}
           >
             {f.charAt(0).toUpperCase() + f.slice(1)}
@@ -390,6 +389,11 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                     <span className="ml-2 text-lg font-bold text-indigo-600">
                       #{appointment.token_number}
                     </span>
+                    {appointment.slot_number && (
+                      <span className="ml-2 text-sm font-medium text-neutral-500 bg-neutral-100 px-2 py-1 rounded">
+                        Slot #{appointment.slot_number}
+                      </span>
+                    )}
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
@@ -812,13 +816,12 @@ const PatientMyAppointments: React.FC<Props> = ({ onBookNew }) => {
                         {availableSlots.map((slot) => (
                           <button
                             key={slot.slot_number}
-                            className={`p-2 text-sm rounded-lg border transition-colors ${
-                              !slot.available
+                            className={`p-2 text-sm rounded-lg border transition-colors ${!slot.available
                                 ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed border-neutral-200'
                                 : rescheduleSlot === slot.slot_number
-                                ? 'bg-primary-500 text-white border-primary-500'
-                                : 'bg-white text-neutral-700 border-neutral-300 hover:border-blue-400 hover:bg-blue-50'
-                            }`}
+                                  ? 'bg-primary-500 text-white border-primary-500'
+                                  : 'bg-white text-neutral-700 border-neutral-300 hover:border-blue-400 hover:bg-blue-50'
+                              }`}
                             onClick={() => slot.available && setRescheduleSlot(slot.slot_number || null)}
                             disabled={!slot.available}
                           >

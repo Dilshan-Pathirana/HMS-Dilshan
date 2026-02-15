@@ -56,3 +56,4 @@ class AppointmentRead(AppointmentBase):
     updated_at: Optional[datetime] = None
     patient_name: Optional[str] = None
     doctor_name: Optional[str] = None
+    slot_number: Optional[int] = None

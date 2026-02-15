@@ -48,7 +48,7 @@ const ReceptionistAppointments: React.FC = () => {
       const response = await appointmentReceptionistApi.getAppointments({
         date: new Date().toISOString().split('T')[0],
       });
-      
+
       if (response.status === 200) {
         setAppointments(response.appointments);
       }
@@ -64,7 +64,7 @@ const ReceptionistAppointments: React.FC = () => {
   const loadDoctors = useCallback(async () => {
     try {
       const response = await appointmentReceptionistApi.getAvailableDoctors();
-      
+
       if (response.status === 200) {
         setDoctors(response.doctors);
       }
@@ -82,7 +82,7 @@ const ReceptionistAppointments: React.FC = () => {
 
     try {
       const response = await appointmentReceptionistApi.searchPatients(search);
-      
+
       if (response.status === 200) {
         setPatients(response.patients);
         setShowPatientResults(true);
@@ -175,7 +175,7 @@ const ReceptionistAppointments: React.FC = () => {
     try {
       setActionLoading(bookingId);
       const response = await appointmentReceptionistApi.checkInPatient(bookingId);
-      
+
       if (response.status === 200) {
         loadAppointments();
       }
@@ -194,7 +194,7 @@ const ReceptionistAppointments: React.FC = () => {
     try {
       setActionLoading(bookingId);
       const response = await appointmentReceptionistApi.cancelAppointment(bookingId, reason);
-      
+
       if (response.status === 200) {
         loadAppointments();
       }
@@ -213,7 +213,7 @@ const ReceptionistAppointments: React.FC = () => {
         payment_method: 'cash',
         amount_paid: amount,
       });
-      
+
       if (response.status === 200) {
         setSuccess('Payment recorded successfully');
         loadAppointments();
@@ -284,22 +284,20 @@ const ReceptionistAppointments: React.FC = () => {
       {/* Tabs */}
       <div className="flex space-x-2 mb-4">
         <button
-          className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-            activeTab === 'today'
+          className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeTab === 'today'
               ? 'bg-indigo-600 text-white'
               : 'bg-white text-neutral-600 hover:bg-neutral-100'
-          }`}
+            }`}
           onClick={() => setActiveTab('today')}
         >
           <FaCalendarAlt className="inline mr-2" />
           Today's Appointments
         </button>
         <button
-          className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-            activeTab === 'walk-in'
+          className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeTab === 'walk-in'
               ? 'bg-indigo-600 text-white'
               : 'bg-white text-neutral-600 hover:bg-neutral-100'
-          }`}
+            }`}
           onClick={() => setActiveTab('walk-in')}
         >
           <FaPlus className="inline mr-2" />
@@ -339,6 +337,7 @@ const ReceptionistAppointments: React.FC = () => {
                 <thead className="bg-neutral-50">
                   <tr>
                     <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Token</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Slot</th>
                     <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Patient</th>
                     <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Doctor</th>
                     <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Time</th>
@@ -352,6 +351,7 @@ const ReceptionistAppointments: React.FC = () => {
                   {appointments.map((appointment) => (
                     <tr key={appointment.id} className="hover:bg-neutral-50">
                       <td className="px-4 py-3 font-bold text-indigo-600">#{appointment.token_number}</td>
+                      <td className="px-4 py-3 font-semibold text-neutral-700">Slot #{appointment.slot_number}</td>
                       <td className="px-4 py-3">
                         <div>
                           <p className="font-medium text-neutral-800">{appointment.patient_name || 'Patient'}</p>

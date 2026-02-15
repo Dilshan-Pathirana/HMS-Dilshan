@@ -232,33 +232,30 @@ const DoctorAppointments: React.FC = () => {
       {/* Tabs */}
       <div className="flex space-x-2 mb-4">
         <button
-          className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-            activeTab === 'queue'
+          className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeTab === 'queue'
               ? 'bg-indigo-600 text-white'
               : 'bg-white text-neutral-600 hover:bg-neutral-100'
-          }`}
+            }`}
           onClick={() => setActiveTab('queue')}
         >
           <FaClock className="inline mr-2" />
           Today's Queue
         </button>
         <button
-          className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-            activeTab === 'all'
+          className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeTab === 'all'
               ? 'bg-indigo-600 text-white'
               : 'bg-white text-neutral-600 hover:bg-neutral-100'
-          }`}
+            }`}
           onClick={() => setActiveTab('all')}
         >
           <FaCalendarAlt className="inline mr-2" />
           All Appointments
         </button>
         <button
-          className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-            activeTab === 'stats'
+          className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeTab === 'stats'
               ? 'bg-indigo-600 text-white'
               : 'bg-white text-neutral-600 hover:bg-neutral-100'
-          }`}
+            }`}
           onClick={() => setActiveTab('stats')}
         >
           <FaChartBar className="inline mr-2" />
@@ -335,60 +332,61 @@ const DoctorAppointments: React.FC = () => {
               {queue
                 .filter((apt) => apt.id !== currentPatient?.id)
                 .map((appointment) => (
-                <div key={appointment.id} className="p-4 hover:bg-neutral-50 transition-colors">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center mr-3">
-                        <span className="font-bold text-indigo-600">#{appointment.token_number}</span>
-                      </div>
-                      <div>
-                        <p className="font-medium text-neutral-800">{appointment.patient_name || 'Patient'}</p>
-                        <div className="flex items-center text-sm text-neutral-500">
-                          <FaClock className="mr-1" />
-                          {appointment.appointment_time}
-                          <span className={`ml-2 px-2 py-0.5 rounded-full text-xs ${getStatusColor(appointment.status)}`}>
-                            {getStatusLabel(appointment.status)}
-                          </span>
+                  <div key={appointment.id} className="p-4 hover:bg-neutral-50 transition-colors">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center mr-3">
+                          <span className="font-bold text-indigo-600">#{appointment.token_number}</span>
+                        </div>
+                        <div>
+                          <p className="font-medium text-neutral-800">{appointment.patient_name || 'Patient'}</p>
+                          <div className="flex items-center text-sm text-neutral-500">
+                            <FaClock className="mr-1" />
+                            {appointment.appointment_time}
+                            <span className="ml-2 font-medium text-indigo-600">Slot #{appointment.slot_number}</span>
+                            <span className={`ml-2 px-2 py-0.5 rounded-full text-xs ${getStatusColor(appointment.status)}`}>
+                              {getStatusLabel(appointment.status)}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="flex space-x-2">
-                      {appointment.status === 'confirmed' && (
-                        <>
+                      <div className="flex space-x-2">
+                        {appointment.status === 'confirmed' && (
+                          <>
+                            <button
+                              className="px-3 py-1.5 bg-primary-500 text-white rounded-lg hover:bg-primary-600 text-sm flex items-center"
+                              onClick={() => handleCheckIn(appointment.id)}
+                              disabled={actionLoading === appointment.id}
+                            >
+                              <FaCheck className="mr-1" />
+                              Check In
+                            </button>
+                            <button
+                              className="px-3 py-1.5 bg-orange-500 text-white rounded-lg hover:bg-orange-600 text-sm flex items-center"
+                              onClick={() => handleMarkNoShow(appointment.id)}
+                              disabled={actionLoading === appointment.id}
+                            >
+                              <FaBan className="mr-1" />
+                              No Show
+                            </button>
+                          </>
+                        )}
+
+                        {appointment.status === 'checked_in' && (
                           <button
-                            className="px-3 py-1.5 bg-primary-500 text-white rounded-lg hover:bg-primary-600 text-sm flex items-center"
-                            onClick={() => handleCheckIn(appointment.id)}
+                            className="px-3 py-1.5 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-sm flex items-center"
+                            onClick={() => handleStartSession(appointment.id)}
                             disabled={actionLoading === appointment.id}
                           >
-                            <FaCheck className="mr-1" />
-                            Check In
+                            <FaPlay className="mr-1" />
+                            Start Session
                           </button>
-                          <button
-                            className="px-3 py-1.5 bg-orange-500 text-white rounded-lg hover:bg-orange-600 text-sm flex items-center"
-                            onClick={() => handleMarkNoShow(appointment.id)}
-                            disabled={actionLoading === appointment.id}
-                          >
-                            <FaBan className="mr-1" />
-                            No Show
-                          </button>
-                        </>
-                      )}
-
-                      {appointment.status === 'checked_in' && (
-                        <button
-                          className="px-3 py-1.5 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-sm flex items-center"
-                          onClick={() => handleStartSession(appointment.id)}
-                          disabled={actionLoading === appointment.id}
-                        >
-                          <FaPlay className="mr-1" />
-                          Start Session
-                        </button>
-                      )}
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           )}
         </div>
@@ -445,6 +443,7 @@ const DoctorAppointments: React.FC = () => {
                 <thead className="bg-neutral-50">
                   <tr>
                     <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Token</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Slot</th>
                     <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Patient</th>
                     <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Date</th>
                     <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase">Time</th>
@@ -457,6 +456,7 @@ const DoctorAppointments: React.FC = () => {
                   {appointments.map((appointment) => (
                     <tr key={appointment.id} className="hover:bg-neutral-50">
                       <td className="px-4 py-3 font-bold text-indigo-600">#{appointment.token_number}</td>
+                      <td className="px-4 py-3 font-semibold text-neutral-700">Slot #{appointment.slot_number}</td>
                       <td className="px-4 py-3">
                         <div className="flex items-center">
                           <FaUser className="text-neutral-400 mr-2" />

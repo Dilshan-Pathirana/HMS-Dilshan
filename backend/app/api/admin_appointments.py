@@ -10,7 +10,7 @@ from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
-from sqlmodel import select, func
+from sqlmodel import select, func, col
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.core.database import get_session
@@ -60,7 +60,55 @@ async def list_appointments(
     bid = branch_id or current_user.branch_id
     if not bid:
         raise HTTPException(400, "branch_id required")
-    return await svc.list_by_branch(session, bid, appt_date, status, skip, limit)
+    
+    # Get appointments with necessary relations loaded would be better, but service returns simple list.
+    # We will fetch them and then enrich.
+    appointments = await svc.list_by_branch(session, bid, appt_date, status, skip, limit)
+    
+    # Enrich with slot numbers
+    # 1. Collect schedule_session_ids
+    session_ids = {a.schedule_session_id for a in appointments if a.schedule_session_id}
+    
+    # 2. Fetch ScheduleSessions and their DoctorSchedules
+    from app.models.patient_session import ScheduleSession
+    from app.models.doctor_schedule import DoctorSchedule
+    
+    # We need to join to get slot_duration_minutes from DoctorSchedule
+    q = (
+        select(ScheduleSession, DoctorSchedule)
+        .join(DoctorSchedule, ScheduleSession.schedule_id == DoctorSchedule.id, isouter=True)
+        .where(col(ScheduleSession.id).in_(session_ids))
+    )
+    results = await session.exec(q)
+    session_map = {
+        s.id: (s, ds) for s, ds in results.all()
+    }
+    
+    enriched_appointments = []
+    from datetime import datetime
+    
+    for appt in appointments:
+        # Convert to Read model dict
+        appt_read = AppointmentRead.model_validate(appt)
+        
+        # Calculate slot
+        if appt.schedule_session_id and appt.schedule_session_id in session_map:
+            sched_session, doc_schedule = session_map[appt.schedule_session_id]
+            if sched_session and doc_schedule and doc_schedule.slot_duration_minutes:
+                # Calculate
+                # We need to combine dates to subtract times correctly if they cross midnight (unlikely but safe)
+                # Actually times are simple time objects.
+                dummy_date = date(2000, 1, 1)
+                t1 = datetime.combine(dummy_date, appt.appointment_time)
+                t2 = datetime.combine(dummy_date, sched_session.start_time)
+                diff = t1 - t2
+                minutes = diff.total_seconds() / 60
+                slot_num = int(minutes // doc_schedule.slot_duration_minutes) + 1
+                appt_read.slot_number = slot_num
+        
+        enriched_appointments.append(appt_read)
+            
+    return enriched_appointments
 
 
 @router.get("/statistics")
