@@ -381,8 +381,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
       setLoading(true);
       setError(null);
 
-      // Use super admin API to get all appointments, then filter by branch
-      const response = await appointmentSuperAdminApi.getAllAppointments() as { appointments: AppointmentBooking[] };
+      // Use branch admin API to get appointments for this branch
+      const response = await appointmentBranchAdminApi.getAppointments() as { appointments: AppointmentBooking[] };
 
       if (response.appointments) {
         // Filter appointments by current branch
@@ -489,8 +489,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   // Load counts for all tabs
   const loadCounts = useCallback(async () => {
     try {
-      // Get all appointments and filter by branch
-      const response = await appointmentSuperAdminApi.getAllAppointments() as { appointments: AppointmentBooking[] };
+      // Get appointments for this branch
+      const response = await appointmentBranchAdminApi.getAppointments() as { appointments: AppointmentBooking[] };
       if (response.appointments) {
         let branchAppointments = response.appointments;
         if (currentBranchId) {
@@ -570,8 +570,8 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   const loadPrintAppointments = useCallback(async (date: string) => {
     try {
       setLoadingPrintData(true);
-      // Get all appointments and filter by branch and date
-      const response = await appointmentSuperAdminApi.getAllAppointments() as { appointments: AppointmentBooking[] };
+      // Get appointments for this branch and filter by date
+      const response = await appointmentBranchAdminApi.getAppointments() as { appointments: AppointmentBooking[] };
       if (response.appointments) {
         let filteredAppointments = response.appointments.filter(apt =>
           apt.appointment_date === date &&

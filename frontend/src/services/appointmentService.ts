@@ -174,25 +174,25 @@ export const appointmentSuperAdminApi = {
         const res = await api.get("/super-admin/appointments");
         return res.data;
     },
-    async getBranches(): Promise<{ branches: Branch[]; [key: string]: any }> {
+    async getBranches(): Promise<{ branches: Branch[];[key: string]: any }> {
         const res = await api.get("/branches");
         const data = res.data;
         if (Array.isArray(data)) {
             return { branches: data as Branch[] };
         }
-        return data as { branches: Branch[]; [key: string]: any };
+        return data as { branches: Branch[];[key: string]: any };
     },
-    async getAllDoctors(params?: any): Promise<{ doctors: Doctor[]; [key: string]: any }> {
+    async getAllDoctors(params?: any): Promise<{ doctors: Doctor[];[key: string]: any }> {
         const res = await api.get("/doctors", { params });
         const data = res.data;
         if (Array.isArray(data)) {
             return { doctors: data as Doctor[] };
         }
-        return data as { doctors: Doctor[]; [key: string]: any };
+        return data as { doctors: Doctor[];[key: string]: any };
     },
-    async getBranchSettings(params?: any): Promise<{ branches: Array<{ branch_id: string; settings?: AppointmentSettings; [key: string]: any }>; [key: string]: any }> {
+    async getBranchSettings(params?: any): Promise<{ branches: Array<{ branch_id: string; settings?: AppointmentSettings;[key: string]: any }>;[key: string]: any }> {
         const res = await api.get("/super-admin/branch-settings", { params });
-        return res.data as { branches: Array<{ branch_id: string; settings?: AppointmentSettings; [key: string]: any }>; [key: string]: any };
+        return res.data as { branches: Array<{ branch_id: string; settings?: AppointmentSettings;[key: string]: any }>;[key: string]: any };
     },
     async cancelAppointment(appointmentId: string, reason: string, data?: any) {
         const res = await api.put(`/super-admin/appointments/${appointmentId}/cancel`, { reason, ...(data ?? {}) });
@@ -217,9 +217,9 @@ export const appointmentBranchAdminApi = {
         const res = await api.get("/branch-admin/appointments", { params });
         return res.data;
     },
-    async getDoctors(): Promise<{ doctors: Doctor[]; [key: string]: any }> {
+    async getDoctors(): Promise<{ doctors: Doctor[];[key: string]: any }> {
         const res = await api.get("/branch-admin/doctors");
-        return res.data as { doctors: Doctor[]; [key: string]: any };
+        return res.data as { doctors: Doctor[];[key: string]: any };
     },
     async getSpecializations() {
         const res = await api.get("/branch-admin/specializations");
@@ -273,9 +273,9 @@ export const appointmentBranchAdminApi = {
         const res = await api.post("/branch-admin/appointments", data);
         return res.data;
     },
-    async getStatistics(): Promise<{ statistics: AppointmentStatistics; [key: string]: any }> {
+    async getStatistics(): Promise<{ statistics: AppointmentStatistics;[key: string]: any }> {
         const res = await api.get("/branch-admin/statistics");
-        return res.data as { statistics: AppointmentStatistics; [key: string]: any };
+        return res.data as { statistics: AppointmentStatistics;[key: string]: any };
     }
 };
 
@@ -284,13 +284,13 @@ export const appointmentReceptionistApi = {
         const res = await api.get("/receptionist/appointments", { params });
         return res.data;
     },
-    async getDoctors(params?: any): Promise<{ doctors: Doctor[]; [key: string]: any }> {
+    async getDoctors(params?: any): Promise<{ doctors: Doctor[];[key: string]: any }> {
         const res = await api.get("/receptionist/doctors", { params });
-        return res.data as { doctors: Doctor[]; [key: string]: any };
+        return res.data as { doctors: Doctor[];[key: string]: any };
     },
-    async getAvailableDoctors(params?: any): Promise<{ doctors: Doctor[]; [key: string]: any }> {
+    async getAvailableDoctors(params?: any): Promise<{ doctors: Doctor[];[key: string]: any }> {
         const res = await api.get("/receptionist/doctors", { params });
-        return res.data as { doctors: Doctor[]; [key: string]: any };
+        return res.data as { doctors: Doctor[];[key: string]: any };
     },
     async searchPatients(query: string) {
         const res = await api.get("/receptionist/patients/search", { params: { q: query } });
@@ -319,9 +319,9 @@ export const appointmentDoctorApi = {
         const res = await api.get("/doctor/appointments", { params });
         return res.data;
     },
-    async getStatistics(): Promise<{ statistics: AppointmentStatistics; [key: string]: any }> {
+    async getStatistics(): Promise<{ statistics: AppointmentStatistics;[key: string]: any }> {
         const res = await api.get("/doctor/statistics");
-        return res.data as { statistics: AppointmentStatistics; [key: string]: any };
+        return res.data as { statistics: AppointmentStatistics;[key: string]: any };
     },
     async getTodaysQueue() {
         const res = await api.get("/doctor/queue/today");
@@ -346,41 +346,41 @@ export const appointmentDoctorApi = {
 };
 
 export const appointmentPublicApi = {
-    async getAvailableSlots(doctorId: string, dateOrParams?: any, maybeParams?: any): Promise<{ available_days: SlotDay[]; [key: string]: any }> {
+    async getAvailableSlots(doctorId: string, dateOrParams?: any, maybeParams?: any): Promise<{ available_days: SlotDay[];[key: string]: any }> {
         if (typeof dateOrParams === "string") {
             const res = await api.get(`/public/slots/${doctorId}/${dateOrParams}`, {
                 params: maybeParams
             });
-            return res.data as { available_days: SlotDay[]; [key: string]: any };
+            return res.data as { available_days: SlotDay[];[key: string]: any };
         }
 
         const res = await api.get(`/public/slots/${doctorId}`, {
             params: dateOrParams
         });
-        return res.data as { available_days: SlotDay[]; [key: string]: any };
+        return res.data as { available_days: SlotDay[];[key: string]: any };
     },
-    async searchDoctors(params?: any): Promise<{ doctors: Doctor[]; [key: string]: any }> {
+    async searchDoctors(params?: any): Promise<{ doctors: Doctor[];[key: string]: any }> {
         const res = await api.get("/public/doctors", { params });
-        return res.data as { doctors: Doctor[]; [key: string]: any };
+        return res.data as { doctors: Doctor[];[key: string]: any };
     },
     async getBranches() {
         const res = await api.get("/public/branches");
         return res.data;
     },
     async getSpecializations() {
-        const res = await api.get("/public/specializations");
+        const res = await api.get("/appointments/specializations");
         return res.data;
     },
-    async getDoctors(params?: any): Promise<{ doctors: Doctor[]; [key: string]: any }> {
+    async getDoctors(params?: any): Promise<{ doctors: Doctor[];[key: string]: any }> {
         const res = await api.get("/public/doctors", { params });
-        return res.data as { doctors: Doctor[]; [key: string]: any };
+        return res.data as { doctors: Doctor[];[key: string]: any };
     }
 };
 
 export const appointmentPatientApi = {
-    async getMyAppointments(params?: any): Promise<{ appointments: AppointmentBooking[]; [key: string]: any }> {
+    async getMyAppointments(params?: any): Promise<{ appointments: AppointmentBooking[];[key: string]: any }> {
         const res = await api.get("/patient/appointments", { params });
-        return res.data as { appointments: AppointmentBooking[]; [key: string]: any };
+        return res.data as { appointments: AppointmentBooking[];[key: string]: any };
     },
     async bookAppointment(data: any) {
         const res = await api.post("/patient/appointments", data);
