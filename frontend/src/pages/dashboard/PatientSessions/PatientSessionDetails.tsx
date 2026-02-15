@@ -1,9 +1,21 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import api from "../../../utils/api/axios";
 import alert from "../../../utils/alert";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
+import { PageHeader } from "../../../components/ui/PageHeader";
+import { StatCard } from "../../../components/ui/StatCard";
+import {
+    Calendar,
+    Clock,
+    Users,
+    Stethoscope,
+    Activity,
+    CheckCircle2,
+    MapPin,
+    ArrowLeft
+} from "lucide-react";
 
 interface SessionDetail {
     id: string;
@@ -45,6 +57,7 @@ interface IntakeAnswer {
 
 const PatientSessionDetails: React.FC = () => {
     const { sessionId } = useParams();
+    const navigate = useNavigate();
     const [session, setSession] = useState<SessionDetail | null>(null);
     const [patients, setPatients] = useState<SessionPatient[]>([]);
     const [slots, setSlots] = useState<any[]>([]);
@@ -98,9 +111,9 @@ const PatientSessionDetails: React.FC = () => {
                 setCurrentDoctorSlot(sess.queue_status.current_doctor_slot);
             }
 
-            setPatients(Array.isArray(patientsResponse) ? patientsResponse : []);
-            setQuestions(Array.isArray(questionResponse) ? questionResponse : []);
-            const slotsData: any[] = Array.isArray(slotsResponse) ? slotsResponse : (slotsResponse?.data || []);
+            setPatients(Array.isArray(patientsResponse) ? patientsResponse : (patientsResponse as any)?.data || []);
+            setQuestions(Array.isArray(questionResponse) ? questionResponse : (questionResponse as any)?.data || []);
+            const slotsData: any[] = Array.isArray(slotsResponse) ? slotsResponse : (slotsResponse as any)?.data || [];
             setSlots(slotsData);
 
             // Fallback if queue_status not present (or to sync with slots view logic)
@@ -253,327 +266,268 @@ const PatientSessionDetails: React.FC = () => {
     };
 
     if (loading || !session) {
-        return <div className="p-6 text-sm text-neutral-500">Loading session details...</div>;
+        return (
+            <div className="flex items-center justify-center p-12">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600"></div>
+            </div>
+        );
     }
 
     return (
-        <div className="p-6 space-y-6">
+        <div className="space-y-6">
             {editingPatientId && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-                    <div className="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6">
-                        <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-lg font-semibold">Edit Patient Profile</h3>
-                            <button onClick={closeEditProfile} className="text-neutral-500">Close</button>
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+                    <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl p-6 transform transition-all">
+                        <div className="flex items-center justify-between mb-6">
+                            <h3 className="text-xl font-bold text-neutral-900">Edit Patient Profile</h3>
+                            <button onClick={closeEditProfile} className="text-neutral-400 hover:text-neutral-600 transition-colors">
+                                <span className="sr-only">Close</span>
+                                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
                         </div>
                         {profileLoading ? (
-                            <div className="p-6 text-sm text-neutral-500">Loading profile...</div>
+                            <div className="flex justify-center p-8">
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600"></div>
+                            </div>
                         ) : (
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block text-xs text-neutral-500">Sex</label>
-                                    <input value={profileForm.sex} onChange={(e) => setProfileForm((p) => ({ ...p, sex: e.target.value }))} className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm" />
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Sex</label>
+                                    <select
+                                        value={profileForm.sex}
+                                        onChange={(e) => setProfileForm((p) => ({ ...p, sex: e.target.value }))}
+                                        className="w-full px-4 py-2 bg-neutral-50 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all"
+                                    >
+                                        <option value="">Select Sex</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
                                 </div>
                                 <div>
-                                    <label className="block text-xs text-neutral-500">Age</label>
-                                    <input value={profileForm.age} onChange={(e) => setProfileForm((p) => ({ ...p, age: e.target.value }))} className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm" />
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Age</label>
+                                    <input
+                                        type="number"
+                                        value={profileForm.age}
+                                        onChange={(e) => setProfileForm((p) => ({ ...p, age: e.target.value }))}
+                                        className="w-full px-4 py-2 bg-neutral-50 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all"
+                                    />
                                 </div>
                                 <div>
-                                    <label className="block text-xs text-neutral-500">Height (cm)</label>
-                                    <input value={profileForm.height_cm} onChange={(e) => setProfileForm((p) => ({ ...p, height_cm: e.target.value }))} className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm" />
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Height (cm)</label>
+                                    <input
+                                        type="number"
+                                        value={profileForm.height_cm}
+                                        onChange={(e) => setProfileForm((p) => ({ ...p, height_cm: e.target.value }))}
+                                        className="w-full px-4 py-2 bg-neutral-50 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all"
+                                    />
                                 </div>
                                 <div>
-                                    <label className="block text-xs text-neutral-500">Weight (kg)</label>
-                                    <input value={profileForm.weight_kg} onChange={(e) => setProfileForm((p) => ({ ...p, weight_kg: e.target.value }))} className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm" />
+                                    <label className="block text-sm font-medium text-neutral-700 mb-1">Weight (kg)</label>
+                                    <input
+                                        type="number"
+                                        value={profileForm.weight_kg}
+                                        onChange={(e) => setProfileForm((p) => ({ ...p, weight_kg: e.target.value }))}
+                                        className="w-full px-4 py-2 bg-neutral-50 border border-neutral-200 rounded-lg focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all"
+                                    />
                                 </div>
                             </div>
                         )}
 
-                        <div className="mt-6 flex justify-end gap-2">
-                            <button onClick={closeEditProfile} className="px-4 py-2 border rounded-lg">Cancel</button>
-                            <button onClick={saveProfile} disabled={!canEditProfile} className="px-4 py-2 bg-emerald-600 text-white rounded-lg">Save</button>
+                        <div className="mt-8 flex justify-end gap-3 pt-6 border-t border-neutral-100">
+                            <button
+                                onClick={closeEditProfile}
+                                className="px-5 py-2.5 text-neutral-600 hover:bg-neutral-50 rounded-lg font-medium transition-colors"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={saveProfile}
+                                disabled={!canEditProfile}
+                                className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium shadow-sm shadow-emerald-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                Save Changes
+                            </button>
                         </div>
                     </div>
                 </div>
             )}
 
-            <div className="bg-white rounded-2xl border border-neutral-200 p-6 flex flex-col md:flex-row items-center justify-between gap-4">
-                <div>
-                    <h2 className="text-xl font-bold text-neutral-900 mb-1">Queue Control</h2>
-                    <div className="text-sm text-neutral-500 flex gap-4">
-                        <span>Doctor Slot: {currentDoctorSlot ?? '—'}</span>
-                        <span>Nurse Slot: {currentNurseSlot ?? '—'}</span>
-                    </div>
-                </div>
-                <div className="flex items-center gap-4">
-                    <div className="flex flex-col gap-1">
-                        <label className="text-xs text-neutral-500 font-medium">Doctor Slot</label>
-                        <input
-                            type="number"
-                            min={0}
-                            value={currentDoctorSlot ?? ''}
-                            onChange={(e) => setCurrentDoctorSlot(e.target.value ? Number(e.target.value) : 0)}
-                            className="px-3 py-2 border border-neutral-300 rounded-lg text-sm w-24"
-                        />
-                    </div>
-                    <div className="flex flex-col gap-1">
-                        <label className="text-xs text-neutral-500 font-medium">Nurse Slot</label>
-                        <input
-                            type="number"
-                            min={0}
-                            value={currentNurseSlot ?? ''}
-                            onChange={(e) => setCurrentNurseSlot(e.target.value ? Number(e.target.value) : 0)}
-                            className="px-3 py-2 border border-neutral-300 rounded-lg text-sm w-24"
-                        />
-                    </div>
-                    <div className="flex items-end">
-                        <button
-                            onClick={handleUpdateQueue}
-                            disabled={updatingSlot}
-                            className="h-[38px] px-4 bg-teal-600 hover:bg-teal-700 text-white rounded-lg text-sm font-medium transition-colors"
-                        >
-                            {updatingSlot ? 'Saving...' : 'Update Queue'}
-                        </button>
-                    </div>
-                </div>
+            <PageHeader
+                title="Session Management"
+                description={`Managing session for ${session.doctor_name}`}
+                actions={
+                    <button
+                        onClick={() => navigate('/branch-admin/patient-sessions')}
+                        className="flex items-center gap-2 px-4 py-2 bg-white border border-neutral-200 text-neutral-600 rounded-lg hover:bg-neutral-50 transition-colors text-sm font-medium"
+                    >
+                        <ArrowLeft className="w-4 h-4" />
+                        Back to Sessions
+                    </button>
+                }
+            />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <StatCard
+                    title="Time Slot"
+                    value={`${session.start_time} - ${session.end_time}`}
+                    icon={Clock}
+                    description={session.session_date}
+                />
+                <StatCard
+                    title="Doctor"
+                    value={session.doctor_name}
+                    icon={Stethoscope}
+                    description="Attending Physician"
+                />
+                <StatCard
+                    title="Branch"
+                    value={session.branch_name}
+                    icon={MapPin}
+                    description="Medical Center"
+                />
+                <StatCard
+                    title="Appointments"
+                    value={session.appointment_count}
+                    icon={Users}
+                    trend={{ value: patients.length, label: "checked in", isPositive: true }}
+                />
             </div>
 
-            <div className="bg-white rounded-2xl border border-neutral-200 p-6">
-                <h2 className="text-xl font-bold text-neutral-900 mb-2">Session Details</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-neutral-700">
-                    <div>
-                        <div className="text-xs text-neutral-500">Doctor</div>
-                        <div className="font-medium">{session.doctor_name}</div>
-                    </div>
-                    <div>
-                        <div className="text-xs text-neutral-500">Branch</div>
-                        <div className="font-medium">{session.branch_name}</div>
-                    </div>
-                    <div>
-                        <div className="text-xs text-neutral-500">Date</div>
-                        <div className="font-medium">{session.session_date}</div>
-                    </div>
-                    <div>
-                        <div className="text-xs text-neutral-500">Time</div>
-                        <div className="font-medium">
-                            {session.start_time} - {session.end_time}
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Queue Control Card */}
+                <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                    <h2 className="text-lg font-bold text-neutral-900 mb-6 flex items-center gap-2">
+                        <Activity className="w-5 h-5 text-emerald-600" />
+                        Queue Control
+                    </h2>
 
-            <div className="bg-white rounded-2xl border border-neutral-200 p-6">
-                <h3 className="text-lg font-bold text-neutral-900 mb-4">Appointments</h3>
-                {patients.length === 0 ? (
-                    <div className="text-sm text-neutral-500">No appointments for this session.</div>
-                ) : (
-                    <table className="w-full text-sm">
-                        <thead className="text-xs uppercase text-neutral-500 bg-neutral-50">
-                            <tr>
-                                <th className="text-left px-4 py-2">Patient</th>
-                                <th className="text-left px-4 py-2">Time</th>
-                                <th className="text-left px-4 py-2">Status</th>
-                                <th className="text-right px-4 py-2">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-neutral-100">
-                            {patients.map((patient) => (
-                                <tr key={patient.appointment_id}>
-                                    <td className="px-4 py-2">{patient.patient_name}</td>
-                                    <td className="px-4 py-2">{patient.appointment_time}</td>
-                                    <td className="px-4 py-2 capitalize">{patient.status}</td>
-                                    <td className="px-4 py-2 text-right">
-                                        <div className="flex items-center justify-end gap-4">
-                                            <button
-                                                onClick={() => setSelectedAppointment(patient)}
-                                                className="text-emerald-600 hover:text-emerald-700 font-medium"
-                                            >
-                                                {selectedAppointment?.appointment_id === patient.appointment_id
-                                                    ? "Selected"
-                                                    : "Select"}
-                                            </button>
-                                            <button
-                                                onClick={() => openEditProfile(patient.patient_id)}
-                                                className="text-neutral-600 hover:text-neutral-800 text-sm"
-                                            >
-                                                Edit Profile
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                )}
-            </div>
-
-            <div className="bg-white rounded-2xl border border-neutral-200 p-6">
-                <h3 className="text-lg font-bold text-neutral-900 mb-4">Patient Intake</h3>
-                {!selectedAppointment ? (
-                    <div className="text-sm text-neutral-500">Select an appointment to begin intake.</div>
-                ) : (
                     <div className="space-y-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            <div>
-                                <label className="block text-xs font-medium text-neutral-700 mb-1">Sex</label>
-                                <select
-                                    value={intake.sex}
-                                    onChange={(e) => setIntake((prev) => ({ ...prev, sex: e.target.value }))}
-                                    className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                                >
-                                    <option value="">Select Sex</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                    <option value="Other">Other</option>
-                                </select>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-100">
+                                <div className="text-sm text-emerald-600 font-medium mb-1">Doctor Slot</div>
+                                <div className="text-3xl font-bold text-emerald-900">{currentDoctorSlot ?? '—'}</div>
                             </div>
-                            <div>
-                                <label className="block text-xs font-medium text-neutral-700 mb-1">Age</label>
-                                <input
-                                    type="number"
-                                    placeholder="Age"
-                                    value={intake.age}
-                                    onChange={(e) => setIntake((prev) => ({ ...prev, age: e.target.value }))}
-                                    className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-xs font-medium text-neutral-700 mb-1">Height (cm)</label>
-                                <input
-                                    type="number"
-                                    placeholder="Height in cm"
-                                    value={intake.height_cm}
-                                    onChange={(e) => setIntake((prev) => ({ ...prev, height_cm: e.target.value }))}
-                                    className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-xs font-medium text-neutral-700 mb-1">Weight (kg)</label>
-                                <input
-                                    type="number"
-                                    placeholder="Weight in kg"
-                                    value={intake.weight_kg}
-                                    onChange={(e) => setIntake((prev) => ({ ...prev, weight_kg: e.target.value }))}
-                                    className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                                />
+                            <div className="p-4 bg-blue-50 rounded-xl border border-blue-100">
+                                <div className="text-sm text-blue-600 font-medium mb-1">Nurse Slot</div>
+                                <div className="text-3xl font-bold text-blue-900">{currentNurseSlot ?? '—'}</div>
                             </div>
                         </div>
 
-                        <div>
-                            <label className="block text-xs font-medium text-neutral-700 mb-1">Notes</label>
-                            <textarea
-                                placeholder="Additional notes..."
-                                value={intake.notes}
-                                onChange={(e) => setIntake((prev) => ({ ...prev, notes: e.target.value }))}
-                                className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                                rows={3}
-                            />
-                        </div>
-
-                        <div className="border border-neutral-200 rounded-xl p-4 bg-neutral-50/50">
-                            <div className="text-sm font-semibold text-neutral-900 mb-4">Pre-Assessment Questions</div>
-
-                            <div className="flex flex-col md:flex-row gap-3 items-end mb-4">
-                                <div className="flex-1 w-full">
-                                    <label className="block text-xs font-medium text-neutral-700 mb-1">Question</label>
-                                    <select
-                                        value={selectedQuestionId}
-                                        onChange={(e) => {
-                                            setSelectedQuestionId(e.target.value);
-                                            setSelectedAnswerText("");
-                                            setCustomAnswerText("");
-                                        }}
-                                        className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                                    >
-                                        <option value="">Select a question...</option>
-                                        {questions.map((q) => (
-                                            <option key={q.id} value={q.id}>
-                                                {q.question}
-                                            </option>
-                                        ))}
-                                    </select>
+                        <div className="border-t border-neutral-100 pt-6">
+                            <h3 className="text-sm font-medium text-neutral-700 mb-4">Update Current Slots</h3>
+                            <div className="flex gap-4 mb-4">
+                                <div className="flex-1">
+                                    <label className="block text-xs text-neutral-500 mb-1.5">Doctor Slot</label>
+                                    <input
+                                        type="number"
+                                        min={0}
+                                        value={currentDoctorSlot ?? ''}
+                                        onChange={(e) => setCurrentDoctorSlot(e.target.value ? Number(e.target.value) : 0)}
+                                        className="w-full px-3 py-2 border border-neutral-200 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none"
+                                    />
                                 </div>
-
-                                <div className="flex-1 w-full">
-                                    <label className="block text-xs font-medium text-neutral-700 mb-1">Answer</label>
-                                    {selectedQuestion?.answers?.length ? (
-                                        <select
-                                            value={selectedAnswerText}
-                                            onChange={(e) => {
-                                                setSelectedAnswerText(e.target.value);
-                                                setCustomAnswerText("");
-                                            }}
-                                            className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                                        >
-                                            <option value="">Select an answer...</option>
-                                            {selectedQuestion.answers.map((ans) => (
-                                                <option key={ans.id} value={ans.answer}>
-                                                    {ans.answer}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    ) : (
-                                        <input
-                                            placeholder="Type answer..."
-                                            value={customAnswerText}
-                                            onChange={(e) => setCustomAnswerText(e.target.value)}
-                                            className="w-full border border-neutral-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                                            disabled={!selectedQuestionId}
-                                        />
-                                    )}
+                                <div className="flex-1">
+                                    <label className="block text-xs text-neutral-500 mb-1.5">Nurse Slot</label>
+                                    <input
+                                        type="number"
+                                        min={0}
+                                        value={currentNurseSlot ?? ''}
+                                        onChange={(e) => setCurrentNurseSlot(e.target.value ? Number(e.target.value) : 0)}
+                                        className="w-full px-3 py-2 border border-neutral-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none"
+                                    />
                                 </div>
-
-                                <button
-                                    onClick={addAnswer}
-                                    className="w-full md:w-auto px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg text-sm font-medium transition-colors"
-                                    disabled={!selectedQuestionId}
-                                >
-                                    Add
-                                </button>
                             </div>
-
-                            {answerList.length > 0 ? (
-                                <div className="space-y-2">
-                                    {answerList.map((ans, index) => {
-                                        const question = questions.find((q) => q.id === ans.question_id);
-                                        return (
-                                            <div
-                                                key={`${ans.question_id}-${index}`}
-                                                className="flex items-center justify-between bg-white px-4 py-3 rounded-lg border border-neutral-200 shadow-sm"
-                                            >
-                                                <div>
-                                                    <div className="text-xs font-medium text-neutral-500 mb-0.5">{question?.question}</div>
-                                                    <div className="text-sm text-neutral-900">{ans.answer_text}</div>
-                                                </div>
-                                                <button
-                                                    onClick={() => removeAnswer(index)}
-                                                    className="p-1 text-neutral-400 hover:text-red-600 transition-colors"
-                                                    title="Remove answer"
-                                                >
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            ) : (
-                                <div className="text-center py-6 text-sm text-neutral-400 italic bg-white rounded-lg border border-neutral-200 border-dashed">
-                                    No questions answered yet.
-                                </div>
-                            )}
-                        </div>
-
-                        <div className="flex justify-end pt-2">
                             <button
-                                onClick={handleSubmit}
-                                className="px-6 py-2 bg-neutral-900 hover:bg-neutral-800 text-white rounded-xl text-sm font-medium transition-colors shadow-sm"
+                                onClick={handleUpdateQueue}
+                                disabled={updatingSlot}
+                                className="w-full py-2.5 bg-neutral-900 hover:bg-neutral-800 text-white rounded-lg text-sm font-medium transition-colors shadow-sm disabled:opacity-50"
                             >
-                                Save Patient Intake
+                                {updatingSlot ? 'Updating Queue...' : 'Update Queue Status'}
                             </button>
                         </div>
                     </div>
-                )}
+                </div>
+
+                {/* Appointments List - Spans 2 columns */}
+                <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-neutral-200 p-6">
+                    <div className="flex items-center justify-between mb-6">
+                        <h2 className="text-lg font-bold text-neutral-900 flex items-center gap-2">
+                            <Calendar className="w-5 h-5 text-neutral-500" />
+                            Appointments List
+                        </h2>
+                        <span className="px-3 py-1 bg-neutral-100 text-neutral-600 rounded-full text-xs font-medium">
+                            {patients.length} Patients
+                        </span>
+                    </div>
+
+                    {patients.length === 0 ? (
+                        <div className="text-center py-12 bg-neutral-50 rounded-xl border border-neutral-200 border-dashed">
+                            <Users className="w-12 h-12 text-neutral-300 mx-auto mb-3" />
+                            <p className="text-neutral-500 font-medium">No appointments for this session</p>
+                            <p className="text-neutral-400 text-sm mt-1">Patients will appear here once checked in</p>
+                        </div>
+                    ) : (
+                        <div className="overflow-hidden bg-white rounded-lg border border-neutral-200">
+                            <table className="w-full text-sm text-left">
+                                <thead className="bg-neutral-50 text-neutral-500 border-b border-neutral-200">
+                                    <tr>
+                                        <th className="px-6 py-4 font-medium w-1/3">Patient Name</th>
+                                        <th className="px-6 py-4 font-medium">Time</th>
+                                        <th className="px-6 py-4 font-medium">Status</th>
+                                        <th className="px-6 py-4 font-medium text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-neutral-100">
+                                    {patients.map((patient) => (
+                                        <tr key={patient.appointment_id} className="hover:bg-neutral-50/50 transition-colors">
+                                            <td className="px-6 py-4 font-medium text-neutral-900">
+                                                {patient.patient_name}
+                                            </td>
+                                            <td className="px-6 py-4 text-neutral-600">
+                                                <div className="flex items-center gap-1.5">
+                                                    <Clock className="w-3.5 h-3.5 text-neutral-400" />
+                                                    {patient.appointment_time}
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize
+                                                    ${patient.status === 'completed' ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' :
+                                                        patient.status === 'pending' ? 'bg-amber-50 text-amber-700 border border-amber-100' :
+                                                            'bg-neutral-100 text-neutral-700 border border-neutral-200'}`}>
+                                                    {patient.status}
+                                                </span>
+                                            </td>
+                                            <td className="px-6 py-4 text-right">
+                                                <div className="flex items-center justify-end gap-3">
+                                                    <button
+                                                        onClick={() => openEditProfile(patient.patient_id)}
+                                                        className="text-neutral-500 hover:text-neutral-900 text-sm font-medium transition-colors"
+                                                    >
+                                                        Edit Profile
+                                                    </button>
+                                                    <button
+                                                        onClick={() => setSelectedAppointment(patient)}
+                                                        className={`h-8 px-3 rounded-lg text-xs font-medium border transition-colors
+                                                            ${selectedAppointment?.appointment_id === patient.appointment_id
+                                                                ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                                                : 'bg-white text-neutral-600 border-neutral-200 hover:bg-neutral-50'}`}
+                                                    >
+                                                        {selectedAppointment?.appointment_id === patient.appointment_id
+                                                            ? 'Selected'
+                                                            : 'Select'}
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

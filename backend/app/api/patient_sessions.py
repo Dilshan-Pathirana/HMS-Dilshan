@@ -1516,9 +1516,7 @@ class SessionInitiatePayload(BaseModel):
     nurse_ids: List[str] = []
 
 
-class QueueUpdatePayload(BaseModel):
-    current_doctor_slot: Optional[int] = None
-    current_nurse_slot: Optional[int] = None
+
 
 
 @router.get("/sessions/{session_id}/available-nurses", response_model=List[NurseItem])
