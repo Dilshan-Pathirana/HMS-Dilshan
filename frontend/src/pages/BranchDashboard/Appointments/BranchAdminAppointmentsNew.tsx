@@ -34,7 +34,6 @@ import {
 } from 'react-icons/fa';
 import {
   appointmentBranchAdminApi,
-  appointmentSuperAdminApi,
   AppointmentBooking,
   Doctor,
   SlotInfo,
@@ -161,8 +160,6 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [counts, setCounts] = useState<AppointmentCounts>({ today: 0, upcoming: 0, past: 0 });
-  const [loadingDoctors, setLoadingDoctors] = useState(false);
-  const [loadingBranches, setLoadingBranches] = useState(false);
 
   // Filter state
   const [filters, setFilters] = useState<Filters>(initialFilters);
@@ -334,6 +331,46 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   // ============================================
   // Load Appointments with Filters
   // ============================================
+  // Extract doctors from appointments data
+  const extractDoctorsFromAppointments = useCallback(() => {
+    const doctorMap = new Map<string, Doctor>();
+    appointments.forEach(appointment => {
+      if (appointment.doctor_id && appointment.doctor_name) {
+        const doctorKey = appointment.doctor_id;
+        if (!doctorMap.has(doctorKey)) {
+          doctorMap.set(doctorKey, {
+            id: appointment.doctor_id,
+            doctor_id: appointment.doctor_id,
+            name: appointment.doctor_name,
+            specialization: appointment.doctor_specialization || undefined,
+            branch_id: appointment.branch_id,
+            branch_name: appointment.branch_name,
+          });
+        }
+      }
+    });
+    const uniqueDoctors = Array.from(doctorMap.values());
+    setDoctors(uniqueDoctors);
+  }, [appointments]);
+
+  // Extract branches from appointments data
+  const extractBranchesFromAppointments = useCallback(() => {
+    const branchMap = new Map<string, { id: string; name: string }>();
+    appointments.forEach(appointment => {
+      if (appointment.branch_id && appointment.branch_name) {
+        const branchKey = appointment.branch_id;
+        if (!branchMap.has(branchKey)) {
+          branchMap.set(branchKey, {
+            id: appointment.branch_id,
+            name: appointment.branch_name,
+          });
+        }
+      }
+    });
+    const uniqueBranches = Array.from(branchMap.values());
+    setBranches(uniqueBranches);
+  }, [appointments]);
+
   const loadAppointments = useCallback(async (view: ViewType, currentFilters: Filters = initialFilters) => {
     try {
       setLoading(true);
@@ -359,6 +396,11 @@ const BranchAdminAppointmentsNew: React.FC = () => {
 
       if (response.appointments) {
         setAppointments(response.appointments);
+        // Extract doctors and branches from the loaded appointments
+        setTimeout(() => {
+          extractDoctorsFromAppointments();
+          extractBranchesFromAppointments();
+        }, 100);
       }
     } catch (err: unknown) {
       console.error('Failed to load appointments:', err);
@@ -367,7 +409,7 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [extractDoctorsFromAppointments, extractBranchesFromAppointments]);
 
   const loadSessions = useCallback(async (view: ViewType, currentFilters: Filters = initialFilters) => {
     if (view === 'audit') {
@@ -426,21 +468,6 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     }
   }, []);
 
-  // Load doctors
-  const loadDoctors = useCallback(async (showLoading = false) => {
-    if (showLoading) setLoadingDoctors(true);
-    try {
-      const response = await appointmentBranchAdminApi.getDoctors();
-      if (response.doctors) {
-        setDoctors(response.doctors);
-      }
-    } catch (err) {
-      console.error('Failed to load doctors:', err);
-    } finally {
-      if (showLoading) setLoadingDoctors(false);
-    }
-  }, []);
-
   // Load specializations
   const loadSpecializations = useCallback(async () => {
     try {
@@ -453,41 +480,14 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     }
   }, []);
 
-  // Load branches
-  const loadBranches = useCallback(async (showLoading = false) => {
-    if (showLoading) setLoadingBranches(true);
-    try {
-      const response = await appointmentSuperAdminApi.getBranches();
-      if (response.branches) {
-        setBranches(response.branches);
-      }
-    } catch (err) {
-      console.error('Failed to load branches:', err);
-      // Fallback: if super admin API fails, try to get current user's branch
-      try {
-        const userInfo = JSON.parse(localStorage.getItem('user') || '{}');
-        if (userInfo.branch) {
-          setBranches([{
-            id: userInfo.branch.id,
-            name: userInfo.branch.name
-          }]);
-        }
-      } catch (fallbackErr) {
-        console.error('Fallback branch loading failed:', fallbackErr);
-      }
-    } finally {
-      if (showLoading) setLoadingBranches(false);
-    }
-  }, []);
-
   // Refresh functions
   const refreshDoctors = useCallback(() => {
-    loadDoctors(true);
-  }, [loadDoctors]);
+    extractDoctorsFromAppointments();
+  }, [extractDoctorsFromAppointments]);
 
   const refreshBranches = useCallback(() => {
-    loadBranches(true);
-  }, [loadBranches]);
+    extractBranchesFromAppointments();
+  }, [extractBranchesFromAppointments]);
   const loadAuditLogs = useCallback(async (page: number = 1, currentFilters: AuditLogFilters = auditLogFilters) => {
     try {
       setAuditLogsLoading(true);
@@ -617,11 +617,9 @@ const BranchAdminAppointmentsNew: React.FC = () => {
   // Effects
   // ============================================
   useEffect(() => {
-    loadDoctors();
     loadSpecializations();
-    loadBranches();
     loadCounts();
-  }, [loadDoctors, loadSpecializations, loadBranches, loadCounts]);
+  }, [loadSpecializations, loadCounts]);
 
   useEffect(() => {
     if (activeView === 'audit') {
@@ -629,8 +627,13 @@ const BranchAdminAppointmentsNew: React.FC = () => {
     } else {
       loadAppointments(activeView, filters);
       loadSessions(activeView, filters);
+      // Extract doctors and branches after appointments are loaded
+      setTimeout(() => {
+        extractDoctorsFromAppointments();
+        extractBranchesFromAppointments();
+      }, 200);
     }
-  }, [activeView, filters, auditLogFilters, loadAppointments, loadAuditLogs, loadSessions]);
+  }, [activeView, filters, auditLogFilters, loadAppointments, loadAuditLogs, loadSessions, extractDoctorsFromAppointments, extractBranchesFromAppointments]);
 
   // Check if any filters are applied
   useEffect(() => {
@@ -1673,11 +1676,10 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                         <label className="block text-sm font-medium text-neutral-700">Branch</label>
                         <button
                           onClick={refreshBranches}
-                          disabled={loadingBranches}
-                          className="text-xs text-emerald-600 hover:text-emerald-700 disabled:opacity-50"
+                          className="text-xs text-emerald-600 hover:text-emerald-700"
                           title="Refresh branches"
                         >
-                          {loadingBranches ? '⟳' : '↻'}
+                          ↻
                         </button>
                       </div>
                       <select
@@ -1700,11 +1702,10 @@ const BranchAdminAppointmentsNew: React.FC = () => {
                         <label className="block text-sm font-medium text-neutral-700">Doctor</label>
                         <button
                           onClick={refreshDoctors}
-                          disabled={loadingDoctors}
-                          className="text-xs text-emerald-600 hover:text-emerald-700 disabled:opacity-50"
+                          className="text-xs text-emerald-600 hover:text-emerald-700"
                           title="Refresh doctors"
                         >
-                          {loadingDoctors ? '⟳' : '↻'}
+                          ↻
                         </button>
                       </div>
                       <select
